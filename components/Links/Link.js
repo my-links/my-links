@@ -1,28 +1,11 @@
-import { useEffect, useCallback } from 'react';
-import { useInView } from 'react-intersection-observer';
-
 import styles from '../../styles/links.module.scss';
 
-export default function Link({ category,  setCategoryActive, refCategoryActive }) {
-    const { ref, inView } = useInView({ threshold: .5 });
-    const { id, name, links, ref: refCategory } = category;
-
-    useEffect(() => inView ? setCategoryActive(id) : null, [id, inView, setCategoryActive]);
-
-    const setRefs = useCallback((node) => {
-        refCategory.current = node;
-        refCategoryActive.current = node;
-        ref(node);
-    }, [ref, refCategoryActive, refCategory]);
-
+export default function Link({ link }) {
     return (
-        <div className={styles['link-block']} ref={setRefs}>
-            <h2>{name}</h2>
-            <ul className={styles['links']}>
-                {links.map(({ name }, key2) => (
-                    <li key={key2} className={styles['item']}>{name}</li>
-                ))}
-            </ul>
-        </div>
+        <li className={styles['link']}>
+            <a href={link?.link} target={'_blank'} rel={'noreferrer'}>
+                <span className={styles['link-name']}>{link?.name}</span> <span className={styles['link-url']}>{link?.link}</span>
+            </a>
+        </li>
     );
 }
