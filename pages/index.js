@@ -43,7 +43,8 @@ export async function getStaticProps(context) {
 			links.push({
 				id: y,
 				name: 'Lien #' + (y + 1),
-				category: i
+				category: i,
+				link: `https://google.com/search?q=${y}`
 			});
 		}
 

@@ -2,30 +2,36 @@ import styles from '../../styles/categories.module.scss';
 
 export default function Categories({ categories, favorites, handleSelectCategory, categoryActive }) {
     return (<div className={styles['categories-wrapper']}>
-        <div className={styles['block-wrapper']}>
+        <div className={`${styles['block-wrapper']} ${styles['favorites']}`}>
             <h4>Favoris</h4>
-            <ul className={styles['favorites']}>
-                {favorites.map(({ name, category }, key) => {
+            <ul className={styles['items']}>
+                {favorites.map(({ name, link, category }, key) => {
                     const catName = categories.find(c => c.id === category).name;
                     return <li key={key} className={styles['item']}>
-                        {name} <span className={styles['category']}>- {catName}</span>
+                        <a href={link} target={'_blank'} rel={'noreferrer'}>
+                            {name} <span className={styles['category']}>- {catName}</span>
+                        </a>
                     </li>;
                 })}
             </ul>
         </div>
-        <div className={styles['block-wrapper']}>
+        <div className={`${styles['block-wrapper']} ${styles['categories']}`}>
             <h4>Catégories</h4>
-            <ul className={styles['categories']}>
-                {categories.map(({ id, name }, key) => (
-                    <li 
-                        key={key} 
-                        className={id === categoryActive ? styles['active'] : null} 
-                        onClick={() => handleSelectCategory(id)}
-                    >
-                        {name} {id === categoryActive ? '(active)' : ''}
-                    </li>
-                ))}
+            <ul className={styles['items']}>
+                {categories.map(({ id, name }, key) => {
+                    const className = `${styles['item']} ${id === categoryActive ? styles['active'] : ''}`;
+                    const onClick = () => handleSelectCategory(id);
+
+                    return (
+                        <li key={key} className={className} onClick={onClick}>
+                            {name}
+                        </li>
+                    )
+                })}
             </ul>
+        </div>
+        <div className={`${styles['block-wrapper']} ${styles['controls']}`}>
+            <button>Se connecter</button>
         </div>
     </div>);
 }

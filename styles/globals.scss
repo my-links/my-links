@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,600;1,300;1,600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Rubik:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 * {
 	box-sizing: border-box;
@@ -11,7 +11,8 @@ html,
 body {
 	height: 100%;
 	width: 100%;
-	font-family: Poppins, sans-serif;
+	color: #111;
+	font-family: "Poppins", sans-serif;
 	padding: 0;
 	margin: 0;
 	overflow: hidden;
@@ -26,6 +27,28 @@ body {
 	flex-direction: column;
 }
 
-ul, li {
+ul,
+li {
 	list-style: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #eee;
+	border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #3f88c5;
+	border-radius: 2px;
+
+	&:hover {
+		background: #1e5c8f;
+	}
 }

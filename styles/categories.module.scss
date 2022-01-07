@@ -1,14 +1,13 @@
 .categories-wrapper {
-    border: 1px solid red;
-    
     height: 100%;
     width: 300px;
-    padding: 10px;
+    padding: 0 25px 0 10px;
+    border-right: 1px solid #dadce0;
     margin-right: 15px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    overflow-x: auto;
+    overflow-x: none;
 
     & .block-wrapper {
         height: auto;
@@ -16,17 +15,72 @@
         margin-bottom: 15px;
 
         & h4 {
+            user-select: none;
             text-transform: uppercase;
             font-size: .85em;
-            color: #dadce0;
+            color: #bbb;
+            margin-bottom: 5px;
         }
 
-        & .favorites .item .category {
-            color: #dadce0;
+        // List items
+        & .items .item {
+            user-select: none;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #dadce0;
+            border-bottom: 2px solid #dadce0;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            transition: .15s;
+    
+            &.active {
+                color: #fff;
+                background: #3f88c5;
+                border-color: #3f88c5;
+            }
+
+            &:hover:not(.active) {
+                color: #3f88c5;
+                border-bottom: 2px solid #3f88c5;
+            }
+        }
+    }
+
+    // Favorites
+    & .block-wrapper.favorites {
+        & .items .item a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        & .categories .active {
-            color: red;
+        & .items .item .category {
+            color: #bbb;
+            font-size: .85em;
         }
+    }
+
+    // Categories
+    & .block-wrapper.categories {
+        min-height: 0;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        
+        & .items {
+            overflow: auto;
+
+            & .item {
+                margin-right: 5px;
+            }
+        }
+    }
+
+    // Controls
+    & .block-wrapper.controls {
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
     }
 }
