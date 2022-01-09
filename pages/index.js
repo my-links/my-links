@@ -1,8 +1,12 @@
-import styles from '../styles/Home.module.scss';
+import { createRef, useRef, useState } from 'react';
 
 import Categories from '../components/Categories/Categories';
 import Links from '../components/Links/Links';
-import { createRef, useRef, useState } from 'react';
+
+import styles from '../styles/Home.module.scss';
+
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 export default function Home({ categories, favorites }) {
 	const [categoryActive, setCategoryActive] = useState(categories?.[0]?.id);
@@ -36,42 +40,30 @@ export default function Home({ categories, favorites }) {
 }
 
 export async function getStaticProps(context) {
-	const categories = [];
-	for (let i = 0; i < 20; i++) {
-		const links = [];
-		for (let y = 0; y < randomIntFromInterval(5, 25); y++) {
-			links.push({
-				id: y,
-				name: 'Lien #' + (y + 1),
-				category: i,
-				link: `https://google.com/search?q=${y}`
-			});
+	const categories = await prisma.category.findMany({
+		include: {
+			links: true
 		}
-
-		categories.push({
-			id: i,
-			name: 'Catégorie #' + (i + 1),
-			links,
-			ref: createRef()
-		});
-	}
+	});
 
 	const favorites = [];
-	for (let i = 0; i < 5; i++) {
-		const category = categories[Math.floor(Math.random() * categories.length)];
-		const link = category.links[Math.floor(Math.random() * category.links.length)]
-		favorites.push(link);
-	}
+	categories.map((category) => {
+		category['ref'] = createRef();
+		category['links'] = category.links.map((link) => {
+			if (link.favorite)
+				favorites.push(link);
 
-	console.log(favorites);
+			link['categoryName'] = category.name;
+			return link;
+		});
+
+		return category;
+	});
+
 	return {
 		props: {
-			categories,
-			favorites
+			categories: JSON.parse(JSON.stringify(categories)),
+			favorites: JSON.parse(JSON.stringify(favorites))
 		}
 	}
-}
-
-function randomIntFromInterval(min, max) {
-	return Math.floor(Math.random() * (max - min + 1) + min);
 }

@@ -6,12 +6,35 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model user {
+model User {
   id Int @id @default(autoincrement())
   email String @unique
   password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  links Link[] 
+  order Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Link {
+  id Int @id @default(autoincrement())
+  name String
+  url String
+  category Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  order Int
+  favorite Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
