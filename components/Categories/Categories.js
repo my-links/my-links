@@ -5,11 +5,11 @@ export default function Categories({ categories, favorites, handleSelectCategory
         <div className={`${styles['block-wrapper']} ${styles['favorites']}`}>
             <h4>Favoris</h4>
             <ul className={styles['items']}>
-                {favorites.map(({ name, link, category }, key) => {
-                    const catName = categories.find(c => c.id === category).name;
+                {favorites.map((link, key) => {
+                    const { name, url, categoryName } = link;
                     return <li key={key} className={styles['item']}>
-                        <a href={link} target={'_blank'} rel={'noreferrer'}>
-                            {name} <span className={styles['category']}>- {catName}</span>
+                        <a href={url} target={'_blank'} rel={'noreferrer'}>
+                            {name} <span className={styles['category']}>- {categoryName}</span>
                         </a>
                     </li>;
                 })}
