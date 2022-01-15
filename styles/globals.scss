@@ -52,3 +52,18 @@ li {
 		background: #1e5c8f;
 	}
 }
+
+button {
+	cursor: pointer;
+	width: 100%;
+	color: #fff;
+	background: #3f88c5;
+	padding: 10px;
+	border: 1px solid #3f88c5;
+	border-radius: 3px;
+	transition: .15s;
+
+	&:hover {
+		transform: scale(1.01);
+	}
+}

@@ -43,7 +43,8 @@
 
                 &:hover {
                     border-bottom-color: #3f88c5;
-                    transform: scale(1.01);
+                    background: #eee;
+                    margin: 0 5px 10px;
                 }
 
                 & .link-name .link-category {

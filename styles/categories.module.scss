@@ -41,6 +41,7 @@
 
             &:hover:not(.active) {
                 color: #3f88c5;
+                background: #eee;
                 border-bottom: 2px solid #3f88c5;
             }
         }
@@ -83,4 +84,9 @@
         justify-content: center;
         flex-direction: column;
     }
+}
+
+.modal {
+    height: 500px;
+    width: 500px;
 }

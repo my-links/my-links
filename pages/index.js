@@ -1,14 +1,16 @@
 import { createRef, useRef, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 import Categories from '../components/Categories/Categories';
 import Links from '../components/Links/Links';
 
 import styles from '../styles/Home.module.scss';
 
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export default function Home({ categories, favorites }) {
+	const { data: session, status } = useSession();
 	const [categoryActive, setCategoryActive] = useState(categories?.[0]?.id);
 	const refCategoryActive = useRef();
 
@@ -21,6 +23,7 @@ export default function Home({ categories, favorites }) {
 			behavior: 'smooth'
 		});
 	}
+	console.log(session, session?.user);
 
 	return (
 		<div className={styles.App}>
@@ -29,11 +32,13 @@ export default function Home({ categories, favorites }) {
 				favorites={favorites}
 				handleSelectCategory={handleSelectCategory}
 				categoryActive={categoryActive}
+				session={session}
 			/>
 			<Links
 				categories={categories}
 				setCategoryActive={setCategoryActive}
 				refCategoryActive={refCategoryActive}
+				session={session}
 			/>
 		</div>
 	)

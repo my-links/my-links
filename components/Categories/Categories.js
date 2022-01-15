@@ -1,6 +1,19 @@
+import { useState } from 'react';
+import { signIn, signOut } from "next-auth/react"
+
+import ModalAddCategory from './ModalAddCategory';
+
 import styles from '../../styles/categories.module.scss';
 
-export default function Categories({ categories, favorites, handleSelectCategory, categoryActive }) {
+export default function Categories({
+    categories,
+    favorites,
+    handleSelectCategory,
+    categoryActive,
+    session
+}) {
+    const [modalOpen, setModalOpen] = useState(false);
+
     return (<div className={styles['categories-wrapper']}>
         <div className={`${styles['block-wrapper']} ${styles['favorites']}`}>
             <h4>Favoris</h4>
@@ -30,8 +43,18 @@ export default function Categories({ categories, favorites, handleSelectCategory
                 })}
             </ul>
         </div>
-        <div className={`${styles['block-wrapper']} ${styles['controls']}`}>
-            <button>Se connecter</button>
-        </div>
+        {session !== null ? 
+            <button onClick={() => setModalOpen((state) => !state)}>
+                Ajouter une catégorie
+            </button> :
+            <div className={`${styles['block-wrapper']} ${styles['controls']}`} onClick={signIn}>
+                <button>Se connecter</button>
+            </div>}
+
+        <ModalAddCategory
+            categories={categories}
+            isOpen={modalOpen}
+            closeModal={() => setModalOpen(false)}
+        />
     </div>);
 }
