@@ -8,19 +8,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@prisma/client": "3.6.0",
+    "@prisma/client": "^3.13.0",
+    "@reduxjs/toolkit": "^1.8.1",
     "bcrypt": "^5.0.1",
-    "next": "12.0.7",
+    "next": "^12.1.5",
     "next-auth": "^4.0.6",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "react-intersection-observer": "^8.33.1",
+    "nprogress": "^0.2.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-modal": "^3.14.4",
+    "react-redux": "^8.0.1",
     "sass": "^1.46.0"
   },
   "devDependencies": {
+    "@types/node": "^17.0.29",
+    "@types/nprogress": "^0.2.0",
+    "@types/react": "^18.0.8",
     "eslint": "7",
     "eslint-config-next": "12.0.7",
-    "prisma": "3.6.0"
+    "prisma": "^3.13.0"
   }
 }
