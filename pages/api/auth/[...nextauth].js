@@ -1,48 +1,30 @@
-import NextAuth from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
-
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 
 export default NextAuth({
     providers: [
-        CredentialsProvider({
-            name: 'Credentials',
-            credentials: {
-                username: { label: 'Email', type: 'text', placeholder: 'user@example.com' },
-                password: { label: 'Mot de passe', type: 'password', placeholder: '********' }
-            },
-            async authorize(credentials, req) {
-                return { email: 'user@example.com' };
-                
-                const email = credentials?.email;
-                const password = credentials?.password;
-
-                if (!email || !password)
-                    return null;
-
-                let user;
-                try {
-                    user = await prisma.user.findUnique({
-                        where: { email }
-                    });
-                } catch (error) {
-                    console.error(`Impossible de récupérer l'utilisateur avec les identifiants : ${credentials}`);
-                    return null;
-                }
-
-                if (!user)
-                    return null;
-
-                const passwordMatch = await bcrypt.compare(password, user.password);
-                if (!passwordMatch)
-                    return null;
-
-                return {
-                    email: user.email
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code"
                 }
             }
         })
-    ]
-})
+    ],
+    callbacks: {
+        async signIn({ account, profile }) {
+            if (account.provider === "google" && profile.email !== '') {
+                if (profile.email_verified && profile.email.endsWith("@gmail.com")) {
+                    return true;
+                } else {
+                    return "/signin?error=" + encodeURI('Une erreur s\'est produite lors de l\'authentification');
+                }
+            }
+            return false;
+        }
+    }
+});

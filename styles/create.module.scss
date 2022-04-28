@@ -1,0 +1,27 @@
+.create-app {
+    width: 680px;
+    flex-direction: column;
+    gap: 15px;
+
+    & h2 {
+        color: #3f88c5;
+    }
+
+    & form {
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+    }
+
+    & .input-field {
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 680px) {
+    .create-app {
+        width: 100%;
+    }
+}
