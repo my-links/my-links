@@ -59,9 +59,26 @@
     & .block-wrapper.favorites {
         margin-bottom: 15px;
 
+        & .items .item {
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        & .items .no-fav-link {
+            user-select: none;
+            text-align: center;
+            font-style: italic;
+            font-size: 0.9em;
+            color: #bbb;
+        }
+
         & .items .item a {
+            width: 100%;
             text-decoration: none;
             color: inherit;
+            padding: 7px 12px;
+            border: 0 !important;
         }
 
         & .items .item .category {
@@ -98,13 +115,14 @@
     // User Card
     & .user-card-wrapper {
         position: relative;
+        user-select: none;
         height: fit-content;
         width: 100%;
         color: #333;
         background-color: #fff;
 
         & .user-card {
-            border-right: 1px solid #dadce0;
+            border: 1px solid #dadce0;
             padding: 7px 12px;
             display: flex;
             gap: 10px;
@@ -122,15 +140,11 @@
             height: 100%;
             width: 100%;
             color: #fff;
-            background-color: red;
-            border: 1px solid red;
             display: none;
         }
 
         &:hover .disconnect-btn {
             display: block;
-            border: 1px solid darkred;
-            box-shadow: red 0 0 3px 1px;
         }
     }
 }

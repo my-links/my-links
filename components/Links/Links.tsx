@@ -1,8 +1,27 @@
+import LinkTag from 'next/link';
+
 import styles from '../../styles/home/links.module.scss';
 import { Category, Link } from '../../types';
 
 export default function Links({ category }: { category: Category; }) {
+    if (category === null) {
+        return (<div className={styles['no-category']}>
+            <p>Veuillez séléctionner une categorié</p>
+            <LinkTag href='/category/create'>
+                <a>ou en créer une</a>
+            </LinkTag>
+        </div>)
+    }
+
     const { name, links } = category;
+    if (links.length === 0) {
+        return (<div className={styles['no-link']}>
+            <p>Aucun lien pour <b>{category.name}</b></p>
+            <LinkTag href='/link/create'>
+                <a>Créer un lien</a>
+            </LinkTag>
+        </div>)
+    }
 
     return (<div className={styles['links-wrapper']}>
         <h2>{name}<span className={styles['links-count']}> — {links.length}</span></h2>
@@ -19,7 +38,7 @@ function LinkItem({ link }: { link: Link; }) {
     const { origin, pathname, search } = new URL(url);
 
     return (
-        <li className={styles['link']}>
+        <li className={styles['link']} key={Math.random()}>
             <a href={url} target={'_blank'} rel={'noreferrer'}>
                 <span className={styles['link-name']}>
                     {name}<span className={styles['link-category']}> — {category.name}</span>

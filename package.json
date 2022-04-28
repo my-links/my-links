@@ -10,13 +10,11 @@
   "dependencies": {
     "@prisma/client": "^3.13.0",
     "@reduxjs/toolkit": "^1.8.1",
-    "bcrypt": "^5.0.1",
     "next": "^12.1.5",
     "next-auth": "^4.0.6",
     "nprogress": "^0.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-modal": "^3.14.4",
     "react-redux": "^8.0.1",
     "sass": "^1.46.0"
   },
