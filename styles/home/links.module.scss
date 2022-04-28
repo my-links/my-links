@@ -1,3 +1,12 @@
+.no-link,
+.no-category {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .links-wrapper {
     height: 100%;
     padding: 10px;
@@ -24,6 +33,7 @@
     & .links .link {
         user-select: none;
         cursor: pointer;
+        animation: fadein 0.3s both;
 
         & > a {
             height: fit-content;
@@ -68,5 +78,17 @@
                 }
             }
         }
+    }
+}
+
+@keyframes fadein {
+    0% {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
     }
 }

@@ -6,7 +6,7 @@ import Input from '../../components/input';
 import styles from '../../styles/create.module.scss';
 
 import { Category } from '../../types';
-import { BuildCategory } from '..';
+import { BuildCategory } from '../../utils/front';
 
 import { PrismaClient } from '@prisma/client';
 import Selector from '../../components/selector';
