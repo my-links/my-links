@@ -10,5 +10,6 @@ module.exports = {
 		});
 
 		return config;
-	}
+	},
+	optimizeFonts: false
 }
