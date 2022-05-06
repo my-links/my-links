@@ -46,7 +46,6 @@ export async function getServerSideProps() {
 
 	const favorites = [] as Link[];
 	const categories = categoriesDB.map((categoryDB) => {
-		console.log(categoryDB)
 		const category = BuildCategory(categoryDB);
 		category.links.map((link) => link.favorite ? favorites.push(link) : null);
 		return category;
