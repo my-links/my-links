@@ -11,30 +11,30 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
+  id        Int      @id @default(autoincrement())
+  google_id String   @unique
+  email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  name String @unique
-  links Link[] 
-  order Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  name           String   @unique
+  links          Link[]
+  nextCategoryId Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Link {
-  id Int @id @default(autoincrement())
-  name String
-  url String
-  category Category @relation(fields: [categoryId], references: [id])
+  id         Int      @id @default(autoincrement())
+  name       String
+  url        String
+  category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
-  order Int
-  favorite Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  nextLinkId Int      @default(0)
+  favorite   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

@@ -1,10 +1,14 @@
+import { useEffect } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import nProgress from "nprogress";
-import { useRouter } from "next/router";
+
+import { useRouter } from 'next/router';
+
+import nProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+
+import AuthRequired from '../components/AuthRequired';
 
 import '../styles/globals.scss';
-import "nprogress/nprogress.css"
-import { useEffect } from 'react';
 
 function MyApp({
 	Component,
@@ -26,7 +30,13 @@ function MyApp({
 
 	return (
 		<SessionProvider session={session}>
-			<Component {...pageProps} />
+			{Component.authRequired ? (
+				<AuthRequired>
+					<Component {...pageProps} />
+				</AuthRequired>
+			) : (
+				<Component {...pageProps} />
+			)}
 		</SessionProvider>
 	);
 }

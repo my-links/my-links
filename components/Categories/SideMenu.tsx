@@ -1,11 +1,12 @@
 import { Session } from 'next-auth';
 import LinkTag from 'next/link';
 
-import styles from '../../styles/home/categories.module.scss';
-import { Category, Link } from '../../types';
 import Categories from './Categories';
 import Favorites from './Favorites';
 import UserCard from './UserCard';
+
+import styles from '../../styles/home/categories.module.scss';
+import { Category, Link } from '../../types';
 
 interface SideMenuProps {
     categories: Category[];

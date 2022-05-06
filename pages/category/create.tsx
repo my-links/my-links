@@ -1,45 +1,65 @@
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-import Input from '../../components/input';
+import nProgress from 'nprogress';
+import axios, { AxiosResponse } from 'axios';
+
+import FormLayout from '../../components/FormLayout';
+import TextBox from '../../components/TextBox';
+
 import styles from '../../styles/create.module.scss';
-import Head from 'next/head';
+import { HandleAxiosError } from '../../utils/front';
+import { useRouter } from 'next/router';
 
-export default function CreateCategory() {
-    const { data: session, status } = useSession({ required: true });
+function CreateCategory() {
+    const info = useRouter().query?.info as string;
     const [name, setName] = useState<string>('');
 
-    if (status === 'loading') {
-        return (<p>Chargement de la session en cours</p>)
-    }
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
+    const [canSubmit, setCanSubmit] = useState<boolean>(false);
 
-    const handleSubmit = (event) => {
+    useEffect(() => setCanSubmit(name.length !== 0), [name]);
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('On peut envoyer la requête pour créer une catégorie');
+        setSuccess(null);
+        setError(null);
+        setCanSubmit(false);
+        nProgress.start();
+
+        try {
+            const payload = { name };
+            const { data }: AxiosResponse<any> = await axios.post('/api/category/create', payload);
+            setSuccess(data?.success || 'Categorie créée avec succès');
+            setCanSubmit(false);
+        } catch (error) {
+            setError(HandleAxiosError(error));
+            setCanSubmit(true);
+        } finally {
+            nProgress.done();
+        }
     }
 
-    return (
-        <div className={`App ${styles['create-app']}`}>
-            <Head>
-                <title>Superpipo — Créer une categorie</title>
-            </Head>
-            <h2>Créer une categorie</h2>
-            <form onSubmit={handleSubmit}>
-                <Input
-                    name='name'
-                    label='Nom de la catégorie'
-                    onChangeCallback={({ target }, value) => setName(value)}
-                    value={name}
-                    fieldClass={styles['input-field']}
-                />
-                <button type='submit' disabled={name.length < 1}>
-                    Valider
-                </button>
-            </form>
-            <Link href='/'>
-                <a>← Revenir à l'accueil</a>
-            </Link>
-        </div>
-    );
+    return (<>
+        <FormLayout
+            title='Créer une catégorie'
+            errorMessage={error}
+            successMessage={success}
+            infoMessage={info}
+            canSubmit={canSubmit}
+            handleSubmit={handleSubmit}
+        >
+            <TextBox
+                name='name'
+                label='Nom de la catégorie'
+                onChangeCallback={(value) => setName(value)}
+                value={name}
+                fieldClass={styles['input-field']}
+                placeholder='Nom...'
+            />
+        </FormLayout>
+    </>);
 }
+
+CreateCategory.authRequired = true;
+export default CreateCategory;

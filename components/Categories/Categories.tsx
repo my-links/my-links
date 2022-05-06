@@ -1,5 +1,10 @@
+import LinkTag from 'next/link';
+
 import styles from '../../styles/home/categories.module.scss';
 import { Category } from '../../types';
+
+import EditSVG from '../../public/icons/edit.svg';
+import RemoveSVG from '../../public/icons/remove.svg';
 
 interface CategoriesProps {
     categories: Category[];
@@ -35,7 +40,28 @@ function CategoryItem({ category, categoryActive, handleSelectCategory }: Catego
 
     return (
         <li className={className} onClick={onClick}>
-            {category.name}<span className={styles['links-count']}> — {category.links.length}</span>
+            <div className={styles['content']}>
+                <span className={styles['name']}>{category.name}</span>
+                <span className={styles['links-count']}>— {category.links.length}</span>
+            </div>
+            <MenuOptions id={category.id} />
         </li>
+    )
+}
+
+function MenuOptions({ id }: { id: number; }): JSX.Element {
+    return (
+        <div className={styles['menu-item']}>
+            <LinkTag href={`/category/edit/${id}`}>
+                <a className={styles['option-edit']}>
+                    <EditSVG />
+                </a>
+            </LinkTag>
+            <LinkTag href={`/category/remove/${id}`}>
+                <a className={styles['option-remove']}>
+                    <RemoveSVG />
+                </a>
+            </LinkTag>
+        </div>
     )
 }

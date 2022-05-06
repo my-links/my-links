@@ -3,7 +3,7 @@ export interface Category {
     name: string;
 
     links: Link[];
-    order: number;
+    nextCategoryId: number;
 
     createdAt: Date;
     updatedAt: Date;
@@ -20,7 +20,7 @@ export interface Link {
         name: string;
     }
 
-    order: number;
+    nextLinkId: number;
     favorite: boolean;
 
     createdAt: Date;

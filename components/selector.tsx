@@ -1,4 +1,7 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useEffect, useState } from 'react';
+import Select, { OptionsOrGroups, GroupBase } from 'react-select';
+
+type Option = { label: string | number; value: string | number; }
 
 interface SelectorProps {
     name: string;
@@ -6,9 +9,12 @@ interface SelectorProps {
     labelComponent?: JSX.Element;
     innerRef?: MutableRefObject<any>;
     fieldClass?: string;
-    value?: string | number;
-    onChangeCallback: ({ target }, value) => void;
-    children?: any;
+
+    options: OptionsOrGroups<Option, GroupBase<Option>>;
+    value?: number | string;
+    onChangeCallback?: (value: number | string) => void;
+
+    disabled?: boolean;
 }
 
 export default function Selector({
@@ -18,14 +24,26 @@ export default function Selector({
     innerRef = null,
     fieldClass = '',
     value,
+    options = [],
     onChangeCallback,
-    children
+    disabled = false
 }: SelectorProps): JSX.Element {
-    const [inputValue, setInputValue] = useState<string | number>(value);
+    const [selectorValue, setSelectorValue] = useState<Option>();
 
-    function onChange({ target }) {
-        setInputValue(target.value);
-        onChangeCallback({ target }, target.value);
+    useEffect(() => {
+        if (options.length === 0) return;
+
+        const option = options.find((o: Option) => o.value === value) as Option;
+        if (option) {
+            setSelectorValue(option);
+        }
+    }, [options, value]);
+
+    function handleChange(selectedOption: Option) {
+        setSelectorValue(selectedOption);
+        if (onChangeCallback) {
+            onChangeCallback(selectedOption.value);
+        }
     }
 
     return (<div className={`input-field ${fieldClass}`}>
@@ -34,19 +52,17 @@ export default function Selector({
                 {label}
             </label>
         )}
-        {!!labelComponent && (
+        {labelComponent && (
             <label htmlFor={name} title={`${name} field`}>
                 {labelComponent}
             </label>
         )}
-        <select
-            id={name}
-            name={name}
-            onChange={onChange}
-            value={inputValue}
+        <Select
+            value={selectorValue}
+            onChange={handleChange}
+            options={options}
             ref={innerRef}
-        >
-            {children}
-        </select>
+            isDisabled={disabled}
+        />
     </div>);
 }

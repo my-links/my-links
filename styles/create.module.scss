@@ -1,5 +1,7 @@
 .create-app {
+    height: fit-content;
     width: 680px;
+    margin-top: 150px;
     flex-direction: column;
     gap: 15px;
 
@@ -8,6 +10,8 @@
     }
 
     & form {
+        height: 100%;
+        width: 100%;
         display: flex;
         gap: 5px;
         flex-direction: column;
@@ -23,5 +27,15 @@
 @media (max-width: 680px) {
     .create-app {
         width: 100%;
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }

@@ -1,6 +1,7 @@
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
+
 import styles from '../../styles/home/categories.module.scss';
 
 export default function UserCard({ session }: { session: Session; }) {
@@ -15,7 +16,7 @@ export default function UserCard({ session }: { session: Session; }) {
                 />
                 {session.user.name}
             </div>
-            <button onClick={() => signOut()} className={styles['disconnect-btn']}>
+            <button onClick={() => signOut({ callbackUrl: '/signin' })} className={styles['disconnect-btn']}>
                 Se déconnecter
             </button>
         </div>

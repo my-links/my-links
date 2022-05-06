@@ -1,57 +1,57 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useState } from 'react';
 
-interface InputProps {
+interface SelectorProps {
     name: string;
     label?: string;
     labelComponent?: JSX.Element;
-    type?: string;
-    multiple?: boolean;
+    disabled?: boolean;
     innerRef?: MutableRefObject<any>;
     placeholder?: string;
     fieldClass?: string;
-    value?: string;
-    onChangeCallback: ({ target }, value) => void;
+    isChecked?: boolean;
+    onChangeCallback?: (value, { target }) => void;
 }
 
-export default function Input({
+export default function Selector({
     name,
     label,
     labelComponent,
-    type = 'text',
-    multiple = false,
+    disabled = false,
     innerRef = null,
-    placeholder = 'Type something...',
     fieldClass = '',
-    value,
+    placeholder = 'Type something...',
+    isChecked,
     onChangeCallback
-}: InputProps): JSX.Element {
-    const [inputValue, setInputValue] = useState<string>(value);
+}: SelectorProps): JSX.Element {
+    const [checkboxValue, setCheckboxValue] = useState<boolean>(isChecked);
 
     function onChange({ target }) {
-        setInputValue(target.value);
-        onChangeCallback({ target }, target.value);
+        setCheckboxValue(!checkboxValue);
+        if (onChangeCallback) {
+            onChangeCallback(!checkboxValue, { target });
+        }
     }
 
-    return (<div className={`input-field ${fieldClass}`}>
+    return (<div className={`checkbox-field ${fieldClass}`}>
         {label && (
             <label htmlFor={name} title={`${name} field`}>
                 {label}
             </label>
         )}
-        {!!labelComponent && (
+        {labelComponent && (
             <label htmlFor={name} title={`${name} field`}>
                 {labelComponent}
             </label>
         )}
         <input
+            type='checkbox'
             id={name}
             name={name}
-            type={type}
             onChange={onChange}
-            value={inputValue}
-            multiple={multiple}
+            checked={checkboxValue}
             placeholder={placeholder}
             ref={innerRef}
+            disabled={disabled}
         />
     </div>);
 }

@@ -1,38 +1,42 @@
 import { useEffect, useState } from 'react';
 
-import nProgress from 'nprogress';
 import axios, { AxiosResponse } from 'axios';
+import nProgress from 'nprogress';
 
-import FormLayout from '../../components/FormLayout';
-import TextBox from '../../components/TextBox';
-import Selector from '../../components/Selector';
-import Checkbox from '../../components/Checkbox';
+import FormLayout from '../../../components/FormLayout';
+import TextBox from '../../../components/TextBox';
+import Selector from '../../../components/Selector';
+import Checkbox from '../../../components/Checkbox';
 
-import styles from '../../styles/create.module.scss';
+import styles from '../../../styles/create.module.scss';
 
-import { Category } from '../../types';
-import { BuildCategory, HandleAxiosError, IsValidURL } from '../../utils/front';
+import { Category, Link } from '../../../types';
+import { BuildCategory, BuildLink, HandleAxiosError, IsValidURL } from '../../../utils/front';
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-function CreateLink({ categories }: { categories: Category[]; }) {
-    const [name, setName] = useState<string>('');
-    const [url, setUrl] = useState<string>('');
-    const [favorite, setFavorite] = useState<boolean>(false);
-    const [categoryId, setCategoryId] = useState<number | null>(categories?.[0].id || null);
+function EditLink({ link, categories }: { link: Link; categories: Category[]; }) {
+    const [name, setName] = useState<string>(link.name);
+    const [url, setUrl] = useState<string>(link.url);
+    const [favorite, setFavorite] = useState<boolean>(link.favorite);
+    const [categoryId, setCategoryId] = useState<number | null>(link.category?.id || null);
 
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const [canSubmit, setCanSubmit] = useState<boolean>(false);
 
     useEffect(() => {
-        if (name !== '' && IsValidURL(url) && favorite !== null && categoryId !== null) {
-            setCanSubmit(true);
+        if (name !== link.name || url !== link.url || favorite !== link.favorite || categoryId !== link.category.id) {
+            if (name !== '' && IsValidURL(url) && favorite !== null && categoryId !== null) {
+                setCanSubmit(true);
+            } else {
+                setCanSubmit(false);
+            }
         } else {
             setCanSubmit(false);
         }
-    }, [name, url, favorite, categoryId]);
+    }, [name, url, favorite, categoryId, link]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -43,7 +47,7 @@ function CreateLink({ categories }: { categories: Category[]; }) {
 
         try {
             const payload = { name, url, favorite, categoryId };
-            const { data }: AxiosResponse<any> = await axios.post('/api/link/create', payload);
+            const { data }: AxiosResponse<any> = await axios.put(`/api/link/edit/${link.id}`, payload);
             setSuccess(data?.success || 'Lien modifié avec succès');
         } catch (error) {
             setError(HandleAxiosError(error));
@@ -55,7 +59,7 @@ function CreateLink({ categories }: { categories: Category[]; }) {
 
     return (<>
         <FormLayout
-            title='Créer un lien'
+            title='Modifier un lien'
             errorMessage={error}
             successMessage={success}
             canSubmit={canSubmit}
@@ -67,7 +71,7 @@ function CreateLink({ categories }: { categories: Category[]; }) {
                 onChangeCallback={(value) => setName(value)}
                 value={name}
                 fieldClass={styles['input-field']}
-                placeholder='Nom du lien'
+                placeholder={`Nom original : ${link.name}`}
             />
             <TextBox
                 name='url'
@@ -75,7 +79,7 @@ function CreateLink({ categories }: { categories: Category[]; }) {
                 onChangeCallback={(value) => setUrl(value)}
                 value={url}
                 fieldClass={styles['input-field']}
-                placeholder='https://www.example.org/'
+                placeholder={`URL original : ${link.url}`}
             />
             <Selector
                 name='category'
@@ -94,15 +98,32 @@ function CreateLink({ categories }: { categories: Category[]; }) {
     </>);
 }
 
-CreateLink.authRequired = true;
-export default CreateLink;
+EditLink.authRequired = true;
+export default EditLink;
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
+    const { lid } = query;
+
     const categoriesDB = await prisma.category.findMany();
     const categories = categoriesDB.map((categoryDB) => BuildCategory(categoryDB));
 
+    const linkDB = await prisma.link.findFirst({
+        where: { id: Number(lid) },
+        include: { category: true }
+    });
+
+    if (!linkDB) {
+        return {
+            redirect: {
+                destination: '/'
+            }
+        }
+    }
+
+    const link = BuildLink(linkDB, { categoryId: linkDB.categoryId, categoryName: linkDB.category.name });
     return {
         props: {
+            link: JSON.parse(JSON.stringify(link)),
             categories: JSON.parse(JSON.stringify(categories))
         }
     }
