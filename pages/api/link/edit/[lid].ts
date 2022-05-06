@@ -18,7 +18,7 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => { // TODO: Ajo
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition du lien (link/edit->findLink)' });
     }
 
     const name = req.body?.name as string;
@@ -52,7 +52,7 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => { // TODO: Ajo
         return res.status(200).send({ success: 'Lien mis à jour avec succès' });
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition du lien (link/remove->updateLink)' });
     }
 });
 

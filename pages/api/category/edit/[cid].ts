@@ -19,7 +19,7 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition de la catégorie' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition de la catégorie (category/edit->findCategory)' });
     }
 
     const name = req.body?.name as string;
@@ -38,7 +38,7 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).send({ success: 'Catégorie mise à jour avec succès' });
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition de la catégorie' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition de la catégorie (category/edit->updateCategory)' });
     }
 });
 
