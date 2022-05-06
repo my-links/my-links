@@ -18,7 +18,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression du lien (link/remove->findLink)' });
     }
 
     try {
@@ -29,7 +29,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).send({ success: 'Le lien a été supprimé avec succès' });
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression du lien (link/remove->deleteLink)' });
     }
 });
 

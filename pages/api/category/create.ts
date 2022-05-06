@@ -22,7 +22,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la création de la catégorie' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la création de la catégorie (category/create->findCategory)' });
     }
 
     try {
@@ -32,7 +32,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).send({ success: 'Catégorie créée avec succès' });
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la création de la catégorie' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la création de la catégorie (category/create->createCategory)' });
     }
 });
 

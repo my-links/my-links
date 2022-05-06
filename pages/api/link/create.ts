@@ -33,7 +33,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien (link/create->findLink)' });
     }
 
     try {
@@ -46,7 +46,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien (link/create->findCategory)' });
     }
 
     try {
@@ -61,7 +61,7 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).send({ success: 'Lien créé avec succès' });
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien (link/create->createLink)' });
     }
 });
 

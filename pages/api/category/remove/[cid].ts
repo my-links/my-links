@@ -18,7 +18,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
         }
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression de la catégorie' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression de la catégorie (category/remove->findCategory)' });
     }
 
     try {
@@ -29,7 +29,7 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).send({ success: 'La catégorie a été supprimée avec succès' });
     } catch (error) {
         console.error(error);
-        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression de la catégorie' });
+        return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression de la catégorie (category/remove->deleteCategory)' });
     }
 });
 
