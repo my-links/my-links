@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { apiRoute } from '../../../../utils/back';
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => { // TODO: Ajouter vérification -> l'utilisateur doit changer au moins un champ
+// TODO: Ajouter vérification -> l'utilisateur doit changer au moins un champ
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { lid } = req.query;
 
     try {
@@ -54,6 +53,4 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => { // TODO: Ajo
         console.error(error);
         return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition du lien (link/remove->updateLink)' });
     }
-});
-
-export default apiRoute;
+}
