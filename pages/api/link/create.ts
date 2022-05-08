@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { apiRoute } from '../../../utils/back';
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const name = req.body?.name as string;
     const url = req.body?.url as string;
     const favorite = Boolean(req.body?.favorite) || false;
@@ -63,6 +61,4 @@ apiRoute.post(async (req: NextApiRequest, res: NextApiResponse) => {
         console.error(error);
         return res.status(400).send({ error: 'Une erreur est survenue lors de la création du lien (link/create->createLink)' });
     }
-});
-
-export default apiRoute;
+}

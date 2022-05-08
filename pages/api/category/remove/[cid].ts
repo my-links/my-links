@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { apiRoute } from '../../../../utils/back';
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { cid } = req.query;
 
     try {
@@ -31,6 +29,4 @@ apiRoute.delete(async (req: NextApiRequest, res: NextApiResponse) => {
         console.error(error);
         return res.status(400).send({ error: 'Une erreur est survenue lors de la suppression de la catégorie (category/remove->deleteCategory)' });
     }
-});
-
-export default apiRoute;
+};

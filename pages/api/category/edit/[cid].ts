@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { apiRoute } from '../../../../utils/back';
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { cid } = req.query;
 
     let category;
@@ -40,6 +38,4 @@ apiRoute.put(async (req: NextApiRequest, res: NextApiResponse) => {
         console.error(error);
         return res.status(400).send({ error: 'Une erreur est survenue lors de l\'édition de la catégorie (category/edit->updateCategory)' });
     }
-});
-
-export default apiRoute;
+}
