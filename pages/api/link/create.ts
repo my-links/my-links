@@ -23,11 +23,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const link = await prisma.link.findFirst({
-            where: { name }
+            where: { name, categoryId }
         });
 
         if (link) {
-            return res.status(400).send({ error: 'Un lien avec ce nom existe déjà' });
+            return res.status(400).send({ error: 'Un lien avec ce nom existe déjà dans cette catégorie' });
         }
     } catch (error) {
         console.error(error);
