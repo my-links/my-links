@@ -3,15 +3,13 @@ import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 
 import Menu from '../components/Categories/SideMenu';
+import Links from '../components/Links/Links';
 
 import { Category, Link } from '../types';
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
-
 import { BuildCategory } from '../utils/front';
+import { prisma } from '../utils/back';
 
-import Links from '../components/Links/Links';
 
 interface HomeProps {
 	categories: Category[];

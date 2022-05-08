@@ -20,6 +20,7 @@ export default NextAuth({
     ],
     callbacks: {
         async signIn({ account: accountParam, profile }) { // TODO: Auth
+            console.log('Connexion via', accountParam.provider, accountParam.providerAccountId, profile.email, profile.name)
             if (accountParam.provider !== 'google') {
                 return '/signin?error=' + encodeURI('Authentitifcation via Google requise');
             }

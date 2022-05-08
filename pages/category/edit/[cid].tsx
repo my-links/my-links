@@ -14,8 +14,7 @@ import styles from '../../../styles/create.module.scss';
 import { Category } from '../../../types';
 import { BuildCategory, HandleAxiosError } from '../../../utils/front';
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { prisma } from '../../../utils/back';
 
 function EditCategory({ category }: { category: Category; }) {
     const [name, setName] = useState<string>(category.name);

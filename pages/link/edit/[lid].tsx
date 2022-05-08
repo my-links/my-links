@@ -13,8 +13,7 @@ import styles from '../../../styles/create.module.scss';
 import { Category, Link } from '../../../types';
 import { BuildCategory, BuildLink, HandleAxiosError, IsValidURL } from '../../../utils/front';
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import { prisma } from '../../../utils/back';
 
 function EditLink({ link, categories }: { link: Link; categories: Category[]; }) {
     const [name, setName] = useState<string>(link.name);
