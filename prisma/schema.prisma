@@ -20,7 +20,7 @@ model User {
 
 model Category {
   id             Int      @id @default(autoincrement())
-  name           String   @unique
+  name           String   @unique @db.VarChar(255)
   links          Link[]
   nextCategoryId Int      @default(0)
   createdAt      DateTime @default(now())
@@ -29,8 +29,8 @@ model Category {
 
 model Link {
   id         Int      @id @default(autoincrement())
-  name       String
-  url        String
+  name       String   @db.VarChar(255)
+  url        String   @db.Text
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
   nextLinkId Int      @default(0)

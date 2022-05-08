@@ -29,7 +29,7 @@ export function BuildLink({ id, name, url, nextLinkId, favorite, createdAt, upda
 }
 
 export function IsValidURL(url: string): boolean {
-    const regex = new RegExp(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
+    const regex = new RegExp(/^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.\%]+$/);
     return url.match(regex) ? true : false;
 }
 
