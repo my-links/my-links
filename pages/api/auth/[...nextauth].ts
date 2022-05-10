@@ -57,5 +57,8 @@ export default NextAuth({
     pages: {
         signIn: '/signin',
         error: '/signin'
+    },
+    session: {
+        maxAge: 60 * 60 * 6 // Session de 6 heures
     }
 });
