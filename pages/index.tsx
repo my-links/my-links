@@ -10,6 +10,7 @@ import { Category, Link } from '../types';
 import { BuildCategory } from '../utils/front';
 import { prisma } from '../utils/back';
 
+import { config } from '../config';
 
 interface HomeProps {
 	categories: Category[];
@@ -24,7 +25,7 @@ function Home({ categories, favorites }: HomeProps) {
 
 	return (<>
 		<Head>
-			<title>Superpipo</title>
+			<title>{config.siteName}</title>
 		</Head>
 		<div className='App'>
 			<Menu

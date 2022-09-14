@@ -7,7 +7,10 @@ import Head from 'next/head';
 import styles from '../styles/login.module.scss';
 import MessageManager from '../components/MessageManager';
 
-export default function SignIn({ providers }) {
+import { config } from '../config';
+import { Provider } from 'next-auth/providers';
+
+export default function SignIn({ providers }: { providers: Provider[]; }) {
     const { data: session, status } = useSession();
     const info = useRouter().query?.info as string;
     const error = useRouter().query?.error as string;
@@ -22,7 +25,7 @@ export default function SignIn({ providers }) {
 
     return (<>
         <Head>
-            <title>Superpipo — Authentification</title>
+            <title>{config.siteName} — Authentification</title>
         </Head>
         <div className='App'>
             <div className={styles['wrapper']}>

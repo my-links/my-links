@@ -1,5 +1,5 @@
 {
-  "name": "superpipo-v2",
+  "name": "my-links",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,16 +11,16 @@
     "@dnd-kit/core": "^5.0.3",
     "@dnd-kit/sortable": "^6.0.1",
     "@dnd-kit/utilities": "^3.1.0",
-    "@prisma/client": "^3.13.0",
+    "@prisma/client": "^4.3.1",
     "@svgr/webpack": "^6.2.1",
     "axios": "^0.27.2",
-    "next": "^12.1.6",
+    "next": "^12.3.0",
     "next-auth": "^4.0.6",
     "next-connect": "^0.12.2",
     "nprogress": "^0.2.0",
-    "react": "^18.1.0",
+    "react": "^18.2.0",
     "react-confirm-alert": "^2.8.0",
-    "react-dom": "^18.1.0",
+    "react-dom": "^18.2.0",
     "react-select": "^5.3.1",
     "sass": "^1.46.0",
     "sharp": "^0.30.4",
@@ -32,6 +32,6 @@
     "@types/react": "^18.0.8",
     "eslint": "7",
     "eslint-config-next": "12.0.7",
-    "prisma": "^3.13.0"
+    "prisma": "^4.3.1"
   }
 }
