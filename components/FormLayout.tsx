@@ -5,6 +5,8 @@ import MessageManager from './MessageManager';
 
 import styles from '../styles/create.module.scss';
 
+import { config } from '../config';
+
 interface FormProps {
     title: string;
     errorMessage?: string;
@@ -32,7 +34,7 @@ export default function Form({
 }: FormProps) {
     return (<>
         <Head>
-            <title>Superpipo — {title}</title>
+            <title>{config.siteName} — {title}</title>
         </Head>
         <div className={`App ${styles['create-app']}`}>
             <h2>{title}</h2>
