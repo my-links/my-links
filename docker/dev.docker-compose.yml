@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  my-links-db:
+    image: mysql:latest
+    restart: always
+    env_file: 
+      - ../.env
+    ports:
+      - 3306:3306
