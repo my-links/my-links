@@ -14,11 +14,8 @@ services:
     restart: always
     volumes:
       - db_volume_data:/var/lib/postgresql/data
-    environment:
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
+    env_file: 
+      - ../.env
     networks:
       - my_links_net
 
@@ -28,8 +25,10 @@ services:
     ports:
       - 3000:3000
     restart: always
+    env_file: 
+      - ../.env
     environment:
-      DATABASE_URL: "mysql://${DB_USER}:${DB_PASSWORD}@my-links-db:3306/${DB_DATABASE}"
+      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@my-links-db:3306/${MYSQL_DATABASE}"
     depends_on:
       my-links-db:
         condition: service_started
