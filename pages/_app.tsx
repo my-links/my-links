@@ -1,49 +1,44 @@
-import { SessionProvider } from "next-auth/react";
-import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { SessionProvider } from 'next-auth/react';
 
-import AuthRequired from "../components/AuthRequired";
+import { useRouter } from 'next/router';
 
-import { trpc } from "../utils/trpc";
+import nProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
-import "nprogress/nprogress.css";
-import "../styles/globals.scss";
+import AuthRequired from '../components/AuthRequired';
 
-interface MyAppProps extends AppProps {
-  Component: any; // TODO: fix type
-}
+import '../styles/globals.scss';
+
 function MyApp({
-  Component,
-  pageProps: { session, ...pageProps },
-}: MyAppProps) {
-  const router = useRouter();
+	Component,
+	pageProps: { session, ...pageProps }
+}) {
+	const router = useRouter();
 
-  useEffect(() => {
-    // Chargement pages
-    router.events.on("routeChangeStart", nProgress.start);
-    router.events.on("routeChangeComplete", nProgress.done);
-    router.events.on("routeChangeError", nProgress.done);
+	useEffect(() => { // Chargement pages
+		router.events.on('routeChangeStart', nProgress.start);
+		router.events.on('routeChangeComplete', nProgress.done);
+		router.events.on('routeChangeError', nProgress.done);
 
-    return () => {
-      router.events.off("routeChangeStart", nProgress.start);
-      router.events.off("routeChangeComplete", nProgress.done);
-      router.events.off("routeChangeError", nProgress.done);
-    };
-  });
+		return () => {
+			router.events.off('routeChangeStart', nProgress.start);
+			router.events.off('routeChangeComplete', nProgress.done);
+			router.events.off('routeChangeError', nProgress.done);
+		}
+	});
 
-  return (
-    <SessionProvider session={session}>
-      {Component.authRequired ? (
-        <AuthRequired>
-          <Component {...pageProps} />
-        </AuthRequired>
-      ) : (
-        <Component {...pageProps} />
-      )}
-    </SessionProvider>
-  );
+	return (
+		<SessionProvider session={session}>
+			{Component.authRequired ? (
+				<AuthRequired>
+					<Component {...pageProps} />
+				</AuthRequired>
+			) : (
+				<Component {...pageProps} />
+			)}
+		</SessionProvider>
+	);
 }
 
-export default trpc.withTRPC(MyApp);
+export default MyApp;

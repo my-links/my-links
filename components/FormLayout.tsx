@@ -1,11 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
-import { FormEvent } from "react";
 
-import { config } from "../config";
 import MessageManager from "./MessageManager";
 
 import styles from "../styles/create.module.scss";
+
+import { config } from "../config";
 
 interface FormProps {
   title: string;
@@ -14,7 +14,7 @@ interface FormProps {
   infoMessage?: string;
 
   canSubmit: boolean;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (event) => void;
 
   textBtnConfirm?: string;
   classBtnConfirm?: string;
