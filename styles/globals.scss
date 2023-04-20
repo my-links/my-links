@@ -83,7 +83,7 @@ li {
 	}
 }
 
-button {
+button:not(.reset) {
 	cursor: pointer;
 	width: 100%;
 	color: #fff;
@@ -170,6 +170,14 @@ select:not(.nostyle) {
 	&:focus {
 		border-bottom: 3px solid #3f88c5;
 	}
+}
+
+.reset {
+	background-color: inherit;
+	color: inherit;
+	padding: 0;
+	margin: 0;
+	border: 0;
 }
 
 @media (max-width: 1280px) {

@@ -1,0 +1,47 @@
+.block-wrapper {
+    height: auto;
+    width: 100%;
+
+    & h4 {
+        user-select: none;
+        text-transform: uppercase;
+        font-size: 0.85em;
+        font-weight: 500;
+        color: #bbb;
+        margin-bottom: 5px;
+    }
+
+    & ul {
+        animation: fadein 0.3s both;
+    }
+
+    & ul li {
+        position: relative;
+        user-select: none;
+        cursor: pointer;
+        height: fit-content;
+        width: 100%;
+        background-color: #fff;
+        padding: 7px 12px;
+        border: 1px solid #dadce0;
+        border-bottom: 2px solid #dadce0;
+        border-radius: 3px;
+        transition: 0.15s;
+
+        &:not(:last-child) {
+            margin-bottom: 5px;
+        }
+    }
+}
+
+@keyframes fadein {
+    0% {
+        transform: translateX(-15px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

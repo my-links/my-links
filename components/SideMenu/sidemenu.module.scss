@@ -1,0 +1,19 @@
+.side-menu {
+    height: 100%;
+    width: 300px;
+    padding: 0 25px 0 10px;
+    border-right: 1px solid #dadce0;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.menu-controls {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

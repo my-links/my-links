@@ -1,11 +1,10 @@
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn, useSession } from "next-auth/react";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import MessageManager from "../components/MessageManager";
-import { config } from "../config";
+import MessageManager from "../components/MessageManager/MessageManager";
 
 import styles from "../styles/login.module.scss";
 
@@ -26,9 +25,7 @@ export default function SignIn({ providers }: { providers: Provider[] }) {
 
   return (
     <>
-      <Head>
-        <title>{config.siteName} — Authentification</title>
-      </Head>
+      <NextSeo title="Authentification" />
       <div className="App">
         <div className={styles["wrapper"]}>
           <h2>Se connecter</h2>

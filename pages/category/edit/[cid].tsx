@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
-
-import nProgress from 'nprogress';
 import axios, { AxiosResponse } from 'axios';
-
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import nProgress from 'nprogress';
+import { useEffect, useState } from 'react';
 
 import FormLayout from '../../../components/FormLayout';
 import TextBox from '../../../components/TextBox';
 
-import styles from '../../../styles/create.module.scss';
-
 import { Category } from '../../../types';
+import { prisma } from '../../../utils/back';
 import { BuildCategory, HandleAxiosError } from '../../../utils/front';
 
-import { prisma } from '../../../utils/back';
+import styles from '../../../styles/create.module.scss';
 
 function EditCategory({ category }: { category: Category; }) {
     const [name, setName] = useState<string>(category.name);
@@ -33,32 +28,21 @@ function EditCategory({ category }: { category: Category; }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        confirmAlert({
-            message: `Confirmer l'édition de la catégorie "${category.name}"`,
-            buttons: [{
-                label: 'Yes',
-                onClick: async () => {
-                    setSuccess(null);
-                    setError(null);
-                    setCanSubmit(false);
-                    nProgress.start();
+        setSuccess(null);
+        setError(null);
+        setCanSubmit(false);
+        nProgress.start();
 
-                    try {
-                        const payload = { name };
-                        const { data }: AxiosResponse<any> = await axios.put(`/api/category/edit/${category.id}`, payload);
-                        setSuccess(data?.success || 'Catégorie modifiée avec succès');
-                    } catch (error) {
-                        setError(HandleAxiosError(error));
-                    } finally {
-                        setCanSubmit(true);
-                        nProgress.done();
-                    }
-                }
-            }, {
-                label: 'No',
-                onClick: () => { }
-            }]
-        });
+        try {
+            const payload = { name };
+            const { data }: AxiosResponse<any> = await axios.put(`/api/category/edit/${category.id}`, payload);
+            setSuccess(data?.success || 'Catégorie modifiée avec succès');
+        } catch (error) {
+            setError(HandleAxiosError(error));
+        } finally {
+            setCanSubmit(true);
+            nProgress.done();
+        }
     }
 
     return (<>

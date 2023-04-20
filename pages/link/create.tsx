@@ -1,43 +1,43 @@
-import { useEffect, useState } from 'react';
-
-import nProgress from 'nprogress';
 import axios, { AxiosResponse } from 'axios';
+import { useRouter } from 'next/router';
+import nProgress from 'nprogress';
+import { useMemo, useState } from 'react';
 
-import FormLayout from '../../components/FormLayout';
-import TextBox from '../../components/TextBox';
-import Selector from '../../components/Selector';
 import Checkbox from '../../components/Checkbox';
+import FormLayout from '../../components/FormLayout';
+import Selector from '../../components/Selector';
+import TextBox from '../../components/TextBox';
 
-import styles from '../../styles/create.module.scss';
-
-import { Category } from '../../types';
+import { Category, Link } from '../../types';
 import { BuildCategory, HandleAxiosError, IsValidURL } from '../../utils/front';
 
 import { prisma } from '../../utils/back';
 
+import styles from '../../styles/create.module.scss';
+
 function CreateLink({ categories }: { categories: Category[]; }) {
-    const [name, setName] = useState<string>('');
-    const [url, setUrl] = useState<string>('');
-    const [favorite, setFavorite] = useState<boolean>(false);
-    const [categoryId, setCategoryId] = useState<number | null>(categories?.[0].id || null);
+    const { query } = useRouter();
+    const categoryIdQuery = Number(query.categoryId?.[0]);
 
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [canSubmit, setCanSubmit] = useState<boolean>(false);
+    const [name, setName] = useState<Link['name']>('');
+    const [url, setUrl] = useState<Link['url']>('');
+    const [favorite, setFavorite] = useState<Link['favorite']>(false);
+    const [categoryId, setCategoryId] = useState<Link['category']['id']>(categoryIdQuery || categories?.[0].id || null);
 
-    useEffect(() => {
-        if (name !== '' && IsValidURL(url) && favorite !== null && categoryId !== null) {
-            setCanSubmit(true);
-        } else {
-            setCanSubmit(false);
-        }
-    }, [name, url, favorite, categoryId]);
+    const [error, setError] = useState<string>(null);
+    const [success, setSuccess] = useState<string>(null);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+
+    const canSubmit = useMemo<boolean>(
+        () => name !== '' && IsValidURL(url) && favorite !== null && categoryId !== null && !submitted,
+        [name, url, favorite, categoryId, submitted]
+    );
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSuccess(null);
         setError(null);
-        setCanSubmit(false);
+        setSubmitted(false);
         nProgress.start();
 
         try {
@@ -47,7 +47,7 @@ function CreateLink({ categories }: { categories: Category[]; }) {
         } catch (error) {
             setError(HandleAxiosError(error));
         } finally {
-            setCanSubmit(true);
+            setSubmitted(true);
             nProgress.done();
         }
     }

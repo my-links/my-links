@@ -1,11 +1,9 @@
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 import Link from "next/link";
 
-import MessageManager from "./MessageManager";
+import MessageManager from "./MessageManager/MessageManager";
 
 import styles from "../styles/create.module.scss";
-
-import { config } from "../config";
 
 interface FormProps {
   title: string;
@@ -34,11 +32,7 @@ export default function Form({
 }: FormProps) {
   return (
     <>
-      <Head>
-        <title>
-          {config.siteName} — {title}
-        </title>
-      </Head>
+      <NextSeo title={title} />
       <div className={`App ${styles["create-app"]}`}>
         <h2>{title}</h2>
         <form onSubmit={handleSubmit}>

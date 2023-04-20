@@ -1,44 +1,17 @@
 import LinkTag from "next/link";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-import styles from "../../styles/home/categories.module.scss";
-import { Category } from "../../types";
+import { Category } from "../../../types";
 
-import EditSVG from "../../public/icons/edit.svg";
-import RemoveSVG from "../../public/icons/remove.svg";
-
-interface CategoriesProps {
-  categories: Category[];
-  categoryActive: Category;
-  handleSelectCategory: (category: Category) => void;
-}
-export default function Categories({
-  categories,
-  categoryActive,
-  handleSelectCategory,
-}: CategoriesProps) {
-  return (
-    <div className={`${styles["block-wrapper"]} ${styles["categories"]}`}>
-      <h4>Catégories</h4>
-      <ul className={styles["items"]}>
-        {categories.map((category, key) => (
-          <CategoryItem
-            category={category}
-            categoryActive={categoryActive}
-            handleSelectCategory={handleSelectCategory}
-            key={key}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-}
+import styles from "./categories.module.scss";
 
 interface CategoryItemProps {
   category: Category;
   categoryActive: Category;
   handleSelectCategory: (category: Category) => void;
 }
-function CategoryItem({
+
+export default function CategoryItem({
   category,
   categoryActive,
   handleSelectCategory,
@@ -63,13 +36,13 @@ function MenuOptions({ id }: { id: number }): JSX.Element {
   return (
     <div className={styles["menu-item"]}>
       <LinkTag href={`/category/edit/${id}`} className={styles["option-edit"]}>
-        <EditSVG />
+        <AiFillEdit />
       </LinkTag>
       <LinkTag
         href={`/category/remove/${id}`}
         className={styles["option-remove"]}
       >
-        <RemoveSVG />
+        <AiFillDelete color="red" />
       </LinkTag>
     </div>
   );

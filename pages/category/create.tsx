@@ -1,40 +1,40 @@
-import { useEffect, useState } from 'react';
-
+import axios from 'axios';
+import { useRouter } from 'next/router';
 import nProgress from 'nprogress';
-import axios, { AxiosResponse } from 'axios';
+import { useMemo, useState } from 'react';
+
+import { redirectWithoutClientCache } from '../../utils/client';
+import { HandleAxiosError } from '../../utils/front';
 
 import FormLayout from '../../components/FormLayout';
 import TextBox from '../../components/TextBox';
 
 import styles from '../../styles/create.module.scss';
-import { HandleAxiosError } from '../../utils/front';
-import { useRouter } from 'next/router';
 
 function CreateCategory() {
+    const router = useRouter();
     const info = useRouter().query?.info as string;
     const [name, setName] = useState<string>('');
 
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
-    const [canSubmit, setCanSubmit] = useState<boolean>(false);
-
-    useEffect(() => setCanSubmit(name.length !== 0), [name]);
+    const [submitted, setSubmitted] = useState<boolean>(false);
+    const canSubmit = useMemo<boolean>(() => name.length !== 0 && !submitted, [name.length, submitted]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSuccess(null);
         setError(null);
-        setCanSubmit(false);
+        setSubmitted(false);
         nProgress.start();
 
         try {
-            const payload = { name };
-            const { data }: AxiosResponse<any> = await axios.post('/api/category/create', payload);
-            setSuccess(data?.success || 'Categorie créée avec succès');
-            setCanSubmit(false);
+            await axios.post('/api/category/create', { name });
+            redirectWithoutClientCache(router, '');
+            router.push('/')
         } catch (error) {
             setError(HandleAxiosError(error));
-            setCanSubmit(true);
+            setSubmitted(true);
         } finally {
             nProgress.done();
         }

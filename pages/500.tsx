@@ -1,13 +1,12 @@
-import Head from 'next/head';
-import styles from '../styles/error-page.module.scss';
+import { NextSeo } from 'next-seo';
 
-import { config } from '../config';
+import styles from '../styles/error-page.module.scss';
 
 export default function Custom500() {
     return (<>
-        <Head>
-            <title>{config.siteName} — Une erreur côté serveur est survenue</title>
-        </Head>
+        <NextSeo
+            title='Une erreur est survenue'
+        />
         <div className={styles['App']}>
             <h1>500</h1>
             <h2>Une erreur côté serveur est survenue.</h2>
