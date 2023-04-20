@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
-
-import nProgress from 'nprogress';
 import axios, { AxiosResponse } from 'axios';
-
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import nProgress from 'nprogress';
+import { useEffect, useState } from 'react';
 
 import FormLayout from '../../../components/FormLayout';
 import TextBox from '../../../components/TextBox';
 
-import styles from '../../../styles/create.module.scss';
-
 import { Category } from '../../../types';
 import { BuildCategory, HandleAxiosError } from '../../../utils/front';
-
 import { prisma } from '../../../utils/back';
+
+import styles from '../../../styles/create.module.scss';
 
 function RemoveCategory({ category }: { category: Category; }) {
     const [canSubmit, setCanSubmit] = useState<boolean>(false);
@@ -36,32 +31,21 @@ function RemoveCategory({ category }: { category: Category; }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        confirmAlert({
-            message: `Confirmer la suppression du lien "${category.name}"`,
-            buttons: [{
-                label: 'Yes',
-                onClick: async () => {
-                    setSuccess(null);
-                    setError(null);
-                    setCanSubmit(false);
-                    nProgress.start();
+        setSuccess(null);
+        setError(null);
+        setCanSubmit(false);
+        nProgress.start();
 
-                    try {
-                        const { data }: AxiosResponse<any> = await axios.delete(`/api/category/remove/${category.id}`);
-                        setSuccess(data?.success || 'Categorie supprimée avec succès');
-                        setCanSubmit(false);
-                    } catch (error) {
-                        setError(HandleAxiosError(error));
-                        setCanSubmit(true);
-                    } finally {
-                        nProgress.done();
-                    }
-                }
-            }, {
-                label: 'No',
-                onClick: () => { }
-            }]
-        });
+        try {
+            const { data }: AxiosResponse<any> = await axios.delete(`/api/category/remove/${category.id}`);
+            setSuccess(data?.success || 'Categorie supprimée avec succès');
+            setCanSubmit(false);
+        } catch (error) {
+            setError(HandleAxiosError(error));
+            setCanSubmit(true);
+        } finally {
+            nProgress.done();
+        }
     }
 
     return (<>

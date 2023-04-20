@@ -14,13 +14,14 @@
     "next": "^13.3.0",
     "next-auth": "^4.22.0",
     "next-connect": "^0.13.0",
+    "next-seo": "^6.0.0",
+    "node-html-parser": "^6.1.5",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
-    "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
     "react-select": "^5.7.2",
     "sass": "^1.62.0",
-    "sharp": "^0.32.0",
     "toastr": "^2.1.4"
   },
   "devDependencies": {

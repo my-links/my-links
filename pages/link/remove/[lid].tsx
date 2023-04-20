@@ -1,56 +1,39 @@
-import { useState } from 'react';
-
 import axios, { AxiosResponse } from 'axios';
 import nProgress from 'nprogress';
+import { useState } from 'react';
 
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-
+import Checkbox from '../../../components/Checkbox';
 import FormLayout from '../../../components/FormLayout';
 import TextBox from '../../../components/TextBox';
-import Checkbox from '../../../components/Checkbox';
-
-import styles from '../../../styles/create.module.scss';
 
 import { Link } from '../../../types';
 import { BuildLink, HandleAxiosError } from '../../../utils/front';
-
 import { prisma } from '../../../utils/back';
 
-function RemoveLink({ link }: { link: Link; }) {
+import styles from '../../../styles/create.module.scss';
 
+function RemoveLink({ link }: { link: Link; }) {
     const [canSubmit, setCanSubmit] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        confirmAlert({
-            message: `Confirmer la suppression du lien "${link.name}"`,
-            buttons: [{
-                label: 'Confirmer',
-                onClick: async () => {
-                    setSuccess(null);
-                    setError(null);
-                    setCanSubmit(false);
-                    nProgress.start();
+        setSuccess(null);
+        setError(null);
+        setCanSubmit(false);
+        nProgress.start();
 
-                    try {
-                        const { data }: AxiosResponse<any> = await axios.delete(`/api/link/remove/${link.id}`);
-                        setSuccess(data?.success || 'Lien supprimé avec succès');
-                        setCanSubmit(false);
-                    } catch (error) {
-                        setError(HandleAxiosError(error));
-                        setCanSubmit(true);
-                    } finally {
-                        nProgress.done();
-                    }
-                }
-            }, {
-                label: 'Annuler',
-                onClick: () => { }
-            }]
-        });
+        try {
+            const { data }: AxiosResponse<any> = await axios.delete(`/api/link/remove/${link.id}`);
+            setSuccess(data?.success || 'Lien supprimé avec succès');
+            setCanSubmit(false);
+        } catch (error) {
+            setError(HandleAxiosError(error));
+            setCanSubmit(true);
+        } finally {
+            nProgress.done();
+        }
     }
 
     return (<>
