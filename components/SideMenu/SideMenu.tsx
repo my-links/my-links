@@ -29,7 +29,7 @@ export default function SideMenu({
       <BlockWrapper>
         <Favorites favorites={favorites} />
       </BlockWrapper>
-      <BlockWrapper style={{ minHeight: "0" }}>
+      <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
         <Categories
           categories={categories}
           categoryActive={categoryActive}

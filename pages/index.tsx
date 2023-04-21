@@ -6,22 +6,28 @@ import SideMenu from "../components/SideMenu/SideMenu";
 
 import { Category, Link } from "../types";
 
+import { useRouter } from "next/router";
 import { prisma } from "../utils/back";
 import { BuildCategory } from "../utils/front";
 
 interface HomeProps {
   categories: Category[];
   favorites: Link[];
+  currentCategory: Category | undefined;
 }
 
-function Home({ categories, favorites }: HomeProps) {
+function Home({ categories, favorites, currentCategory }: HomeProps) {
+  const router = useRouter();
   const { data } = useSession({ required: true });
+
   const [categoryActive, setCategoryActive] = useState<Category | null>(
-    categories?.[0]
+    currentCategory || categories?.[0]
   );
 
-  const handleSelectCategory = (category: Category) =>
+  const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
+    router.push(`/?categoryId=${category.id}`);
+  };
 
   return (
     <div className="App">
@@ -37,7 +43,9 @@ function Home({ categories, favorites }: HomeProps) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
+  const queryCategoryId = (query?.categoryId as string) || "";
+
   const categoriesDB = await prisma.category.findMany({
     include: { links: true },
   });
@@ -57,10 +65,17 @@ export async function getServerSideProps() {
     };
   }
 
+  const currentCategory = categories.find(
+    (c) => c.id === Number(queryCategoryId)
+  );
+
   return {
     props: {
       categories: JSON.parse(JSON.stringify(categories)),
       favorites: JSON.parse(JSON.stringify(favorites)),
+      currentCategory: currentCategory
+        ? JSON.parse(JSON.stringify(currentCategory))
+        : null,
     },
   };
 }

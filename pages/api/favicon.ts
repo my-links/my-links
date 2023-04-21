@@ -39,16 +39,16 @@ export default async function handler(
 
 		const faviconPath = findFaviconPath(text);
 		if (!faviconPath) {
-			throw new Error("Unable to find favicon path");
+			throw new Error("[Favicon] Unable to find favicon path");
 		}
 
 		if (isBase64Image(faviconPath)) {
-			console.log("base64, convert it to buffer");
+			console.log("[Favicon] base64, convert it to buffer");
 			const buffer = convertBase64ToBuffer(faviconPath);
 			return sendImage({
 				content: buffer,
 				res,
-				type: "image/vnd.microsoft.icon",
+				type: "image/x-icon",
 				size: buffer.length,
 			});
 		}

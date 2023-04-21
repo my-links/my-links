@@ -1,129 +1,167 @@
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
 
-import axios, { AxiosResponse } from 'axios';
-import nProgress from 'nprogress';
+import Checkbox from "../../../components/Checkbox";
+import FormLayout from "../../../components/FormLayout";
+import Selector from "../../../components/Selector";
+import TextBox from "../../../components/TextBox";
 
-import FormLayout from '../../../components/FormLayout';
-import TextBox from '../../../components/TextBox';
-import Selector from '../../../components/Selector';
-import Checkbox from '../../../components/Checkbox';
+import useAutoFocus from "../../../hooks/useAutoFocus";
 
-import styles from '../../../styles/create.module.scss';
+import { Category, Link } from "../../../types";
+import { prisma } from "../../../utils/back";
+import {
+  BuildCategory,
+  BuildLink,
+  HandleAxiosError,
+  IsValidURL,
+} from "../../../utils/front";
 
-import { Category, Link } from '../../../types';
-import { BuildCategory, BuildLink, HandleAxiosError, IsValidURL } from '../../../utils/front';
+import styles from "../../../styles/create.module.scss";
 
-import { prisma } from '../../../utils/back';
+function EditLink({
+  link,
+  categories,
+}: {
+  link: Link;
+  categories: Category[];
+}) {
+  const autoFocusRef = useAutoFocus();
+  const router = useRouter();
 
-function EditLink({ link, categories }: { link: Link; categories: Category[]; }) {
-    const [name, setName] = useState<string>(link.name);
-    const [url, setUrl] = useState<string>(link.url);
-    const [favorite, setFavorite] = useState<boolean>(link.favorite);
-    const [categoryId, setCategoryId] = useState<number | null>(link.category?.id || null);
+  const [name, setName] = useState<string>(link.name);
+  const [url, setUrl] = useState<string>(link.url);
+  const [favorite, setFavorite] = useState<boolean>(link.favorite);
+  const [categoryId, setCategoryId] = useState<number | null>(
+    link.category?.id || null
+  );
 
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [canSubmit, setCanSubmit] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
-    useEffect(() => {
-        if (name !== link.name || url !== link.url || favorite !== link.favorite || categoryId !== link.category.id) {
-            if (name !== '' && IsValidURL(url) && favorite !== null && categoryId !== null) {
-                setCanSubmit(true);
-            } else {
-                setCanSubmit(false);
-            }
-        } else {
-            setCanSubmit(false);
-        }
-    }, [name, url, favorite, categoryId, link]);
+  const canSubmit = useMemo<boolean>(() => {
+    const isFormEdited =
+      name !== link.name ||
+      url !== link.url ||
+      favorite !== link.favorite ||
+      categoryId !== link.category.id;
+    const isFormValid =
+      name !== "" &&
+      IsValidURL(url) &&
+      favorite !== null &&
+      categoryId !== null;
+    return isFormEdited && isFormValid && !submitted;
+  }, [
+    categoryId,
+    favorite,
+    link.category.id,
+    link.favorite,
+    link.name,
+    link.url,
+    name,
+    submitted,
+    url,
+  ]);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setSuccess(null);
-        setError(null);
-        setCanSubmit(false);
-        nProgress.start();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+    setSubmitted(true);
+    nProgress.start();
 
-        try {
-            const payload = { name, url, favorite, categoryId };
-            const { data }: AxiosResponse<any> = await axios.put(`/api/link/edit/${link.id}`, payload);
-            setSuccess(data?.success || 'Lien modifié avec succès');
-        } catch (error) {
-            setError(HandleAxiosError(error));
-        } finally {
-            setCanSubmit(true);
-            nProgress.done();
-        }
+    try {
+      const payload = { name, url, favorite, categoryId };
+      const { data } = await axios.put(`/api/link/edit/${link.id}`, payload);
+      router.push(`/?categoryId=${data?.categoryId}`);
+      setSubmitted(true);
+    } catch (error) {
+      setError(HandleAxiosError(error));
+      setSubmitted(false);
+    } finally {
+      nProgress.done();
     }
+  };
 
-    return (<>
-        <FormLayout
-            title='Modifier un lien'
-            errorMessage={error}
-            successMessage={success}
-            canSubmit={canSubmit}
-            handleSubmit={handleSubmit}
-        >
-            <TextBox
-                name='name'
-                label='Nom'
-                onChangeCallback={(value) => setName(value)}
-                value={name}
-                fieldClass={styles['input-field']}
-                placeholder={`Nom original : ${link.name}`}
-            />
-            <TextBox
-                name='url'
-                label='URL'
-                onChangeCallback={(value) => setUrl(value)}
-                value={url}
-                fieldClass={styles['input-field']}
-                placeholder={`URL original : ${link.url}`}
-            />
-            <Selector
-                name='category'
-                label='Catégorie'
-                value={categoryId}
-                onChangeCallback={(value: number) => setCategoryId(value)}
-                options={categories.map(({ id, name }) => ({ label: name, value: id }))}
-            />
-            <Checkbox
-                name='favorite'
-                isChecked={favorite}
-                onChangeCallback={(value) => setFavorite(value)}
-                label='Favoris'
-            />
-        </FormLayout>
-    </>);
+  return (
+    <>
+      <FormLayout
+        title="Modifier un lien"
+        errorMessage={error}
+        canSubmit={canSubmit}
+        handleSubmit={handleSubmit}
+      >
+        <TextBox
+          name="name"
+          label="Nom"
+          onChangeCallback={(value) => setName(value)}
+          value={name}
+          fieldClass={styles["input-field"]}
+          placeholder={`Nom original : ${link.name}`}
+          innerRef={autoFocusRef}
+        />
+        <TextBox
+          name="url"
+          label="URL"
+          onChangeCallback={(value) => setUrl(value)}
+          value={url}
+          fieldClass={styles["input-field"]}
+          placeholder={`URL original : ${link.url}`}
+        />
+        <Selector
+          name="category"
+          label="Catégorie"
+          value={categoryId}
+          onChangeCallback={(value: number) => setCategoryId(value)}
+          options={categories.map(({ id, name }) => ({
+            label: name,
+            value: id,
+          }))}
+        />
+        <Checkbox
+          name="favorite"
+          isChecked={favorite}
+          onChangeCallback={(value) => setFavorite(value)}
+          label="Favoris"
+        />
+      </FormLayout>
+    </>
+  );
 }
 
 EditLink.authRequired = true;
 export default EditLink;
 
 export async function getServerSideProps({ query }) {
-    const { lid } = query;
+  const { lid } = query;
 
-    const categoriesDB = await prisma.category.findMany();
-    const categories = categoriesDB.map((categoryDB) => BuildCategory(categoryDB));
+  const categoriesDB = await prisma.category.findMany();
+  const categories = categoriesDB.map((categoryDB) =>
+    BuildCategory(categoryDB)
+  );
 
-    const linkDB = await prisma.link.findFirst({
-        where: { id: Number(lid) },
-        include: { category: true }
-    });
+  const linkDB = await prisma.link.findFirst({
+    where: { id: Number(lid) },
+    include: { category: true },
+  });
 
-    if (!linkDB) {
-        return {
-            redirect: {
-                destination: '/'
-            }
-        }
-    }
-
-    const link = BuildLink(linkDB, { categoryId: linkDB.categoryId, categoryName: linkDB.category.name });
+  if (!linkDB) {
     return {
-        props: {
-            link: JSON.parse(JSON.stringify(link)),
-            categories: JSON.parse(JSON.stringify(categories))
-        }
-    }
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
+  const link = BuildLink(linkDB, {
+    categoryId: linkDB.categoryId,
+    categoryName: linkDB.category.name,
+  });
+  return {
+    props: {
+      link: JSON.parse(JSON.stringify(link)),
+      categories: JSON.parse(JSON.stringify(categories)),
+    },
+  };
 }
