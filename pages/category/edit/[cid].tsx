@@ -1,92 +1,99 @@
-import axios, { AxiosResponse } from 'axios';
-import nProgress from 'nprogress';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
 
-import FormLayout from '../../../components/FormLayout';
-import TextBox from '../../../components/TextBox';
+import FormLayout from "../../../components/FormLayout";
+import TextBox from "../../../components/TextBox";
 
-import { Category } from '../../../types';
-import { prisma } from '../../../utils/back';
-import { BuildCategory, HandleAxiosError } from '../../../utils/front';
+import useAutoFocus from "../../../hooks/useAutoFocus";
 
-import styles from '../../../styles/create.module.scss';
+import { Category } from "../../../types";
+import { prisma } from "../../../utils/back";
+import { BuildCategory, HandleAxiosError } from "../../../utils/front";
 
-function EditCategory({ category }: { category: Category; }) {
-    const [name, setName] = useState<string>(category.name);
+import styles from "../../../styles/create.module.scss";
 
-    const [canSubmit, setCanSubmit] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
+function EditCategory({ category }: { category: Category }) {
+  const autoFocusRef = useAutoFocus();
+  const router = useRouter();
 
-    useEffect(() => {
-        if (name !== category.name && name !== '') {
-            setCanSubmit(true);
-        } else {
-            setCanSubmit(false);
-        }
-    }, [category, name]);
+  const [name, setName] = useState<string>(category.name);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setSuccess(null);
-        setError(null);
-        setCanSubmit(false);
-        nProgress.start();
+  const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
-        try {
-            const payload = { name };
-            const { data }: AxiosResponse<any> = await axios.put(`/api/category/edit/${category.id}`, payload);
-            setSuccess(data?.success || 'Catégorie modifiée avec succès');
-        } catch (error) {
-            setError(HandleAxiosError(error));
-        } finally {
-            setCanSubmit(true);
-            nProgress.done();
-        }
+  const canSubmit = useMemo<boolean>(
+    () => name !== category.name && name !== "" && !submitted,
+    [category.name, name, submitted]
+  );
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+    setSubmitted(true);
+    nProgress.start();
+
+    try {
+      const payload = { name };
+      const { data } = await axios.put(
+        `/api/category/edit/${category.id}`,
+        payload
+      );
+      router.push(`/?categoryId=${data?.categoryId}`);
+      setSubmitted(true);
+    } catch (error) {
+      setError(HandleAxiosError(error));
+      setSubmitted(false);
+    } finally {
+      nProgress.done();
     }
+  };
 
-    return (<>
-        <FormLayout
-            title='Modifier une catégorie'
-            errorMessage={error}
-            successMessage={success}
-            canSubmit={canSubmit}
-            handleSubmit={handleSubmit}
-        >
-            <TextBox
-                name='name'
-                label='Nom'
-                onChangeCallback={(value) => setName(value)}
-                value={name}
-                fieldClass={styles['input-field']}
-                placeholder={`Nom original : ${category.name}`}
-            />
-        </FormLayout>
-    </>);
+  return (
+    <>
+      <FormLayout
+        title="Modifier une catégorie"
+        errorMessage={error}
+        canSubmit={canSubmit}
+        handleSubmit={handleSubmit}
+      >
+        <TextBox
+          name="name"
+          label="Nom"
+          onChangeCallback={(value) => setName(value)}
+          value={name}
+          fieldClass={styles["input-field"]}
+          placeholder={`Nom original : ${category.name}`}
+          innerRef={autoFocusRef}
+        />
+      </FormLayout>
+    </>
+  );
 }
 
 EditCategory.authRequired = true;
 export default EditCategory;
 
 export async function getServerSideProps({ query }) {
-    const { cid } = query;
-    const categoryDB = await prisma.category.findFirst({
-        where: { id: Number(cid) },
-        include: { links: true }
-    });
+  const { cid } = query;
+  const categoryDB = await prisma.category.findFirst({
+    where: { id: Number(cid) },
+    include: { links: true },
+  });
 
-    if (!categoryDB) {
-        return {
-            redirect: {
-                destination: '/'
-            }
-        }
-    }
-
-    const category = BuildCategory(categoryDB);
+  if (!categoryDB) {
     return {
-        props: {
-            category: JSON.parse(JSON.stringify(category))
-        }
-    }
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+
+  const category = BuildCategory(categoryDB);
+  return {
+    props: {
+      category: JSON.parse(JSON.stringify(category)),
+    },
+  };
 }

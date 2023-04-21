@@ -7,6 +7,9 @@ import styles from "../styles/create.module.scss";
 
 interface FormProps {
   title: string;
+
+  categoryId?: string;
+
   errorMessage?: string;
   successMessage?: string;
   infoMessage?: string;
@@ -21,6 +24,7 @@ interface FormProps {
 }
 export default function Form({
   title,
+  categoryId = undefined,
   errorMessage,
   successMessage,
   infoMessage,
@@ -45,7 +49,9 @@ export default function Form({
             {textBtnConfirm}
           </button>
         </form>
-        <Link href="/">← Revenir à l'accueil</Link>
+        <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
+          ← Revenir à l'accueil
+        </Link>
         <MessageManager
           info={infoMessage}
           error={errorMessage}

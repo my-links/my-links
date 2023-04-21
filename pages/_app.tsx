@@ -1,14 +1,12 @@
 import { SessionProvider } from "next-auth/react";
-import { useEffect } from "react";
-
+import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
-
 import nProgress from "nprogress";
-import "nprogress/nprogress.css";
+import { useEffect } from "react";
 
 import AuthRequired from "../components/AuthRequired";
 
-import { DefaultSeo } from "next-seo";
+import "nprogress/nprogress.css";
 import "../styles/globals.scss";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
@@ -25,7 +23,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       router.events.off("routeChangeComplete", nProgress.done);
       router.events.off("routeChangeError", nProgress.done);
     };
-  });
+  }, [router.events]);
 
   return (
     <SessionProvider session={session}>
