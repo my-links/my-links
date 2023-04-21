@@ -6,6 +6,7 @@ import LinkItem from "./LinkItem";
 import styles from "./links.module.scss";
 
 export default function Links({ category }: { category: Category }) {
+  console.log("render", category);
   if (category === null) {
     return (
       <div className={styles["no-category"]}>
