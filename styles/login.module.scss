@@ -1,3 +1,6 @@
+@import "keyframes.scss";
+@import "colors.scss";
+
 .wrapper {
     height: 100%;
     width: 480px;
@@ -26,8 +29,8 @@
         text-align: center;
         font-style: italic;
         font-size: 0.9em;
-        color: #d8000c;
-        background-color: #ffbabab9;
+        color: $red;
+        background-color: $light-red;
         padding: 10px;
         border-radius: 3px;
         animation: fadein 250ms both;
@@ -37,15 +40,5 @@
 @media (max-width: 680px) {
     .login {
         width: 100%;
-    }
-}
-
-@keyframes fadein {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
     }
 }

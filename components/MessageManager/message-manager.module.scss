@@ -1,11 +1,13 @@
+@import "../../styles/colors.scss";
+
 .info-msg {
     height: fit-content;
     width: 100%;
     text-align: center;
     font-style: italic;
     font-size: 0.9em;
-    color: #005aa5;
-    background-color: #d3e8fa;
+    color: $dark-blue;
+    background-color: $light-blue;
     padding: 10px;
     border-radius: 3px;
     animation: fadein 250ms both;
@@ -17,8 +19,8 @@
     text-align: center;
     font-style: italic;
     font-size: 0.9em;
-    color: #d8000c;
-    background-color: #ffbabab9;
+    color: $red;
+    background-color: $light-red;
     padding: 10px;
     border-radius: 3px;
     animation: fadein 250ms both;
@@ -30,8 +32,8 @@
     text-align: center;
     font-style: italic;
     font-size: 0.9em;
-    color: green;
-    background-color: #c1ffbab9;
+    color: $green;
+    background-color: $light-green;
     padding: 10px;
     border-radius: 3px;
     animation: fadein 250ms both;

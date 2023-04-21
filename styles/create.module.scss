@@ -1,3 +1,6 @@
+@import "keyframes.scss";
+@import "colors.scss";
+
 .create-app {
     height: fit-content;
     width: 680px;
@@ -6,7 +9,7 @@
     gap: 15px;
 
     & h2 {
-        color: #3f88c5;
+        color: $blue;
     }
 
     & form {
@@ -27,15 +30,5 @@
 @media (max-width: 680px) {
     .create-app {
         width: 100%;
-    }
-}
-
-@keyframes fadein {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
     }
 }

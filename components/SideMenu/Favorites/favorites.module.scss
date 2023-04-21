@@ -1,3 +1,5 @@
+@import "../../../styles/colors.scss";
+
 .favorites {
     height: auto;
     width: 100%;
@@ -8,17 +10,17 @@
         text-transform: uppercase;
         font-size: 0.85em;
         font-weight: 500;
-        color: #bbb;
+        color: $grey;
         margin-bottom: 5px;
     }
 }
 
 .favorites ul.items li.item {
     width: 100%;
-    background-color: #fff;
+    background-color: $white;
     padding: 0;
-    border: 1px solid #dadce0;
-    border-bottom: 2px solid #dadce0;
+    border: 1px solid $lightest-grey;
+    border-bottom: 2px solid $lightest-grey;
     border-radius: 3px;
     transition: 0.15s;
 
@@ -33,7 +35,7 @@
     }
 
     & .category {
-        color: #bbb;
+        color: $grey;
         font-size: 0.85em;
     }
 
@@ -42,14 +44,14 @@
     }
 
     &.active {
-        color: #fff;
-        background: #3f88c5;
-        border-color: #3f88c5;
+        color: $white;
+        background: $blue;
+        border-color: $blue;
     }
 
     &:hover:not(.active) {
-        color: #3f88c5;
-        background: #f0eef6;
-        border-bottom: 2px solid #3f88c5;
+        color: $blue;
+        background: $light-grey;
+        border-bottom: 2px solid $blue;
     }
 }
