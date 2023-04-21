@@ -1,21 +1,21 @@
-import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { FiLogOut } from "react-icons/fi";
 
 import styles from "./user-card.module.scss";
 
-export default function UserCard({ session }: { session: Session }) {
+export default function UserCard() {
+  const { data } = useSession({ required: true });
   return (
     <div className={styles["user-card-wrapper"]}>
       <div className={styles["user-card"]}>
         <Image
-          src={session.user.image}
+          src={data.user.image}
           width={28}
           height={28}
-          alt={`${session.user.name}'s avatar`}
+          alt={`${data.user.name}'s avatar`}
         />
-        {session.user.name}
+        {data.user.name}
       </div>
       <button
         onClick={() => signOut({ callbackUrl: "/signin" })}

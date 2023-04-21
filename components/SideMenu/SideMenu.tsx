@@ -1,4 +1,3 @@
-import { Session } from "next-auth";
 import LinkTag from "next/link";
 
 import BlockWrapper from "../BlockWrapper/BlockWrapper";
@@ -15,14 +14,12 @@ interface SideMenuProps {
   favorites: Link[];
   handleSelectCategory: (category: Category) => void;
   categoryActive: Category;
-  session: Session;
 }
 export default function SideMenu({
   categories,
   favorites,
   handleSelectCategory,
   categoryActive,
-  session,
 }: SideMenuProps) {
   return (
     <div className={styles["side-menu"]}>
@@ -40,7 +37,7 @@ export default function SideMenu({
         <MenuControls categoryActive={categoryActive} />
       </BlockWrapper>
       <BlockWrapper>
-        <UserCard session={session} />
+        <UserCard />
       </BlockWrapper>
     </div>
   );

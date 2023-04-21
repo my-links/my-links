@@ -32,8 +32,8 @@ export default function CategoryItem({
   }, [category.id, categoryActive.id]);
 
   return (
-    <li className={className} ref={ref}>
-      <div className={styles["content"]} onClick={onClick}>
+    <li className={className} ref={ref} onClick={onClick}>
+      <div className={styles["content"]}>
         <span className={styles["name"]}>{category.name}</span>
         <span className={styles["links-count"]}>— {category.links.length}</span>
       </div>

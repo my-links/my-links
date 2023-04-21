@@ -1,12 +1,10 @@
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import Links from "../components/Links/Links";
 import SideMenu from "../components/SideMenu/SideMenu";
 
 import { Category, Link } from "../types";
-
-import { useRouter } from "next/router";
 import { prisma } from "../utils/back";
 import { BuildCategory } from "../utils/front";
 
@@ -18,7 +16,6 @@ interface HomeProps {
 
 function Home({ categories, favorites, currentCategory }: HomeProps) {
   const router = useRouter();
-  const { data } = useSession({ required: true });
 
   const [categoryActive, setCategoryActive] = useState<Category | null>(
     currentCategory || categories?.[0]
@@ -26,7 +23,12 @@ function Home({ categories, favorites, currentCategory }: HomeProps) {
 
   const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
-    router.push(`/?categoryId=${category.id}`);
+    const newUrl = `/?categoryId=${category.id}`;
+    window.history.replaceState(
+      { ...window.history.state, as: newUrl, url: newUrl },
+      "",
+      newUrl
+    );
   };
 
   return (
@@ -36,7 +38,6 @@ function Home({ categories, favorites, currentCategory }: HomeProps) {
         favorites={favorites}
         handleSelectCategory={handleSelectCategory}
         categoryActive={categoryActive}
-        session={data}
       />
       <Links category={categoryActive} />
     </div>
