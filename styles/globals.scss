@@ -1,3 +1,6 @@
+@import "keyframes.scss";
+@import "colors.scss";
+
 * {
 	box-sizing: border-box;
 	outline: 0;
@@ -9,8 +12,8 @@ html,
 body {
 	height: 100%;
 	width: 100%;
-	color: #111;
-	background-color: #f0eef6;
+	color: $black;
+	background-color: $light-grey;
 	font-family: "Poppins", sans-serif;
 	padding: 0;
 	margin: 0;
@@ -36,15 +39,15 @@ body {
 
 a {
 	width: fit-content;
-	color: #3f88c5;
+	color: $blue;
 	border-bottom: 1px solid transparent;
 	text-decoration: none;
 	transition: 0.15s;
 
 	&:hover,
 	&:focus {
-		color: #3d7bab;
-		border-bottom: 1px solid #3d7bab;
+		color: $dark-blue;
+		border-bottom: 1px solid $dark-blue;
 	}
 }
 
@@ -54,7 +57,7 @@ h3,
 h4,
 h5,
 h6 {
-	color: #3f88c5;
+	color: $blue;
 }
 
 ul,
@@ -69,27 +72,27 @@ li {
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #eee;
+	background: $light-grey;
 	border-radius: 2px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #3f88c5;
+	background: $blue;
 	border-radius: 2px;
 
 	&:hover {
-		background: #1e5c8f;
+		background: $dark-blue;
 	}
 }
 
 button:not(.reset) {
 	cursor: pointer;
 	width: 100%;
-	color: #fff;
-	background: #3f88c5;
+	color: $white;
+	background: $blue;
 	padding: 10px;
-	border: 1px solid #3f88c5;
+	border: 1px solid $blue;
 	border-radius: 3px;
 	transition: 0.15s;
 
@@ -99,18 +102,18 @@ button:not(.reset) {
 	}
 
 	&:not(:disabled):hover {
-		box-shadow: #105b97 0 0 3px 1px;
-		background: #105b97;
-		color: #fff;
+		box-shadow: $dark-blue 0 0 3px 1px;
+		background: $dark-blue;
+		color: $white;
 	}
 }
 button.red-btn {
 	cursor: pointer;
 	width: 100%;
-	color: #fff;
-	background: red;
+	color: $white;
+	background: $red;
 	padding: 10px;
-	border: 1px solid red;
+	border: 1px solid $red;
 	border-radius: 3px;
 	transition: 0.15s;
 
@@ -120,29 +123,29 @@ button.red-btn {
 	}
 
 	&:not(:disabled):hover {
-		box-shadow: red 0 0 3px 1px;
-		background: red;
-		border: 1px solid #ffbabab9;
-		color: #fff;
+		box-shadow: $red 0 0 3px 1px;
+		background: $red;
+		border: 1px solid $light-red;
+		color: $white;
 	}
 }
 
 input:not(.nostyle) {
-	color: #333;
-	background: #fff;
+	color: $black;
+	background: $white;
 	padding: 10px;
-	border: 1px solid #dadce0;
-	border-bottom: 3px solid #dadce0;
+	border: 1px solid $lightest-grey;
+	border-bottom: 3px solid $lightest-grey;
 	transition: 0.15s;
 
 	&:focus {
-		border-bottom: 3px solid #3f88c5;
+		border-bottom: 3px solid $blue;
 	}
 }
 
 input::placeholder {
 	font-style: italic;
-	color: #dadce0;
+	color: $lightest-grey;
 }
 
 .input-field {
@@ -160,15 +163,15 @@ input::placeholder {
 }
 
 select:not(.nostyle) {
-	color: #333;
-	background: #fff;
+	color: $black;
+	background: $white;
 	padding: 10px;
-	border: 1px solid #dadce0;
-	border-bottom: 3px solid #dadce0;
+	border: 1px solid $lightest-grey;
+	border-bottom: 3px solid $lightest-grey;
 	transition: 0.15s;
 
 	&:focus {
-		border-bottom: 3px solid #3f88c5;
+		border-bottom: 3px solid $blue;
 	}
 }
 
@@ -183,15 +186,5 @@ select:not(.nostyle) {
 @media (max-width: 1280px) {
 	.App {
 		width: 100%;
-	}
-}
-
-@keyframes fadein {
-	0% {
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 1;
 	}
 }

@@ -1,8 +1,10 @@
+@import "../../styles/colors.scss";
+
 .side-menu {
     height: 100%;
     width: 300px;
     padding: 0 25px 0 10px;
-    border-right: 1px solid #dadce0;
+    border-right: 1px solid $lightest-grey;
     margin-right: 15px;
     display: flex;
     align-items: center;

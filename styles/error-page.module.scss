@@ -1,3 +1,5 @@
+@import "keyframes.scss";
+
 .App {
     height: 100%;
     display: flex;
@@ -22,15 +24,5 @@
         line-height: inherit;
         margin: 0;
         padding: 0;
-    }
-}
-
-@keyframes fadein {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
     }
 }

@@ -1,3 +1,6 @@
+@import "../../../styles/keyframes.scss";
+@import "../../../styles/colors.scss";
+
 .categories {
     height: 100%;
     width: 100%;
@@ -18,19 +21,19 @@
     justify-content: space-between;
 
     &.active {
-        color: #fff;
-        background: #3f88c5;
-        border-color: #3f88c5;
+        color: $white;
+        background: $blue;
+        border-color: $blue;
     }
 
     &:hover:not(.active) {
-        color: #3f88c5;
-        background: #f0eef6;
-        border-bottom: 2px solid #3f88c5;
+        color: $blue;
+        background: $white;
+        border-bottom: 2px solid $blue;
     }
 
     &.active .menu-item .option-edit svg {
-        fill: #fff;
+        fill: $white;
     }
 
     & .content {
@@ -49,7 +52,7 @@
         & .links-count {
             min-width: fit-content;
             font-size: 0.85em;
-            color: #bbb;
+            color: $grey;
         }
     }
     &:hover .content {
