@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import nProgress from "nprogress";
 import { useMemo, useState } from "react";
 
+import useAutoFocus from "../../hooks/useAutoFocus";
+
 import FormLayout from "../../components/FormLayout";
 import TextBox from "../../components/TextBox";
 
@@ -12,8 +14,10 @@ import { HandleAxiosError } from "../../utils/front";
 import styles from "../../styles/create.module.scss";
 
 function CreateCategory() {
+  const autoFocusRef = useAutoFocus();
   const router = useRouter();
   const info = useRouter().query?.info as string;
+
   const [name, setName] = useState<string>("");
 
   const [error, setError] = useState<string | null>(null);
@@ -59,6 +63,7 @@ function CreateCategory() {
           value={name}
           fieldClass={styles["input-field"]}
           placeholder="Nom..."
+          innerRef={autoFocusRef}
         />
       </FormLayout>
     </>
