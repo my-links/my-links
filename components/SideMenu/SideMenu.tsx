@@ -51,8 +51,12 @@ function MenuControls({
   return (
     <div className={styles["menu-controls"]}>
       <LinkTag href={"/category/create"}>Créer categorie</LinkTag>
+      <LinkTag href={"/category/create"}>
+        Créer categorie <kbd>C</kbd>
+      </LinkTag>
       <LinkTag href={`/link/create?categoryId=${categoryActive.id}`}>
         Créer lien
+        Créer lien <kbd>L</kbd>
       </LinkTag>
     </div>
   );
