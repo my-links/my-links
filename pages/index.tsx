@@ -1,22 +1,33 @@
-import hotkeys from "hotkeys-js";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+
+import useModal from "../hooks/useModal";
 
 import Links from "../components/Links/Links";
+import SearchModal from "../components/SearchModal/SearchModal";
 import SideMenu from "../components/SideMenu/SideMenu";
 
-import { Category, Link } from "../types";
+import { Category, ItemComplete, Link } from "../types";
 import { prisma } from "../utils/back";
 import { BuildCategory } from "../utils/front";
+
+const OPEN_SEARCH_KEY = "s";
+const CLOSE_SEARCH_KEY = "escape";
+
+const OPEN_CREATE_LINK_KEY = "l";
+const OPEN_CREATE_CATEGORY_KEY = "c";
 
 interface HomeProps {
   categories: Category[];
   favorites: Link[];
+  items: ItemComplete[];
   currentCategory: Category | undefined;
 }
 
-function Home({ categories, favorites, currentCategory }: HomeProps) {
+function Home({ categories, favorites, currentCategory, items }: HomeProps) {
   const router = useRouter();
+  const modal = useModal();
 
   const [categoryActive, setCategoryActive] = useState<Category | null>(
     currentCategory || categories?.[0]
@@ -32,22 +43,32 @@ function Home({ categories, favorites, currentCategory }: HomeProps) {
     );
   };
 
+  const openSearchModal = useCallback(
+    (event) => {
+      event.preventDefault();
+      modal.open();
+    },
+    [modal]
+  );
+  const closeSearchModal = useCallback(() => modal.close(), [modal]);
+
   const gotoCreateLink = useCallback(() => {
     router.push(`/link/create?categoryId=${categoryActive.id}`);
   }, [categoryActive.id, router]);
+
   const gotoCreateCategory = useCallback(() => {
     router.push("/category/create");
   }, [router]);
 
-  useEffect(() => {
-    hotkeys("l", gotoCreateLink);
-    hotkeys("c", gotoCreateCategory);
+  useHotkeys(OPEN_SEARCH_KEY, openSearchModal, { enabled: !modal.isShowing });
+  useHotkeys(CLOSE_SEARCH_KEY, closeSearchModal, { enabled: modal.isShowing });
 
-    return () => {
-      hotkeys.unbind("l", gotoCreateLink);
-      hotkeys.unbind("c", gotoCreateCategory);
-    };
-  }, [gotoCreateCategory, gotoCreateLink]);
+  useHotkeys(OPEN_CREATE_LINK_KEY, gotoCreateLink, {
+    enabled: !modal.isShowing,
+  });
+  useHotkeys(OPEN_CREATE_CATEGORY_KEY, gotoCreateCategory, {
+    enabled: !modal.isShowing,
+  });
 
   return (
     <div className="App">
@@ -58,6 +79,15 @@ function Home({ categories, favorites, currentCategory }: HomeProps) {
         categoryActive={categoryActive}
       />
       <Links category={categoryActive} />
+      {modal.isShowing && (
+        <SearchModal
+          close={modal.close}
+          categories={categories}
+          favorites={favorites}
+          items={items}
+          handleSelectCategory={handleSelectCategory}
+        />
+      )}
     </div>
   );
 }
@@ -69,10 +99,31 @@ export async function getServerSideProps({ query }) {
     include: { links: true },
   });
 
+  const items = [] as ItemComplete[];
+
   const favorites = [] as Link[];
   const categories = categoriesDB.map((categoryDB) => {
     const category = BuildCategory(categoryDB);
-    category.links.map((link) => (link.favorite ? favorites.push(link) : null));
+
+    category.links.map((link) => {
+      if (link.favorite) {
+        favorites.push(link);
+      }
+      items.push({
+        id: link.id,
+        name: link.name,
+        url: link.url,
+        type: "link",
+      });
+    });
+
+    items.push({
+      id: category.id,
+      name: category.name,
+      url: `/?categoryId=${category.id}`,
+      type: "category",
+    });
+
     return category;
   });
 
@@ -92,6 +143,7 @@ export async function getServerSideProps({ query }) {
     props: {
       categories: JSON.parse(JSON.stringify(categories)),
       favorites: JSON.parse(JSON.stringify(favorites)),
+      items: JSON.parse(JSON.stringify(items)),
       currentCategory: currentCategory
         ? JSON.parse(JSON.stringify(currentCategory))
         : null,
