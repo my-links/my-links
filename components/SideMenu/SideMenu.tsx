@@ -50,14 +50,20 @@ function MenuControls({
 }) {
   return (
     <div className={styles["menu-controls"]}>
-      <LinkTag href={"/category/create"}>Créer categorie</LinkTag>
-      <LinkTag href={"/category/create"}>
-        Créer categorie <kbd>C</kbd>
-      </LinkTag>
-      <LinkTag href={`/link/create?categoryId=${categoryActive.id}`}>
-        Créer lien
-        Créer lien <kbd>L</kbd>
-      </LinkTag>
+      <div className="action">
+        <LinkTag href={"/search"}>Rechercher</LinkTag>
+        <kbd>S</kbd>
+      </div>
+      <div className="action">
+        <LinkTag href={"/category/create"}>Créer categorie</LinkTag>
+        <kbd>C</kbd>
+      </div>
+      <div className="action">
+        <LinkTag href={`/link/create?categoryId=${categoryActive.id}`}>
+          Créer lien
+        </LinkTag>
+        <kbd>L</kbd>
+      </div>
     </div>
   );
 }

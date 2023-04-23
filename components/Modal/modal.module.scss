@@ -1,0 +1,22 @@
+@import "../../styles/colors.scss";
+
+.modal-wrapper {
+    z-index: 9999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba($black, 0.5);
+    backdrop-filter: blur(0.25em);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.modal-container {
+    background: $light-grey;
+    min-height: 250px;
+    min-width: 250px;
+}
