@@ -183,6 +183,17 @@ select:not(.nostyle) {
 	border: 0;
 }
 
+kbd {
+	text-shadow: 0 1px 0 #fff;
+	color: rgb(51, 51, 51);
+	background-color: rgb(247, 247, 247);
+	padding: 0.25em 0.5em;
+	border-radius: 3px;
+	border: 1px solid rgb(204, 204, 204);
+	box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset;
+	display: inline-block;
+}
+
 @media (max-width: 1280px) {
 	.App {
 		width: 100%;

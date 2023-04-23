@@ -1,5 +1,6 @@
+import hotkeys from "hotkeys-js";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Links from "../components/Links/Links";
 import SideMenu from "../components/SideMenu/SideMenu";
@@ -30,6 +31,23 @@ function Home({ categories, favorites, currentCategory }: HomeProps) {
       newUrl
     );
   };
+
+  const gotoCreateLink = useCallback(() => {
+    router.push(`/link/create?categoryId=${categoryActive.id}`);
+  }, [categoryActive.id, router]);
+  const gotoCreateCategory = useCallback(() => {
+    router.push("/category/create");
+  }, [router]);
+
+  useEffect(() => {
+    hotkeys("l", gotoCreateLink);
+    hotkeys("c", gotoCreateCategory);
+
+    return () => {
+      hotkeys.unbind("l", gotoCreateLink);
+      hotkeys.unbind("c", gotoCreateCategory);
+    };
+  }, [gotoCreateCategory, gotoCreateLink]);
 
   return (
     <div className="App">
