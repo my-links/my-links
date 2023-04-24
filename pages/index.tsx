@@ -61,7 +61,10 @@ function Home({ categories, favorites, currentCategory, items }: HomeProps) {
   }, [router]);
 
   useHotkeys(OPEN_SEARCH_KEY, openSearchModal, { enabled: !modal.isShowing });
-  useHotkeys(CLOSE_SEARCH_KEY, closeSearchModal, { enabled: modal.isShowing });
+  useHotkeys(CLOSE_SEARCH_KEY, closeSearchModal, {
+    enabled: modal.isShowing,
+    enableOnFormTags: ["INPUT"],
+  });
 
   useHotkeys(OPEN_CREATE_LINK_KEY, gotoCreateLink, {
     enabled: !modal.isShowing,
