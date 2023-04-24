@@ -2,7 +2,7 @@
 
 .side-menu {
     height: 100%;
-    width: 300px;
+    width: 325px;
     padding: 0 25px 0 10px;
     border-right: 1px solid $lightest-grey;
     margin-right: 15px;
@@ -15,7 +15,13 @@
 .menu-controls {
     margin: 10px 0;
     display: flex;
+    gap: 0.25em;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    & .action {
+        display: flex;
+        gap: 0.5em;
+    }
 }

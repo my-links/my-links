@@ -1,7 +1,42 @@
+form.search-form {
+  width: 100%;
+  flex: 1;
+}
+
 .search-input-field {
-    & input {
-        border-radius: 1.5em;
-        padding: 1em;
-        border: 1px solid transparent;
-    }
+  width: 100%;
+
+  & input {
+    width: 100%;
+    border-radius: 1.5em;
+    padding: 1em;
+    border: 1px solid transparent;
+  }
+}
+
+.search-with-google {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+
+  & > span {
+    display: flex;
+    align-items: "center";
+  }
+}
+
+.list-item {
+  margin: 1em 0;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.item {
+  & > a {
+    display: flex;
+    flex-direction: column;
+  }
 }

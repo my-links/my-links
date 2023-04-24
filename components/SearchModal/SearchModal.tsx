@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 
 import useAutoFocus from "../../hooks/useAutoFocus";
 
-import FormLayout from "../FormLayout";
 import LinkFavicon from "../Links/LinkFavicon";
 import Modal from "../Modal/Modal";
 import TextBox from "../TextBox";
@@ -12,6 +11,8 @@ import TextBox from "../TextBox";
 import { Category, ItemComplete, Link } from "../../types";
 
 import styles from "./search.module.scss";
+
+const GOOGLE_SEARCH_URL = "https://google.com/search?q=";
 
 export default function SearchModal({
   close,
@@ -31,33 +32,38 @@ export default function SearchModal({
   const [search, setSearch] = useState<string>("");
   const canSubmit = useMemo<boolean>(() => search.length > 0, [search]);
 
-  const itemsCompletion = useMemo(() => {
-    if (search.length === 0) {
-      return [];
-    }
-    return items.filter((item) =>
-      item.name.toLocaleLowerCase().includes(search.toLocaleLowerCase().trim())
-    );
-  }, [items, search]);
+  const itemsCompletion = useMemo(
+    () =>
+      search.length === 0
+        ? []
+        : items.filter((item) =>
+            item.name
+              .toLocaleLowerCase()
+              .includes(search.toLocaleLowerCase().trim())
+          ),
+    [items, search]
+  );
 
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
       setSearch("");
-      if (itemsCompletion.length > 0) {
-        const firstItem = itemsCompletion[0];
-        if (firstItem.type === "link") {
-          window.open(firstItem.url);
-        } else {
-          const category = categories.find((c) => c.id === firstItem.id);
-          console.log(category);
-          if (category) {
-            handleSelectCategory(category);
-          }
-        }
-      } else {
-        window.open(`https://google.com/search?q=${encodeURI(search.trim())}`);
+
+      if (itemsCompletion.length === 0) {
+        window.open(GOOGLE_SEARCH_URL + encodeURI(search.trim()));
+        return close();
       }
+
+      // TODO: replace "firstItem" by a "cursor"
+      const firstItem = itemsCompletion[0];
+
+      const category = categories.find((c) => c.id === firstItem.id);
+      if (firstItem.type === "category" && category) {
+        handleSelectCategory(category);
+        return close();
+      }
+
+      window.open(firstItem.url);
       close();
     },
     [categories, close, handleSelectCategory, itemsCompletion, search]
@@ -65,11 +71,7 @@ export default function SearchModal({
 
   return (
     <Modal title="Rechercher" close={close}>
-      <FormLayout
-        title="Search"
-        canSubmit={canSubmit}
-        handleSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit} className={styles["search-form"]}>
         <TextBox
           name="search"
           onChangeCallback={(value) => setSearch(value)}
@@ -97,26 +99,31 @@ export default function SearchModal({
               url: item.url,
               type: item.type,
             }))}
-            noItem={
-              <i
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: ".25em",
-                }}
-              >
-                Recherche avec{" "}
-                <span style={{ display: "flex", alignItems: "center" }}>
-                  <FcGoogle size={24} />
-                  oogle
-                </span>
-              </i>
-            }
+            noItem={<LabelSearchWithGoogle />}
           />
         )}
-      </FormLayout>
+        <button type="submit" disabled={!canSubmit} style={{ display: "none" }}>
+          Valider
+        </button>
+      </form>
     </Modal>
   );
+}
+
+function LabelSearchWithGoogle() {
+  return (
+    <i className={styles["search-with-google"]}>
+      Recherche avec{" "}
+      <span>
+        <FcGoogle size={24} />
+        oogle
+      </span>
+    </i>
+  );
+}
+
+function LabelNoItem() {
+  return <i className={styles["no-item"]}>Aucun élément trouvé</i>;
 }
 
 function ListItemComponent({
@@ -127,16 +134,7 @@ function ListItemComponent({
   noItem?: ReactNode;
 }) {
   return (
-    <ul
-      style={{
-        margin: "1em 0",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "1em",
-        flexWrap: "wrap",
-      }}
-    >
+    <ul className={styles["list-item"]}>
       {items.length > 0 ? (
         items.map((item) => (
           <ItemComponent
@@ -152,7 +150,7 @@ function ListItemComponent({
       ) : noItem ? (
         noItem
       ) : (
-        <i>no item found</i>
+        <LabelNoItem />
       )}
     </ul>
   );
@@ -161,7 +159,7 @@ function ListItemComponent({
 function ItemComponent({ item }: { item: ItemComplete }) {
   const { name, type, url } = item;
   return (
-    <li>
+    <li className={styles["item"]}>
       <LinkTag
         href={url}
         style={{

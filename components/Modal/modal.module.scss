@@ -1,4 +1,5 @@
 @import "../../styles/colors.scss";
+@import "../../styles/keyframes.scss";
 
 .modal-wrapper {
     z-index: 9999;
@@ -13,10 +14,41 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    animation: opacityin 0.3s both;
 }
 
 .modal-container {
     background: $light-grey;
-    min-height: 250px;
-    min-width: 250px;
+    min-width: 500px;
+    padding: 1em 1.5em;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: fadeintop 0.3s both;
+}
+
+.modal-header {
+    width: 100%;
+    margin-bottom: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & button.btn-close {
+        color: $blue;
+        background-color: transparent;
+        border: 0;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.modal-body {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    flex-direction: column;
 }
