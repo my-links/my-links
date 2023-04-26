@@ -14,12 +14,14 @@ interface SideMenuProps {
   favorites: Link[];
   handleSelectCategory: (category: Category) => void;
   categoryActive: Category;
+  openSearchModal: () => void;
 }
 export default function SideMenu({
   categories,
   favorites,
   handleSelectCategory,
   categoryActive,
+  openSearchModal,
 }: SideMenuProps) {
   return (
     <div className={styles["side-menu"]}>
@@ -34,7 +36,10 @@ export default function SideMenu({
         />
       </BlockWrapper>
       <BlockWrapper>
-        <MenuControls categoryActive={categoryActive} />
+        <MenuControls
+          categoryActive={categoryActive}
+          openSearchModal={openSearchModal}
+        />
       </BlockWrapper>
       <BlockWrapper>
         <UserCard />
@@ -45,13 +50,21 @@ export default function SideMenu({
 
 function MenuControls({
   categoryActive,
+  openSearchModal,
 }: {
   categoryActive: SideMenuProps["categoryActive"];
+  openSearchModal: SideMenuProps["openSearchModal"];
 }) {
+  const handleOpenSearchModal = (event) => {
+    event.preventDefault();
+    openSearchModal();
+  };
   return (
     <div className={styles["menu-controls"]}>
       <div className={styles["action"]}>
-        <LinkTag href={"/search"}>Rechercher</LinkTag>
+        <LinkTag href={"/#"} onClick={handleOpenSearchModal}>
+          Rechercher
+        </LinkTag>
         <kbd>S</kbd>
       </div>
       <div className={styles["action"]}>

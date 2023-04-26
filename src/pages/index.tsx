@@ -80,6 +80,7 @@ function Home({ categories, favorites, currentCategory, items }: HomeProps) {
         favorites={favorites}
         handleSelectCategory={handleSelectCategory}
         categoryActive={categoryActive}
+        openSearchModal={modal.open}
       />
       <Links category={categoryActive} />
       {modal.isShowing && (
