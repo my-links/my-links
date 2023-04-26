@@ -17,8 +17,6 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: scroll;
 
   & h2 {
     color: $blue;
@@ -33,12 +31,29 @@
   }
 }
 
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & .category-controls {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+}
+
 .links {
+  height: 100%;
   width: 100%;
   display: flex;
   flex: 1;
+  gap: 0.5em;
+  padding: 3px;
   flex-direction: column;
   animation: fadein 0.3s both; // bug on drag start
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .link {
@@ -48,10 +63,9 @@
   width: 100%;
   color: $blue;
   background-color: $white;
-  padding: 10px 15px;
+  padding: 0.75em 1em;
   border: 1px solid $lightest-grey;
   border-radius: 3px;
-  margin-bottom: 10px;
   outline: 3px solid transparent;
   display: flex;
   align-items: center;

@@ -1,52 +1,31 @@
 import LinkTag from "next/link";
-import { useState } from "react";
-import {
-  AiFillDelete,
-  AiFillEdit,
-  AiFillStar,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
 
 import { Link } from "types";
+
+import EditItem from "components/QuickActions/EditItem";
+import FavoriteItem from "components/QuickActions/FavoriteItem";
+import RemoveItem from "components/QuickActions/RemoveItem";
 import LinkFavicon from "./LinkFavicon";
 
 import styles from "./links.module.scss";
 
 export default function LinkItem({ link }: { link: Link }) {
   const { id, name, url, favorite } = link;
-  const [isFavorite, setFavorite] = useState(favorite);
 
   return (
     <li className={styles["link"]} key={id}>
       <LinkFavicon url={url} />
       <LinkTag href={url} target={"_blank"} rel={"noreferrer"}>
         <span className={styles["link-name"]}>
-          {name} {isFavorite && <AiFillStar color="#ffc107" />}
+          {name} {favorite && <AiFillStar color="#ffc107" />}
         </span>
         <LinkItemURL url={url} />
       </LinkTag>
       <div className={styles["controls"]}>
-        <div onClick={() => setFavorite((v) => !v)} className={styles["edit"]}>
-          {isFavorite ? (
-            <AiFillStar color="#ffc107" />
-          ) : (
-            <AiOutlineStar color="#ffc107" />
-          )}
-        </div>
-        <LinkTag
-          href={`/link/edit/${id}`}
-          className={styles["edit"]}
-          title="Edit link"
-        >
-          <AiFillEdit />
-        </LinkTag>
-        <LinkTag
-          href={`/link/remove/${id}`}
-          className={styles["remove"]}
-          title="Remove link"
-        >
-          <AiFillDelete color="red" />
-        </LinkTag>
+        <FavoriteItem isFavorite={favorite} />
+        <EditItem type="link" id={id} />
+        <RemoveItem type="link" id={id} />
       </div>
     </li>
   );

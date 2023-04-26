@@ -1,8 +1,9 @@
-import LinkTag from "next/link";
 import { useEffect, useRef } from "react";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 import { Category } from "types";
+
+import EditItem from "components/QuickActions/EditItem";
+import RemoveItem from "components/QuickActions/RemoveItem";
 
 import styles from "./categories.module.scss";
 
@@ -45,20 +46,12 @@ export default function CategoryItem({
 function MenuOptions({ id }: { id: number }): JSX.Element {
   return (
     <div className={styles["menu-item"]}>
-      <LinkTag
-        href={`/category/edit/${id}`}
-        className={styles["option-edit"]}
+      <EditItem
+        type="category"
+        id={id}
         onClick={(event) => event.stopPropagation()}
-      >
-        <AiFillEdit />
-      </LinkTag>
-      <LinkTag
-        href={`/category/remove/${id}`}
-        className={styles["option-remove"]}
-        onClick={(event) => event.stopPropagation()}
-      >
-        <AiFillDelete color="red" />
-      </LinkTag>
+      />
+      <RemoveItem type="category" id={id} />
     </div>
   );
 }
