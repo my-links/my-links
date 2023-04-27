@@ -1,3 +1,4 @@
+import axios from "axios";
 import LinkTag from "next/link";
 import { AiFillStar } from "react-icons/ai";
 
@@ -10,8 +11,26 @@ import LinkFavicon from "./LinkFavicon";
 
 import styles from "./links.module.scss";
 
-export default function LinkItem({ link }: { link: Link }) {
+export default function LinkItem({
+  link,
+  toggleFavorite,
+}: {
+  link: Link;
+  toggleFavorite: (linkId: Link["id"]) => void;
+}) {
   const { id, name, url, favorite } = link;
+  const onFavorite = () => {
+    const payload = {
+      name,
+      url,
+      favorite: !favorite,
+      categoryId: link.category.id,
+    };
+    axios
+      .put(`/api/link/edit/${link.id}`, payload)
+      .then(() => toggleFavorite(link.id))
+      .catch(console.error);
+  };
 
   return (
     <li className={styles["link"]} key={id}>
@@ -23,7 +42,7 @@ export default function LinkItem({ link }: { link: Link }) {
         <LinkItemURL url={url} />
       </LinkTag>
       <div className={styles["controls"]}>
-        <FavoriteItem isFavorite={favorite} />
+        <FavoriteItem isFavorite={favorite} onClick={onFavorite} />
         <EditItem type="link" id={id} />
         <RemoveItem type="link" id={id} />
       </div>
@@ -31,7 +50,7 @@ export default function LinkItem({ link }: { link: Link }) {
   );
 }
 
-function LinkItemURL({ url }: { url: string }) {
+function LinkItemURL({ url }: { url: Link["url"] }) {
   try {
     const { origin, pathname, search } = new URL(url);
     let text = "";

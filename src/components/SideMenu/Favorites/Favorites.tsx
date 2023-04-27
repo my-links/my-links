@@ -9,8 +9,8 @@ export default function Favorites({ favorites }: { favorites: Link[] }) {
       <div className={styles["favorites"]}>
         <h4>Favoris</h4>
         <ul className={styles["items"]}>
-          {favorites.map((link, key) => (
-            <FavoriteItem link={link} key={key} />
+          {favorites.map((link) => (
+            <FavoriteItem link={link} key={link.id} />
           ))}
         </ul>
       </div>
