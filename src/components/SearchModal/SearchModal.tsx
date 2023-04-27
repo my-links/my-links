@@ -8,7 +8,7 @@ import LinkFavicon from "components/Links/LinkFavicon";
 import Modal from "components/Modal/Modal";
 import TextBox from "components/TextBox";
 
-import { Category, ItemComplete, Link } from "types";
+import { Category, Link, SearchItem } from "types";
 
 import styles from "./search.module.scss";
 
@@ -25,7 +25,7 @@ export default function SearchModal({
   handleSelectCategory: (category: Category) => void;
   categories: Category[];
   favorites: Link[];
-  items: ItemComplete[];
+  items: SearchItem[];
 }) {
   const autoFocusRef = useAutoFocus();
 
@@ -130,7 +130,7 @@ function ListItemComponent({
   items,
   noItem,
 }: {
-  items: ItemComplete[];
+  items: SearchItem[];
   noItem?: ReactNode;
 }) {
   return (
@@ -156,7 +156,7 @@ function ListItemComponent({
   );
 }
 
-function ItemComponent({ item }: { item: ItemComplete }) {
+function ItemComponent({ item }: { item: SearchItem }) {
   const { name, type, url } = item;
   return (
     <li className={styles["item"]}>

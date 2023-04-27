@@ -27,7 +27,7 @@ export interface Link {
   updatedAt: Date;
 }
 
-export interface ItemComplete {
+export interface SearchItem {
   id: number;
   name: string;
   url: string;

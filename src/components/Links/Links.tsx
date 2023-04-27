@@ -1,6 +1,6 @@
 import LinkTag from "next/link";
 
-import { Category } from "types";
+import { Category, Link } from "types";
 
 import EditItem from "components/QuickActions/EditItem";
 import RemoveItem from "components/QuickActions/RemoveItem";
@@ -8,7 +8,13 @@ import LinkItem from "./LinkItem";
 
 import styles from "./links.module.scss";
 
-export default function Links({ category }: { category: Category }) {
+export default function Links({
+  category,
+  toggleFavorite,
+}: {
+  category: Category;
+  toggleFavorite: (linkId: Link["id"]) => void;
+}) {
   if (category === null) {
     return (
       <div className={styles["no-category"]}>
@@ -44,7 +50,7 @@ export default function Links({ category }: { category: Category }) {
       </h2>
       <ul className={styles["links"]} key={Math.random()}>
         {links.map((link, key) => (
-          <LinkItem key={key} link={link} />
+          <LinkItem key={key} link={link} toggleFavorite={toggleFavorite} />
         ))}
       </ul>
     </div>

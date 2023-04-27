@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import useModal from "hooks/useModal";
@@ -8,9 +8,10 @@ import Links from "components/Links/Links";
 import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
 
-import { Category, ItemComplete, Link } from "types";
+import { Category, Link, SearchItem } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory } from "utils/front";
+import { pushStateVanilla } from "utils/link";
 
 const OPEN_SEARCH_KEY = "s";
 const CLOSE_SEARCH_KEY = "escape";
@@ -20,58 +21,114 @@ const OPEN_CREATE_CATEGORY_KEY = "c";
 
 interface HomeProps {
   categories: Category[];
-  favorites: Link[];
-  items: ItemComplete[];
   currentCategory: Category | undefined;
 }
 
-function Home({ categories, favorites, currentCategory, items }: HomeProps) {
+function Home(props: HomeProps) {
   const router = useRouter();
   const modal = useModal();
 
+  const [categories, setCategories] = useState<Category[]>(props.categories);
   const [categoryActive, setCategoryActive] = useState<Category | null>(
-    currentCategory || categories?.[0]
+    props.currentCategory || categories?.[0]
+  );
+
+  const favorites = useMemo<Link[]>(
+    () =>
+      categories.reduce((acc, category) => {
+        category.links.forEach((link) =>
+          link.favorite ? acc.push(link) : null
+        );
+        return acc;
+      }, [] as Link[]),
+    [categories]
+  );
+
+  const searchItemBuilder = (
+    item: Category | Link,
+    type: SearchItem["type"]
+  ): SearchItem => ({
+    id: item.id,
+    name: item.name,
+    url: type === "link" ? (item as Link).url : `/?categoryId=${item.id}`,
+    type,
+  });
+
+  const itemsSearch = useMemo<SearchItem[]>(() => {
+    const items = categories.reduce((acc, category) => {
+      const categoryItem = searchItemBuilder(category, "category");
+      const items: SearchItem[] = category.links.map((link) =>
+        searchItemBuilder(link, "link")
+      );
+      return [...acc, ...items, categoryItem];
+    }, [] as SearchItem[]);
+
+    return items;
+  }, [categories]);
+
+  // TODO: refacto
+  const toggleFavorite = useCallback(
+    (linkId: Link["id"]) => {
+      let linkIndex = 0;
+      const categoryIndex = categories.findIndex(({ links }) => {
+        const lIndex = links.findIndex((l) => l.id === linkId);
+        if (lIndex !== -1) {
+          linkIndex = lIndex;
+        }
+        return lIndex !== -1;
+      });
+
+      const link = categories[categoryIndex].links[linkIndex];
+      const categoriesCopy = [...categories];
+      categoriesCopy[categoryIndex].links[linkIndex] = {
+        ...link,
+        favorite: !link.favorite,
+      };
+
+      setCategories(categoriesCopy);
+      if (categories[categoryIndex].id === categoryActive.id) {
+        setCategoryActive(categories[categoryIndex]);
+      }
+    },
+    [categories, categoryActive.id]
   );
 
   const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
-    const newUrl = `/?categoryId=${category.id}`;
-    window.history.replaceState(
-      { ...window.history.state, as: newUrl, url: newUrl },
-      "",
-      newUrl
-    );
+    pushStateVanilla(`/?categoryId=${category.id}`);
   };
 
-  const openSearchModal = useCallback(
+  useHotkeys(
+    OPEN_SEARCH_KEY,
     (event) => {
       event.preventDefault();
       modal.open();
     },
-    [modal]
+    { enabled: !modal.isShowing }
   );
-  const closeSearchModal = useCallback(() => modal.close(), [modal]);
-
-  const gotoCreateLink = useCallback(() => {
-    router.push(`/link/create?categoryId=${categoryActive.id}`);
-  }, [categoryActive.id, router]);
-
-  const gotoCreateCategory = useCallback(() => {
-    router.push("/category/create");
-  }, [router]);
-
-  useHotkeys(OPEN_SEARCH_KEY, openSearchModal, { enabled: !modal.isShowing });
-  useHotkeys(CLOSE_SEARCH_KEY, closeSearchModal, {
+  useHotkeys(CLOSE_SEARCH_KEY, modal.close, {
     enabled: modal.isShowing,
     enableOnFormTags: ["INPUT"],
   });
 
-  useHotkeys(OPEN_CREATE_LINK_KEY, gotoCreateLink, {
-    enabled: !modal.isShowing,
-  });
-  useHotkeys(OPEN_CREATE_CATEGORY_KEY, gotoCreateCategory, {
-    enabled: !modal.isShowing,
-  });
+  useHotkeys(
+    OPEN_CREATE_LINK_KEY,
+    () => {
+      router.push(`/link/create?categoryId=${categoryActive.id}`);
+    },
+    {
+      enabled: !modal.isShowing,
+    }
+  );
+  useHotkeys(
+    OPEN_CREATE_CATEGORY_KEY,
+    () => {
+      router.push("/category/create");
+    },
+    {
+      enabled: !modal.isShowing,
+    }
+  );
 
   return (
     <div className="App">
@@ -82,13 +139,13 @@ function Home({ categories, favorites, currentCategory, items }: HomeProps) {
         categoryActive={categoryActive}
         openSearchModal={modal.open}
       />
-      <Links category={categoryActive} />
+      <Links category={categoryActive} toggleFavorite={toggleFavorite} />
       {modal.isShowing && (
         <SearchModal
           close={modal.close}
           categories={categories}
           favorites={favorites}
-          items={items}
+          items={itemsSearch}
           handleSelectCategory={handleSelectCategory}
         />
       )}
@@ -98,40 +155,11 @@ function Home({ categories, favorites, currentCategory, items }: HomeProps) {
 
 export async function getServerSideProps({ query }) {
   const queryCategoryId = (query?.categoryId as string) || "";
-
   const categoriesDB = await prisma.category.findMany({
     include: { links: true },
   });
 
-  const items = [] as ItemComplete[];
-
-  const favorites = [] as Link[];
-  const categories = categoriesDB.map((categoryDB) => {
-    const category = BuildCategory(categoryDB);
-
-    category.links.map((link) => {
-      if (link.favorite) {
-        favorites.push(link);
-      }
-      items.push({
-        id: link.id,
-        name: link.name,
-        url: link.url,
-        type: "link",
-      });
-    });
-
-    items.push({
-      id: category.id,
-      name: category.name,
-      url: `/?categoryId=${category.id}`,
-      type: "category",
-    });
-
-    return category;
-  });
-
-  if (categories.length === 0) {
+  if (categoriesDB.length === 0) {
     return {
       redirect: {
         destination: "/category/create",
@@ -139,15 +167,14 @@ export async function getServerSideProps({ query }) {
     };
   }
 
+  const categories = categoriesDB.map(BuildCategory);
   const currentCategory = categories.find(
-    (c) => c.id === Number(queryCategoryId)
+    ({ id }) => id === Number(queryCategoryId)
   );
 
   return {
     props: {
       categories: JSON.parse(JSON.stringify(categories)),
-      favorites: JSON.parse(JSON.stringify(favorites)),
-      items: JSON.parse(JSON.stringify(items)),
       currentCategory: currentCategory
         ? JSON.parse(JSON.stringify(currentCategory))
         : null,
