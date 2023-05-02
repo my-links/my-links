@@ -39,7 +39,7 @@ export default function Links({
   return (
     <div className={styles["links-wrapper"]}>
       <h2 className={styles["category-header"]}>
-        <span>
+        <span className={styles["category-name"]}>
           {name}
           <span className={styles["links-count"]}> — {links.length}</span>
         </span>

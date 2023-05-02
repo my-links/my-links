@@ -50,6 +50,7 @@ function MenuOptions({ id }: { id: number }): JSX.Element {
         type="category"
         id={id}
         onClick={(event) => event.stopPropagation()}
+        className={styles["option-edit"]}
       />
       <RemoveItem type="category" id={id} />
     </div>
