@@ -3,16 +3,26 @@
 
 .no-link,
 .no-category {
+  min-width: 0;
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   animation: fadein 0.3s both;
+
+  & p {
+    min-width: 0;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 
 .links-wrapper {
   height: 100%;
+  min-width: 0;
   padding: 10px;
   display: flex;
   flex: 1;
@@ -36,6 +46,13 @@
   align-items: center;
   justify-content: space-between;
 
+  & .category-name {
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   & .category-controls {
     display: flex;
     gap: 0.5em;
@@ -46,6 +63,7 @@
 .links {
   height: 100%;
   width: 100%;
+  min-width: 0;
   display: flex;
   flex: 1;
   gap: 0.5em;
@@ -101,9 +119,10 @@
   }
 
   & .link-name {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   & .link-name .link-category {
