@@ -4,33 +4,25 @@ volumes:
   db_volume_data:
     driver: local
 
-networks:
-  my_links_net:
-    name: my_links_net
-
 services:
   my-links-db:
     image: mysql:latest
     restart: always
     volumes:
       - db_volume_data:/var/lib/postgresql/data
-    env_file: 
-      - ../.env
-    networks:
-      - my_links_net
+    env_file:
+      - .env
 
   my-links:
     image: sonny/my-links:latest
-    container_name: MyLinks
+    build: .
     ports:
       - 3000:3000
     restart: always
-    env_file: 
-      - ../.env
+    env_file:
+      - .env
     environment:
       DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@my-links-db:3306/${MYSQL_DATABASE}"
     depends_on:
       my-links-db:
         condition: service_started
-    networks:
-      - my_links_net

@@ -10,10 +10,8 @@ cp example.env .env
 
 Laisser la variable d'environnement `DATABASE_URL`
 
-```
-cd docker
+```sh
 make start-dev
-cd ..
 npx prisma db push
 npm run dev
 ```
@@ -22,8 +20,7 @@ npm run dev
 
 Retirer la variable d'environnement `DATABASE_URL` si vous souhaitez utiliser la DB dans le docker/docker-compose.yml
 
-```
-cd docker
+```sh
 make build
 make start-prod
 ```
