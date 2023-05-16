@@ -71,7 +71,6 @@
   gap: 0.5em;
   padding: 3px;
   flex-direction: column;
-  animation: fadein 0.3s both; // bug on drag start
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -89,7 +88,6 @@
   outline: 3px solid transparent;
   display: flex;
   align-items: center;
-  transition: 0.15s;
 
   &:hover {
     border: 1px solid transparent;

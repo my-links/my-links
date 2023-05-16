@@ -9,6 +9,7 @@ import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
 
 import * as Keys from "constants/keys";
+import { motion } from "framer-motion";
 import { Category, Link, SearchItem } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory } from "utils/front";
@@ -155,7 +156,16 @@ function Home(props: HomeProps) {
   );
 
   return (
-    <div className="App">
+    <motion.div
+      className="App"
+      initial={{ opacity: 0, scale: 0.85 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+    >
       <SideMenu
         categories={categories}
         favorites={favorites}
@@ -173,7 +183,7 @@ function Home(props: HomeProps) {
           handleSelectCategory={handleSelectCategory}
         />
       )}
-    </div>
+    </motion.div>
   );
 }
 

@@ -3,18 +3,21 @@ import { AiFillFolderOpen, AiOutlineFolder } from "react-icons/ai";
 
 import { Category } from "types";
 
+import { motion } from "framer-motion";
 import styles from "./categories.module.scss";
 
 interface CategoryItemProps {
   category: Category;
   categoryActive: Category;
   handleSelectCategory: (category: Category) => void;
+  index: number;
 }
 
 export default function CategoryItem({
   category,
   categoryActive,
   handleSelectCategory,
+  index,
 }: CategoryItemProps): JSX.Element {
   const ref = useRef<HTMLLIElement>();
   const className = `${styles["item"]} ${
@@ -29,11 +32,25 @@ export default function CategoryItem({
   }, [category.id, categoryActive.id]);
 
   return (
-    <li
+    <motion.li
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+        delay: index * 0.025,
+        duration: 200,
+      }}
       className={className}
       ref={ref}
       onClick={onClick}
-      style={{ display: "flex", alignItems: "center", gap: ".25em" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: ".25em",
+        transition: "none",
+      }}
     >
       {category.id === categoryActive.id ? (
         <AiFillFolderOpen size={24} />
@@ -45,6 +62,6 @@ export default function CategoryItem({
         <span className={styles["name"]}>{category.name}</span>
         <span className={styles["links-count"]}>— {category.links.length}</span>
       </div>
-    </li>
+    </motion.li>
   );
 }
