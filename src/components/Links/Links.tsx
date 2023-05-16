@@ -6,6 +6,7 @@ import EditItem from "components/QuickActions/EditItem";
 import RemoveItem from "components/QuickActions/RemoveItem";
 import LinkItem from "./LinkItem";
 
+import { AnimatePresence, motion } from "framer-motion";
 import styles from "./links.module.scss";
 
 export default function Links({
@@ -40,16 +41,32 @@ export default function Links({
         </span>
       </h2>
       {links.length !== 0 ? (
-        <ul className={styles["links"]} key={Math.random()}>
-          {links.map((link, key) => (
-            <LinkItem key={key} link={link} toggleFavorite={toggleFavorite} />
+        <ul className={styles["links"]}>
+          {links.map((link, index) => (
+            <LinkItem
+              link={link}
+              toggleFavorite={toggleFavorite}
+              index={index}
+              key={link.id}
+            />
           ))}
         </ul>
       ) : (
         <div className={styles["no-link"]}>
-          <p>
-            Aucun lien pour <b>{name}</b>
-          </p>
+          <AnimatePresence>
+            <motion.p
+              key={Math.random()}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+              }}
+            >
+              Aucun lien pour <b>{name}</b>
+            </motion.p>
+          </AnimatePresence>
           <LinkTag href={`/link/create?categoryId=${id}`}>
             Créer un lien
           </LinkTag>

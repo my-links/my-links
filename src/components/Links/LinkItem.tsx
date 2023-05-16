@@ -1,4 +1,5 @@
 import axios from "axios";
+import { motion } from "framer-motion";
 import LinkTag from "next/link";
 import { AiFillStar } from "react-icons/ai";
 
@@ -14,9 +15,11 @@ import styles from "./links.module.scss";
 export default function LinkItem({
   link,
   toggleFavorite,
+  index,
 }: {
   link: Link;
   toggleFavorite: (linkId: Link["id"]) => void;
+  index: number;
 }) {
   const { id, name, url, favorite } = link;
   const onFavorite = () => {
@@ -33,7 +36,18 @@ export default function LinkItem({
   };
 
   return (
-    <li className={styles["link"]} key={id}>
+    <motion.li
+      className={styles["link"]}
+      key={id}
+      initial={{ x: -30, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+        delay: index * 0.05,
+      }}
+    >
       <LinkFavicon url={url} />
       <LinkTag href={url} target={"_blank"} rel={"noreferrer"}>
         <span className={styles["link-name"]}>
@@ -46,7 +60,7 @@ export default function LinkItem({
         <EditItem type="link" id={id} />
         <RemoveItem type="link" id={id} />
       </div>
-    </li>
+    </motion.li>
   );
 }
 

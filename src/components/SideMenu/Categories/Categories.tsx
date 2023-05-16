@@ -22,12 +22,13 @@ export default function Categories({
     <div className={styles["categories"]}>
       <h4>Catégories • {linksCount}</h4>
       <ul className={styles["items"]}>
-        {categories.map((category, key) => (
+        {categories.map((category, index) => (
           <CategoryItem
             category={category}
             categoryActive={categoryActive}
             handleSelectCategory={handleSelectCategory}
-            key={key}
+            key={category.id}
+            index={index}
           />
         ))}
       </ul>
