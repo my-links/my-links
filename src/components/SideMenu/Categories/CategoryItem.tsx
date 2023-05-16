@@ -1,10 +1,7 @@
 import { useEffect, useRef } from "react";
-import { AiOutlineFolder } from "react-icons/ai";
+import { AiFillFolderOpen, AiOutlineFolder } from "react-icons/ai";
 
 import { Category } from "types";
-
-import EditItem from "components/QuickActions/EditItem";
-import RemoveItem from "components/QuickActions/RemoveItem";
 
 import styles from "./categories.module.scss";
 
@@ -38,26 +35,16 @@ export default function CategoryItem({
       onClick={onClick}
       style={{ display: "flex", alignItems: "center", gap: ".25em" }}
     >
-      <AiOutlineFolder size={24} />
+      {category.id === categoryActive.id ? (
+        <AiFillFolderOpen size={24} />
+      ) : (
+        <AiOutlineFolder size={24} />
+      )}
+
       <div className={styles["content"]}>
         <span className={styles["name"]}>{category.name}</span>
         <span className={styles["links-count"]}>— {category.links.length}</span>
       </div>
-      <MenuOptions id={category.id} />
     </li>
-  );
-}
-
-function MenuOptions({ id }: { id: number }): JSX.Element {
-  return (
-    <div className={styles["menu-item"]}>
-      <EditItem
-        type="category"
-        id={id}
-        onClick={(event) => event.stopPropagation()}
-        className={styles["option-edit"]}
-      />
-      <RemoveItem type="category" id={id} />
-    </div>
   );
 }
