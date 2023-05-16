@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { AiOutlineFolder } from "react-icons/ai";
 
 import { Category } from "types";
 
@@ -13,7 +14,6 @@ interface CategoryItemProps {
   handleSelectCategory: (category: Category) => void;
 }
 
-let rendered = false;
 export default function CategoryItem({
   category,
   categoryActive,
@@ -26,14 +26,19 @@ export default function CategoryItem({
   const onClick = () => handleSelectCategory(category);
 
   useEffect(() => {
-    if (category.id === categoryActive.id && !rendered) {
-      rendered = true;
-      ref.current.scrollIntoView({ behavior: "smooth" });
+    if (category.id === categoryActive.id) {
+      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [category.id, categoryActive.id]);
 
   return (
-    <li className={className} ref={ref} onClick={onClick}>
+    <li
+      className={className}
+      ref={ref}
+      onClick={onClick}
+      style={{ display: "flex", alignItems: "center", gap: ".25em" }}
+    >
+      <AiOutlineFolder size={24} />
       <div className={styles["content"]}>
         <span className={styles["name"]}>{category.name}</span>
         <span className={styles["links-count"]}>— {category.links.length}</span>
