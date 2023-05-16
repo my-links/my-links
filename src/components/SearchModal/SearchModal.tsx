@@ -1,5 +1,6 @@
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { BsSearch } from "react-icons/bs";
 
 import useAutoFocus from "hooks/useAutoFocus";
 
@@ -89,33 +90,28 @@ export default function SearchModal({
   );
 
   return (
-    <Modal title="Rechercher" close={close}>
+    <Modal title="Rechercher" close={close} noHeader padding={"0"}>
       <form onSubmit={handleSubmit} className={styles["search-form"]}>
+        <div className={styles["search-input-wrapper"]}>
+          <label htmlFor="search">
+            <BsSearch size={24} />
+          </label>
+          <TextBox
+            name="search"
+            onChangeCallback={handleSearchInputChange}
+            value={search}
+            placeholder="Rechercher"
+            innerRef={autoFocusRef}
+            fieldClass={styles["search-input-field"]}
+            inputClass={"reset"}
+          />
+        </div>
         <SearchFilter
           canSearchLink={canSearchLink}
           setCanSearchLink={setCanSearchLink}
           canSearchCategory={canSearchCategory}
           setCanSearchCategory={setCanSearchCategory}
         />
-        <TextBox
-          name="search"
-          onChangeCallback={handleSearchInputChange}
-          value={search}
-          placeholder="Rechercher"
-          innerRef={autoFocusRef}
-          fieldClass={styles["search-input-field"]}
-        />
-        {search.length === 0 && favorites.length > 0 && (
-          <SearchList
-            items={favorites.map((favorite) => ({
-              id: favorite.id,
-              name: favorite.name,
-              url: favorite.url,
-              type: "link",
-            }))}
-            noItem={<p>ajouter un favoris</p>}
-          />
-        )}
         {search.length > 0 && (
           <SearchList
             items={itemsCompletion.map((item) => ({
@@ -156,7 +152,7 @@ function SearchFilter({
         marginBottom: "1em",
       }}
     >
-      <p>Rechercher</p>
+      {/* à remplacer par des Chips Checkbox */}
       <div style={{ display: "flex", gap: ".25em" }}>
         <input
           type="checkbox"

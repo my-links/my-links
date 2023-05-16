@@ -3,13 +3,11 @@ import { MutableRefObject, useState } from "react";
 interface InputProps {
   name: string;
   label?: string;
-  labelComponent?: JSX.Element;
   disabled?: boolean;
-  type?: string;
-  multiple?: boolean;
   innerRef?: MutableRefObject<any> | ((ref: any) => void);
   placeholder?: string;
   fieldClass?: string;
+  inputClass?: string;
   value?: string;
   onChangeCallback?: (value) => void;
 }
@@ -17,13 +15,11 @@ interface InputProps {
 export default function TextBox({
   name,
   label,
-  labelComponent,
   disabled = false,
-  type = "text",
-  multiple = false,
   innerRef = null,
   placeholder = "Type something...",
   fieldClass = "",
+  inputClass = "",
   value,
   onChangeCallback,
 }: InputProps): JSX.Element {
@@ -43,18 +39,12 @@ export default function TextBox({
           {label}
         </label>
       )}
-      {labelComponent && (
-        <label htmlFor={name} title={`${name} field`}>
-          {labelComponent}
-        </label>
-      )}
       <input
-        id={name}
-        name={name}
-        type={type}
         onChange={onChange}
         value={inputValue}
-        multiple={multiple}
+        className={inputClass}
+        name={name}
+        id={name}
         placeholder={placeholder}
         ref={innerRef}
         disabled={disabled}

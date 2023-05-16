@@ -12,7 +12,6 @@
   backdrop-filter: blur(0.25em);
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   animation: opacityin 0.3s both;
 }
@@ -20,13 +19,14 @@
 .modal-container {
   background: $light-grey;
   min-width: 500px;
-  padding: 1em 1.5em;
+  margin-top: 6em;
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   animation: fadeintop 0.3s both;
+  box-shadow: 0 0 1em 0px rgba($black, 0.25);
 }
 
 .modal-header {
