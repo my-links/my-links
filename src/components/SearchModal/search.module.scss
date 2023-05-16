@@ -25,7 +25,7 @@ form.search-form {
   }
 }
 
-.list-item {
+.search-list {
   margin: 1em 0;
   display: flex;
   gap: 1em;
@@ -34,9 +34,10 @@ form.search-form {
   flex-wrap: wrap;
 }
 
-.item {
+.search-item {
   & > a {
     display: flex;
+    align-items: center;
     flex-direction: column;
   }
 }
