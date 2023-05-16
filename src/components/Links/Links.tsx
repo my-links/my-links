@@ -25,34 +25,36 @@ export default function Links({
   }
 
   const { id, name, links } = category;
-  if (links.length === 0) {
-    return (
-      <div className={styles["no-link"]}>
-        <p>
-          Aucun lien pour <b>{name}</b>
-        </p>
-        <LinkTag href={`/link/create?categoryId=${id}`}>Créer un lien</LinkTag>
-      </div>
-    );
-  }
-
   return (
     <div className={styles["links-wrapper"]}>
       <h2 className={styles["category-header"]}>
         <span className={styles["category-name"]}>
           {name}
-          <span className={styles["links-count"]}> — {links.length}</span>
+          {links.length > 0 && (
+            <span className={styles["links-count"]}> — {links.length}</span>
+          )}
         </span>
         <span className={styles["category-controls"]}>
           <EditItem type="category" id={id} />
           <RemoveItem type="category" id={id} />
         </span>
       </h2>
-      <ul className={styles["links"]} key={Math.random()}>
-        {links.map((link, key) => (
-          <LinkItem key={key} link={link} toggleFavorite={toggleFavorite} />
-        ))}
-      </ul>
+      {links.length !== 0 ? (
+        <ul className={styles["links"]} key={Math.random()}>
+          {links.map((link, key) => (
+            <LinkItem key={key} link={link} toggleFavorite={toggleFavorite} />
+          ))}
+        </ul>
+      ) : (
+        <div className={styles["no-link"]}>
+          <p>
+            Aucun lien pour <b>{name}</b>
+          </p>
+          <LinkTag href={`/link/create?categoryId=${id}`}>
+            Créer un lien
+          </LinkTag>
+        </div>
+      )}
     </div>
   );
 }
