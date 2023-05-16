@@ -8,16 +8,11 @@ import Links from "components/Links/Links";
 import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
 
+import * as Keys from "constants/keys";
 import { Category, Link, SearchItem } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory } from "utils/front";
 import { pushStateVanilla } from "utils/link";
-
-const OPEN_SEARCH_KEY = "s";
-const CLOSE_SEARCH_KEY = "escape";
-
-const OPEN_CREATE_LINK_KEY = "l";
-const OPEN_CREATE_CATEGORY_KEY = "c";
 
 interface HomeProps {
   categories: Category[];
@@ -99,20 +94,20 @@ function Home(props: HomeProps) {
   };
 
   useHotkeys(
-    OPEN_SEARCH_KEY,
+    Keys.OPEN_SEARCH_KEY,
     (event) => {
       event.preventDefault();
       modal.open();
     },
     { enabled: !modal.isShowing }
   );
-  useHotkeys(CLOSE_SEARCH_KEY, modal.close, {
+  useHotkeys(Keys.CLOSE_SEARCH_KEY, modal.close, {
     enabled: modal.isShowing,
     enableOnFormTags: ["INPUT"],
   });
 
   useHotkeys(
-    OPEN_CREATE_LINK_KEY,
+    Keys.OPEN_CREATE_LINK_KEY,
     () => {
       router.push(`/link/create?categoryId=${categoryActive.id}`);
     },
@@ -121,13 +116,42 @@ function Home(props: HomeProps) {
     }
   );
   useHotkeys(
-    OPEN_CREATE_CATEGORY_KEY,
+    Keys.OPEN_CREATE_CATEGORY_KEY,
     () => {
       router.push("/category/create");
     },
     {
       enabled: !modal.isShowing,
     }
+  );
+
+  useHotkeys(
+    Keys.ARROW_UP,
+    () => {
+      const currentCategoryIndex = categories.findIndex(
+        ({ id }) => id === categoryActive.id
+      );
+      if (currentCategoryIndex === -1 || currentCategoryIndex === 0) return;
+
+      handleSelectCategory(categories[currentCategoryIndex - 1]);
+    },
+    { enabled: !modal.isShowing }
+  );
+  useHotkeys(
+    Keys.ARROW_DOWN,
+    () => {
+      const currentCategoryIndex = categories.findIndex(
+        ({ id }) => id === categoryActive.id
+      );
+      if (
+        currentCategoryIndex === -1 ||
+        currentCategoryIndex === categories.length - 1
+      )
+        return;
+
+      handleSelectCategory(categories[currentCategoryIndex + 1]);
+    },
+    { enabled: !modal.isShowing }
   );
 
   return (
