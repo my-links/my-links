@@ -12,6 +12,7 @@ import SearchList from "./SearchList";
 import * as Keys from "constants/keys";
 import { GOOGLE_SEARCH_URL } from "constants/search-urls";
 import { Category, SearchItem } from "types";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 import styles from "./search.module.scss";
 
@@ -28,9 +29,14 @@ export default function SearchModal({
 }) {
   const autoFocusRef = useAutoFocus();
 
-  // TODO: peristance
-  const [canSearchLink, setCanSearchLink] = useState<boolean>(true);
-  const [canSearchCategory, setCanSearchCategory] = useState<boolean>(true);
+  const [canSearchLink, setCanSearchLink] = useLocalStorage(
+    "search-link",
+    true
+  );
+  const [canSearchCategory, setCanSearchCategory] = useLocalStorage(
+    "search-category",
+    false
+  );
 
   const [search, setSearch] = useState<string>("");
   const [cursor, setCursor] = useState<number>(0);
@@ -41,12 +47,15 @@ export default function SearchModal({
     () =>
       search.length === 0
         ? []
-        : items.filter((item) =>
-            item.name
-              .toLocaleLowerCase()
-              .includes(search.toLocaleLowerCase().trim())
+        : items.filter(
+            (item) =>
+              ((item.type === "category" && canSearchCategory) ||
+                (item.type === "link" && canSearchLink)) &&
+              item.name
+                .toLocaleLowerCase()
+                .includes(search.toLocaleLowerCase().trim())
           ),
-    [items, search]
+    [canSearchCategory, canSearchLink, items, search]
   );
 
   useHotkeys(Keys.ARROW_UP, () => setCursor((cursor) => (cursor -= 1)), {
@@ -65,6 +74,14 @@ export default function SearchModal({
     setSearch(value);
     setCursor(0);
   }, []);
+  const handleCanSearchLink = (checked: boolean) => {
+    setCanSearchLink(checked);
+    setCursor(0);
+  };
+  const handleCanSearchCategory = (checked: boolean) => {
+    setCanSearchCategory(checked);
+    setCursor(0);
+  };
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -108,18 +125,13 @@ export default function SearchModal({
         </div>
         <SearchFilter
           canSearchLink={canSearchLink}
-          setCanSearchLink={setCanSearchLink}
+          setCanSearchLink={handleCanSearchLink}
           canSearchCategory={canSearchCategory}
-          setCanSearchCategory={setCanSearchCategory}
+          setCanSearchCategory={handleCanSearchCategory}
         />
         {search.length > 0 && (
           <SearchList
-            items={itemsCompletion.map((item) => ({
-              id: item.id,
-              name: item.name,
-              url: item.url,
-              type: item.type,
-            }))}
+            items={itemsCompletion}
             noItem={<LabelSearchWithGoogle />}
             cursor={cursor}
             setCursor={setCursor}
