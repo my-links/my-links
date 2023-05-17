@@ -33,14 +33,14 @@ export default function Modal({
       onClick={handleWrapperClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.1 } }}
+      exit={{ opacity: 0, transition: { duration: 0.1, delay: 0.1 } }}
     >
       <motion.div
         className={styles["modal-container"]}
         style={{ padding }}
-        initial={{ opacity: 0, y: -15 }}
+        initial={{ opacity: 0, y: "-6em" }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -15, transition: { duration: 0.1 } }}
+        exit={{ opacity: 0, y: "-6em", transition: { duration: 0.1 } }}
       >
         {!noHeader && (
           <div className={styles["modal-header"]}>
