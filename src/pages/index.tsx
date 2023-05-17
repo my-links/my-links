@@ -9,7 +9,7 @@ import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
 
 import * as Keys from "constants/keys";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Category, Link, SearchItem } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory } from "utils/front";
@@ -174,15 +174,17 @@ function Home(props: HomeProps) {
         openSearchModal={modal.open}
       />
       <Links category={categoryActive} toggleFavorite={toggleFavorite} />
-      {modal.isShowing && (
-        <SearchModal
-          close={modal.close}
-          categories={categories}
-          favorites={favorites}
-          items={itemsSearch}
-          handleSelectCategory={handleSelectCategory}
-        />
-      )}
+      <AnimatePresence>
+        {modal.isShowing && (
+          <SearchModal
+            close={modal.close}
+            categories={categories}
+            favorites={favorites}
+            items={itemsSearch}
+            handleSelectCategory={handleSelectCategory}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, useId } from "react";
 import { createPortal } from "react-dom";
 import { GrClose } from "react-icons/gr";
 
+import { motion } from "framer-motion";
 import styles from "./modal.module.scss";
 
 interface ModalProps {
@@ -22,12 +23,25 @@ export default function Modal({
   noHeader = false,
   padding = "1em 1.5em",
 }: ModalProps) {
+  const modalId = useId();
   const handleWrapperClick = (event) =>
     event.target.classList?.[0] === styles["modal-wrapper"] && close();
 
   return createPortal(
-    <div className={styles["modal-wrapper"]} onClick={handleWrapperClick}>
-      <div className={styles["modal-container"]} style={{ padding }}>
+    <motion.div
+      className={styles["modal-wrapper"]}
+      onClick={handleWrapperClick}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.1 } }}
+    >
+      <motion.div
+        className={styles["modal-container"]}
+        style={{ padding }}
+        initial={{ opacity: 0, y: -15 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -15, transition: { duration: 0.1 } }}
+      >
         {!noHeader && (
           <div className={styles["modal-header"]}>
             <h3>{title}</h3>
@@ -42,8 +56,8 @@ export default function Modal({
           </div>
         )}
         <div className={styles["modal-body"]}>{children}</div>
-      </div>
-    </div>,
+      </motion.div>
+    </motion.div>,
     document.body
   );
 }

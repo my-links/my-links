@@ -38,8 +38,8 @@ export default function CategoryItem({
       transition={{
         type: "spring",
         stiffness: 260,
-        damping: 20,
-        delay: index * 0.025,
+        damping: 25,
+        delay: index * 0.02,
         duration: 200,
       }}
       className={className}
