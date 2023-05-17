@@ -28,7 +28,6 @@ export default function SearchListItem({
 
   useEffect(() => {
     if (selected && !isHover) {
-      console.log(selected, ref.current);
       ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [isHover, selected]);
