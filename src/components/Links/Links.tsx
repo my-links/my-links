@@ -6,7 +6,7 @@ import EditItem from "components/QuickActions/EditItem";
 import RemoveItem from "components/QuickActions/RemoveItem";
 import LinkItem from "./LinkItem";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import styles from "./links.module.scss";
 
 export default function Links({
@@ -53,20 +53,19 @@ export default function Links({
         </ul>
       ) : (
         <div className={styles["no-link"]}>
-          <AnimatePresence>
-            <motion.p
-              key={Math.random()}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20,
-              }}
-            >
-              Aucun lien pour <b>{name}</b>
-            </motion.p>
-          </AnimatePresence>
+          <motion.p
+            key={Math.random()}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 20,
+              duration: 0.01,
+            }}
+          >
+            Aucun lien pour <b>{name}</b>
+          </motion.p>
           <LinkTag href={`/link/create?categoryId=${id}`}>
             Créer un lien
           </LinkTag>
