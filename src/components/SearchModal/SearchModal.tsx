@@ -11,7 +11,7 @@ import SearchList from "./SearchList";
 
 import * as Keys from "constants/keys";
 import { GOOGLE_SEARCH_URL } from "constants/search-urls";
-import { Category, Link, SearchItem } from "types";
+import { Category, SearchItem } from "types";
 
 import styles from "./search.module.scss";
 
@@ -19,13 +19,11 @@ export default function SearchModal({
   close,
   handleSelectCategory,
   categories,
-  favorites,
   items,
 }: {
   close: any;
   handleSelectCategory: (category: Category) => void;
   categories: Category[];
-  favorites: Link[];
   items: SearchItem[];
 }) {
   const autoFocusRef = useAutoFocus();
@@ -51,12 +49,16 @@ export default function SearchModal({
     [items, search]
   );
 
-  useHotkeys(Keys.ARROW_LEFT, () => {
-    console.log("left");
+  useHotkeys(Keys.ARROW_UP, () => setCursor((cursor) => (cursor -= 1)), {
+    enableOnFormTags: ["INPUT"],
+    enabled: itemsCompletion.length > 1 && cursor !== 0,
+    preventDefault: true,
   });
-
-  useHotkeys(Keys.ARROW_RIGHT, () => {
-    console.log("right");
+  useHotkeys(Keys.ARROW_DOWN, () => setCursor((cursor) => (cursor += 1)), {
+    enableOnFormTags: ["INPUT"],
+    enabled:
+      itemsCompletion.length > 1 && cursor !== itemsCompletion.length - 1,
+    preventDefault: true,
   });
 
   const handleSearchInputChange = useCallback((value) => {
@@ -74,19 +76,17 @@ export default function SearchModal({
         return close();
       }
 
-      // TODO: replace "firstItem" by a "cursor"
-      const firstItem = itemsCompletion[0];
-
-      const category = categories.find((c) => c.id === firstItem.id);
-      if (firstItem.type === "category" && category) {
+      const selectedItem = itemsCompletion[cursor];
+      const category = categories.find((c) => c.id === selectedItem.id);
+      if (selectedItem.type === "category" && category) {
         handleSelectCategory(category);
         return close();
       }
 
-      window.open(firstItem.url);
+      window.open(selectedItem.url);
       close();
     },
-    [categories, close, handleSelectCategory, itemsCompletion, search]
+    [categories, close, cursor, handleSelectCategory, itemsCompletion, search]
   );
 
   return (
@@ -121,6 +121,8 @@ export default function SearchModal({
               type: item.type,
             }))}
             noItem={<LabelSearchWithGoogle />}
+            cursor={cursor}
+            setCursor={setCursor}
           />
         )}
         <button type="submit" disabled={!canSubmit} style={{ display: "none" }}>

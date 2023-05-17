@@ -48,6 +48,7 @@ function Home(props: HomeProps) {
     name: item.name,
     url: type === "link" ? (item as Link).url : `/?categoryId=${item.id}`,
     type,
+    category: type === "link" ? (item as Link).category : undefined,
   });
 
   const itemsSearch = useMemo<SearchItem[]>(() => {
@@ -179,7 +180,6 @@ function Home(props: HomeProps) {
           <SearchModal
             close={modal.close}
             categories={categories}
-            favorites={favorites}
             items={itemsSearch}
             handleSelectCategory={handleSelectCategory}
           />
