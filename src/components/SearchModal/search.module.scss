@@ -41,18 +41,21 @@ form.search-form {
 }
 
 .search-list {
-  margin: 1em 0;
+  max-height: 500px;
+  margin: 1em;
   display: flex;
   gap: 1em;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  overflow-y: scroll;
 }
 
 .search-item {
+  width: 100%;
+
   & > a {
+    width: 100%;
     display: flex;
+    gap: 0.5em;
     align-items: center;
-    flex-direction: column;
   }
 }
