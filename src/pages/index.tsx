@@ -1,15 +1,15 @@
+import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import useModal from "hooks/useModal";
-
 import Links from "components/Links/Links";
+import PageTransition from "components/PageTransition";
 import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
 
 import * as Keys from "constants/keys";
-import { AnimatePresence, motion } from "framer-motion";
+import useModal from "hooks/useModal";
 import { Category, Link, SearchItem } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory } from "utils/front";
@@ -157,16 +157,7 @@ function Home(props: HomeProps) {
   );
 
   return (
-    <motion.div
-      className="App"
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
-      }}
-    >
+    <PageTransition className="App">
       <SideMenu
         categories={categories}
         favorites={favorites}
@@ -185,7 +176,7 @@ function Home(props: HomeProps) {
           />
         )}
       </AnimatePresence>
-    </motion.div>
+    </PageTransition>
   );
 }
 
