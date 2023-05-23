@@ -11,8 +11,8 @@ import SearchList from "./SearchList";
 
 import * as Keys from "constants/keys";
 import { GOOGLE_SEARCH_URL } from "constants/search-urls";
-import { Category, SearchItem } from "types";
 import { useLocalStorage } from "hooks/useLocalStorage";
+import { Category, SearchItem } from "types";
 
 import styles from "./search.module.scss";
 
@@ -134,7 +134,7 @@ export default function SearchModal({
             items={itemsCompletion}
             noItem={<LabelSearchWithGoogle />}
             cursor={cursor}
-            setCursor={setCursor}
+            closeModal={close}
           />
         )}
         <button type="submit" disabled={!canSubmit} style={{ display: "none" }}>

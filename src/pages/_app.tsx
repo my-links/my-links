@@ -3,14 +3,21 @@ import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import nProgress from "nprogress";
 import { useEffect } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import AuthRequired from "components/AuthRequired";
+import * as Keys from "constants/keys";
 
 import "nprogress/nprogress.css";
 import "styles/globals.scss";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
+
+  useHotkeys(Keys.CLOSE_SEARCH_KEY, () => router.push("/"), {
+    enabled: router.pathname !== "/",
+    enableOnFormTags: ["INPUT"],
+  });
 
   useEffect(() => {
     // Chargement pages

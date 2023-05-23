@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
+import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
 import { Category } from "types";
@@ -47,7 +48,7 @@ function RemoveCategory({ category }: { category: Category }) {
   };
 
   return (
-    <>
+    <PageTransition className="page-category-remove">
       <FormLayout
         title="Supprimer une catégorie"
         categoryId={category.id.toString()}
@@ -72,7 +73,7 @@ function RemoveCategory({ category }: { category: Category }) {
           onChangeCallback={(checked) => setConfirmDelete(checked)}
         />
       </FormLayout>
-    </>
+    </PageTransition>
   );
 }
 

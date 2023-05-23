@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import nProgress from "nprogress";
 import { useMemo, useState } from "react";
 
-import useAutoFocus from "hooks/useAutoFocus";
-
 import FormLayout from "components/FormLayout";
+import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import useAutoFocus from "hooks/useAutoFocus";
 import { redirectWithoutClientCache } from "utils/client";
 import { HandleAxiosError } from "utils/front";
 
@@ -48,7 +48,7 @@ function CreateCategory() {
   };
 
   return (
-    <>
+    <PageTransition className="page-category-create">
       <FormLayout
         title="Créer une catégorie"
         errorMessage={error}
@@ -66,7 +66,7 @@ function CreateCategory() {
           innerRef={autoFocusRef}
         />
       </FormLayout>
-    </>
+    </PageTransition>
   );
 }
 

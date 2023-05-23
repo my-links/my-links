@@ -5,11 +5,11 @@ import { useMemo, useState } from "react";
 
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
+import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
-
 import { Category, Link } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory, HandleAxiosError, IsValidURL } from "utils/front";
@@ -61,7 +61,7 @@ function CreateLink({ categories }: { categories: Category[] }) {
   };
 
   return (
-    <>
+    <PageTransition className="page-link-create">
       <FormLayout
         title="Créer un lien"
         categoryId={categoryIdQuery}
@@ -103,7 +103,7 @@ function CreateLink({ categories }: { categories: Category[] }) {
           label="Favoris"
         />
       </FormLayout>
-    </>
+    </PageTransition>
   );
 }
 

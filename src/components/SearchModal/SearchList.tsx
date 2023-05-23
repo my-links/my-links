@@ -10,12 +10,12 @@ export default function SearchList({
   items,
   noItem,
   cursor,
-  setCursor,
+  closeModal,
 }: {
   items: SearchItem[];
   noItem?: ReactNode;
   cursor: number;
-  setCursor: (cursor: number) => void;
+  closeModal: () => void;
 }) {
   const searchItemsGrouped = useMemo(
     () => groupItemBy(items, "category.name"),
@@ -35,9 +35,8 @@ export default function SearchList({
             {items.map((item) => (
               <SearchListItem
                 item={item}
-                setCursor={setCursor}
                 selected={index === cursor}
-                index={index}
+                closeModal={closeModal}
                 key={item.id}
               />
             ))}

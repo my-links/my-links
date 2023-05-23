@@ -4,10 +4,10 @@ import nProgress from "nprogress";
 import { useMemo, useState } from "react";
 
 import FormLayout from "components/FormLayout";
+import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
-
 import { Category } from "types";
 import { prisma } from "utils/back";
 import { BuildCategory, HandleAxiosError } from "utils/front";
@@ -51,7 +51,7 @@ function EditCategory({ category }: { category: Category }) {
   };
 
   return (
-    <>
+    <PageTransition className="page-category-edit">
       <FormLayout
         title="Modifier une catégorie"
         errorMessage={error}
@@ -68,7 +68,7 @@ function EditCategory({ category }: { category: Category }) {
           innerRef={autoFocusRef}
         />
       </FormLayout>
-    </>
+    </PageTransition>
   );
 }
 

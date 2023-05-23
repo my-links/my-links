@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
+import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
 import { Link } from "types";
@@ -42,7 +43,7 @@ function RemoveLink({ link }: { link: Link }) {
   };
 
   return (
-    <>
+    <PageTransition className="page-link-remove">
       <FormLayout
         title="Supprimer un lien"
         categoryId={link.category.id.toString()}
@@ -86,7 +87,7 @@ function RemoveLink({ link }: { link: Link }) {
           onChangeCallback={(checked) => setConfirmDelete(checked)}
         />
       </FormLayout>
-    </>
+    </PageTransition>
   );
 }
 

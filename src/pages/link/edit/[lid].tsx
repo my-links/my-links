@@ -5,11 +5,11 @@ import { useMemo, useState } from "react";
 
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
+import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
-
 import { Category, Link } from "types";
 import { prisma } from "utils/back";
 import {
@@ -85,7 +85,7 @@ function EditLink({
   };
 
   return (
-    <>
+    <PageTransition className="page-link-edit">
       <FormLayout
         title="Modifier un lien"
         errorMessage={error}
@@ -126,7 +126,7 @@ function EditLink({
           label="Favoris"
         />
       </FormLayout>
-    </>
+    </PageTransition>
   );
 }
 
