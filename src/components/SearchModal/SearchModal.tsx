@@ -1,5 +1,4 @@
 import { FormEvent, useCallback, useMemo, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
 import { BsSearch } from "react-icons/bs";
 
 import useAutoFocus from "hooks/useAutoFocus";
@@ -9,7 +8,6 @@ import TextBox from "components/TextBox";
 import LabelSearchWithGoogle from "./LabelSearchWithGoogle";
 import SearchList from "./SearchList";
 
-import * as Keys from "constants/keys";
 import { GOOGLE_SEARCH_URL } from "constants/search-urls";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { Category, SearchItem } from "types";
@@ -22,7 +20,7 @@ export default function SearchModal({
   categories,
   items,
 }: {
-  close: any;
+  close: () => void;
   handleSelectCategory: (category: Category) => void;
   categories: Category[];
   items: SearchItem[];
@@ -39,10 +37,11 @@ export default function SearchModal({
   );
 
   const [search, setSearch] = useState<string>("");
-  const [cursor, setCursor] = useState<number>(0);
+  const [selectedItem, setSelectedItem] = useState<SearchItem>(items[0]);
 
   const canSubmit = useMemo<boolean>(() => search.length > 0, [search]);
 
+  // TODO: extract this code into utils function
   const itemsCompletion = useMemo(
     () =>
       search.length === 0
@@ -58,52 +57,44 @@ export default function SearchModal({
     [canSearchCategory, canSearchLink, items, search]
   );
 
-  useHotkeys(Keys.ARROW_UP, () => setCursor((cursor) => (cursor -= 1)), {
-    enableOnFormTags: ["INPUT"],
-    enabled: itemsCompletion.length > 1 && cursor !== 0,
-    preventDefault: true,
-  });
-  useHotkeys(Keys.ARROW_DOWN, () => setCursor((cursor) => (cursor += 1)), {
-    enableOnFormTags: ["INPUT"],
-    enabled:
-      itemsCompletion.length > 1 && cursor !== itemsCompletion.length - 1,
-    preventDefault: true,
-  });
+  const resetForm = useCallback(() => {
+    setSearch("");
+    close();
+  }, [close]);
 
-  const handleSearchInputChange = useCallback((value) => {
-    setSearch(value);
-    setCursor(0);
-  }, []);
-  const handleCanSearchLink = (checked: boolean) => {
-    setCanSearchLink(checked);
-    setCursor(0);
-  };
-  const handleCanSearchCategory = (checked: boolean) => {
+  const handleSearchInputChange = useCallback(
+    (value: string) => setSearch(value),
+    []
+  );
+
+  const handleCanSearchLink = (checked: boolean) => setCanSearchLink(checked);
+  const handleCanSearchCategory = (checked: boolean) =>
     setCanSearchCategory(checked);
-    setCursor(0);
-  };
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      setSearch("");
+      resetForm();
 
       if (itemsCompletion.length === 0) {
-        window.open(GOOGLE_SEARCH_URL + encodeURI(search.trim()));
-        return close();
+        return window.open(GOOGLE_SEARCH_URL + encodeURI(search.trim()));
       }
 
-      const selectedItem = itemsCompletion[cursor];
       const category = categories.find((c) => c.id === selectedItem.id);
       if (selectedItem.type === "category" && category) {
-        handleSelectCategory(category);
-        return close();
+        return handleSelectCategory(category);
       }
 
       window.open(selectedItem.url);
-      close();
     },
-    [categories, close, cursor, handleSelectCategory, itemsCompletion, search]
+    [
+      categories,
+      handleSelectCategory,
+      itemsCompletion.length,
+      resetForm,
+      search,
+      selectedItem,
+    ]
   );
 
   return (
@@ -132,8 +123,9 @@ export default function SearchModal({
         {search.length > 0 && (
           <SearchList
             items={itemsCompletion}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
             noItem={<LabelSearchWithGoogle />}
-            cursor={cursor}
             closeModal={close}
           />
         )}

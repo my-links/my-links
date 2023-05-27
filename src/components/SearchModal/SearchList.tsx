@@ -1,20 +1,27 @@
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import { SearchItem } from "types";
 import { groupItemBy } from "utils/array";
 import SearchListItem from "./SearchListItem";
 
+import * as Keys from "constants/keys";
+
 import styles from "./search.module.scss";
 
+const isActiveItem = (item: SearchItem, otherItem: SearchItem) =>
+  item?.id === otherItem?.id && item?.type === otherItem?.type;
 export default function SearchList({
   items,
+  selectedItem,
+  setSelectedItem,
   noItem,
-  cursor,
   closeModal,
 }: {
   items: SearchItem[];
+  selectedItem: SearchItem;
+  setSelectedItem: (item: SearchItem) => void;
   noItem?: ReactNode;
-  cursor: number;
   closeModal: () => void;
 }) {
   const searchItemsGrouped = useMemo(
@@ -26,16 +33,44 @@ export default function SearchList({
     [searchItemsGrouped]
   );
 
+  const selectedItemIndex = useMemo<number>(
+    () => items.findIndex((item) => isActiveItem(item, selectedItem)),
+    [items, selectedItem]
+  );
+
+  useHotkeys(
+    Keys.ARROW_UP,
+    () => setSelectedItem(items[selectedItemIndex - 1]),
+    {
+      enableOnFormTags: ["INPUT"],
+      enabled: items.length > 1 && selectedItemIndex !== 0,
+      preventDefault: true,
+    }
+  );
+  useHotkeys(
+    Keys.ARROW_DOWN,
+    () => setSelectedItem(items[selectedItemIndex + 1]),
+    {
+      enableOnFormTags: ["INPUT"],
+      enabled: items.length > 1 && selectedItemIndex !== items.length - 1,
+      preventDefault: true,
+    }
+  );
+
+  useEffect(() => {
+    setSelectedItem(items[0]);
+  }, [items, setSelectedItem]);
+
   return (
     <ul className={styles["search-list"]}>
       {groupedItems.length > 0 ? (
-        groupedItems.map(([key, items], index) => (
+        groupedItems.map(([key, items]) => (
           <li key={key + "-" + key}>
-            <span>{typeof key === "undefined" ? "-" : key}</span>
+            <li>{typeof key === "undefined" ? "-" : key}</li>
             {items.map((item) => (
               <SearchListItem
                 item={item}
-                selected={index === cursor}
+                selected={isActiveItem(item, selectedItem)}
                 closeModal={closeModal}
                 key={item.id}
               />
