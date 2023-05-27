@@ -28,7 +28,13 @@ export default function SearchListItem({
   }, [selected]);
 
   return (
-    <li className={styles["search-item"]} ref={ref} key={id}>
+    <li
+      className={
+        styles["search-item"] + (selected ? ` ${styles["selected"]}` : "")
+      }
+      ref={ref}
+      key={id}
+    >
       <LinkTag
         href={url}
         target="_blank"
@@ -41,7 +47,6 @@ export default function SearchListItem({
           <AiOutlineFolder size={24} />
         )}
         <span>{name}</span>
-        {selected && "[selected]"}
       </LinkTag>
     </li>
   );
