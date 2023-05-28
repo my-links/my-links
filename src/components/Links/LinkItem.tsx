@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import LinkTag from "next/link";
 import { AiFillStar } from "react-icons/ai";
 
+import PATHS from "constants/paths";
 import { Link } from "types";
 
 import EditItem from "components/QuickActions/EditItem";
@@ -30,7 +31,7 @@ export default function LinkItem({
       categoryId: link.category.id,
     };
     axios
-      .put(`/api/link/edit/${link.id}`, payload)
+      .put(`${PATHS.API.LINK.EDIT}/${link.id}`, payload)
       .then(() => toggleFavorite(link.id))
       .catch(console.error);
   };

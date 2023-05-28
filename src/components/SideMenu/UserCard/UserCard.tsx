@@ -2,6 +2,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { FiLogOut } from "react-icons/fi";
 
+import PATHS from "constants/paths";
 import styles from "./user-card.module.scss";
 
 export default function UserCard() {
@@ -18,7 +19,7 @@ export default function UserCard() {
         {data.user.name}
       </div>
       <button
-        onClick={() => signOut({ callbackUrl: "/signin" })}
+        onClick={() => signOut({ callbackUrl: PATHS.LOGIN })}
         className="reset"
       >
         <FiLogOut size={24} />

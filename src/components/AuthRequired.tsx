@@ -1,13 +1,15 @@
+import PATHS from "constants/paths";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
+// Component used to access to the session client side
 export default function Auth({ children }) {
   const router = useRouter();
   const { status } = useSession({
     required: true,
     onUnauthenticated: () =>
       router.push(
-        `/signin?info=${encodeURI(
+        `${PATHS.LOGIN}?info=${encodeURI(
           "Vous devez être connecté pour accéder à cette page"
         )}`
       ),
