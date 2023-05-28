@@ -9,18 +9,20 @@ import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
 
 import * as Keys from "constants/keys";
+import PATHS from "constants/paths";
 import useModal from "hooks/useModal";
 import { Category, Link, SearchItem } from "types";
-import { prisma } from "utils/back";
+
 import { BuildCategory } from "utils/front";
 import { pushStateVanilla } from "utils/link";
+import prisma from "utils/prisma";
 
-interface HomeProps {
+interface HomePageProps {
   categories: Category[];
   currentCategory: Category | undefined;
 }
 
-function Home(props: HomeProps) {
+function Home(props: HomePageProps) {
   const router = useRouter();
   const modal = useModal();
 
@@ -46,7 +48,10 @@ function Home(props: HomeProps) {
   ): SearchItem => ({
     id: item.id,
     name: item.name,
-    url: type === "link" ? (item as Link).url : `/?categoryId=${item.id}`,
+    url:
+      type === "link"
+        ? (item as Link).url
+        : `${PATHS.HOME}?categoryId=${item.id}`,
     type,
     category: type === "link" ? (item as Link).category : undefined,
   });
@@ -92,7 +97,7 @@ function Home(props: HomeProps) {
 
   const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
-    pushStateVanilla(`/?categoryId=${category.id}`);
+    pushStateVanilla(`${PATHS.HOME}?categoryId=${category.id}`);
   };
 
   useHotkeys(
@@ -111,7 +116,7 @@ function Home(props: HomeProps) {
   useHotkeys(
     Keys.OPEN_CREATE_LINK_KEY,
     () => {
-      router.push(`/link/create?categoryId=${categoryActive.id}`);
+      router.push(`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`);
     },
     {
       enabled: !modal.isShowing,
@@ -189,7 +194,7 @@ export async function getServerSideProps({ query }) {
   if (categoriesDB.length === 0) {
     return {
       redirect: {
-        destination: "/category/create",
+        destination: PATHS.CATEGORY.CREATE,
       },
     };
   }

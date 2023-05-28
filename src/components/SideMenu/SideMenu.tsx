@@ -6,6 +6,7 @@ import Favorites from "./Favorites/Favorites";
 import UserCard from "./UserCard/UserCard";
 
 import { Category, Link } from "types";
+import PATHS from "constants/paths";
 
 import styles from "./sidemenu.module.scss";
 
@@ -68,11 +69,11 @@ function MenuControls({
         <kbd>S</kbd>
       </div>
       <div className={styles["action"]}>
-        <LinkTag href={"/category/create"}>Créer categorie</LinkTag>
+        <LinkTag href={PATHS.CATEGORY.CREATE}>Créer categorie</LinkTag>
         <kbd>C</kbd>
       </div>
       <div className={styles["action"]}>
-        <LinkTag href={`/link/create?categoryId=${categoryActive.id}`}>
+        <LinkTag href={`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`}>
           Créer lien
         </LinkTag>
         <kbd>L</kbd>
