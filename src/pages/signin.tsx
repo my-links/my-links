@@ -1,5 +1,5 @@
 import { Provider } from "next-auth/providers";
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, getSession, signIn } from "next-auth/react";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 
@@ -36,7 +36,16 @@ export default function SignIn({ providers }: SignInProps) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: PATHS.HOME,
+      },
+    };
+  }
+
   const providers = await getProviders();
   return {
     props: { providers },
