@@ -9,8 +9,8 @@ import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
 import { Link } from "types";
-import { prisma } from "utils/back";
 import { BuildLink, HandleAxiosError } from "utils/front";
+import prisma from "utils/prisma";
 
 import styles from "styles/create.module.scss";
 
