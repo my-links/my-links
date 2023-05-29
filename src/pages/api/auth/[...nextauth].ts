@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import PATHS from "constants/paths";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 const prisma = new PrismaClient();
 
-export default NextAuth({
+// TODO: refactor auth
+export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -20,24 +21,33 @@ export default NextAuth({
     }),
   ],
   callbacks: {
+    async session({ session }) {
+      // check if stored in session still exist in db
+      await prisma.user.findFirstOrThrow({
+        where: { email: session.user.email },
+      });
+      return session;
+    },
     async signIn({ account: accountParam, profile }) {
-      // TODO: Auth
       console.log(
-        "Connexion via",
-        accountParam.provider,
-        accountParam.providerAccountId,
-        profile.email,
-        profile.name
+        "[AUTH]",
+        "User",
+        profile.name,
+        "attempt to log in with",
+        accountParam.provider
       );
       if (accountParam.provider !== "google") {
+        console.log("[AUTH]", "User", profile.name, "rejeced : bad provider");
         return (
           PATHS.LOGIN +
           "?error=" +
           encodeURI("Authentitifcation via Google requise")
         );
       }
+
       const email = profile?.email;
       if (email === "") {
+        console.log("[AUTH]", "User", profile.name, "rejeced : missing email");
         return (
           PATHS.LOGIN +
           "?error=" +
@@ -48,6 +58,12 @@ export default NextAuth({
       }
       const googleId = profile?.sub;
       if (googleId === "") {
+        console.log(
+          "[AUTH]",
+          "User",
+          profile.name,
+          "rejeced : missing google id"
+        );
         return (
           PATHS.LOGIN +
           "?error=" +
@@ -74,6 +90,13 @@ export default NextAuth({
             });
             return true;
           }
+
+          console.log(
+            "[AUTH]",
+            "User",
+            profile.name,
+            "rejeced : not authorized"
+          );
           return (
             PATHS.LOGIN +
             "?error=" +
@@ -82,9 +105,11 @@ export default NextAuth({
             )
           );
         } else {
+          console.log("[AUTH]", "User", profile.name, "success");
           return true;
         }
       } catch (error) {
+        console.log("[AUTH]", "User", profile.name, "unhandled error");
         console.error(error);
         return (
           PATHS.LOGIN +
@@ -97,8 +122,10 @@ export default NextAuth({
   pages: {
     signIn: PATHS.LOGIN,
     error: PATHS.LOGIN,
+    signOut: PATHS.LOGOUT,
   },
   session: {
     maxAge: 60 * 60 * 6, // Session de 6 heures
   },
-});
+} as NextAuthOptions;
+export default NextAuth(authOptions);
