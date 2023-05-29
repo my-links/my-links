@@ -9,8 +9,8 @@ import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
 import { Category } from "types";
-import { prisma } from "utils/back";
 import { BuildCategory, HandleAxiosError } from "utils/front";
+import prisma from "utils/prisma";
 
 import styles from "styles/create.module.scss";
 

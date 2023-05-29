@@ -11,13 +11,13 @@ import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
 import { Category, Link } from "types";
-import { prisma } from "utils/back";
 import {
   BuildCategory,
   BuildLink,
   HandleAxiosError,
   IsValidURL,
 } from "utils/front";
+import prisma from "utils/prisma";
 
 import styles from "styles/create.module.scss";
 

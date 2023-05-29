@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "utils/back";
+import prisma from "utils/prisma";
 
 // TODO: Ajouter vérification -> l'utilisateur doit changer au moins un champ
 export default async function handler(
