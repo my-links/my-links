@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  my-links-db:
+  my-links-dev-db:
     image: mysql:latest
     restart: always
     env_file: 
