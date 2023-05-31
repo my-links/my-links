@@ -11,15 +11,13 @@ import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
 import { Category, Link } from "types";
-import {
-  BuildCategory,
-  BuildLink,
-  HandleAxiosError,
-  IsValidURL,
-} from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError, IsValidURL } from "utils/front";
 
+import getUserCategories from "lib/category/getUserCategories";
+import getUserLink from "lib/link/getUserLink";
+import getUserOrThrow from "lib/user/getUserOrThrow";
 import styles from "styles/create.module.scss";
+import { getSessionOrThrow } from "utils/session";
 
 function EditLink({
   link,
@@ -133,20 +131,15 @@ function EditLink({
 EditLink.authRequired = true;
 export default EditLink;
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, res, query }) {
   const { lid } = query;
 
-  const categoriesDB = await prisma.category.findMany();
-  const categories = categoriesDB.map((categoryDB) =>
-    BuildCategory(categoryDB)
-  );
+  const session = await getSessionOrThrow(req, res);
+  const user = await getUserOrThrow(session);
+  const categories = await getUserCategories(user);
 
-  const linkDB = await prisma.link.findFirst({
-    where: { id: Number(lid) },
-    include: { category: true },
-  });
-
-  if (!linkDB) {
+  const link = await getUserLink(user, Number(lid));
+  if (!link) {
     return {
       redirect: {
         destination: "/",
@@ -154,10 +147,6 @@ export async function getServerSideProps({ query }) {
     };
   }
 
-  const link = BuildLink(linkDB, {
-    categoryId: linkDB.categoryId,
-    categoryName: linkDB.category.name,
-  });
   return {
     props: {
       link: JSON.parse(JSON.stringify(link)),

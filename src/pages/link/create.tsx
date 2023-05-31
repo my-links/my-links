@@ -111,7 +111,9 @@ CreateLink.authRequired = true;
 export default CreateLink;
 
 export async function getServerSideProps() {
-  const categoriesDB = await prisma.category.findMany();
+  const categoriesDB = await prisma.category.findMany({
+    include: { author: true },
+  });
   const categories = categoriesDB.map((categoryDB) =>
     BuildCategory(categoryDB)
   );

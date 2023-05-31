@@ -5,7 +5,8 @@ import { Category, Link } from "types";
 export function BuildCategory({
   id,
   name,
-  nextCategoryId,
+  authorId,
+  author,
   links = [],
   createdAt,
   updatedAt,
@@ -16,14 +17,15 @@ export function BuildCategory({
     links: links.map((link) =>
       BuildLink(link, { categoryId: id, categoryName: name })
     ),
-    nextCategoryId,
+    authorId,
+    author,
     createdAt,
     updatedAt,
   };
 }
 
 export function BuildLink(
-  { id, name, url, nextLinkId, favorite, createdAt, updatedAt },
+  { id, name, url, authorId, author, favorite, createdAt, updatedAt },
   { categoryId, categoryName }
 ): Link {
   return {
@@ -34,7 +36,8 @@ export function BuildLink(
       id: categoryId,
       name: categoryName,
     },
-    nextLinkId,
+    authorId,
+    author,
     favorite,
     createdAt,
     updatedAt,

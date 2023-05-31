@@ -1,10 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
+
 import prisma from "utils/prisma";
+import { authOptions } from "../auth/[...nextauth]";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const session = await getServerSession(req, res, authOptions); // je sais plus d'où ça vient
+  console.log("session", session);
+  if (!session?.user) {
+    return res.status(400).send({ error: "You must be connected" });
+  }
+
   const name = req.body?.name as string;
   const url = req.body?.url as string;
   const favorite = Boolean(req.body?.favorite) || false;
@@ -57,12 +66,16 @@ export default async function handler(
   }
 
   try {
+    const { id: authorId } = await prisma.user.findFirstOrThrow({
+      where: { email: session.user.email },
+    });
     await prisma.link.create({
       data: {
         name,
         url,
         categoryId,
         favorite,
+        authorId,
       },
     });
     return res

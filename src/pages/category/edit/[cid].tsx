@@ -79,7 +79,7 @@ export async function getServerSideProps({ query }) {
   const { cid } = query;
   const categoryDB = await prisma.category.findFirst({
     where: { id: Number(cid) },
-    include: { links: true },
+    include: { links: true, author: true },
   });
 
   if (!categoryDB) {

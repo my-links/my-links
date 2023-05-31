@@ -98,7 +98,7 @@ export async function getServerSideProps({ query }) {
   const { lid } = query;
   const linkDB = await prisma.link.findFirst({
     where: { id: Number(lid) },
-    include: { category: true },
+    include: { category: true, author: true },
   });
 
   if (!linkDB) {
