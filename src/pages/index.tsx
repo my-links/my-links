@@ -16,6 +16,7 @@ import { Category, Link, SearchItem } from "types";
 import { BuildCategory } from "utils/front";
 import { pushStateVanilla } from "utils/link";
 import prisma from "utils/prisma";
+import { getSessionOrThrow } from "utils/session";
 
 interface HomePageProps {
   categories: Category[];
@@ -185,10 +186,27 @@ function Home(props: HomePageProps) {
   );
 }
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, res, query }) {
+  const session = await getSessionOrThrow(req, res);
   const queryCategoryId = (query?.categoryId as string) || "";
+
+  const user = await prisma.user.findFirstOrThrow({
+    where: {
+      email: session.user.email,
+    },
+  });
   const categoriesDB = await prisma.category.findMany({
-    include: { links: true },
+    include: {
+      links: {
+        where: {
+          authorId: user.id,
+        },
+      },
+      author: true,
+    },
+    where: {
+      authorId: user.id,
+    },
   });
 
   if (categoriesDB.length === 0) {

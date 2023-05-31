@@ -33,6 +33,7 @@ export const authOptions = {
         "[AUTH]",
         "User",
         profile.name,
+        profile.sub,
         "attempt to log in with",
         accountParam.provider
       );
