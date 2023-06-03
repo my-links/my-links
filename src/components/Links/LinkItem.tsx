@@ -31,7 +31,7 @@ export default function LinkItem({
       categoryId: link.category.id,
     };
     axios
-      .put(`${PATHS.API.LINK.EDIT}/${link.id}`, payload)
+      .put(`${PATHS.API.LINK}/${link.id}`, payload)
       .then(() => toggleFavorite(link.id))
       .catch(console.error);
   };

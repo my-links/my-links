@@ -6,14 +6,19 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  google_id String   @unique
-  email     String   @unique
+  id        Int    @id @default(autoincrement())
+  google_id String @unique
+  email     String @unique
+
+  categories Category[]
+  links      Link[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -21,26 +26,33 @@ model User {
 }
 
 model Category {
-  id             Int      @id @default(autoincrement())
-  name           String   @unique @db.VarChar(255)
-  links          Link[]
-  nextCategoryId Int      @default(0)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id    Int    @id @default(autoincrement())
+  name  String @unique @db.VarChar(255)
+  links Link[]
+
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("category")
 }
 
 model Link {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(255)
-  url        String   @db.Text
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(255)
+  url  String @db.Text
+
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
-  nextLinkId Int      @default(0)
-  favorite   Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
+
+  favorite  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("link")
 }

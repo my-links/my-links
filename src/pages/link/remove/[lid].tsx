@@ -8,9 +8,12 @@ import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
+import getUserLink from "lib/link/getUserLink";
+import getUser from "lib/user/getUser";
 import { Link } from "types";
-import { BuildLink, HandleAxiosError } from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError } from "utils/front";
+import { getSession } from "utils/session";
 
 import styles from "styles/create.module.scss";
 
@@ -32,8 +35,8 @@ function RemoveLink({ link }: { link: Link }) {
     nProgress.start();
 
     try {
-      const { data } = await axios.delete(`/api/link/remove/${link.id}`);
-      router.push(`/?categoryId=${data?.categoryId}`);
+      const { data } = await axios.delete(`${PATHS.API.LINK}/${link.id}`);
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -94,25 +97,21 @@ function RemoveLink({ link }: { link: Link }) {
 RemoveLink.authRequired = true;
 export default RemoveLink;
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, res, query }) {
   const { lid } = query;
-  const linkDB = await prisma.link.findFirst({
-    where: { id: Number(lid) },
-    include: { category: true },
-  });
 
-  if (!linkDB) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
+
+  const link = await getUserLink(user, Number(lid));
+  if (!link) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }
 
-  const link = BuildLink(linkDB, {
-    categoryId: linkDB.categoryId,
-    categoryName: linkDB.category.name,
-  });
   return {
     props: {
       link: JSON.parse(JSON.stringify(link)),

@@ -7,6 +7,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 
 import AuthRequired from "components/AuthRequired";
 import * as Keys from "constants/keys";
+import PATHS from "constants/paths";
 
 import "nprogress/nprogress.css";
 import "styles/globals.scss";
@@ -14,8 +15,8 @@ import "styles/globals.scss";
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
 
-  useHotkeys(Keys.CLOSE_SEARCH_KEY, () => router.push("/"), {
-    enabled: router.pathname !== "/",
+  useHotkeys(Keys.CLOSE_SEARCH_KEY, () => router.push(PATHS.HOME), {
+    enabled: router.pathname !== PATHS.HOME,
     enableOnFormTags: ["INPUT"],
   });
 

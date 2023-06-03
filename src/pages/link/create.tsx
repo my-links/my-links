@@ -9,10 +9,13 @@ import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import getUserCategories from "lib/category/getUserCategories";
+import getUser from "lib/user/getUser";
 import { Category, Link } from "types";
-import { BuildCategory, HandleAxiosError, IsValidURL } from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError, IsValidURL } from "utils/front";
+import { getSession } from "utils/session";
 
 import styles from "styles/create.module.scss";
 
@@ -49,8 +52,8 @@ function CreateLink({ categories }: { categories: Category[] }) {
 
     try {
       const payload = { name, url, favorite, categoryId };
-      const { data } = await axios.post("/api/link/create", payload);
-      router.push(`/?categoryId=${data?.categoryId}`);
+      const { data } = await axios.post(PATHS.API.LINK, payload);
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -110,16 +113,15 @@ function CreateLink({ categories }: { categories: Category[] }) {
 CreateLink.authRequired = true;
 export default CreateLink;
 
-export async function getServerSideProps() {
-  const categoriesDB = await prisma.category.findMany();
-  const categories = categoriesDB.map((categoryDB) =>
-    BuildCategory(categoryDB)
-  );
+export async function getServerSideProps({ req, res }) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
 
+  const categories = await getUserCategories(user);
   if (categories.length === 0) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }

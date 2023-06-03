@@ -8,9 +8,12 @@ import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
+import getUserCategory from "lib/category/getUserCategory";
+import getUser from "lib/user/getUser";
 import { Category } from "types";
-import { BuildCategory, HandleAxiosError } from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError } from "utils/front";
+import { getSession } from "utils/session";
 
 import styles from "styles/create.module.scss";
 
@@ -36,8 +39,8 @@ function RemoveCategory({ category }: { category: Category }) {
     nProgress.start();
 
     try {
-      await axios.delete(`/api/category/remove/${category.id}`);
-      router.push("/");
+      await axios.delete(`${PATHS.API.CATEGORY}/${category.id}`);
+      router.push(PATHS.HOME);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -80,22 +83,21 @@ function RemoveCategory({ category }: { category: Category }) {
 RemoveCategory.authRequired = true;
 export default RemoveCategory;
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, res, query }) {
   const { cid } = query;
-  const categoryDB = await prisma.category.findFirst({
-    where: { id: Number(cid) },
-    include: { links: true },
-  });
 
-  if (!categoryDB) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
+
+  const category = await getUserCategory(user, Number(cid));
+  if (!category) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }
 
-  const category = BuildCategory(categoryDB);
   return {
     props: {
       category: JSON.parse(JSON.stringify(category)),

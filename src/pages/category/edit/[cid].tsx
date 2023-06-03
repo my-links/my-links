@@ -7,10 +7,13 @@ import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import getUserCategory from "lib/category/getUserCategory";
+import getUser from "lib/user/getUser";
 import { Category } from "types";
-import { BuildCategory, HandleAxiosError } from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError } from "utils/front";
+import { getSession } from "utils/session";
 
 import styles from "styles/create.module.scss";
 
@@ -35,12 +38,10 @@ function EditCategory({ category }: { category: Category }) {
     nProgress.start();
 
     try {
-      const payload = { name };
-      const { data } = await axios.put(
-        `/api/category/edit/${category.id}`,
-        payload
-      );
-      router.push(`/?categoryId=${data?.categoryId}`);
+      const { data } = await axios.put(`${PATHS.API.CATEGORY}/${category.id}`, {
+        name,
+      });
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -75,22 +76,21 @@ function EditCategory({ category }: { category: Category }) {
 EditCategory.authRequired = true;
 export default EditCategory;
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, res, query }) {
   const { cid } = query;
-  const categoryDB = await prisma.category.findFirst({
-    where: { id: Number(cid) },
-    include: { links: true },
-  });
 
-  if (!categoryDB) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
+
+  const category = await getUserCategory(user, Number(cid));
+  if (!category) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }
 
-  const category = BuildCategory(categoryDB);
   return {
     props: {
       category: JSON.parse(JSON.stringify(category)),
