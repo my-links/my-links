@@ -7,6 +7,7 @@ import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
 import { redirectWithoutClientCache } from "utils/client";
 import { HandleAxiosError } from "utils/front";
@@ -36,8 +37,10 @@ function CreateCategory() {
 
     try {
       const { data } = await axios.post("/api/category/create", { name });
+      const { data } = await axios.post(PATHS.API.CATEGORY, { name });
       redirectWithoutClientCache(router, "");
       router.push(`/?categoryId=${data?.categoryId}`);
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));

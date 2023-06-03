@@ -9,6 +9,7 @@ import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
 import getUserCategories from "lib/category/getUserCategories";
 import getUser from "lib/user/getUser";
@@ -51,8 +52,8 @@ function CreateLink({ categories }: { categories: Category[] }) {
 
     try {
       const payload = { name, url, favorite, categoryId };
-      const { data } = await axios.post("/api/link/create", payload);
-      router.push(`/?categoryId=${data?.categoryId}`);
+      const { data } = await axios.post(PATHS.API.LINK, payload);
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -120,7 +121,7 @@ export async function getServerSideProps({ req, res }) {
   if (categories.length === 0) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }

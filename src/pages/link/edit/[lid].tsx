@@ -12,12 +12,14 @@ import TextBox from "components/TextBox";
 import useAutoFocus from "hooks/useAutoFocus";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
+import { getSessionOrThrow } from "utils/session";
 
 import getUserCategories from "lib/category/getUserCategories";
 import getUserLink from "lib/link/getUserLink";
 import getUserOrThrow from "lib/user/getUserOrThrow";
+
+import PATHS from "constants/paths";
 import styles from "styles/create.module.scss";
-import { getSessionOrThrow } from "utils/session";
 
 function EditLink({
   link,
@@ -71,8 +73,8 @@ function EditLink({
 
     try {
       const payload = { name, url, favorite, categoryId };
-      const { data } = await axios.put(`/api/link/edit/${link.id}`, payload);
-      router.push(`/?categoryId=${data?.categoryId}`);
+      const { data } = await axios.put(`${PATHS.API.LINK}/${link.id}`, payload);
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -142,7 +144,7 @@ export async function getServerSideProps({ req, res, query }) {
   if (!link) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }
