@@ -13,16 +13,8 @@ const PATHS = {
     REMOVE: "/link/remove",
   },
   API: {
-    CATEGORY: {
-      CREATE: "/api/category/create",
-      EDIT: "/api/category/edit",
-      REMOVE: "/api/category/remove",
-    },
-    LINK: {
-      CREATE: "/api/link/create",
-      EDIT: "/api/link/edit",
-      REMOVE: "/api/link/remove",
-    },
+    CATEGORY: "/api/category",
+    LINK: "/api/link",
   },
   NOT_FOUND: "/404",
   SERVER_ERROR: "/505",

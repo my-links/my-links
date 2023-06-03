@@ -57,6 +57,10 @@ async function deleteCategory({ req, res, user }) {
     throw new Error("Unable to find category " + cid);
   }
 
+  if (category.links.length !== 0) {
+    throw new Error("You cannot remove category with links");
+  }
+
   await prisma.category.delete({
     where: { id: cid },
   });
