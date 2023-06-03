@@ -8,9 +8,11 @@ import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import getUserLink from "lib/link/getUserLink";
+import getUser from "lib/user/getUser";
 import { Link } from "types";
-import { BuildLink, HandleAxiosError } from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError } from "utils/front";
+import { getSession } from "utils/session";
 
 import styles from "styles/create.module.scss";
 
@@ -94,14 +96,14 @@ function RemoveLink({ link }: { link: Link }) {
 RemoveLink.authRequired = true;
 export default RemoveLink;
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ req, res, query }) {
   const { lid } = query;
-  const linkDB = await prisma.link.findFirst({
-    where: { id: Number(lid) },
-    include: { category: true, author: true },
-  });
 
-  if (!linkDB) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
+
+  const link = await getUserLink(user, Number(lid));
+  if (!link) {
     return {
       redirect: {
         destination: "/",
@@ -109,10 +111,6 @@ export async function getServerSideProps({ query }) {
     };
   }
 
-  const link = BuildLink(linkDB, {
-    categoryId: linkDB.categoryId,
-    categoryName: linkDB.category.name,
-  });
   return {
     props: {
       link: JSON.parse(JSON.stringify(link)),
