@@ -21,6 +21,7 @@ interface FormProps {
   classBtnConfirm?: string;
 
   children: any;
+  disableHomeLink?: boolean;
 }
 export default function Form({
   title,
@@ -33,6 +34,7 @@ export default function Form({
   textBtnConfirm = "Valider",
   classBtnConfirm = "",
   children,
+  disableHomeLink = false,
 }: FormProps) {
   return (
     <>
@@ -49,9 +51,11 @@ export default function Form({
             {textBtnConfirm}
           </button>
         </form>
-        <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
-          ← Revenir à l'accueil
-        </Link>
+        {!disableHomeLink && (
+          <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
+            ← Revenir à l'accueil
+          </Link>
+        )}
         <MessageManager
           info={infoMessage}
           error={errorMessage}
