@@ -1,5 +1,7 @@
 import { User } from "@prisma/client";
 
+// TODO: extend @prisma/client type with Link[] instead of
+// recreate interface (same for Link)
 export interface Category {
   id: number;
   name: string;

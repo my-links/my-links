@@ -1,53 +1,8 @@
 import axios from "axios";
-
-import { Category, Link } from "types";
-
-export function BuildCategory({
-  id,
-  name,
-  authorId,
-  author,
-  links = [],
-  createdAt,
-  updatedAt,
-}): Category {
-  return {
-    id,
-    name,
-    links: links.map((link) =>
-      BuildLink(link, { categoryId: id, categoryName: name })
-    ),
-    authorId,
-    author,
-    createdAt,
-    updatedAt,
-  };
-}
-
-export function BuildLink(
-  { id, name, url, authorId, author, favorite, createdAt, updatedAt },
-  { categoryId, categoryName }
-): Link {
-  return {
-    id,
-    name,
-    url,
-    category: {
-      id: categoryId,
-      name: categoryName,
-    },
-    authorId,
-    author,
-    favorite,
-    createdAt,
-    updatedAt,
-  };
-}
+import { VALID_URL_REGEX } from "constants/url";
 
 export function IsValidURL(url: string): boolean {
-  const regex = new RegExp(
-    /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.\%]+$/
-  );
+  const regex = new RegExp(VALID_URL_REGEX);
   return url.match(regex) ? true : false;
 }
 

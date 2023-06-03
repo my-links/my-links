@@ -10,9 +10,11 @@ import Selector from "components/Selector";
 import TextBox from "components/TextBox";
 
 import useAutoFocus from "hooks/useAutoFocus";
+import getUserCategories from "lib/category/getUserCategories";
+import getUser from "lib/user/getUser";
 import { Category, Link } from "types";
-import { BuildCategory, HandleAxiosError, IsValidURL } from "utils/front";
-import prisma from "utils/prisma";
+import { HandleAxiosError, IsValidURL } from "utils/front";
+import { getSession } from "utils/session";
 
 import styles from "styles/create.module.scss";
 
@@ -110,14 +112,11 @@ function CreateLink({ categories }: { categories: Category[] }) {
 CreateLink.authRequired = true;
 export default CreateLink;
 
-export async function getServerSideProps() {
-  const categoriesDB = await prisma.category.findMany({
-    include: { author: true },
-  });
-  const categories = categoriesDB.map((categoryDB) =>
-    BuildCategory(categoryDB)
-  );
+export async function getServerSideProps({ req, res }) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
 
+  const categories = await getUserCategories(user);
   if (categories.length === 0) {
     return {
       redirect: {

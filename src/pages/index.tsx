@@ -13,10 +13,10 @@ import PATHS from "constants/paths";
 import useModal from "hooks/useModal";
 import { Category, Link, SearchItem } from "types";
 
-import { BuildCategory } from "utils/front";
+import getUserCategories from "lib/category/getUserCategories";
+import getUser from "lib/user/getUser";
 import { pushStateVanilla } from "utils/link";
-import prisma from "utils/prisma";
-import { getSessionOrThrow } from "utils/session";
+import { getSession } from "utils/session";
 
 interface HomePageProps {
   categories: Category[];
@@ -187,29 +187,12 @@ function Home(props: HomePageProps) {
 }
 
 export async function getServerSideProps({ req, res, query }) {
-  const session = await getSessionOrThrow(req, res);
+  const session = await getSession(req, res);
   const queryCategoryId = (query?.categoryId as string) || "";
 
-  const user = await prisma.user.findFirstOrThrow({
-    where: {
-      email: session.user.email,
-    },
-  });
-  const categoriesDB = await prisma.category.findMany({
-    include: {
-      links: {
-        where: {
-          authorId: user.id,
-        },
-      },
-      author: true,
-    },
-    where: {
-      authorId: user.id,
-    },
-  });
-
-  if (categoriesDB.length === 0) {
+  const user = await getUser(session);
+  const categories = await getUserCategories(user);
+  if (categories.length === 0) {
     return {
       redirect: {
         destination: PATHS.CATEGORY.CREATE,
@@ -217,11 +200,9 @@ export async function getServerSideProps({ req, res, query }) {
     };
   }
 
-  const categories = categoriesDB.map(BuildCategory);
   const currentCategory = categories.find(
     ({ id }) => id === Number(queryCategoryId)
   );
-
   return {
     props: {
       categories: JSON.parse(JSON.stringify(categories)),

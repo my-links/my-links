@@ -1,4 +1,3 @@
-import { getServerSession } from "next-auth/next";
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
 import { NextSeo } from "next-seo";
@@ -6,9 +5,9 @@ import Link from "next/link";
 
 import MessageManager from "components/MessageManager/MessageManager";
 import PATHS from "constants/paths";
+import { getSession } from "utils/session";
 
 import styles from "styles/login.module.scss";
-import { authOptions } from "./api/auth/[...nextauth]";
 
 interface SignInProps {
   providers: Provider[];
@@ -39,7 +38,7 @@ export default function SignIn({ providers }: SignInProps) {
 }
 
 export async function getServerSideProps({ req, res }) {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await getSession(req, res);
   if (session) {
     return {
       redirect: {
