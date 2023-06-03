@@ -8,6 +8,7 @@ import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
 import getUserLink from "lib/link/getUserLink";
 import getUser from "lib/user/getUser";
 import { Link } from "types";
@@ -34,8 +35,8 @@ function RemoveLink({ link }: { link: Link }) {
     nProgress.start();
 
     try {
-      const { data } = await axios.delete(`/api/link/remove/${link.id}`);
-      router.push(`/?categoryId=${data?.categoryId}`);
+      const { data } = await axios.delete(`${PATHS.API.LINK}/${link.id}`);
+      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
       setSubmitted(true);
     } catch (error) {
       setError(HandleAxiosError(error));
@@ -106,7 +107,7 @@ export async function getServerSideProps({ req, res, query }) {
   if (!link) {
     return {
       redirect: {
-        destination: "/",
+        destination: PATHS.HOME,
       },
     };
   }
