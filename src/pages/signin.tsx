@@ -7,6 +7,7 @@ import MessageManager from "components/MessageManager/MessageManager";
 import PATHS from "constants/paths";
 import { getSession } from "utils/session";
 
+import getUser from "lib/user/getUser";
 import styles from "styles/login.module.scss";
 
 interface SignInProps {
@@ -39,7 +40,8 @@ export default function SignIn({ providers }: SignInProps) {
 
 export async function getServerSideProps({ req, res }) {
   const session = await getSession(req, res);
-  if (session) {
+  const user = await getUser(session);
+  if (user) {
     return {
       redirect: {
         destination: PATHS.HOME,

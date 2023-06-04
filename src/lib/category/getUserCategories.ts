@@ -11,6 +11,9 @@ export default async function getUserCategories(user: User) {
         where: {
           authorId: user?.id,
         },
+        include: {
+          category: true,
+        },
       },
     },
   });

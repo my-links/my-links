@@ -12,13 +12,13 @@ import TextBox from "components/TextBox";
 import useAutoFocus from "hooks/useAutoFocus";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
-import { getSessionOrThrow } from "utils/session";
+import { getSession } from "utils/session";
 
 import getUserCategories from "lib/category/getUserCategories";
 import getUserLink from "lib/link/getUserLink";
-import getUserOrThrow from "lib/user/getUserOrThrow";
 
 import PATHS from "constants/paths";
+import getUser from "lib/user/getUser";
 import styles from "styles/create.module.scss";
 
 function EditLink({
@@ -136,10 +136,17 @@ export default EditLink;
 export async function getServerSideProps({ req, res, query }) {
   const { lid } = query;
 
-  const session = await getSessionOrThrow(req, res);
-  const user = await getUserOrThrow(session);
-  const categories = await getUserCategories(user);
+  const session = await getSession(req, res);
+  const user = await getUser(session);
+  if (!user) {
+    return {
+      redirect: {
+        destination: PATHS.HOME,
+      },
+    };
+  }
 
+  const categories = await getUserCategories(user);
   const link = await getUserLink(user, Number(lid));
   if (!link) {
     return {

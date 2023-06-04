@@ -81,6 +81,13 @@ export default CreateCategory;
 export async function getServerSideProps({ req, res }) {
   const session = await getSession(req, res);
   const user = await getUser(session);
+  if (!user) {
+    return {
+      redirect: {
+        destination: PATHS.HOME,
+      },
+    };
+  }
 
   const categoriesCount = await getUserCategoriesCount(user);
   return {
