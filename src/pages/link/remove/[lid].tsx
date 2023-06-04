@@ -102,6 +102,13 @@ export async function getServerSideProps({ req, res, query }) {
 
   const session = await getSession(req, res);
   const user = await getUser(session);
+  if (!user) {
+    return {
+      redirect: {
+        destination: PATHS.HOME,
+      },
+    };
+  }
 
   const link = await getUserLink(user, Number(lid));
   if (!link) {

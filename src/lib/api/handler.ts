@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
 
 import getUserOrThrow from "lib/user/getUserOrThrow";
-import { getSessionOrThrow } from "utils/session";
+import { getSession } from "utils/session";
 
 type ApiHandlerMethod = ({
   req,
@@ -36,7 +36,7 @@ export function apiHandler(handler: {
         .json({ error: `Method ${req.method} Not Allowed` });
 
     try {
-      const session = await getSessionOrThrow(req, res);
+      const session = await getSession(req, res);
       const user = await getUserOrThrow(session);
 
       await handler[method]({ req, res, session, user });

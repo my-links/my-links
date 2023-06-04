@@ -116,6 +116,13 @@ export default CreateLink;
 export async function getServerSideProps({ req, res }) {
   const session = await getSession(req, res);
   const user = await getUser(session);
+  if (!user) {
+    return {
+      redirect: {
+        destination: PATHS.HOME,
+      },
+    };
+  }
 
   const categories = await getUserCategories(user);
   if (categories.length === 0) {

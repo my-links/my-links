@@ -187,10 +187,18 @@ function Home(props: HomePageProps) {
 }
 
 export async function getServerSideProps({ req, res, query }) {
-  const session = await getSession(req, res);
   const queryCategoryId = (query?.categoryId as string) || "";
 
+  const session = await getSession(req, res);
   const user = await getUser(session);
+  if (!user) {
+    return {
+      redirect: {
+        destination: PATHS.LOGIN,
+      },
+    };
+  }
+
   const categories = await getUserCategories(user);
   if (categories.length === 0) {
     return {
