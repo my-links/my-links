@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import Links from "components/Links/Links";
+import Modal from "components/Modal/Modal";
 import PageTransition from "components/PageTransition";
 import SearchModal from "components/SearchModal/SearchModal";
 import SideMenu from "components/SideMenu/SideMenu";
@@ -13,6 +14,7 @@ import PATHS from "constants/paths";
 import useModal from "hooks/useModal";
 import { Category, Link, SearchItem } from "types";
 
+import { useMediaQuery } from "hooks/useMediaQuery";
 import getUserCategories from "lib/category/getUserCategories";
 import getUser from "lib/user/getUser";
 import { pushStateVanilla } from "utils/link";
@@ -25,7 +27,10 @@ interface HomePageProps {
 
 function Home(props: HomePageProps) {
   const router = useRouter();
-  const modal = useModal();
+  const searchModal = useModal();
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const mobileModal = useModal();
 
   const [categories, setCategories] = useState<Category[]>(props.categories);
   const [categoryActive, setCategoryActive] = useState<Category | null>(
@@ -105,12 +110,12 @@ function Home(props: HomePageProps) {
     Keys.OPEN_SEARCH_KEY,
     (event) => {
       event.preventDefault();
-      modal.open();
+      searchModal.open();
     },
-    { enabled: !modal.isShowing }
+    { enabled: !searchModal.isShowing }
   );
-  useHotkeys(Keys.CLOSE_SEARCH_KEY, modal.close, {
-    enabled: modal.isShowing,
+  useHotkeys(Keys.CLOSE_SEARCH_KEY, searchModal.close, {
+    enabled: searchModal.isShowing,
     enableOnFormTags: ["INPUT"],
   });
 
@@ -120,7 +125,7 @@ function Home(props: HomePageProps) {
       router.push(`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`);
     },
     {
-      enabled: !modal.isShowing,
+      enabled: !searchModal.isShowing,
     }
   );
   useHotkeys(
@@ -129,25 +134,45 @@ function Home(props: HomePageProps) {
       router.push("/category/create");
     },
     {
-      enabled: !modal.isShowing,
+      enabled: !searchModal.isShowing,
     }
   );
 
   return (
     <PageTransition className="App">
-      <SideMenu
-        categories={categories}
-        favorites={favorites}
-        handleSelectCategory={handleSelectCategory}
-        categoryActive={categoryActive}
-        openSearchModal={modal.open}
-        isModalShowing={modal.isShowing}
-      />
+      {isMobile ? (
+        <>
+          <button onClick={mobileModal.open}>open mobile modal</button>
+          <AnimatePresence>
+            {mobileModal.isShowing && (
+              <Modal close={mobileModal.close}>
+                <SideMenu
+                  categories={categories}
+                  favorites={favorites}
+                  handleSelectCategory={handleSelectCategory}
+                  categoryActive={categoryActive}
+                  openSearchModal={searchModal.open}
+                  isModalShowing={searchModal.isShowing}
+                />
+              </Modal>
+            )}
+          </AnimatePresence>
+        </>
+      ) : (
+        <SideMenu
+          categories={categories}
+          favorites={favorites}
+          handleSelectCategory={handleSelectCategory}
+          categoryActive={categoryActive}
+          openSearchModal={searchModal.open}
+          isModalShowing={searchModal.isShowing}
+        />
+      )}
       <Links category={categoryActive} toggleFavorite={toggleFavorite} />
       <AnimatePresence>
-        {modal.isShowing && (
+        {searchModal.isShowing && (
           <SearchModal
-            close={modal.close}
+            close={searchModal.close}
             categories={categories}
             items={itemsSearch}
             handleSelectCategory={handleSelectCategory}
