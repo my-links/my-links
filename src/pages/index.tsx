@@ -133,35 +133,6 @@ function Home(props: HomePageProps) {
     }
   );
 
-  useHotkeys(
-    Keys.ARROW_UP,
-    () => {
-      const currentCategoryIndex = categories.findIndex(
-        ({ id }) => id === categoryActive.id
-      );
-      if (currentCategoryIndex === -1 || currentCategoryIndex === 0) return;
-
-      handleSelectCategory(categories[currentCategoryIndex - 1]);
-    },
-    { enabled: !modal.isShowing }
-  );
-  useHotkeys(
-    Keys.ARROW_DOWN,
-    () => {
-      const currentCategoryIndex = categories.findIndex(
-        ({ id }) => id === categoryActive.id
-      );
-      if (
-        currentCategoryIndex === -1 ||
-        currentCategoryIndex === categories.length - 1
-      )
-        return;
-
-      handleSelectCategory(categories[currentCategoryIndex + 1]);
-    },
-    { enabled: !modal.isShowing }
-  );
-
   return (
     <PageTransition className="App">
       <SideMenu
@@ -170,6 +141,7 @@ function Home(props: HomePageProps) {
         handleSelectCategory={handleSelectCategory}
         categoryActive={categoryActive}
         openSearchModal={modal.open}
+        isModalShowing={modal.isShowing}
       />
       <Links category={categoryActive} toggleFavorite={toggleFavorite} />
       <AnimatePresence>

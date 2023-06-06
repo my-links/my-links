@@ -5,9 +5,11 @@ import Categories from "./Categories/Categories";
 import Favorites from "./Favorites/Favorites";
 import UserCard from "./UserCard/UserCard";
 
-import { Category, Link } from "types";
+import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
+import { Category, Link } from "types";
 
+import { useHotkeys } from "react-hotkeys-hook";
 import styles from "./sidemenu.module.scss";
 
 interface SideMenuProps {
@@ -16,6 +18,7 @@ interface SideMenuProps {
   handleSelectCategory: (category: Category) => void;
   categoryActive: Category;
   openSearchModal: () => void;
+  isModalShowing: boolean;
 }
 export default function SideMenu({
   categories,
@@ -23,7 +26,38 @@ export default function SideMenu({
   handleSelectCategory,
   categoryActive,
   openSearchModal,
+  isModalShowing = false,
 }: SideMenuProps) {
+  useHotkeys(
+    Keys.ARROW_UP,
+    () => {
+      const currentCategoryIndex = categories.findIndex(
+        ({ id }) => id === categoryActive.id
+      );
+      if (currentCategoryIndex === -1 || currentCategoryIndex === 0) return;
+
+      handleSelectCategory(categories[currentCategoryIndex - 1]);
+    },
+    { enabled: !isModalShowing }
+  );
+
+  useHotkeys(
+    Keys.ARROW_DOWN,
+    () => {
+      const currentCategoryIndex = categories.findIndex(
+        ({ id }) => id === categoryActive.id
+      );
+      if (
+        currentCategoryIndex === -1 ||
+        currentCategoryIndex === categories.length - 1
+      )
+        return;
+
+      handleSelectCategory(categories[currentCategoryIndex + 1]);
+    },
+    { enabled: !isModalShowing }
+  );
+
   return (
     <div className={styles["side-menu"]}>
       <BlockWrapper>
