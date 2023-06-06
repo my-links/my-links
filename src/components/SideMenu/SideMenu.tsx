@@ -1,18 +1,17 @@
-import LinkTag from "next/link";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
 import Categories from "./Categories/Categories";
+import NavigationLinks from "./NavigationLinks";
 import Favorites from "./Favorites/Favorites";
 import UserCard from "./UserCard/UserCard";
 
 import * as Keys from "constants/keys";
-import PATHS from "constants/paths";
 import { Category, Link } from "types";
 
-import { useHotkeys } from "react-hotkeys-hook";
 import styles from "./sidemenu.module.scss";
 
-interface SideMenuProps {
+export interface SideMenuProps {
   categories: Category[];
   favorites: Link[];
   handleSelectCategory: (category: Category) => void;
@@ -20,6 +19,7 @@ interface SideMenuProps {
   openSearchModal: () => void;
   isModalShowing: boolean;
 }
+
 export default function SideMenu({
   categories,
   favorites,
@@ -71,7 +71,7 @@ export default function SideMenu({
         />
       </BlockWrapper>
       <BlockWrapper>
-        <MenuControls
+        <NavigationLinks
           categoryActive={categoryActive}
           openSearchModal={openSearchModal}
         />
@@ -79,39 +79,6 @@ export default function SideMenu({
       <BlockWrapper>
         <UserCard />
       </BlockWrapper>
-    </div>
-  );
-}
-
-function MenuControls({
-  categoryActive,
-  openSearchModal,
-}: {
-  categoryActive: SideMenuProps["categoryActive"];
-  openSearchModal: SideMenuProps["openSearchModal"];
-}) {
-  const handleOpenSearchModal = (event) => {
-    event.preventDefault();
-    openSearchModal();
-  };
-  return (
-    <div className={styles["menu-controls"]}>
-      <div className={styles["action"]}>
-        <LinkTag href={"/#"} onClick={handleOpenSearchModal}>
-          Rechercher
-        </LinkTag>
-        <kbd>S</kbd>
-      </div>
-      <div className={styles["action"]}>
-        <LinkTag href={PATHS.CATEGORY.CREATE}>Créer categorie</LinkTag>
-        <kbd>C</kbd>
-      </div>
-      <div className={styles["action"]}>
-        <LinkTag href={`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`}>
-          Créer lien
-        </LinkTag>
-        <kbd>L</kbd>
-      </div>
     </div>
   );
 }
