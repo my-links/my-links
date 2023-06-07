@@ -3,20 +3,21 @@ import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
+import BlockWrapper from "components/BlockWrapper/BlockWrapper";
 import Links from "components/Links/Links";
 import Modal from "components/Modal/Modal";
 import PageTransition from "components/PageTransition";
 import SearchModal from "components/SearchModal/SearchModal";
+import Categories from "components/SideMenu/Categories/Categories";
 import SideMenu from "components/SideMenu/SideMenu";
 
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
-import useModal from "hooks/useModal";
-import { Category, Link, SearchItem } from "types";
-
 import { useMediaQuery } from "hooks/useMediaQuery";
+import useModal from "hooks/useModal";
 import getUserCategories from "lib/category/getUserCategories";
 import getUser from "lib/user/getUser";
+import { Category, Link, SearchItem } from "types";
 import { pushStateVanilla } from "utils/link";
 import { getSession } from "utils/session";
 
@@ -104,15 +105,17 @@ function Home(props: HomePageProps) {
   const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
     pushStateVanilla(`${PATHS.HOME}?categoryId=${category.id}`);
+    mobileModal.close();
   };
 
+  const areHokeysEnabled = { enabled: !searchModal.isShowing };
   useHotkeys(
     Keys.OPEN_SEARCH_KEY,
     (event) => {
       event.preventDefault();
       searchModal.open();
     },
-    { enabled: !searchModal.isShowing }
+    areHokeysEnabled
   );
   useHotkeys(Keys.CLOSE_SEARCH_KEY, searchModal.close, {
     enabled: searchModal.isShowing,
@@ -124,40 +127,32 @@ function Home(props: HomePageProps) {
     () => {
       router.push(`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`);
     },
-    {
-      enabled: !searchModal.isShowing,
-    }
+    areHokeysEnabled
   );
   useHotkeys(
     Keys.OPEN_CREATE_CATEGORY_KEY,
     () => {
       router.push("/category/create");
     },
-    {
-      enabled: !searchModal.isShowing,
-    }
+    areHokeysEnabled
   );
 
   return (
     <PageTransition className="App">
       {isMobile ? (
-        <>
-          <button onClick={mobileModal.open}>open mobile modal</button>
-          <AnimatePresence>
-            {mobileModal.isShowing && (
-              <Modal close={mobileModal.close}>
-                <SideMenu
+        <AnimatePresence>
+          {mobileModal.isShowing && (
+            <Modal close={mobileModal.close}>
+              <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
+                <Categories
                   categories={categories}
-                  favorites={favorites}
-                  handleSelectCategory={handleSelectCategory}
                   categoryActive={categoryActive}
-                  openSearchModal={searchModal.open}
-                  isModalShowing={searchModal.isShowing}
+                  handleSelectCategory={handleSelectCategory}
                 />
-              </Modal>
-            )}
-          </AnimatePresence>
-        </>
+              </BlockWrapper>
+            </Modal>
+          )}
+        </AnimatePresence>
       ) : (
         <SideMenu
           categories={categories}
@@ -168,7 +163,12 @@ function Home(props: HomePageProps) {
           isModalShowing={searchModal.isShowing}
         />
       )}
-      <Links category={categoryActive} toggleFavorite={toggleFavorite} />
+      <Links
+        category={categoryActive}
+        toggleFavorite={toggleFavorite}
+        isMobile={isMobile}
+        openMobileModal={mobileModal.open}
+      />
       <AnimatePresence>
         {searchModal.isShowing && (
           <SearchModal

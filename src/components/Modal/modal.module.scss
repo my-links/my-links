@@ -49,3 +49,11 @@
   align-items: center;
   flex-direction: column;
 }
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: calc(100% - 2em);
+    min-width: unset;
+    margin-top: 1em;
+  }
+}
