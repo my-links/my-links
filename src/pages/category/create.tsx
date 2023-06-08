@@ -9,13 +9,13 @@ import TextBox from "components/TextBox";
 
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
-import { redirectWithoutClientCache } from "utils/client";
-import { HandleAxiosError } from "utils/front";
-
 import getUserCategoriesCount from "lib/category/getUserCategoriesCount";
 import getUser from "lib/user/getUser";
-import styles from "styles/create.module.scss";
+import { redirectWithoutClientCache } from "utils/client";
+import { HandleAxiosError } from "utils/front";
 import { getSession } from "utils/session";
+
+import styles from "styles/form.module.scss";
 
 function CreateCategory({ categoriesCount }: { categoriesCount: number }) {
   const autoFocusRef = useAutoFocus();
@@ -52,7 +52,7 @@ function CreateCategory({ categoriesCount }: { categoriesCount: number }) {
   };
 
   return (
-    <PageTransition className="page-category-create">
+    <PageTransition className={styles["form-container"]}>
       <FormLayout
         title="Créer une catégorie"
         errorMessage={error}
