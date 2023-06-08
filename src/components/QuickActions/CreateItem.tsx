@@ -1,5 +1,5 @@
 import LinkTag from "next/link";
-import { GrAdd } from "react-icons/gr";
+import { IoAddOutline } from "react-icons/io5";
 
 import { Category } from "types";
 
@@ -11,7 +11,7 @@ export default function CreateItem({
   onClick,
 }: {
   type: "category" | "link";
-  categoryId: Category["id"];
+  categoryId?: Category["id"];
   onClick?: (event: any) => void; // FIXME: find good event type
 }) {
   return (
@@ -21,7 +21,7 @@ export default function CreateItem({
       className={styles["action"]}
       onClick={onClick && onClick}
     >
-      <GrAdd />
+      <IoAddOutline />
     </LinkTag>
   );
 }

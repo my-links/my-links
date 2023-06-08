@@ -9,17 +9,16 @@ import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
 
+import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import getUserCategories from "lib/category/getUserCategories";
+import getUserLink from "lib/link/getUserLink";
+import getUser from "lib/user/getUser";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
 import { getSession } from "utils/session";
 
-import getUserCategories from "lib/category/getUserCategories";
-import getUserLink from "lib/link/getUserLink";
-
-import PATHS from "constants/paths";
-import getUser from "lib/user/getUser";
-import styles from "styles/create.module.scss";
+import styles from "styles/form.module.scss";
 
 function EditLink({
   link,
@@ -85,7 +84,7 @@ function EditLink({
   };
 
   return (
-    <PageTransition className="page-link-edit">
+    <PageTransition className={styles["form-container"]}>
       <FormLayout
         title="Modifier un lien"
         errorMessage={error}

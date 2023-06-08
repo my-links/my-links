@@ -15,7 +15,7 @@ import { Category } from "types";
 import { HandleAxiosError } from "utils/front";
 import { getSession } from "utils/session";
 
-import styles from "styles/create.module.scss";
+import styles from "styles/form.module.scss";
 
 function RemoveCategory({ category }: { category: Category }) {
   const router = useRouter();
@@ -51,7 +51,7 @@ function RemoveCategory({ category }: { category: Category }) {
   };
 
   return (
-    <PageTransition className="page-category-remove">
+    <PageTransition className={styles["form-container"]}>
       <FormLayout
         title="Supprimer une catégorie"
         categoryId={category.id.toString()}
