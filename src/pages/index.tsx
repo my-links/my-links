@@ -11,6 +11,7 @@ import PageTransition from "components/PageTransition";
 import SearchModal from "components/SearchModal/SearchModal";
 import Categories from "components/SideMenu/Categories/Categories";
 import SideMenu from "components/SideMenu/SideMenu";
+import UserCard from "components/SideMenu/UserCard/UserCard";
 
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
@@ -141,22 +142,25 @@ function Home(props: HomePageProps) {
   return (
     <PageTransition className="App">
       {isMobile ? (
-        <AnimatePresence>
-          {mobileModal.isShowing && (
-            <Modal close={mobileModal.close}>
-              <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
-                <ButtonLink href={PATHS.CATEGORY.CREATE}>
-                  Créer categorie
-                </ButtonLink>
-                <Categories
-                  categories={categories}
-                  categoryActive={categoryActive}
-                  handleSelectCategory={handleSelectCategory}
-                />
-              </BlockWrapper>
-            </Modal>
-          )}
-        </AnimatePresence>
+        <>
+          <UserCard />
+          <AnimatePresence>
+            {mobileModal.isShowing && (
+              <Modal close={mobileModal.close}>
+                <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
+                  <ButtonLink href={PATHS.CATEGORY.CREATE}>
+                    Créer categorie
+                  </ButtonLink>
+                  <Categories
+                    categories={categories}
+                    categoryActive={categoryActive}
+                    handleSelectCategory={handleSelectCategory}
+                  />
+                </BlockWrapper>
+              </Modal>
+            )}
+          </AnimatePresence>
+        </>
       ) : (
         <SideMenu
           categories={categories}
