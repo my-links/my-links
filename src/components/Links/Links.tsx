@@ -9,6 +9,7 @@ import LinkItem from "./LinkItem";
 
 import ButtonLink from "components/ButtonLink";
 import CreateItem from "components/QuickActions/CreateItem";
+import QuickActionSearch from "components/QuickActions/Search";
 import { RxHamburgerMenu } from "react-icons/rx";
 import styles from "./links.module.scss";
 
@@ -17,11 +18,13 @@ export default function Links({
   toggleFavorite,
   isMobile,
   openMobileModal,
+  openSearchModal,
 }: {
   category: Category;
   toggleFavorite: (linkId: Link["id"]) => void;
   isMobile: boolean;
   openMobileModal: () => void;
+  openSearchModal: () => void;
 }) {
   if (category === null) {
     return (
@@ -56,6 +59,7 @@ export default function Links({
           )}
         </span>
         <span className={styles["category-controls"]}>
+          <QuickActionSearch openSearchModal={openSearchModal} />
           <CreateItem type="link" categoryId={category.id} />
           <EditItem type="category" id={id} />
           <RemoveItem type="category" id={id} />

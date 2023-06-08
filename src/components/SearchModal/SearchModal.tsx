@@ -19,11 +19,13 @@ export default function SearchModal({
   handleSelectCategory,
   categories,
   items,
+  noHeader = true,
 }: {
   close: () => void;
   handleSelectCategory: (category: Category) => void;
   categories: Category[];
   items: SearchItem[];
+  noHeader?: boolean;
 }) {
   const autoFocusRef = useAutoFocus();
 
@@ -98,7 +100,7 @@ export default function SearchModal({
   );
 
   return (
-    <Modal title="Rechercher" close={close} noHeader padding={"0"}>
+    <Modal close={close} noHeader={noHeader} padding={"0"}>
       <form onSubmit={handleSubmit} className={styles["search-form"]}>
         <div className={styles["search-input-wrapper"]}>
           <label htmlFor="search">
