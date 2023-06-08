@@ -1,40 +1,36 @@
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
 import { NextSeo } from "next-seo";
-import Link from "next/link";
 
 import MessageManager from "components/MessageManager/MessageManager";
+import PageTransition from "components/PageTransition";
+
 import PATHS from "constants/paths";
+import getUser from "lib/user/getUser";
 import { getSession } from "utils/session";
 
-import getUser from "lib/user/getUser";
-import styles from "styles/login.module.scss";
+import styles from "styles/form.module.scss";
 
 interface SignInProps {
   providers: Provider[];
 }
 export default function SignIn({ providers }: SignInProps) {
   return (
-    <>
+    <PageTransition className={styles["form-container"]}>
       <NextSeo title="Authentification" />
-      <div className="App">
-        <div className={styles["wrapper"]}>
-          <h2>Se connecter</h2>
-          <MessageManager />
-          <div className={styles["providers"]}>
-            {Object.values(providers).map(({ name, id }) => (
-              <button
-                onClick={() => signIn(id, { callbackUrl: PATHS.HOME })}
-                key={id}
-              >
-                Continuer avec {name}
-              </button>
-            ))}
-          </div>
-          <Link href={PATHS.HOME}>← Revenir à l'accueil</Link>
-        </div>
+      <h2>Se connecter</h2>
+      <MessageManager info="Authentification requise pour utiliser ce service" />
+      <div className={styles["providers"]}>
+        {Object.values(providers).map(({ name, id }) => (
+          <button
+            onClick={() => signIn(id, { callbackUrl: PATHS.HOME })}
+            key={id}
+          >
+            Continuer avec {name}
+          </button>
+        ))}
       </div>
-    </>
+    </PageTransition>
   );
 }
 

@@ -23,7 +23,7 @@
 }
 
 .links-wrapper {
-  height: 100%;
+  height: calc(100% - 54px); // FIXME: eurk
   min-width: 0;
   padding: 10px;
   display: flex;
