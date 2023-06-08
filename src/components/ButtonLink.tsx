@@ -6,18 +6,22 @@ export default function ButtonLink({
   onClick,
   children,
   style = {},
+  className = "",
 }: {
   href?: string;
   onClick?: (...args: any) => any;
   children: ReactNode;
   style?: CSSProperties;
+  className?: string;
 }) {
   const handleClick = (event) => {
-    event.preventDefault();
+    if (!href || href === "#") {
+      event.preventDefault();
+    }
     onClick && onClick();
   };
   return (
-    <Link href={href} onClick={handleClick} style={style}>
+    <Link href={href} onClick={handleClick} style={style} className={className}>
       {children}
     </Link>
   );

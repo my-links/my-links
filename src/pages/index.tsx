@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
+import ButtonLink from "components/ButtonLink";
 import Links from "components/Links/Links";
 import Modal from "components/Modal/Modal";
 import PageTransition from "components/PageTransition";
@@ -144,6 +145,9 @@ function Home(props: HomePageProps) {
           {mobileModal.isShowing && (
             <Modal close={mobileModal.close}>
               <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
+                <ButtonLink href={PATHS.CATEGORY.CREATE}>
+                  Créer categorie
+                </ButtonLink>
                 <Categories
                   categories={categories}
                   categoryActive={categoryActive}
@@ -168,6 +172,7 @@ function Home(props: HomePageProps) {
         toggleFavorite={toggleFavorite}
         isMobile={isMobile}
         openMobileModal={mobileModal.open}
+        openSearchModal={searchModal.open}
       />
       <AnimatePresence>
         {searchModal.isShowing && (
@@ -176,6 +181,7 @@ function Home(props: HomePageProps) {
             categories={categories}
             items={itemsSearch}
             handleSelectCategory={handleSelectCategory}
+            noHeader={!isMobile}
           />
         )}
       </AnimatePresence>
