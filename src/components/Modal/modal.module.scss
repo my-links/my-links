@@ -53,7 +53,7 @@
 
 @media (max-width: 768px) {
   .modal-container {
-    height: calc(100% - 2em);
+    max-height: calc(100% - 2em);
     width: calc(100% - 2em);
     min-width: unset;
     margin-top: 1em;
