@@ -17,7 +17,7 @@ import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
 import { getSession } from "utils/session";
 
-import styles from "styles/create.module.scss";
+import styles from "styles/form.module.scss";
 
 function CreateLink({ categories }: { categories: Category[] }) {
   const autoFocusRef = useAutoFocus();
@@ -64,7 +64,7 @@ function CreateLink({ categories }: { categories: Category[] }) {
   };
 
   return (
-    <PageTransition className="page-link-create">
+    <PageTransition className={styles["form-container"]}>
       <FormLayout
         title="Créer un lien"
         categoryId={categoryIdQuery}

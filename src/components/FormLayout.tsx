@@ -3,8 +3,6 @@ import Link from "next/link";
 
 import MessageManager from "components/MessageManager/MessageManager";
 
-import styles from "styles/create.module.scss";
-
 interface FormProps {
   title: string;
 
@@ -39,29 +37,23 @@ export default function Form({
   return (
     <>
       <NextSeo title={title} />
-      <div className={`App ${styles["create-app"]}`}>
-        <h2>{title}</h2>
-        <form onSubmit={handleSubmit}>
-          {children}
-          <button
-            type="submit"
-            className={classBtnConfirm}
-            disabled={!canSubmit}
-          >
-            {textBtnConfirm}
-          </button>
-        </form>
-        {!disableHomeLink && (
-          <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
-            ← Revenir à l'accueil
-          </Link>
-        )}
-        <MessageManager
-          info={infoMessage}
-          error={errorMessage}
-          success={successMessage}
-        />
-      </div>
+      <h2>{title}</h2>
+      <form onSubmit={handleSubmit}>
+        {children}
+        <button type="submit" className={classBtnConfirm} disabled={!canSubmit}>
+          {textBtnConfirm}
+        </button>
+      </form>
+      {!disableHomeLink && (
+        <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
+          ← Revenir à l'accueil
+        </Link>
+      )}
+      <MessageManager
+        info={infoMessage}
+        error={errorMessage}
+        success={successMessage}
+      />
     </>
   );
 }

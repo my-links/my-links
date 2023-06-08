@@ -15,7 +15,7 @@ import { Link } from "types";
 import { HandleAxiosError } from "utils/front";
 import { getSession } from "utils/session";
 
-import styles from "styles/create.module.scss";
+import styles from "styles/form.module.scss";
 
 function RemoveLink({ link }: { link: Link }) {
   const router = useRouter();
@@ -46,7 +46,7 @@ function RemoveLink({ link }: { link: Link }) {
   };
 
   return (
-    <PageTransition className="page-link-remove">
+    <PageTransition className={styles["form-container"]}>
       <FormLayout
         title="Supprimer un lien"
         categoryId={link.category.id.toString()}
