@@ -1,6 +1,11 @@
+# MyLinks
+
+MyLinks is a tool that lets you manage your favorite links in an intuitive interface.
+Free and open source software, focused on privacy and self-hosting.
+
 # Setup
 
-Créer un fichier .env et éditer les valeurs
+Copy `example.env` file as `.env` and edit the properties.
 
 ```
 cp example.env .env
@@ -8,7 +13,7 @@ cp example.env .env
 
 ## Dev
 
-Laisser la variable d'environnement `DATABASE_URL`
+Leave the `DATABASE_URL` property filled
 
 ```
 cd docker
@@ -20,12 +25,12 @@ npm run dev
 
 ## Prod
 
-Retirer la variable d'environnement `DATABASE_URL` si vous souhaitez utiliser la DB dans le docker/docker-compose.yml
+If you want to use your own database leave, the `DATABASE_URL` property filled in `docker/docker-compose.yml` with your databse credentials, otherwise you'll have to delete it.
+
+(wait for `start-prod` script to finish)
 
 ```
 cd docker
 make build
 make start-prod
 ```
-
-(migrations automatiques)
