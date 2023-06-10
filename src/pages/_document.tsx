@@ -9,6 +9,7 @@ const Document = () => (
         rel="stylesheet"
       />
       <meta charSet="UTF-8" />
+      <link rel="shortcut icon" href="/favicon.png" type="image/png" />
     </Head>
     <body>
       <noscript>Vous devez activer JavaScript pour utiliser ce site</noscript>
