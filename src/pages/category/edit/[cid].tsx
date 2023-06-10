@@ -10,14 +10,13 @@ import TextBox from "components/TextBox";
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
 import getUserCategory from "lib/category/getUserCategory";
-import getUser from "lib/user/getUser";
 import { Category } from "types";
 import { HandleAxiosError } from "utils/front";
-import { getSession } from "utils/session";
+import { withAuthentication } from "utils/session";
 
 import styles from "styles/form.module.scss";
 
-function EditCategory({ category }: { category: Category }) {
+export default function PageEditCategory({ category }: { category: Category }) {
   const autoFocusRef = useAutoFocus();
   const router = useRouter();
 
@@ -73,34 +72,24 @@ function EditCategory({ category }: { category: Category }) {
   );
 }
 
-EditCategory.authRequired = true;
-export default EditCategory;
+export const getServerSideProps = withAuthentication(
+  async ({ query, session, user }) => {
+    const { cid } = query;
 
-export async function getServerSideProps({ req, res, query }) {
-  const { cid } = query;
+    const category = await getUserCategory(user, Number(cid));
+    if (!category) {
+      return {
+        redirect: {
+          destination: PATHS.HOME,
+        },
+      };
+    }
 
-  const session = await getSession(req, res);
-  const user = await getUser(session);
-  if (!user) {
     return {
-      redirect: {
-        destination: PATHS.HOME,
+      props: {
+        session,
+        category: JSON.parse(JSON.stringify(category)),
       },
     };
   }
-
-  const category = await getUserCategory(user, Number(cid));
-  if (!category) {
-    return {
-      redirect: {
-        destination: PATHS.HOME,
-      },
-    };
-  }
-
-  return {
-    props: {
-      category: JSON.parse(JSON.stringify(category)),
-    },
-  };
-}
+);

@@ -10,14 +10,13 @@ import TextBox from "components/TextBox";
 
 import PATHS from "constants/paths";
 import getUserLink from "lib/link/getUserLink";
-import getUser from "lib/user/getUser";
 import { Link } from "types";
 import { HandleAxiosError } from "utils/front";
-import { getSession } from "utils/session";
+import { withAuthentication } from "utils/session";
 
 import styles from "styles/form.module.scss";
 
-function RemoveLink({ link }: { link: Link }) {
+export default function PageRemoveLink({ link }: { link: Link }) {
   const router = useRouter();
 
   const [error, setError] = useState<string | null>(null);
@@ -94,34 +93,24 @@ function RemoveLink({ link }: { link: Link }) {
   );
 }
 
-RemoveLink.authRequired = true;
-export default RemoveLink;
+export const getServerSideProps = withAuthentication(
+  async ({ query, session, user }) => {
+    const { lid } = query;
 
-export async function getServerSideProps({ req, res, query }) {
-  const { lid } = query;
+    const link = await getUserLink(user, Number(lid));
+    if (!link) {
+      return {
+        redirect: {
+          destination: PATHS.HOME,
+        },
+      };
+    }
 
-  const session = await getSession(req, res);
-  const user = await getUser(session);
-  if (!user) {
     return {
-      redirect: {
-        destination: PATHS.HOME,
+      props: {
+        session,
+        link: JSON.parse(JSON.stringify(link)),
       },
     };
   }
-
-  const link = await getUserLink(user, Number(lid));
-  if (!link) {
-    return {
-      redirect: {
-        destination: PATHS.HOME,
-      },
-    };
-  }
-
-  return {
-    props: {
-      link: JSON.parse(JSON.stringify(link)),
-    },
-  };
-}
+);
