@@ -66,12 +66,12 @@ li {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+  height: 0.45em;
+  width: 0.45em;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: $light-grey;
   border-radius: 2px;
 }
 

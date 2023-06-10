@@ -1,4 +1,4 @@
-import { ReactNode, useId } from "react";
+import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { GrClose } from "react-icons/gr";
 
@@ -23,9 +23,8 @@ export default function Modal({
   noHeader = false,
   padding = "1em 1.5em",
 }: ModalProps) {
-  const modalId = useId();
   const handleWrapperClick = (event) =>
-    event.target.classList?.[0] === styles["modal-wrapper"] && close();
+    event.target.classList?.[0] === styles["modal-wrapper"] && close && close();
 
   return createPortal(
     <motion.div

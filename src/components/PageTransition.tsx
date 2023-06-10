@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 export default function PageTransition({
   className,
   children,
+  style = {},
 }: {
-  className: string;
+  className?: string;
   children: ReactNode;
+  style?: CSSProperties;
 }) {
   return (
     <motion.div
@@ -18,6 +20,7 @@ export default function PageTransition({
         stiffness: 260,
         damping: 20,
       }}
+      style={style}
     >
       {children}
     </motion.div>

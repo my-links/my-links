@@ -1,44 +1,76 @@
 @import "keyframes.scss";
 @import "colors.scss";
 
-.wrapper {
+.login-page {
   height: 100%;
-  width: 480px;
+  width: 100%;
+  background: url("http://localhost:3000/login-bg-final.webp");
+  background-size: cover;
+  background-position: bottom;
   display: flex;
-  gap: 20px;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
-  animation: fadein 250ms both;
+  transition: all 0.15s;
+}
 
-  & .providers {
-    height: fit-content;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.login-container {
+  width: auto;
+  max-width: 100%;
+  white-space: nowrap;
+  background-color: $black-blur;
+  backdrop-filter: blur(0.35em);
+  padding: 2.5em;
+  border-radius: 5px;
+  border: 1px solid $white;
+  display: flex;
+  gap: 2.5em;
+  flex-direction: row;
+  transition: all 0.15s;
+}
 
-    & button {
-      width: 100%;
-    }
-  }
+.image-wrapper {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-items: center;
+}
 
-  & .error {
-    height: fit-content;
-    width: 100%;
-    text-align: center;
-    font-style: italic;
-    font-size: 0.9em;
-    color: $red;
-    background-color: $light-red;
-    padding: 10px;
-    border-radius: 3px;
-    animation: fadein 250ms both;
+.form-wrapper {
+  display: flex;
+  gap: 1em;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  & h1 {
+    color: $white;
   }
 }
 
-@media (max-width: 680px) {
-  .login {
-    width: 100%;
+.login-button {
+  width: 100%;
+  color: $dark-blue;
+  background-color: $white;
+  padding: 0.5em;
+  border-radius: 3px;
+  display: flex;
+  gap: 0.25em;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: calc(768px + 4em)) {
+  .login-page {
+    padding: 1em;
+    justify-content: flex-start;
+  }
+
+  .login-container {
+    width: auto;
+    white-space: break-spaces;
+    align-items: center;
+    flex-direction: column;
   }
 }
