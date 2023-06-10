@@ -1,6 +1,6 @@
 const PATHS = {
-  LOGIN: "/signin",
-  LOGOUT: "/signout",
+  LOGIN: "/login",
+  LOGOUT: "/logout",
   HOME: "/",
   CATEGORY: {
     CREATE: "/category/create",
