@@ -18,17 +18,16 @@ import PATHS from "constants/paths";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import useModal from "hooks/useModal";
 import getUserCategories from "lib/category/getUserCategories";
-import getUser from "lib/user/getUser";
 import { Category, Link, SearchItem } from "types";
 import { pushStateVanilla } from "utils/link";
-import { getSession } from "utils/session";
+import { withAuthentication } from "utils/session";
 
 interface HomePageProps {
   categories: Category[];
   currentCategory: Category | undefined;
 }
 
-function Home(props: HomePageProps) {
+export default function HomePage(props: HomePageProps) {
   const router = useRouter();
   const searchModal = useModal();
 
@@ -193,40 +192,30 @@ function Home(props: HomePageProps) {
   );
 }
 
-export async function getServerSideProps({ req, res, query }) {
-  const queryCategoryId = (query?.categoryId as string) || "";
+export const getServerSideProps = withAuthentication(
+  async ({ query, session, user }) => {
+    const queryCategoryId = (query?.categoryId as string) || "";
 
-  const session = await getSession(req, res);
-  const user = await getUser(session);
-  if (!user) {
+    const categories = await getUserCategories(user);
+    if (categories.length === 0) {
+      return {
+        redirect: {
+          destination: PATHS.CATEGORY.CREATE,
+        },
+      };
+    }
+
+    const currentCategory = categories.find(
+      ({ id }) => id === Number(queryCategoryId)
+    );
     return {
-      redirect: {
-        destination: PATHS.LOGIN,
+      props: {
+        session,
+        categories: JSON.parse(JSON.stringify(categories)),
+        currentCategory: currentCategory
+          ? JSON.parse(JSON.stringify(currentCategory))
+          : null,
       },
     };
   }
-
-  const categories = await getUserCategories(user);
-  if (categories.length === 0) {
-    return {
-      redirect: {
-        destination: PATHS.CATEGORY.CREATE,
-      },
-    };
-  }
-
-  const currentCategory = categories.find(
-    ({ id }) => id === Number(queryCategoryId)
-  );
-  return {
-    props: {
-      categories: JSON.parse(JSON.stringify(categories)),
-      currentCategory: currentCategory
-        ? JSON.parse(JSON.stringify(currentCategory))
-        : null,
-    },
-  };
-}
-
-Home.authRequired = true;
-export default Home;
+);

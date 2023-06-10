@@ -12,14 +12,17 @@ import TextBox from "components/TextBox";
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
 import getUserCategories from "lib/category/getUserCategories";
-import getUser from "lib/user/getUser";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
-import { getSession } from "utils/session";
+import { withAuthentication } from "utils/session";
 
 import styles from "styles/form.module.scss";
 
-function CreateLink({ categories }: { categories: Category[] }) {
+export default function PageCreateLink({
+  categories,
+}: {
+  categories: Category[];
+}) {
   const autoFocusRef = useAutoFocus();
   const router = useRouter();
   const categoryIdQuery = router.query?.categoryId as string;
@@ -110,32 +113,22 @@ function CreateLink({ categories }: { categories: Category[] }) {
   );
 }
 
-CreateLink.authRequired = true;
-export default CreateLink;
+export const getServerSideProps = withAuthentication(
+  async ({ session, user }) => {
+    const categories = await getUserCategories(user);
+    if (categories.length === 0) {
+      return {
+        redirect: {
+          destination: PATHS.HOME,
+        },
+      };
+    }
 
-export async function getServerSideProps({ req, res }) {
-  const session = await getSession(req, res);
-  const user = await getUser(session);
-  if (!user) {
     return {
-      redirect: {
-        destination: PATHS.HOME,
+      props: {
+        session,
+        categories: JSON.parse(JSON.stringify(categories)),
       },
     };
   }
-
-  const categories = await getUserCategories(user);
-  if (categories.length === 0) {
-    return {
-      redirect: {
-        destination: PATHS.HOME,
-      },
-    };
-  }
-
-  return {
-    props: {
-      categories: JSON.parse(JSON.stringify(categories)),
-    },
-  };
-}
+);

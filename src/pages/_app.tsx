@@ -5,7 +5,6 @@ import nProgress from "nprogress";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import AuthRequired from "components/AuthRequired";
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
 
@@ -36,13 +35,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <DefaultSeo titleTemplate="MyLinks — %s" defaultTitle="MyLinks" />
-      {Component.authRequired ? (
-        <AuthRequired>
-          <Component {...pageProps} />
-        </AuthRequired>
-      ) : (
-        <Component {...pageProps} />
-      )}
+      <Component {...pageProps} />
     </SessionProvider>
   );
 }

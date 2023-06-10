@@ -10,14 +10,17 @@ import TextBox from "components/TextBox";
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
 import getUserCategoriesCount from "lib/category/getUserCategoriesCount";
-import getUser from "lib/user/getUser";
 import { redirectWithoutClientCache } from "utils/client";
 import { HandleAxiosError } from "utils/front";
-import { getSession } from "utils/session";
+import { withAuthentication } from "utils/session";
 
 import styles from "styles/form.module.scss";
 
-function CreateCategory({ categoriesCount }: { categoriesCount: number }) {
+export default function PageCreateCategory({
+  categoriesCount,
+}: {
+  categoriesCount: number;
+}) {
   const autoFocusRef = useAutoFocus();
   const router = useRouter();
   const info = useRouter().query?.info as string;
@@ -75,24 +78,14 @@ function CreateCategory({ categoriesCount }: { categoriesCount: number }) {
   );
 }
 
-CreateCategory.authRequired = true;
-export default CreateCategory;
-
-export async function getServerSideProps({ req, res }) {
-  const session = await getSession(req, res);
-  const user = await getUser(session);
-  if (!user) {
+export const getServerSideProps = withAuthentication(
+  async ({ session, user }) => {
+    const categoriesCount = await getUserCategoriesCount(user);
     return {
-      redirect: {
-        destination: PATHS.HOME,
+      props: {
+        session,
+        categoriesCount,
       },
     };
   }
-
-  const categoriesCount = await getUserCategoriesCount(user);
-  return {
-    props: {
-      categoriesCount,
-    },
-  };
-}
+);

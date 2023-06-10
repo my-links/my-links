@@ -13,14 +13,13 @@ import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
 import getUserCategories from "lib/category/getUserCategories";
 import getUserLink from "lib/link/getUserLink";
-import getUser from "lib/user/getUser";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
-import { getSession } from "utils/session";
+import { withAuthentication } from "utils/session";
 
 import styles from "styles/form.module.scss";
 
-function EditLink({
+export default function PageEditLink({
   link,
   categories,
 }: {
@@ -129,36 +128,26 @@ function EditLink({
   );
 }
 
-EditLink.authRequired = true;
-export default EditLink;
+export const getServerSideProps = withAuthentication(
+  async ({ query, session, user }) => {
+    const { lid } = query;
 
-export async function getServerSideProps({ req, res, query }) {
-  const { lid } = query;
+    const categories = await getUserCategories(user);
+    const link = await getUserLink(user, Number(lid));
+    if (!link) {
+      return {
+        redirect: {
+          destination: PATHS.HOME,
+        },
+      };
+    }
 
-  const session = await getSession(req, res);
-  const user = await getUser(session);
-  if (!user) {
     return {
-      redirect: {
-        destination: PATHS.HOME,
+      props: {
+        session,
+        link: JSON.parse(JSON.stringify(link)),
+        categories: JSON.parse(JSON.stringify(categories)),
       },
     };
   }
-
-  const categories = await getUserCategories(user);
-  const link = await getUserLink(user, Number(lid));
-  if (!link) {
-    return {
-      redirect: {
-        destination: PATHS.HOME,
-      },
-    };
-  }
-
-  return {
-    props: {
-      link: JSON.parse(JSON.stringify(link)),
-      categories: JSON.parse(JSON.stringify(categories)),
-    },
-  };
-}
+);
