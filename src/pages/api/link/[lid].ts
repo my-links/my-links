@@ -1,8 +1,7 @@
-import { boolean, number, object, string } from "yup";
-
-import { VALID_URL_REGEX } from "constants/url";
 import { apiHandler } from "lib/api/handler";
 import getUserLink from "lib/link/getUserLink";
+import { LinkBodySchema, LinkQuerySchema } from "lib/link/linkValidationSchema";
+
 import prisma from "utils/prisma";
 
 export default apiHandler({
@@ -10,27 +9,9 @@ export default apiHandler({
   delete: deleteLink,
 });
 
-const querySchema = object({
-  lid: number().required(),
-});
-
-// FIXME: code duplicated from api/link/create
-const bodySchema = object({
-  name: string()
-    .trim()
-    .required("name is required")
-    .max(32, "name is too long"),
-  url: string()
-    .trim()
-    .required("url is required")
-    .matches(VALID_URL_REGEX, "invalid url format"),
-  categoryId: number().required("categoryId must be a number"),
-  favorite: boolean().default(() => false),
-}).typeError("Missing request Body");
-
 async function editLink({ req, res, user }) {
-  const { lid } = await querySchema.validate(req.query);
-  const { name, url, favorite, categoryId } = await bodySchema.validate(
+  const { lid } = await LinkQuerySchema.validate(req.query);
+  const { name, url, favorite, categoryId } = await LinkBodySchema.validate(
     req.body
   );
 
@@ -64,7 +45,7 @@ async function editLink({ req, res, user }) {
 }
 
 async function deleteLink({ req, res, user }) {
-  const { lid } = await querySchema.validate(req.query);
+  const { lid } = await LinkQuerySchema.validate(req.query);
 
   const link = await getUserLink(user, lid);
   if (!link) {
