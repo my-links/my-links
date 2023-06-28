@@ -1,29 +1,21 @@
-import { number, object, string } from "yup";
-
 import { apiHandler } from "lib/api/handler";
+import {
+  CategorieBodySchema,
+  CategorieQuerySchema,
+} from "lib/category/categoryValidationSchema";
 import getUserCategory from "lib/category/getUserCategory";
-import prisma from "utils/prisma";
 import getUserCategoryByName from "lib/category/getUserCategoryByName";
+
+import prisma from "utils/prisma";
 
 export default apiHandler({
   put: editCategory,
   delete: deleteCategory,
 });
 
-const querySchema = object({
-  cid: number().required(),
-});
-
-const bodySchema = object({
-  name: string()
-    .trim()
-    .required("name is required")
-    .max(32, "name is too long"),
-}).typeError("Missing request Body");
-
 async function editCategory({ req, res, user }) {
-  const { cid } = await querySchema.validate(req.query);
-  const { name } = await bodySchema.validate(req.body);
+  const { cid } = await CategorieQuerySchema.validate(req.query);
+  const { name } = await CategorieBodySchema.validate(req.body);
 
   const category = await getUserCategory(user, cid);
   if (!category) {
@@ -50,7 +42,7 @@ async function editCategory({ req, res, user }) {
 }
 
 async function deleteCategory({ req, res, user }) {
-  const { cid } = await querySchema.validate(req.query);
+  const { cid } = await CategorieQuerySchema.validate(req.query);
 
   const category = await getUserCategory(user, cid);
   if (!category) {

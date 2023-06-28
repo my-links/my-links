@@ -1,8 +1,9 @@
 import { apiHandler } from "lib/api/handler";
+import { CategorieBodySchema } from "lib/category/categoryValidationSchema";
 import getUserCategories from "lib/category/getUserCategories";
 import getUserCategoryByName from "lib/category/getUserCategoryByName";
+
 import prisma from "utils/prisma";
-import { object, string } from "yup";
 
 export default apiHandler({
   get: getCatgories,
@@ -16,15 +17,8 @@ async function getCatgories({ res, user }) {
   });
 }
 
-const bodySchema = object({
-  name: string()
-    .trim()
-    .required("name is required")
-    .max(32, "name is too long"),
-}).typeError("Missing request Body");
-
 async function createCategory({ req, res, user }) {
-  const { name } = await bodySchema.validate(req.body);
+  const { name } = await CategorieBodySchema.validate(req.body);
 
   const category = await getUserCategoryByName(user, name);
   if (category) {
