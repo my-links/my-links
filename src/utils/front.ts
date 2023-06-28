@@ -13,14 +13,14 @@ export function HandleAxiosError(error): string {
     if (error.response) {
       const responseError =
         error.response.data?.["error"] || error.response.data;
-      errorText = responseError || "Une erreur est survenue";
+      errorText = responseError || "An error has occured";
     } else if (error.request) {
-      errorText = "Aucune donnée renvoyée par le serveur";
+      errorText = "No data returned from the server";
     } else {
-      errorText = "Une erreur inconnue est survenue";
+      errorText = "Something went wrong";
     }
   } else {
-    errorText = "Une erreur est survenue";
+    errorText = "An error has occured";
   }
 
   console.error(error);

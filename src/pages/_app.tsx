@@ -5,6 +5,8 @@ import nProgress from "nprogress";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
+import AppErrorBoundary from "components/AppErrorBoundary";
+
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
 
@@ -35,7 +37,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <DefaultSeo titleTemplate="MyLinks — %s" defaultTitle="MyLinks" />
-      <Component {...pageProps} />
+      <AppErrorBoundary>
+        <Component {...pageProps} />
+      </AppErrorBoundary>
     </SessionProvider>
   );
 }
