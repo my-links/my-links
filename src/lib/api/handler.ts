@@ -68,7 +68,7 @@ function errorHandler(error: any, response: NextApiResponse) {
       : error.message;
 
   console.error(error);
-  return response.status(500).json({ message: errorMessage });
+  return response.status(500).json({ error: errorMessage });
 }
 
 function handlePrismaError({
