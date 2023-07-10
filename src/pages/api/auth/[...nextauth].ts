@@ -125,8 +125,5 @@ export const authOptions = {
     error: PATHS.LOGIN,
     signOut: PATHS.LOGOUT,
   },
-  session: {
-    maxAge: 60 * 60 * 6, // Session de 6 heures
-  },
 } as NextAuthOptions;
 export default NextAuth(authOptions);
