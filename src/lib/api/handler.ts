@@ -1,9 +1,8 @@
 import { User } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import getUserOrThrow from "lib/user/getUserOrThrow";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-auth";
-
-import getUserOrThrow from "lib/user/getUserOrThrow";
 import { getSession } from "utils/session";
 
 type ApiHandlerMethod = ({
