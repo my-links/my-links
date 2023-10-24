@@ -14,8 +14,5 @@ start-dev:
 
 	@echo 'Dont forget to do migrations before run dev'
 
-start-prod:
-	docker-compose --env-file ../.env -f ./docker-compose.yml up -d
-
-build: 
-	docker build -f ./Dockerfile -t sonny/my-links ../
+prod:
+	docker compose up -d --build
