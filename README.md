@@ -34,3 +34,15 @@ cd docker
 make build
 make start-prod
 ```
+
+## Github Actions
+
+Env var to define :
+
+```
+DOCKER_USERNAME="Your docker username"
+DOCKER_PASSWORD="Your docker password"
+SSH_HOST="Your SSH host"
+SSH_USERNAME="Your SSH username"
+SSH_KEY="Your SSH key"
+```
