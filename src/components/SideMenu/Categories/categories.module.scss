@@ -11,25 +11,23 @@
 }
 
 .items {
-  padding-right: 5px;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .item {
+  border-bottom: 2px solid transparent !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   &.active {
-    color: $white;
-    background: $blue;
-    border-color: $blue;
+    color: $blue;
+    border-bottom: 2px solid $lightest-grey !important;
   }
 
   &:hover:not(.active) {
     color: $blue;
-    background: $white;
-    border-bottom: 2px solid $blue;
   }
 
   &.active .menu-item .option-edit svg {
@@ -37,7 +35,7 @@
   }
 
   & .content {
-    width: 100%;
+    width: calc(100% - 42px);
     display: flex;
     flex: 1;
     align-items: center;
@@ -54,9 +52,6 @@
       font-size: 0.85em;
       color: $grey;
     }
-  }
-  &:hover .content {
-    width: calc(100% - 42px);
   }
 
   & .menu-item {

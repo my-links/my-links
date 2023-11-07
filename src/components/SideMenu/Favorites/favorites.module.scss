@@ -27,16 +27,29 @@
   & a {
     width: 100%;
     color: inherit;
-    padding: 0.65em 1.15em;
+    padding: 0.5em 1em;
     border: 0 !important;
     display: flex;
     align-items: center;
     gap: 0.25em;
   }
 
+  & .link-name {
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   & .category {
-    color: $grey;
+    max-width: 75px;
     font-size: 0.85em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: $grey;
+    display: block;
+    overflow: hidden;
   }
 
   &:not(:last-child) {

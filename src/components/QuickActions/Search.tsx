@@ -1,5 +1,5 @@
 import ButtonLink from "components/ButtonLink";
-import { BsSearch } from "react-icons/bs";
+import { BiSearchAlt } from "react-icons/bi";
 
 import styles from "./quickactions.module.scss";
 
@@ -10,7 +10,7 @@ export default function QuickActionSearch({
 }) {
   return (
     <ButtonLink className={styles["action"]} onClick={openSearchModal}>
-      <BsSearch />
+      <BiSearchAlt />
     </ButtonLink>
   );
 }

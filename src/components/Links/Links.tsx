@@ -39,20 +39,17 @@ export default function Links({
   return (
     <div className={styles["links-wrapper"]}>
       <h2 className={styles["category-header"]}>
-        <span
-          className={styles["category-name"]}
-          style={{ display: "flex", alignItems: "center", gap: ".25em" }}
-        >
-          {isMobile && (
-            <ButtonLink
-              style={{
-                display: "flex",
-              }}
-              onClick={openMobileModal}
-            >
-              <RxHamburgerMenu size={"1.5em"} style={{ marginRight: ".5em" }} />
-            </ButtonLink>
-          )}
+        {isMobile && (
+          <ButtonLink
+            style={{
+              display: "flex",
+            }}
+            onClick={openMobileModal}
+          >
+            <RxHamburgerMenu size={"1.5em"} style={{ marginRight: ".5em" }} />
+          </ButtonLink>
+        )}
+        <span className={styles["category-name"]}>
           {name}
           {links.length > 0 && (
             <span className={styles["links-count"]}> — {links.length}</span>

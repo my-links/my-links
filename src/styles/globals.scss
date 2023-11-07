@@ -1,11 +1,12 @@
 @import "keyframes.scss";
 @import "colors.scss";
 
-* {
-  box-sizing: border-box;
+*:not(html) {
   outline: 0;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 html,
@@ -13,11 +14,22 @@ body {
   height: 100dvh;
   width: 100dvw;
   color: $black;
-  background-color: $light-grey;
   font-family: "Poppins", sans-serif;
-  padding: 0;
-  margin: 0;
+  background-color: $light-grey;
+}
+
+html {
   overflow: hidden;
+}
+
+body {
+  overflow: auto;
+  scrollbar-gutter: stable both-edges;
+
+  &.lock-scroll {
+    scrollbar-gutter: unset;
+    overflow: hidden;
+  }
 }
 
 #__next {
