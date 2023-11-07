@@ -23,7 +23,7 @@
 }
 
 .links-wrapper {
-  height: calc(100% - 54px); // FIXME: eurk
+  height: calc(100%); // FIXME: eurk
   min-width: 0;
   padding: 10px;
   display: flex;
@@ -45,10 +45,12 @@
 
 .category-header {
   display: flex;
+  gap: 0.25em;
   align-items: center;
   justify-content: space-between;
 
   & .category-name {
+    min-width: 0;
     width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;

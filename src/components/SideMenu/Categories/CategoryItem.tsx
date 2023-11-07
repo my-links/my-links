@@ -51,6 +51,7 @@ export default function CategoryItem({
         gap: ".25em",
         transition: "none",
       }}
+      title={category.name}
     >
       {category.id === categoryActive.id ? (
         <AiFillFolderOpen size={24} />
