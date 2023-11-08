@@ -13,6 +13,9 @@ const config = {
     formats: ["image/webp"],
   },
   reactStrictMode: false,
+  experimental: {
+    webpackBuildWorker: true,
+  },
 };
 
 module.exports = config;
