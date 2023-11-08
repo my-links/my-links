@@ -1,0 +1,9 @@
+{
+  "auth": {
+    "title": "Authentication",
+    "informative-text": "Authentication required to use MyLinks",
+    "continue-with": "Continue with {{provider}}"
+  },
+  "categories": {},
+  "links": {}
+}

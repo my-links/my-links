@@ -1,16 +1,14 @@
+import AppErrorBoundary from "components/AppErrorBoundary";
+import * as Keys from "constants/keys";
+import PATHS from "constants/paths";
 import { SessionProvider } from "next-auth/react";
+import { appWithTranslation } from "next-i18next";
 import { DefaultSeo } from "next-seo";
 import { useRouter } from "next/router";
 import nProgress from "nprogress";
+import "nprogress/nprogress.css";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-
-import AppErrorBoundary from "components/AppErrorBoundary";
-
-import * as Keys from "constants/keys";
-import PATHS from "constants/paths";
-
-import "nprogress/nprogress.css";
 import "styles/globals.scss";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
@@ -44,4 +42,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

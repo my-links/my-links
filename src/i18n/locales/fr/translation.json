@@ -1,0 +1,9 @@
+{
+  "auth": {
+    "title": "Authentification",
+    "informative-text": "Authentification requise pour utiliser ce service",
+    "continue-with": "Continuer avec {{provider}}"
+  },
+  "categories": {},
+  "links": {}
+}
