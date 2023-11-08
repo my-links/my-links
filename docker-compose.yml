@@ -1,26 +1,28 @@
 version: "3.8"
 
-volumes:
-  db_volume_data:
-    driver: local
+# volumes:
+#   db_volume_data:
+#     driver: local
 
 services:
-  mylinks_db:
-    image: mysql:latest
-    restart: always
-    volumes:
-      - db_volume_data:/var/lib/postgresql/data
-      - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
-    env_file:
-      - .env
+  # mylinks_db:
+  #   container_name: MyLinksDB
+  #   image: mysql:latest
+  #   restart: always
+  #   volumes:
+  #     - db_volume_data:/var/lib/postgresql/data
+  #     - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   env_file:
+  #     - .env
 
   mylinks:
     restart: always
     container_name: MyLinks
-    build:
-      context: .
+    image: sonny93/my-links:latest
+    # build:
+    #   context: .
     ports:
-      - 3000:3000
+      - 127.0.0.1:5000:3000
     env_file:
       - .env
     depends_on:
