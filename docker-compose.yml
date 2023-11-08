@@ -6,6 +6,7 @@ volumes:
 
 services:
   mylinks_db:
+    container_name: MyLinksDB
     image: mysql:latest
     restart: always
     volumes:
@@ -17,8 +18,9 @@ services:
   mylinks:
     restart: always
     container_name: MyLinks
-    build:
-      context: .
+    image: sonny93/my-links:latest
+    # build:
+    #   context: .
     ports:
       - 3000:3000
     env_file:

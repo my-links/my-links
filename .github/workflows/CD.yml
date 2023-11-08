@@ -3,7 +3,7 @@ name: CD
 on:
   push:
     branches:
-      - test_cd
+      - main
 
 jobs:
   push_image_to_docker_hub:
