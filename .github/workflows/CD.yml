@@ -46,5 +46,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cd /docker/my-links/app
             docker pull docker.io/sonny93/my-links:latest
             docker compose up -d
