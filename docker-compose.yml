@@ -5,15 +5,15 @@ volumes:
     driver: local
 
 services:
-  mylinks_db:
-    container_name: MyLinksDB
-    image: mysql:latest
-    restart: always
-    volumes:
-      - db_volume_data:/var/lib/postgresql/data
-      - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
-    env_file:
-      - .env
+  # mylinks_db:
+  #   container_name: MyLinksDB
+  #   image: mysql:latest
+  #   restart: always
+  #   volumes:
+  #     - db_volume_data:/var/lib/postgresql/data
+  #     - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   env_file:
+  #     - .env
 
   mylinks:
     restart: always
