@@ -1,34 +1,15 @@
 // Source : https://react.i18next.com/latest/using-with-hooks
 
-import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import { initReactI18next } from "react-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import commonEnglish from "./locales/en/common.json";
-import transEnglish from "./locales/en/translation.json";
+import nextI18NextConfig from "../../next-i18next.config";
 
-import commonFrench from "./locales/fr/common.json";
-import transFrench from "./locales/fr/translation.json";
+async function getServerSideTranslation(locale: string) {
+  return await serverSideTranslations(
+    locale,
+    ["common", "translation"],
+    nextI18NextConfig
+  );
+}
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: "en",
-    debug: true,
-    interpolation: {
-      escapeValue: false,
-    },
-    resources: {
-      en: {
-        translation: transEnglish,
-        common: commonEnglish,
-      },
-      fr: {
-        translation: transFrench,
-        common: commonFrench,
-      },
-    },
-  });
-
-export default i18n;
+export { getServerSideTranslation };

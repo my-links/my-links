@@ -3,12 +3,13 @@ import LangSelector from "components/LangSelector/LangSelector";
 import MessageManager from "components/MessageManager/MessageManager";
 import PageTransition from "components/PageTransition";
 import PATHS from "constants/paths";
+import { getServerSideTranslation } from "i18n/index";
 import getUser from "lib/user/getUser";
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
+import { useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
 import Image from "next/image";
-import { useTranslation } from "react-i18next";
 import { FcGoogle } from "react-icons/fc";
 import styles from "styles/login.module.scss";
 import { getSession } from "utils/session";
@@ -50,7 +51,7 @@ export default function SignIn({ providers }: SignInProps) {
   );
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, locale }) {
   const session = await getSession(req, res);
   const user = await getUser(session);
   if (user) {
@@ -63,6 +64,10 @@ export async function getServerSideProps({ req, res }) {
 
   const providers = await getProviders();
   return {
-    props: { session, providers },
+    props: {
+      session,
+      providers,
+      ...(await getServerSideTranslation(locale)),
+    },
   };
 }
