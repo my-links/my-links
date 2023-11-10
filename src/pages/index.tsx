@@ -1,10 +1,6 @@
-import { AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
 import ButtonLink from "components/ButtonLink";
+import LangSelector from "components/LangSelector";
 import Links from "components/Links/Links";
 import Modal from "components/Modal/Modal";
 import PageTransition from "components/PageTransition";
@@ -12,14 +8,18 @@ import SearchModal from "components/SearchModal/SearchModal";
 import Categories from "components/SideMenu/Categories/Categories";
 import SideMenu from "components/SideMenu/SideMenu";
 import UserCard from "components/SideMenu/UserCard/UserCard";
-
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
+import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import useModal from "hooks/useModal";
+import { getServerSideTranslation } from "i18n";
 import getUserCategories from "lib/category/getUserCategories";
+import { useRouter } from "next/router";
+import { useCallback, useMemo, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
+import { useTranslation } from "react-i18next";
 import { Category, Link, SearchItem } from "types";
-import { pushStateVanilla } from "utils/link";
 import { withAuthentication } from "utils/session";
 
 interface HomePageProps {
@@ -30,6 +30,7 @@ interface HomePageProps {
 export default function HomePage(props: HomePageProps) {
   const router = useRouter();
   const searchModal = useModal();
+  const { t } = useTranslation();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const mobileModal = useModal();
@@ -105,7 +106,7 @@ export default function HomePage(props: HomePageProps) {
 
   const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
-    pushStateVanilla(`${PATHS.HOME}?categoryId=${category.id}`);
+    router.push(`${PATHS.HOME}?categoryId=${category.id}`);
     mobileModal.close();
   };
 
@@ -142,13 +143,22 @@ export default function HomePage(props: HomePageProps) {
     <PageTransition className="App">
       {isMobile ? (
         <>
-          <UserCard />
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <UserCard />
+            <LangSelector />
+          </span>
           <AnimatePresence>
             {mobileModal.isShowing && (
               <Modal close={mobileModal.close}>
                 <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
                   <ButtonLink href={PATHS.CATEGORY.CREATE}>
-                    Créer categorie
+                    {t("common:category.create")}
                   </ButtonLink>
                   <Categories
                     categories={categories}
@@ -193,7 +203,7 @@ export default function HomePage(props: HomePageProps) {
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ query, session, user }) => {
+  async ({ query, session, user, locale }) => {
     const queryCategoryId = (query?.categoryId as string) || "";
 
     const categories = await getUserCategories(user);
@@ -215,6 +225,7 @@ export const getServerSideProps = withAuthentication(
         currentCategory: currentCategory
           ? JSON.parse(JSON.stringify(currentCategory))
           : null,
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }

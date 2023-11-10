@@ -34,6 +34,7 @@ export default function SearchListItem({
       }
       ref={ref}
       key={id}
+      title={name}
     >
       <LinkTag
         href={url}

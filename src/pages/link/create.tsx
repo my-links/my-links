@@ -1,30 +1,30 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
-
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
-
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import { getServerSideTranslation } from "i18n";
 import getUserCategories from "lib/category/getUserCategories";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
+import styles from "styles/form.module.scss";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
 import { withAuthentication } from "utils/session";
-
-import styles from "styles/form.module.scss";
 
 export default function PageCreateLink({
   categories,
 }: {
   categories: Category[];
 }) {
-  const autoFocusRef = useAutoFocus();
+  const { t } = useTranslation();
   const router = useRouter();
+  const autoFocusRef = useAutoFocus();
   const categoryIdQuery = router.query?.categoryId as string;
 
   const [name, setName] = useState<Link["name"]>("");
@@ -69,7 +69,7 @@ export default function PageCreateLink({
   return (
     <PageTransition className={styles["form-container"]}>
       <FormLayout
-        title="Créer un lien"
+        title={t("common:link.create")}
         categoryId={categoryIdQuery}
         errorMessage={error}
         canSubmit={canSubmit}
@@ -77,24 +77,24 @@ export default function PageCreateLink({
       >
         <TextBox
           name="name"
-          label="Nom"
+          label={t("common:link.name")}
           onChangeCallback={(value) => setName(value)}
           value={name}
           fieldClass={styles["input-field"]}
-          placeholder="Nom du lien"
+          placeholder={t("common:link.name")}
           innerRef={autoFocusRef}
         />
         <TextBox
           name="url"
-          label="URL"
+          label={t("common:link.link")}
           onChangeCallback={(value) => setUrl(value)}
           value={url}
           fieldClass={styles["input-field"]}
-          placeholder="https://www.example.org/"
+          placeholder="https://www.example.com/"
         />
         <Selector
           name="category"
-          label="Catégorie"
+          label={t("common:category.category")}
           value={categoryId}
           onChangeCallback={(value: number) => setCategoryId(value)}
           options={categories.map(({ id, name }) => ({
@@ -106,7 +106,7 @@ export default function PageCreateLink({
           name="favorite"
           isChecked={favorite}
           onChangeCallback={(value) => setFavorite(value)}
-          label="Favoris"
+          label={t("common:favorite")}
         />
       </FormLayout>
     </PageTransition>
@@ -114,7 +114,7 @@ export default function PageCreateLink({
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ session, user }) => {
+  async ({ session, user, locale }) => {
     const categories = await getUserCategories(user);
     if (categories.length === 0) {
       return {
@@ -128,6 +128,7 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         categories: JSON.parse(JSON.stringify(categories)),
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }

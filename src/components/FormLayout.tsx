@@ -1,7 +1,7 @@
+import MessageManager from "components/MessageManager/MessageManager";
+import { i18n, useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
-
-import MessageManager from "components/MessageManager/MessageManager";
 
 interface FormProps {
   title: string;
@@ -29,11 +29,13 @@ export default function Form({
   infoMessage,
   canSubmit,
   handleSubmit,
-  textBtnConfirm = "Valider",
+  textBtnConfirm = i18n.t("common:confirm"),
   classBtnConfirm = "",
   children,
   disableHomeLink = false,
 }: FormProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <NextSeo title={title} />
@@ -46,7 +48,7 @@ export default function Form({
       </form>
       {!disableHomeLink && (
         <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
-          ← Revenir à l'accueil
+          {t("common:back-home")}
         </Link>
       )}
       <MessageManager

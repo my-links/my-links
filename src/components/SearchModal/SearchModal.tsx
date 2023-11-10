@@ -1,17 +1,14 @@
-import { FormEvent, useCallback, useMemo, useState } from "react";
-import { BsSearch } from "react-icons/bs";
-
-import useAutoFocus from "hooks/useAutoFocus";
-
 import Modal from "components/Modal/Modal";
 import TextBox from "components/TextBox";
+import { GOOGLE_SEARCH_URL } from "constants/search-urls";
+import useAutoFocus from "hooks/useAutoFocus";
+import { useLocalStorage } from "hooks/useLocalStorage";
+import { useTranslation } from "next-i18next";
+import { FormEvent, useCallback, useMemo, useState } from "react";
+import { BsSearch } from "react-icons/bs";
+import { Category, SearchItem } from "types";
 import LabelSearchWithGoogle from "./LabelSearchWithGoogle";
 import SearchList from "./SearchList";
-
-import { GOOGLE_SEARCH_URL } from "constants/search-urls";
-import { useLocalStorage } from "hooks/useLocalStorage";
-import { Category, SearchItem } from "types";
-
 import styles from "./search.module.scss";
 
 export default function SearchModal({
@@ -27,6 +24,7 @@ export default function SearchModal({
   items: SearchItem[];
   noHeader?: boolean;
 }) {
+  const { t } = useTranslation();
   const autoFocusRef = useAutoFocus();
 
   const [canSearchLink, setCanSearchLink] = useLocalStorage(
@@ -110,7 +108,7 @@ export default function SearchModal({
             name="search"
             onChangeCallback={handleSearchInputChange}
             value={search}
-            placeholder="Rechercher"
+            placeholder={t("common:search")}
             innerRef={autoFocusRef}
             fieldClass={styles["search-input-field"]}
             inputClass={"reset"}
@@ -132,7 +130,7 @@ export default function SearchModal({
           />
         )}
         <button type="submit" disabled={!canSubmit} style={{ display: "none" }}>
-          Valider
+          {t("common:confirm")}
         </button>
       </form>
     </Modal>
@@ -150,6 +148,8 @@ function SearchFilter({
   canSearchCategory: boolean;
   setCanSearchCategory: (value: boolean) => void;
 }) {
+  const { t } = useTranslation();
+
   return (
     <div
       style={{
@@ -160,7 +160,6 @@ function SearchFilter({
         marginBottom: "1em",
       }}
     >
-      {/* à remplacer par des Chips Checkbox */}
       <div style={{ display: "flex", gap: ".25em" }}>
         <input
           type="checkbox"
@@ -169,7 +168,7 @@ function SearchFilter({
           onChange={({ target }) => setCanSearchLink(target.checked)}
           checked={canSearchLink}
         />
-        <label htmlFor="filter-link">liens</label>
+        <label htmlFor="filter-link">{t("common:link.links")}</label>
       </div>
       <div style={{ display: "flex", gap: ".25em" }}>
         <input
@@ -179,7 +178,9 @@ function SearchFilter({
           onChange={({ target }) => setCanSearchCategory(target.checked)}
           checked={canSearchCategory}
         />
-        <label htmlFor="filter-category">categories</label>
+        <label htmlFor="filter-category">
+          {t("common:category.categories")}
+        </label>
       </div>
     </div>
   );

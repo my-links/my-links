@@ -1,0 +1,33 @@
+{
+  "confirm": "Confirmer",
+  "cancel": "Annuler",
+  "back-home": "← Revenir à l'accueil",
+  "logout": "Déconnexion",
+  "login": "Connexion",
+  "link": {
+    "links": "Liens",
+    "link": "Lien",
+    "name": "Nom du lien",
+    "create": "Créer un lien",
+    "edit": "Modifier un lien",
+    "remove": "Supprimer un lien",
+    "remove-confirm": "Confirmer la suppression ?"
+  },
+  "category": {
+    "categories": "Catégories",
+    "category": "Catégorie",
+    "name": "Nom de la catégorie",
+    "create": "Créer une catégorie",
+    "edit": "Modifier une catégorie",
+    "remove": "Supprimer une categorie",
+    "remove-confirm": "Confirmer la suppression ?",
+    "remove-description": "Vous devez supprimer tous les liens de cette catégorie avant de pouvoir supprimer cette catégorie"
+  },
+  "favorite": "Favoris",
+  "no-item-found": "Aucun élément trouvé",
+  "search": "Rechercher",
+  "avatar": "Avatar de {{name}}",
+  "generic-error": "Une erreur est survenue",
+  "generic-error-description": "Une erreur est survenue, si cela se reproduit merci de <a href=\"https://github.com/Sonny93/my-links\" target=\"_blank\">créer une issue</a> avec le maximum de détails.",
+  "retry": "Recommencer"
+}

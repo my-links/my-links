@@ -1,22 +1,22 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
-
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
-
 import PATHS from "constants/paths";
+import { getServerSideTranslation } from "i18n";
 import getUserLink from "lib/link/getUserLink";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
+import styles from "styles/form.module.scss";
 import { Link } from "types";
 import { HandleAxiosError } from "utils/front";
 import { withAuthentication } from "utils/session";
 
-import styles from "styles/form.module.scss";
-
 export default function PageRemoveLink({ link }: { link: Link }) {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const [error, setError] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export default function PageRemoveLink({ link }: { link: Link }) {
   return (
     <PageTransition className={styles["form-container"]}>
       <FormLayout
-        title="Supprimer un lien"
+        title={t("common:link.remove")}
         categoryId={link.category.id.toString()}
         errorMessage={error}
         canSubmit={canSubmit}
@@ -57,34 +57,34 @@ export default function PageRemoveLink({ link }: { link: Link }) {
       >
         <TextBox
           name="name"
-          label="Nom"
+          label={t("common:link.name")}
           value={link.name}
           fieldClass={styles["input-field"]}
           disabled={true}
         />
         <TextBox
           name="url"
-          label="URL"
+          label={t("common:link.link")}
           value={link.url}
           fieldClass={styles["input-field"]}
           disabled={true}
         />
         <TextBox
           name="category"
-          label="Catégorie"
+          label={t("common:category.category")}
           value={link.category.name}
           fieldClass={styles["input-field"]}
           disabled={true}
         />
         <Checkbox
           name="favorite"
-          label="Favoris"
+          label={t("common:favorite")}
           isChecked={link.favorite}
           disabled={true}
         />
         <Checkbox
           name="confirm-delete"
-          label="Confirmer la suppression ?"
+          label={t("common:category.remove-confirm")}
           isChecked={confirmDelete}
           onChangeCallback={(checked) => setConfirmDelete(checked)}
         />
@@ -94,7 +94,7 @@ export default function PageRemoveLink({ link }: { link: Link }) {
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ query, session, user }) => {
+  async ({ query, session, user, locale }) => {
     const { lid } = query;
 
     const link = await getUserLink(user, Number(lid));
@@ -110,6 +110,7 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         link: JSON.parse(JSON.stringify(link)),
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }

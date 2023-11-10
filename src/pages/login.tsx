@@ -1,27 +1,29 @@
+import ButtonLink from "components/ButtonLink";
+import LangSelector from "components/LangSelector";
+import MessageManager from "components/MessageManager/MessageManager";
+import PageTransition from "components/PageTransition";
+import PATHS from "constants/paths";
+import { getServerSideTranslation } from "i18n/index";
+import getUser from "lib/user/getUser";
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
+import { useTranslation } from "next-i18next";
 import { NextSeo } from "next-seo";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
-
-import ButtonLink from "components/ButtonLink";
-import MessageManager from "components/MessageManager/MessageManager";
-import PageTransition from "components/PageTransition";
-
-import PATHS from "constants/paths";
-import getUser from "lib/user/getUser";
-import { getSession } from "utils/session";
-
 import styles from "styles/login.module.scss";
+import { getSession } from "utils/session";
 
 interface SignInProps {
   providers: Provider[];
 }
 export default function SignIn({ providers }: SignInProps) {
+  const { t } = useTranslation("login");
+
   return (
     <div className={styles["login-page"]}>
-      <PageTransition className={styles["login-container"]}>
-        <NextSeo title="Authentification" />
+      <PageTransition className={styles["login-container"]} hideLangageSelector>
+        <NextSeo title={t("login:title")} />
         <div className={styles["image-wrapper"]}>
           <Image
             src={"/logo-light.png"}
@@ -31,24 +33,28 @@ export default function SignIn({ providers }: SignInProps) {
           />
         </div>
         <div className={styles["form-wrapper"]}>
-          <h1>Authentification</h1>
-          <MessageManager info="Authentification requise pour utiliser ce service" />
+          <h1>{t("login:title")}</h1>
+          <MessageManager info={t("login:informative-text")} />
           {Object.values(providers).map(({ name, id }) => (
             <ButtonLink
               onClick={() => signIn(id, { callbackUrl: PATHS.HOME })}
               className={styles["login-button"]}
               key={id}
             >
-              <FcGoogle size={"1.5em"} /> Continuer avec {name}
+              <FcGoogle size={"1.5em"} />{" "}
+              {t("login:continue-with", { provider: name } as undefined)}
             </ButtonLink>
           ))}
         </div>
       </PageTransition>
+      <div className="lang-selector">
+        <LangSelector />
+      </div>
     </div>
   );
 }
 
-export async function getServerSideProps({ req, res }) {
+export async function getServerSideProps({ req, res, locale }) {
   const session = await getSession(req, res);
   const user = await getUser(session);
   if (user) {
@@ -61,6 +67,10 @@ export async function getServerSideProps({ req, res }) {
 
   const providers = await getProviders();
   return {
-    props: { session, providers },
+    props: {
+      session,
+      providers,
+      ...(await getServerSideTranslation(locale)),
+    },
   };
 }

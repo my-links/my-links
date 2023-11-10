@@ -1,23 +1,22 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
-
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import Selector from "components/Selector";
 import TextBox from "components/TextBox";
-
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import { getServerSideTranslation } from "i18n";
 import getUserCategories from "lib/category/getUserCategories";
 import getUserLink from "lib/link/getUserLink";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
+import styles from "styles/form.module.scss";
 import { Category, Link } from "types";
 import { HandleAxiosError, IsValidURL } from "utils/front";
 import { withAuthentication } from "utils/session";
-
-import styles from "styles/form.module.scss";
 
 export default function PageEditLink({
   link,
@@ -26,8 +25,9 @@ export default function PageEditLink({
   link: Link;
   categories: Category[];
 }) {
-  const autoFocusRef = useAutoFocus();
+  const { t } = useTranslation();
   const router = useRouter();
+  const autoFocusRef = useAutoFocus();
 
   const [name, setName] = useState<string>(link.name);
   const [url, setUrl] = useState<string>(link.url);
@@ -85,31 +85,31 @@ export default function PageEditLink({
   return (
     <PageTransition className={styles["form-container"]}>
       <FormLayout
-        title="Modifier un lien"
+        title={t("common:link.edit")}
         errorMessage={error}
         canSubmit={canSubmit}
         handleSubmit={handleSubmit}
       >
         <TextBox
           name="name"
-          label="Nom"
+          label={t("common:link.name")}
           onChangeCallback={(value) => setName(value)}
           value={name}
           fieldClass={styles["input-field"]}
-          placeholder={`Nom original : ${link.name}`}
+          placeholder={`${t("common:link.name")} : ${link.name}`}
           innerRef={autoFocusRef}
         />
         <TextBox
           name="url"
-          label="URL"
+          label={t("common:link.link")}
           onChangeCallback={(value) => setUrl(value)}
           value={url}
           fieldClass={styles["input-field"]}
-          placeholder={`URL original : ${link.url}`}
+          placeholder="https://example.com/"
         />
         <Selector
           name="category"
-          label="Catégorie"
+          label={t("common:category.category")}
           value={categoryId}
           onChangeCallback={(value: number) => setCategoryId(value)}
           options={categories.map(({ id, name }) => ({
@@ -121,7 +121,7 @@ export default function PageEditLink({
           name="favorite"
           isChecked={favorite}
           onChangeCallback={(value) => setFavorite(value)}
-          label="Favoris"
+          label={t("common:favorite")}
         />
       </FormLayout>
     </PageTransition>
@@ -129,7 +129,7 @@ export default function PageEditLink({
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ query, session, user }) => {
+  async ({ query, session, user, locale }) => {
     const { lid } = query;
 
     const categories = await getUserCategories(user);
@@ -147,6 +147,7 @@ export const getServerSideProps = withAuthentication(
         session,
         link: JSON.parse(JSON.stringify(link)),
         categories: JSON.parse(JSON.stringify(categories)),
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }
