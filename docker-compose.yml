@@ -25,6 +25,6 @@ services:
       - 127.0.0.1:5000:3000
     env_file:
       - .env
-    depends_on:
-      mylinks_db:
-        condition: service_started
+    # depends_on:
+    #   mylinks_db:
+    #     condition: service_started
