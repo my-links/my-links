@@ -1,14 +1,11 @@
-import { useHotkeys } from "react-hotkeys-hook";
-
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
-import Categories from "./Categories/Categories";
-import NavigationLinks from "./NavigationLinks";
-import Favorites from "./Favorites/Favorites";
-import UserCard from "./UserCard/UserCard";
-
 import * as Keys from "constants/keys";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Category, Link } from "types";
-
+import Categories from "./Categories/Categories";
+import Favorites from "./Favorites/Favorites";
+import NavigationLinks from "./NavigationLinks";
+import UserCard from "./UserCard/UserCard";
 import styles from "./sidemenu.module.scss";
 
 export interface SideMenuProps {

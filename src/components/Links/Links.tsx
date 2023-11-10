@@ -1,16 +1,15 @@
-import { motion } from "framer-motion";
-import LinkTag from "next/link";
-
-import { Category, Link } from "types";
-
-import EditItem from "components/QuickActions/EditItem";
-import RemoveItem from "components/QuickActions/RemoveItem";
-import LinkItem from "./LinkItem";
-
 import ButtonLink from "components/ButtonLink";
 import CreateItem from "components/QuickActions/CreateItem";
+import EditItem from "components/QuickActions/EditItem";
+import RemoveItem from "components/QuickActions/RemoveItem";
 import QuickActionSearch from "components/QuickActions/Search";
+import { motion } from "framer-motion";
+import { useTranslation } from "next-i18next";
+import LinkTag from "next/link";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { Category, Link } from "types";
+import { TFunctionParam } from "types/i18next";
+import LinkItem from "./LinkItem";
 import styles from "./links.module.scss";
 
 export default function Links({
@@ -26,11 +25,13 @@ export default function Links({
   openMobileModal: () => void;
   openSearchModal: () => void;
 }) {
+  const { t } = useTranslation("home");
+
   if (category === null) {
     return (
       <div className={styles["no-category"]}>
-        <p>Veuillez séléctionner une categorié</p>
-        <LinkTag href="/category/create">ou en créer une</LinkTag>
+        <p>{t("home:select-categorie")}</p>
+        <LinkTag href="/category/create">{t("home:or-create-one")}</LinkTag>
       </div>
     );
   }
@@ -85,11 +86,14 @@ export default function Links({
               damping: 20,
               duration: 0.01,
             }}
-          >
-            Aucun lien pour <b>{name}</b>
-          </motion.p>
+            dangerouslySetInnerHTML={{
+              __html: t("home:no-link", { name } as TFunctionParam, {
+                interpolation: { escapeValue: false },
+              }),
+            }}
+          />
           <LinkTag href={`/link/create?categoryId=${id}`}>
-            Créer un lien
+            {t("common:link.create")}
           </LinkTag>
         </div>
       )}
