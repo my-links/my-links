@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { CSSProperties, ReactNode } from "react";
+import LangSelector from "./LangSelector/LangSelector";
 
 export default function PageTransition({
   className,
@@ -23,6 +24,7 @@ export default function PageTransition({
       style={style}
     >
       {children}
+      <LangSelector />
     </motion.div>
   );
 }

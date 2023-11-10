@@ -19,5 +19,8 @@
   "favorite": "Favoris",
   "no-item-found": "Aucun élément trouvé",
   "search": "Rechercher",
-  "avatar": "Avatar de {{name}}"
+  "avatar": "Avatar de {{name}}",
+  "generic-error": "Une erreur est survenue",
+  "generic-error-description": "Une erreur est survenue, si cela se reproduit merci de <a href=\"https://github.com/Sonny93/my-links\" target=\"_blank\">créer une issue</a> avec le maximum de détails.",
+  "retry": "Recommencer"
 }

@@ -1,4 +1,4 @@
-import AppErrorBoundary from "components/AppErrorBoundary";
+import ErrorBoundary from "components/ErrorBoundary/ErrorBoundary";
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
 import { SessionProvider } from "next-auth/react";
@@ -36,9 +36,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <DefaultSeo titleTemplate="MyLinks — %s" defaultTitle="MyLinks" />
-      <AppErrorBoundary>
+      <ErrorBoundary>
         <Component {...pageProps} />
-      </AppErrorBoundary>
+      </ErrorBoundary>
     </SessionProvider>
   );
 }
