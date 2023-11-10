@@ -5,13 +5,17 @@
   "logout": "Déconnexion",
   "login": "Connexion",
   "link": {
+    "links": "Liens",
     "create": "Créer un lien",
     "edit": "Modifier un lien",
     "remove": "Supprimer un lien"
   },
   "category": {
+    "categories": "Catégories",
     "create": "Créer une catégorie",
     "edit": "Modifier une catégorie",
     "remove": "Supprimer une categorie"
-  }
+  },
+  "no-item-found": "Aucun élément trouvé",
+  "search": "Rechercher"
 }

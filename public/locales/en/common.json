@@ -5,13 +5,17 @@
   "logout": "Logout",
   "login": "Login",
   "link": {
+    "links": "Links",
     "create": "Create a link",
     "edit": "Edit a link",
     "remove": "Delete a link"
   },
   "category": {
-    "create": "Create a link",
-    "edit": "Edit a link",
-    "remove": "Delete a link"
-  }
+    "categories": "Categories",
+    "create": "Create a category",
+    "edit": "Edit a category",
+    "remove": "Delete a category"
+  },
+  "no-item-found": "No item found",
+  "search": "Search"
 }

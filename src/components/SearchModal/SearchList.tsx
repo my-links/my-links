@@ -1,12 +1,10 @@
+import * as Keys from "constants/keys";
+import { useTranslation } from "next-i18next";
 import { ReactNode, useEffect, useMemo } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-
 import { SearchItem } from "types";
 import { groupItemBy } from "utils/array";
 import SearchListItem from "./SearchListItem";
-
-import * as Keys from "constants/keys";
-
 import styles from "./search.module.scss";
 
 const isActiveItem = (item: SearchItem, otherItem: SearchItem) =>
@@ -65,16 +63,18 @@ export default function SearchList({
     <ul className={styles["search-list"]}>
       {groupedItems.length > 0 ? (
         groupedItems.map(([key, items]) => (
-          <li key={key + "-" + key}>
-            <li>{typeof key === "undefined" ? "-" : key}</li>
-            {items.map((item) => (
-              <SearchListItem
-                item={item}
-                selected={isActiveItem(item, selectedItem)}
-                closeModal={closeModal}
-                key={item.id}
-              />
-            ))}
+          <li key={`${key}-${key}`}>
+            <span>{typeof key === "undefined" ? "-" : key}</span>
+            <ul>
+              {items.map((item) => (
+                <SearchListItem
+                  item={item}
+                  selected={isActiveItem(item, selectedItem)}
+                  closeModal={closeModal}
+                  key={item.id}
+                />
+              ))}
+            </ul>
           </li>
         ))
       ) : noItem ? (
@@ -87,5 +87,6 @@ export default function SearchList({
 }
 
 function LabelNoItem() {
-  return <i className={styles["no-item"]}>Aucun élément trouvé</i>;
+  const { t } = useTranslation("home");
+  return <i className={styles["no-item"]}>{t("common:no-item-found")}</i>;
 }
