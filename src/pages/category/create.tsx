@@ -1,28 +1,28 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
-
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
-
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import { getServerSideTranslation } from "i18n";
 import getUserCategoriesCount from "lib/category/getUserCategoriesCount";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
+import styles from "styles/form.module.scss";
 import { redirectWithoutClientCache } from "utils/client";
 import { HandleAxiosError } from "utils/front";
 import { withAuthentication } from "utils/session";
-
-import styles from "styles/form.module.scss";
 
 export default function PageCreateCategory({
   categoriesCount,
 }: {
   categoriesCount: number;
 }) {
-  const autoFocusRef = useAutoFocus();
+  const { t } = useTranslation();
   const router = useRouter();
+  const autoFocusRef = useAutoFocus();
   const info = useRouter().query?.info as string;
 
   const [name, setName] = useState<string>("");
@@ -57,7 +57,7 @@ export default function PageCreateCategory({
   return (
     <PageTransition className={styles["form-container"]}>
       <FormLayout
-        title="Créer une catégorie"
+        title={t("common:category.create")}
         errorMessage={error}
         infoMessage={info}
         canSubmit={canSubmit}
@@ -66,11 +66,11 @@ export default function PageCreateCategory({
       >
         <TextBox
           name="name"
-          label="Nom de la catégorie"
+          label={t("common:category.name")}
           onChangeCallback={(value) => setName(value)}
           value={name}
           fieldClass={styles["input-field"]}
-          placeholder="Nom..."
+          placeholder={t("common:category.name")}
           innerRef={autoFocusRef}
         />
       </FormLayout>
@@ -79,12 +79,14 @@ export default function PageCreateCategory({
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ session, user }) => {
+  async ({ session, user, locale }) => {
     const categoriesCount = await getUserCategoriesCount(user);
+
     return {
       props: {
         session,
         categoriesCount,
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }

@@ -6,15 +6,19 @@
   "login": "Login",
   "link": {
     "links": "Links",
+    "name": "Link name",
     "create": "Create a link",
     "edit": "Edit a link",
     "remove": "Delete a link"
   },
   "category": {
     "categories": "Categories",
+    "name": "Category name",
     "create": "Create a category",
     "edit": "Edit a category",
-    "remove": "Delete a category"
+    "remove": "Delete a category",
+    "remove-confirm": "Confirm deletion?",
+    "remove-description": "You must delete all links in this category before you can delete this category."
   },
   "favorite": "Favorite",
   "no-item-found": "No item found",
