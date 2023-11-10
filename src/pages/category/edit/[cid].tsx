@@ -1,24 +1,24 @@
 import axios from "axios";
-import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
-
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
-
 import PATHS from "constants/paths";
 import useAutoFocus from "hooks/useAutoFocus";
+import { getServerSideTranslation } from "i18n";
 import getUserCategory from "lib/category/getUserCategory";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import nProgress from "nprogress";
+import { useMemo, useState } from "react";
+import styles from "styles/form.module.scss";
 import { Category } from "types";
 import { HandleAxiosError } from "utils/front";
 import { withAuthentication } from "utils/session";
 
-import styles from "styles/form.module.scss";
-
 export default function PageEditCategory({ category }: { category: Category }) {
-  const autoFocusRef = useAutoFocus();
+  const { t } = useTranslation();
   const router = useRouter();
+  const autoFocusRef = useAutoFocus();
 
   const [name, setName] = useState<string>(category.name);
 
@@ -53,18 +53,18 @@ export default function PageEditCategory({ category }: { category: Category }) {
   return (
     <PageTransition className={styles["form-container"]}>
       <FormLayout
-        title="Modifier une catégorie"
+        title={t("common:category.edit")}
         errorMessage={error}
         canSubmit={canSubmit}
         handleSubmit={handleSubmit}
       >
         <TextBox
           name="name"
-          label="Nom"
+          label={t("common:category.name")}
           onChangeCallback={(value) => setName(value)}
           value={name}
           fieldClass={styles["input-field"]}
-          placeholder={`Nom original : ${category.name}`}
+          placeholder={`${t("common:category.name")} : ${category.name}`}
           innerRef={autoFocusRef}
         />
       </FormLayout>
@@ -73,7 +73,7 @@ export default function PageEditCategory({ category }: { category: Category }) {
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ query, session, user }) => {
+  async ({ query, session, user, locale }) => {
     const { cid } = query;
 
     const category = await getUserCategory(user, Number(cid));
@@ -89,6 +89,7 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         category: JSON.parse(JSON.stringify(category)),
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }

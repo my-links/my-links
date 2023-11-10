@@ -1,9 +1,7 @@
+import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { AiFillFolderOpen, AiOutlineFolder } from "react-icons/ai";
-
 import { Category } from "types";
-
-import { motion } from "framer-motion";
 import styles from "./categories.module.scss";
 
 interface CategoryItemProps {

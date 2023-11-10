@@ -1,7 +1,7 @@
+import { useTranslation } from "next-i18next";
+import { useMemo } from "react";
 import { Category } from "types";
 import CategoryItem from "./CategoryItem";
-
-import { useMemo } from "react";
 import styles from "./categories.module.scss";
 
 interface CategoriesProps {
@@ -14,13 +14,17 @@ export default function Categories({
   categoryActive,
   handleSelectCategory,
 }: CategoriesProps) {
+  const { t } = useTranslation();
   const linksCount = useMemo(
     () => categories.reduce((acc, current) => (acc += current.links.length), 0),
     [categories]
   );
+
   return (
     <div className={styles["categories"]}>
-      <h4>Catégories • {linksCount}</h4>
+      <h4>
+        {t("common:category.categories")} • {linksCount}
+      </h4>
       <ul className={styles["items"]}>
         {categories.map((category, index) => (
           <CategoryItem
