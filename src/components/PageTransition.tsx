@@ -6,10 +6,12 @@ export default function PageTransition({
   className,
   children,
   style = {},
+  hideLangageSelector = false,
 }: {
   className?: string;
   children: ReactNode;
   style?: CSSProperties;
+  hideLangageSelector?: boolean;
 }) {
   return (
     <motion.div
@@ -24,7 +26,7 @@ export default function PageTransition({
       style={style}
     >
       {children}
-      <LangSelector />
+      {!hideLangageSelector && <LangSelector />}
     </motion.div>
   );
 }
