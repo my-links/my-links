@@ -1,5 +1,6 @@
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
 import ButtonLink from "components/ButtonLink";
+import LangSelector from "components/LangSelector";
 import Links from "components/Links/Links";
 import Modal from "components/Modal/Modal";
 import PageTransition from "components/PageTransition";
@@ -17,6 +18,7 @@ import getUserCategories from "lib/category/getUserCategories";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useTranslation } from "react-i18next";
 import { Category, Link, SearchItem } from "types";
 import { withAuthentication } from "utils/session";
 
@@ -28,6 +30,7 @@ interface HomePageProps {
 export default function HomePage(props: HomePageProps) {
   const router = useRouter();
   const searchModal = useModal();
+  const { t } = useTranslation();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const mobileModal = useModal();
@@ -140,13 +143,22 @@ export default function HomePage(props: HomePageProps) {
     <PageTransition className="App">
       {isMobile ? (
         <>
-          <UserCard />
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <UserCard />
+            <LangSelector />
+          </span>
           <AnimatePresence>
             {mobileModal.isShowing && (
               <Modal close={mobileModal.close}>
                 <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
                   <ButtonLink href={PATHS.CATEGORY.CREATE}>
-                    Créer categorie
+                    {t("common:category.create")}
                   </ButtonLink>
                   <Categories
                     categories={categories}

@@ -1,6 +1,6 @@
 import { withTranslation } from 'next-i18next';
 import React from 'react';
-import LangSelector from '../LangSelector/LangSelector';
+import LangSelector from '../LangSelector';
 import styles from './error-boundary.module.scss';
 
 class ErrorBoundary extends React.Component {
@@ -25,7 +25,6 @@ class ErrorBoundary extends React.Component {
         <div className={styles["boundary-content"]}>
           <h1>{this.props.t('common:generic-error')}</h1>
           <p
-            className={styles["description"]}
             dangerouslySetInnerHTML={{
               __html: this.props.t('common:generic-error-description')
             }}
@@ -37,7 +36,7 @@ class ErrorBoundary extends React.Component {
             <summary>{this.state.error && this.state.error.toString()}</summary>
             <code>{this.state.errorInfo.componentStack}</code>
           </details>
-          <div className={styles["floating-lang-selector"]}>
+          <div className='lang-selector'>
             <LangSelector />
           </div>
         </div>

@@ -1,5 +1,5 @@
 import ButtonLink from "components/ButtonLink";
-import LangSelector from "components/LangSelector/LangSelector";
+import LangSelector from "components/LangSelector";
 import MessageManager from "components/MessageManager/MessageManager";
 import PageTransition from "components/PageTransition";
 import PATHS from "constants/paths";
@@ -22,7 +22,7 @@ export default function SignIn({ providers }: SignInProps) {
 
   return (
     <div className={styles["login-page"]}>
-      <PageTransition className={styles["login-container"]}>
+      <PageTransition className={styles["login-container"]} hideLangageSelector>
         <NextSeo title={t("login:title")} />
         <div className={styles["image-wrapper"]}>
           <Image
@@ -47,7 +47,9 @@ export default function SignIn({ providers }: SignInProps) {
           ))}
         </div>
       </PageTransition>
-      <LangSelector />
+      <div className="lang-selector">
+        <LangSelector />
+      </div>
     </div>
   );
 }

@@ -20,17 +20,6 @@
   & button {
     width: 175px;
   }
-
-  & .description {
-    white-space: pre-line;
-  }
-
-  & .floating-lang-selector {
-    position: fixed;
-    width: fit-content;
-    bottom: 1em;
-    right: 1em;
-  }
 }
 
 @media (max-width: 600px) {

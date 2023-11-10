@@ -193,6 +193,12 @@ kbd {
   display: inline-block;
 }
 
+.lang-selector {
+  position: absolute;
+  bottom: 4em;
+  right: 2em;
+}
+
 @media (max-width: 1280px) {
   .App {
     width: 100%;
