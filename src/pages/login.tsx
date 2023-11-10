@@ -42,7 +42,7 @@ export default function SignIn({ providers }: SignInProps) {
               key={id}
             >
               <FcGoogle size={"1.5em"} />{" "}
-              {t("login:continue-with", { provider: name } as any as string)}
+              {t("login:continue-with", { provider: name } as undefined)}
             </ButtonLink>
           ))}
         </div>

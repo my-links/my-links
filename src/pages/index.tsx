@@ -19,7 +19,6 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import useModal from "hooks/useModal";
 import getUserCategories from "lib/category/getUserCategories";
 import { Category, Link, SearchItem } from "types";
-import { pushStateVanilla } from "utils/link";
 import { withAuthentication } from "utils/session";
 
 interface HomePageProps {
@@ -105,7 +104,7 @@ export default function HomePage(props: HomePageProps) {
 
   const handleSelectCategory = (category: Category) => {
     setCategoryActive(category);
-    pushStateVanilla(`${PATHS.HOME}?categoryId=${category.id}`);
+    router.push(`${PATHS.HOME}?categoryId=${category.id}`);
     mobileModal.close();
   };
 

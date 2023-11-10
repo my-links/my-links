@@ -10,10 +10,11 @@
   "dependencies": {
     "@prisma/client": "^5.5.2",
     "@svgr/webpack": "^8.1.0",
+    "accept-language": "^3.0.18",
     "axios": "^1.6.1",
     "framer-motion": "^10.16.4",
-    "i18next": "^23.6.0",
-    "next": "^14.0.1",
+    "i18next": "^23.7.1",
+    "next": "^14.0.2",
     "next-auth": "^4.24.4",
     "next-i18next": "^15.0.0",
     "next-seo": "^6.4.0",
@@ -38,7 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "eslint": "^8.53.0",
-    "eslint-config-next": "14.0.1",
+    "eslint-config-next": "14.0.2",
     "prisma": "^5.5.2",
     "typescript": "5.2.2"
   }

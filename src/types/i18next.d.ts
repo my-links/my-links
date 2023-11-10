@@ -17,3 +17,6 @@ declare module "i18next" {
     returnNull: false;
   }
 }
+
+// Ugly hack because of the above declaration, i cant use "t" function params
+type TFunctionParam = undefined;
