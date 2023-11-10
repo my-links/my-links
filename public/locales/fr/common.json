@@ -16,6 +16,8 @@
     "edit": "Modifier une catégorie",
     "remove": "Supprimer une categorie"
   },
+  "favorite": "Favoris",
   "no-item-found": "Aucun élément trouvé",
-  "search": "Rechercher"
+  "search": "Rechercher",
+  "avatar": "Avatar de {{name}}"
 }
