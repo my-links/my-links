@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   });
 
   useEffect(() => {
-    // Chargement pages
+    // Page loading events
     router.events.on("routeChangeStart", nProgress.start);
     router.events.on("routeChangeComplete", nProgress.done);
     router.events.on("routeChangeError", nProgress.done);

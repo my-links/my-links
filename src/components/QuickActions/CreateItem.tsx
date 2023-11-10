@@ -1,8 +1,7 @@
+import { useTranslation } from "next-i18next";
 import LinkTag from "next/link";
 import { IoAddOutline } from "react-icons/io5";
-
 import { Category } from "types";
-
 import styles from "./quickactions.module.scss";
 
 export default function CreateItem({
@@ -12,12 +11,14 @@ export default function CreateItem({
 }: {
   type: "category" | "link";
   categoryId?: Category["id"];
-  onClick?: (event: any) => void; // FIXME: find good event type
+  onClick?: (event: any) => void;
 }) {
+  const { t } = useTranslation("home");
+
   return (
     <LinkTag
       href={`/${type}/create${categoryId && `?categoryId=${categoryId}`}`}
-      title={`Create ${type}`}
+      title={t(`common:${type}.create`)}
       className={styles["action"]}
       onClick={onClick && onClick}
     >
