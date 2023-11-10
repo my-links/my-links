@@ -18,11 +18,12 @@ interface SignInProps {
   providers: Provider[];
 }
 export default function SignIn({ providers }: SignInProps) {
-  const { t } = useTranslation(["translation"]);
+  const { t } = useTranslation("login");
+
   return (
     <div className={styles["login-page"]}>
       <PageTransition className={styles["login-container"]}>
-        <NextSeo title={t("auth.title")} />
+        <NextSeo title={t("login:title")} />
         <div className={styles["image-wrapper"]}>
           <Image
             src={"/logo-light.png"}
@@ -32,8 +33,8 @@ export default function SignIn({ providers }: SignInProps) {
           />
         </div>
         <div className={styles["form-wrapper"]}>
-          <h1>{t("auth.title")}</h1>
-          <MessageManager info={t("auth.informative-text")} />
+          <h1>{t("login:title")}</h1>
+          <MessageManager info={t("login:informative-text")} />
           {Object.values(providers).map(({ name, id }) => (
             <ButtonLink
               onClick={() => signIn(id, { callbackUrl: PATHS.HOME })}
@@ -41,7 +42,7 @@ export default function SignIn({ providers }: SignInProps) {
               key={id}
             >
               <FcGoogle size={"1.5em"} />{" "}
-              {t("auth.continue-with", { provider: name })}
+              {t("login:continue-with", { provider: name } as any as string)}
             </ButtonLink>
           ))}
         </div>

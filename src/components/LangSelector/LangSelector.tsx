@@ -1,19 +1,25 @@
-import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import styles from "./lang-selector.module.scss";
 
 export default function LangSelector() {
-  const { i18n } = useTranslation();
-  const availableLanguages = Object.keys(i18n.services.resourceStore.data);
-  console.log(availableLanguages);
+  const router = useRouter();
+
+  const onToggleLanguageClick = (newLocale: string) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+  const languages = ["en", "fr"];
 
   return (
     <div className={styles["lang-selector"]}>
       <select
         name="lng-select"
         id="lng-select"
-        onChange={(event) => i18n.changeLanguage(event.target.value)}
+        onChange={(event) => {
+          onToggleLanguageClick(event.target.value);
+        }}
       >
-        {availableLanguages.map((lang) => (
+        {languages.map((lang) => (
           <option key={lang} value={lang}>
             {lang}
           </option>
