@@ -1,8 +1,3 @@
-import { AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
 import ButtonLink from "components/ButtonLink";
 import Links from "components/Links/Links";
@@ -12,12 +7,16 @@ import SearchModal from "components/SearchModal/SearchModal";
 import Categories from "components/SideMenu/Categories/Categories";
 import SideMenu from "components/SideMenu/SideMenu";
 import UserCard from "components/SideMenu/UserCard/UserCard";
-
 import * as Keys from "constants/keys";
 import PATHS from "constants/paths";
+import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import useModal from "hooks/useModal";
+import { getServerSideTranslation } from "i18n";
 import getUserCategories from "lib/category/getUserCategories";
+import { useRouter } from "next/router";
+import { useCallback, useMemo, useState } from "react";
+import { useHotkeys } from "react-hotkeys-hook";
 import { Category, Link, SearchItem } from "types";
 import { withAuthentication } from "utils/session";
 
@@ -192,7 +191,7 @@ export default function HomePage(props: HomePageProps) {
 }
 
 export const getServerSideProps = withAuthentication(
-  async ({ query, session, user }) => {
+  async ({ query, session, user, locale }) => {
     const queryCategoryId = (query?.categoryId as string) || "";
 
     const categories = await getUserCategories(user);
@@ -214,6 +213,7 @@ export const getServerSideProps = withAuthentication(
         currentCategory: currentCategory
           ? JSON.parse(JSON.stringify(currentCategory))
           : null,
+        ...(await getServerSideTranslation(locale)),
       },
     };
   }

@@ -3,5 +3,15 @@
   "cancel": "Cancel",
   "back-home": "← Back to home page",
   "logout": "Logout",
-  "login": "Login"
+  "login": "Login",
+  "link": {
+    "create": "Create a link",
+    "edit": "Edit a link",
+    "remove": "Delete a link"
+  },
+  "category": {
+    "create": "Create a link",
+    "edit": "Edit a link",
+    "remove": "Delete a link"
+  }
 }

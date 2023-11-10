@@ -4,7 +4,7 @@ import nextI18NextConfig from "../../next-i18next.config";
 async function getServerSideTranslation(locale: string = "en") {
   return await serverSideTranslations(
     locale,
-    ["common", "login"],
+    ["common", "login", "home"],
     nextI18NextConfig
   );
 }

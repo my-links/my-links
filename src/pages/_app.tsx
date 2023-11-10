@@ -10,6 +10,7 @@ import "nprogress/nprogress.css";
 import { useEffect } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import "styles/globals.scss";
+import nextI18nextConfig from "../../next-i18next.config";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
@@ -42,4 +43,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   );
 }
 
-export default appWithTranslation(MyApp);
+export default appWithTranslation(MyApp, nextI18nextConfig);

@@ -1,5 +1,17 @@
 {
-  "CONFIRM": "Valider",
-  "CANCEL": "Annuler",
-  "BACK_HOME": "← Revenir à l'accueil"
+  "confirm": "Confirmer",
+  "cancel": "Annuler",
+  "back-home": "← Revenir à l'accueil",
+  "logout": "Déconnexion",
+  "login": "Connexion",
+  "link": {
+    "create": "Créer un lien",
+    "edit": "Modifier un lien",
+    "remove": "Supprimer un lien"
+  },
+  "category": {
+    "create": "Créer une catégorie",
+    "edit": "Modifier une catégorie",
+    "remove": "Supprimer une categorié"
+  }
 }
