@@ -6,13 +6,16 @@
   "login": "Login",
   "link": {
     "links": "Links",
+    "link": "Link",
     "name": "Link name",
     "create": "Create a link",
     "edit": "Edit a link",
-    "remove": "Delete a link"
+    "remove": "Delete a link",
+    "remove-confirm": "Confirm deletion?"
   },
   "category": {
     "categories": "Categories",
+    "category": "Category",
     "name": "Category name",
     "create": "Create a category",
     "edit": "Edit a category",

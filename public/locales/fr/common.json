@@ -6,13 +6,16 @@
   "login": "Connexion",
   "link": {
     "links": "Liens",
+    "link": "Lien",
     "name": "Nom du lien",
     "create": "Créer un lien",
     "edit": "Modifier un lien",
-    "remove": "Supprimer un lien"
+    "remove": "Supprimer un lien",
+    "remove-confirm": "Confirmer la suppression ?"
   },
   "category": {
     "categories": "Catégories",
+    "category": "Catégorie",
     "name": "Nom de la catégorie",
     "create": "Créer une catégorie",
     "edit": "Modifier une catégorie",
