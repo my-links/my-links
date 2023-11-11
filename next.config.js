@@ -19,6 +19,7 @@ const config = {
   experimental: {
     webpackBuildWorker: true,
   },
+  output: "standalone",
 };
 
 module.exports = config;
