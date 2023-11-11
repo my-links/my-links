@@ -18,11 +18,10 @@ services:
   mylinks:
     restart: always
     container_name: MyLinks
-    image: sonny93/my-links:latest
-    # build:
-    #   context: .
+    build:
+      context: .
     ports:
-      - 127.0.0.1:5000:3000
+      - 127.0.0.1:3000:3000
     env_file:
       - .env
     # depends_on:
