@@ -1,4 +1,3 @@
-import axios from "axios";
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
@@ -8,12 +7,11 @@ import { getServerSideTranslation } from "i18n";
 import getUserLink from "lib/link/getUserLink";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Link } from "types";
-import { HandleAxiosError } from "utils/front";
 import { withAuthentication } from "utils/session";
+import { makeRequest } from "lib/request";
 
 export default function PageRemoveLink({ link }: { link: Link }) {
   const { t } = useTranslation();
@@ -28,20 +26,18 @@ export default function PageRemoveLink({ link }: { link: Link }) {
     [confirmDelete, submitted]
   );
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
-    nProgress.start();
+    setSubmitted(true);
 
-    try {
-      const { data } = await axios.delete(`${PATHS.API.LINK}/${link.id}`);
-      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
-      setSubmitted(true);
-    } catch (error) {
-      setError(HandleAxiosError(error));
-    } finally {
-      nProgress.done();
-    }
+    makeRequest({
+      url: `${PATHS.API.LINK}/${link.id}`,
+      method: "DELETE"
+    })
+      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .catch(setError)
+      .finally(() => setSubmitted(false));
   };
 
   return (
@@ -101,8 +97,8 @@ export const getServerSideProps = withAuthentication(
     if (!link) {
       return {
         redirect: {
-          destination: PATHS.HOME,
-        },
+          destination: PATHS.HOME
+        }
       };
     }
 
@@ -110,8 +106,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         link: JSON.parse(JSON.stringify(link)),
-        ...(await getServerSideTranslation(locale)),
-      },
+        ...(await getServerSideTranslation(locale))
+      }
     };
   }
 );

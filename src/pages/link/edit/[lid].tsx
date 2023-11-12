@@ -1,4 +1,3 @@
-import axios from "axios";
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
@@ -11,16 +10,16 @@ import getUserCategories from "lib/category/getUserCategories";
 import getUserLink from "lib/link/getUserLink";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Category, Link } from "types";
-import { HandleAxiosError, IsValidURL } from "utils/front";
+import { IsValidURL } from "utils/front";
 import { withAuthentication } from "utils/session";
+import { makeRequest } from "lib/request";
 
 export default function PageEditLink({
   link,
-  categories,
+  categories
 }: {
   link: Link;
   categories: Category[];
@@ -60,26 +59,22 @@ export default function PageEditLink({
     link.url,
     name,
     submitted,
-    url,
+    url
   ]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setSubmitted(true);
-    nProgress.start();
 
-    try {
-      const payload = { name, url, favorite, categoryId };
-      const { data } = await axios.put(`${PATHS.API.LINK}/${link.id}`, payload);
-      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
-      setSubmitted(true);
-    } catch (error) {
-      setError(HandleAxiosError(error));
-      setSubmitted(false);
-    } finally {
-      nProgress.done();
-    }
+    makeRequest({
+      url: `${PATHS.API.LINK}/${link.id}`,
+      method: "PUT",
+      body: { name, url, favorite, categoryId }
+    })
+      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .catch(setError)
+      .finally(() => setSubmitted(false));
   };
 
   return (
@@ -114,7 +109,7 @@ export default function PageEditLink({
           onChangeCallback={(value: number) => setCategoryId(value)}
           options={categories.map(({ id, name }) => ({
             label: name,
-            value: id,
+            value: id
           }))}
         />
         <Checkbox
@@ -137,8 +132,8 @@ export const getServerSideProps = withAuthentication(
     if (!link) {
       return {
         redirect: {
-          destination: PATHS.HOME,
-        },
+          destination: PATHS.HOME
+        }
       };
     }
 
@@ -147,8 +142,8 @@ export const getServerSideProps = withAuthentication(
         session,
         link: JSON.parse(JSON.stringify(link)),
         categories: JSON.parse(JSON.stringify(categories)),
-        ...(await getServerSideTranslation(locale)),
-      },
+        ...(await getServerSideTranslation(locale))
+      }
     };
   }
 );

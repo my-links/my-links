@@ -1,4 +1,3 @@
-import axios from "axios";
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
@@ -10,15 +9,15 @@ import { getServerSideTranslation } from "i18n";
 import getUserCategories from "lib/category/getUserCategories";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Category, Link } from "types";
-import { HandleAxiosError, IsValidURL } from "utils/front";
+import { IsValidURL } from "utils/front";
 import { withAuthentication } from "utils/session";
+import { makeRequest } from "lib/request";
 
 export default function PageCreateLink({
-  categories,
+  categories
 }: {
   categories: Category[];
 }) {
@@ -47,23 +46,19 @@ export default function PageCreateLink({
     [name, url, favorite, categoryId, submitted]
   );
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setSubmitted(true);
-    nProgress.start();
 
-    try {
-      const payload = { name, url, favorite, categoryId };
-      const { data } = await axios.post(PATHS.API.LINK, payload);
-      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
-      setSubmitted(true);
-    } catch (error) {
-      setError(HandleAxiosError(error));
-    } finally {
-      setSubmitted(true);
-      nProgress.done();
-    }
+    makeRequest({
+      url: PATHS.API.LINK,
+      method: "POST",
+      body: { name, url, favorite, categoryId }
+    })
+      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .catch(setError)
+      .finally(() => setSubmitted(false));
   };
 
   return (
@@ -99,7 +94,7 @@ export default function PageCreateLink({
           onChangeCallback={(value: number) => setCategoryId(value)}
           options={categories.map(({ id, name }) => ({
             label: name,
-            value: id,
+            value: id
           }))}
         />
         <Checkbox
@@ -119,8 +114,8 @@ export const getServerSideProps = withAuthentication(
     if (categories.length === 0) {
       return {
         redirect: {
-          destination: PATHS.HOME,
-        },
+          destination: PATHS.HOME
+        }
       };
     }
 
@@ -128,8 +123,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         categories: JSON.parse(JSON.stringify(categories)),
-        ...(await getServerSideTranslation(locale)),
-      },
+        ...(await getServerSideTranslation(locale))
+      }
     };
   }
 );

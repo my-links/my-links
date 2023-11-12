@@ -1,22 +1,19 @@
-import axios from "axios";
 import { motion } from "framer-motion";
 import LinkTag from "next/link";
 import { AiFillStar } from "react-icons/ai";
-
 import PATHS from "constants/paths";
 import { Link } from "types";
-
 import EditItem from "components/QuickActions/EditItem";
 import FavoriteItem from "components/QuickActions/FavoriteItem";
 import RemoveItem from "components/QuickActions/RemoveItem";
 import LinkFavicon from "./LinkFavicon";
-
 import styles from "./links.module.scss";
+import { makeRequest } from "lib/request";
 
 export default function LinkItem({
   link,
   toggleFavorite,
-  index,
+  index
 }: {
   link: Link;
   toggleFavorite: (linkId: Link["id"]) => void;
@@ -24,14 +21,16 @@ export default function LinkItem({
 }) {
   const { id, name, url, favorite } = link;
   const onFavorite = () => {
-    const payload = {
-      name,
-      url,
-      favorite: !favorite,
-      categoryId: link.category.id,
-    };
-    axios
-      .put(`${PATHS.API.LINK}/${link.id}`, payload)
+    makeRequest({
+      url: `${PATHS.API.LINK}/${link.id}`,
+      method: "PUT",
+      body: {
+        name,
+        url,
+        favorite: !favorite,
+        categoryId: link.category.id
+      }
+    })
       .then(() => toggleFavorite(link.id))
       .catch(console.error);
   };
@@ -46,11 +45,11 @@ export default function LinkItem({
         type: "spring",
         stiffness: 260,
         damping: 20,
-        delay: index * 0.05,
+        delay: index * 0.05
       }}
     >
       <LinkFavicon url={url} />
-      <LinkTag href={url} target={"_blank"} rel={"noreferrer"}>
+      <LinkTag href={url} target={"_blank"} rel="noreferrer">
         <span className={styles["link-name"]}>
           {name} {favorite && <AiFillStar color="#ffc107" />}
         </span>
