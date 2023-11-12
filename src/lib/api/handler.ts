@@ -9,7 +9,7 @@ type ApiHandlerMethod = ({
   req,
   res,
   session,
-  user,
+  user
 }: {
   req: NextApiRequest;
   res: NextApiResponse;
@@ -66,14 +66,13 @@ function errorHandler(error: any, response: NextApiResponse) {
       ? handlePrismaError(error) // Handle Prisma specific errors
       : error.message;
 
-  console.error(error);
-  return response.status(500).json({ error: errorMessage });
+  return response.status(400).json({ error: errorMessage });
 }
 
 function handlePrismaError({
   meta,
   code,
-  message,
+  message
 }: PrismaClientKnownRequestError) {
   switch (code) {
     case "P2002":

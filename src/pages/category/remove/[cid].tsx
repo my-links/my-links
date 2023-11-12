@@ -1,4 +1,3 @@
-import axios from "axios";
 import Checkbox from "components/Checkbox";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
@@ -8,15 +7,14 @@ import { getServerSideTranslation } from "i18n";
 import getUserCategory from "lib/category/getUserCategory";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Category } from "types";
-import { HandleAxiosError } from "utils/front";
 import { withAuthentication } from "utils/session";
+import { makeRequest } from "lib/request";
 
 export default function PageRemoveCategory({
-  category,
+  category
 }: {
   category: Category;
 }) {
@@ -32,22 +30,18 @@ export default function PageRemoveCategory({
     [category.links.length, confirmDelete, submitted]
   );
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setSubmitted(true);
-    nProgress.start();
 
-    try {
-      await axios.delete(`${PATHS.API.CATEGORY}/${category.id}`);
-      router.push(PATHS.HOME);
-      setSubmitted(true);
-    } catch (error) {
-      setError(HandleAxiosError(error));
-      setSubmitted(false);
-    } finally {
-      nProgress.done();
-    }
+    makeRequest({
+      url: `${PATHS.API.CATEGORY}/${category.id}`,
+      method: "DELETE"
+    })
+      .then((data) => router.push(PATHS.HOME))
+      .catch(setError)
+      .finally(() => setSubmitted(false));
   };
 
   useEffect(() => {
@@ -94,8 +88,8 @@ export const getServerSideProps = withAuthentication(
     if (!category) {
       return {
         redirect: {
-          destination: PATHS.HOME,
-        },
+          destination: PATHS.HOME
+        }
       };
     }
 
@@ -103,8 +97,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         category: JSON.parse(JSON.stringify(category)),
-        ...(await getServerSideTranslation(locale)),
-      },
+        ...(await getServerSideTranslation(locale))
+      }
     };
   }
 );

@@ -1,4 +1,3 @@
-import axios from "axios";
 import FormLayout from "components/FormLayout";
 import PageTransition from "components/PageTransition";
 import TextBox from "components/TextBox";
@@ -8,12 +7,11 @@ import { getServerSideTranslation } from "i18n";
 import getUserCategory from "lib/category/getUserCategory";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import nProgress from "nprogress";
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Category } from "types";
-import { HandleAxiosError } from "utils/front";
 import { withAuthentication } from "utils/session";
+import { makeRequest } from "lib/request";
 
 export default function PageEditCategory({ category }: { category: Category }) {
   const { t } = useTranslation();
@@ -30,24 +28,19 @@ export default function PageEditCategory({ category }: { category: Category }) {
     [category.name, name, submitted]
   );
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     setSubmitted(true);
-    nProgress.start();
 
-    try {
-      const { data } = await axios.put(`${PATHS.API.CATEGORY}/${category.id}`, {
-        name,
-      });
-      router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`);
-      setSubmitted(true);
-    } catch (error) {
-      setError(HandleAxiosError(error));
-      setSubmitted(false);
-    } finally {
-      nProgress.done();
-    }
+    makeRequest({
+      url: `${PATHS.API.CATEGORY}/${category.id}`,
+      method: "PUT",
+      body: { name }
+    })
+      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .catch(setError)
+      .finally(() => setSubmitted(false));
   };
 
   return (
@@ -80,8 +73,8 @@ export const getServerSideProps = withAuthentication(
     if (!category) {
       return {
         redirect: {
-          destination: PATHS.HOME,
-        },
+          destination: PATHS.HOME
+        }
       };
     }
 
@@ -89,8 +82,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         category: JSON.parse(JSON.stringify(category)),
-        ...(await getServerSideTranslation(locale)),
-      },
+        ...(await getServerSideTranslation(locale))
+      }
     };
   }
 );
