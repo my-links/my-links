@@ -13,6 +13,8 @@ interface LinkFaviconProps {
   noMargin?: boolean;
 }
 
+// The Favicon API should always return an image, so it's not really useful to keep the loader nor placeholder icon,
+// but for slow connections and other random stuff, I'll keep this
 export default function LinkFavicon({
   url,
   size = 32,
