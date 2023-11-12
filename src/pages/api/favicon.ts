@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { parse } from "node-html-parser";
+import { createReadStream } from "node:fs";
+import { resolve } from "node:path";
 
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0";
@@ -62,7 +64,10 @@ export default async function handler(
   } catch (error) {
     const errorMessage = error?.message || "Unable to retrieve favicon";
     console.log("[Favicon]", `[second: ${faviconRequestUrl}]`, errorMessage);
-    res.status(404).send({ error: errorMessage, text: documentAsText });
+
+    const readStream = createReadStream(resolve(process.cwd(), "./public/empty-image.png"));
+    res.writeHead(206);
+    readStream.pipe(res);
   }
 }
 

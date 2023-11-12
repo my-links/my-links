@@ -23,7 +23,10 @@ const config = {
   experimental: {
     webpackBuildWorker: true
   },
-  output: "standalone"
+  output: "standalone",
+  env: {
+    baseUrl: process.env.NEXTAUTH_URL
+  }
 };
 
 module.exports = config;
