@@ -20,13 +20,7 @@ const config = {
     formats: ["image/webp"]
   },
   reactStrictMode: false,
-  experimental: {
-    webpackBuildWorker: true
-  },
-  output: "standalone",
-  env: {
-    baseUrl: process.env.NEXTAUTH_URL
-  }
+  output: "standalone"
 };
 
 module.exports = config;
