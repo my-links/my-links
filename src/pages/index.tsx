@@ -15,10 +15,10 @@ import { useMediaQuery } from "hooks/useMediaQuery";
 import useModal from "hooks/useModal";
 import { getServerSideTranslation } from "i18n";
 import getUserCategories from "lib/category/getUserCategories";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import { useTranslation } from "react-i18next";
 import { Category, Link, SearchItem } from "types";
 import { withAuthentication } from "utils/session";
 
