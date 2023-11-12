@@ -12,10 +12,11 @@ interface LinkFaviconProps {
   size?: number;
   noMargin?: boolean;
 }
+
 export default function LinkFavicon({
   url,
   size = 32,
-  noMargin = false,
+  noMargin = false
 }: LinkFaviconProps) {
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -37,7 +38,7 @@ export default function LinkFavicon({
             setFallbackFavicon();
             handleStopLoading();
           }}
-          onLoadingComplete={handleStopLoading}
+          onLoad={handleStopLoading}
           height={size}
           width={size}
           alt="icon"

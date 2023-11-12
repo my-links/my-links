@@ -2,7 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { parse } from "node-html-parser";
 
 const USER_AGENT =
-  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54";
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0";
+
+interface Favicon {
+  buffer: Buffer;
+  url: string;
+  type: string;
+  size: number;
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,71 +17,52 @@ export default async function handler(
 ) {
   const urlParam = (req.query?.url as string) || "";
   if (!urlParam) {
-    throw new Error("URL's missing");
+    throw new Error("URL is missing");
   }
 
-  const urlRequest = urlParam + "/favicon.ico";
+  const { origin, href } = new URL(urlParam);
+
+  const faviconRequestUrl = origin + "/favicon.ico";
   try {
-    const { favicon, type, size } = await downloadImageFromUrl(
-      urlRequest + "/favicon.ico"
-    );
-    console.log("[Favicon]", `[first: ${urlRequest}]`, "request");
-    if (size === 0) {
-      throw new Error("Empty favicon");
-    }
-    if (!isImage(type)) {
-      throw new Error("Favicon path does not return an image");
-    }
-    return sendImage({
-      content: favicon,
-      res,
-      type,
-      size,
-    });
+    return sendImage(res, await getFavicon(faviconRequestUrl));
   } catch (error) {
-    const errorMessage = error?.message || "Unable to retrieve favicon";
-    console.error("[Favicon]", `[first: ${urlRequest}]`, errorMessage);
+    const errorMessage =
+      error?.message || "Unable to retrieve favicon from favicon.ico url";
+    console.error("[Favicon]", `[first: ${faviconRequestUrl}]`, errorMessage);
   }
 
+  const requestDocument = await makeRequest(href);
+  const documentAsText = await requestDocument.text();
   try {
-    console.log("[Favicon]", `[second: ${urlRequest}]`, "new request");
-    const requestDocument = await makeRequest(urlRequest);
-    const text = await requestDocument.text();
-
-    const faviconPath = findFaviconPath(text);
+    const faviconPath = findFaviconPath(documentAsText);
     if (!faviconPath) {
       throw new Error("Unable to find favicon path");
     }
 
     if (isBase64Image(faviconPath)) {
-      console.log("base64, convert it to buffer");
+      console.log("[Favicon]", `[first: ${faviconRequestUrl}]`, "base64, convert it to buffer");
       const buffer = convertBase64ToBuffer(faviconPath);
-      return sendImage({
-        content: buffer,
-        res,
+      return sendImage(res, {
+        buffer,
         type: "image/x-icon",
         size: buffer.length,
+        url: faviconPath
       });
     }
 
-    const pathWithoutFile = popLastSegment(requestDocument.url);
-    const finalUrl = buildFaviconUrl(faviconPath, pathWithoutFile);
+    const { href } = new URL(requestDocument.url);
+    const finalUrl = href + faviconPath;
 
-    const { favicon, type, size } = await downloadImageFromUrl(finalUrl);
-    if (!isImage(type)) {
+    const favicon = await downloadImageFromUrl(finalUrl);
+    if (!isImage(favicon.type)) {
       throw new Error("Favicon path does not return an image");
     }
 
-    return sendImage({
-      content: favicon,
-      res,
-      type,
-      size,
-    });
+    return sendImage(res, favicon);
   } catch (error) {
     const errorMessage = error?.message || "Unable to retrieve favicon";
-    console.log("[Favicon]", `[second: ${urlRequest}]`, errorMessage);
-    res.status(404).send({ error: errorMessage });
+    console.log("[Favicon]", `[second: ${faviconRequestUrl}]`, errorMessage);
+    res.status(404).send({ error: errorMessage, text: documentAsText });
   }
 }
 
@@ -82,92 +70,76 @@ async function makeRequest(url: string) {
   const headers = new Headers();
   headers.set("User-Agent", USER_AGENT);
 
-  const request = await fetch(url, { headers, redirect: "follow" });
-  return request;
+  return await fetch(url, { headers, redirect: "follow" });
 }
 
-async function downloadImageFromUrl(url: string): Promise<{
-  favicon: Buffer;
-  url: string;
-  type: string;
-  size: number;
-}> {
+async function downloadImageFromUrl(url: string): Promise<Favicon> {
   const request = await makeRequest(url);
-  const blob = await request.blob();
+  if (!request.ok) {
+    throw new Error("Request failed");
+  }
 
+  const blob = await request.blob();
   return {
-    favicon: Buffer.from(await blob.arrayBuffer()),
+    buffer: Buffer.from(await blob.arrayBuffer()),
     url: request.url,
     type: blob.type,
-    size: blob.size,
+    size: blob.size
   };
 }
 
-function sendImage({
-  content,
-  res,
+function sendImage(res: NextApiResponse, {
+  buffer,
   type,
-  size,
-}: {
-  content: Buffer;
-  res: NextApiResponse;
-  type: string;
-  size: number;
-}) {
+  size
+}: Favicon) {
   res.setHeader("Content-Type", type);
   res.setHeader("Content-Length", size);
-  res.send(content);
+  res.send(buffer);
 }
 
-const selectors = [
-  "link[rel='icon']",
-  "link[rel='shortcut icon']",
-  "link[rel='apple-touch-icon']",
-  "link[rel='apple-touch-icon-precomposed']",
-  "link[rel='apple-touch-startup-image']",
-  "link[rel='mask-icon']",
-  "link[rel='fluid-icon']",
+const rels = [
+  "icon",
+  "shortcut icon",
+  "apple-touch-icon",
+  "apple-touch-icon-precomposed",
+  "apple-touch-startup-image",
+  "mask-icon",
+  "fluid-icon"
 ];
 
-function findFaviconPath(text) {
+function findFaviconPath(text: string) {
   const document = parse(text);
-  const links = document.querySelectorAll(selectors.join(", "));
-  const link = links.find(
-    (link) => !link.getAttribute("href").startsWith("data:image/")
-  );
-  if (!link || !link.getAttribute("href")) {
+  const favicon = Array.from(document.getElementsByTagName("link")).find(
+    (element) => rels.includes(element.getAttribute("rel")) && element.getAttribute("href"));
+
+  if (!favicon) {
     throw new Error("No link/href attribute found");
   }
 
-  return link.getAttribute("href");
-}
-
-function popLastSegment(url = "") {
-  const { href } = new URL(url);
-  const pathWithoutFile = href.split("/");
-  pathWithoutFile.pop();
-  return pathWithoutFile.join("/") || "";
-}
-
-function buildFaviconUrl(faviconPath, pathWithoutFile) {
-  if (faviconPath.startsWith("http")) {
-    return faviconPath;
-  } else if (faviconPath.startsWith("/")) {
-    return pathWithoutFile + faviconPath;
-  } else {
-    return pathWithoutFile + "/" + faviconPath;
-  }
+  return favicon.getAttribute("href");
 }
 
 function isImage(type: string) {
   return type.includes("image");
 }
 
-function isBase64Image(data) {
+function isBase64Image(data: string) {
   return data.startsWith("data:image/");
 }
 
-function convertBase64ToBuffer(base64 = ""): Buffer {
-  const buffer = Buffer.from(base64, "base64");
-  return buffer;
+function convertBase64ToBuffer(base64: string): Buffer {
+  return Buffer.from(base64, "base64");
+}
+
+async function getFavicon(url: string): Promise<Favicon> {
+  if (!url) throw new Error("Missing URL");
+
+  const { origin } = new URL(url);
+  const favicon = await downloadImageFromUrl(url);
+  if (!isImage(favicon.type) || favicon.size === 0) {
+    throw new Error("Favicon path does not return an image");
+  }
+
+  return favicon;
 }
