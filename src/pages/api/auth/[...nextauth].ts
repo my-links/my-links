@@ -1,11 +1,18 @@
-import { PrismaClient } from "@prisma/client";
 import PATHS from "constants/paths";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, Profile } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import getUserByProfileProvider from "lib/user/getUserByProfileProvider";
+import createUser from "lib/user/createUser";
+import updateUser from "lib/user/updateUser";
+import prisma from "utils/prisma";
 
-const prisma = new PrismaClient();
+const authLogger = (profile: Profile, ...args: any[]) => console.log("[AUTH]", profile.email, `(${profile.name} - ${profile.sub})`, ...args);
+const redirectUser = (errorKey: string) => `${PATHS.LOGIN}?error=${errorKey}`;
 
-// TODO: refactor auth
+const checkProvider = (provider: string) => provider === "google";
+const checkAccountDataReceived = (profile: Profile) => !!profile?.sub && !!profile?.email;
+
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -15,115 +22,52 @@ export const authOptions = {
         params: {
           prompt: "consent",
           access_type: "offline",
-          response_type: "code",
-        },
-      },
-    }),
+          response_type: "code"
+        }
+      }
+    })
   ],
   callbacks: {
     async session({ session }) {
       // check if stored in session still exist in db
-      await prisma.user.findFirstOrThrow({
-        where: { email: session.user.email },
+      const user = await prisma.user.findFirst({
+        where: { email: session.user.email }
       });
-      return session;
+      return user ? session : undefined;
     },
     async signIn({ account: accountParam, profile }) {
-      console.log(
-        "[AUTH]",
-        "User",
-        profile.name,
-        profile.sub,
-        "attempt to log in with",
-        accountParam.provider
-      );
-      if (accountParam.provider !== "google") {
-        console.log("[AUTH]", "User", profile.name, "rejeced : bad provider");
-        return (
-          PATHS.LOGIN +
-          "?error=" +
-          encodeURI("Authentitifcation via Google requise")
-        );
+      if (!checkProvider(accountParam.provider)) {
+        authLogger(profile, "rejected : forbidden provider");
+        return redirectUser("AUTH_REQUIRED");
       }
 
-      const email = profile?.email;
-      if (email === "") {
-        console.log("[AUTH]", "User", profile.name, "rejeced : missing email");
-        return (
-          PATHS.LOGIN +
-          "?error=" +
-          encodeURI(
-            "Impossible de récupérer l'email associé à ce compte Google"
-          )
-        );
+      if (!checkAccountDataReceived(profile)) {
+        authLogger(profile, "rejected : missing data from provider", profile);
+        return redirectUser("MISSING_PROVIDER_VALUES");
       }
-      const googleId = profile?.sub;
-      if (googleId === "") {
-        console.log(
-          "[AUTH]",
-          "User",
-          profile.name,
-          "rejeced : missing google id"
-        );
-        return (
-          PATHS.LOGIN +
-          "?error=" +
-          encodeURI(
-            "Impossible de récupérer l'identifiant associé à ce compte Google"
-          )
-        );
-      }
+
       try {
-        const account = await prisma.user.findFirst({
-          where: {
-            google_id: googleId,
-            email,
-          },
-        });
-        const accountCount = await prisma.user.count();
-        if (!account) {
-          if (accountCount === 0) {
-            await prisma.user.create({
-              data: {
-                email,
-                google_id: googleId,
-              },
-            });
-            return true;
-          }
-
-          console.log(
-            "[AUTH]",
-            "User",
-            profile.name,
-            "rejeced : not authorized"
-          );
-          return (
-            PATHS.LOGIN +
-            "?error=" +
-            encodeURI(
-              "Vous n'êtes pas autorisé à vous connecter avec ce compte Google"
-            )
-          );
+        const isUserExists = await getUserByProfileProvider(profile);
+        if (isUserExists) {
+          await updateUser(profile);
+          authLogger(profile, "success : user updated");
         } else {
-          console.log("[AUTH]", "User", profile.name, "success");
-          return true;
+          await createUser(profile);
+          authLogger(profile, "success : user created");
         }
+
+        return true;
       } catch (error) {
-        console.log("[AUTH]", "User", profile.name, "unhandled error");
+        authLogger(profile, "rejected : unhandled error");
         console.error(error);
-        return (
-          PATHS.LOGIN +
-          "?error=" +
-          encodeURI("Une erreur est survenue lors de l'authentification")
-        );
+        return redirectUser("AUTH_ERROR");
       }
-    },
+    }
   },
   pages: {
     signIn: PATHS.LOGIN,
     error: PATHS.LOGIN,
-    signOut: PATHS.LOGOUT,
-  },
+    signOut: PATHS.LOGOUT
+  }
 } as NextAuthOptions;
 export default NextAuth(authOptions);
