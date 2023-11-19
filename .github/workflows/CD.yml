@@ -43,9 +43,10 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /docker/my-links/app
+            cd ~/my-links
             docker pull docker.io/sonny93/my-links:latest
             docker compose up -d --force-recreate
