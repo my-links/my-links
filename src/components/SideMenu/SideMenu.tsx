@@ -29,20 +29,20 @@ export default function SideMenu({
     Keys.ARROW_UP,
     () => {
       const currentCategoryIndex = categories.findIndex(
-        ({ id }) => id === categoryActive.id
+        ({ id }) => id === categoryActive.id,
       );
       if (currentCategoryIndex === -1 || currentCategoryIndex === 0) return;
 
       handleSelectCategory(categories[currentCategoryIndex - 1]);
     },
-    { enabled: !isModalShowing }
+    { enabled: !isModalShowing },
   );
 
   useHotkeys(
     Keys.ARROW_DOWN,
     () => {
       const currentCategoryIndex = categories.findIndex(
-        ({ id }) => id === categoryActive.id
+        ({ id }) => id === categoryActive.id,
       );
       if (
         currentCategoryIndex === -1 ||
@@ -52,7 +52,7 @@ export default function SideMenu({
 
       handleSelectCategory(categories[currentCategoryIndex + 1]);
     },
-    { enabled: !isModalShowing }
+    { enabled: !isModalShowing },
   );
 
   return (

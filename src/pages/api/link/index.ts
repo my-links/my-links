@@ -11,7 +11,7 @@ export default apiHandler({
 
 async function createLink({ req, res, user }) {
   const { name, url, favorite, categoryId } = await LinkBodySchema.validate(
-    req.body
+    req.body,
   );
 
   const link = await getUserLinkByName(user, name, categoryId);

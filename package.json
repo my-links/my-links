@@ -11,6 +11,8 @@
     "@prisma/client": "^5.5.2",
     "@svgr/webpack": "^8.1.0",
     "accept-language": "^3.0.18",
+    "axios": "^1.6.1",
+    "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
     "i18next": "^23.7.3",
     "next": "^14.0.2",

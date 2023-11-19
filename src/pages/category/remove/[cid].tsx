@@ -27,7 +27,7 @@ export default function PageRemoveCategory({
 
   const canSubmit = useMemo<boolean>(
     () => category.links.length === 0 && confirmDelete && !submitted,
-    [category.links.length, confirmDelete, submitted]
+    [category.links.length, confirmDelete, submitted],
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -46,7 +46,9 @@ export default function PageRemoveCategory({
 
   useEffect(() => {
     setError(
-      category.links.length > 0 ? t("common:category.remove-description") : null
+      category.links.length > 0
+        ? t("common:category.remove-description")
+        : null,
     );
   }, [category.links.length, i18n.language, t]);
 
@@ -100,5 +102,5 @@ export const getServerSideProps = withAuthentication(
         ...(await getServerSideTranslation(locale))
       }
     };
-  }
+  },
 );

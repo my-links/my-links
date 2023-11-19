@@ -23,7 +23,7 @@ export default function PageRemoveLink({ link }: { link: Link }) {
 
   const canSubmit = useMemo<boolean>(
     () => confirmDelete && !submitted,
-    [confirmDelete, submitted]
+    [confirmDelete, submitted],
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -109,5 +109,5 @@ export const getServerSideProps = withAuthentication(
         ...(await getServerSideTranslation(locale))
       }
     };
-  }
+  },
 );

@@ -12,7 +12,7 @@ export default apiHandler({
 async function editLink({ req, res, user }) {
   const { lid } = await LinkQuerySchema.validate(req.query);
   const { name, url, favorite, categoryId } = await LinkBodySchema.validate(
-    req.body
+    req.body,
   );
 
   const link = await getUserLink(user, lid);

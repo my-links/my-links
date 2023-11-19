@@ -30,7 +30,7 @@ export default function PageCreateLink({
   const [url, setUrl] = useState<Link["url"]>("");
   const [favorite, setFavorite] = useState<Link["favorite"]>(false);
   const [categoryId, setCategoryId] = useState<Link["category"]["id"]>(
-    Number(categoryIdQuery) || categories?.[0].id || null
+    Number(categoryIdQuery) || categories?.[0].id || null,
   );
 
   const [error, setError] = useState<string>(null);
@@ -43,7 +43,7 @@ export default function PageCreateLink({
       favorite !== null &&
       categoryId !== null &&
       !submitted,
-    [name, url, favorite, categoryId, submitted]
+    [name, url, favorite, categoryId, submitted],
   );
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -126,5 +126,5 @@ export const getServerSideProps = withAuthentication(
         ...(await getServerSideTranslation(locale))
       }
     };
-  }
+  },
 );

@@ -32,7 +32,7 @@ export default function PageEditLink({
   const [url, setUrl] = useState<string>(link.url);
   const [favorite, setFavorite] = useState<boolean>(link.favorite);
   const [categoryId, setCategoryId] = useState<number | null>(
-    link.category?.id || null
+    link.category?.id || null,
   );
 
   const [error, setError] = useState<string | null>(null);
@@ -145,5 +145,5 @@ export const getServerSideProps = withAuthentication(
         ...(await getServerSideTranslation(locale))
       }
     };
-  }
+  },
 );

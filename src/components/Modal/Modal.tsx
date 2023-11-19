@@ -57,6 +57,6 @@ export default function Modal({
         <div className={styles["modal-body"]}>{children}</div>
       </motion.div>
     </motion.div>,
-    document.body
+    document.body,
   );
 }

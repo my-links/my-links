@@ -11,6 +11,7 @@ import { Category, Link } from "types";
 import { TFunctionParam } from "types/i18next";
 import LinkItem from "./LinkItem";
 import styles from "./links.module.scss";
+import clsx from "clsx";
 
 export default function Links({
   category,
@@ -64,7 +65,7 @@ export default function Links({
         </span>
       </h2>
       {links.length !== 0 ? (
-        <ul className={styles["links"]}>
+        <ul className={clsx(styles["links"], "reset")}>
           {links.map((link, index) => (
             <LinkItem
               link={link}

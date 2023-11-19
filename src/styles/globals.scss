@@ -1,7 +1,7 @@
 @import "keyframes.scss";
 @import "colors.scss";
 
-* {
+*:not(ul) {
   box-sizing: border-box;
   outline: 0;
   margin: 0;
@@ -33,7 +33,6 @@ body {
   width: 1280px;
   padding: 10px;
   display: flex;
-  justify-content: center;
 }
 
 a {
@@ -57,11 +56,6 @@ h4,
 h5,
 h6 {
   color: $blue;
-}
-
-ul,
-li {
-  list-style: none;
 }
 
 /* width */
@@ -106,6 +100,7 @@ button:not(.reset) {
     color: $white;
   }
 }
+
 button.red-btn {
   cursor: pointer;
   width: 100%;
@@ -180,6 +175,7 @@ select:not(.nostyle) {
   padding: 0;
   margin: 0;
   border: 0;
+  list-style: none;
 }
 
 kbd {
@@ -189,7 +185,9 @@ kbd {
   padding: 0.25em 0.5em;
   border-radius: 3px;
   border: 1px solid rgb(204, 204, 204);
-  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.2),
+    0 0 0 2px #ffffff inset;
   display: inline-block;
 }
 
