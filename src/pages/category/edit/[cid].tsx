@@ -36,9 +36,11 @@ export default function PageEditCategory({ category }: { category: Category }) {
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
       method: "PUT",
-      body: { name }
+      body: { name },
     })
-      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .then((data) =>
+        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+      )
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -73,8 +75,8 @@ export const getServerSideProps = withAuthentication(
     if (!category) {
       return {
         redirect: {
-          destination: PATHS.HOME
-        }
+          destination: PATHS.HOME,
+        },
       };
     }
 
@@ -82,8 +84,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         category: JSON.parse(JSON.stringify(category)),
-        ...(await getServerSideTranslation(locale))
-      }
+        ...(await getServerSideTranslation(locale)),
+      },
     };
   },
 );

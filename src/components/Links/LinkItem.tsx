@@ -13,7 +13,7 @@ import { makeRequest } from "lib/request";
 export default function LinkItem({
   link,
   toggleFavorite,
-  index
+  index,
 }: {
   link: Link;
   toggleFavorite: (linkId: Link["id"]) => void;
@@ -28,8 +28,8 @@ export default function LinkItem({
         name,
         url,
         favorite: !favorite,
-        categoryId: link.category.id
-      }
+        categoryId: link.category.id,
+      },
     })
       .then(() => toggleFavorite(link.id))
       .catch(console.error);
@@ -45,7 +45,7 @@ export default function LinkItem({
         type: "spring",
         stiffness: 260,
         damping: 20,
-        delay: index * 0.05
+        delay: index * 0.05,
       }}
     >
       <LinkFavicon url={url} />

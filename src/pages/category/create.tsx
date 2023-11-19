@@ -13,7 +13,7 @@ import { withAuthentication } from "utils/session";
 import { makeRequest } from "lib/request";
 
 export default function PageCreateCategory({
-  categoriesCount
+  categoriesCount,
 }: {
   categoriesCount: number;
 }) {
@@ -40,9 +40,11 @@ export default function PageCreateCategory({
     makeRequest({
       url: PATHS.API.CATEGORY,
       method: "POST",
-      body: { name }
+      body: { name },
     })
-      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .then((data) =>
+        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+      )
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -79,8 +81,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         categoriesCount,
-        ...(await getServerSideTranslation(locale))
-      }
+        ...(await getServerSideTranslation(locale)),
+      },
     };
   },
 );

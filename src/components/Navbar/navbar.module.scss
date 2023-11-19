@@ -8,3 +8,13 @@
   gap: 1.5em;
   justify-content: center;
 }
+
+.navbar .user {
+  display: flex;
+  gap: 0.25em;
+  justify-content: center;
+
+  & img {
+    border-radius: 50%;
+  }
+}

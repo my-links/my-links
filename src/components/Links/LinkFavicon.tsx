@@ -18,7 +18,7 @@ interface LinkFaviconProps {
 export default function LinkFavicon({
   url,
   size = 32,
-  noMargin = false
+  noMargin = false,
 }: LinkFaviconProps) {
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);

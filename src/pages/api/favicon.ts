@@ -42,13 +42,17 @@ export default async function handler(
     }
 
     if (isBase64Image(faviconPath)) {
-      console.log("[Favicon]", `[first: ${faviconRequestUrl}]`, "base64, convert it to buffer");
+      console.log(
+        "[Favicon]",
+        `[first: ${faviconRequestUrl}]`,
+        "base64, convert it to buffer",
+      );
       const buffer = convertBase64ToBuffer(faviconPath);
       return sendImage(res, {
         buffer,
         type: "image/x-icon",
         size: buffer.length,
-        url: faviconPath
+        url: faviconPath,
       });
     }
 
@@ -65,7 +69,9 @@ export default async function handler(
     const errorMessage = error?.message || "Unable to retrieve favicon";
     console.log("[Favicon]", `[second: ${faviconRequestUrl}]`, errorMessage);
 
-    const readStream = createReadStream(resolve(process.cwd(), "./public/empty-image.png"));
+    const readStream = createReadStream(
+      resolve(process.cwd(), "./public/empty-image.png"),
+    );
     res.writeHead(206);
     readStream.pipe(res);
   }
@@ -89,15 +95,11 @@ async function downloadImageFromUrl(url: string): Promise<Favicon> {
     buffer: Buffer.from(await blob.arrayBuffer()),
     url: request.url,
     type: blob.type,
-    size: blob.size
+    size: blob.size,
   };
 }
 
-function sendImage(res: NextApiResponse, {
-  buffer,
-  type,
-  size
-}: Favicon) {
+function sendImage(res: NextApiResponse, { buffer, type, size }: Favicon) {
   res.setHeader("Content-Type", type);
   res.setHeader("Content-Length", size);
   res.send(buffer);
@@ -110,13 +112,16 @@ const rels = [
   "apple-touch-icon-precomposed",
   "apple-touch-startup-image",
   "mask-icon",
-  "fluid-icon"
+  "fluid-icon",
 ];
 
 function findFaviconPath(text: string) {
   const document = parse(text);
   const favicon = Array.from(document.getElementsByTagName("link")).find(
-    (element) => rels.includes(element.getAttribute("rel")) && element.getAttribute("href"));
+    (element) =>
+      rels.includes(element.getAttribute("rel")) &&
+      element.getAttribute("href"),
+  );
 
   if (!favicon) {
     throw new Error("No link/href attribute found");

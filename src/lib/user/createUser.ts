@@ -5,7 +5,7 @@ export default async function createUser(profile: Profile) {
   return await prisma.user.create({
     data: {
       email: profile.email,
-      google_id: profile.sub
-    }
+      google_id: profile.sub,
+    },
   });
 }
