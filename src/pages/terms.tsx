@@ -4,99 +4,70 @@ import clsx from "clsx";
 import LinkTag from "next/link";
 import Navbar from "components/Navbar/Navbar";
 import { getServerSideTranslation } from "../i18n";
+import { Trans, useTranslation } from "next-i18next";
+import { TFunctionParam } from "../types/i18next";
+import PATHS from "constants/paths";
 
 export default function Terms() {
+  const { t } = useTranslation("terms");
   return (
     <PageTransition className={clsx("App", styles["privacy"])}>
       <Navbar />
       <main>
-        <h1>Conditions Générales d'Utilisation de MyLinks</h1>
-        <p>Dernière mise à jour : 19/11/2023</p>
+        <h1>{t("terms:title")}</h1>
+        <p>{t("terms:edited_at", { date: "19/11/2023" } as TFunctionParam)}</p>
+        <p>{t("terms:welcome")}</p>
+
+        <h2>{t("terms:accept.title")}</h2>
+        <p>{t("terms:accept.description")}</p>
+
+        <h2>{t("terms:use.title")}</h2>
+        <h3>{t("terms:use.account.title")}</h3>
+        <p>{t("terms:use.account.description")}</p>
+
+        <h3>{t("terms:use.allowed.title")}</h3>
+        <p>{t("terms:use.allowed.description")}</p>
+
+        <h3>{t("terms:use.user_content.title")}</h3>
+        <p>{t("terms:use.user_content.description")}</p>
+
+        <h2>{t("terms:personal_data.title")}</h2>
+        <h3>{t("terms:personal_data.collect.title")}</h3>
         <p>
-          Bienvenue sur MyLinks, un gestionnaire de favoris gratuit et open
-          source axé sur la privacy et le self hosting. En utilisant ce service,
-          vous acceptez les conditions générales d'utilisation énoncées
-          ci-dessous. Veuillez les lire attentivement.
+          <Trans
+            // @ts-ignore
+            i18nKey="terms:personal_data.collect.description"
+            components={{ a: <LinkTag href={PATHS.PRIVACY} /> }}
+          />
         </p>
 
-        <h2>1. Acceptation des Conditions</h2>
-        <p>
-          En accédant à MyLinks et en utilisant nos services, vous acceptez de
-          vous conformer à ces Conditions Générales d'Utilisation.
-        </p>
+        <h3>{t("terms:personal_data.suppress.title")}</h3>
+        <p>{t("terms:personal_data.suppress.description")}</p>
 
-        <h2>2. Utilisation du Service</h2>
-        <h3>2.1 Compte Utilisateur</h3>
-        <p>
-          Pour accéder à certaines fonctionnalités de MyLinks, vous devrez créer
-          un compte utilisateur. Vous êtes responsable de la confidentialité de
-          votre compte et de vos informations d'identification.
-        </p>
+        <h2>{t("terms:responsibility_warranty.title")}</h2>
+        <h3>{t("terms:responsibility_warranty.responsibility.title")}</h3>
+        <p>{t("terms:responsibility_warranty.responsibility.description")}</p>
 
-        <h3>2.2 Utilisation Autorisée</h3>
-        <p>
-          Vous vous engagez à utiliser MyLinks conformément aux lois en vigueur
-          et à ne pas violer les droits de tiers.
-        </p>
+        <h3>{t("terms:responsibility_warranty.warranty.title")}</h3>
+        <p>{t("terms:responsibility_warranty.warranty.description")}</p>
 
-        <h3>2.3 Contenu Utilisateur</h3>
-        <p>
-          En publiant du contenu sur MyLinks, vous accordez à MyLinks une
-          licence mondiale, non exclusive, transférable et gratuite pour
-          utiliser, reproduire, distribuer et afficher ce contenu.
-        </p>
+        <h2>{t("terms:terms_changes.title")}</h2>
+        <p>{t("terms:terms_changes.description")}</p>
 
-        <h2>3. Données Personnelles</h2>
-        <h3>3.1 Collecte et Utilisation</h3>
-        <p>
-          Les données personnelles collectées sont utilisées conformément à
-          notre <LinkTag href="/privacy">Politique de Confidentialité</LinkTag>.
-          En utilisant MyLinks, vous consentez à cette collecte et utilisation.
-        </p>
+        <h2>{t("terms:cancel.title")}</h2>
+        <p>{t("terms:cancel.description")}</p>
 
-        <h3>3.2 Suppression de Compte</h3>
+        <h2>{t("terms:contact.title")}</h2>
         <p>
-          Vous pouvez demander la suppression de votre compte à tout moment
-          conformément à notre Politique de Confidentialité.
-        </p>
-
-        <h2>4. Responsabilités et Garanties</h2>
-        <h3>4.1 Responsabilité</h3>
-        <p>
-          MyLinks ne peut être tenu responsable des dommages directs ou
-          indirects découlant de l'utilisation de nos services.
-        </p>
-
-        <h3>4.2 Garanties</h3>
-        <p>
-          MyLinks ne garantit pas que le service sera exempt d'erreurs ou de
-          interruptions.
-        </p>
-
-        <h2>5. Modifications des Conditions</h2>
-        <p>
-          MyLinks se réserve le droit de modifier ces Conditions Générales
-          d'Utilisation à tout moment. Les utilisateurs seront informés des
-          changements par le biais d'une notification sur le site.
-        </p>
-
-        <h2>6. Résiliation</h2>
-        <p>
-          MyLinks se réserve le droit de résilier ou de suspendre votre accès au
-          service, avec ou sans préavis, en cas de violation de ces Conditions
-          Générales d'Utilisation.
-        </p>
-
-        <h2>7. Contact</h2>
-        <p>
-          Pour toute question ou préoccupation concernant ces Conditions
-          Générales d'Utilisation, veuillez nous contacter à l'adresse suivante
-          :{" "}
+          {t("terms:contact.description")}{" "}
           <LinkTag href="mailto:sonnyasdev@gmail.com" target="_blank">
             sonnyasdev[at]gmail.com
           </LinkTag>
           .
         </p>
+
+        <p>{t("terms:footer.changes")}</p>
+        <p>{t("terms:footer.thanks")}</p>
       </main>
     </PageTransition>
   );
@@ -105,7 +76,7 @@ export default function Terms() {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await getServerSideTranslation(locale)),
+      ...(await getServerSideTranslation(locale, ["terms"])),
     },
   };
 }
