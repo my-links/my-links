@@ -24,16 +24,16 @@ export default function SearchList({
 }) {
   const searchItemsGrouped = useMemo(
     () => groupItemBy(items, "category.name"),
-    [items]
+    [items],
   );
   const groupedItems = useMemo<any>(
     () => Object.entries(searchItemsGrouped),
-    [searchItemsGrouped]
+    [searchItemsGrouped],
   );
 
   const selectedItemIndex = useMemo<number>(
     () => items.findIndex((item) => isActiveItem(item, selectedItem)),
-    [items, selectedItem]
+    [items, selectedItem],
   );
 
   useHotkeys(
@@ -43,7 +43,7 @@ export default function SearchList({
       enableOnFormTags: ["INPUT"],
       enabled: items.length > 1 && selectedItemIndex !== 0,
       preventDefault: true,
-    }
+    },
   );
   useHotkeys(
     Keys.ARROW_DOWN,
@@ -52,7 +52,7 @@ export default function SearchList({
       enableOnFormTags: ["INPUT"],
       enabled: items.length > 1 && selectedItemIndex !== items.length - 1,
       preventDefault: true,
-    }
+    },
   );
 
   useEffect(() => {

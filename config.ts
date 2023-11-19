@@ -1,3 +1,3 @@
 export const config = {
-    siteName: "My Links",
+  siteName: "My Links",
 };

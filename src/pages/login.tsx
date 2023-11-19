@@ -3,7 +3,7 @@ import LangSelector from "components/LangSelector";
 import MessageManager from "components/MessageManager/MessageManager";
 import PageTransition from "components/PageTransition";
 import PATHS from "constants/paths";
-import { getServerSideTranslation } from "i18n/index";
+import { getServerSideTranslation } from "../i18n";
 import getUser from "lib/user/getUser";
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
@@ -17,6 +17,7 @@ import { getSession } from "utils/session";
 interface SignInProps {
   providers: Provider[];
 }
+
 export default function SignIn({ providers }: SignInProps) {
   const { t } = useTranslation("login");
 
@@ -70,7 +71,7 @@ export async function getServerSideProps({ req, res, locale }) {
     props: {
       session,
       providers,
-      ...(await getServerSideTranslation(locale)),
+      ...(await getServerSideTranslation(locale, ["login"])),
     },
   };
 }

@@ -25,7 +25,7 @@ export default function PageEditCategory({ category }: { category: Category }) {
 
   const canSubmit = useMemo<boolean>(
     () => name !== category.name && name !== "" && !submitted,
-    [category.name, name, submitted]
+    [category.name, name, submitted],
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -85,5 +85,5 @@ export const getServerSideProps = withAuthentication(
         ...(await getServerSideTranslation(locale))
       }
     };
-  }
+  },
 );

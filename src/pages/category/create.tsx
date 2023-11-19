@@ -29,7 +29,7 @@ export default function PageCreateCategory({
 
   const canSubmit = useMemo<boolean>(
     () => name.length !== 0 && !submitted,
-    [name.length, submitted]
+    [name.length, submitted],
   );
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -82,5 +82,5 @@ export const getServerSideProps = withAuthentication(
         ...(await getServerSideTranslation(locale))
       }
     };
-  }
+  },
 );

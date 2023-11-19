@@ -3,12 +3,14 @@ import { useMemo } from "react";
 import { Category } from "types";
 import CategoryItem from "./CategoryItem";
 import styles from "./categories.module.scss";
+import clsx from "clsx";
 
 interface CategoriesProps {
   categories: Category[];
   categoryActive: Category;
   handleSelectCategory: (category: Category) => void;
 }
+
 export default function Categories({
   categories,
   categoryActive,
@@ -17,7 +19,7 @@ export default function Categories({
   const { t } = useTranslation();
   const linksCount = useMemo(
     () => categories.reduce((acc, current) => (acc += current.links.length), 0),
-    [categories]
+    [categories],
   );
 
   return (
@@ -25,7 +27,7 @@ export default function Categories({
       <h4>
         {t("common:category.categories")} • {linksCount}
       </h4>
-      <ul className={styles["items"]}>
+      <ul className={clsx(styles["items"], "reset")}>
         {categories.map((category, index) => (
           <CategoryItem
             category={category}

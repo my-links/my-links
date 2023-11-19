@@ -29,5 +29,7 @@
   "avatar": "{{name}}'s avatar",
   "generic-error": "Something went wrong",
   "generic-error-description": "An error has occurred, if this happens again please <a href=\"https://github.com/Sonny93/my-links\" target=\"_blank\">create an issue</a> with as much detail as possible.",
-  "retry": "Retry"
+  "retry": "Retry",
+  "privacy": "Privacy",
+  "terms": "Terms of use"
 }

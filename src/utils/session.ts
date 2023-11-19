@@ -19,7 +19,7 @@ export function withAuthentication(serverSidePropsFunc) {
 
     const session = await getSession(
       req as NextApiRequest,
-      res as NextApiResponse
+      res as NextApiResponse,
     );
     const user = await getUser(session);
     if (!session || !user) {

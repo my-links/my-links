@@ -37,23 +37,23 @@ export default function HomePage(props: HomePageProps) {
 
   const [categories, setCategories] = useState<Category[]>(props.categories);
   const [categoryActive, setCategoryActive] = useState<Category | null>(
-    props.currentCategory || categories?.[0]
+    props.currentCategory || categories?.[0],
   );
 
   const favorites = useMemo<Link[]>(
     () =>
       categories.reduce((acc, category) => {
         category.links.forEach((link) =>
-          link.favorite ? acc.push(link) : null
+          link.favorite ? acc.push(link) : null,
         );
         return acc;
       }, [] as Link[]),
-    [categories]
+    [categories],
   );
 
   const searchItemBuilder = (
     item: Category | Link,
-    type: SearchItem["type"]
+    type: SearchItem["type"],
   ): SearchItem => ({
     id: item.id,
     name: item.name,
@@ -66,15 +66,13 @@ export default function HomePage(props: HomePageProps) {
   });
 
   const itemsSearch = useMemo<SearchItem[]>(() => {
-    const items = categories.reduce((acc, category) => {
+    return categories.reduce((acc, category) => {
       const categoryItem = searchItemBuilder(category, "category");
       const items: SearchItem[] = category.links.map((link) =>
-        searchItemBuilder(link, "link")
+        searchItemBuilder(link, "link"),
       );
       return [...acc, ...items, categoryItem];
     }, [] as SearchItem[]);
-
-    return items;
   }, [categories]);
 
   // TODO: refacto
@@ -101,7 +99,7 @@ export default function HomePage(props: HomePageProps) {
         setCategoryActive(categories[categoryIndex]);
       }
     },
-    [categories, categoryActive.id]
+    [categories, categoryActive.id],
   );
 
   const handleSelectCategory = (category: Category) => {
@@ -117,7 +115,7 @@ export default function HomePage(props: HomePageProps) {
       event.preventDefault();
       searchModal.open();
     },
-    areHokeysEnabled
+    areHokeysEnabled,
   );
   useHotkeys(Keys.CLOSE_SEARCH_KEY, searchModal.close, {
     enabled: searchModal.isShowing,
@@ -129,14 +127,14 @@ export default function HomePage(props: HomePageProps) {
     () => {
       router.push(`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`);
     },
-    areHokeysEnabled
+    areHokeysEnabled,
   );
   useHotkeys(
     Keys.OPEN_CREATE_CATEGORY_KEY,
     () => {
       router.push("/category/create");
     },
-    areHokeysEnabled
+    areHokeysEnabled,
   );
 
   return (
@@ -216,7 +214,7 @@ export const getServerSideProps = withAuthentication(
     }
 
     const currentCategory = categories.find(
-      ({ id }) => id === Number(queryCategoryId)
+      ({ id }) => id === Number(queryCategoryId),
     );
     return {
       props: {
@@ -225,8 +223,8 @@ export const getServerSideProps = withAuthentication(
         currentCategory: currentCategory
           ? JSON.parse(JSON.stringify(currentCategory))
           : null,
-        ...(await getServerSideTranslation(locale)),
+        ...(await getServerSideTranslation(locale, ["home"])),
       },
     };
-  }
+  },
 );

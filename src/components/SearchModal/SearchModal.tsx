@@ -29,11 +29,11 @@ export default function SearchModal({
 
   const [canSearchLink, setCanSearchLink] = useLocalStorage(
     "search-link",
-    true
+    true,
   );
   const [canSearchCategory, setCanSearchCategory] = useLocalStorage(
     "search-category",
-    false
+    false,
   );
 
   const [search, setSearch] = useState<string>("");
@@ -52,9 +52,9 @@ export default function SearchModal({
                 (item.type === "link" && canSearchLink)) &&
               item.name
                 .toLocaleLowerCase()
-                .includes(search.toLocaleLowerCase().trim())
+                .includes(search.toLocaleLowerCase().trim()),
           ),
-    [canSearchCategory, canSearchLink, items, search]
+    [canSearchCategory, canSearchLink, items, search],
   );
 
   const resetForm = useCallback(() => {
@@ -64,7 +64,7 @@ export default function SearchModal({
 
   const handleSearchInputChange = useCallback(
     (value: string) => setSearch(value),
-    []
+    [],
   );
 
   const handleCanSearchLink = (checked: boolean) => setCanSearchLink(checked);
@@ -94,7 +94,7 @@ export default function SearchModal({
       resetForm,
       search,
       selectedItem,
-    ]
+    ],
   );
 
   return (

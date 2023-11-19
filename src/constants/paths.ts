@@ -2,6 +2,8 @@ const PATHS = {
   LOGIN: "/login",
   LOGOUT: "/logout",
   HOME: "/",
+  PRIVACY: "/privacy",
+  TERMS: "/terms",
   CATEGORY: {
     CREATE: "/category/create",
     EDIT: "/category/edit",
