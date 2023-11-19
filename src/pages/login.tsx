@@ -13,6 +13,7 @@ import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import styles from "styles/login.module.scss";
 import { getSession } from "utils/session";
+import { TFunctionParam } from "../types/i18next";
 
 interface SignInProps {
   providers: Provider[];
@@ -43,7 +44,7 @@ export default function SignIn({ providers }: SignInProps) {
               key={id}
             >
               <FcGoogle size={"1.5em"} />{" "}
-              {t("login:continue-with", { provider: name } as undefined)}
+              {t("login:continue-with", { provider: name } as TFunctionParam)}
             </ButtonLink>
           ))}
         </div>

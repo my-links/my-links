@@ -14,7 +14,7 @@ import { withAuthentication } from "utils/session";
 import { makeRequest } from "lib/request";
 
 export default function PageRemoveCategory({
-  category
+  category,
 }: {
   category: Category;
 }) {
@@ -37,7 +37,7 @@ export default function PageRemoveCategory({
 
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
-      method: "DELETE"
+      method: "DELETE",
     })
       .then((data) => router.push(PATHS.HOME))
       .catch(setError)
@@ -90,8 +90,8 @@ export const getServerSideProps = withAuthentication(
     if (!category) {
       return {
         redirect: {
-          destination: PATHS.HOME
-        }
+          destination: PATHS.HOME,
+        },
       };
     }
 
@@ -99,8 +99,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         category: JSON.parse(JSON.stringify(category)),
-        ...(await getServerSideTranslation(locale))
-      }
+        ...(await getServerSideTranslation(locale)),
+      },
     };
   },
 );

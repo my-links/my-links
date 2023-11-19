@@ -17,7 +17,7 @@ import { withAuthentication } from "utils/session";
 import { makeRequest } from "lib/request";
 
 export default function PageCreateLink({
-  categories
+  categories,
 }: {
   categories: Category[];
 }) {
@@ -54,9 +54,11 @@ export default function PageCreateLink({
     makeRequest({
       url: PATHS.API.LINK,
       method: "POST",
-      body: { name, url, favorite, categoryId }
+      body: { name, url, favorite, categoryId },
     })
-      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .then((data) =>
+        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+      )
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -94,7 +96,7 @@ export default function PageCreateLink({
           onChangeCallback={(value: number) => setCategoryId(value)}
           options={categories.map(({ id, name }) => ({
             label: name,
-            value: id
+            value: id,
           }))}
         />
         <Checkbox
@@ -114,8 +116,8 @@ export const getServerSideProps = withAuthentication(
     if (categories.length === 0) {
       return {
         redirect: {
-          destination: PATHS.HOME
-        }
+          destination: PATHS.HOME,
+        },
       };
     }
 
@@ -123,8 +125,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         categories: JSON.parse(JSON.stringify(categories)),
-        ...(await getServerSideTranslation(locale))
-      }
+        ...(await getServerSideTranslation(locale)),
+      },
     };
   },
 );

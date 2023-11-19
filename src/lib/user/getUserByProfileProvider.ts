@@ -5,7 +5,7 @@ export default async function getUserByProfileProvider(profile: Profile) {
   return await prisma.user.findFirst({
     where: {
       google_id: profile.sub,
-      email: profile.email
-    }
+      email: profile.email,
+    },
   });
 }

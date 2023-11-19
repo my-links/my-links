@@ -33,9 +33,11 @@ export default function PageRemoveLink({ link }: { link: Link }) {
 
     makeRequest({
       url: `${PATHS.API.LINK}/${link.id}`,
-      method: "DELETE"
+      method: "DELETE",
     })
-      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .then((data) =>
+        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+      )
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -97,8 +99,8 @@ export const getServerSideProps = withAuthentication(
     if (!link) {
       return {
         redirect: {
-          destination: PATHS.HOME
-        }
+          destination: PATHS.HOME,
+        },
       };
     }
 
@@ -106,8 +108,8 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         link: JSON.parse(JSON.stringify(link)),
-        ...(await getServerSideTranslation(locale))
-      }
+        ...(await getServerSideTranslation(locale)),
+      },
     };
   },
 );

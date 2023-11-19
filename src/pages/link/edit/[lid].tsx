@@ -19,7 +19,7 @@ import { makeRequest } from "lib/request";
 
 export default function PageEditLink({
   link,
-  categories
+  categories,
 }: {
   link: Link;
   categories: Category[];
@@ -59,7 +59,7 @@ export default function PageEditLink({
     link.url,
     name,
     submitted,
-    url
+    url,
   ]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -70,9 +70,11 @@ export default function PageEditLink({
     makeRequest({
       url: `${PATHS.API.LINK}/${link.id}`,
       method: "PUT",
-      body: { name, url, favorite, categoryId }
+      body: { name, url, favorite, categoryId },
     })
-      .then((data) => router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`))
+      .then((data) =>
+        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+      )
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -109,7 +111,7 @@ export default function PageEditLink({
           onChangeCallback={(value: number) => setCategoryId(value)}
           options={categories.map(({ id, name }) => ({
             label: name,
-            value: id
+            value: id,
           }))}
         />
         <Checkbox
@@ -132,8 +134,8 @@ export const getServerSideProps = withAuthentication(
     if (!link) {
       return {
         redirect: {
-          destination: PATHS.HOME
-        }
+          destination: PATHS.HOME,
+        },
       };
     }
 
@@ -142,8 +144,8 @@ export const getServerSideProps = withAuthentication(
         session,
         link: JSON.parse(JSON.stringify(link)),
         categories: JSON.parse(JSON.stringify(categories)),
-        ...(await getServerSideTranslation(locale))
-      }
+        ...(await getServerSideTranslation(locale)),
+      },
     };
   },
 );

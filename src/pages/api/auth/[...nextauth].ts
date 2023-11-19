@@ -6,12 +6,18 @@ import createUser from "lib/user/createUser";
 import updateUser from "lib/user/updateUser";
 import prisma from "utils/prisma";
 
-const authLogger = (profile: Profile, ...args: any[]) => console.log("[AUTH]", profile.email, `(${profile.name} - ${profile.sub})`, ...args);
+const authLogger = (profile: Profile, ...args: any[]) =>
+  console.log(
+    "[AUTH]",
+    profile.email,
+    `(${profile.name} - ${profile.sub})`,
+    ...args,
+  );
 const redirectUser = (errorKey: string) => `${PATHS.LOGIN}?error=${errorKey}`;
 
 const checkProvider = (provider: string) => provider === "google";
-const checkAccountDataReceived = (profile: Profile) => !!profile?.sub && !!profile?.email;
-
+const checkAccountDataReceived = (profile: Profile) =>
+  !!profile?.sub && !!profile?.email;
 
 export const authOptions = {
   providers: [
@@ -22,16 +28,16 @@ export const authOptions = {
         params: {
           prompt: "consent",
           access_type: "offline",
-          response_type: "code"
-        }
-      }
-    })
+          response_type: "code",
+        },
+      },
+    }),
   ],
   callbacks: {
     async session({ session }) {
       // check if stored in session still exist in db
       const user = await prisma.user.findFirst({
-        where: { email: session.user.email }
+        where: { email: session.user.email },
       });
       return user ? session : undefined;
     },
@@ -62,12 +68,12 @@ export const authOptions = {
         console.error(error);
         return redirectUser("AUTH_ERROR");
       }
-    }
+    },
   },
   pages: {
     signIn: PATHS.LOGIN,
     error: PATHS.LOGIN,
-    signOut: PATHS.LOGOUT
-  }
+    signOut: PATHS.LOGOUT,
+  },
 } as NextAuthOptions;
 export default NextAuth(authOptions);

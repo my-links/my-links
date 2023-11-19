@@ -6,7 +6,7 @@ const config = {
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"]
+      use: ["@svgr/webpack"],
     });
 
     return config;
@@ -15,12 +15,12 @@ const config = {
     remotePatterns: [
       { hostname: "localhost" },
       { hostname: "t3.gstatic.com" },
-      { hostname: "lh3.googleusercontent.com" }
+      { hostname: "lh3.googleusercontent.com" },
     ],
-    formats: ["image/webp"]
+    formats: ["image/webp"],
   },
   reactStrictMode: false,
-  output: "standalone"
+  output: "standalone",
 };
 
 module.exports = config;
