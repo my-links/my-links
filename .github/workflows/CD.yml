@@ -47,6 +47,5 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /my-links
-            docker pull docker.io/sonny93/my-links:latest
-            docker compose up -d --force-recreate
+            cd /home/debian/my-links
+            docker compose up -d --build
