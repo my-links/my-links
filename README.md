@@ -42,7 +42,7 @@ DOCKER_USERNAME="Your docker username"
 DOCKER_PASSWORD="Your docker password"
 SSH_HOST="Your SSH host"
 SSH_PORT="Your SSH port" # use port 22 if you are using the default value
-SSH_USERNAME="Your SSH username"
+SSH_USERNAME="Your SSH username" # private key
 SSH_KEY="Your SSH key" # see below
 ```
 
