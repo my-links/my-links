@@ -19,6 +19,12 @@ const checkProvider = (provider: string) => provider === "google";
 const checkAccountDataReceived = (profile: Profile) =>
   !!profile?.sub && !!profile?.email;
 
+const cookieOptions = {
+  sameSite: "None",
+  path: "/",
+  secure: true,
+};
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -74,6 +80,20 @@ export const authOptions = {
     signIn: PATHS.LOGIN,
     error: PATHS.LOGIN,
     signOut: PATHS.LOGOUT,
+  },
+  cookies: {
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: cookieOptions,
+    },
+    callbackUrl: {
+      name: "next-auth.callback-url",
+      options: cookieOptions,
+    },
+    csrfToken: {
+      name: "next-auth.csrf-token",
+      options: cookieOptions,
+    },
   },
 } as NextAuthOptions;
 export default NextAuth(authOptions);
