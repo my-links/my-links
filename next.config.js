@@ -16,6 +16,7 @@ const config = {
       { hostname: "localhost" },
       { hostname: "t3.gstatic.com" },
       { hostname: "lh3.googleusercontent.com" },
+      { hostname: "mylinks.app" },
     ],
     formats: ["image/webp"],
   },

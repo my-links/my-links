@@ -11,5 +11,5 @@ export const REL_LIST = [
   "apple-touch-icon-precomposed",
   "apple-touch-startup-image",
   "mask-icon",
-  "fluid-icon"
+  "fluid-icon",
 ];

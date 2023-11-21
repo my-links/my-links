@@ -4,7 +4,7 @@ import PATHS from "constants/paths";
 import styles from "./navbar.module.scss";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import { TFunctionParam } from "../../types/i18next";
+import { TFunctionParam } from "types/i18next";
 
 export default function Navbar() {
   const { data, status } = useSession();

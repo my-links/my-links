@@ -5,10 +5,10 @@ import { Favicon } from "types/types";
 import { isImage } from "./image";
 
 export async function makeRequest({
-                                    method = "GET",
-                                    url,
-                                    body
-                                  }: {
+  method = "GET",
+  url,
+  body,
+}: {
   method?: RequestInit["method"];
   url: string;
   body?: object | any[];
@@ -18,8 +18,8 @@ export async function makeRequest({
     method,
     body: body ? JSON.stringify(body) : undefined,
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
   nProgress.done();
 
@@ -47,7 +47,7 @@ export async function downloadImageFromUrl(url: string): Promise<Favicon> {
     buffer: Buffer.from(await blob.arrayBuffer()),
     url: request.url,
     type: blob.type,
-    size: blob.size
+    size: blob.size,
   };
 }
 
