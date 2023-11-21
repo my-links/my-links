@@ -6,6 +6,7 @@ import { SearchItem } from "types";
 import { groupItemBy } from "utils/array";
 import SearchListItem from "./SearchListItem";
 import styles from "./search.module.scss";
+import clsx from "clsx";
 
 const isActiveItem = (item: SearchItem, otherItem: SearchItem) =>
   item?.id === otherItem?.id && item?.type === otherItem?.type;
@@ -60,12 +61,12 @@ export default function SearchList({
   }, [items, setSelectedItem]);
 
   return (
-    <ul className={styles["search-list"]}>
+    <ul className={clsx(styles["search-list"], "reset")}>
       {groupedItems.length > 0 ? (
         groupedItems.map(([key, items]) => (
           <li key={`${key}-${key}`}>
             <span>{typeof key === "undefined" ? "-" : key}</span>
-            <ul>
+            <ul className="reset">
               {items.map((item) => (
                 <SearchListItem
                   item={item}

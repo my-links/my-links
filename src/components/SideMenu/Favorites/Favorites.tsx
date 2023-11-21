@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next";
 import { Link } from "types";
 import FavoriteItem from "./FavoriteItem";
 import styles from "./favorites.module.scss";
+import clsx from "clsx";
 
 export default function Favorites({ favorites }: { favorites: Link[] }) {
   const { t } = useTranslation();
@@ -10,7 +11,7 @@ export default function Favorites({ favorites }: { favorites: Link[] }) {
     favorites.length !== 0 && (
       <div className={styles["favorites"]}>
         <h4>{t("common:favorite")}</h4>
-        <ul className={styles["items"]}>
+        <ul className={clsx(styles["items"], "reset")}>
           {favorites.map((link) => (
             <FavoriteItem link={link} key={link.id} />
           ))}

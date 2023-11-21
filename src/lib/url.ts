@@ -1,5 +1,5 @@
 import { parse } from "node-html-parser";
-import { REL_LIST } from "../constants/url";
+import { REL_LIST } from "constants/url";
 
 export function buildFaviconUrl(urlParam: string, faviconPath: string) {
   const { origin } = new URL(urlParam);
@@ -34,14 +34,15 @@ function urlWithoutSearchParams(urlParam: string) {
 export function removeLastSectionUrl(urlParam: string) {
   const urlArr = urlParam.split("/");
   urlArr.pop();
-  return (urlArr.join("/"));
+  return urlArr.join("/");
 }
 
 export function findFaviconPath(text: string) {
   const document = parse(text);
   const favicon = Array.from(document.getElementsByTagName("link")).find(
-    (element) => REL_LIST.includes(element.getAttribute("rel")) &&
-      element.getAttribute("href")
+    (element) =>
+      REL_LIST.includes(element.getAttribute("rel")) &&
+      element.getAttribute("href"),
   );
 
   return favicon?.getAttribute("href") || undefined;
