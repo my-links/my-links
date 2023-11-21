@@ -40,3 +40,10 @@ export interface SearchItem {
   type: "category" | "link";
   category?: undefined | Link["category"];
 }
+
+export interface Favicon {
+  buffer: Buffer;
+  url: string;
+  type: string;
+  size: number;
+}
