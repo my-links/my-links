@@ -3,8 +3,6 @@ import { useState } from "react";
 import { TbLoader3 } from "react-icons/tb";
 import { TfiWorld } from "react-icons/tfi";
 
-import { faviconLinkBuilder } from "utils/link";
-
 import styles from "./links.module.scss";
 
 interface LinkFaviconProps {
@@ -23,10 +21,11 @@ export default function LinkFavicon({
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
 
+  const baseUrlApi =
+    process.env.NEXT_PUBLIC_API_URL || window.location.origin + "/api";
+
   const setFallbackFavicon = () => setFailed(true);
   const handleStopLoading = () => setLoading(false);
-
-  const { origin } = new URL(url);
 
   return (
     <div
@@ -35,7 +34,7 @@ export default function LinkFavicon({
     >
       {!isFailed ? (
         <Image
-          src={faviconLinkBuilder(origin)}
+          src={`${baseUrlApi}/favicon?urlParam=${url}`}
           onError={() => {
             setFallbackFavicon();
             handleStopLoading();

@@ -1,16 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { createReadStream } from "node:fs";
 import { resolve } from "node:path";
-import { downloadImageFromUrl, getFavicon, makeRequestWithUserAgent } from "lib/request";
+import {
+  downloadImageFromUrl,
+  getFavicon,
+  makeRequestWithUserAgent,
+} from "lib/request";
 import { Favicon } from "types/types";
 import { buildFaviconUrl, findFaviconPath } from "lib/url";
 import { convertBase64ToBuffer, isBase64Image, isImage } from "lib/image";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  const urlParam = (req.query?.url as string) || "";
+  const urlParam = (req.query?.urlParam as string) || "";
   if (!urlParam) {
     throw new Error("URL is missing");
   }
@@ -19,7 +23,11 @@ export default async function handler(
   try {
     return sendImage(res, await getFavicon(faviconRequestUrl));
   } catch (error) {
-    console.error("[Favicon]", `[first: ${faviconRequestUrl}]`, "Unable to retrieve favicon from favicon.ico url");
+    console.error(
+      "[Favicon]",
+      `[first: ${faviconRequestUrl}]`,
+      "Unable to retrieve favicon from favicon.ico url",
+    );
   }
 
   const requestDocument = await makeRequestWithUserAgent(urlParam);
@@ -27,8 +35,11 @@ export default async function handler(
 
   const faviconPath = findFaviconPath(documentAsText);
   if (!faviconPath) {
-    console.error("[Favicon]", `[first: ${faviconRequestUrl}]`, "No link/href attribute found");
-    console.log(documentAsText);
+    console.error(
+      "[Favicon]",
+      `[first: ${faviconRequestUrl}]`,
+      "No link/href attribute found",
+    );
     return sendDefaultImage(res);
   }
 
@@ -39,17 +50,23 @@ export default async function handler(
     }
 
     if (isBase64Image(faviconPath)) {
-      console.log("[Favicon]", `[second: ${faviconRequestUrl}]`, "info: base64, convert it to buffer");
+      console.log(
+        "[Favicon]",
+        `[second: ${faviconRequestUrl}]`,
+        "info: base64, convert it to buffer",
+      );
       const buffer = convertBase64ToBuffer(faviconPath);
       return sendImage(res, {
         buffer,
         type: "image/x-icon",
         size: buffer.length,
-        url: faviconPath
+        url: faviconPath,
       });
     }
 
-    const finalUrl = buildFaviconUrl(requestDocument.url, faviconPath);
+    const finalUrl = faviconPath.startsWith("http")
+      ? faviconPath
+      : buildFaviconUrl(requestDocument.url, faviconPath);
     const favicon = await downloadImageFromUrl(finalUrl);
     if (!isImage(favicon.type)) {
       throw new Error("Favicon path does not return an image");
@@ -72,7 +89,7 @@ function sendImage(res: NextApiResponse, { buffer, type, size }: Favicon) {
 
 function sendDefaultImage(res: NextApiResponse) {
   const readStream = createReadStream(
-    resolve(process.cwd(), "./public/empty-image.png")
+    resolve(process.cwd(), "./public/empty-image.png"),
   );
   res.writeHead(206);
   readStream.pipe(res);
