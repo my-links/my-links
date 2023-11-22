@@ -1,3 +1,5 @@
+# Source : https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
+
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
@@ -30,7 +32,6 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/next.config.js ./next.config.js
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
