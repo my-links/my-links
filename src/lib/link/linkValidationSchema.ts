@@ -1,5 +1,5 @@
-import { VALID_URL_REGEX } from "constants/url";
 import { boolean, number, object, string } from "yup";
+import { isValidHttpUrl } from "../url";
 
 const LinkBodySchema = object({
   name: string()
@@ -9,7 +9,7 @@ const LinkBodySchema = object({
   url: string()
     .trim()
     .required("URl is required")
-    .matches(VALID_URL_REGEX, "Invalid URL format"),
+    .test("test_url", "Invalid URL format", (value) => isValidHttpUrl(value)),
   categoryId: number().required("CategoryId must be a number"),
   favorite: boolean().default(() => false),
 }).typeError("Missing request Body");

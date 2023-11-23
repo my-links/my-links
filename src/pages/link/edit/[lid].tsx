@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { FormEvent, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Category, Link } from "types";
-import { IsValidURL } from "utils/front";
+import { isValidHttpUrl } from "lib/url";
 import { withAuthentication } from "utils/session";
 import { makeRequest } from "lib/request";
 
@@ -46,7 +46,7 @@ export default function PageEditLink({
       categoryId !== link.category.id;
     const isFormValid =
       name !== "" &&
-      IsValidURL(url) &&
+      isValidHttpUrl(url) &&
       favorite !== null &&
       categoryId !== null;
     return isFormEdited && isFormValid && !submitted;
