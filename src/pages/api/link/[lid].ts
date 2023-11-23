@@ -1,7 +1,6 @@
 import { apiHandler } from "lib/api/handler";
 import getUserLink from "lib/link/getUserLink";
 import { LinkBodySchema, LinkQuerySchema } from "lib/link/linkValidationSchema";
-
 import prisma from "utils/prisma";
 
 export default apiHandler({

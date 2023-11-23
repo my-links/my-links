@@ -12,9 +12,9 @@ import { useRouter } from "next/router";
 import { FormEvent, useMemo, useState } from "react";
 import styles from "styles/form.module.scss";
 import { Category, Link } from "types";
-import { IsValidURL } from "utils/front";
 import { withAuthentication } from "utils/session";
 import { makeRequest } from "lib/request";
+import { isValidHttpUrl } from "lib/url";
 
 export default function PageCreateLink({
   categories,
@@ -39,7 +39,7 @@ export default function PageCreateLink({
   const canSubmit = useMemo<boolean>(
     () =>
       name !== "" &&
-      IsValidURL(url) &&
+      isValidHttpUrl(url) &&
       favorite !== null &&
       categoryId !== null &&
       !submitted,
