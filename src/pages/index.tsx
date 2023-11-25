@@ -138,7 +138,11 @@ export default function HomePage(props: HomePageProps) {
   );
 
   return (
-    <PageTransition className="App">
+    <PageTransition
+      className="App"
+      style={{ flexDirection: "row" }}
+      hideLangageSelector
+    >
       {isMobile ? (
         <>
           <span

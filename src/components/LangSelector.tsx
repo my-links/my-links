@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 export default function LangSelector() {
   const router = useRouter();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const onToggleLanguageClick = (newLocale: string) => {
     const { pathname, asPath, query } = router;
@@ -23,7 +23,7 @@ export default function LangSelector() {
     >
       {languages.map((lang) => (
         <option key={lang} value={lang}>
-          {lang}
+          {t(`common:language.${lang as "fr" | "en"}`)}
         </option>
       ))}
     </select>
