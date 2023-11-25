@@ -14,15 +14,17 @@ interface LinkFaviconProps {
 // The Favicon API should always return an image, so it's not really useful to keep the loader nor placeholder icon,
 // but for slow connections and other random stuff, I'll keep this
 export default function LinkFavicon({
-                                      url,
-                                      size = 32,
-                                      noMargin = false
-                                    }: LinkFaviconProps) {
+  url,
+  size = 32,
+  noMargin = false,
+}: LinkFaviconProps) {
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
-  const baseUrlApi = process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" && window)?.location?.origin + "/api";
+  const baseUrlApi =
+    process.env.NEXT_PUBLIC_API_URL ||
+    (typeof window !== "undefined" && window)?.location?.origin + "/api";
   if (!baseUrlApi) {
-    console.warn('Missing API URL')
+    console.warn("Missing API URL");
   }
 
   const setFallbackFavicon = () => setFailed(true);
