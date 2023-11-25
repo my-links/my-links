@@ -20,6 +20,10 @@ const PATHS = {
   },
   NOT_FOUND: "/404",
   SERVER_ERROR: "/505",
+  AUTHOR: "https://www.sonny.dev/",
+  REPO_GITHUB: "https://github.com/Sonny93/my-links",
+  EXTENSION:
+    "https://chromewebstore.google.com/detail/mylinks/agkmlplihacolkakgeccnbhphnepphma",
 };
 
 export default PATHS;
