@@ -2,16 +2,16 @@ import LinkTag from "next/link";
 import PageTransition from "components/PageTransition";
 import styles from "styles/legal-pages.module.scss";
 import clsx from "clsx";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "components/Navbar/Navbar";
 import { getServerSideTranslation } from "../i18n";
 import { useTranslation } from "next-i18next";
-import { TFunctionParam } from "../types/i18next";
+import { TFunctionParam } from "types/i18next";
 
 export default function Privacy() {
   const { t } = useTranslation("privacy");
 
   return (
-    <PageTransition className={clsx("App", styles["privacy"])}>
+    <PageTransition className={clsx("App", styles["legal"])}>
       <Navbar />
       <main>
         <h1>{t("privacy:title")}</h1>
@@ -55,9 +55,8 @@ export default function Privacy() {
         <p>
           {t("privacy:contact.description")}{" "}
           <LinkTag href="mailto:sonnyasdev@gmail.com" target="_blank">
-            sonnyasdev[at]gmail.com
+            sonnyasdev[at]gmail[dot]com
           </LinkTag>
-          .
         </p>
 
         <p>{t("privacy:footer.changes")}</p>

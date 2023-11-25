@@ -3,15 +3,15 @@ import styles from "styles/legal-pages.module.scss";
 import clsx from "clsx";
 import LinkTag from "next/link";
 import Navbar from "components/Navbar/Navbar";
-import { getServerSideTranslation } from "../i18n";
+import { getServerSideTranslation } from "i18n";
 import { Trans, useTranslation } from "next-i18next";
-import { TFunctionParam } from "../types/i18next";
+import { TFunctionParam } from "types/i18next";
 import PATHS from "constants/paths";
 
 export default function Terms() {
   const { t } = useTranslation("terms");
   return (
-    <PageTransition className={clsx("App", styles["privacy"])}>
+    <PageTransition className={clsx("App", styles["legal"])}>
       <Navbar />
       <main>
         <h1>{t("terms:title")}</h1>
@@ -61,9 +61,8 @@ export default function Terms() {
         <p>
           {t("terms:contact.description")}{" "}
           <LinkTag href="mailto:sonnyasdev@gmail.com" target="_blank">
-            sonnyasdev[at]gmail.com
+            sonnyasdev[at]gmail[dot]com
           </LinkTag>
-          .
         </p>
 
         <p>{t("terms:footer.changes")}</p>
@@ -76,7 +75,7 @@ export default function Terms() {
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await getServerSideTranslation(locale, ["terms"])),
-    },
+      ...(await getServerSideTranslation(locale, ["terms"]))
+    }
   };
 }
