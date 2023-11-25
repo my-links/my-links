@@ -1,10 +1,9 @@
-import PATHS from "constants/paths";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
-import { FiLogOut } from "react-icons/fi";
 import { TFunctionParam } from "types/i18next";
 import styles from "./user-card.module.scss";
+import SettingsModal from "components/Settings/SettingsModal";
 
 export default function UserCard() {
   const { data } = useSession({ required: true });
@@ -25,13 +24,7 @@ export default function UserCard() {
         />
         {data.user.name}
       </div>
-      <button
-        onClick={() => signOut({ callbackUrl: PATHS.LOGIN })}
-        className="reset"
-        title={t("common:logout")}
-      >
-        <FiLogOut size={24} />
-      </button>
+      <SettingsModal />
     </div>
   );
 }
