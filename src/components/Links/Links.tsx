@@ -12,6 +12,7 @@ import { TFunctionParam } from "types/i18next";
 import LinkItem from "./LinkItem";
 import styles from "./links.module.scss";
 import clsx from "clsx";
+import PATHS from "constants/paths";
 
 export default function Links({
   category,
@@ -98,6 +99,20 @@ export default function Links({
           </LinkTag>
         </div>
       )}
+      <footer className={styles["footer"]}>
+        {t("home:footer.made_by")}{" "}
+        <LinkTag href={PATHS.AUTHOR} target="_blank">
+          Sonny
+        </LinkTag>
+        {" • "}
+        <LinkTag href={PATHS.REPO_GITHUB} target="_blank">
+          Github
+        </LinkTag>
+        {" • "}
+        <LinkTag href={PATHS.EXTENSION} target="_blank">
+          Extension
+        </LinkTag>
+      </footer>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { GrClose } from "react-icons/gr";
-
 import { motion } from "framer-motion";
 import styles from "./modal.module.scss";
 
@@ -15,6 +14,7 @@ interface ModalProps {
   noHeader?: boolean;
   padding?: string;
 }
+
 export default function Modal({
   close,
   title,
@@ -40,6 +40,7 @@ export default function Modal({
         initial={{ opacity: 0, y: "-6em" }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: "-6em", transition: { duration: 0.1 } }}
+        transition={{ type: "tween" }}
       >
         {!noHeader && (
           <div className={styles["modal-header"]}>

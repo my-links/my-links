@@ -1,5 +1,8 @@
 {
   "select-categorie": "Veuillez séléctionner une categorie",
   "or-create-one": "ou en créer une",
-  "no-link": "Aucun lien pour <b>{{name}}</b>"
+  "no-link": "Aucun lien pour <b>{{name}}</b>",
+  "footer": {
+    "made_by": "Fait avec ❤\uFE0F par"
+  }
 }

@@ -21,11 +21,7 @@ export default function PageTransition({
       className={className}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
-      }}
+      transition={{ type: "tween" }}
       style={style}
     >
       {children}
