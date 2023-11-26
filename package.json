@@ -1,11 +1,13 @@
 {
   "name": "my-links",
+  "description": "MyLinks is a free and open source software, that lets you manage your bookmarks in an intuitive interface",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "postbuild": "next-sitemap",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -20,6 +22,7 @@
     "next-auth": "^4.24.5",
     "next-i18next": "^15.0.0",
     "next-seo": "^6.4.0",
+    "next-sitemap": "^4.2.3",
     "node-html-parser": "^6.1.11",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",

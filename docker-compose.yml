@@ -11,7 +11,21 @@ services:
     build:
       context: .
     ports:
-      - '127.0.0.1:5000:3000'
+      - '127.0.0.1:3000:3000'
+    env_file:
+      - .env
+    networks:
+      - mylinks_app
+    depends_on:
+      mylinks_db:
+        condition: service_started
+
+  mylinks_db:
+    container_name: MyLinksDB
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
     env_file:
       - .env
     networks:
