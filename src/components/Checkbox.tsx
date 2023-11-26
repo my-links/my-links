@@ -1,4 +1,4 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useState } from 'react';
 
 interface SelectorProps {
   name: string;
@@ -18,8 +18,8 @@ export default function Checkbox({
   labelComponent,
   disabled = false,
   innerRef = null,
-  fieldClass = "",
-  placeholder = "Type something...",
+  fieldClass = '',
+  placeholder = 'Type something...',
   isChecked,
   onChangeCallback,
 }: SelectorProps): JSX.Element {
@@ -35,17 +35,23 @@ export default function Checkbox({
   return (
     <div className={`checkbox-field ${fieldClass}`}>
       {label && (
-        <label htmlFor={name} title={`${name} field`}>
+        <label
+          htmlFor={name}
+          title={`${name} field`}
+        >
           {label}
         </label>
       )}
       {labelComponent && (
-        <label htmlFor={name} title={`${name} field`}>
+        <label
+          htmlFor={name}
+          title={`${name} field`}
+        >
           {labelComponent}
         </label>
       )}
       <input
-        type="checkbox"
+        type='checkbox'
         id={name}
         name={name}
         onChange={onChange}

@@ -1,7 +1,7 @@
-import { apiHandler } from "lib/api/handler";
-import getUserLink from "lib/link/getUserLink";
-import { LinkBodySchema, LinkQuerySchema } from "lib/link/linkValidationSchema";
-import prisma from "utils/prisma";
+import { apiHandler } from 'lib/api/handler';
+import getUserLink from 'lib/link/getUserLink';
+import { LinkBodySchema, LinkQuerySchema } from 'lib/link/linkValidationSchema';
+import prisma from 'utils/prisma';
 
 export default apiHandler({
   put: editLink,
@@ -16,7 +16,7 @@ async function editLink({ req, res, user }) {
 
   const link = await getUserLink(user, lid);
   if (!link) {
-    throw new Error("Unable to find link " + lid);
+    throw new Error('Unable to find link ' + lid);
   }
 
   if (
@@ -25,7 +25,7 @@ async function editLink({ req, res, user }) {
     link.favorite === favorite &&
     link.categoryId === categoryId
   ) {
-    throw new Error("You must update at least one field");
+    throw new Error('You must update at least one field');
   }
 
   await prisma.link.update({
@@ -40,7 +40,7 @@ async function editLink({ req, res, user }) {
 
   return res
     .status(200)
-    .send({ success: "Link successfully updated", categoryId });
+    .send({ success: 'Link successfully updated', categoryId });
 }
 
 async function deleteLink({ req, res, user }) {
@@ -48,7 +48,7 @@ async function deleteLink({ req, res, user }) {
 
   const link = await getUserLink(user, lid);
   if (!link) {
-    throw new Error("Unable to find link " + lid);
+    throw new Error('Unable to find link ' + lid);
   }
 
   await prisma.link.delete({
@@ -56,7 +56,7 @@ async function deleteLink({ req, res, user }) {
   });
 
   return res.send({
-    success: "Link successfully deleted",
+    success: 'Link successfully deleted',
     categoryId: link.categoryId,
   });
 }

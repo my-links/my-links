@@ -1,5 +1,5 @@
-import { MutableRefObject, useEffect, useState } from "react";
-import Select, { OptionsOrGroups, GroupBase } from "react-select";
+import { MutableRefObject, useEffect, useState } from 'react';
+import Select, { OptionsOrGroups, GroupBase } from 'react-select';
 
 type Option = { label: string | number; value: string | number };
 
@@ -22,7 +22,7 @@ export default function Selector({
   label,
   labelComponent,
   innerRef = null,
-  fieldClass = "",
+  fieldClass = '',
   value,
   options = [],
   onChangeCallback,
@@ -49,12 +49,18 @@ export default function Selector({
   return (
     <div className={`input-field ${fieldClass}`}>
       {label && (
-        <label htmlFor={name} title={`${name} field`}>
+        <label
+          htmlFor={name}
+          title={`${name} field`}
+        >
           {label}
         </label>
       )}
       {labelComponent && (
-        <label htmlFor={name} title={`${name} field`}>
+        <label
+          htmlFor={name}
+          title={`${name} field`}
+        >
           {labelComponent}
         </label>
       )}

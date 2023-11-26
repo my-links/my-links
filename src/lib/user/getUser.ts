@@ -1,5 +1,5 @@
-import { Session } from "next-auth";
-import prisma from "utils/prisma";
+import { Session } from 'next-auth';
+import prisma from 'utils/prisma';
 
 export default async function getUser(session: Session) {
   if (!session?.user) {

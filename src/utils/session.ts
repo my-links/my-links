@@ -2,12 +2,12 @@ import {
   GetServerSidePropsContext,
   NextApiRequest,
   NextApiResponse,
-} from "next";
-import { getServerSession } from "next-auth/next";
+} from 'next';
+import { getServerSession } from 'next-auth/next';
 
-import PATHS from "constants/paths";
-import getUser from "lib/user/getUser";
-import { authOptions } from "pages/api/auth/[...nextauth]";
+import PATHS from 'constants/paths';
+import getUser from 'lib/user/getUser';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
 
 export async function getSession(req: NextApiRequest, res: NextApiResponse) {
   return await getServerSession(req, res, authOptions);

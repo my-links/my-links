@@ -1,27 +1,27 @@
-import PATHS from "constants/paths";
-import NextAuth, { NextAuthOptions, Profile } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import getUserByProfileProvider from "lib/user/getUserByProfileProvider";
-import createUser from "lib/user/createUser";
-import updateUser from "lib/user/updateUser";
-import prisma from "utils/prisma";
+import PATHS from 'constants/paths';
+import NextAuth, { NextAuthOptions, Profile } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import getUserByProfileProvider from 'lib/user/getUserByProfileProvider';
+import createUser from 'lib/user/createUser';
+import updateUser from 'lib/user/updateUser';
+import prisma from 'utils/prisma';
 
 const authLogger = (profile: Profile, ...args: any[]) =>
   console.log(
-    "[AUTH]",
+    '[AUTH]',
     profile.email,
     `(${profile.name} - ${profile.sub})`,
     ...args,
   );
 const redirectUser = (errorKey: string) => `${PATHS.LOGIN}?error=${errorKey}`;
 
-const checkProvider = (provider: string) => provider === "google";
+const checkProvider = (provider: string) => provider === 'google';
 const checkAccountDataReceived = (profile: Profile) =>
   !!profile?.sub && !!profile?.email;
 
 const cookieOptions = {
-  sameSite: "None",
-  path: "/",
+  sameSite: 'None',
+  path: '/',
   secure: true,
 };
 
@@ -32,9 +32,9 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
         },
       },
     }),
@@ -49,30 +49,30 @@ export const authOptions = {
     },
     async signIn({ account: accountParam, profile }) {
       if (!checkProvider(accountParam.provider)) {
-        authLogger(profile, "rejected : forbidden provider");
-        return redirectUser("AUTH_REQUIRED");
+        authLogger(profile, 'rejected : forbidden provider');
+        return redirectUser('AUTH_REQUIRED');
       }
 
       if (!checkAccountDataReceived(profile)) {
-        authLogger(profile, "rejected : missing data from provider", profile);
-        return redirectUser("MISSING_PROVIDER_VALUES");
+        authLogger(profile, 'rejected : missing data from provider', profile);
+        return redirectUser('MISSING_PROVIDER_VALUES');
       }
 
       try {
         const isUserExists = await getUserByProfileProvider(profile);
         if (isUserExists) {
           await updateUser(profile);
-          authLogger(profile, "success : user updated");
+          authLogger(profile, 'success : user updated');
         } else {
           await createUser(profile);
-          authLogger(profile, "success : user created");
+          authLogger(profile, 'success : user created');
         }
 
         return true;
       } catch (error) {
-        authLogger(profile, "rejected : unhandled error");
+        authLogger(profile, 'rejected : unhandled error');
         console.error(error);
-        return redirectUser("AUTH_ERROR");
+        return redirectUser('AUTH_ERROR');
       }
     },
   },
@@ -83,15 +83,15 @@ export const authOptions = {
   },
   cookies: {
     sessionToken: {
-      name: "next-auth.session-token",
+      name: 'next-auth.session-token',
       options: cookieOptions,
     },
     callbackUrl: {
-      name: "next-auth.callback-url",
+      name: 'next-auth.callback-url',
       options: cookieOptions,
     },
     csrfToken: {
-      name: "next-auth.csrf-token",
+      name: 'next-auth.csrf-token',
       options: cookieOptions,
     },
   },

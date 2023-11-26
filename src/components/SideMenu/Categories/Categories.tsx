@@ -1,9 +1,9 @@
-import { useTranslation } from "next-i18next";
-import { useMemo } from "react";
-import { Category } from "types";
-import CategoryItem from "./CategoryItem";
-import styles from "./categories.module.scss";
-import clsx from "clsx";
+import { useTranslation } from 'next-i18next';
+import { useMemo } from 'react';
+import { Category } from 'types';
+import CategoryItem from './CategoryItem';
+import styles from './categories.module.scss';
+import clsx from 'clsx';
 
 interface CategoriesProps {
   categories: Category[];
@@ -23,11 +23,11 @@ export default function Categories({
   );
 
   return (
-    <div className={styles["categories"]}>
+    <div className={styles['categories']}>
       <h4>
-        {t("common:category.categories")} • {linksCount}
+        {t('common:category.categories')} • {linksCount}
       </h4>
-      <ul className={clsx(styles["items"], "reset")}>
+      <ul className={clsx(styles['items'], 'reset')}>
         {categories.map((category, index) => (
           <CategoryItem
             category={category}

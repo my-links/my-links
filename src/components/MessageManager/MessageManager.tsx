@@ -1,6 +1,6 @@
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from 'next/dist/client/router';
 
-import styles from "./message-manager.module.scss";
+import styles from './message-manager.module.scss';
 
 interface MessageManagerProps {
   error?: string;
@@ -18,14 +18,14 @@ export default function MessageManager({
 
   return (
     <>
-      {info && <div className={styles["info-msg"]}>{info}</div>}
-      {infoUrl && <div className={styles["info-msg"]}>{infoUrl}</div>}
+      {info && <div className={styles['info-msg']}>{info}</div>}
+      {infoUrl && <div className={styles['info-msg']}>{infoUrl}</div>}
 
-      {error && <div className={styles["error-msg"]}>{error}</div>}
-      {errorUrl && <div className={styles["error-msg"]}>{errorUrl}</div>}
+      {error && <div className={styles['error-msg']}>{error}</div>}
+      {errorUrl && <div className={styles['error-msg']}>{errorUrl}</div>}
 
-      {success && <div className={styles["success-msg"]}>{success}</div>}
-      {successUrl && <div className={styles["success-msg"]}>{successUrl}</div>}
+      {success && <div className={styles['success-msg']}>{success}</div>}
+      {successUrl && <div className={styles['success-msg']}>{successUrl}</div>}
     </>
   );
 }

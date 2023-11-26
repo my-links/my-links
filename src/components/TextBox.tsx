@@ -1,4 +1,4 @@
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useState } from 'react';
 
 interface InputProps {
   name: string;
@@ -17,9 +17,9 @@ export default function TextBox({
   label,
   disabled = false,
   innerRef = null,
-  placeholder = "Type something...",
-  fieldClass = "",
-  inputClass = "",
+  placeholder = 'Type something...',
+  fieldClass = '',
+  inputClass = '',
   value,
   onChangeCallback,
 }: InputProps): JSX.Element {
@@ -35,7 +35,10 @@ export default function TextBox({
   return (
     <div className={`input-field ${fieldClass}`}>
       {label && (
-        <label htmlFor={name} title={`${name} field`}>
+        <label
+          htmlFor={name}
+          title={`${name} field`}
+        >
           {label}
         </label>
       )}

@@ -1,14 +1,14 @@
-import LinkTag from "next/link";
-import { useSession } from "next-auth/react";
-import PATHS from "constants/paths";
-import styles from "./navbar.module.scss";
+import LinkTag from 'next/link';
+import { useSession } from 'next-auth/react';
+import PATHS from 'constants/paths';
+import styles from './navbar.module.scss';
 
 export default function NavbarUntranslated() {
   const { status } = useSession();
 
   return (
-    <nav className={styles["navbar"]}>
-      <ul className="reset">
+    <nav className={styles['navbar']}>
+      <ul className='reset'>
         <li>
           <LinkTag href={PATHS.HOME}>MyLinks</LinkTag>
         </li>
@@ -18,7 +18,7 @@ export default function NavbarUntranslated() {
         <li>
           <LinkTag href={PATHS.TERMS}>Terms of use</LinkTag>
         </li>
-        {status === "authenticated" ? (
+        {status === 'authenticated' ? (
           <li>
             <LinkTag href={PATHS.LOGOUT}>Logout</LinkTag>
           </li>

@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { ReactNode } from 'react';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
 export default function FavoriteItem({
   isFavorite,
@@ -10,7 +10,7 @@ export default function FavoriteItem({
   children?: ReactNode;
   onClick: () => void;
 }) {
-  const starColor = "#ffc107";
+  const starColor = '#ffc107';
   return (
     <div onClick={onClick}>
       {isFavorite ? (

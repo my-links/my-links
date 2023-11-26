@@ -1,15 +1,15 @@
-import nProgress from "nprogress";
-import { i18n } from "next-i18next";
-import { USER_AGENT } from "constants/url";
-import { Favicon } from "types/types";
-import { isImage } from "./image";
+import nProgress from 'nprogress';
+import { i18n } from 'next-i18next';
+import { USER_AGENT } from 'constants/url';
+import { Favicon } from 'types/types';
+import { isImage } from './image';
 
 export async function makeRequest({
-  method = "GET",
+  method = 'GET',
   url,
   body,
 }: {
-  method?: RequestInit["method"];
+  method?: RequestInit['method'];
   url: string;
   body?: object | any[];
 }): Promise<any> {
@@ -18,7 +18,7 @@ export async function makeRequest({
     method,
     body: body ? JSON.stringify(body) : undefined,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
   nProgress.done();
@@ -26,12 +26,12 @@ export async function makeRequest({
   const data = await request.json();
   return request.ok
     ? data
-    : Promise.reject(data?.error || i18n.t("common:generic-error"));
+    : Promise.reject(data?.error || i18n.t('common:generic-error'));
 }
 
 export async function makeRequestWithUserAgent(url: string) {
   const headers = new Headers();
-  headers.set("User-Agent", USER_AGENT);
+  headers.set('User-Agent', USER_AGENT);
 
   return await fetch(url, { headers });
 }
@@ -39,7 +39,7 @@ export async function makeRequestWithUserAgent(url: string) {
 export async function downloadImageFromUrl(url: string): Promise<Favicon> {
   const request = await makeRequestWithUserAgent(url);
   if (!request.ok) {
-    throw new Error("Request failed");
+    throw new Error('Request failed');
   }
 
   const blob = await request.blob();
@@ -52,11 +52,11 @@ export async function downloadImageFromUrl(url: string): Promise<Favicon> {
 }
 
 export async function getFavicon(url: string): Promise<Favicon> {
-  if (!url) throw new Error("Missing URL");
+  if (!url) throw new Error('Missing URL');
 
   const favicon = await downloadImageFromUrl(url);
   if (!isImage(favicon.type) || favicon.size === 0) {
-    throw new Error("Favicon path does not return an image");
+    throw new Error('Favicon path does not return an image');
   }
 
   return favicon;

@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import useIsMobile from "hooks/useIsMobile";
-import { CSSProperties, ReactNode } from "react";
-import LangSelector from "./LangSelector";
+import { motion } from 'framer-motion';
+import useIsMobile from 'hooks/useIsMobile';
+import { CSSProperties, ReactNode } from 'react';
+import LangSelector from './LangSelector';
 
 export default function PageTransition({
   className,
@@ -21,12 +21,12 @@ export default function PageTransition({
       className={className}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ type: "tween" }}
+      transition={{ type: 'tween' }}
       style={style}
     >
       {children}
       {!hideLangageSelector && !isMobile && (
-        <div className="lang-selector">
+        <div className='lang-selector'>
           <LangSelector />
         </div>
       )}

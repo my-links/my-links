@@ -1,15 +1,15 @@
-import Modal from "components/Modal/Modal";
-import TextBox from "components/TextBox";
-import { GOOGLE_SEARCH_URL } from "constants/search-urls";
-import useAutoFocus from "hooks/useAutoFocus";
-import { useLocalStorage } from "hooks/useLocalStorage";
-import { useTranslation } from "next-i18next";
-import { FormEvent, useCallback, useMemo, useState } from "react";
-import { BsSearch } from "react-icons/bs";
-import { Category, SearchItem } from "types";
-import LabelSearchWithGoogle from "./LabelSearchWithGoogle";
-import SearchList from "./SearchList";
-import styles from "./search.module.scss";
+import Modal from 'components/Modal/Modal';
+import TextBox from 'components/TextBox';
+import { GOOGLE_SEARCH_URL } from 'constants/search-urls';
+import useAutoFocus from 'hooks/useAutoFocus';
+import { useLocalStorage } from 'hooks/useLocalStorage';
+import { useTranslation } from 'next-i18next';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { BsSearch } from 'react-icons/bs';
+import { Category, SearchItem } from 'types';
+import LabelSearchWithGoogle from './LabelSearchWithGoogle';
+import SearchList from './SearchList';
+import styles from './search.module.scss';
 
 export default function SearchModal({
   close,
@@ -28,15 +28,15 @@ export default function SearchModal({
   const autoFocusRef = useAutoFocus();
 
   const [canSearchLink, setCanSearchLink] = useLocalStorage(
-    "search-link",
+    'search-link',
     true,
   );
   const [canSearchCategory, setCanSearchCategory] = useLocalStorage(
-    "search-category",
+    'search-category',
     false,
   );
 
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const [selectedItem, setSelectedItem] = useState<SearchItem>(items[0]);
 
   const canSubmit = useMemo<boolean>(() => search.length > 0, [search]);
@@ -48,8 +48,8 @@ export default function SearchModal({
         ? []
         : items.filter(
             (item) =>
-              ((item.type === "category" && canSearchCategory) ||
-                (item.type === "link" && canSearchLink)) &&
+              ((item.type === 'category' && canSearchCategory) ||
+                (item.type === 'link' && canSearchLink)) &&
               item.name
                 .toLocaleLowerCase()
                 .includes(search.toLocaleLowerCase().trim()),
@@ -58,7 +58,7 @@ export default function SearchModal({
   );
 
   const resetForm = useCallback(() => {
-    setSearch("");
+    setSearch('');
     close();
   }, [close]);
 
@@ -81,7 +81,7 @@ export default function SearchModal({
       }
 
       const category = categories.find((c) => c.id === selectedItem.id);
-      if (selectedItem.type === "category" && category) {
+      if (selectedItem.type === 'category' && category) {
         return handleSelectCategory(category);
       }
 
@@ -98,20 +98,27 @@ export default function SearchModal({
   );
 
   return (
-    <Modal close={close} noHeader={noHeader} padding={"0"}>
-      <form onSubmit={handleSubmit} className={styles["search-form"]}>
-        <div className={styles["search-input-wrapper"]}>
-          <label htmlFor="search">
+    <Modal
+      close={close}
+      noHeader={noHeader}
+      padding={'0'}
+    >
+      <form
+        onSubmit={handleSubmit}
+        className={styles['search-form']}
+      >
+        <div className={styles['search-input-wrapper']}>
+          <label htmlFor='search'>
             <BsSearch size={24} />
           </label>
           <TextBox
-            name="search"
+            name='search'
             onChangeCallback={handleSearchInputChange}
             value={search}
-            placeholder={t("common:search")}
+            placeholder={t('common:search')}
             innerRef={autoFocusRef}
-            fieldClass={styles["search-input-field"]}
-            inputClass={"reset"}
+            fieldClass={styles['search-input-field']}
+            inputClass={'reset'}
           />
         </div>
         <SearchFilter
@@ -129,8 +136,12 @@ export default function SearchModal({
             closeModal={close}
           />
         )}
-        <button type="submit" disabled={!canSubmit} style={{ display: "none" }}>
-          {t("common:confirm")}
+        <button
+          type='submit'
+          disabled={!canSubmit}
+          style={{ display: 'none' }}
+        >
+          {t('common:confirm')}
         </button>
       </form>
     </Modal>
@@ -153,33 +164,33 @@ function SearchFilter({
   return (
     <div
       style={{
-        display: "flex",
-        gap: "1em",
-        alignItems: "center",
-        justifyContent: "center",
-        marginBottom: "1em",
+        display: 'flex',
+        gap: '1em',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '1em',
       }}
     >
-      <div style={{ display: "flex", gap: ".25em" }}>
+      <div style={{ display: 'flex', gap: '.25em' }}>
         <input
-          type="checkbox"
-          name="filter-link"
-          id="filter-link"
+          type='checkbox'
+          name='filter-link'
+          id='filter-link'
           onChange={({ target }) => setCanSearchLink(target.checked)}
           checked={canSearchLink}
         />
-        <label htmlFor="filter-link">{t("common:link.links")}</label>
+        <label htmlFor='filter-link'>{t('common:link.links')}</label>
       </div>
-      <div style={{ display: "flex", gap: ".25em" }}>
+      <div style={{ display: 'flex', gap: '.25em' }}>
         <input
-          type="checkbox"
-          name="filter-category"
-          id="filter-category"
+          type='checkbox'
+          name='filter-category'
+          id='filter-category'
           onChange={({ target }) => setCanSearchCategory(target.checked)}
           checked={canSearchCategory}
         />
-        <label htmlFor="filter-category">
-          {t("common:category.categories")}
+        <label htmlFor='filter-category'>
+          {t('common:category.categories')}
         </label>
       </div>
     </div>

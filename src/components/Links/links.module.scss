@@ -1,5 +1,5 @@
-@import "styles/keyframes.scss";
-@import "styles/colors.scss";
+@import 'styles/keyframes.scss';
+@import 'styles/colors.scss';
 
 .no-link,
 .no-category {
@@ -22,10 +22,9 @@
 }
 
 .links-wrapper {
-  height: calc(100%); // FIXME: eurk
+  height: 100%;
   min-width: 0;
-  padding: 0.5em;
-  padding-bottom: 0;
+  padding: 0.5em 0.5em 0;
   display: flex;
   flex: 1;
   flex-direction: column;

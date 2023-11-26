@@ -1,4 +1,4 @@
-@import "styles/colors.scss";
+@import 'styles/colors.scss';
 
 form.search-form {
   width: 100%;
@@ -38,7 +38,7 @@ form.search-form {
 
   & > span {
     display: flex;
-    align-items: "center";
+    align-items: center;
   }
 }
 

@@ -30,7 +30,7 @@
     "title": "4. User Rights",
     "description": "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
   },
-  "rgpd": {
+  "gdpr": {
     "title": "5. GDPR Compliance",
     "description": "MyLinks complies with the General Data Protection Regulation (GDPR) of the European Union."
   },

@@ -1,11 +1,11 @@
-import LinkTag from "next/link";
-import { AiOutlineFolder } from "react-icons/ai";
+import LinkTag from 'next/link';
+import { AiOutlineFolder } from 'react-icons/ai';
 
-import LinkFavicon from "components/Links/LinkFavicon";
-import { SearchItem } from "types";
+import LinkFavicon from 'components/Links/LinkFavicon';
+import { SearchItem } from 'types';
 
-import { useEffect, useId, useRef } from "react";
-import styles from "./search.module.scss";
+import { useEffect, useId, useRef } from 'react';
+import styles from './search.module.scss';
 
 export default function SearchListItem({
   item,
@@ -23,14 +23,14 @@ export default function SearchListItem({
 
   useEffect(() => {
     if (selected) {
-      ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [selected]);
 
   return (
     <li
       className={
-        styles["search-item"] + (selected ? ` ${styles["selected"]}` : "")
+        styles['search-item'] + (selected ? ` ${styles['selected']}` : '')
       }
       ref={ref}
       key={id}
@@ -38,12 +38,16 @@ export default function SearchListItem({
     >
       <LinkTag
         href={url}
-        target="_blank"
-        rel="no-referrer"
+        target='_blank'
+        rel='no-referrer'
         onClick={closeModal}
       >
-        {type === "link" ? (
-          <LinkFavicon url={item.url} noMargin size={24} />
+        {type === 'link' ? (
+          <LinkFavicon
+            url={item.url}
+            noMargin
+            size={24}
+          />
         ) : (
           <AiOutlineFolder size={24} />
         )}

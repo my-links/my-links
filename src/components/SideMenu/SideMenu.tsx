@@ -1,12 +1,12 @@
-import BlockWrapper from "components/BlockWrapper/BlockWrapper";
-import * as Keys from "constants/keys";
-import { useHotkeys } from "react-hotkeys-hook";
-import { Category, Link } from "types";
-import Categories from "./Categories/Categories";
-import Favorites from "./Favorites/Favorites";
-import NavigationLinks from "./NavigationLinks";
-import UserCard from "./UserCard/UserCard";
-import styles from "./sidemenu.module.scss";
+import BlockWrapper from 'components/BlockWrapper/BlockWrapper';
+import * as Keys from 'constants/keys';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { Category, Link } from 'types';
+import Categories from './Categories/Categories';
+import Favorites from './Favorites/Favorites';
+import NavigationLinks from './NavigationLinks';
+import UserCard from './UserCard/UserCard';
+import styles from './sidemenu.module.scss';
 
 export interface SideMenuProps {
   categories: Category[];
@@ -56,11 +56,11 @@ export default function SideMenu({
   );
 
   return (
-    <div className={styles["side-menu"]}>
+    <div className={styles['side-menu']}>
       <BlockWrapper>
         <Favorites favorites={favorites} />
       </BlockWrapper>
-      <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
+      <BlockWrapper style={{ minHeight: '0', flex: '1' }}>
         <Categories
           categories={categories}
           categoryActive={categoryActive}

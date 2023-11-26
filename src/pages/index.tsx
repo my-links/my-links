@@ -1,26 +1,26 @@
-import BlockWrapper from "components/BlockWrapper/BlockWrapper";
-import ButtonLink from "components/ButtonLink";
-import Links from "components/Links/Links";
-import Modal from "components/Modal/Modal";
-import PageTransition from "components/PageTransition";
-import SearchModal from "components/SearchModal/SearchModal";
-import Categories from "components/SideMenu/Categories/Categories";
-import SideMenu from "components/SideMenu/SideMenu";
-import UserCard from "components/SideMenu/UserCard/UserCard";
-import * as Keys from "constants/keys";
-import PATHS from "constants/paths";
-import { AnimatePresence } from "framer-motion";
-import { useMediaQuery } from "hooks/useMediaQuery";
-import useModal from "hooks/useModal";
-import { getServerSideTranslation } from "i18n";
-import getUserCategories from "lib/category/getUserCategories";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { useCallback, useMemo, useState } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { Category, Link, SearchItem } from "types";
-import { withAuthentication } from "utils/session";
-import clsx from "clsx";
+import BlockWrapper from 'components/BlockWrapper/BlockWrapper';
+import ButtonLink from 'components/ButtonLink';
+import Links from 'components/Links/Links';
+import Modal from 'components/Modal/Modal';
+import PageTransition from 'components/PageTransition';
+import SearchModal from 'components/SearchModal/SearchModal';
+import Categories from 'components/SideMenu/Categories/Categories';
+import SideMenu from 'components/SideMenu/SideMenu';
+import UserCard from 'components/SideMenu/UserCard/UserCard';
+import * as Keys from 'constants/keys';
+import PATHS from 'constants/paths';
+import { AnimatePresence } from 'framer-motion';
+import { useMediaQuery } from 'hooks/useMediaQuery';
+import useModal from 'hooks/useModal';
+import { getServerSideTranslation } from 'i18n';
+import getUserCategories from 'lib/category/getUserCategories';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import { useCallback, useMemo, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { Category, Link, SearchItem } from 'types';
+import { withAuthentication } from 'utils/session';
+import clsx from 'clsx';
 
 interface HomePageProps {
   categories: Category[];
@@ -32,7 +32,7 @@ export default function HomePage(props: HomePageProps) {
   const searchModal = useModal();
   const { t } = useTranslation();
 
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const mobileModal = useModal();
 
   const [categories, setCategories] = useState<Category[]>(props.categories);
@@ -53,31 +53,31 @@ export default function HomePage(props: HomePageProps) {
 
   const searchItemBuilder = (
     item: Category | Link,
-    type: SearchItem["type"],
+    type: SearchItem['type'],
   ): SearchItem => ({
     id: item.id,
     name: item.name,
     url:
-      type === "link"
+      type === 'link'
         ? (item as Link).url
         : `${PATHS.HOME}?categoryId=${item.id}`,
     type,
-    category: type === "link" ? (item as Link).category : undefined,
+    category: type === 'link' ? (item as Link).category : undefined,
   });
 
   const itemsSearch = useMemo<SearchItem[]>(() => {
     return categories.reduce((acc, category) => {
-      const categoryItem = searchItemBuilder(category, "category");
+      const categoryItem = searchItemBuilder(category, 'category');
       const items: SearchItem[] = category.links.map((link) =>
-        searchItemBuilder(link, "link"),
+        searchItemBuilder(link, 'link'),
       );
       return [...acc, ...items, categoryItem];
     }, [] as SearchItem[]);
   }, [categories]);
 
-  // TODO: refacto
+  // TODO: refactor
   const toggleFavorite = useCallback(
-    (linkId: Link["id"]) => {
+    (linkId: Link['id']) => {
       let linkIndex = 0;
       const categoryIndex = categories.findIndex(({ links }) => {
         const lIndex = links.findIndex((l) => l.id === linkId);
@@ -108,18 +108,18 @@ export default function HomePage(props: HomePageProps) {
     mobileModal.close();
   };
 
-  const areHokeysEnabled = { enabled: !searchModal.isShowing };
+  const areHotkeysEnabled = { enabled: !searchModal.isShowing };
   useHotkeys(
     Keys.OPEN_SEARCH_KEY,
     (event) => {
       event.preventDefault();
       searchModal.open();
     },
-    areHokeysEnabled,
+    areHotkeysEnabled,
   );
   useHotkeys(Keys.CLOSE_SEARCH_KEY, searchModal.close, {
     enabled: searchModal.isShowing,
-    enableOnFormTags: ["INPUT"],
+    enableOnFormTags: ['INPUT'],
   });
 
   useHotkeys(
@@ -127,20 +127,20 @@ export default function HomePage(props: HomePageProps) {
     () => {
       router.push(`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`);
     },
-    areHokeysEnabled,
+    areHotkeysEnabled,
   );
   useHotkeys(
     Keys.OPEN_CREATE_CATEGORY_KEY,
     () => {
-      router.push("/category/create");
+      router.push('/category/create');
     },
-    areHokeysEnabled,
+    areHotkeysEnabled,
   );
 
   return (
     <PageTransition
-      className={clsx("App", "flex-row")}
-      style={{ flexDirection: "row" }}
+      className={clsx('App', 'flex-row')}
+      style={{ flexDirection: 'row' }}
       hideLangageSelector
     >
       {isMobile ? (
@@ -174,9 +174,9 @@ export default function HomePage(props: HomePageProps) {
         )}
         {mobileModal.isShowing && (
           <Modal close={mobileModal.close}>
-            <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
+            <BlockWrapper style={{ minHeight: '0', flex: '1' }}>
               <ButtonLink href={PATHS.CATEGORY.CREATE}>
-                {t("common:category.create")}
+                {t('common:category.create')}
               </ButtonLink>
               <Categories
                 categories={categories}
@@ -193,7 +193,7 @@ export default function HomePage(props: HomePageProps) {
 
 export const getServerSideProps = withAuthentication(
   async ({ query, session, user, locale }) => {
-    const queryCategoryId = (query?.categoryId as string) || "";
+    const queryCategoryId = (query?.categoryId as string) || '';
 
     const categories = await getUserCategories(user);
     if (categories.length === 0) {
@@ -214,7 +214,7 @@ export const getServerSideProps = withAuthentication(
         currentCategory: currentCategory
           ? JSON.parse(JSON.stringify(currentCategory))
           : null,
-        ...(await getServerSideTranslation(locale, ["home"])),
+        ...(await getServerSideTranslation(locale, ['home'])),
       },
     };
   },

@@ -1,4 +1,4 @@
-@import "styles/colors.scss";
+@import 'styles/colors.scss';
 
 .modal-wrapper {
   z-index: 9999;
@@ -23,7 +23,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  box-shadow: 0 0 1em 0px rgba($black, 0.25);
+  box-shadow: 0 0 1em 0 rgba($black, 0.25);
 }
 
 .modal-header {

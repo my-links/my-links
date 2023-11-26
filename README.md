@@ -25,7 +25,7 @@ npm run dev
 
 ## Prod
 
-If you want to use your own database leave, the `DATABASE_URL` property filled in `docker/docker-compose.yml` with your databse credentials, otherwise you'll have to delete it.
+If you want to use your own database leave, the `DATABASE_URL` property filled in `docker/docker-compose.yml` with your database credentials, otherwise you'll have to delete it.
 
 ```shell
 cd docker
@@ -33,7 +33,7 @@ make build
 make start-prod
 ```
 
-## Github Actions
+## GitHub Actions
 
 Env var to define :
 

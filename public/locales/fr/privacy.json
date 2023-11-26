@@ -36,7 +36,7 @@
     "title": "4. Droits de l'utilisateur",
     "description": "L'utilisateur a le droit de récupérer l'ensemble de ses données à tout moment et/ou de demander la suppression complète de ses données."
   },
-  "rgpd": {
+  "gdpr": {
     "title": "5. Conformité au RGPD",
     "description": "MyLinks est conforme au Règlement Général sur la Protection des Données (RGPD) de l'Union européenne."
   },

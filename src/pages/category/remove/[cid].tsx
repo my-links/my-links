@@ -1,17 +1,17 @@
-import Checkbox from "components/Checkbox";
-import FormLayout from "components/FormLayout";
-import PageTransition from "components/PageTransition";
-import TextBox from "components/TextBox";
-import PATHS from "constants/paths";
-import { getServerSideTranslation } from "i18n";
-import getUserCategory from "lib/category/getUserCategory";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { FormEvent, useEffect, useMemo, useState } from "react";
-import styles from "styles/form.module.scss";
-import { Category } from "types";
-import { withAuthentication } from "utils/session";
-import { makeRequest } from "lib/request";
+import Checkbox from 'components/Checkbox';
+import FormLayout from 'components/FormLayout';
+import PageTransition from 'components/PageTransition';
+import TextBox from 'components/TextBox';
+import PATHS from 'constants/paths';
+import { getServerSideTranslation } from 'i18n';
+import getUserCategory from 'lib/category/getUserCategory';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import styles from 'styles/form.module.scss';
+import { Category } from 'types';
+import { withAuthentication } from 'utils/session';
+import { makeRequest } from 'lib/request';
 
 export default function PageRemoveCategory({
   category,
@@ -37,9 +37,9 @@ export default function PageRemoveCategory({
 
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
-      method: "DELETE",
+      method: 'DELETE',
     })
-      .then((data) => router.push(PATHS.HOME))
+      .then(() => router.push(PATHS.HOME))
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -47,32 +47,32 @@ export default function PageRemoveCategory({
   useEffect(() => {
     setError(
       category.links.length > 0
-        ? t("common:category.remove-description")
+        ? t('common:category.remove-description')
         : null,
     );
   }, [category.links.length, i18n.language, t]);
 
   return (
-    <PageTransition className={styles["form-container"]}>
+    <PageTransition className={styles['form-container']}>
       <FormLayout
-        title={t("common:category.remove")}
+        title={t('common:category.remove')}
         categoryId={category.id.toString()}
         errorMessage={error}
         canSubmit={canSubmit}
         handleSubmit={handleSubmit}
-        classBtnConfirm="red-btn"
-        textBtnConfirm="Supprimer"
+        classBtnConfirm='red-btn'
+        textBtnConfirm='Supprimer'
       >
         <TextBox
-          name="name"
-          label={t("common:category.name")}
+          name='name'
+          label={t('common:category.name')}
           value={category.name}
-          fieldClass={styles["input-field"]}
+          fieldClass={styles['input-field']}
           disabled={true}
         />
         <Checkbox
-          name="confirm-delete"
-          label={t("common:category.remove-confirm")}
+          name='confirm-delete'
+          label={t('common:category.remove-confirm')}
           isChecked={confirmDelete}
           disabled={!!error}
           onChangeCallback={(checked) => setConfirmDelete(checked)}
