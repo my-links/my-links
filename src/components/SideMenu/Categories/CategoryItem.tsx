@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
-import { AiFillFolderOpen, AiOutlineFolder } from "react-icons/ai";
-import { Category } from "types";
-import styles from "./categories.module.scss";
+import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
+import { Category } from 'types';
+import styles from './categories.module.scss';
 
 interface CategoryItemProps {
   category: Category;
@@ -18,14 +18,14 @@ export default function CategoryItem({
   index,
 }: CategoryItemProps): JSX.Element {
   const ref = useRef<HTMLLIElement>();
-  const className = `${styles["item"]} ${
-    category.id === categoryActive.id ? styles["active"] : ""
+  const className = `${styles['item']} ${
+    category.id === categoryActive.id ? styles['active'] : ''
   }`;
   const onClick = () => handleSelectCategory(category);
 
   useEffect(() => {
     if (category.id === categoryActive.id) {
-      ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [category.id, categoryActive.id]);
 
@@ -34,7 +34,7 @@ export default function CategoryItem({
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
-        type: "spring",
+        type: 'spring',
         stiffness: 260,
         damping: 25,
         delay: index * 0.02,
@@ -44,10 +44,10 @@ export default function CategoryItem({
       ref={ref}
       onClick={onClick}
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: ".25em",
-        transition: "none",
+        display: 'flex',
+        alignItems: 'center',
+        gap: '.25em',
+        transition: 'none',
       }}
       title={category.name}
     >
@@ -57,9 +57,9 @@ export default function CategoryItem({
         <AiOutlineFolder size={24} />
       )}
 
-      <div className={styles["content"]}>
-        <span className={styles["name"]}>{category.name}</span>
-        <span className={styles["links-count"]}>— {category.links.length}</span>
+      <div className={styles['content']}>
+        <span className={styles['name']}>{category.name}</span>
+        <span className={styles['links-count']}>— {category.links.length}</span>
       </div>
     </motion.li>
   );

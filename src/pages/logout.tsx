@@ -1,7 +1,7 @@
-import { signOut, useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { signOut, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
-import PATHS from "constants/paths";
+import PATHS from 'constants/paths';
 
 export default function PageLogout() {
   const { status } = useSession();

@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   my-links-dev-db:
@@ -8,4 +8,4 @@ services:
     env_file:
       - .env
     ports:
-      - 3306:3306
+      - '3306:3306'

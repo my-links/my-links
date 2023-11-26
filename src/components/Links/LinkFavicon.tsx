@@ -1,9 +1,9 @@
-import Image from "next/image";
-import { useState } from "react";
-import { TbLoader3 } from "react-icons/tb";
-import { TfiWorld } from "react-icons/tfi";
+import Image from 'next/image';
+import { useState } from 'react';
+import { TbLoader3 } from 'react-icons/tb';
+import { TfiWorld } from 'react-icons/tfi';
 
-import styles from "./links.module.scss";
+import styles from './links.module.scss';
 
 interface LinkFaviconProps {
   url: string;
@@ -22,9 +22,9 @@ export default function LinkFavicon({
   const [isLoading, setLoading] = useState<boolean>(true);
   const baseUrlApi =
     process.env.NEXT_PUBLIC_API_URL ||
-    (typeof window !== "undefined" && window)?.location?.origin + "/api";
+    (typeof window !== 'undefined' && window)?.location?.origin + '/api';
   if (!baseUrlApi) {
-    console.warn("Missing API URL");
+    console.warn('Missing API URL');
   }
 
   const setFallbackFavicon = () => setFailed(true);
@@ -32,8 +32,8 @@ export default function LinkFavicon({
 
   return (
     <div
-      className={styles["favicon"]}
-      style={{ marginRight: !noMargin ? "1em" : "0" }}
+      className={styles['favicon']}
+      style={{ marginRight: !noMargin ? '1em' : '0' }}
     >
       {!isFailed && baseUrlApi ? (
         <Image
@@ -45,14 +45,14 @@ export default function LinkFavicon({
           onLoad={handleStopLoading}
           height={size}
           width={size}
-          alt="icon"
+          alt='icon'
         />
       ) : (
         <TfiWorld size={size} />
       )}
       {isLoading && (
         <span
-          className={styles["favicon-loader"]}
+          className={styles['favicon-loader']}
           style={{ height: `${size}px`, width: `${size}px` }}
         >
           <TbLoader3 size={size} />

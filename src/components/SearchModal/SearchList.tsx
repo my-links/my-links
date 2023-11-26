@@ -1,12 +1,12 @@
-import * as Keys from "constants/keys";
-import { useTranslation } from "next-i18next";
-import { ReactNode, useEffect, useMemo } from "react";
-import { useHotkeys } from "react-hotkeys-hook";
-import { SearchItem } from "types";
-import { groupItemBy } from "utils/array";
-import SearchListItem from "./SearchListItem";
-import styles from "./search.module.scss";
-import clsx from "clsx";
+import * as Keys from 'constants/keys';
+import { useTranslation } from 'next-i18next';
+import { ReactNode, useEffect, useMemo } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { SearchItem } from 'types';
+import { groupItemBy } from 'utils/array';
+import SearchListItem from './SearchListItem';
+import styles from './search.module.scss';
+import clsx from 'clsx';
 
 const isActiveItem = (item: SearchItem, otherItem: SearchItem) =>
   item?.id === otherItem?.id && item?.type === otherItem?.type;
@@ -24,7 +24,7 @@ export default function SearchList({
   closeModal: () => void;
 }) {
   const searchItemsGrouped = useMemo(
-    () => groupItemBy(items, "category.name"),
+    () => groupItemBy(items, 'category.name'),
     [items],
   );
   const groupedItems = useMemo<any>(
@@ -41,7 +41,7 @@ export default function SearchList({
     Keys.ARROW_UP,
     () => setSelectedItem(items[selectedItemIndex - 1]),
     {
-      enableOnFormTags: ["INPUT"],
+      enableOnFormTags: ['INPUT'],
       enabled: items.length > 1 && selectedItemIndex !== 0,
       preventDefault: true,
     },
@@ -50,7 +50,7 @@ export default function SearchList({
     Keys.ARROW_DOWN,
     () => setSelectedItem(items[selectedItemIndex + 1]),
     {
-      enableOnFormTags: ["INPUT"],
+      enableOnFormTags: ['INPUT'],
       enabled: items.length > 1 && selectedItemIndex !== items.length - 1,
       preventDefault: true,
     },
@@ -61,12 +61,12 @@ export default function SearchList({
   }, [items, setSelectedItem]);
 
   return (
-    <ul className={clsx(styles["search-list"], "reset")}>
+    <ul className={clsx(styles['search-list'], 'reset')}>
       {groupedItems.length > 0 ? (
         groupedItems.map(([key, items]) => (
           <li key={`${key}-${key}`}>
-            <span>{typeof key === "undefined" ? "-" : key}</span>
-            <ul className="reset">
+            <span>{typeof key === 'undefined' ? '-' : key}</span>
+            <ul className='reset'>
               {items.map((item) => (
                 <SearchListItem
                   item={item}
@@ -88,6 +88,6 @@ export default function SearchList({
 }
 
 function LabelNoItem() {
-  const { t } = useTranslation("home");
-  return <i className={styles["no-item"]}>{t("common:no-item-found")}</i>;
+  const { t } = useTranslation('home');
+  return <i className={styles['no-item']}>{t('common:no-item-found')}</i>;
 }

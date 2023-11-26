@@ -1,9 +1,9 @@
-import { apiHandler } from "lib/api/handler";
-import getUserCategory from "lib/category/getUserCategory";
-import getUserLinkByName from "lib/link/getLinkFromCategoryByName";
-import { LinkBodySchema } from "lib/link/linkValidationSchema";
+import { apiHandler } from 'lib/api/handler';
+import getUserCategory from 'lib/category/getUserCategory';
+import getUserLinkByName from 'lib/link/getLinkFromCategoryByName';
+import { LinkBodySchema } from 'lib/link/linkValidationSchema';
 
-import prisma from "utils/prisma";
+import prisma from 'utils/prisma';
 
 export default apiHandler({
   post: createLink,
@@ -16,12 +16,12 @@ async function createLink({ req, res, user }) {
 
   const link = await getUserLinkByName(user, name, categoryId);
   if (link) {
-    throw new Error("Link name is already used in this category");
+    throw new Error('Link name is already used in this category');
   }
 
   const category = await getUserCategory(user, categoryId);
   if (!category) {
-    throw new Error("Unable to find category " + categoryId);
+    throw new Error('Unable to find category ' + categoryId);
   }
 
   await prisma.link.create({
@@ -34,5 +34,5 @@ async function createLink({ req, res, user }) {
     },
   });
 
-  return res.send({ success: "Link successfully created", categoryId });
+  return res.send({ success: 'Link successfully created', categoryId });
 }

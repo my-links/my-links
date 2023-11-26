@@ -1,5 +1,5 @@
-@import "keyframes.scss";
-@import "colors.scss";
+@import 'keyframes.scss';
+@import 'colors.scss';
 
 *:not(ul) {
   box-sizing: border-box;
@@ -14,7 +14,7 @@ body {
   width: 100dvw;
   color: $black;
   background-color: $light-grey;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   padding: 0;
   margin: 0;
   overflow: hidden;

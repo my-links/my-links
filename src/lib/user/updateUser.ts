@@ -1,5 +1,5 @@
-import prisma from "../../utils/prisma";
-import { Profile } from "next-auth";
+import prisma from '../../utils/prisma';
+import { Profile } from 'next-auth';
 
 export default async function updateUser(profile: Profile) {
   return await prisma.user.update({

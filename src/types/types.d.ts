@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from '@prisma/client';
 
 // TODO: extend @prisma/client type with Link[] instead of
 // recreate interface (same for Link)
@@ -7,7 +7,7 @@ export interface Category {
   name: string;
 
   links: Link[];
-  authorId: User["id"];
+  authorId: User['id'];
   author: User;
 
   createdAt: Date;
@@ -25,7 +25,7 @@ export interface Link {
     name: string;
   };
 
-  authorId: User["id"];
+  authorId: User['id'];
   author: User;
   favorite: boolean;
 

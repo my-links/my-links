@@ -1,9 +1,9 @@
-import { User } from "@prisma/client";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import getUserOrThrow from "lib/user/getUserOrThrow";
-import { NextApiRequest, NextApiResponse } from "next";
-import { Session } from "next-auth";
-import { getSession } from "utils/session";
+import { User } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import getUserOrThrow from 'lib/user/getUserOrThrow';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Session } from 'next-auth';
+import { getSession } from 'utils/session';
 
 type ApiHandlerMethod = ({
   req,
@@ -46,23 +46,23 @@ export function apiHandler(handler: {
 }
 
 function errorHandler(error: any, response: NextApiResponse) {
-  if (typeof error === "string") {
-    const is404 = error.toLowerCase().endsWith("not found");
+  if (typeof error === 'string') {
+    const is404 = error.toLowerCase().endsWith('not found');
     const statusCode = is404 ? 404 : 400;
 
     return response.status(statusCode).json({ message: error });
   }
 
-  // does not fit with current error throwed
+  // does not fit with current error thrown
   // TODO: fix errors returned
   // by getSessionOrThrow or getUserOrThrow
-  if (error.name === "UnauthorizedError") {
+  if (error.name === 'UnauthorizedError') {
     // authentication error
-    return response.status(401).json({ message: "You must be connected" });
+    return response.status(401).json({ message: 'You must be connected' });
   }
 
   const errorMessage =
-    error.constructor.name === "PrismaClientKnownRequestError"
+    error.constructor.name === 'PrismaClientKnownRequestError'
       ? handlePrismaError(error) // Handle Prisma specific errors
       : error.message;
 
@@ -75,16 +75,14 @@ function handlePrismaError({
   message,
 }: PrismaClientKnownRequestError) {
   switch (code) {
-    case "P2002":
+    case 'P2002':
       return `Duplicate field value: ${meta.target}`;
-    case "P2003":
-      return `Foreign key constraint failed on the field: ${meta.field_name}`;
-    case "P2014":
+    case 'P2014':
       return `Invalid ID: ${meta.target}`;
-    case "P2003":
+    case 'P2003':
       return `Invalid input data: ${meta.target}`;
 
-    // Details should not leak to client, be carreful with this
+    // Details should not leak to client, be careful with this
     default:
       return `Something went wrong: ${message}`;
   }

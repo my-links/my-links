@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 
 export default function LangSelector() {
   const router = useRouter();
@@ -10,20 +10,23 @@ export default function LangSelector() {
     i18n.changeLanguage(newLocale);
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
-  const languages = ["en", "fr"];
+  const languages = ['en', 'fr'];
 
   return (
     <select
-      name="lng-select"
-      id="lng-select"
+      name='lng-select'
+      id='lng-select'
       onChange={(event) => {
         onToggleLanguageClick(event.target.value);
       }}
       value={i18n.language}
     >
       {languages.map((lang) => (
-        <option key={lang} value={lang}>
-          {t(`common:language.${lang as "fr" | "en"}`)}
+        <option
+          key={lang}
+          value={lang}
+        >
+          {t(`common:language.${lang as 'fr' | 'en'}`)}
         </option>
       ))}
     </select>

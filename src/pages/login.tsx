@@ -1,55 +1,58 @@
-import ButtonLink from "components/ButtonLink";
-import LangSelector from "components/LangSelector";
-import MessageManager from "components/MessageManager/MessageManager";
-import PageTransition from "components/PageTransition";
-import PATHS from "constants/paths";
-import { getServerSideTranslation } from "../i18n";
-import getUser from "lib/user/getUser";
-import { Provider } from "next-auth/providers";
-import { getProviders, signIn } from "next-auth/react";
-import { useTranslation } from "next-i18next";
-import { NextSeo } from "next-seo";
-import Image from "next/image";
-import { FcGoogle } from "react-icons/fc";
-import styles from "styles/login.module.scss";
-import { getSession } from "utils/session";
-import { TFunctionParam } from "../types/i18next";
+import ButtonLink from 'components/ButtonLink';
+import LangSelector from 'components/LangSelector';
+import MessageManager from 'components/MessageManager/MessageManager';
+import PageTransition from 'components/PageTransition';
+import PATHS from 'constants/paths';
+import { getServerSideTranslation } from '../i18n';
+import getUser from 'lib/user/getUser';
+import { Provider } from 'next-auth/providers';
+import { getProviders, signIn } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
+import { NextSeo } from 'next-seo';
+import Image from 'next/image';
+import { FcGoogle } from 'react-icons/fc';
+import styles from 'styles/login.module.scss';
+import { getSession } from 'utils/session';
+import { TFunctionParam } from '../types/i18next';
 
 interface SignInProps {
   providers: Provider[];
 }
 
 export default function SignIn({ providers }: SignInProps) {
-  const { t } = useTranslation("login");
+  const { t } = useTranslation('login');
 
   return (
-    <div className={styles["login-page"]}>
-      <PageTransition className={styles["login-container"]} hideLangageSelector>
-        <NextSeo title={t("login:title")} />
-        <div className={styles["image-wrapper"]}>
+    <div className={styles['login-page']}>
+      <PageTransition
+        className={styles['login-container']}
+        hideLangageSelector
+      >
+        <NextSeo title={t('login:title')} />
+        <div className={styles['image-wrapper']}>
           <Image
-            src={"/logo-light.png"}
+            src={'/logo-light.png'}
             width={300}
             height={100}
             alt="MyLinks's logo"
           />
         </div>
-        <div className={styles["form-wrapper"]}>
-          <h1>{t("login:title")}</h1>
-          <MessageManager info={t("login:informative-text")} />
+        <div className={styles['form-wrapper']}>
+          <h1>{t('login:title')}</h1>
+          <MessageManager info={t('login:informative-text')} />
           {Object.values(providers).map(({ name, id }) => (
             <ButtonLink
               onClick={() => signIn(id, { callbackUrl: PATHS.HOME })}
-              className={styles["login-button"]}
+              className={styles['login-button']}
               key={id}
             >
-              <FcGoogle size={"1.5em"} />{" "}
-              {t("login:continue-with", { provider: name } as TFunctionParam)}
+              <FcGoogle size={'1.5em'} />{' '}
+              {t('login:continue-with', { provider: name } as TFunctionParam)}
             </ButtonLink>
           ))}
         </div>
       </PageTransition>
-      <div className="lang-selector">
+      <div className='lang-selector'>
         <LangSelector />
       </div>
     </div>
@@ -72,7 +75,7 @@ export async function getServerSideProps({ req, res, locale }) {
     props: {
       session,
       providers,
-      ...(await getServerSideTranslation(locale, ["login"])),
+      ...(await getServerSideTranslation(locale, ['login'])),
     },
   };
 }

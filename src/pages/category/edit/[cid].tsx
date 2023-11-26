@@ -1,17 +1,17 @@
-import FormLayout from "components/FormLayout";
-import PageTransition from "components/PageTransition";
-import TextBox from "components/TextBox";
-import PATHS from "constants/paths";
-import useAutoFocus from "hooks/useAutoFocus";
-import { getServerSideTranslation } from "i18n";
-import getUserCategory from "lib/category/getUserCategory";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
-import { FormEvent, useMemo, useState } from "react";
-import styles from "styles/form.module.scss";
-import { Category } from "types";
-import { withAuthentication } from "utils/session";
-import { makeRequest } from "lib/request";
+import FormLayout from 'components/FormLayout';
+import PageTransition from 'components/PageTransition';
+import TextBox from 'components/TextBox';
+import PATHS from 'constants/paths';
+import useAutoFocus from 'hooks/useAutoFocus';
+import { getServerSideTranslation } from 'i18n';
+import getUserCategory from 'lib/category/getUserCategory';
+import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
+import { FormEvent, useMemo, useState } from 'react';
+import styles from 'styles/form.module.scss';
+import { Category } from 'types';
+import { withAuthentication } from 'utils/session';
+import { makeRequest } from 'lib/request';
 
 export default function PageEditCategory({ category }: { category: Category }) {
   const { t } = useTranslation();
@@ -24,7 +24,7 @@ export default function PageEditCategory({ category }: { category: Category }) {
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const canSubmit = useMemo<boolean>(
-    () => name !== category.name && name !== "" && !submitted,
+    () => name !== category.name && name !== '' && !submitted,
     [category.name, name, submitted],
   );
 
@@ -35,7 +35,7 @@ export default function PageEditCategory({ category }: { category: Category }) {
 
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
-      method: "PUT",
+      method: 'PUT',
       body: { name },
     })
       .then((data) =>
@@ -46,20 +46,20 @@ export default function PageEditCategory({ category }: { category: Category }) {
   };
 
   return (
-    <PageTransition className={styles["form-container"]}>
+    <PageTransition className={styles['form-container']}>
       <FormLayout
-        title={t("common:category.edit")}
+        title={t('common:category.edit')}
         errorMessage={error}
         canSubmit={canSubmit}
         handleSubmit={handleSubmit}
       >
         <TextBox
-          name="name"
-          label={t("common:category.name")}
+          name='name'
+          label={t('common:category.name')}
           onChangeCallback={(value) => setName(value)}
           value={name}
-          fieldClass={styles["input-field"]}
-          placeholder={`${t("common:category.name")} : ${category.name}`}
+          fieldClass={styles['input-field']}
+          placeholder={`${t('common:category.name')} : ${category.name}`}
           innerRef={autoFocusRef}
         />
       </FormLayout>

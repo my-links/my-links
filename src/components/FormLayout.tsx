@@ -1,7 +1,7 @@
-import MessageManager from "components/MessageManager/MessageManager";
-import { i18n, useTranslation } from "next-i18next";
-import { NextSeo } from "next-seo";
-import Link from "next/link";
+import MessageManager from 'components/MessageManager/MessageManager';
+import { i18n, useTranslation } from 'next-i18next';
+import { NextSeo } from 'next-seo';
+import Link from 'next/link';
 
 interface FormProps {
   title: string;
@@ -29,8 +29,8 @@ export default function Form({
   infoMessage,
   canSubmit,
   handleSubmit,
-  textBtnConfirm = i18n.t("common:confirm"),
-  classBtnConfirm = "",
+  textBtnConfirm = i18n.t('common:confirm'),
+  classBtnConfirm = '',
   children,
   disableHomeLink = false,
 }: FormProps) {
@@ -42,13 +42,17 @@ export default function Form({
       <h2>{title}</h2>
       <form onSubmit={handleSubmit}>
         {children}
-        <button type="submit" className={classBtnConfirm} disabled={!canSubmit}>
+        <button
+          type='submit'
+          className={classBtnConfirm}
+          disabled={!canSubmit}
+        >
           {textBtnConfirm}
         </button>
       </form>
       {!disableHomeLink && (
-        <Link href={categoryId ? `/?categoryId=${categoryId}` : "/"}>
-          {t("common:back-home")}
+        <Link href={categoryId ? `/?categoryId=${categoryId}` : '/'}>
+          {t('common:back-home')}
         </Link>
       )}
       <MessageManager

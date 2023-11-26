@@ -1,9 +1,9 @@
-import { parse } from "node-html-parser";
-import { REL_LIST } from "constants/url";
+import { parse } from 'node-html-parser';
+import { REL_LIST } from 'constants/url';
 
 export function buildFaviconUrl(urlParam: string, faviconPath: string) {
   const { origin } = new URL(urlParam);
-  if (faviconPath.startsWith("/")) {
+  if (faviconPath.startsWith('/')) {
     // https://example.com + /favicon.ico
     return origin + faviconPath;
   }
@@ -11,14 +11,14 @@ export function buildFaviconUrl(urlParam: string, faviconPath: string) {
   const slimUrl = urlWithoutSearchParams(urlParam);
 
   // https://example.com/a/b/ -> https://example.com/a/b
-  const url = slimUrl.endsWith("/") ? slimUrl.slice(0, -1) : slimUrl;
+  const url = slimUrl.endsWith('/') ? slimUrl.slice(0, -1) : slimUrl;
   if (url === origin) {
     return `${url}/${faviconPath}`;
   }
 
   // https://example.com/a/b or https://example.com/a/b/cdef  -> https://example.com/a/
-  const relativeUrl = removeLastSectionUrl(url) + "/";
-  if (relativeUrl.endsWith("/")) {
+  const relativeUrl = removeLastSectionUrl(url) + '/';
+  if (relativeUrl.endsWith('/')) {
     return relativeUrl + faviconPath;
   }
 
@@ -28,24 +28,24 @@ export function buildFaviconUrl(urlParam: string, faviconPath: string) {
 
 function urlWithoutSearchParams(urlParam: string) {
   const url = new URL(urlParam);
-  return url.protocol + "//" + url.host + url.pathname;
+  return url.protocol + '//' + url.host + url.pathname;
 }
 
 export function removeLastSectionUrl(urlParam: string) {
-  const urlArr = urlParam.split("/");
+  const urlArr = urlParam.split('/');
   urlArr.pop();
-  return urlArr.join("/");
+  return urlArr.join('/');
 }
 
 export function findFaviconPath(text: string) {
   const document = parse(text);
-  const favicon = Array.from(document.getElementsByTagName("link")).find(
+  const favicon = Array.from(document.getElementsByTagName('link')).find(
     (element) =>
-      REL_LIST.includes(element.getAttribute("rel")) &&
-      element.getAttribute("href"),
+      REL_LIST.includes(element.getAttribute('rel')) &&
+      element.getAttribute('href'),
   );
 
-  return favicon?.getAttribute("href") || undefined;
+  return favicon?.getAttribute('href') || undefined;
 }
 
 export function isValidHttpUrl(urlParam: string) {
@@ -57,5 +57,5 @@ export function isValidHttpUrl(urlParam: string) {
     return false;
   }
 
-  return url.protocol === "http:" || url.protocol === "https:";
+  return url.protocol === 'http:' || url.protocol === 'https:';
 }
