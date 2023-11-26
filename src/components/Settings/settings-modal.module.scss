@@ -1,0 +1,59 @@
+@import 'styles/colors.scss';
+
+.tabs {
+  width: 100%;
+  display: flex;
+  gap: 2em;
+  flex: 1;
+  justify-content: center;
+
+  & .tab-list {
+    width: 150px;
+    display: flex;
+    gap: 0.25em;
+    flex-direction: column;
+  }
+
+  & .tab {
+    height: 40px;
+    width: 100%;
+    font-size: 1em;
+    cursor: pointer;
+    padding: 0.5em 0.75em;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    transition: 0.05s;
+
+    &:hover,
+    &-selected {
+      background: $white;
+      border-color: $grey;
+      border-radius: 0.25em;
+    }
+
+    &-selected {
+      color: $blue;
+    }
+
+    &-disabled {
+      color: transparent;
+      cursor: default;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  & .tab-panel {
+    display: none;
+
+    &-selected {
+      display: flex;
+      gap: 0.5em;
+      flex: 1;
+      flex-direction: column;
+    }
+  }
+}

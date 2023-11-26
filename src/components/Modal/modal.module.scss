@@ -28,12 +28,13 @@
 
 .modal-header {
   width: 100%;
-  margin-bottom: 1.5em;
+  margin-bottom: 0.75em;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   & button.btn-close {
+    cursor: pointer;
     color: $blue;
     background-color: transparent;
     border: 0;
