@@ -35,5 +35,11 @@
   "language": {
     "fr": "French",
     "en": "English"
-  }
+  },
+  "lang": "Language",
+  "settings": "Settings",
+  "profile": "Profile",
+  "select-your-lang": "Change the language",
+  "name": "Name",
+  "email": "Email"
 }

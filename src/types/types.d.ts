@@ -37,8 +37,8 @@ export interface SearchItem {
   id: number;
   name: string;
   url: string;
-  type: "category" | "link";
-  category?: undefined | Link["category"];
+  type: 'category' | 'link';
+  category?: undefined | Link['category'];
 }
 
 export interface Favicon {
