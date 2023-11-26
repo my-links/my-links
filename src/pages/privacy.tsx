@@ -6,12 +6,14 @@ import Navbar from 'components/Navbar/Navbar';
 import { getServerSideTranslation } from '../i18n';
 import { useTranslation } from 'next-i18next';
 import { TFunctionParam } from 'types/i18next';
+import { DefaultSeo } from 'next-seo';
 
 export default function Privacy() {
   const { t } = useTranslation('privacy');
 
   return (
     <PageTransition className={clsx('App', styles['legal'])}>
+      <DefaultSeo title='Privacy policy' />
       <Navbar />
       <main>
         <h1>{t('privacy:title')}</h1>

@@ -21,8 +21,8 @@ export default function LinkFavicon({
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
   const baseUrlApi =
-    process.env.NEXT_PUBLIC_API_URL ||
-    (typeof window !== 'undefined' && window)?.location?.origin + '/api';
+    (process.env.NEXT_PUBLIC_SITE_URL ||
+      (typeof window !== 'undefined' && window)?.location?.origin) + '/api';
   if (!baseUrlApi) {
     console.warn('Missing API URL');
   }

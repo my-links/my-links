@@ -7,11 +7,13 @@ import { getServerSideTranslation } from 'i18n';
 import { Trans, useTranslation } from 'next-i18next';
 import { TFunctionParam } from 'types/i18next';
 import PATHS from 'constants/paths';
+import { DefaultSeo } from 'next-seo';
 
 export default function Terms() {
   const { t } = useTranslation('terms');
   return (
     <PageTransition className={clsx('App', styles['legal'])}>
+      <DefaultSeo title='Terms of use' />
       <Navbar />
       <main>
         <h1>{t('terms:title')}</h1>

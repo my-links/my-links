@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import 'styles/globals.scss';
 import nextI18nextConfig from '../../next-i18next.config';
+import config from '../../config';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
@@ -38,6 +39,24 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       <DefaultSeo
         titleTemplate='MyLinks — %s'
         defaultTitle='MyLinks'
+        openGraph={{
+          type: 'website',
+          locale: 'en_US',
+          url: config.url,
+          siteName: config.name,
+          description: config.description,
+          images: [{
+            url: '/logo-light.png',
+            width: 500,
+            height: 165,
+            alt: 'MyLinks logo',
+          }],
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
       />
       <ErrorBoundary>
         <Component {...pageProps} />
