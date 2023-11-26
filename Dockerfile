@@ -8,7 +8,8 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json package-lock.json* ./
-RUN npm ci --production
+RUN npm pkg delete scripts.prepare
+RUN npm ci --omit=dev
 
 # Rebuild the source code only when needed
 FROM base AS builder
