@@ -1,6 +1,5 @@
 import BlockWrapper from "components/BlockWrapper/BlockWrapper";
 import ButtonLink from "components/ButtonLink";
-import LangSelector from "components/LangSelector";
 import Links from "components/Links/Links";
 import Modal from "components/Modal/Modal";
 import PageTransition from "components/PageTransition";
@@ -21,6 +20,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Category, Link, SearchItem } from "types";
 import { withAuthentication } from "utils/session";
+import clsx from "clsx";
 
 interface HomePageProps {
   categories: Category[];
@@ -139,39 +139,12 @@ export default function HomePage(props: HomePageProps) {
 
   return (
     <PageTransition
-      className="App"
+      className={clsx("App", "flex-row")}
       style={{ flexDirection: "row" }}
       hideLangageSelector
     >
       {isMobile ? (
-        <>
-          <span
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <UserCard />
-            <LangSelector />
-          </span>
-          <AnimatePresence>
-            {mobileModal.isShowing && (
-              <Modal close={mobileModal.close}>
-                <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
-                  <ButtonLink href={PATHS.CATEGORY.CREATE}>
-                    {t("common:category.create")}
-                  </ButtonLink>
-                  <Categories
-                    categories={categories}
-                    categoryActive={categoryActive}
-                    handleSelectCategory={handleSelectCategory}
-                  />
-                </BlockWrapper>
-              </Modal>
-            )}
-          </AnimatePresence>
-        </>
+        <UserCard />
       ) : (
         <SideMenu
           categories={categories}
@@ -198,6 +171,20 @@ export default function HomePage(props: HomePageProps) {
             handleSelectCategory={handleSelectCategory}
             noHeader={!isMobile}
           />
+        )}
+        {mobileModal.isShowing && (
+          <Modal close={mobileModal.close}>
+            <BlockWrapper style={{ minHeight: "0", flex: "1" }}>
+              <ButtonLink href={PATHS.CATEGORY.CREATE}>
+                {t("common:category.create")}
+              </ButtonLink>
+              <Categories
+                categories={categories}
+                categoryActive={categoryActive}
+                handleSelectCategory={handleSelectCategory}
+              />
+            </BlockWrapper>
+          </Modal>
         )}
       </AnimatePresence>
     </PageTransition>
