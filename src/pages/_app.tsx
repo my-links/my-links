@@ -2,7 +2,7 @@ import ErrorBoundary from 'components/ErrorBoundary/ErrorBoundary';
 import * as Keys from 'constants/keys';
 import PATHS from 'constants/paths';
 import { SessionProvider } from 'next-auth/react';
-import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation, useTranslation } from 'next-i18next';
 import { DefaultSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import nProgress from 'nprogress';
@@ -10,11 +10,12 @@ import 'nprogress/nprogress.css';
 import { useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import 'styles/globals.scss';
-import nextI18nextConfig from '../../next-i18next.config';
 import config from '../../config';
+import nextI18nextConfig from '../../next-i18next.config';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
+  const { i18n } = useTranslation();
 
   useHotkeys(Keys.CLOSE_SEARCH_KEY, () => router.push(PATHS.HOME), {
     enabled: router.pathname !== PATHS.HOME,
@@ -41,16 +42,18 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         defaultTitle='MyLinks'
         openGraph={{
           type: 'website',
-          locale: 'en_US',
+          locale: i18n.language,
           url: config.url,
           siteName: config.name,
           description: config.description,
-          images: [{
-            url: '/logo-light.png',
-            width: 500,
-            height: 165,
-            alt: 'MyLinks logo',
-          }],
+          images: [
+            {
+              url: '/logo-light.png',
+              width: 500,
+              height: 165,
+              alt: 'MyLinks logo',
+            },
+          ],
         }}
         twitter={{
           handle: '@handle',
