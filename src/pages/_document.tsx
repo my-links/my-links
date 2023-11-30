@@ -17,6 +17,18 @@ const Document = () => (
         href='/favicon.png'
         type='image/png'
       />
+      <link
+        rel='manifest'
+        href='/manifest.json'
+      />
+      <link
+        rel='apple-touch-icon'
+        href='/favicon.png'
+      />
+      <link
+        rel='icon'
+        href='/favicon.png'
+      />
     </Head>
     <body>
       <noscript>Vous devez activer JavaScript pour utiliser ce site</noscript>
