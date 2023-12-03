@@ -58,9 +58,9 @@ ssh-keygen -t rsa -b 4096
 Copy :
 
 ```shell
-cat ~/.ssh/id_rsa.pub | ssh b@B 'cat >> ~/.ssh/authorized_keys'
+cat ./id_rsa.pub | ssh b@B 'cat >> ~/.ssh/authorized_keys'
 # or
-ssh-copy-id -i ~/.ssh/id_rsa.pub user@host
+ssh-copy-id -i ./id_rsa.pub user@host
 ```
 
 > Source: https://github.com/appleboy/ssh-action#setting-up-a-ssh-key
