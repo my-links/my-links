@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import BlockWrapper from 'components/BlockWrapper/BlockWrapper';
 import ButtonLink from 'components/ButtonLink';
 import Links from 'components/Links/Links';
@@ -20,7 +21,6 @@ import { useCallback, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { Category, Link, SearchItem } from 'types';
 import { withAuthentication } from 'utils/session';
-import clsx from 'clsx';
 
 interface HomePageProps {
   categories: Category[];
@@ -108,6 +108,13 @@ export default function HomePage(props: HomePageProps) {
     mobileModal.close();
   };
 
+  const moveCategory = useCallback((dragIndex: number, hoverIndex: number) => {
+    setCategories((prevCategories: Category[]) => {
+      const categories = [...prevCategories];
+      return arrayMove(categories, dragIndex, hoverIndex);
+    });
+  }, []);
+
   const areHotkeysEnabled = { enabled: !searchModal.isShowing };
   useHotkeys(
     Keys.OPEN_SEARCH_KEY,
@@ -148,6 +155,7 @@ export default function HomePage(props: HomePageProps) {
       ) : (
         <SideMenu
           categories={categories}
+          moveCategory={moveCategory}
           favorites={favorites}
           handleSelectCategory={handleSelectCategory}
           categoryActive={categoryActive}
@@ -182,6 +190,7 @@ export default function HomePage(props: HomePageProps) {
                 categories={categories}
                 categoryActive={categoryActive}
                 handleSelectCategory={handleSelectCategory}
+                moveCategory={moveCategory}
               />
             </BlockWrapper>
           </Modal>
@@ -219,3 +228,14 @@ export const getServerSideProps = withAuthentication(
     };
   },
 );
+
+function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
+  if (nextIndex >= arr.length) {
+    var k = nextIndex - arr.length + 1;
+    while (k--) {
+      arr.push(undefined);
+    }
+  }
+  arr.splice(nextIndex, 0, arr.splice(previousIndex, 1)[0]);
+  return arr; // for testing
+}

@@ -15,6 +15,7 @@ export interface SideMenuProps {
   categoryActive: Category;
   openSearchModal: () => void;
   isModalShowing: boolean;
+  moveCategory: (previousIndex: number, nextIndex: number) => void;
 }
 
 export default function SideMenu({
@@ -24,6 +25,7 @@ export default function SideMenu({
   categoryActive,
   openSearchModal,
   isModalShowing = false,
+  moveCategory,
 }: SideMenuProps) {
   useHotkeys(
     Keys.ARROW_UP,
@@ -65,6 +67,7 @@ export default function SideMenu({
           categories={categories}
           categoryActive={categoryActive}
           handleSelectCategory={handleSelectCategory}
+          moveCategory={moveCategory}
         />
       </BlockWrapper>
       <BlockWrapper>
