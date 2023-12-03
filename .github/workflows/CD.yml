@@ -47,5 +47,5 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/debian/my-links
-            docker compose up -d --build
+            cd /infra/my-links
+            docker compose up -d
