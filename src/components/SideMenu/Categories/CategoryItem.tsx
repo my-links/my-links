@@ -1,4 +1,5 @@
-import type { Identifier, XYCoord } from 'dnd-core';
+import clsx from 'clsx';
+import type { XYCoord } from 'dnd-core';
 import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
@@ -14,19 +15,6 @@ interface CategoryItemProps {
   index: number;
 }
 
-export interface CardProps {
-  id: any;
-  text: string;
-  index: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-}
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
-
 export default function CategoryItem({
   category,
   categoryActive,
@@ -35,61 +23,39 @@ export default function CategoryItem({
   index,
 }: CategoryItemProps): JSX.Element {
   const ref = useRef<HTMLLIElement>();
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
+  const [_, drop] = useDrop({
     accept: 'category',
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item: DragItem, monitor) {
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      if (dragIndex === hoverIndex) {
+    hover(dragItem: { index: number }, monitor) {
+      if (!ref.current || dragItem.index === index) {
         return;
       }
 
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (
+        (dragItem.index < index && hoverClientY < hoverMiddleY) ||
+        (dragItem.index > index && hoverClientY > hoverMiddleY)
+      ) {
         return;
       }
 
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      moveCategory(dragIndex, hoverIndex);
-      item.index = hoverIndex;
+      moveCategory(dragItem.index, index);
+      dragItem.index = index;
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ opacity }, drag] = useDrag({
     type: 'category',
-    item: () => {
-      return { id: category.id, index };
-    },
+    item: () => ({ index }),
     collect: (monitor: any) => ({
-      isDragging: monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0.1 : 1,
     }),
   });
 
-  drag(drop(ref));
-  const className = `${styles['item']} ${
-    category.id === categoryActive.id ? styles['active'] : ''
-  }`;
   const onClick = () => handleSelectCategory(category);
 
   useEffect(() => {
@@ -98,11 +64,17 @@ export default function CategoryItem({
     }
   }, [category.id, categoryActive.id]);
 
-  const opacity = isDragging ? 0 : 1;
+  drag(drop(ref));
+
+  const className = clsx(
+    styles['item'],
+    category.id === categoryActive.id && styles['active'],
+  );
+
   return (
     <motion.li
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
       transition={{
         type: 'spring',
         stiffness: 260,
@@ -111,18 +83,14 @@ export default function CategoryItem({
         duration: 200,
       }}
       className={className}
-      ref={ref}
       onClick={onClick}
       style={{
         cursor: 'move',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '.25em',
         transition: 'none',
         opacity,
       }}
       title={category.name}
-      data-handler-id={handlerId}
+      ref={ref}
     >
       {category.id === categoryActive.id ? (
         <AiFillFolderOpen size={24} />
