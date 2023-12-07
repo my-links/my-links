@@ -1,4 +1,5 @@
 import { MutableRefObject, useState } from 'react';
+import Toggle from 'react-toggle';
 
 interface SelectorProps {
   name: string;
@@ -22,7 +23,7 @@ export default function Checkbox({
   placeholder = 'Type something...',
   isChecked,
   onChangeCallback,
-}: SelectorProps): JSX.Element {
+}: Readonly<SelectorProps>): JSX.Element {
   const [checkboxValue, setCheckboxValue] = useState<boolean>(isChecked);
 
   function onChange({ target }) {
@@ -50,13 +51,11 @@ export default function Checkbox({
           {labelComponent}
         </label>
       )}
-      <input
-        type='checkbox'
-        id={name}
-        name={name}
+      <Toggle
         onChange={onChange}
         checked={checkboxValue}
-        placeholder={placeholder}
+        id={name}
+        name={name}
         ref={innerRef}
         disabled={disabled}
       />

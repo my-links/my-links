@@ -15,9 +15,9 @@ import { makeRequest } from 'lib/request';
 
 export default function PageRemoveCategory({
   category,
-}: {
+}: Readonly<{
   category: Category;
-}) {
+}>) {
   const { t, i18n } = useTranslation();
   const router = useRouter();
 

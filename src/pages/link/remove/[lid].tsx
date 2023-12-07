@@ -5,15 +5,15 @@ import TextBox from 'components/TextBox';
 import PATHS from 'constants/paths';
 import { getServerSideTranslation } from 'i18n';
 import getUserLink from 'lib/link/getUserLink';
+import { makeRequest } from 'lib/request';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
 import { Link } from 'types';
 import { withAuthentication } from 'utils/session';
-import { makeRequest } from 'lib/request';
 
-export default function PageRemoveLink({ link }: { link: Link }) {
+export default function PageRemoveLink({ link }: Readonly<{ link: Link }>) {
   const { t } = useTranslation();
   const router = useRouter();
 
