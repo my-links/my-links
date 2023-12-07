@@ -33,7 +33,7 @@ model Category {
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
 
-  nextCategoryId Int?
+  order Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -51,6 +51,8 @@ model Link {
 
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
+
+  order Int?
 
   favorite  Boolean  @default(false)
   createdAt DateTime @default(now())

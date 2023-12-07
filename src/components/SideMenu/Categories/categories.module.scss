@@ -21,6 +21,7 @@
   gap: 0.25em;
   align-items: center;
   justify-content: space-between;
+  transition: 0.15s box-shadow;
 
   &.active {
     color: $blue;
@@ -83,6 +84,7 @@
       }
     }
   }
+
   &:hover .menu-item {
     display: flex;
   }
