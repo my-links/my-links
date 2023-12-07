@@ -1,18 +1,26 @@
+import clsx from 'clsx';
 import ButtonLink from 'components/ButtonLink';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
 import QuickActionSearch from 'components/QuickActions/Search';
+import PATHS from 'constants/paths';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
+import { useId } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { Category, Link } from 'types';
-import { TFunctionParam } from 'types/i18next';
 import LinkItem from './LinkItem';
 import styles from './links.module.scss';
-import clsx from 'clsx';
-import PATHS from 'constants/paths';
+
+interface LinksProps {
+  category: Category;
+  toggleFavorite: (linkId: Link['id']) => void;
+  isMobile: boolean;
+  openMobileModal: () => void;
+  openSearchModal: () => void;
+}
 
 export default function Links({
   category,
@@ -20,14 +28,9 @@ export default function Links({
   isMobile,
   openMobileModal,
   openSearchModal,
-}: {
-  category: Category;
-  toggleFavorite: (linkId: Link['id']) => void;
-  isMobile: boolean;
-  openMobileModal: () => void;
-  openSearchModal: () => void;
-}) {
+}: Readonly<LinksProps>) {
   const { t } = useTranslation('home');
+  const noLinksId = useId();
 
   if (category === null) {
     return (
@@ -91,7 +94,7 @@ export default function Links({
       ) : (
         <div className={styles['no-link']}>
           <motion.p
-            key={Math.random()}
+            key={noLinksId}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -101,7 +104,7 @@ export default function Links({
               duration: 0.01,
             }}
             dangerouslySetInnerHTML={{
-              __html: t('home:no-link', { name } as TFunctionParam, {
+              __html: t('home:no-link', { name } as any, {
                 interpolation: { escapeValue: false },
               }),
             }}

@@ -27,7 +27,7 @@ interface HomePageProps {
   currentCategory: Category | undefined;
 }
 
-export default function HomePage(props: HomePageProps) {
+export default function HomePage(props: Readonly<HomePageProps>) {
   const router = useRouter();
   const searchModal = useModal();
   const { t } = useTranslation();
@@ -231,7 +231,7 @@ export const getServerSideProps = withAuthentication(
 
 function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
   if (nextIndex >= arr.length) {
-    var k = nextIndex - arr.length + 1;
+    let k = nextIndex - arr.length + 1;
     while (k--) {
       arr.push(undefined);
     }

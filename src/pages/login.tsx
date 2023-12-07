@@ -3,7 +3,6 @@ import LangSelector from 'components/LangSelector';
 import MessageManager from 'components/MessageManager/MessageManager';
 import PageTransition from 'components/PageTransition';
 import PATHS from 'constants/paths';
-import { getServerSideTranslation } from '../i18n';
 import getUser from 'lib/user/getUser';
 import { Provider } from 'next-auth/providers';
 import { getProviders, signIn } from 'next-auth/react';
@@ -13,13 +12,13 @@ import Image from 'next/image';
 import { FcGoogle } from 'react-icons/fc';
 import styles from 'styles/login.module.scss';
 import { getSession } from 'utils/session';
-import { TFunctionParam } from '../types/i18next';
+import { getServerSideTranslation } from '../i18n';
 
 interface SignInProps {
   providers: Provider[];
 }
 
-export default function SignIn({ providers }: SignInProps) {
+export default function SignIn({ providers }: Readonly<SignInProps>) {
   const { t } = useTranslation('login');
 
   return (
@@ -47,7 +46,7 @@ export default function SignIn({ providers }: SignInProps) {
               key={id}
             >
               <FcGoogle size={'1.5em'} />{' '}
-              {t('login:continue-with', { provider: name } as TFunctionParam)}
+              {t('login:continue-with', { provider: name })}
             </ButtonLink>
           ))}
         </div>
