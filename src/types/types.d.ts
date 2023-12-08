@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 
 // TODO: extend @prisma/client type with Link[] instead of
 // recreate interface (same for Link)
@@ -13,6 +13,10 @@ export interface Category {
   createdAt: Date;
   updatedAt: Date;
 }
+
+type CategoryWithRelations = Prisma.FactionGetPayload<{
+  include: { author: true; links: true };
+}>;
 
 export interface Link {
   id: number;
@@ -32,6 +36,10 @@ export interface Link {
   createdAt: Date;
   updatedAt: Date;
 }
+
+type LinkWithRelations = Prisma.FactionGetPayload<{
+  include: { category: true; author: true };
+}>;
 
 export interface SearchItem {
   id: number;

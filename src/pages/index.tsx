@@ -19,12 +19,16 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { Category, Link, SearchItem } from 'types';
+import {
+  CategoryWithRelations,
+  LinkWithRelations,
+  SearchItem,
+} from 'types/types';
 import { withAuthentication } from 'utils/session';
 
 interface HomePageProps {
-  categories: Category[];
-  currentCategory: Category | undefined;
+  categories: CategoryWithRelations[];
+  currentCategory: CategoryWithRelations | undefined;
 }
 
 export default function HomePage(props: Readonly<HomePageProps>) {
@@ -35,34 +39,38 @@ export default function HomePage(props: Readonly<HomePageProps>) {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const mobileModal = useModal();
 
-  const [categories, setCategories] = useState<Category[]>(props.categories);
-  const [categoryActive, setCategoryActive] = useState<Category | null>(
-    props.currentCategory || categories?.[0],
+  const [categories, setCategories] = useState<CategoryWithRelations[]>(
+    props.categories,
   );
+  const [categoryActive, setCategoryActive] =
+    useState<CategoryWithRelations | null>(
+      props.currentCategory || categories?.[0],
+    );
 
-  const favorites = useMemo<Link[]>(
+  const favorites = useMemo<LinkWithRelations[]>(
     () =>
       categories.reduce((acc, category) => {
         category.links.forEach((link) =>
           link.favorite ? acc.push(link) : null,
         );
         return acc;
-      }, [] as Link[]),
+      }, [] as LinkWithRelations[]),
     [categories],
   );
 
   const searchItemBuilder = (
-    item: Category | Link,
+    item: CategoryWithRelations | LinkWithRelations,
     type: SearchItem['type'],
   ): SearchItem => ({
     id: item.id,
     name: item.name,
     url:
       type === 'link'
-        ? (item as Link).url
+        ? (item as LinkWithRelations).url
         : `${PATHS.HOME}?categoryId=${item.id}`,
     type,
-    category: type === 'link' ? (item as Link).category : undefined,
+    category:
+      type === 'link' ? (item as LinkWithRelations).category : undefined,
   });
 
   const itemsSearch = useMemo<SearchItem[]>(() => {
@@ -77,7 +85,7 @@ export default function HomePage(props: Readonly<HomePageProps>) {
 
   // TODO: refactor
   const toggleFavorite = useCallback(
-    (linkId: Link['id']) => {
+    (linkId: LinkWithRelations['id']) => {
       let linkIndex = 0;
       const categoryIndex = categories.findIndex(({ links }) => {
         const lIndex = links.findIndex((l) => l.id === linkId);
@@ -94,7 +102,9 @@ export default function HomePage(props: Readonly<HomePageProps>) {
         favorite: !link.favorite,
       };
 
-      setCategories(categoriesCopy);
+      setCategories(
+        categoriesCopy.toSorted((cata, catb) => cata.or - catb.order),
+      );
       if (categories[categoryIndex].id === categoryActive.id) {
         setCategoryActive(categories[categoryIndex]);
       }
@@ -102,16 +112,18 @@ export default function HomePage(props: Readonly<HomePageProps>) {
     [categories, categoryActive.id],
   );
 
-  const handleSelectCategory = (category: Category) => {
+  const handleSelectCategory = (category: CategoryWithRelations) => {
     setCategoryActive(category);
     router.push(`${PATHS.HOME}?categoryId=${category.id}`);
     mobileModal.close();
   };
 
   const moveCategory = useCallback((dragIndex: number, hoverIndex: number) => {
-    setCategories((prevCategories: Category[]) => {
+    setCategories((prevCategories: CategoryWithRelations[]) => {
       const categories = [...prevCategories];
-      return arrayMove(categories, dragIndex, hoverIndex);
+      return arrayMove(categories, dragIndex, hoverIndex).sort(
+        (cata, catb) => cata.order - catb.order,
+      );
     });
   }, []);
 
@@ -219,7 +231,11 @@ export const getServerSideProps = withAuthentication(
     return {
       props: {
         session,
-        categories: JSON.parse(JSON.stringify(categories)),
+        categories: JSON.parse(
+          JSON.stringify(
+            categories.toSorted((cata, catb) => cata.order - catb.order),
+          ),
+        ),
         currentCategory: currentCategory
           ? JSON.parse(JSON.stringify(currentCategory))
           : null,
