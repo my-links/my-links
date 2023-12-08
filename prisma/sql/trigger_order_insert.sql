@@ -1,9 +1,7 @@
--- TODO: Fix migration
-
 DELIMITER $$
 
 CREATE TRIGGER ORDER_INSERT BEFORE INSERT ON category
-FOR EACH ROW 
+FOR EACH ROW
 BEGIN
     SET @total_user_categories = (
         SELECT COUNT(id)
