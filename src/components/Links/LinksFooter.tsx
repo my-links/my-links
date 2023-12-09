@@ -1,6 +1,6 @@
 import PATHS from 'constants/paths';
 import LinkTag from 'next/link';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import styles from './links.module.scss';
 
 export default function LinksFooter() {

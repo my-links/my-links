@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, createContext } from 'react';
-import { CategoryWithRelations } from 'types/types';
+import { CategoryWithLinks } from 'types/types';
 
 type ActiveCategoryContextType = {
-  activeCategory: CategoryWithRelations | null;
-  setActiveCategory: Dispatch<SetStateAction<CategoryWithRelations>>;
+  activeCategory: CategoryWithLinks | null;
+  setActiveCategory: Dispatch<SetStateAction<CategoryWithLinks>>;
 };
 
 const iActiveCategoryContextState = {
   activeCategory: null,
-  setActiveCategory: (_: CategoryWithRelations) => {},
+  setActiveCategory: (_: CategoryWithLinks) => {},
 };
 
 const ActiveCategoryContext = createContext<ActiveCategoryContextType>(

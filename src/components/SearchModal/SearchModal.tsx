@@ -12,10 +12,17 @@ import useGlobalHotkeys from 'hooks/useGlobalHotkeys';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import useModal from 'hooks/useModal';
 import { useTranslation } from 'next-i18next';
-import { FormEvent, ReactNode, useCallback, useMemo, useState } from 'react';
+import {
+  FormEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { BsSearch } from 'react-icons/bs';
-import { CategoryWithRelations, LinkWithRelations, SearchItem } from 'types';
+import { CategoryWithLinks, LinkWithCategory, SearchItem } from 'types';
 import LabelSearchWithGoogle from './LabelSearchWithGoogle';
 import SearchList from './SearchList';
 import styles from './search.module.scss';
@@ -40,7 +47,10 @@ export default function SearchModal({
     setGlobalHotkeysEnabled: setGlobalHotkeysEnable,
   } = useGlobalHotkeys();
 
-  setGlobalHotkeysEnable(!searchModal.isShowing);
+  useEffect(
+    () => setGlobalHotkeysEnable(!searchModal.isShowing),
+    [searchModal.isShowing, setGlobalHotkeysEnable],
+  );
 
   const handleCloseModal = useCallback(() => {
     searchModal.close();
@@ -61,18 +71,17 @@ export default function SearchModal({
   });
 
   const searchItemBuilder = (
-    item: CategoryWithRelations | LinkWithRelations,
+    item: CategoryWithLinks | LinkWithCategory,
     type: SearchItem['type'],
   ): SearchItem => ({
     id: item.id,
     name: item.name,
     url:
       type === 'link'
-        ? (item as LinkWithRelations).url
+        ? (item as LinkWithCategory).url
         : `${PATHS.HOME}?categoryId=${item.id}`,
     type,
-    category:
-      type === 'link' ? (item as LinkWithRelations).category : undefined,
+    category: type === 'link' ? (item as LinkWithCategory).category : undefined,
   });
 
   const itemsSearch = useMemo<SearchItem[]>(() => {

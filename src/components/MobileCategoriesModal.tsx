@@ -1,7 +1,7 @@
 import PATHS from 'constants/paths';
 import { AnimatePresence } from 'framer-motion';
 import useModal from 'hooks/useModal';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'next-i18next';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import BlockWrapper from './BlockWrapper/BlockWrapper';
 import ButtonLink from './ButtonLink';
