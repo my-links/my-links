@@ -1,36 +1,26 @@
 import clsx from 'clsx';
-import ButtonLink from 'components/ButtonLink';
+import MobileCategoriesModal from 'components/MobileCategoriesModal';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
-import QuickActionSearch from 'components/QuickActions/Search';
+import SearchModal from 'components/SearchModal/SearchModal';
 import PATHS from 'constants/paths';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
-import { useId } from 'react';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { Category, Link } from 'types';
+import { BiSearchAlt } from 'react-icons/bi';
+import { Category } from 'types';
+import quickActionStyles from '../QuickActions/quickactions.module.scss';
 import LinkItem from './LinkItem';
 import styles from './links.module.scss';
 
 interface LinksProps {
   category: Category;
-  toggleFavorite: (linkId: Link['id']) => void;
   isMobile: boolean;
-  openMobileModal: () => void;
-  openSearchModal: () => void;
 }
 
-export default function Links({
-  category,
-  toggleFavorite,
-  isMobile,
-  openMobileModal,
-  openSearchModal,
-}: Readonly<LinksProps>) {
+export default function Links({ category, isMobile }: Readonly<LinksProps>) {
   const { t } = useTranslation('home');
-  const noLinksId = useId();
 
   if (category === null) {
     return (
@@ -45,19 +35,7 @@ export default function Links({
   return (
     <div className={styles['links-wrapper']}>
       <h2 className={styles['category-header']}>
-        {isMobile && (
-          <ButtonLink
-            style={{
-              display: 'flex',
-            }}
-            onClick={openMobileModal}
-          >
-            <RxHamburgerMenu
-              size={'1.5em'}
-              style={{ marginRight: '.5em' }}
-            />
-          </ButtonLink>
-        )}
+        {isMobile && <MobileCategoriesModal />}
         <span className={styles['category-name']}>
           {name}
           {links.length > 0 && (
@@ -65,7 +43,9 @@ export default function Links({
           )}
         </span>
         <span className={styles['category-controls']}>
-          <QuickActionSearch openSearchModal={openSearchModal} />
+          <SearchModal childClassname={quickActionStyles['action']}>
+            <BiSearchAlt />
+          </SearchModal>
           <CreateItem
             type='link'
             categoryId={category.id}
@@ -85,7 +65,6 @@ export default function Links({
           {links.map((link, index) => (
             <LinkItem
               link={link}
-              toggleFavorite={toggleFavorite}
               index={index}
               key={link.id}
             />
@@ -94,7 +73,7 @@ export default function Links({
       ) : (
         <div className={styles['no-link']}>
           <motion.p
-            key={noLinksId}
+            key={category.id}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{

@@ -1,28 +1,65 @@
 import clsx from 'clsx';
+import PATHS from 'constants/paths';
 import type { XYCoord } from 'dnd-core';
 import { motion } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import useActiveCategory from 'hooks/useActiveCategory';
+import useCategories from 'hooks/useCategories';
+import { makeRequest } from 'lib/request';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
-import { Category } from 'types';
+import { Category, CategoryWithRelations } from 'types';
 import styles from './categories.module.scss';
 
 interface CategoryItemProps {
   category: Category;
-  categoryActive: Category;
-  handleSelectCategory: (category: Category) => void;
-  moveCategory: (previousIndex: number, nextIndex: number) => void;
   index: number;
 }
 
 export default function CategoryItem({
   category,
-  categoryActive,
-  handleSelectCategory,
-  moveCategory,
   index,
 }: CategoryItemProps): JSX.Element {
+  const { activeCategory, setActiveCategory } = useActiveCategory();
+  const { categories, setCategories } = useCategories();
+
   const ref = useRef<HTMLLIElement>();
+
+  const sendMoveCategoryRequest = useCallback(
+    (categoryId: CategoryWithRelations['id'], newOrder: number) => {
+      const category = categories.find((c) => c.id === categoryId);
+      makeRequest({
+        url: `${PATHS.API.CATEGORY}/${category.id}`,
+        method: 'PUT',
+        body: {
+          name: category.name,
+          order: newOrder,
+        },
+      }).catch(console.error);
+    },
+    [categories],
+  );
+  const moveCategory = useCallback(
+    (
+      dragIndex: number,
+      hoverIndex: number,
+      categoryId: CategoryWithRelations['id'],
+    ) => {
+      setCategories((prevCategories: CategoryWithRelations[]) => {
+        const categories = [...prevCategories];
+        const c = categories.find((c) => c.id === categoryId);
+        console.log('previous', c.order);
+        console.log('old', categoryId, hoverIndex);
+        const sorted = updateCategoryOrder(categories, categoryId, hoverIndex);
+        const a = sorted.find((c) => c.id === categoryId);
+        console.log('new', a.id, a.order);
+        return sorted;
+      });
+      sendMoveCategoryRequest(categoryId, hoverIndex);
+    },
+    [sendMoveCategoryRequest, setCategories],
+  );
+
   const [_, drop] = useDrop({
     accept: 'category',
     hover(dragItem: { index: number }, monitor) {
@@ -43,7 +80,8 @@ export default function CategoryItem({
         return;
       }
 
-      moveCategory(dragItem.index, index);
+      console.log('drag', dragItem.index, 'current', index);
+      moveCategory(dragItem.index, index, category.id);
       dragItem.index = index;
     },
   });
@@ -56,19 +94,19 @@ export default function CategoryItem({
     }),
   });
 
-  const onClick = () => handleSelectCategory(category);
+  const onClick = () => setActiveCategory(category);
 
   useEffect(() => {
-    if (category.id === categoryActive.id) {
+    if (category.id === activeCategory.id) {
       ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [category.id, categoryActive.id]);
+  }, [category.id, activeCategory.id]);
 
   drag(drop(ref));
 
   const className = clsx(
     styles['item'],
-    category.id === categoryActive.id && styles['active'],
+    category.id === activeCategory.id && styles['active'],
   );
 
   return (
@@ -92,7 +130,7 @@ export default function CategoryItem({
       title={category.name}
       ref={ref}
     >
-      {category.id === categoryActive.id ? (
+      {category.id === activeCategory.id ? (
         <AiFillFolderOpen size={24} />
       ) : (
         <AiOutlineFolder size={24} />
@@ -104,4 +142,27 @@ export default function CategoryItem({
       </div>
     </motion.li>
   );
+}
+
+function updateCategoryOrder(
+  categories: CategoryWithRelations[],
+  categoryId: number,
+  newOrder: number,
+): CategoryWithRelations[] {
+  const categoryIndex = categories.findIndex((cat) => cat.id === categoryId);
+
+  if (categoryIndex === -1) {
+    // La catégorie avec l'ID spécifié n'a pas été trouvée
+    return categories;
+  }
+
+  // Mettez à jour l'ordre de la catégorie spécifiée
+  categories[categoryIndex].order = newOrder;
+
+  // Mettez à jour l'ordre des catégories suivantes
+  for (let i = categoryIndex + 1; i < categories.length; i++) {
+    categories[i].order = newOrder + i - categoryIndex;
+  }
+
+  return categories;
 }

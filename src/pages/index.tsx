@@ -1,51 +1,46 @@
 import clsx from 'clsx';
-import BlockWrapper from 'components/BlockWrapper/BlockWrapper';
-import ButtonLink from 'components/ButtonLink';
 import Links from 'components/Links/Links';
-import Modal from 'components/Modal/Modal';
 import PageTransition from 'components/PageTransition';
-import SearchModal from 'components/SearchModal/SearchModal';
-import Categories from 'components/SideMenu/Categories/Categories';
 import SideMenu from 'components/SideMenu/SideMenu';
 import UserCard from 'components/SideMenu/UserCard/UserCard';
 import * as Keys from 'constants/keys';
 import PATHS from 'constants/paths';
-import { AnimatePresence } from 'framer-motion';
+import ActiveCategoryContext from 'contexts/activeCategoryContext';
+import CategoriesContext from 'contexts/categoriesContext';
+import FavoritesContext from 'contexts/favoritesContext';
+import GlobalHotkeysContext from 'contexts/globalHotkeysContext';
 import { useMediaQuery } from 'hooks/useMediaQuery';
-import useModal from 'hooks/useModal';
 import { getServerSideTranslation } from 'i18n';
 import getUserCategories from 'lib/category/getUserCategories';
-import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import {
-  CategoryWithRelations,
-  LinkWithRelations,
-  SearchItem,
-} from 'types/types';
+import { CategoryWithRelations, LinkWithRelations } from 'types/types';
 import { withAuthentication } from 'utils/session';
 
 interface HomePageProps {
   categories: CategoryWithRelations[];
-  currentCategory: CategoryWithRelations | undefined;
+  activeCategory: CategoryWithRelations | undefined;
 }
 
 export default function HomePage(props: Readonly<HomePageProps>) {
   const router = useRouter();
-  const searchModal = useModal();
-  const { t } = useTranslation();
-
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const mobileModal = useModal();
 
+  const [globalHotkeysEnable, setGlobalHotkeysEnabled] =
+    useState<boolean>(true);
   const [categories, setCategories] = useState<CategoryWithRelations[]>(
     props.categories,
   );
-  const [categoryActive, setCategoryActive] =
+  const [activeCategory, setActiveCategory] =
     useState<CategoryWithRelations | null>(
-      props.currentCategory || categories?.[0],
+      props.activeCategory || categories?.[0],
     );
+
+  const handleChangeCategory = (category: CategoryWithRelations) => {
+    setActiveCategory(category);
+    router.push(`${PATHS.HOME}?categoryId=${category.id}`);
+  };
 
   const favorites = useMemo<LinkWithRelations[]>(
     () =>
@@ -58,102 +53,19 @@ export default function HomePage(props: Readonly<HomePageProps>) {
     [categories],
   );
 
-  const searchItemBuilder = (
-    item: CategoryWithRelations | LinkWithRelations,
-    type: SearchItem['type'],
-  ): SearchItem => ({
-    id: item.id,
-    name: item.name,
-    url:
-      type === 'link'
-        ? (item as LinkWithRelations).url
-        : `${PATHS.HOME}?categoryId=${item.id}`,
-    type,
-    category:
-      type === 'link' ? (item as LinkWithRelations).category : undefined,
-  });
-
-  const itemsSearch = useMemo<SearchItem[]>(() => {
-    return categories.reduce((acc, category) => {
-      const categoryItem = searchItemBuilder(category, 'category');
-      const items: SearchItem[] = category.links.map((link) =>
-        searchItemBuilder(link, 'link'),
-      );
-      return [...acc, ...items, categoryItem];
-    }, [] as SearchItem[]);
-  }, [categories]);
-
-  // TODO: refactor
-  const toggleFavorite = useCallback(
-    (linkId: LinkWithRelations['id']) => {
-      let linkIndex = 0;
-      const categoryIndex = categories.findIndex(({ links }) => {
-        const lIndex = links.findIndex((l) => l.id === linkId);
-        if (lIndex !== -1) {
-          linkIndex = lIndex;
-        }
-        return lIndex !== -1;
-      });
-
-      const link = categories[categoryIndex].links[linkIndex];
-      const categoriesCopy = [...categories];
-      categoriesCopy[categoryIndex].links[linkIndex] = {
-        ...link,
-        favorite: !link.favorite,
-      };
-
-      setCategories(
-        categoriesCopy.toSorted((cata, catb) => cata.or - catb.order),
-      );
-      if (categories[categoryIndex].id === categoryActive.id) {
-        setCategoryActive(categories[categoryIndex]);
-      }
-    },
-    [categories, categoryActive.id],
-  );
-
-  const handleSelectCategory = (category: CategoryWithRelations) => {
-    setCategoryActive(category);
-    router.push(`${PATHS.HOME}?categoryId=${category.id}`);
-    mobileModal.close();
-  };
-
-  const moveCategory = useCallback((dragIndex: number, hoverIndex: number) => {
-    setCategories((prevCategories: CategoryWithRelations[]) => {
-      const categories = [...prevCategories];
-      return arrayMove(categories, dragIndex, hoverIndex).sort(
-        (cata, catb) => cata.order - catb.order,
-      );
-    });
-  }, []);
-
-  const areHotkeysEnabled = { enabled: !searchModal.isShowing };
-  useHotkeys(
-    Keys.OPEN_SEARCH_KEY,
-    (event) => {
-      event.preventDefault();
-      searchModal.open();
-    },
-    areHotkeysEnabled,
-  );
-  useHotkeys(Keys.CLOSE_SEARCH_KEY, searchModal.close, {
-    enabled: searchModal.isShowing,
-    enableOnFormTags: ['INPUT'],
-  });
-
   useHotkeys(
     Keys.OPEN_CREATE_LINK_KEY,
     () => {
-      router.push(`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`);
+      router.push(`${PATHS.LINK.CREATE}?categoryId=${activeCategory.id}`);
     },
-    areHotkeysEnabled,
+    { enabled: globalHotkeysEnable },
   );
   useHotkeys(
     Keys.OPEN_CREATE_CATEGORY_KEY,
     () => {
-      router.push('/category/create');
+      router.push(PATHS.CATEGORY.CREATE);
     },
-    areHotkeysEnabled,
+    { enabled: globalHotkeysEnable },
   );
 
   return (
@@ -162,52 +74,26 @@ export default function HomePage(props: Readonly<HomePageProps>) {
       style={{ flexDirection: 'row' }}
       hideLangageSelector
     >
-      {isMobile ? (
-        <UserCard />
-      ) : (
-        <SideMenu
-          categories={categories}
-          moveCategory={moveCategory}
-          favorites={favorites}
-          handleSelectCategory={handleSelectCategory}
-          categoryActive={categoryActive}
-          openSearchModal={searchModal.open}
-          isModalShowing={searchModal.isShowing}
-        />
-      )}
-      <Links
-        category={categoryActive}
-        toggleFavorite={toggleFavorite}
-        isMobile={isMobile}
-        openMobileModal={mobileModal.open}
-        openSearchModal={searchModal.open}
-      />
-      <AnimatePresence>
-        {searchModal.isShowing && (
-          <SearchModal
-            close={searchModal.close}
-            categories={categories}
-            items={itemsSearch}
-            handleSelectCategory={handleSelectCategory}
-            noHeader={!isMobile}
-          />
-        )}
-        {mobileModal.isShowing && (
-          <Modal close={mobileModal.close}>
-            <BlockWrapper style={{ minHeight: '0', flex: '1' }}>
-              <ButtonLink href={PATHS.CATEGORY.CREATE}>
-                {t('common:category.create')}
-              </ButtonLink>
-              <Categories
-                categories={categories}
-                categoryActive={categoryActive}
-                handleSelectCategory={handleSelectCategory}
-                moveCategory={moveCategory}
+      <CategoriesContext.Provider value={{ categories, setCategories }}>
+        <ActiveCategoryContext.Provider
+          value={{ activeCategory, setActiveCategory: handleChangeCategory }}
+        >
+          <FavoritesContext.Provider value={{ favorites }}>
+            <GlobalHotkeysContext.Provider
+              value={{
+                globalHotkeysEnabled: globalHotkeysEnable,
+                setGlobalHotkeysEnabled,
+              }}
+            >
+              {isMobile ? <UserCard /> : <SideMenu />}
+              <Links
+                category={activeCategory}
+                isMobile={isMobile}
               />
-            </BlockWrapper>
-          </Modal>
-        )}
-      </AnimatePresence>
+            </GlobalHotkeysContext.Provider>
+          </FavoritesContext.Provider>
+        </ActiveCategoryContext.Provider>
+      </CategoriesContext.Provider>
     </PageTransition>
   );
 }
@@ -225,7 +111,7 @@ export const getServerSideProps = withAuthentication(
       };
     }
 
-    const currentCategory = categories.find(
+    const activeCategory = categories.find(
       ({ id }) => id === Number(queryCategoryId),
     );
     return {
@@ -236,22 +122,11 @@ export const getServerSideProps = withAuthentication(
             categories.toSorted((cata, catb) => cata.order - catb.order),
           ),
         ),
-        currentCategory: currentCategory
-          ? JSON.parse(JSON.stringify(currentCategory))
+        activeCategory: activeCategory
+          ? JSON.parse(JSON.stringify(activeCategory))
           : null,
         ...(await getServerSideTranslation(locale, ['home'])),
       },
     };
   },
 );
-
-function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
-  if (nextIndex >= arr.length) {
-    let k = nextIndex - arr.length + 1;
-    while (k--) {
-      arr.push(undefined);
-    }
-  }
-  arr.splice(nextIndex, 0, arr.splice(previousIndex, 1)[0]);
-  return arr; // for testing
-}

@@ -1,11 +1,12 @@
+import clsx from 'clsx';
+import useFavorites from 'hooks/useFavorites';
 import { useTranslation } from 'next-i18next';
-import { Link } from 'types';
 import FavoriteItem from './FavoriteItem';
 import styles from './favorites.module.scss';
-import clsx from 'clsx';
 
-export default function Favorites({ favorites }: { favorites: Link[] }) {
+export default function Favorites() {
   const { t } = useTranslation();
+  const { favorites } = useFavorites();
 
   return (
     favorites.length !== 0 && (
