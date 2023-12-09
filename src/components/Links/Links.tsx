@@ -4,25 +4,25 @@ import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
 import SearchModal from 'components/SearchModal/SearchModal';
-import PATHS from 'constants/paths';
 import { motion } from 'framer-motion';
+import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
 import { BiSearchAlt } from 'react-icons/bi';
-import { Category } from 'types';
 import quickActionStyles from '../QuickActions/quickactions.module.scss';
 import LinkItem from './LinkItem';
+import LinksFooter from './LinksFooter';
 import styles from './links.module.scss';
 
 interface LinksProps {
-  category: Category;
   isMobile: boolean;
 }
 
-export default function Links({ category, isMobile }: Readonly<LinksProps>) {
+export default function Links({ isMobile }: Readonly<LinksProps>) {
   const { t } = useTranslation('home');
+  const { activeCategory } = useActiveCategory();
 
-  if (category === null) {
+  if (activeCategory === null) {
     return (
       <div className={styles['no-category']}>
         <p>{t('home:select-category')}</p>
@@ -31,7 +31,7 @@ export default function Links({ category, isMobile }: Readonly<LinksProps>) {
     );
   }
 
-  const { id, name, links } = category;
+  const { id, name, links } = activeCategory;
   return (
     <div className={styles['links-wrapper']}>
       <h2 className={styles['category-header']}>
@@ -48,7 +48,7 @@ export default function Links({ category, isMobile }: Readonly<LinksProps>) {
           </SearchModal>
           <CreateItem
             type='link'
-            categoryId={category.id}
+            categoryId={id}
           />
           <EditItem
             type='category'
@@ -73,7 +73,7 @@ export default function Links({ category, isMobile }: Readonly<LinksProps>) {
       ) : (
         <div className={styles['no-link']}>
           <motion.p
-            key={category.id}
+            key={id}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -93,36 +93,7 @@ export default function Links({ category, isMobile }: Readonly<LinksProps>) {
           </LinkTag>
         </div>
       )}
-      <footer className={styles['footer']}>
-        <div className='top'>
-          <LinkTag href={PATHS.PRIVACY}>{t('common:privacy')}</LinkTag>
-          {' • '}
-          <LinkTag href={PATHS.TERMS}>{t('common:terms')}</LinkTag>
-        </div>
-        <div className='bottom'>
-          {t('home:footer.made_by')}{' '}
-          <LinkTag
-            href={PATHS.AUTHOR}
-            target='_blank'
-          >
-            Sonny
-          </LinkTag>
-          {' • '}
-          <LinkTag
-            href={PATHS.REPO_GITHUB}
-            target='_blank'
-          >
-            Github
-          </LinkTag>
-          {' • '}
-          <LinkTag
-            href={PATHS.EXTENSION}
-            target='_blank'
-          >
-            Extension
-          </LinkTag>
-        </div>
-      </footer>
+      <LinksFooter />
     </div>
   );
 }
