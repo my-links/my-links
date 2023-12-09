@@ -10,10 +10,12 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
-import { Link } from 'types';
+import { LinkWithCategory } from 'types';
 import { withAuthentication } from 'utils/session';
 
-export default function PageRemoveLink({ link }: Readonly<{ link: Link }>) {
+export default function PageRemoveLink({
+  link,
+}: Readonly<{ link: LinkWithCategory }>) {
   const { t } = useTranslation();
   const router = useRouter();
 

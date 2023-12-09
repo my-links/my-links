@@ -8,7 +8,7 @@ import { makeRequest } from 'lib/request';
 import LinkTag from 'next/link';
 import { useCallback } from 'react';
 import { AiFillStar } from 'react-icons/ai';
-import { Link, LinkWithRelations } from 'types';
+import { LinkWithCategory } from 'types';
 import LinkFavicon from './LinkFavicon';
 import styles from './links.module.scss';
 
@@ -16,14 +16,14 @@ export default function LinkItem({
   link,
   index,
 }: {
-  link: Link;
+  link: LinkWithCategory;
   index: number;
 }) {
   const { id, name, url, favorite } = link;
   const { categories, setCategories } = useCategories();
 
   const toggleFavorite = useCallback(
-    (linkId: LinkWithRelations['id']) => {
+    (linkId: LinkWithCategory['id']) => {
       let linkIndex = 0;
       const categoryIndex = categories.findIndex(({ links }) => {
         const lIndex = links.findIndex((l) => l.id === linkId);
@@ -104,7 +104,7 @@ export default function LinkItem({
   );
 }
 
-function LinkItemURL({ url }: { url: Link['url'] }) {
+function LinkItemURL({ url }: { url: LinkWithCategory['url'] }) {
   try {
     const { origin, pathname, search } = new URL(url);
     let text = '';

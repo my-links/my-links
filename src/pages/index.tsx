@@ -15,12 +15,12 @@ import getUserCategories from 'lib/category/getUserCategories';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { CategoryWithRelations, LinkWithRelations } from 'types/types';
+import { CategoryWithLinks, LinkWithCategory } from 'types/types';
 import { withAuthentication } from 'utils/session';
 
 interface HomePageProps {
-  categories: CategoryWithRelations[];
-  activeCategory: CategoryWithRelations | undefined;
+  categories: CategoryWithLinks[];
+  activeCategory: CategoryWithLinks | undefined;
 }
 
 export default function HomePage(props: Readonly<HomePageProps>) {
@@ -29,27 +29,25 @@ export default function HomePage(props: Readonly<HomePageProps>) {
 
   const [globalHotkeysEnable, setGlobalHotkeysEnabled] =
     useState<boolean>(true);
-  const [categories, setCategories] = useState<CategoryWithRelations[]>(
+  const [categories, setCategories] = useState<CategoryWithLinks[]>(
     props.categories,
   );
   const [activeCategory, setActiveCategory] =
-    useState<CategoryWithRelations | null>(
-      props.activeCategory || categories?.[0],
-    );
+    useState<CategoryWithLinks | null>(props.activeCategory || categories?.[0]);
 
-  const handleChangeCategory = (category: CategoryWithRelations) => {
+  const handleChangeCategory = (category: CategoryWithLinks) => {
     setActiveCategory(category);
     router.push(`${PATHS.HOME}?categoryId=${category.id}`);
   };
 
-  const favorites = useMemo<LinkWithRelations[]>(
+  const favorites = useMemo<LinkWithCategory[]>(
     () =>
       categories.reduce((acc, category) => {
         category.links.forEach((link) =>
           link.favorite ? acc.push(link) : null,
         );
         return acc;
-      }, [] as LinkWithRelations[]),
+      }, [] as LinkWithCategory[]),
     [categories],
   );
 
@@ -71,7 +69,6 @@ export default function HomePage(props: Readonly<HomePageProps>) {
   return (
     <PageTransition
       className={clsx('App', 'flex-row')}
-      style={{ flexDirection: 'row' }}
       hideLangageSelector
     >
       <CategoriesContext.Provider value={{ categories, setCategories }}>
@@ -86,10 +83,7 @@ export default function HomePage(props: Readonly<HomePageProps>) {
               }}
             >
               {isMobile ? <UserCard /> : <SideMenu />}
-              <Links
-                category={activeCategory}
-                isMobile={isMobile}
-              />
+              <Links isMobile={isMobile} />
             </GlobalHotkeysContext.Provider>
           </FavoritesContext.Provider>
         </ActiveCategoryContext.Provider>

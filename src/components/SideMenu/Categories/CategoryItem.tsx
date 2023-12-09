@@ -8,25 +8,25 @@ import { makeRequest } from 'lib/request';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
-import { Category, CategoryWithRelations } from 'types';
+import { CategoryWithLinks } from 'types';
 import styles from './categories.module.scss';
 
 interface CategoryItemProps {
-  category: Category;
+  category: CategoryWithLinks;
   index: number;
 }
 
 export default function CategoryItem({
   category,
   index,
-}: CategoryItemProps): JSX.Element {
+}: Readonly<CategoryItemProps>): JSX.Element {
   const { activeCategory, setActiveCategory } = useActiveCategory();
   const { categories, setCategories } = useCategories();
 
   const ref = useRef<HTMLLIElement>();
 
   const sendMoveCategoryRequest = useCallback(
-    (categoryId: CategoryWithRelations['id'], newOrder: number) => {
+    (categoryId: CategoryWithLinks['id'], newOrder: number) => {
       const category = categories.find((c) => c.id === categoryId);
       makeRequest({
         url: `${PATHS.API.CATEGORY}/${category.id}`,
@@ -43,9 +43,9 @@ export default function CategoryItem({
     (
       dragIndex: number,
       hoverIndex: number,
-      categoryId: CategoryWithRelations['id'],
+      categoryId: CategoryWithLinks['id'],
     ) => {
-      setCategories((prevCategories: CategoryWithRelations[]) => {
+      setCategories((prevCategories: CategoryWithLinks[]) => {
         const categories = [...prevCategories];
         const c = categories.find((c) => c.id === categoryId);
         console.log('previous', c.order);
@@ -145,10 +145,10 @@ export default function CategoryItem({
 }
 
 function updateCategoryOrder(
-  categories: CategoryWithRelations[],
+  categories: CategoryWithLinks[],
   categoryId: number,
   newOrder: number,
-): CategoryWithRelations[] {
+): CategoryWithLinks[] {
   const categoryIndex = categories.findIndex((cat) => cat.id === categoryId);
 
   if (categoryIndex === -1) {

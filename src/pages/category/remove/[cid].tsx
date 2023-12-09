@@ -9,14 +9,14 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
-import { Category } from 'types';
+import { CategoryWithLinks } from 'types';
 import { withAuthentication } from 'utils/session';
 import { makeRequest } from 'lib/request';
 
 export default function PageRemoveCategory({
   category,
 }: Readonly<{
-  category: Category;
+  category: CategoryWithLinks;
 }>) {
   const { t, i18n } = useTranslation();
   const router = useRouter();
