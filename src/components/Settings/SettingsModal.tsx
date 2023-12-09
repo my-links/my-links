@@ -6,6 +6,7 @@ import useGlobalHotkeys from 'hooks/useGlobalHotkeys';
 import useModal from 'hooks/useModal';
 import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
+import { useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaUser } from 'react-icons/fa';
 import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
@@ -21,7 +22,10 @@ export default function SettingsModal() {
   const modal = useModal();
   const { setGlobalHotkeysEnabled } = useGlobalHotkeys();
 
-  setGlobalHotkeysEnabled(!modal.isShowing);
+  useEffect(
+    () => setGlobalHotkeysEnabled(!modal.isShowing),
+    [modal.isShowing, setGlobalHotkeysEnabled],
+  );
 
   useHotkeys(Keys.CLOSE_SEARCH_KEY, modal.close, {
     enabled: modal.isShowing,

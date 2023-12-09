@@ -12,7 +12,7 @@ export default function NavigationLinks() {
   return (
     <div className={styles['menu-controls']}>
       <div className={styles['action']}>
-        <SearchModal>{t('common:search')}</SearchModal>
+        <SearchModal disableHotkeys>{t('common:search')}</SearchModal>
         <kbd>S</kbd>
       </div>
       <div className={styles['action']}>

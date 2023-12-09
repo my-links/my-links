@@ -31,10 +31,12 @@ export default function SearchModal({
   noHeader = true,
   children,
   childClassname = '',
+  disableHotkeys = false,
 }: {
   noHeader?: boolean;
   children: ReactNode;
   childClassname?: string;
+  disableHotkeys?: boolean;
 }) {
   const { t } = useTranslation();
   const autoFocusRef = useAutoFocus();
@@ -42,14 +44,11 @@ export default function SearchModal({
 
   const { categories } = useCategories();
   const { setActiveCategory } = useActiveCategory();
-  const {
-    globalHotkeysEnabled: globalHotkeysEnable,
-    setGlobalHotkeysEnabled: setGlobalHotkeysEnable,
-  } = useGlobalHotkeys();
+  const { globalHotkeysEnabled, setGlobalHotkeysEnabled } = useGlobalHotkeys();
 
   useEffect(
-    () => setGlobalHotkeysEnable(!searchModal.isShowing),
-    [searchModal.isShowing, setGlobalHotkeysEnable],
+    () => setGlobalHotkeysEnabled(!searchModal.isShowing),
+    [searchModal.isShowing, setGlobalHotkeysEnabled],
   );
 
   const handleCloseModal = useCallback(() => {
@@ -63,7 +62,7 @@ export default function SearchModal({
       event.preventDefault();
       searchModal.open();
     },
-    { enabled: globalHotkeysEnable },
+    { enabled: !disableHotkeys && globalHotkeysEnabled },
   );
   useHotkeys(Keys.CLOSE_SEARCH_KEY, handleCloseModal, {
     enabled: searchModal.isShowing,

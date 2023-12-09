@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, createContext } from 'react';
-import { CategoryWithRelations } from 'types/types';
+import { CategoryWithLinks } from 'types/types';
 
 type CategoriesContextType = {
-  categories: CategoryWithRelations[];
-  setCategories: Dispatch<SetStateAction<CategoryWithRelations[]>>;
+  categories: CategoryWithLinks[];
+  setCategories: Dispatch<SetStateAction<CategoryWithLinks[]>>;
 };
 
 const iCategoriesContextState = {
-  categories: [] as CategoryWithRelations[],
-  setCategories: (_: CategoryWithRelations[]) => {},
+  categories: [] as CategoryWithLinks[],
+  setCategories: (_: CategoryWithLinks[]) => {},
 };
 
 const CategoriesContext = createContext<CategoriesContextType>(

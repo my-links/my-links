@@ -41,7 +41,7 @@ export default function LinkItem({
       };
 
       setCategories(
-        categoriesCopy.toSorted((cata, catb) => cata.or - catb.order),
+        categoriesCopy.toSorted((cata, catb) => cata.order - catb.order),
       );
     },
     [categories, setCategories],

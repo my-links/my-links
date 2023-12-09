@@ -1,12 +1,12 @@
 import { createContext } from 'react';
-import { LinkWithRelations } from 'types/types';
+import { LinkWithCategory } from 'types/types';
 
 type FavoritesContextType = {
-  favorites: LinkWithRelations[];
+  favorites: LinkWithCategory[];
 };
 
 const iFavoritesContextState = {
-  favorites: [] as LinkWithRelations[],
+  favorites: [] as LinkWithCategory[],
 };
 
 const FavoritesContext = createContext<FavoritesContextType>(
