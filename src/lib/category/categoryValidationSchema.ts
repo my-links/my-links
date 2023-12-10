@@ -5,7 +5,7 @@ const CategoryBodySchema = object({
     .trim()
     .required('Category name is required')
     .max(128, 'Category name is too long'),
-  nextId: number(),
+  nextId: number().required().nullable(),
 }).typeError('Missing request Body');
 
 const CategoryQuerySchema = object({

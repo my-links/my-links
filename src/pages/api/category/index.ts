@@ -26,8 +26,13 @@ async function createCategory({ req, res, user }) {
   }
 
   const { id: lastCategoryId } = await prisma.category.findFirst({
-    orderBy: { createdAt: 'desc' },
-    select: { id: true },
+    where: {
+      authorId: user.id,
+      nextId: null,
+    },
+    select: {
+      id: true,
+    },
   });
 
   const categoryCreated = await prisma.category.create({

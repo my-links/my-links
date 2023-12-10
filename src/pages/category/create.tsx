@@ -5,12 +5,12 @@ import PATHS from 'constants/paths';
 import useAutoFocus from 'hooks/useAutoFocus';
 import { getServerSideTranslation } from 'i18n';
 import getUserCategoriesCount from 'lib/category/getUserCategoriesCount';
+import { makeRequest } from 'lib/request';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
 import { withAuthentication } from 'utils/session';
-import { makeRequest } from 'lib/request';
 
 export default function PageCreateCategory({
   categoriesCount,
@@ -40,7 +40,7 @@ export default function PageCreateCategory({
     makeRequest({
       url: PATHS.API.CATEGORY,
       method: 'POST',
-      body: { name },
+      body: { name, nextId: null },
     })
       .then((data) =>
         router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),

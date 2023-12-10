@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { apiHandler } from 'lib/api/handler';
 import {
   CategoryBodySchema,
@@ -16,6 +17,7 @@ export default apiHandler({
 async function editCategory({ req, res, user }) {
   const { cid } = await CategoryQuerySchema.validate(req.query);
   const { name, nextId } = await CategoryBodySchema.validate(req.body);
+  const userId = user.id as User['id'];
 
   const category = await getUserCategory(user, cid);
   if (!category) {
@@ -31,20 +33,31 @@ async function editCategory({ req, res, user }) {
     throw new Error('Category nextId cannot be equal to current category ID');
   }
 
-  const authorId = category.authorId;
+  if (nextId !== null) {
+    const isCategoryIdExist = await prisma.category.findFirst({
+      where: {
+        authorId: userId,
+        id: nextId,
+      },
+    });
+    if (!isCategoryIdExist) {
+      throw new Error('Unable to find category ' + nextId);
+    }
+  }
+
   if (category.nextId !== nextId) {
     const [previousCategory, prevNextCategory] = await prisma.$transaction([
       prisma.category.findFirst({
         // Current previous category
         where: {
-          authorId,
+          authorId: userId,
           nextId: category.id,
         },
       }),
       prisma.category.findFirst({
         // New previous category
         where: {
-          authorId,
+          authorId: userId,
           nextId,
         },
       }),
@@ -55,7 +68,7 @@ async function editCategory({ req, res, user }) {
         previousCategory &&
           prisma.category.update({
             where: {
-              authorId,
+              authorId: userId,
               id: previousCategory.id,
             },
             data: {
@@ -64,7 +77,7 @@ async function editCategory({ req, res, user }) {
           }),
         prisma.category.update({
           where: {
-            authorId,
+            authorId: userId,
             id: category.id,
           },
           data: {
@@ -74,7 +87,7 @@ async function editCategory({ req, res, user }) {
         prevNextCategory &&
           prisma.category.update({
             where: {
-              authorId,
+              authorId: userId,
               id: prevNextCategory.id,
             },
             data: {

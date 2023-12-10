@@ -31,19 +31,32 @@ export default function CategoryItem({
   const ref = useRef<HTMLLIElement>();
 
   const sendMoveCategoryRequest = useCallback(
-    (categoryId: CategoryWithLinks['id'], nextId: number) => {
+    (categoryId: CategoryWithLinks['id'], nextId?: number) => {
       const category = categories.find((c) => c.id === categoryId);
-      if (category.nextId === nextId) return;
       makeRequest({
         url: `${PATHS.API.CATEGORY}/${category.id}`,
         method: 'PUT',
         body: {
           name: category.name,
-          nextId: nextId,
+          nextId,
         },
-      }).catch(console.error);
+      })
+        .then(() => {
+          setCategories((prevCategories) => {
+            const categories = [...prevCategories];
+            const categoryIndex = categories.findIndex(
+              (c) => c.id === categoryId,
+            );
+            categories[categoryIndex] = {
+              ...categories[categoryIndex],
+              nextId,
+            };
+            return categories;
+          });
+        })
+        .catch(console.error);
     },
-    [categories],
+    [categories, setCategories],
   );
   const moveCategory = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -81,7 +94,7 @@ export default function CategoryItem({
     drop(item) {
       const nextCategory = categories[item.index + 1];
       if (item.categoryId !== nextCategory?.id) {
-        sendMoveCategoryRequest(item.categoryId, nextCategory.id ?? undefined);
+        sendMoveCategoryRequest(item.categoryId, nextCategory?.id ?? null);
       }
     },
   });
@@ -135,10 +148,7 @@ export default function CategoryItem({
 
       <div className={styles['content']}>
         <span className={styles['name']}>{category.name}</span>
-        <span className={styles['links-count']}>
-          — {category.links.length} (ID: {category.id}, NextID:{' '}
-          {category.nextId ?? '-'})
-        </span>
+        <span className={styles['links-count']}>— {category.links.length}</span>
       </div>
     </motion.li>
   );
