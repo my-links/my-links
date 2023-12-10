@@ -16,6 +16,11 @@ interface CategoryItemProps {
   index: number;
 }
 
+type CategoryDragItem = {
+  categoryId: CategoryWithLinks['id'];
+  index: number;
+};
+
 export default function CategoryItem({
   category,
   index,
@@ -40,29 +45,18 @@ export default function CategoryItem({
     [categories],
   );
   const moveCategory = useCallback(
-    (
-      dragIndex: number,
-      hoverIndex: number,
-      categoryId: CategoryWithLinks['id'],
-    ) => {
+    (dragIndex: number, hoverIndex: number) => {
       setCategories((prevCategories: CategoryWithLinks[]) => {
         const categories = [...prevCategories];
-        const c = categories.find((c) => c.id === categoryId);
-        console.log('previous', c.order);
-        console.log('old', categoryId, hoverIndex);
-        const sorted = updateCategoryOrder(categories, categoryId, hoverIndex);
-        const a = sorted.find((c) => c.id === categoryId);
-        console.log('new', a.id, a.order);
-        return sorted;
+        return arrayMove(categories, dragIndex, hoverIndex);
       });
-      sendMoveCategoryRequest(categoryId, hoverIndex);
     },
-    [sendMoveCategoryRequest, setCategories],
+    [setCategories],
   );
 
   const [_, drop] = useDrop({
     accept: 'category',
-    hover(dragItem: { index: number }, monitor) {
+    hover(dragItem: CategoryDragItem, monitor) {
       if (!ref.current || dragItem.index === index) {
         return;
       }
@@ -80,15 +74,17 @@ export default function CategoryItem({
         return;
       }
 
-      console.log('drag', dragItem.index, 'current', index);
-      moveCategory(dragItem.index, index, category.id);
+      moveCategory(dragItem.index, index);
       dragItem.index = index;
+    },
+    drop(item) {
+      sendMoveCategoryRequest(item.categoryId, item.index);
     },
   });
 
   const [{ opacity }, drag] = useDrag({
     type: 'category',
-    item: () => ({ index }),
+    item: () => ({ index, categoryId: category.id }),
     collect: (monitor: any) => ({
       opacity: monitor.isDragging() ? 0.1 : 1,
     }),
@@ -138,31 +134,21 @@ export default function CategoryItem({
 
       <div className={styles['content']}>
         <span className={styles['name']}>{category.name}</span>
-        <span className={styles['links-count']}>— {category.links.length}</span>
+        <span className={styles['links-count']}>
+          — {category.links.length} ({index} - {category.nextId})
+        </span>
       </div>
     </motion.li>
   );
 }
 
-function updateCategoryOrder(
-  categories: CategoryWithLinks[],
-  categoryId: number,
-  newOrder: number,
-): CategoryWithLinks[] {
-  const categoryIndex = categories.findIndex((cat) => cat.id === categoryId);
-
-  if (categoryIndex === -1) {
-    // La catégorie avec l'ID spécifié n'a pas été trouvée
-    return categories;
+function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
+  if (nextIndex >= arr.length) {
+    var k = nextIndex - arr.length + 1;
+    while (k--) {
+      arr.push(undefined);
+    }
   }
-
-  // Mettez à jour l'ordre de la catégorie spécifiée
-  categories[categoryIndex].order = newOrder;
-
-  // Mettez à jour l'ordre des catégories suivantes
-  for (let i = categoryIndex + 1; i < categories.length; i++) {
-    categories[i].order = newOrder + i - categoryIndex;
-  }
-
-  return categories;
+  arr.splice(nextIndex, 0, arr.splice(previousIndex, 1)[0]);
+  return arr; // for testing
 }
