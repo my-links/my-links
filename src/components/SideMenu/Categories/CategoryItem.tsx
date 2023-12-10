@@ -33,6 +33,7 @@ export default function CategoryItem({
   const sendMoveCategoryRequest = useCallback(
     (categoryId: CategoryWithLinks['id'], nextId: number) => {
       const category = categories.find((c) => c.id === categoryId);
+      if (category.nextId === nextId) return;
       makeRequest({
         url: `${PATHS.API.CATEGORY}/${category.id}`,
         method: 'PUT',
@@ -79,7 +80,9 @@ export default function CategoryItem({
     },
     drop(item) {
       const nextCategory = categories[index + 1];
-      sendMoveCategoryRequest(item.categoryId, nextCategory.id ?? undefined);
+      if (item.categoryId !== nextCategory?.id) {
+        sendMoveCategoryRequest(item.categoryId, nextCategory.id ?? undefined);
+      }
     },
   });
 
@@ -136,7 +139,8 @@ export default function CategoryItem({
       <div className={styles['content']}>
         <span className={styles['name']}>{category.name}</span>
         <span className={styles['links-count']}>
-          — {category.links.length} ({index} - {category.nextId})
+          — {category.links.length} (ID: {category.id}, NextID:{' '}
+          {category.nextId ?? '-'})
         </span>
       </div>
     </motion.li>

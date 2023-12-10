@@ -27,16 +27,22 @@ async function editCategory({ req, res, user }) {
     throw new Error('Category name already used');
   }
 
+  if (category.id === nextId) {
+    throw new Error('Category nextId cannot be equal to current category ID');
+  }
+
   const authorId = category.authorId;
   if (category.nextId !== nextId) {
     const [previousCategory, prevNextCategory] = await prisma.$transaction([
       prisma.category.findFirst({
+        // Current previous category
         where: {
           authorId,
           nextId: category.id,
         },
       }),
       prisma.category.findFirst({
+        // New previous category
         where: {
           authorId,
           nextId,
@@ -44,35 +50,39 @@ async function editCategory({ req, res, user }) {
       }),
     ]);
 
-    await prisma.$transaction([
-      prisma.category.update({
-        where: {
-          authorId,
-          id: previousCategory.id,
-        },
-        data: {
-          nextId: category.nextId,
-        },
-      }),
-      prisma.category.update({
-        where: {
-          authorId,
-          id: category.id,
-        },
-        data: {
-          nextId,
-        },
-      }),
-      prisma.category.update({
-        where: {
-          authorId,
-          id: prevNextCategory.id,
-        },
-        data: {
-          nextId: category.id,
-        },
-      }),
-    ]);
+    await prisma.$transaction(
+      [
+        previousCategory &&
+          prisma.category.update({
+            where: {
+              authorId,
+              id: previousCategory.id,
+            },
+            data: {
+              nextId: category.nextId,
+            },
+          }),
+        prisma.category.update({
+          where: {
+            authorId,
+            id: category.id,
+          },
+          data: {
+            nextId,
+          },
+        }),
+        prevNextCategory &&
+          prisma.category.update({
+            where: {
+              authorId,
+              id: prevNextCategory.id,
+            },
+            data: {
+              nextId: category.id,
+            },
+          }),
+      ].filter((a) => a !== null && a !== undefined),
+    );
   }
 
   return res.send({
