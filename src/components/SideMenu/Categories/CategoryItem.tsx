@@ -31,14 +31,14 @@ export default function CategoryItem({
   const ref = useRef<HTMLLIElement>();
 
   const sendMoveCategoryRequest = useCallback(
-    (categoryId: CategoryWithLinks['id'], newOrder: number) => {
+    (categoryId: CategoryWithLinks['id'], nextId: number) => {
       const category = categories.find((c) => c.id === categoryId);
       makeRequest({
         url: `${PATHS.API.CATEGORY}/${category.id}`,
         method: 'PUT',
         body: {
           name: category.name,
-          order: newOrder,
+          nextId: nextId,
         },
       }).catch(console.error);
     },
@@ -78,7 +78,8 @@ export default function CategoryItem({
       dragItem.index = index;
     },
     drop(item) {
-      sendMoveCategoryRequest(item.categoryId, item.index);
+      const nextCategory = categories[index + 1];
+      sendMoveCategoryRequest(item.categoryId, nextCategory.id ?? undefined);
     },
   });
 
@@ -142,6 +143,7 @@ export default function CategoryItem({
   );
 }
 
+// Thanks S/O
 function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
   if (nextIndex >= arr.length) {
     var k = nextIndex - arr.length + 1;
@@ -150,5 +152,5 @@ function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
     }
   }
   arr.splice(nextIndex, 0, arr.splice(previousIndex, 1)[0]);
-  return arr; // for testing
+  return arr;
 }

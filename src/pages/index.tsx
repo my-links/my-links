@@ -12,6 +12,7 @@ import GlobalHotkeysContext from 'contexts/globalHotkeysContext';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import { getServerSideTranslation } from 'i18n';
 import getUserCategories from 'lib/category/getUserCategories';
+import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
 import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
@@ -112,9 +113,7 @@ export const getServerSideProps = withAuthentication(
       props: {
         session,
         categories: JSON.parse(
-          JSON.stringify(
-            categories.toSorted((cata, catb) => cata.order - catb.order),
-          ),
+          JSON.stringify(sortCategoriesByNextId(categories)),
         ),
         activeCategory: activeCategory
           ? JSON.parse(JSON.stringify(activeCategory))

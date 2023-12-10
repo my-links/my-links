@@ -40,9 +40,7 @@ export default function LinkItem({
         favorite: !link.favorite,
       };
 
-      setCategories(
-        categoriesCopy.toSorted((cata, catb) => cata.order - catb.order),
-      );
+      setCategories(categoriesCopy);
     },
     [categories, setCategories],
   );
