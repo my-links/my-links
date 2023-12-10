@@ -1,14 +1,30 @@
 import { CategoryWithLinks } from 'types/types';
 
+type Category = CategoryWithLinks;
+
 export default function sortCategoriesByNextId(
-  categories: CategoryWithLinks[],
-): CategoryWithLinks[] {
-  const sortedCategories = categories.slice().sort((a, b) => {
-    const nextIdA = a.nextId !== null ? a.nextId : Number.POSITIVE_INFINITY;
-    const nextIdB = b.nextId !== null ? b.nextId : Number.POSITIVE_INFINITY;
+  categories: Category[],
+): Category[] {
+  const sortedCategories: Category[] = [];
 
-    return nextIdA - nextIdB;
-  });
+  const visit = (category: Category) => {
+    // Check if the category has been visited
+    if (sortedCategories.includes(category)) {
+      return;
+    }
 
-  return sortedCategories;
+    // Visit the next category recursively
+    const nextCategory = categories.find((c) => c.id === category.nextId);
+    if (nextCategory) {
+      visit(nextCategory);
+    }
+
+    // Add the current category to the sorted array
+    sortedCategories.push(category);
+  };
+
+  // Visit each category to build the sorted array
+  categories.forEach((category) => visit(category));
+
+  return sortedCategories.reverse();
 }
