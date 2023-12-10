@@ -79,7 +79,7 @@ export default function CategoryItem({
       dragItem.index = index;
     },
     drop(item) {
-      const nextCategory = categories[index + 1];
+      const nextCategory = categories[item.index + 1];
       if (item.categoryId !== nextCategory?.id) {
         sendMoveCategoryRequest(item.categoryId, nextCategory.id ?? undefined);
       }
@@ -104,11 +104,6 @@ export default function CategoryItem({
 
   drag(drop(ref));
 
-  const className = clsx(
-    styles['item'],
-    category.id === activeCategory.id && styles['active'],
-  );
-
   return (
     <motion.li
       initial={{ scale: 0 }}
@@ -120,10 +115,12 @@ export default function CategoryItem({
         delay: index * 0.02,
         duration: 200,
       }}
-      className={className}
+      className={clsx(
+        styles['item'],
+        category.id === activeCategory.id && styles['active'],
+      )}
       onClick={onClick}
       style={{
-        cursor: 'move',
         transition: 'none',
         opacity,
       }}
