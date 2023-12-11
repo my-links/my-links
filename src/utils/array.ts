@@ -18,3 +18,22 @@ export function groupItemBy(array: any[], property: string) {
 
   return hash;
 }
+
+// Thanks S/O
+export function arrayMove<T>(
+  arr: T[],
+  previousIndex: number,
+  nextIndex: number,
+): T[] {
+  const arrayCopy = [...arr];
+  const [removedElement] = arrayCopy.splice(previousIndex, 1);
+
+  if (nextIndex >= arr.length) {
+    // Pad the array with undefined elements if needed
+    const padding = nextIndex - arr.length + 1;
+    arrayCopy.push(...new Array(padding).fill(undefined));
+  }
+
+  arrayCopy.splice(nextIndex, 0, removedElement);
+  return arrayCopy;
+}

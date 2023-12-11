@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import PATHS from 'constants/paths';
-import type { XYCoord } from 'dnd-core';
 import { motion } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
 import useCategories from 'hooks/useCategories';
@@ -9,6 +8,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import { CategoryWithLinks } from 'types';
+import { arrayMove } from 'utils/array';
 import styles from './categories.module.scss';
 
 interface CategoryItemProps {
@@ -31,8 +31,7 @@ export default function CategoryItem({
   const ref = useRef<HTMLLIElement>();
 
   const sendMoveCategoryRequest = useCallback(
-    (categoryId: CategoryWithLinks['id'], nextId?: number) => {
-      const category = categories.find((c) => c.id === categoryId);
+    (category: CategoryWithLinks, nextId?: number) => {
       makeRequest({
         url: `${PATHS.API.CATEGORY}/${category.id}`,
         method: 'PUT',
@@ -45,7 +44,7 @@ export default function CategoryItem({
           setCategories((prevCategories) => {
             const categories = [...prevCategories];
             const categoryIndex = categories.findIndex(
-              (c) => c.id === categoryId,
+              (c) => c.id === category.id,
             );
             categories[categoryIndex] = {
               ...categories[categoryIndex],
@@ -56,45 +55,31 @@ export default function CategoryItem({
         })
         .catch(console.error);
     },
-    [categories, setCategories],
+    [setCategories],
   );
   const moveCategory = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      setCategories((prevCategories: CategoryWithLinks[]) => {
-        const categories = [...prevCategories];
-        return arrayMove(categories, dragIndex, hoverIndex);
-      });
+    (currentIndex: number, newIndex: number) => {
+      setCategories((prevCategories: CategoryWithLinks[]) =>
+        arrayMove(prevCategories, currentIndex, newIndex),
+      );
     },
     [setCategories],
   );
 
   const [_, drop] = useDrop({
     accept: 'category',
-    hover(dragItem: CategoryDragItem, monitor) {
-      if (!ref.current || dragItem.index === index) {
-        return;
+    hover: (dragItem: CategoryDragItem) => {
+      if (ref.current && dragItem.categoryId !== category.id) {
+        moveCategory(dragItem.index, index);
+        dragItem.index = index;
       }
-
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      if (
-        (dragItem.index < index && hoverClientY < hoverMiddleY) ||
-        (dragItem.index > index && hoverClientY > hoverMiddleY)
-      ) {
-        return;
-      }
-
-      moveCategory(dragItem.index, index);
-      dragItem.index = index;
     },
-    drop(item) {
+    drop: (item) => {
+      const category = categories.find((c) => c.id === item.categoryId);
       const nextCategory = categories[item.index + 1];
-      if (item.categoryId !== nextCategory?.id) {
-        sendMoveCategoryRequest(item.categoryId, nextCategory?.id ?? null);
+      if (category.nextId === null && nextCategory?.id === undefined) return;
+      if (category.nextId !== nextCategory?.id) {
+        sendMoveCategoryRequest(category, nextCategory?.id ?? null);
       }
     },
   });
@@ -105,9 +90,13 @@ export default function CategoryItem({
     collect: (monitor: any) => ({
       opacity: monitor.isDragging() ? 0.1 : 1,
     }),
+    end: (dragItem: CategoryDragItem, monitor) => {
+      const didDrop = monitor.didDrop();
+      if (!didDrop) {
+        moveCategory(dragItem.index, index);
+      }
+    },
   });
-
-  const onClick = () => setActiveCategory(category);
 
   useEffect(() => {
     if (category.id === activeCategory.id) {
@@ -132,11 +121,11 @@ export default function CategoryItem({
         styles['item'],
         category.id === activeCategory.id && styles['active'],
       )}
-      onClick={onClick}
       style={{
         transition: 'none',
         opacity,
       }}
+      onClick={() => setActiveCategory(category)}
       title={category.name}
       ref={ref}
     >
@@ -152,16 +141,4 @@ export default function CategoryItem({
       </div>
     </motion.li>
   );
-}
-
-// Thanks S/O
-function arrayMove(arr: any[], previousIndex: number, nextIndex: number) {
-  if (nextIndex >= arr.length) {
-    var k = nextIndex - arr.length + 1;
-    while (k--) {
-      arr.push(undefined);
-    }
-  }
-  arr.splice(nextIndex, 0, arr.splice(previousIndex, 1)[0]);
-  return arr;
 }

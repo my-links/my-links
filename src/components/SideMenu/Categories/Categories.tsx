@@ -5,7 +5,7 @@ import useCategories from 'hooks/useCategories';
 import useGlobalHotkeys from 'hooks/useGlobalHotkeys';
 import { useTranslation } from 'next-i18next';
 import { useMemo } from 'react';
-import { DndProvider } from 'react-dnd';
+import { DndProvider, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useHotkeys } from 'react-hotkeys-hook';
 import CategoryItem from './CategoryItem';
@@ -58,16 +58,28 @@ export default function Categories() {
         {t('common:category.categories')} • {linksCount}
       </h4>
       <DndProvider backend={HTML5Backend}>
-        <ul className={clsx(styles['items'], 'reset')}>
-          {categories.map((category, index) => (
-            <CategoryItem
-              category={category}
-              key={category.id}
-              index={index}
-            />
-          ))}
-        </ul>
+        <ListCategories />
       </DndProvider>
     </div>
+  );
+}
+
+function ListCategories() {
+  const [, drop] = useDrop(() => ({ accept: 'category' }));
+  const { categories } = useCategories();
+
+  return (
+    <ul
+      className={clsx(styles['items'], 'reset')}
+      ref={drop}
+    >
+      {categories.map((category, index) => (
+        <CategoryItem
+          category={category}
+          key={category.id}
+          index={index}
+        />
+      ))}
+    </ul>
   );
 }
