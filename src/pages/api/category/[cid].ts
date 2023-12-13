@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { apiHandler } from 'lib/api/handler';
 import {
   CategoryBodySchema,
@@ -15,7 +16,8 @@ export default apiHandler({
 
 async function editCategory({ req, res, user }) {
   const { cid } = await CategoryQuerySchema.validate(req.query);
-  const { name } = await CategoryBodySchema.validate(req.body);
+  const { name, nextId } = await CategoryBodySchema.validate(req.body);
+  const userId = user.id as User['id'];
 
   const category = await getUserCategory(user, cid);
   if (!category) {
@@ -23,18 +25,79 @@ async function editCategory({ req, res, user }) {
   }
 
   const isCategoryNameAlreadyUsed = await getUserCategoryByName(user, name);
-  if (isCategoryNameAlreadyUsed) {
+  if (isCategoryNameAlreadyUsed.id !== cid) {
     throw new Error('Category name already used');
   }
 
-  if (category.name === name) {
-    throw new Error('New category name must be different');
+  if (category.id === nextId) {
+    throw new Error('Category nextId cannot be equal to current category ID');
   }
 
-  await prisma.category.update({
-    where: { id: cid },
-    data: { name },
-  });
+  if (nextId !== null) {
+    const isCategoryIdExist = await prisma.category.findFirst({
+      where: {
+        authorId: userId,
+        id: nextId,
+      },
+    });
+    if (!isCategoryIdExist) {
+      throw new Error('Unable to find category ' + nextId);
+    }
+  }
+
+  if (category.nextId !== nextId) {
+    const [previousCategory, prevNextCategory] = await prisma.$transaction([
+      prisma.category.findFirst({
+        // Current previous category
+        where: {
+          authorId: userId,
+          nextId: category.id,
+        },
+      }),
+      prisma.category.findFirst({
+        // New previous category
+        where: {
+          authorId: userId,
+          nextId,
+        },
+      }),
+    ]);
+
+    await prisma.$transaction(
+      [
+        previousCategory &&
+          prisma.category.update({
+            where: {
+              authorId: userId,
+              id: previousCategory.id,
+            },
+            data: {
+              nextId: category.nextId,
+            },
+          }),
+        prisma.category.update({
+          where: {
+            authorId: userId,
+            id: category.id,
+          },
+          data: {
+            nextId,
+          },
+        }),
+        prevNextCategory &&
+          prisma.category.update({
+            where: {
+              authorId: userId,
+              id: prevNextCategory.id,
+            },
+            data: {
+              nextId: category.id,
+            },
+          }),
+      ].filter((a) => a !== null && a !== undefined),
+    );
+  }
+
   return res.send({
     success: 'Category successfully updated',
     categoryId: category.id,
@@ -55,6 +118,19 @@ async function deleteCategory({ req, res, user }) {
 
   await prisma.category.delete({
     where: { id: cid },
+  });
+
+  const { id: previousCategoryId } = await prisma.category.findFirst({
+    where: { nextId: category.id },
+    select: { id: true },
+  });
+  await prisma.category.update({
+    where: {
+      id: previousCategoryId,
+    },
+    data: {
+      nextId: category.nextId,
+    },
   });
   return res.send({
     success: 'Category successfully deleted',

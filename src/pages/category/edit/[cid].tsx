@@ -5,15 +5,19 @@ import PATHS from 'constants/paths';
 import useAutoFocus from 'hooks/useAutoFocus';
 import { getServerSideTranslation } from 'i18n';
 import getUserCategory from 'lib/category/getUserCategory';
+import { makeRequest } from 'lib/request';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
-import { Category } from 'types';
+import { CategoryWithLinks } from 'types';
 import { withAuthentication } from 'utils/session';
-import { makeRequest } from 'lib/request';
 
-export default function PageEditCategory({ category }: { category: Category }) {
+export default function PageEditCategory({
+  category,
+}: Readonly<{
+  category: CategoryWithLinks;
+}>) {
   const { t } = useTranslation();
   const router = useRouter();
   const autoFocusRef = useAutoFocus();

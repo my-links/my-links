@@ -1,23 +1,32 @@
-import { AnimatePresence } from 'framer-motion';
-import useModal from 'hooks/useModal';
-import Modal from '../Modal/Modal';
-import * as Keys from 'constants/keys';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
-import LangSelector from '../LangSelector';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { TfiWorld } from 'react-icons/tfi';
-import { signOut } from 'next-auth/react';
-import PATHS from 'constants/paths';
-import styles from './settings-modal.module.scss';
 import clsx from 'clsx';
+import * as Keys from 'constants/keys';
+import PATHS from 'constants/paths';
+import { AnimatePresence } from 'framer-motion';
+import useGlobalHotkeys from 'hooks/useGlobalHotkeys';
+import useModal from 'hooks/useModal';
+import { signOut } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
+import { useEffect } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { FaUser } from 'react-icons/fa';
+import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
+import { TfiWorld } from 'react-icons/tfi';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import LangSelector from '../LangSelector';
+import Modal from '../Modal/Modal';
 import Profile from '../Profile/Profile';
+import styles from './settings-modal.module.scss';
 
 export default function SettingsModal() {
   const { t } = useTranslation('common');
   const modal = useModal();
+  const { setGlobalHotkeysEnabled } = useGlobalHotkeys();
+
+  useEffect(
+    () => setGlobalHotkeysEnabled(!modal.isShowing),
+    [modal.isShowing, setGlobalHotkeysEnabled],
+  );
+
   useHotkeys(Keys.CLOSE_SEARCH_KEY, modal.close, {
     enabled: modal.isShowing,
     enableOnFormTags: ['INPUT'],

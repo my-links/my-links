@@ -13,10 +13,7 @@ import resources from '../i18n/resources';
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common';
-    resources: typeof resources;
+    resources: (typeof resources)['en'];
     returnNull: false;
   }
 }
-
-// Ugly hack because of the above declaration, I cant use "t" function params
-type TFunctionParam = undefined;

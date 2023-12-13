@@ -1,12 +1,11 @@
-import LinkTag from 'next/link';
-import PageTransition from 'components/PageTransition';
-import styles from 'styles/legal-pages.module.scss';
 import clsx from 'clsx';
 import Navbar from 'components/Navbar/Navbar';
-import { getServerSideTranslation } from '../i18n';
+import PageTransition from 'components/PageTransition';
 import { useTranslation } from 'next-i18next';
-import { TFunctionParam } from 'types/i18next';
 import { DefaultSeo } from 'next-seo';
+import LinkTag from 'next/link';
+import styles from 'styles/legal-pages.module.scss';
+import { getServerSideTranslation } from '../i18n';
 
 export default function Privacy() {
   const { t } = useTranslation('privacy');
@@ -17,9 +16,7 @@ export default function Privacy() {
       <Navbar />
       <main>
         <h1>{t('privacy:title')}</h1>
-        <p>
-          {t('privacy:edited_at', { date: '19/11/2023' } as TFunctionParam)}
-        </p>
+        <p>{t('privacy:edited_at', { date: '19/11/2023' })}</p>
         <p>{t('privacy:welcome')}</p>
 
         <h2>{t('privacy:collect.title')}</h2>
@@ -29,11 +26,9 @@ export default function Privacy() {
         <h3>{t('privacy:collect.user.title')}</h3>
         <p>{t('privacy:collect.user.description')}</p>
         <ul>
-          {(
-            t('privacy:collect.user.fields', {
-              returnObjects: true,
-            } as TFunctionParam) as Array<string>
-          ).map((field) => (
+          {t('privacy:collect.user.fields', {
+            returnObjects: true,
+          }).map((field) => (
             <li key={field}>{field}</li>
           ))}
         </ul>

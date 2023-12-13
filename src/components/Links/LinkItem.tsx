@@ -1,25 +1,50 @@
-import { motion } from 'framer-motion';
-import LinkTag from 'next/link';
-import { AiFillStar } from 'react-icons/ai';
-import PATHS from 'constants/paths';
-import { Link } from 'types';
 import EditItem from 'components/QuickActions/EditItem';
 import FavoriteItem from 'components/QuickActions/FavoriteItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
+import PATHS from 'constants/paths';
+import { motion } from 'framer-motion';
+import useCategories from 'hooks/useCategories';
+import { makeRequest } from 'lib/request';
+import LinkTag from 'next/link';
+import { useCallback } from 'react';
+import { AiFillStar } from 'react-icons/ai';
+import { LinkWithCategory } from 'types';
 import LinkFavicon from './LinkFavicon';
 import styles from './links.module.scss';
-import { makeRequest } from 'lib/request';
 
 export default function LinkItem({
   link,
-  toggleFavorite,
   index,
 }: {
-  link: Link;
-  toggleFavorite: (linkId: Link['id']) => void;
+  link: LinkWithCategory;
   index: number;
 }) {
   const { id, name, url, favorite } = link;
+  const { categories, setCategories } = useCategories();
+
+  const toggleFavorite = useCallback(
+    (linkId: LinkWithCategory['id']) => {
+      let linkIndex = 0;
+      const categoryIndex = categories.findIndex(({ links }) => {
+        const lIndex = links.findIndex((l) => l.id === linkId);
+        if (lIndex !== -1) {
+          linkIndex = lIndex;
+        }
+        return lIndex !== -1;
+      });
+
+      const link = categories[categoryIndex].links[linkIndex];
+      const categoriesCopy = [...categories];
+      categoriesCopy[categoryIndex].links[linkIndex] = {
+        ...link,
+        favorite: !link.favorite,
+      };
+
+      setCategories(categoriesCopy);
+    },
+    [categories, setCategories],
+  );
+
   const onFavorite = () => {
     makeRequest({
       url: `${PATHS.API.LINK}/${link.id}`,
@@ -77,7 +102,7 @@ export default function LinkItem({
   );
 }
 
-function LinkItemURL({ url }: { url: Link['url'] }) {
+function LinkItemURL({ url }: { url: LinkWithCategory['url'] }) {
   try {
     const { origin, pathname, search } = new URL(url);
     let text = '';

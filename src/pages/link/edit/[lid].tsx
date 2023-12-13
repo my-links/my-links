@@ -14,15 +14,15 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
-import { Category, Link } from 'types';
+import { CategoryWithLinks, LinkWithCategory } from 'types';
 import { withAuthentication } from 'utils/session';
 
 export default function PageEditLink({
   link,
   categories,
 }: Readonly<{
-  link: Link;
-  categories: Category[];
+  link: LinkWithCategory;
+  categories: CategoryWithLinks[];
 }>) {
   const { t } = useTranslation();
   const router = useRouter();

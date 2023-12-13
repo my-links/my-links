@@ -1,35 +1,28 @@
-import ButtonLink from 'components/ButtonLink';
+import clsx from 'clsx';
+import MobileCategoriesModal from 'components/MobileCategoriesModal';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
-import QuickActionSearch from 'components/QuickActions/Search';
+import SearchModal from 'components/SearchModal/SearchModal';
 import { motion } from 'framer-motion';
+import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
-import { RxHamburgerMenu } from 'react-icons/rx';
-import { Category, Link } from 'types';
-import { TFunctionParam } from 'types/i18next';
+import { BiSearchAlt } from 'react-icons/bi';
+import quickActionStyles from '../QuickActions/quickactions.module.scss';
 import LinkItem from './LinkItem';
+import LinksFooter from './LinksFooter';
 import styles from './links.module.scss';
-import clsx from 'clsx';
-import PATHS from 'constants/paths';
 
-export default function Links({
-  category,
-  toggleFavorite,
-  isMobile,
-  openMobileModal,
-  openSearchModal,
-}: {
-  category: Category;
-  toggleFavorite: (linkId: Link['id']) => void;
+interface LinksProps {
   isMobile: boolean;
-  openMobileModal: () => void;
-  openSearchModal: () => void;
-}) {
-  const { t } = useTranslation('home');
+}
 
-  if (category === null) {
+export default function Links({ isMobile }: Readonly<LinksProps>) {
+  const { t } = useTranslation('home');
+  const { activeCategory } = useActiveCategory();
+
+  if (activeCategory === null) {
     return (
       <div className={styles['no-category']}>
         <p>{t('home:select-category')}</p>
@@ -38,23 +31,11 @@ export default function Links({
     );
   }
 
-  const { id, name, links } = category;
+  const { id, name, links } = activeCategory;
   return (
     <div className={styles['links-wrapper']}>
       <h2 className={styles['category-header']}>
-        {isMobile && (
-          <ButtonLink
-            style={{
-              display: 'flex',
-            }}
-            onClick={openMobileModal}
-          >
-            <RxHamburgerMenu
-              size={'1.5em'}
-              style={{ marginRight: '.5em' }}
-            />
-          </ButtonLink>
-        )}
+        {isMobile && <MobileCategoriesModal />}
         <span className={styles['category-name']}>
           {name}
           {links.length > 0 && (
@@ -62,10 +43,12 @@ export default function Links({
           )}
         </span>
         <span className={styles['category-controls']}>
-          <QuickActionSearch openSearchModal={openSearchModal} />
+          <SearchModal childClassname={quickActionStyles['action']}>
+            <BiSearchAlt />
+          </SearchModal>
           <CreateItem
             type='link'
-            categoryId={category.id}
+            categoryId={id}
           />
           <EditItem
             type='category'
@@ -82,7 +65,6 @@ export default function Links({
           {links.map((link, index) => (
             <LinkItem
               link={link}
-              toggleFavorite={toggleFavorite}
               index={index}
               key={link.id}
             />
@@ -91,7 +73,7 @@ export default function Links({
       ) : (
         <div className={styles['no-link']}>
           <motion.p
-            key={Math.random()}
+            key={id}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
@@ -101,7 +83,7 @@ export default function Links({
               duration: 0.01,
             }}
             dangerouslySetInnerHTML={{
-              __html: t('home:no-link', { name } as TFunctionParam, {
+              __html: t('home:no-link', { name } as any, {
                 interpolation: { escapeValue: false },
               }),
             }}
@@ -111,36 +93,7 @@ export default function Links({
           </LinkTag>
         </div>
       )}
-      <footer className={styles['footer']}>
-        <div className='top'>
-          <LinkTag href={PATHS.PRIVACY}>{t('common:privacy')}</LinkTag>
-          {' • '}
-          <LinkTag href={PATHS.TERMS}>{t('common:terms')}</LinkTag>
-        </div>
-        <div className='bottom'>
-          {t('home:footer.made_by')}{' '}
-          <LinkTag
-            href={PATHS.AUTHOR}
-            target='_blank'
-          >
-            Sonny
-          </LinkTag>
-          {' • '}
-          <LinkTag
-            href={PATHS.REPO_GITHUB}
-            target='_blank'
-          >
-            Github
-          </LinkTag>
-          {' • '}
-          <LinkTag
-            href={PATHS.EXTENSION}
-            target='_blank'
-          >
-            Extension
-          </LinkTag>
-        </div>
-      </footer>
+      <LinksFooter />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
 import { IoAddOutline } from 'react-icons/io5';
-import { Category } from 'types';
+import { CategoryWithLinks } from 'types';
 import styles from './quickactions.module.scss';
 
 export default function CreateItem({
@@ -10,7 +10,7 @@ export default function CreateItem({
   onClick,
 }: {
   type: 'category' | 'link';
-  categoryId?: Category['id'];
+  categoryId?: CategoryWithLinks['id'];
   onClick?: (event: any) => void;
 }) {
   const { t } = useTranslation('home');

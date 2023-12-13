@@ -1,7 +1,7 @@
-import LinkTag from 'next/link';
 import { useTranslation } from 'next-i18next';
+import LinkTag from 'next/link';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { Category, Link } from 'types';
+import { CategoryWithLinks, LinkWithCategory } from 'types';
 import styles from './quickactions.module.scss';
 
 export default function EditItem({
@@ -11,7 +11,7 @@ export default function EditItem({
   className = '',
 }: {
   type: 'category' | 'link';
-  id: Link['id'] | Category['id'];
+  id: LinkWithCategory['id'] | CategoryWithLinks['id'];
   onClick?: (event: any) => void;
   className?: string;
 }) {

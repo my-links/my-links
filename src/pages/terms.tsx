@@ -1,13 +1,12 @@
-import PageTransition from 'components/PageTransition';
-import styles from 'styles/legal-pages.module.scss';
 import clsx from 'clsx';
-import LinkTag from 'next/link';
 import Navbar from 'components/Navbar/Navbar';
+import PageTransition from 'components/PageTransition';
+import PATHS from 'constants/paths';
 import { getServerSideTranslation } from 'i18n';
 import { Trans, useTranslation } from 'next-i18next';
-import { TFunctionParam } from 'types/i18next';
-import PATHS from 'constants/paths';
 import { DefaultSeo } from 'next-seo';
+import LinkTag from 'next/link';
+import styles from 'styles/legal-pages.module.scss';
 
 export default function Terms() {
   const { t } = useTranslation('terms');
@@ -17,7 +16,7 @@ export default function Terms() {
       <Navbar />
       <main>
         <h1>{t('terms:title')}</h1>
-        <p>{t('terms:edited_at', { date: '19/11/2023' } as TFunctionParam)}</p>
+        <p>{t('terms:edited_at', { date: '19/11/2023' })}</p>
         <p>{t('terms:welcome')}</p>
 
         <h2>{t('terms:accept.title')}</h2>

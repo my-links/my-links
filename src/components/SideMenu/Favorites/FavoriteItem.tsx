@@ -1,11 +1,13 @@
-import LinkTag from 'next/link';
-
 import LinkFavicon from 'components/Links/LinkFavicon';
-import { Link } from 'types';
-
+import LinkTag from 'next/link';
+import { LinkWithCategory } from 'types';
 import styles from './favorites.module.scss';
 
-export default function FavoriteItem({ link }: { link: Link }): JSX.Element {
+export default function FavoriteItem({
+  link,
+}: Readonly<{
+  link: LinkWithCategory;
+}>): JSX.Element {
   const { name, url, category } = link;
   return (
     <li className={styles['item']}>

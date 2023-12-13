@@ -25,9 +25,29 @@ async function createCategory({ req, res, user }) {
     throw new Error('Category name already used');
   }
 
+  const { id: lastCategoryId } = await prisma.category.findFirst({
+    where: {
+      authorId: user.id,
+      nextId: null,
+    },
+    select: {
+      id: true,
+    },
+  });
+
   const categoryCreated = await prisma.category.create({
     data: { name, authorId: user.id },
   });
+
+  await prisma.category.update({
+    where: {
+      id: lastCategoryId,
+    },
+    data: {
+      nextId: categoryCreated.id,
+    },
+  });
+
   return res.status(200).send({
     success: 'Category successfully created',
     categoryId: categoryCreated.id,

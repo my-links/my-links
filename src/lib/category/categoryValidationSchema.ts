@@ -3,8 +3,9 @@ import { number, object, string } from 'yup';
 const CategoryBodySchema = object({
   name: string()
     .trim()
-    .required("Category name's required")
-    .max(128, "Category name's too long"),
+    .required('Category name is required')
+    .max(128, 'Category name is too long'),
+  nextId: number().required().nullable(),
 }).typeError('Missing request Body');
 
 const CategoryQuerySchema = object({

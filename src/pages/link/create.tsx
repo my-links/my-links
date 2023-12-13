@@ -13,25 +13,25 @@ import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { FormEvent, useMemo, useState } from 'react';
 import styles from 'styles/form.module.scss';
-import { Category, Link } from 'types';
+import { CategoryWithLinks, LinkWithCategory } from 'types';
 import { withAuthentication } from 'utils/session';
 
 export default function PageCreateLink({
   categories,
 }: Readonly<{
-  categories: Category[];
+  categories: CategoryWithLinks[];
 }>) {
   const { t } = useTranslation();
   const router = useRouter();
   const autoFocusRef = useAutoFocus();
   const categoryIdQuery = router.query?.categoryId as string;
 
-  const [name, setName] = useState<Link['name']>('');
-  const [url, setUrl] = useState<Link['url']>('');
-  const [favorite, setFavorite] = useState<Link['favorite']>(false);
-  const [categoryId, setCategoryId] = useState<Link['category']['id']>(
-    Number(categoryIdQuery) || categories?.[0].id || null,
-  );
+  const [name, setName] = useState<LinkWithCategory['name']>('');
+  const [url, setUrl] = useState<LinkWithCategory['url']>('');
+  const [favorite, setFavorite] = useState<LinkWithCategory['favorite']>(false);
+  const [categoryId, setCategoryId] = useState<
+    LinkWithCategory['category']['id']
+  >(Number(categoryIdQuery) || categories?.[0].id || null);
 
   const [error, setError] = useState<string>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);

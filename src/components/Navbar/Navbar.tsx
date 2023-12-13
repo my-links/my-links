@@ -1,10 +1,9 @@
-import LinkTag from 'next/link';
-import { useSession } from 'next-auth/react';
 import PATHS from 'constants/paths';
-import styles from './navbar.module.scss';
+import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { TFunctionParam } from 'types/i18next';
+import LinkTag from 'next/link';
 import RoundedImage from '../RoundedImage/RoundedImage';
+import styles from './navbar.module.scss';
 
 export default function Navbar() {
   const { data, status } = useSession();
@@ -12,7 +11,7 @@ export default function Navbar() {
 
   const avatarLabel = t('common:avatar', {
     name: data?.user?.name,
-  } as TFunctionParam);
+  });
 
   return (
     <nav className={styles['navbar']}>

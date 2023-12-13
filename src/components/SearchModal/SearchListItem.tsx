@@ -4,6 +4,8 @@ import { AiOutlineFolder } from 'react-icons/ai';
 import LinkFavicon from 'components/Links/LinkFavicon';
 import { SearchItem } from 'types';
 
+import useActiveCategory from 'hooks/useActiveCategory';
+import useCategories from 'hooks/useCategories';
 import { useEffect, useId, useRef } from 'react';
 import styles from './search.module.scss';
 
@@ -18,6 +20,8 @@ export default function SearchListItem({
 }) {
   const id = useId();
   const ref = useRef<HTMLLIElement>(null);
+  const { categories } = useCategories();
+  const { setActiveCategory } = useActiveCategory();
 
   const { name, type, url } = item;
 
@@ -26,6 +30,15 @@ export default function SearchListItem({
       ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [selected]);
+
+  const handleClick = (event) => {
+    if (item.type === 'category') {
+      event.preventDefault();
+      const category = categories.find((c) => c.id === item.id);
+      setActiveCategory(category);
+    }
+    closeModal();
+  };
 
   return (
     <li
@@ -40,7 +53,7 @@ export default function SearchListItem({
         href={url}
         target='_blank'
         rel='no-referrer'
-        onClick={closeModal}
+        onClick={handleClick}
       >
         {type === 'link' ? (
           <LinkFavicon
