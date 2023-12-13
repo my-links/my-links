@@ -1,22 +1,18 @@
 import ButtonLink from 'components/ButtonLink';
+import SearchModal from 'components/SearchModal/SearchModal';
 import PATHS from 'constants/paths';
+import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
-import { SideMenuProps } from './SideMenu';
 import styles from './sidemenu.module.scss';
 
-export default function NavigationLinks({
-  categoryActive,
-  openSearchModal,
-}: {
-  categoryActive: SideMenuProps['categoryActive'];
-  openSearchModal: SideMenuProps['openSearchModal'];
-}) {
+export default function NavigationLinks() {
   const { t } = useTranslation();
+  const { activeCategory } = useActiveCategory();
 
   return (
     <div className={styles['menu-controls']}>
       <div className={styles['action']}>
-        <ButtonLink onClick={openSearchModal}>{t('common:search')}</ButtonLink>
+        <SearchModal disableHotkeys>{t('common:search')}</SearchModal>
         <kbd>S</kbd>
       </div>
       <div className={styles['action']}>
@@ -27,7 +23,7 @@ export default function NavigationLinks({
       </div>
       <div className={styles['action']}>
         <ButtonLink
-          href={`${PATHS.LINK.CREATE}?categoryId=${categoryActive.id}`}
+          href={`${PATHS.LINK.CREATE}?categoryId=${activeCategory.id}`}
         >
           {t('common:link.create')}
         </ButtonLink>

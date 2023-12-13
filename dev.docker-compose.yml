@@ -1,11 +1,25 @@
 version: '3.8'
 
 services:
-  my-links-dev-db:
-    container_name: my-links-dev-db
+  mariadb:
+    container_name: mariadb
     image: mysql:latest
     restart: always
     env_file:
       - .env
     ports:
       - '3306:3306'
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306
+    env_file:
+      - .env
+    ports:
+      - '8080:80'
+    depends_on:
+      - mariadb

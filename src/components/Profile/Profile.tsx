@@ -1,9 +1,8 @@
+import clsx from 'clsx';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
-import { TFunctionParam } from 'types/i18next';
 import RoundedImage from '../RoundedImage/RoundedImage';
 import styles from './profile.module.scss';
-import clsx from 'clsx';
 
 export default function Profile() {
   const { data } = useSession();
@@ -11,7 +10,7 @@ export default function Profile() {
 
   const avatarLabel = t('common:avatar', {
     name: data?.user?.name,
-  } as TFunctionParam);
+  });
 
   return (
     <ul className={clsx('reset', styles['profile'])}>
