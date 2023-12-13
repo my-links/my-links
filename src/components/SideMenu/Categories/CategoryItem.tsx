@@ -3,6 +3,7 @@ import PATHS from 'constants/paths';
 import { motion } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
 import useCategories from 'hooks/useCategories';
+import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
 import { makeRequest } from 'lib/request';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
@@ -31,29 +32,47 @@ export default function CategoryItem({
   const ref = useRef<HTMLLIElement>();
 
   const sendMoveCategoryRequest = useCallback(
-    (category: CategoryWithLinks, nextId?: number) => {
-      makeRequest({
+    async (category: CategoryWithLinks, nextId?: number) => {
+      if (category.id === nextId) return;
+
+      await makeRequest({
         url: `${PATHS.API.CATEGORY}/${category.id}`,
         method: 'PUT',
         body: {
           name: category.name,
           nextId,
         },
-      })
-        .then(() => {
-          setCategories((prevCategories) => {
-            const categories = [...prevCategories];
-            const categoryIndex = categories.findIndex(
-              (c) => c.id === category.id,
-            );
-            categories[categoryIndex] = {
-              ...categories[categoryIndex],
-              nextId,
-            };
-            return categories;
-          });
-        })
-        .catch(console.error);
+      });
+      setCategories((prevCategories) => {
+        const categories = [...prevCategories];
+        const categoryIndex = categories.findIndex((c) => c.id === category.id);
+
+        const previousCategoryIndex = categories.findIndex(
+          (c) => c.nextId === category.id,
+        );
+        const prevNextCategoryIndex = categories.findIndex(
+          (c) => c.nextId === nextId,
+        );
+
+        categories[categoryIndex] = {
+          ...categories[categoryIndex],
+          nextId,
+        };
+        if (previousCategoryIndex !== -1) {
+          categories[previousCategoryIndex] = {
+            ...categories[previousCategoryIndex],
+            nextId: category.nextId,
+          };
+        }
+        if (prevNextCategoryIndex !== -1) {
+          categories[prevNextCategoryIndex] = {
+            ...categories[prevNextCategoryIndex],
+            nextId: category.id,
+          };
+        }
+
+        return sortCategoriesByNextId(categories);
+      });
     },
     [setCategories],
   );
