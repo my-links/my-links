@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Footer from 'components/Footer/Footer';
 import MobileCategoriesModal from 'components/MobileCategoriesModal';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
@@ -11,7 +12,6 @@ import LinkTag from 'next/link';
 import { BiSearchAlt } from 'react-icons/bi';
 import quickActionStyles from '../QuickActions/quickactions.module.scss';
 import LinkItem from './LinkItem';
-import LinksFooter from './LinksFooter';
 import styles from './links.module.scss';
 
 interface LinksProps {
@@ -93,7 +93,7 @@ export default function Links({ isMobile }: Readonly<LinksProps>) {
           </LinkTag>
         </div>
       )}
-      <LinksFooter />
+      <Footer />
     </div>
   );
 }

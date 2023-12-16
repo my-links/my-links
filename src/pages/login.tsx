@@ -1,4 +1,5 @@
-import ButtonLink from 'components/ButtonLink';
+import clsx from 'clsx';
+import Footer from 'components/Footer/Footer';
 import LangSelector from 'components/LangSelector';
 import MessageManager from 'components/MessageManager/MessageManager';
 import PageTransition from 'components/PageTransition';
@@ -28,28 +29,28 @@ export default function SignIn({ providers }: Readonly<SignInProps>) {
         hideLangageSelector
       >
         <NextSeo title={t('login:title')} />
-        <div className={styles['image-wrapper']}>
-          <Image
-            src={'/logo-light.png'}
-            width={300}
-            height={100}
-            alt="MyLinks's logo"
-          />
-        </div>
+        <Image
+          src={'/logo-light.png'}
+          width={300}
+          height={100}
+          alt="MyLinks's logo"
+        />
+        <p className={styles['slogan']}>{t('login:slogan')}</p>
         <div className={styles['form-wrapper']}>
           <h1>{t('login:title')}</h1>
           <MessageManager info={t('login:informative-text')} />
           {Object.values(providers).map(({ name, id }) => (
-            <ButtonLink
-              onClick={() => signIn(id, { callbackUrl: PATHS.HOME })}
-              className={styles['login-button']}
+            <button
+              onClick={() => signIn(id)}
+              className={clsx(styles['login-button'], 'btn')}
               key={id}
             >
-              <FcGoogle size={'1.5em'} />{' '}
+              <FcGoogle size='1.5em' />{' '}
               {t('login:continue-with', { provider: name })}
-            </ButtonLink>
+            </button>
           ))}
         </div>
+        <Footer />
       </PageTransition>
       <div className='lang-selector'>
         <LangSelector />
@@ -69,7 +70,7 @@ export async function getServerSideProps({ req, res, locale }) {
     };
   }
 
-  const providers = await getProviders();
+  const providers = (await getProviders()) ?? [];
   return {
     props: {
       session,

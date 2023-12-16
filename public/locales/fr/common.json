@@ -41,5 +41,8 @@
   "profile": "Profil",
   "select-your-lang": "Modifier la langue",
   "name": "Nom",
-  "email": "Email"
+  "email": "Email",
+  "footer": {
+    "made_by": "Fait avec ❤\uFE0F par"
+  }
 }

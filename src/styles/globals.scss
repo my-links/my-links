@@ -82,14 +82,15 @@ h6 {
   }
 }
 
-button:not(.reset) {
+button:not(.reset),
+a.btn:not(.reset) {
   cursor: pointer;
   width: 100%;
-
   text-transform: uppercase;
+  font-size: 14px;
   color: $white;
   background: $blue;
-  padding: 10px;
+  padding: 0.75em;
   border: 1px solid $blue;
   border-radius: 3px;
   transition: 0.15s;

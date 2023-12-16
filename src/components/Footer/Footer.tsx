@@ -1,10 +1,10 @@
 import PATHS from 'constants/paths';
-import LinkTag from 'next/link';
 import { useTranslation } from 'next-i18next';
-import styles from './links.module.scss';
+import LinkTag from 'next/link';
+import styles from './footer.module.scss';
 
-export default function LinksFooter() {
-  const { t } = useTranslation('home');
+export default function Footer() {
+  const { t } = useTranslation('common');
 
   return (
     <footer className={styles['footer']}>
@@ -14,7 +14,7 @@ export default function LinksFooter() {
         <LinkTag href={PATHS.TERMS}>{t('common:terms')}</LinkTag>
       </div>
       <div className='bottom'>
-        {t('home:footer.made_by')}{' '}
+        {t('common:footer.made_by')}{' '}
         <LinkTag
           href={PATHS.AUTHOR}
           target='_blank'
