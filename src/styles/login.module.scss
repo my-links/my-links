@@ -2,38 +2,55 @@
 @import 'colors.scss';
 
 .login-page {
+  position: relative;
   height: 100%;
-  width: 100%;
-  background-size: cover;
-  background: url('/login-bg-final.webp') bottom;
+  width: 500px;
+  margin-top: 50px;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
 
 .login-container {
-  width: auto;
+  width: 100%;
   max-width: 100%;
   white-space: nowrap;
-  background-color: $black-blur;
-  backdrop-filter: blur(0.35em);
-  padding: 2.5em;
-  border-radius: 5px;
-  border: 1px solid $white;
   display: flex;
-  gap: 2.5em;
-  flex-direction: row;
+  align-items: center;
+  gap: 1.5em;
+  flex-direction: column;
 }
 
-.image-wrapper {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-items: center;
+.slogan {
+  position: relative;
+  width: fit-content;
+  white-space: pre-wrap;
+  text-align: center;
+  font-style: italic;
+  color: rgba($color: $black, $alpha: 0.75);
+
+  &::before {
+    position: absolute;
+    left: -0.65em;
+    content: '“';
+    font-family: sans-serif;
+    font-size: 2.25em;
+  }
+  &::after {
+    position: absolute;
+    right: -0.5em;
+    content: '”';
+    font-family: sans-serif;
+    font-size: 2.25em;
+  }
 }
 
 .form-wrapper {
+  width: 100%;
+  background-color: $white;
+  padding: 2em;
+  border-radius: 3px;
+  border: 1px solid $lightest-grey;
   display: flex;
   gap: 1em;
   flex: 1;
@@ -42,31 +59,38 @@
   flex-direction: column;
 
   & h1 {
-    color: $white;
+    color: $black;
+  }
+
+  & p {
+    font-size: 0.9em;
+    font-style: italic;
+    white-space: pre-wrap;
+    color: $grey;
+    display: flex;
+    gap: 0.25em;
   }
 }
 
 .login-button {
   width: 100%;
-  color: $dark-blue;
-  background-color: $white;
-  padding: 0.5em;
-  border-radius: 3px;
   display: flex;
-  gap: 0.25em;
+  gap: 0.5em;
   align-items: center;
   justify-content: center;
+
+  & > svg {
+    background-color: $white;
+    padding: 3px;
+    border-radius: 50%;
+  }
 }
 
 @media (max-width: calc(768px + 4em)) {
   .login-page {
-    padding: 1em;
-    justify-content: flex-start;
-  }
-
-  .login-container {
-    width: auto;
+    width: 100%;
     white-space: break-spaces;
+    padding: 1em;
     align-items: center;
     flex-direction: column;
   }
