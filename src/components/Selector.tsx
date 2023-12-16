@@ -70,6 +70,7 @@ export default function Selector({
         options={options}
         ref={innerRef}
         isDisabled={disabled}
+        menuPlacement='auto'
       />
     </div>
   );

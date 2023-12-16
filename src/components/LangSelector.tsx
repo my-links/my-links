@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
+import Selector from './Selector';
 
 export default function LangSelector() {
   const router = useRouter();
@@ -13,22 +14,14 @@ export default function LangSelector() {
   const languages = ['en', 'fr'];
 
   return (
-    <select
+    <Selector
       name='lng-select'
-      id='lng-select'
-      onChange={(event) => {
-        onToggleLanguageClick(event.target.value);
-      }}
       value={i18n.language}
-    >
-      {languages.map((lang) => (
-        <option
-          key={lang}
-          value={lang}
-        >
-          {t(`common:language.${lang as 'fr' | 'en'}`)}
-        </option>
-      ))}
-    </select>
+      onChangeCallback={(value: string) => onToggleLanguageClick(value)}
+      options={languages.map((lang: 'fr' | 'en') => ({
+        label: t(`common:language.${lang}`),
+        value: lang,
+      }))}
+    />
   );
 }
