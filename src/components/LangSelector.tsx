@@ -1,8 +1,15 @@
 import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Selector from './Selector';
 
-export default function LangSelector() {
+type Country = 'fr' | 'en';
+
+export default function LangSelector({
+  onSelected,
+}: {
+  onSelected?: (country: Country) => void;
+}) {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
@@ -17,11 +24,30 @@ export default function LangSelector() {
     <Selector
       name='lng-select'
       value={i18n.language}
-      onChangeCallback={(value: string) => onToggleLanguageClick(value)}
-      options={languages.map((lang: 'fr' | 'en') => ({
+      onChangeCallback={(value: Country) => {
+        onToggleLanguageClick(value);
+        if (onSelected) {
+          setTimeout(() => onSelected(value), 150);
+        }
+      }}
+      options={languages.map((lang: Country) => ({
         label: t(`common:language.${lang}`),
         value: lang,
       }))}
+      formatOptionLabel={(country) => (
+        <div
+          className='country-option'
+          style={{ display: 'flex', gap: '.5em', alignItems: 'center' }}
+        >
+          <Image
+            src={`/icons/${country.value}.svg`}
+            alt='country-image'
+            height={24}
+            width={24}
+          />
+          <span>{country.label}</span>
+        </div>
+      )}
     />
   );
 }

@@ -9,12 +9,15 @@ import { useTranslation } from 'next-i18next';
 import { useEffect } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { FaUser } from 'react-icons/fa';
-import { IoLogOutOutline, IoSettingsOutline } from 'react-icons/io5';
-import { TfiWorld } from 'react-icons/tfi';
+import {
+  IoLanguageOutline,
+  IoLogOutOutline,
+  IoSettingsOutline,
+} from 'react-icons/io5';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import LangSelector from '../LangSelector';
-import Modal from '../Modal/Modal';
-import Profile from '../Profile/Profile';
+import LangSelector from 'components/LangSelector';
+import Modal from 'components/Modal/Modal';
+import Profile from 'components/Profile/Profile';
 import styles from './settings-modal.module.scss';
 
 export default function SettingsModal() {
@@ -32,6 +35,7 @@ export default function SettingsModal() {
     enableOnFormTags: ['INPUT'],
   });
 
+  const iconsSize = 22;
   return (
     <>
       <button
@@ -54,21 +58,21 @@ export default function SettingsModal() {
                   selectedClassName={styles['tab-selected']}
                   disabledClassName={styles['tab-disabled']}
                 >
-                  <FaUser size={18} /> {t('common:profile')}
+                  <FaUser size={iconsSize} /> {t('common:profile')}
                 </Tab>
                 <Tab
                   className={styles['tab']}
                   selectedClassName={styles['tab-selected']}
                   disabledClassName={styles['tab-disabled']}
                 >
-                  <TfiWorld size={18} /> {t('common:lang')}
+                  <IoLanguageOutline size={iconsSize} /> {t('common:lang')}
                 </Tab>
                 <button
                   className={clsx('reset', styles['tab'])}
                   style={{ color: 'red' }}
                   onClick={() => signOut({ callbackUrl: PATHS.LOGIN })}
                 >
-                  <IoLogOutOutline size={18} /> {t('common:logout')}
+                  <IoLogOutOutline size={iconsSize} /> {t('common:logout')}
                 </button>
               </TabList>
 
@@ -83,7 +87,7 @@ export default function SettingsModal() {
                 selectedClassName={styles['tab-panel-selected']}
               >
                 <p>{t('common:select-your-lang')}</p>
-                <LangSelector />
+                <LangSelector onSelected={modal.close} />
               </TabPanel>
             </Tabs>
           </Modal>
