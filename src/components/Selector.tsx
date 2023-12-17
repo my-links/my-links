@@ -1,5 +1,9 @@
 import { MutableRefObject, ReactNode, useEffect, useState } from 'react';
-import Select, { GroupBase, OptionsOrGroups } from 'react-select';
+import Select, {
+  FormatOptionLabelMeta,
+  GroupBase,
+  OptionsOrGroups,
+} from 'react-select';
 
 type Option = { label: string | number; value: string | number };
 
@@ -13,7 +17,10 @@ interface SelectorProps {
   options: OptionsOrGroups<Option, GroupBase<Option>>;
   value?: number | string;
   onChangeCallback?: (value: number | string) => void;
-  formatOptionLabel?: (data: Option) => ReactNode;
+  formatOptionLabel?: (
+    data: Option,
+    formatOptionLabelMeta: FormatOptionLabelMeta<Option>,
+  ) => ReactNode;
 
   disabled?: boolean;
 }
@@ -73,8 +80,11 @@ export default function Selector({
         ref={innerRef}
         isDisabled={disabled}
         menuPlacement='auto'
-        formatOptionLabel={(value) =>
-          formatOptionLabel && formatOptionLabel(value)
+        formatOptionLabel={
+          formatOptionLabel
+            ? (value, formatOptionLabelMeta) =>
+                formatOptionLabel(value, formatOptionLabelMeta)
+            : undefined
         }
       />
     </div>
