@@ -2,20 +2,22 @@ import clsx from 'clsx';
 import Links from 'components/Links/Links';
 import PageTransition from 'components/PageTransition';
 import SideMenu from 'components/SideMenu/SideMenu';
-import UserCard from 'components/SideMenu/UserCard/UserCard';
 import * as Keys from 'constants/keys';
 import PATHS from 'constants/paths';
 import ActiveCategoryContext from 'contexts/activeCategoryContext';
 import CategoriesContext from 'contexts/categoriesContext';
 import FavoritesContext from 'contexts/favoritesContext';
 import GlobalHotkeysContext from 'contexts/globalHotkeysContext';
+import { motion } from 'framer-motion';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import useModal from 'hooks/useModal';
 import { getServerSideTranslation } from 'i18n';
 import getUserCategories from 'lib/category/getUserCategories';
 import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { CSSProperties, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useSwipeable } from 'react-swipeable';
 import { CategoryWithLinks, LinkWithCategory } from 'types/types';
 import { withAuthentication } from 'utils/session';
 
@@ -24,9 +26,25 @@ interface HomePageProps {
   activeCategory: CategoryWithLinks | undefined;
 }
 
+const swipeOpenMenuStyles: CSSProperties = {
+  float: 'left',
+  position: 'fixed',
+  width: '100%',
+  height: '100%',
+  top: 0,
+  left: 0,
+  display: 'flex',
+};
+
 export default function HomePage(props: Readonly<HomePageProps>) {
   const router = useRouter();
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const { isShowing, open, close } = useModal();
+  const handlers = useSwipeable({
+    trackMouse: true,
+    onSwipedRight: open,
+    onSwipedLeft: close,
+  });
 
   const [globalHotkeysEnable, setGlobalHotkeysEnabled] =
     useState<boolean>(true);
@@ -67,6 +85,14 @@ export default function HomePage(props: Readonly<HomePageProps>) {
     { enabled: globalHotkeysEnable },
   );
 
+  const variants = {
+    open: {
+      left: 0,
+    },
+    close: {
+      left: '-100%',
+    },
+  };
   return (
     <PageTransition
       className={clsx('App', 'flex-row')}
@@ -83,8 +109,31 @@ export default function HomePage(props: Readonly<HomePageProps>) {
                 setGlobalHotkeysEnabled,
               }}
             >
-              {isMobile ? <UserCard /> : <SideMenu />}
-              <Links isMobile={isMobile} />
+              <div
+                {...handlers}
+                style={swipeOpenMenuStyles}
+                onClick={close}
+              >
+                {!isMobile && <SideMenu />}
+                <Links isMobile={isMobile} />
+                {isMobile && (
+                  <motion.div
+                    variants={variants}
+                    animate={isShowing ? 'open' : 'close'}
+                    initial='close'
+                    style={{
+                      position: 'absolute',
+                      top: '0',
+                      height: '100%',
+                      backgroundColor: '#f0eef6',
+                      boxShadow: '0 0 1em 0 rgba(0,0,0,.3)',
+                      padding: '.5em 0',
+                    }}
+                  >
+                    <SideMenu />
+                  </motion.div>
+                )}
+              </div>
             </GlobalHotkeysContext.Provider>
           </FavoritesContext.Provider>
         </ActiveCategoryContext.Provider>
