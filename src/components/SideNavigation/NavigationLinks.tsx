@@ -3,7 +3,7 @@ import SearchModal from 'components/SearchModal/SearchModal';
 import PATHS from 'constants/paths';
 import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
-import styles from './sidemenu.module.scss';
+import styles from './side-nav.module.scss';
 
 export default function NavigationLinks() {
   const { t } = useTranslation();

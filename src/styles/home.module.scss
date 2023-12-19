@@ -1,11 +1,8 @@
 @import 'colors.scss';
 
 .swipe-handler {
-  position: fixed;
   height: 100%;
   width: 100%;
-  top: 0;
-  left: 0;
   display: flex;
   transition: background-color 0.15s;
 }
@@ -20,7 +17,7 @@
 }
 
 .side-bar {
-  padding: 0.75em 15px 0.75em 0.75em;
+  padding-right: 0.75em;
   border-right: 1px solid $lightest-grey;
   margin-right: 5px;
 }
