@@ -2,20 +2,24 @@ import clsx from 'clsx';
 import Links from 'components/Links/Links';
 import PageTransition from 'components/PageTransition';
 import SideMenu from 'components/SideMenu/SideMenu';
-import UserCard from 'components/SideMenu/UserCard/UserCard';
+import SideNavigation from 'components/SideNavigation/SideNavigation';
 import * as Keys from 'constants/keys';
 import PATHS from 'constants/paths';
 import ActiveCategoryContext from 'contexts/activeCategoryContext';
 import CategoriesContext from 'contexts/categoriesContext';
 import FavoritesContext from 'contexts/favoritesContext';
 import GlobalHotkeysContext from 'contexts/globalHotkeysContext';
+import { AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from 'hooks/useMediaQuery';
+import useModal from 'hooks/useModal';
 import { getServerSideTranslation } from 'i18n';
 import getUserCategories from 'lib/category/getUserCategories';
 import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useSwipeable } from 'react-swipeable';
+import styles from 'styles/home.module.scss';
 import { CategoryWithLinks, LinkWithCategory } from 'types/types';
 import { withAuthentication } from 'utils/session';
 
@@ -25,10 +29,63 @@ interface HomePageProps {
 }
 
 export default function HomePage(props: Readonly<HomePageProps>) {
-  const router = useRouter();
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const { isShowing, open, close } = useModal();
+  const handlers = useSwipeable({
+    trackMouse: true,
+    onSwipedRight: open,
+  });
 
-  const [globalHotkeysEnable, setGlobalHotkeysEnabled] =
+  useEffect(() => {
+    if (!isMobile && isShowing) {
+      close();
+    }
+  }, [close, isMobile, isShowing]);
+
+  return (
+    <PageTransition
+      className={clsx('App', 'flex-row')}
+      hideLangageSelector
+    >
+      <HomeProviders
+        categories={props.categories}
+        activeCategory={props.activeCategory}
+      >
+        <div
+          className={styles['swipe-handler']}
+          {...handlers}
+        >
+          {!isMobile && (
+            <div className={styles['side-bar']}>
+              <SideNavigation />
+            </div>
+          )}
+          <AnimatePresence>
+            {isShowing && (
+              <SideMenu close={close}>
+                <SideNavigation />
+              </SideMenu>
+            )}
+          </AnimatePresence>
+          <Links
+            isMobile={isMobile}
+            openSideMenu={open}
+          />
+        </div>
+      </HomeProviders>
+    </PageTransition>
+  );
+}
+
+function HomeProviders(
+  props: Readonly<{
+    children: ReactNode;
+    categories: CategoryWithLinks[];
+    activeCategory: CategoryWithLinks;
+  }>,
+) {
+  const router = useRouter();
+  const [globalHotkeysEnabled, setGlobalHotkeysEnabled] =
     useState<boolean>(true);
   const [categories, setCategories] = useState<CategoryWithLinks[]>(
     props.categories,
@@ -36,10 +93,13 @@ export default function HomePage(props: Readonly<HomePageProps>) {
   const [activeCategory, setActiveCategory] =
     useState<CategoryWithLinks | null>(props.activeCategory || categories?.[0]);
 
-  const handleChangeCategory = (category: CategoryWithLinks) => {
-    setActiveCategory(category);
-    router.push(`${PATHS.HOME}?categoryId=${category.id}`);
-  };
+  const handleChangeCategory = useCallback(
+    (category: CategoryWithLinks) => {
+      setActiveCategory(category);
+      router.push(`${PATHS.HOME}?categoryId=${category.id}`);
+    },
+    [router],
+  );
 
   const favorites = useMemo<LinkWithCategory[]>(
     () =>
@@ -52,44 +112,47 @@ export default function HomePage(props: Readonly<HomePageProps>) {
     [categories],
   );
 
+  const categoriesContextValue = useMemo(
+    () => ({ categories, setCategories }),
+    [categories],
+  );
+  const activeCategoryContextValue = useMemo(
+    () => ({ activeCategory, setActiveCategory: handleChangeCategory }),
+    [activeCategory, handleChangeCategory],
+  );
+  const favoritesContextValue = useMemo(() => ({ favorites }), [favorites]);
+  const globalHotkeysContextValue = useMemo(
+    () => ({
+      globalHotkeysEnabled: globalHotkeysEnabled,
+      setGlobalHotkeysEnabled,
+    }),
+    [globalHotkeysEnabled],
+  );
+
   useHotkeys(
     Keys.OPEN_CREATE_LINK_KEY,
     () => {
       router.push(`${PATHS.LINK.CREATE}?categoryId=${activeCategory.id}`);
     },
-    { enabled: globalHotkeysEnable },
+    { enabled: globalHotkeysEnabled },
   );
   useHotkeys(
     Keys.OPEN_CREATE_CATEGORY_KEY,
     () => {
       router.push(PATHS.CATEGORY.CREATE);
     },
-    { enabled: globalHotkeysEnable },
+    { enabled: globalHotkeysEnabled },
   );
-
   return (
-    <PageTransition
-      className={clsx('App', 'flex-row')}
-      hideLangageSelector
-    >
-      <CategoriesContext.Provider value={{ categories, setCategories }}>
-        <ActiveCategoryContext.Provider
-          value={{ activeCategory, setActiveCategory: handleChangeCategory }}
-        >
-          <FavoritesContext.Provider value={{ favorites }}>
-            <GlobalHotkeysContext.Provider
-              value={{
-                globalHotkeysEnabled: globalHotkeysEnable,
-                setGlobalHotkeysEnabled,
-              }}
-            >
-              {isMobile ? <UserCard /> : <SideMenu />}
-              <Links isMobile={isMobile} />
-            </GlobalHotkeysContext.Provider>
-          </FavoritesContext.Provider>
-        </ActiveCategoryContext.Provider>
-      </CategoriesContext.Provider>
-    </PageTransition>
+    <CategoriesContext.Provider value={categoriesContextValue}>
+      <ActiveCategoryContext.Provider value={activeCategoryContextValue}>
+        <FavoritesContext.Provider value={favoritesContextValue}>
+          <GlobalHotkeysContext.Provider value={globalHotkeysContextValue}>
+            {props.children}
+          </GlobalHotkeysContext.Provider>
+        </FavoritesContext.Provider>
+      </ActiveCategoryContext.Provider>
+    </CategoriesContext.Provider>
   );
 }
 

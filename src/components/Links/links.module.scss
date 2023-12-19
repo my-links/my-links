@@ -31,8 +31,12 @@
 
   & h2 {
     color: $blue;
-    margin-bottom: 0.25em;
+    margin-bottom: 0.5em;
     font-weight: 500;
+
+    & svg {
+      display: flex;
+    }
 
     & .links-count {
       color: $grey;
@@ -44,7 +48,7 @@
 
 .category-header {
   display: flex;
-  gap: 0.25em;
+  gap: 0.4em;
   align-items: center;
   justify-content: space-between;
 
@@ -186,5 +190,11 @@
 
   & > * {
     animation: rotate 1s both reverse infinite linear;
+  }
+}
+
+@media (max-width: 768px) {
+  .links-wrapper {
+    padding: 0;
   }
 }
