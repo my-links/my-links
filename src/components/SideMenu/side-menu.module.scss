@@ -1,0 +1,20 @@
+@import 'styles/colors.scss';
+
+.side-menu-wrapper {
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: $black-blur;
+  box-shadow: 0 0 1em 0 $black-blur;
+}
+
+.side-menu-container {
+  height: 100%;
+  width: fit-content;
+  max-width: 100%;
+  background: $light-grey;
+  padding: 0.75em;
+}

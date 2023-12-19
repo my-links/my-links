@@ -1,6 +1,6 @@
 import clsx from 'clsx';
+import ButtonLink from 'components/ButtonLink';
 import Footer from 'components/Footer/Footer';
-import MobileCategoriesModal from 'components/MobileCategoriesModal';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
@@ -10,15 +10,20 @@ import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
 import { BiSearchAlt } from 'react-icons/bi';
+import { RxHamburgerMenu } from 'react-icons/rx';
 import quickActionStyles from '../QuickActions/quickactions.module.scss';
 import LinkItem from './LinkItem';
 import styles from './links.module.scss';
 
 interface LinksProps {
   isMobile: boolean;
+  openSideMenu: () => void;
 }
 
-export default function Links({ isMobile }: Readonly<LinksProps>) {
+export default function Links({
+  isMobile,
+  openSideMenu,
+}: Readonly<LinksProps>) {
   const { t } = useTranslation('home');
   const { activeCategory } = useActiveCategory();
 
@@ -35,7 +40,14 @@ export default function Links({ isMobile }: Readonly<LinksProps>) {
   return (
     <div className={styles['links-wrapper']}>
       <h2 className={styles['category-header']}>
-        {isMobile && <MobileCategoriesModal />}
+        {isMobile && (
+          <ButtonLink
+            onClick={openSideMenu}
+            title='Open side nav bar'
+          >
+            <RxHamburgerMenu size={'1.5em'} />
+          </ButtonLink>
+        )}
         <span className={styles['category-name']}>
           {name}
           {links.length > 0 && (

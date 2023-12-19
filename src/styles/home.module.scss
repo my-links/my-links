@@ -1,0 +1,23 @@
+@import 'colors.scss';
+
+.swipe-handler {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  transition: background-color 0.15s;
+}
+
+.side-menu {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: $light-grey;
+  box-shadow: 0 0 1em 0 $black-blur;
+  padding: 0.75em;
+}
+
+.side-bar {
+  padding-right: 0.75em;
+  border-right: 1px solid $lightest-grey;
+  margin-right: 5px;
+}
