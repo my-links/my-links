@@ -19,11 +19,9 @@ export default function MobileCategoriesModal() {
           display: 'flex',
         }}
         onClick={mobileModal.open}
+        title='Open side nav bar'
       >
-        <RxHamburgerMenu
-          size={'1.5em'}
-          style={{ marginRight: '.5em' }}
-        />
+        <RxHamburgerMenu size={'1.5em'} />
       </ButtonLink>
       <AnimatePresence>
         {mobileModal.isShowing && (

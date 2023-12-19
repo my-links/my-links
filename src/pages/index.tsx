@@ -15,9 +15,10 @@ import { getServerSideTranslation } from 'i18n';
 import getUserCategories from 'lib/category/getUserCategories';
 import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
 import { useRouter } from 'next/router';
-import { CSSProperties, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useSwipeable } from 'react-swipeable';
+import styles from 'styles/home.module.scss';
 import { CategoryWithLinks, LinkWithCategory } from 'types/types';
 import { withAuthentication } from 'utils/session';
 
@@ -25,16 +26,6 @@ interface HomePageProps {
   categories: CategoryWithLinks[];
   activeCategory: CategoryWithLinks | undefined;
 }
-
-const swipeOpenMenuStyles: CSSProperties = {
-  float: 'left',
-  position: 'fixed',
-  width: '100%',
-  height: '100%',
-  top: 0,
-  left: 0,
-  display: 'flex',
-};
 
 export default function HomePage(props: Readonly<HomePageProps>) {
   const router = useRouter();
@@ -85,7 +76,15 @@ export default function HomePage(props: Readonly<HomePageProps>) {
     { enabled: globalHotkeysEnable },
   );
 
-  const variants = {
+  const variantsBackground = {
+    open: {
+      backgroundColor: 'rgba(0,0,0,.3)',
+    },
+    close: {
+      backgroundColor: 'transparent',
+    },
+  };
+  const variantsSideMenu = {
     open: {
       left: 0,
     },
@@ -109,31 +108,30 @@ export default function HomePage(props: Readonly<HomePageProps>) {
                 setGlobalHotkeysEnabled,
               }}
             >
-              <div
+              <motion.div
+                variants={variantsBackground}
+                animate={isShowing ? 'open' : 'close'}
+                className={styles['swipe-handler']}
                 {...handlers}
-                style={swipeOpenMenuStyles}
                 onClick={close}
               >
-                {!isMobile && <SideMenu />}
+                {!isMobile && (
+                  <div className={styles['side-bar']}>
+                    <SideMenu />
+                  </div>
+                )}
                 <Links isMobile={isMobile} />
                 {isMobile && (
                   <motion.div
-                    variants={variants}
+                    variants={variantsSideMenu}
                     animate={isShowing ? 'open' : 'close'}
                     initial='close'
-                    style={{
-                      position: 'absolute',
-                      top: '0',
-                      height: '100%',
-                      backgroundColor: '#f0eef6',
-                      boxShadow: '0 0 1em 0 rgba(0,0,0,.3)',
-                      padding: '.5em 0',
-                    }}
+                    className={styles['side-menu']}
                   >
                     <SideMenu />
                   </motion.div>
                 )}
-              </div>
+              </motion.div>
             </GlobalHotkeysContext.Provider>
           </FavoritesContext.Provider>
         </ActiveCategoryContext.Provider>

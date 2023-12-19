@@ -24,14 +24,14 @@
 .links-wrapper {
   height: 100%;
   min-width: 0;
-  padding: 0.5em 0.5em 0;
+  padding: 0.75em 0.75em 0;
   display: flex;
   flex: 1;
   flex-direction: column;
 
   & h2 {
     color: $blue;
-    margin-bottom: 0.25em;
+    margin-bottom: 0.5em;
     font-weight: 500;
 
     & .links-count {
@@ -44,7 +44,7 @@
 
 .category-header {
   display: flex;
-  gap: 0.25em;
+  gap: 0.4em;
   align-items: center;
   justify-content: space-between;
 
