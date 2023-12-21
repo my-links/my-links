@@ -1,8 +1,9 @@
+import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { GrClose } from 'react-icons/gr';
-import { motion } from 'framer-motion';
 import styles from './modal.module.scss';
+import clsx from 'clsx';
 
 interface ModalProps {
   close?: (...args: any) => void | Promise<void>;
@@ -13,6 +14,7 @@ interface ModalProps {
   showCloseBtn?: boolean;
   noHeader?: boolean;
   padding?: string;
+  containerClassName?: string;
 }
 
 export default function Modal({
@@ -22,7 +24,12 @@ export default function Modal({
   showCloseBtn = true,
   noHeader = false,
   padding = '1em 1.5em',
+  containerClassName = '',
 }: ModalProps) {
+  const classNameContainer = clsx(
+    containerClassName,
+    styles['modal-container'],
+  );
   const handleWrapperClick = (event) =>
     event.target.classList?.[0] === styles['modal-wrapper'] && close && close();
 
@@ -35,7 +42,7 @@ export default function Modal({
       exit={{ opacity: 0, transition: { duration: 0.1, delay: 0.1 } }}
     >
       <motion.div
-        className={styles['modal-container']}
+        className={classNameContainer}
         style={{ padding }}
         initial={{ opacity: 0, y: '-6em' }}
         animate={{ opacity: 1, y: 0 }}

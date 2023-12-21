@@ -12,6 +12,7 @@ import useGlobalHotkeys from 'hooks/useGlobalHotkeys';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import useModal from 'hooks/useModal';
 import { useTranslation } from 'next-i18next';
+import { useRouter } from 'next/router';
 import {
   FormEvent,
   ReactNode,
@@ -22,29 +23,34 @@ import {
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { BsSearch } from 'react-icons/bs';
-import { CategoryWithLinks, LinkWithCategory, SearchItem } from 'types';
+import { CategoryWithLinks, LinkWithCategory, SearchItem } from 'types/types';
 import LabelSearchWithGoogle from './LabelSearchWithGoogle';
+import { SearchFilter } from './SearchFilter';
 import SearchList from './SearchList';
 import styles from './search.module.scss';
+
+interface SearchModalProps {
+  noHeader?: boolean;
+  children: ReactNode;
+  childClassname?: string;
+}
 
 export default function SearchModal({
   noHeader = true,
   children,
   childClassname = '',
-  disableHotkeys = false,
-}: {
-  noHeader?: boolean;
-  children: ReactNode;
-  childClassname?: string;
-  disableHotkeys?: boolean;
-}) {
+}: Readonly<SearchModalProps>) {
   const { t } = useTranslation();
+  const router = useRouter();
   const autoFocusRef = useAutoFocus();
-  const searchModal = useModal();
-
   const { categories } = useCategories();
   const { setActiveCategory } = useActiveCategory();
   const { globalHotkeysEnabled, setGlobalHotkeysEnabled } = useGlobalHotkeys();
+
+  const searchQueryParam = (router.query.q as string) || '';
+  const searchModal = useModal(
+    !!searchQueryParam && typeof window !== 'undefined',
+  );
 
   useEffect(
     () => setGlobalHotkeysEnabled(!searchModal.isShowing),
@@ -54,7 +60,10 @@ export default function SearchModal({
   const handleCloseModal = useCallback(() => {
     searchModal.close();
     setSearch('');
-  }, [searchModal]);
+    router.replace({
+      query: undefined,
+    });
+  }, [router, searchModal]);
 
   useHotkeys(
     Keys.OPEN_SEARCH_KEY,
@@ -62,8 +71,9 @@ export default function SearchModal({
       event.preventDefault();
       searchModal.open();
     },
-    { enabled: !disableHotkeys && globalHotkeysEnabled },
+    { enabled: globalHotkeysEnabled },
   );
+
   useHotkeys(Keys.CLOSE_SEARCH_KEY, handleCloseModal, {
     enabled: searchModal.isShowing,
     enableOnFormTags: ['INPUT'],
@@ -101,8 +111,7 @@ export default function SearchModal({
     'search-category',
     false,
   );
-
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>(searchQueryParam);
   const [selectedItem, setSelectedItem] = useState<SearchItem | null>(
     itemsSearch[0],
   );
@@ -125,10 +134,7 @@ export default function SearchModal({
     [canSearchCategory, canSearchLink, itemsSearch, search],
   );
 
-  const handleSearchInputChange = useCallback(
-    (value: string) => setSearch(value),
-    [],
-  );
+  const handleSearchInputChange = (value: string) => setSearch(value);
 
   const handleCanSearchLink = (checked: boolean) => setCanSearchLink(checked);
   const handleCanSearchCategory = (checked: boolean) =>
@@ -192,7 +198,7 @@ export default function SearchModal({
                   placeholder={t('common:search')}
                   innerRef={autoFocusRef}
                   fieldClass={styles['search-input-field']}
-                  inputClass={'reset'}
+                  inputClass='reset'
                 />
               </div>
               <SearchFilter
@@ -222,54 +228,5 @@ export default function SearchModal({
         )}
       </AnimatePresence>
     </>
-  );
-}
-
-function SearchFilter({
-  canSearchLink,
-  setCanSearchLink,
-  canSearchCategory,
-  setCanSearchCategory,
-}: {
-  canSearchLink: boolean;
-  setCanSearchLink: (value: boolean) => void;
-  canSearchCategory: boolean;
-  setCanSearchCategory: (value: boolean) => void;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '1em',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '1em',
-      }}
-    >
-      <div style={{ display: 'flex', gap: '.25em' }}>
-        <input
-          type='checkbox'
-          name='filter-link'
-          id='filter-link'
-          onChange={({ target }) => setCanSearchLink(target.checked)}
-          checked={canSearchLink}
-        />
-        <label htmlFor='filter-link'>{t('common:link.links')}</label>
-      </div>
-      <div style={{ display: 'flex', gap: '.25em' }}>
-        <input
-          type='checkbox'
-          name='filter-category'
-          id='filter-category'
-          onChange={({ target }) => setCanSearchCategory(target.checked)}
-          checked={canSearchCategory}
-        />
-        <label htmlFor='filter-category'>
-          {t('common:category.categories')}
-        </label>
-      </div>
-    </div>
   );
 }

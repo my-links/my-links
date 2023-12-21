@@ -159,12 +159,29 @@ function HomeProviders(
 export const getServerSideProps = withAuthentication(
   async ({ query, session, user, locale }) => {
     const queryCategoryId = (query?.categoryId as string) || '';
+    const searchQueryParam = (query?.q as string)?.toLowerCase() || '';
 
     const categories = await getUserCategories(user);
     if (categories.length === 0) {
       return {
         redirect: {
           destination: PATHS.CATEGORY.CREATE,
+        },
+      };
+    }
+
+    const link = categories
+      .map((category) => category.links)
+      .flat()
+      .find(
+        (link: LinkWithCategory) =>
+          link.name.toLowerCase() === searchQueryParam ||
+          link.url.toLowerCase() === searchQueryParam,
+      );
+    if (link) {
+      return {
+        redirect: {
+          destination: link.url,
         },
       };
     }

@@ -1,5 +1,9 @@
 @import 'styles/colors.scss';
 
+.modal {
+  min-height: 250px;
+}
+
 .tabs {
   width: 100%;
   display: flex;

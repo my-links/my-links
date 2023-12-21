@@ -50,6 +50,7 @@ export default function SettingsModal() {
           <Modal
             title={t('common:settings')}
             close={modal.close}
+            containerClassName={styles['modal']}
           >
             <Tabs className={styles['tabs']}>
               <TabList className={clsx('reset', styles['tab-list'])}>

@@ -4,14 +4,11 @@ import Footer from 'components/Footer/Footer';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
-import SearchModal from 'components/SearchModal/SearchModal';
 import { motion } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
-import { BiSearchAlt } from 'react-icons/bi';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import quickActionStyles from '../QuickActions/quickactions.module.scss';
 import LinkItem from './LinkItem';
 import styles from './links.module.scss';
 
@@ -55,9 +52,6 @@ export default function Links({
           )}
         </span>
         <span className={styles['category-controls']}>
-          <SearchModal childClassname={quickActionStyles['action']}>
-            <BiSearchAlt />
-          </SearchModal>
           <CreateItem
             type='link'
             categoryId={id}

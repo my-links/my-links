@@ -26,7 +26,8 @@ form.search-form {
   & input {
     width: 100%;
     font-size: 20px;
-    padding: 0.75em 0;
+    padding: 0.75em;
+    padding-left: 0;
     border: 1px solid transparent;
   }
 }

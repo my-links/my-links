@@ -13,11 +13,11 @@ export default function SearchListItem({
   item,
   selected,
   closeModal,
-}: {
+}: Readonly<{
   item: SearchItem;
   selected: boolean;
   closeModal: () => void;
-}) {
+}>) {
   const id = useId();
   const ref = useRef<HTMLLIElement>(null);
   const { categories } = useCategories();

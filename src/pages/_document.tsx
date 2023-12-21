@@ -31,7 +31,6 @@ const Document = () => (
       />
     </Head>
     <body>
-      <noscript>Vous devez activer JavaScript pour utiliser ce site</noscript>
       <Main />
       <NextScript />
     </body>
