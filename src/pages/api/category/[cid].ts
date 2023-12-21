@@ -25,10 +25,9 @@ async function editCategory({ req, res, user }) {
   }
 
   const isCategoryNameAlreadyUsed = await getUserCategoryByName(user, name);
-  if (isCategoryNameAlreadyUsed.id !== cid) {
+  if (isCategoryNameAlreadyUsed && isCategoryNameAlreadyUsed?.id !== cid) {
     throw new Error('Category name already used');
   }
-
   if (category.id === nextId) {
     throw new Error('Category nextId cannot be equal to current category ID');
   }
@@ -81,6 +80,7 @@ async function editCategory({ req, res, user }) {
             id: category.id,
           },
           data: {
+            name,
             nextId,
           },
         }),
@@ -96,6 +96,17 @@ async function editCategory({ req, res, user }) {
           }),
       ].filter((a) => a !== null && a !== undefined),
     );
+  } else {
+    await prisma.category.update({
+      where: {
+        authorId: userId,
+        id: category.id,
+      },
+      data: {
+        name,
+        nextId: category.nextId,
+      },
+    });
   }
 
   return res.send({
