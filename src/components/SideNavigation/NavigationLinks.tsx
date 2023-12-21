@@ -1,9 +1,16 @@
 import ButtonLink from 'components/ButtonLink';
-import SearchModal from 'components/SearchModal/SearchModal';
 import PATHS from 'constants/paths';
 import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
 import styles from './side-nav.module.scss';
+import dynamic from 'next/dynamic';
+
+const SearchModal = dynamic(
+  () => {
+    return import('components/SearchModal/SearchModal');
+  },
+  { ssr: false },
+);
 
 export default function NavigationLinks() {
   const { t } = useTranslation();
@@ -12,7 +19,7 @@ export default function NavigationLinks() {
   return (
     <div className={styles['menu-controls']}>
       <div className={styles['action']}>
-        <SearchModal disableHotkeys>{t('common:search')}</SearchModal>
+        <SearchModal>{t('common:search')}</SearchModal>
         <kbd>S</kbd>
       </div>
       <div className={styles['action']}>
