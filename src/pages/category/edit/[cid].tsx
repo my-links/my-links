@@ -40,7 +40,7 @@ export default function PageEditCategory({
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
       method: 'PUT',
-      body: { name },
+      body: { name, nextId: category.nextId },
     })
       .then((data) =>
         router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
