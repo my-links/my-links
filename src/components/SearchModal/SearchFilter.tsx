@@ -1,3 +1,4 @@
+import Checkbox from 'components/Checkbox';
 import { useTranslation } from 'next-i18next';
 
 interface SearchFilterProps {
@@ -25,28 +26,20 @@ export function SearchFilter({
         marginBottom: '1em',
       }}
     >
-      <div style={{ display: 'flex', gap: '.25em' }}>
-        <input
-          type='checkbox'
-          name='filter-link'
-          id='filter-link'
-          onChange={({ target }) => setCanSearchLink(target.checked)}
-          checked={canSearchLink}
-        />
-        <label htmlFor='filter-link'>{t('common:link.links')}</label>
-      </div>
-      <div style={{ display: 'flex', gap: '.25em' }}>
-        <input
-          type='checkbox'
-          name='filter-category'
-          id='filter-category'
-          onChange={({ target }) => setCanSearchCategory(target.checked)}
-          checked={canSearchCategory}
-        />
-        <label htmlFor='filter-category'>
-          {t('common:category.categories')}
-        </label>
-      </div>
+      <Checkbox
+        name='favorite'
+        isChecked={canSearchLink}
+        onChangeCallback={(value) => setCanSearchLink(value)}
+        label={t('common:link.links')}
+        dir='rtl'
+      />
+      <Checkbox
+        name='filter-category'
+        isChecked={canSearchCategory}
+        onChangeCallback={(value) => setCanSearchCategory(value)}
+        label={t('common:category.categories')}
+        dir='rtl'
+      />
     </div>
   );
 }
