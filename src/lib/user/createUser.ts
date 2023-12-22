@@ -1,11 +1,13 @@
+import { User } from 'next-auth';
 import prisma from 'utils/prisma';
-import { Profile } from 'next-auth';
 
-export default async function createUser(profile: Profile) {
+export default async function createUser(user: User) {
   return await prisma.user.create({
     data: {
-      email: profile.email,
-      google_id: profile.sub,
+      email: user.email,
+      google_id: user.id,
+      name: user.name,
+      image: user.image,
     },
   });
 }
