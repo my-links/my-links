@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { MutableRefObject, useState } from 'react';
 import Toggle from 'react-toggle';
 
@@ -7,10 +8,10 @@ interface SelectorProps {
   labelComponent?: JSX.Element;
   disabled?: boolean;
   innerRef?: MutableRefObject<any>;
-  placeholder?: string;
   fieldClass?: string;
   isChecked?: boolean;
   onChangeCallback?: (value, { target }) => void;
+  dir?: 'ltr' | 'rtl';
 }
 
 export default function Checkbox({
@@ -20,9 +21,9 @@ export default function Checkbox({
   disabled = false,
   innerRef = null,
   fieldClass = '',
-  placeholder = 'Type something...',
   isChecked,
   onChangeCallback,
+  dir = 'ltr',
 }: Readonly<SelectorProps>): JSX.Element {
   const [checkboxValue, setCheckboxValue] = useState<boolean>(isChecked);
 
@@ -34,7 +35,7 @@ export default function Checkbox({
   }
 
   return (
-    <div className={`checkbox-field ${fieldClass}`}>
+    <div className={clsx('checkbox-field', 'fieldClass', dir)}>
       {label && (
         <label
           htmlFor={name}

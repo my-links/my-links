@@ -161,6 +161,14 @@ input::placeholder {
   display: flex;
   align-items: center;
   gap: 5px;
+
+  &.ltr {
+    flex-direction: row;
+  }
+
+  &.rtl {
+    flex-direction: row-reverse;
+  }
 }
 
 select:not(.nostyle) {
