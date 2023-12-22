@@ -1,23 +1,17 @@
 import PATHS from 'constants/paths';
-import NextAuth, { NextAuthOptions, Profile } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import getUserByProfileProvider from 'lib/user/getUserByProfileProvider';
 import createUser from 'lib/user/createUser';
+import getUserByUserProvider from 'lib/user/getUserByUserProvider';
 import updateUser from 'lib/user/updateUser';
+import NextAuth, { NextAuthOptions, User } from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
 import prisma from 'utils/prisma';
 
-const authLogger = (profile: Profile, ...args: any[]) =>
-  console.log(
-    '[AUTH]',
-    profile.email,
-    `(${profile.name} - ${profile.sub})`,
-    ...args,
-  );
+const authLogger = (user: User, ...args: any[]) =>
+  console.log('[AUTH]', user.email, `(${user.name} - ${user.id})`, ...args);
 const redirectUser = (errorKey: string) => `${PATHS.LOGIN}?error=${errorKey}`;
 
 const checkProvider = (provider: string) => provider === 'google';
-const checkAccountDataReceived = (profile: Profile) =>
-  !!profile?.sub && !!profile?.email;
+const checkAccountDataReceived = (user: User) => !!user?.id && !!user?.email;
 
 const cookieOptions = {
   sameSite: 'None',
@@ -47,30 +41,30 @@ export const authOptions = {
       });
       return user ? session : undefined;
     },
-    async signIn({ account: accountParam, profile }) {
+    async signIn({ account: accountParam, user }) {
       if (!checkProvider(accountParam.provider)) {
-        authLogger(profile, 'rejected : forbidden provider');
+        authLogger(user, 'rejected : forbidden provider');
         return redirectUser('AUTH_REQUIRED');
       }
 
-      if (!checkAccountDataReceived(profile)) {
-        authLogger(profile, 'rejected : missing data from provider', profile);
+      if (!checkAccountDataReceived(user)) {
+        authLogger(user, 'rejected : missing data from provider', user);
         return redirectUser('MISSING_PROVIDER_VALUES');
       }
 
       try {
-        const isUserExists = await getUserByProfileProvider(profile);
+        const isUserExists = await getUserByUserProvider(user);
         if (isUserExists) {
-          await updateUser(profile);
-          authLogger(profile, 'success : user updated');
+          await updateUser(user);
+          authLogger(user, 'success : user updated');
         } else {
-          await createUser(profile);
-          authLogger(profile, 'success : user created');
+          await createUser(user);
+          authLogger(user, 'success : user created');
         }
 
         return true;
       } catch (error) {
-        authLogger(profile, 'rejected : unhandled error');
+        authLogger(user, 'rejected : unhandled error');
         console.error(error);
         return redirectUser('AUTH_ERROR');
       }

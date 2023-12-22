@@ -1,15 +1,17 @@
+import { User } from 'next-auth';
 import prisma from '../../utils/prisma';
-import { Profile } from 'next-auth';
 
-export default async function updateUser(profile: Profile) {
+export default async function updateUser(user: User) {
   return await prisma.user.update({
     where: {
-      email: profile.email,
-      google_id: profile.sub,
+      email: user.email,
+      google_id: user.id,
     },
     data: {
-      email: profile.email,
-      google_id: profile.sub,
+      email: user.email,
+      google_id: user.id,
+      name: user.name,
+      image: user.image,
     },
   });
 }

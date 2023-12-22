@@ -1,4 +1,5 @@
 import { Category, User } from '@prisma/client';
+import { Profile } from 'next-auth';
 
 export type CategoryWithLinks = Category & {
   author: User;
@@ -22,4 +23,17 @@ export interface Favicon {
   url: string;
   type: string;
   size: number;
+}
+
+export interface GoogleProfile extends Profile {
+  iss: string;
+  azp: string;
+  aud: string;
+  email_verified: boolean;
+  at_hash: string;
+  picture: string;
+  given_name: string;
+  locale: string;
+  iat: number;
+  exp: number;
 }
