@@ -8,7 +8,6 @@ interface SelectorProps {
   labelComponent?: JSX.Element;
   disabled?: boolean;
   innerRef?: MutableRefObject<any>;
-  fieldClass?: string;
   isChecked?: boolean;
   onChangeCallback?: (value, { target }) => void;
   dir?: 'ltr' | 'rtl';
@@ -20,7 +19,6 @@ export default function Checkbox({
   labelComponent,
   disabled = false,
   innerRef = null,
-  fieldClass = '',
   isChecked,
   onChangeCallback,
   dir = 'ltr',
@@ -39,7 +37,7 @@ export default function Checkbox({
       {label && (
         <label
           htmlFor={name}
-          title={`${name} field`}
+          title={label}
         >
           {label}
         </label>
@@ -47,7 +45,7 @@ export default function Checkbox({
       {labelComponent && (
         <label
           htmlFor={name}
-          title={`${name} field`}
+          title={name}
         >
           {labelComponent}
         </label>
