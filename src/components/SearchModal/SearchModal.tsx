@@ -2,7 +2,6 @@ import ButtonLink from 'components/ButtonLink';
 import Modal from 'components/Modal/Modal';
 import TextBox from 'components/TextBox';
 import * as Keys from 'constants/keys';
-import PATHS from 'constants/paths';
 import { GOOGLE_SEARCH_URL } from 'constants/search-urls';
 import { AnimatePresence } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
@@ -11,24 +10,13 @@ import useCategories from 'hooks/useCategories';
 import useGlobalHotkeys from 'hooks/useGlobalHotkeys';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import useModal from 'hooks/useModal';
+import useQueryParam from 'hooks/useQueryParam';
+import useSearchItem from 'hooks/useSearchItem';
 import { useTranslation } from 'next-i18next';
-import { useRouter } from 'next/router';
-import {
-  FormEvent,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { FormEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { BsSearch } from 'react-icons/bs';
-import {
-  CategoryWithLinks,
-  LinkWithCategory,
-  SearchItem,
-  SearchResult,
-} from 'types/types';
+import { SearchResult } from 'types/types';
 import LabelSearchWithGoogle from './LabelSearchWithGoogle';
 import { SearchFilter } from './SearchFilter';
 import SearchList from './SearchList';
@@ -40,62 +28,12 @@ interface SearchModalProps {
   childClassname?: string;
 }
 
-function buildSearchItem(
-  item: CategoryWithLinks | LinkWithCategory,
-  type: SearchItem['type'],
-): SearchItem {
-  return {
-    id: item.id,
-    name: item.name,
-    url:
-      type === 'link'
-        ? (item as LinkWithCategory).url
-        : `${PATHS.HOME}?categoryId=${item.id}`,
-    type,
-    category: type === 'link' ? (item as LinkWithCategory).category : undefined,
-  };
-}
-
-function formatSearchItem(
-  item: SearchItem,
-  searchTerm: string,
-): SearchResult | null {
-  const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-  const lowerCaseName = item.name.toLowerCase().trim();
-
-  let currentIndex = 0;
-  let formattedName = '';
-
-  for (let i = 0; i < lowerCaseName.length; i++) {
-    if (lowerCaseName[i] === lowerCaseSearchTerm[currentIndex]) {
-      formattedName += `<b>${item.name[i]}</b>`;
-      currentIndex++;
-    } else {
-      formattedName += item.name[i];
-    }
-  }
-
-  if (currentIndex !== lowerCaseSearchTerm.length) {
-    // Search term not fully matched
-    return null;
-  }
-
-  return {
-    id: item.id,
-    name: <div dangerouslySetInnerHTML={{ __html: formattedName }} />,
-    url: item.url,
-    type: item.type,
-    category: item.category,
-  };
-}
-
 function SearchModal({
   noHeader = true,
   children,
   childClassname = '',
 }: Readonly<SearchModalProps>) {
   const { t } = useTranslation();
-  const router = useRouter();
   const autoFocusRef = useAutoFocus();
   const { categories } = useCategories();
   const { setActiveCategory } = useActiveCategory();
@@ -108,12 +46,11 @@ function SearchModal({
     'search-category',
     false,
   );
-  const [search, setSearch] = useState<string>(
-    (router.query.q as string) || '',
-  );
+  const { queryParam, clearQuery } = useQueryParam('q');
+  const [searchTerm, setSearchTerm] = useState<string>(queryParam);
   const [selectedItem, setSelectedItem] = useState<SearchResult | null>(null);
 
-  const searchModal = useModal(!!search && typeof window !== 'undefined');
+  const searchModal = useModal(!!searchTerm);
 
   useEffect(
     () => setGlobalHotkeysEnabled(!searchModal.isShowing),
@@ -122,63 +59,28 @@ function SearchModal({
 
   const handleCloseModal = useCallback(() => {
     searchModal.close();
-    setSearch('');
-    if (!!search) {
-      router.replace({
-        query: undefined,
-      });
-    }
-  }, [router, search, searchModal]);
+    clearQuery();
+    setSearchTerm('');
+  }, [searchModal, clearQuery]);
 
-  const itemsSearch = useMemo<SearchItem[]>(() => {
-    return categories.reduce((acc, category) => {
-      const categoryItem = buildSearchItem(category, 'category');
-      const items: SearchItem[] = category.links.map((link) =>
-        buildSearchItem(link, 'link'),
-      );
-      return [...acc, ...items, categoryItem];
-    }, [] as SearchItem[]);
-  }, [categories]);
+  const searchItemsResult = useSearchItem({
+    searchTerm,
+    disableLinks: !canSearchLink,
+    disableCategories: !canSearchCategory,
+  });
 
-  const itemsCompletion = useMemo(() => {
-    return itemsSearch.reduce((acc, item) => {
-      const formattedItem = formatSearchItem(item, search);
-
-      if (
-        (canSearchLink && item.type === 'link') ||
-        (canSearchCategory && item.type === 'category')
-      ) {
-        return formattedItem ? [...acc, formattedItem] : acc;
-      }
-
-      return acc;
-    }, [] as SearchResult[]);
-  }, [itemsSearch, search, canSearchLink, canSearchCategory]);
-
-  const canSubmit = useMemo<boolean>(() => search.length > 0, [search]);
-
-  const handleSearchInputChange = useCallback(
-    (value: string) => setSearch(value),
-    [],
-  );
-
-  const handleCanSearchLink = useCallback(
-    (checked: boolean) => setCanSearchLink(checked),
-    [setCanSearchLink],
-  );
-
-  const handleCanSearchCategory = useCallback(
-    (checked: boolean) => setCanSearchCategory(checked),
-    [setCanSearchCategory],
-  );
+  const handleSearchInputChange = (value: string) => setSearchTerm(value);
+  const handleCanSearchLink = (checked: boolean) => setCanSearchLink(checked);
+  const handleCanSearchCategory = (checked: boolean) =>
+    setCanSearchCategory(checked);
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       handleCloseModal();
 
-      if (itemsCompletion.length === 0) {
-        return window.open(GOOGLE_SEARCH_URL + encodeURI(search.trim()));
+      if (searchItemsResult.length === 0) {
+        return window.open(GOOGLE_SEARCH_URL + encodeURI(searchTerm.trim()));
       }
 
       if (!selectedItem) return;
@@ -193,8 +95,8 @@ function SearchModal({
     [
       categories,
       handleCloseModal,
-      itemsCompletion.length,
-      search,
+      searchItemsResult.length,
+      searchTerm,
       selectedItem,
       setActiveCategory,
     ],
@@ -240,7 +142,7 @@ function SearchModal({
                 <TextBox
                   name='search'
                   onChangeCallback={handleSearchInputChange}
-                  value={search}
+                  value={searchTerm}
                   placeholder={t('common:search')}
                   innerRef={autoFocusRef}
                   fieldClass={styles['search-input-field']}
@@ -253,9 +155,9 @@ function SearchModal({
                 canSearchCategory={canSearchCategory}
                 setCanSearchCategory={handleCanSearchCategory}
               />
-              {search.length > 0 && (
+              {searchTerm.length > 0 && (
                 <SearchList
-                  items={itemsCompletion}
+                  items={searchItemsResult}
                   selectedItem={selectedItem}
                   setSelectedItem={setSelectedItem}
                   noItem={<LabelSearchWithGoogle />}
@@ -264,7 +166,7 @@ function SearchModal({
               )}
               <button
                 type='submit'
-                disabled={!canSubmit}
+                disabled={searchTerm.length === 0}
                 style={{ display: 'none' }}
               >
                 {t('common:confirm')}
