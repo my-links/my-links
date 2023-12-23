@@ -82,6 +82,10 @@ h6 {
   }
 }
 
+label {
+  user-select: none;
+}
+
 button:not(.reset),
 a.btn:not(.reset) {
   cursor: pointer;
