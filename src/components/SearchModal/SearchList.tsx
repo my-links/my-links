@@ -1,14 +1,14 @@
+import clsx from 'clsx';
 import * as Keys from 'constants/keys';
 import { useTranslation } from 'next-i18next';
 import { ReactNode, useEffect, useMemo } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { SearchItem } from 'types';
+import { SearchResult } from 'types/types';
 import { groupItemBy } from 'utils/array';
 import SearchListItem from './SearchListItem';
 import styles from './search.module.scss';
-import clsx from 'clsx';
 
-const isActiveItem = (item: SearchItem, otherItem: SearchItem) =>
+const isActiveItem = (item: SearchResult, otherItem: SearchResult) =>
   item?.id === otherItem?.id && item?.type === otherItem?.type;
 export default function SearchList({
   items,
@@ -17,9 +17,9 @@ export default function SearchList({
   noItem,
   closeModal,
 }: {
-  items: SearchItem[];
-  selectedItem: SearchItem;
-  setSelectedItem: (item: SearchItem) => void;
+  items: SearchResult[];
+  selectedItem: SearchResult;
+  setSelectedItem: (item: SearchResult) => void;
   noItem?: ReactNode;
   closeModal: () => void;
 }) {

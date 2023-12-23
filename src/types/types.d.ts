@@ -18,6 +18,14 @@ export interface SearchItem {
   category?: undefined | LinkWithCategory['category'];
 }
 
+export interface SearchResult {
+  id: number;
+  name: React.ReactNode; // React node to support bold text
+  url: string;
+  type: 'category' | 'link';
+  category?: undefined | LinkWithCategory['category'];
+}
+
 export interface Favicon {
   buffer: Buffer;
   url: string;

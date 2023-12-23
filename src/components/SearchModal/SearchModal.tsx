@@ -23,7 +23,12 @@ import {
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { BsSearch } from 'react-icons/bs';
-import { CategoryWithLinks, LinkWithCategory, SearchItem } from 'types/types';
+import {
+  CategoryWithLinks,
+  LinkWithCategory,
+  SearchItem,
+  SearchResult,
+} from 'types/types';
 import LabelSearchWithGoogle from './LabelSearchWithGoogle';
 import { SearchFilter } from './SearchFilter';
 import SearchList from './SearchList';
@@ -35,7 +40,56 @@ interface SearchModalProps {
   childClassname?: string;
 }
 
-export default function SearchModal({
+function buildSearchItem(
+  item: CategoryWithLinks | LinkWithCategory,
+  type: SearchItem['type'],
+): SearchItem {
+  return {
+    id: item.id,
+    name: item.name,
+    url:
+      type === 'link'
+        ? (item as LinkWithCategory).url
+        : `${PATHS.HOME}?categoryId=${item.id}`,
+    type,
+    category: type === 'link' ? (item as LinkWithCategory).category : undefined,
+  };
+}
+
+function formatSearchItem(
+  item: SearchItem,
+  searchTerm: string,
+): SearchResult | null {
+  const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+  const lowerCaseName = item.name.toLowerCase().trim();
+
+  let currentIndex = 0;
+  let formattedName = '';
+
+  for (let i = 0; i < lowerCaseName.length; i++) {
+    if (lowerCaseName[i] === lowerCaseSearchTerm[currentIndex]) {
+      formattedName += `<b>${item.name[i]}</b>`;
+      currentIndex++;
+    } else {
+      formattedName += item.name[i];
+    }
+  }
+
+  if (currentIndex !== lowerCaseSearchTerm.length) {
+    // Search term not fully matched
+    return null;
+  }
+
+  return {
+    id: item.id,
+    name: <div dangerouslySetInnerHTML={{ __html: formattedName }} />,
+    url: item.url,
+    type: item.type,
+    category: item.category,
+  };
+}
+
+function SearchModal({
   noHeader = true,
   children,
   childClassname = '',
@@ -46,11 +100,20 @@ export default function SearchModal({
   const { categories } = useCategories();
   const { setActiveCategory } = useActiveCategory();
   const { globalHotkeysEnabled, setGlobalHotkeysEnabled } = useGlobalHotkeys();
-
-  const searchQueryParam = (router.query.q as string) || '';
-  const searchModal = useModal(
-    !!searchQueryParam && typeof window !== 'undefined',
+  const [canSearchLink, setCanSearchLink] = useLocalStorage(
+    'search-link',
+    true,
   );
+  const [canSearchCategory, setCanSearchCategory] = useLocalStorage(
+    'search-category',
+    false,
+  );
+  const [search, setSearch] = useState<string>(
+    (router.query.q as string) || '',
+  );
+  const [selectedItem, setSelectedItem] = useState<SearchResult | null>(null);
+
+  const searchModal = useModal(!!search && typeof window !== 'undefined');
 
   useEffect(
     () => setGlobalHotkeysEnabled(!searchModal.isShowing),
@@ -60,85 +123,54 @@ export default function SearchModal({
   const handleCloseModal = useCallback(() => {
     searchModal.close();
     setSearch('');
-    router.replace({
-      query: undefined,
-    });
-  }, [router, searchModal]);
-
-  useHotkeys(
-    Keys.OPEN_SEARCH_KEY,
-    (event) => {
-      event.preventDefault();
-      searchModal.open();
-    },
-    { enabled: globalHotkeysEnabled },
-  );
-
-  useHotkeys(Keys.CLOSE_SEARCH_KEY, handleCloseModal, {
-    enabled: searchModal.isShowing,
-    enableOnFormTags: ['INPUT'],
-  });
-
-  const searchItemBuilder = (
-    item: CategoryWithLinks | LinkWithCategory,
-    type: SearchItem['type'],
-  ): SearchItem => ({
-    id: item.id,
-    name: item.name,
-    url:
-      type === 'link'
-        ? (item as LinkWithCategory).url
-        : `${PATHS.HOME}?categoryId=${item.id}`,
-    type,
-    category: type === 'link' ? (item as LinkWithCategory).category : undefined,
-  });
+    if (!!search) {
+      router.replace({
+        query: undefined,
+      });
+    }
+  }, [router, search, searchModal]);
 
   const itemsSearch = useMemo<SearchItem[]>(() => {
     return categories.reduce((acc, category) => {
-      const categoryItem = searchItemBuilder(category, 'category');
+      const categoryItem = buildSearchItem(category, 'category');
       const items: SearchItem[] = category.links.map((link) =>
-        searchItemBuilder(link, 'link'),
+        buildSearchItem(link, 'link'),
       );
       return [...acc, ...items, categoryItem];
     }, [] as SearchItem[]);
   }, [categories]);
 
-  const [canSearchLink, setCanSearchLink] = useLocalStorage(
-    'search-link',
-    true,
-  );
-  const [canSearchCategory, setCanSearchCategory] = useLocalStorage(
-    'search-category',
-    false,
-  );
-  const [search, setSearch] = useState<string>(searchQueryParam);
-  const [selectedItem, setSelectedItem] = useState<SearchItem | null>(
-    itemsSearch[0],
-  );
+  const itemsCompletion = useMemo(() => {
+    return itemsSearch.reduce((acc, item) => {
+      const formattedItem = formatSearchItem(item, search);
+
+      if (
+        (canSearchLink && item.type === 'link') ||
+        (canSearchCategory && item.type === 'category')
+      ) {
+        return formattedItem ? [...acc, formattedItem] : acc;
+      }
+
+      return acc;
+    }, [] as SearchResult[]);
+  }, [itemsSearch, search, canSearchLink, canSearchCategory]);
 
   const canSubmit = useMemo<boolean>(() => search.length > 0, [search]);
 
-  // TODO: extract this code into utils function
-  const itemsCompletion = useMemo(
-    () =>
-      search.length === 0
-        ? []
-        : itemsSearch.filter(
-            (item) =>
-              ((item.type === 'category' && canSearchCategory) ||
-                (item.type === 'link' && canSearchLink)) &&
-              item.name
-                .toLocaleLowerCase()
-                .includes(search.toLocaleLowerCase().trim()),
-          ),
-    [canSearchCategory, canSearchLink, itemsSearch, search],
+  const handleSearchInputChange = useCallback(
+    (value: string) => setSearch(value),
+    [],
   );
 
-  const handleSearchInputChange = (value: string) => setSearch(value);
+  const handleCanSearchLink = useCallback(
+    (checked: boolean) => setCanSearchLink(checked),
+    [setCanSearchLink],
+  );
 
-  const handleCanSearchLink = (checked: boolean) => setCanSearchLink(checked);
-  const handleCanSearchCategory = (checked: boolean) =>
-    setCanSearchCategory(checked);
+  const handleCanSearchCategory = useCallback(
+    (checked: boolean) => setCanSearchCategory(checked),
+    [setCanSearchCategory],
+  );
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -167,6 +199,20 @@ export default function SearchModal({
       setActiveCategory,
     ],
   );
+
+  useHotkeys(
+    Keys.OPEN_SEARCH_KEY,
+    (event) => {
+      event.preventDefault();
+      searchModal.open();
+    },
+    { enabled: globalHotkeysEnabled },
+  );
+
+  useHotkeys(Keys.CLOSE_SEARCH_KEY, handleCloseModal, {
+    enabled: searchModal.isShowing,
+    enableOnFormTags: ['INPUT'],
+  });
 
   return (
     <>
@@ -230,3 +276,5 @@ export default function SearchModal({
     </>
   );
 }
+
+export default SearchModal;
