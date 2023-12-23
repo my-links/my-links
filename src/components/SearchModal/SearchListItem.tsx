@@ -64,7 +64,7 @@ export default function SearchListItem({
         ) : (
           <AiOutlineFolder size={24} />
         )}
-        <span>{name}</span>
+        {name}
       </LinkTag>
     </li>
   );
