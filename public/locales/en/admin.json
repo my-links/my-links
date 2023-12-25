@@ -1,0 +1,9 @@
+{
+  "role": "Role",
+  "created_at": "Created at",
+  "updated_at": "Updated at",
+  "admin": "Administrator",
+  "user": "User",
+  "users": "Users",
+  "stats": "Statistics"
+}

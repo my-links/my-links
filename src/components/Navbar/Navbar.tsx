@@ -1,4 +1,5 @@
 import PATHS from 'constants/paths';
+import useUser from 'hooks/useUser';
 import { useSession } from 'next-auth/react';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
@@ -6,11 +7,12 @@ import RoundedImage from '../RoundedImage/RoundedImage';
 import styles from './navbar.module.scss';
 
 export default function Navbar() {
-  const { data, status } = useSession();
+  const { status } = useSession();
+  const { user } = useUser();
   const { t } = useTranslation();
 
   const avatarLabel = t('common:avatar', {
-    name: data?.user?.name,
+    name: user?.name,
   });
 
   return (
@@ -27,12 +29,17 @@ export default function Navbar() {
         </li>
         {status === 'authenticated' ? (
           <>
+            {user?.is_admin && (
+              <li>
+                <LinkTag href={PATHS.ADMIN}>Admin</LinkTag>
+              </li>
+            )}
             <li className={styles['user']}>
               <RoundedImage
-                src={data.user.image}
+                src={user?.image}
                 alt={avatarLabel}
               />
-              {data.user.name}
+              {user?.name}
             </li>
             <li>
               <LinkTag href={PATHS.LOGOUT}>{t('common:logout')}</LinkTag>

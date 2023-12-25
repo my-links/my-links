@@ -7,6 +7,10 @@ export default function RoundedImage({
   height = 24,
   alt,
 }: (typeof Image)['defaultProps']) {
+  if (!src) {
+    console.warn('No src provided');
+    return <></>;
+  }
   return (
     <div className={styles['rounded-image']}>
       <Image

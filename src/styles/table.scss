@@ -1,0 +1,32 @@
+@import 'colors.scss';
+
+table {
+  height: auto;
+  width: 100%;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  padding: 1em;
+}
+
+th {
+  background-color: $lightest-blue;
+}
+
+tr:nth-child(even) {
+  background-color: #fff;
+}
+
+table .cell {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+
+  &:not(.fixed) {
+    justify-content: center;
+  }
+}

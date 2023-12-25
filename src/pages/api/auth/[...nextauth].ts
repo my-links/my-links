@@ -39,7 +39,11 @@ export const authOptions = {
       const user = await prisma.user.findFirst({
         where: { email: session.user.email },
       });
-      return user ? session : undefined;
+      if (user) {
+        session.user = JSON.parse(JSON.stringify(user));
+        return session;
+      }
+      return user;
     },
     async signIn({ account: accountParam, user }) {
       if (!checkProvider(accountParam.provider)) {

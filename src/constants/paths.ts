@@ -4,6 +4,7 @@ const PATHS = {
   HOME: '/',
   PRIVACY: '/privacy',
   TERMS: '/terms',
+  ADMIN: '/admin',
   CATEGORY: {
     CREATE: '/category/create',
     EDIT: '/category/edit',
