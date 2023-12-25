@@ -36,7 +36,6 @@ export default function Terms() {
         <h3>{t('terms:personal_data.collect.title')}</h3>
         <p>
           <Trans
-            // @ts-ignore
             i18nKey='terms:personal_data.collect.description'
             components={{ a: <LinkTag href={PATHS.PRIVACY} /> }}
           />
