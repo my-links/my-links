@@ -4,7 +4,7 @@ import PATHS from 'constants/paths';
 import useUser from 'hooks/useUser';
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
-import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import { MdAdminPanelSettings } from 'react-icons/md';
 import styles from './user-card.module.scss';
 
 export default function UserCard() {
@@ -26,12 +26,20 @@ export default function UserCard() {
         />
         {user.name}
       </div>
-      {user.is_admin && (
-        <Link href={PATHS.ADMIN}>
-          <MdOutlineAdminPanelSettings />
-        </Link>
-      )}
-      <SettingsModal />
+      <span className={styles['user-controls']}>
+        {user.is_admin && (
+          <Link
+            href={PATHS.ADMIN}
+            className='reset'
+          >
+            <MdAdminPanelSettings
+              color='red'
+              size={24}
+            />
+          </Link>
+        )}
+        <SettingsModal />
+      </span>
     </div>
   );
 }
