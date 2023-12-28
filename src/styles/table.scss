@@ -4,16 +4,21 @@ table {
   height: auto;
   width: 100%;
   border-collapse: collapse;
-  width: 100%;
+}
+
+th {
+  font-weight: 400;
+  background-color: $lightest-blue;
 }
 
 td,
 th {
-  padding: 1em;
+  padding: 0.45em;
 }
 
-th {
-  background-color: $lightest-blue;
+th,
+td {
+  white-space: nowrap;
 }
 
 tr:nth-child(even) {
@@ -24,9 +29,14 @@ table .cell {
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.25em;
+  gap: 0.35em;
 
   &:not(.fixed) {
     justify-content: center;
+  }
+
+  &.column {
+    gap: 0;
+    flex-direction: column;
   }
 }
