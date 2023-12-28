@@ -37,7 +37,7 @@ body {
   flex-direction: column;
 }
 
-a {
+a:not(.reset) {
   width: fit-content;
   color: $blue;
   border-bottom: 1px solid transparent;
@@ -49,6 +49,12 @@ a {
     color: $dark-blue;
     border-bottom: 1px solid $dark-blue;
   }
+}
+
+a.reset {
+  color: $blue;
+  text-decoration: none;
+  transition: 0;
 }
 
 h1,
