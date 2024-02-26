@@ -8,11 +8,11 @@ import styles from './navbar.module.scss';
 
 export default function Navbar() {
   const { status } = useSession();
-  const { user } = useUser();
+  const data = useUser();
   const { t } = useTranslation();
 
   const avatarLabel = t('common:avatar', {
-    name: user?.name,
+    name: data?.user?.name,
   });
 
   return (
@@ -29,17 +29,17 @@ export default function Navbar() {
         </li>
         {status === 'authenticated' ? (
           <>
-            {user?.is_admin && (
+            {data?.user?.is_admin && (
               <li>
                 <LinkTag href={PATHS.ADMIN}>Admin</LinkTag>
               </li>
             )}
             <li className={styles['user']}>
               <RoundedImage
-                src={user?.image}
+                src={data?.user?.image}
                 alt={avatarLabel}
               />
-              {user?.name}
+              {data?.user?.name}
             </li>
             <li>
               <LinkTag href={PATHS.LOGOUT}>{t('common:logout')}</LinkTag>
