@@ -78,6 +78,7 @@ export default function LinkItem({
         href={url}
         target={'_blank'}
         rel='noreferrer'
+        className='reset'
       >
         <span className={styles['link-name']}>
           {name} {favorite && <AiFillStar color='#ffc107' />}
