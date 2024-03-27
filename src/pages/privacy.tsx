@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Footer from 'components/Footer/Footer';
 import Navbar from 'components/Navbar/Navbar';
 import PageTransition from 'components/PageTransition';
 import { useTranslation } from 'next-i18next';
@@ -62,6 +63,7 @@ export default function Privacy() {
         <p>{t('privacy:footer.changes')}</p>
         <p>{t('privacy:footer.thanks')}</p>
       </main>
+      <Footer />
     </PageTransition>
   );
 }

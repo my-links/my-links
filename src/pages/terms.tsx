@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Footer from 'components/Footer/Footer';
 import Navbar from 'components/Navbar/Navbar';
 import PageTransition from 'components/PageTransition';
 import PATHS from 'constants/paths';
@@ -71,6 +72,7 @@ export default function Terms() {
         <p>{t('terms:footer.changes')}</p>
         <p>{t('terms:footer.thanks')}</p>
       </main>
+      <Footer />
     </PageTransition>
   );
 }
