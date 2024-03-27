@@ -1,5 +1,3 @@
-version: '3.8'
-
 networks:
   mylinks_app:
     external: true
@@ -14,8 +12,16 @@ services:
       - '127.0.0.1:3000:3000'
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mylinks_db:3306/${MYSQL_DATABASE}
     networks:
       - mylinks_app
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'wget --spider --tries=1 --no-verbose http://0.0.0.0:3000',
+        ]
     depends_on:
       mylinks_db:
         condition: service_started
@@ -28,5 +34,11 @@ services:
       - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
     env_file:
       - .env
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
     networks:
       - mylinks_app
