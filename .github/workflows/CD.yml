@@ -50,4 +50,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /infra/my-links
-            docker compose up -d
+            sh startup.sh
