@@ -1,11 +1,11 @@
-import { Category, User } from '@prisma/client';
+import { Category, Link, User } from '@prisma/client';
 import { Profile } from 'next-auth';
 
 export type CategoryWithLinks = Category & {
   author: User;
   links: LinkWithCategory[];
 };
-export type LinkWithCategory = LinkWithCategory & {
+export type LinkWithCategory = Link & {
   author: User;
   category: CategoryWithLinks;
 };

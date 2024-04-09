@@ -10,6 +10,7 @@ interface InputProps {
   inputClass?: string;
   value?: string;
   onChangeCallback?: (value) => void;
+  required?: boolean;
 }
 
 export default function TextBox({
@@ -22,6 +23,7 @@ export default function TextBox({
   inputClass = '',
   value,
   onChangeCallback,
+  required = false,
 }: InputProps): JSX.Element {
   const [inputValue, setInputValue] = useState<string>(value);
 
@@ -33,11 +35,11 @@ export default function TextBox({
   }
 
   return (
-    <div className={`input-field ${fieldClass}`}>
+    <div className={`input-field ${fieldClass} ${required && 'required'}`}>
       {label && (
         <label
           htmlFor={name}
-          title={`${name} field`}
+          title={label}
         >
           {label}
         </label>
