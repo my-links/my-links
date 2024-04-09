@@ -10,9 +10,8 @@ export default apiHandler({
 });
 
 async function createLink({ req, res, user }) {
-  const { name, url, favorite, categoryId } = await LinkBodySchema.validate(
-    req.body,
-  );
+  const { name, url, description, favorite, categoryId } =
+    await LinkBodySchema.validate(req.body);
 
   const link = await getUserLinkByName(user, name, categoryId);
   if (link) {
@@ -28,6 +27,7 @@ async function createLink({ req, res, user }) {
     data: {
       name,
       url,
+      description,
       categoryId,
       favorite,
       authorId: user.id,

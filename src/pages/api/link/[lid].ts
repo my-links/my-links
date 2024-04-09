@@ -10,9 +10,8 @@ export default apiHandler({
 
 async function editLink({ req, res, user }) {
   const { lid } = await LinkQuerySchema.validate(req.query);
-  const { name, url, favorite, categoryId } = await LinkBodySchema.validate(
-    req.body,
-  );
+  const { name, url, description, favorite, categoryId } =
+    await LinkBodySchema.validate(req.body);
 
   const link = await getUserLink(user, lid);
   if (!link) {
@@ -22,6 +21,7 @@ async function editLink({ req, res, user }) {
   if (
     link.name === name &&
     link.url === url &&
+    link.description === description &&
     link.favorite === favorite &&
     link.categoryId === categoryId
   ) {
@@ -33,6 +33,7 @@ async function editLink({ req, res, user }) {
     data: {
       name,
       url,
+      description,
       favorite,
       categoryId,
     },

@@ -6,6 +6,7 @@ const LinkBodySchema = object({
     .trim()
     .required('Link name is required')
     .max(128, 'Link name is too long'),
+  description: string().trim().max(255, 'Link description is too long'),
   url: string()
     .trim()
     .required('URl is required')
