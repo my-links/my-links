@@ -70,6 +70,13 @@ export default function PageRemoveLink({
           disabled={true}
         />
         <TextBox
+          name='description'
+          label={t('common:link.description')}
+          value={link.description}
+          fieldClass={styles['input-field']}
+          disabled={true}
+        />
+        <TextBox
           name='category'
           label={t('common:category.category')}
           value={link.category.name}

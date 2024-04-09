@@ -91,8 +91,18 @@
   border: 1px solid $lightest-grey;
   border-radius: 3px;
   outline: 3px solid transparent;
-  display: flex;
-  align-items: center;
+
+  & .link-header {
+    display: flex;
+    align-items: center;
+  }
+
+  & .link-description {
+    margin-top: 0.5em;
+    color: $black;
+    font-size: 0.8em;
+    word-wrap: break-word;
+  }
 
   &:hover {
     border: 1px solid transparent;
@@ -109,7 +119,7 @@
   }
 }
 
-.link > a {
+.link-header > a {
   height: 100%;
   max-width: calc(100% - 125px); // TODO: faut fix ça, c'est pas beau
   text-decoration: none;

@@ -8,6 +8,7 @@
     "links": "Links",
     "link": "Link",
     "name": "Link name",
+    "description": "Link description",
     "create": "Create a link",
     "edit": "Edit a link",
     "remove": "Delete a link",

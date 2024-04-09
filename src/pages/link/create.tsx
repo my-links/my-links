@@ -28,6 +28,8 @@ export default function PageCreateLink({
 
   const [name, setName] = useState<LinkWithCategory['name']>('');
   const [url, setUrl] = useState<LinkWithCategory['url']>('');
+  const [description, setDescription] =
+    useState<LinkWithCategory['description']>('');
   const [favorite, setFavorite] = useState<LinkWithCategory['favorite']>(false);
   const [categoryId, setCategoryId] = useState<
     LinkWithCategory['category']['id']
@@ -54,7 +56,7 @@ export default function PageCreateLink({
     makeRequest({
       url: PATHS.API.LINK,
       method: 'POST',
-      body: { name, url, favorite, categoryId },
+      body: { name, url, description, favorite, categoryId },
     })
       .then((data) =>
         router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
@@ -75,19 +77,29 @@ export default function PageCreateLink({
         <TextBox
           name='name'
           label={t('common:link.name')}
-          onChangeCallback={(value) => setName(value)}
+          onChangeCallback={setName}
           value={name}
           fieldClass={styles['input-field']}
           placeholder={t('common:link.name')}
           innerRef={autoFocusRef}
+          required
         />
         <TextBox
           name='url'
           label={t('common:link.link')}
-          onChangeCallback={(value) => setUrl(value)}
+          onChangeCallback={setUrl}
           value={url}
           fieldClass={styles['input-field']}
           placeholder='https://www.example.com/'
+          required
+        />
+        <TextBox
+          name='description'
+          label={t('common:link.description')}
+          onChangeCallback={setDescription}
+          value={description}
+          fieldClass={styles['input-field']}
+          placeholder={t('common:link.description')}
         />
         <Selector
           name='category'
@@ -98,11 +110,12 @@ export default function PageCreateLink({
             label: name,
             value: id,
           }))}
+          required
         />
         <Checkbox
           name='favorite'
           isChecked={favorite}
-          onChangeCallback={(value) => setFavorite(value)}
+          onChangeCallback={setFavorite}
           label={t('common:favorite')}
         />
       </FormLayout>

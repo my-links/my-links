@@ -1,3 +1,4 @@
+import ExternalLink from 'components/ExternalLink';
 import EditItem from 'components/QuickActions/EditItem';
 import FavoriteItem from 'components/QuickActions/FavoriteItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
@@ -5,7 +6,6 @@ import PATHS from 'constants/paths';
 import { motion } from 'framer-motion';
 import useCategories from 'hooks/useCategories';
 import { makeRequest } from 'lib/request';
-import LinkTag from 'next/link';
 import { useCallback } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { LinkWithCategory } from 'types';
@@ -19,7 +19,7 @@ export default function LinkItem({
   link: LinkWithCategory;
   index: number;
 }) {
-  const { id, name, url, favorite } = link;
+  const { id, name, url, description, favorite } = link;
   const { categories, setCategories } = useCategories();
 
   const toggleFavorite = useCallback(
@@ -73,32 +73,35 @@ export default function LinkItem({
         delay: index * 0.05,
       }}
     >
-      <LinkFavicon url={url} />
-      <LinkTag
-        href={url}
-        target={'_blank'}
-        rel='noreferrer'
-        className='reset'
-      >
-        <span className={styles['link-name']}>
-          {name} {favorite && <AiFillStar color='#ffc107' />}
-        </span>
-        <LinkItemURL url={url} />
-      </LinkTag>
-      <div className={styles['controls']}>
-        <FavoriteItem
-          isFavorite={favorite}
-          onClick={onFavorite}
-        />
-        <EditItem
-          type='link'
-          id={id}
-        />
-        <RemoveItem
-          type='link'
-          id={id}
-        />
+      <div className={styles['link-header']}>
+        <LinkFavicon url={url} />
+        <ExternalLink
+          href={url}
+          className='reset'
+        >
+          <span className={styles['link-name']}>
+            {name} {favorite && <AiFillStar color='#ffc107' />}
+          </span>
+          <LinkItemURL url={url} />
+        </ExternalLink>
+        <div className={styles['controls']}>
+          <FavoriteItem
+            isFavorite={favorite}
+            onClick={onFavorite}
+          />
+          <EditItem
+            type='link'
+            id={id}
+          />
+          <RemoveItem
+            type='link'
+            id={id}
+          />
+        </div>
       </div>
+      {description && (
+        <div className={styles['link-description']}>{description}</div>
+      )}
     </motion.li>
   );
 }

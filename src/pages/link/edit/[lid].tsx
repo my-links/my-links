@@ -30,6 +30,7 @@ export default function PageEditLink({
 
   const [name, setName] = useState<string>(link.name);
   const [url, setUrl] = useState<string>(link.url);
+  const [description, setDescription] = useState<string>(link.description);
   const [favorite, setFavorite] = useState<boolean>(link.favorite);
   const [categoryId, setCategoryId] = useState<number | null>(
     link.category?.id || null,
@@ -42,6 +43,7 @@ export default function PageEditLink({
     const isFormEdited =
       name !== link.name ||
       url !== link.url ||
+      description !== link.description ||
       favorite !== link.favorite ||
       categoryId !== link.category.id;
     const isFormValid =
@@ -50,17 +52,7 @@ export default function PageEditLink({
       favorite !== null &&
       categoryId !== null;
     return isFormEdited && isFormValid && !submitted;
-  }, [
-    categoryId,
-    favorite,
-    link.category.id,
-    link.favorite,
-    link.name,
-    link.url,
-    name,
-    submitted,
-    url,
-  ]);
+  }, [categoryId, description, favorite, link, name, submitted, url]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,7 +62,7 @@ export default function PageEditLink({
     makeRequest({
       url: `${PATHS.API.LINK}/${link.id}`,
       method: 'PUT',
-      body: { name, url, favorite, categoryId },
+      body: { name, url, description, favorite, categoryId },
     })
       .then((data) =>
         router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
@@ -90,19 +82,29 @@ export default function PageEditLink({
         <TextBox
           name='name'
           label={t('common:link.name')}
-          onChangeCallback={(value) => setName(value)}
+          onChangeCallback={setName}
           value={name}
           fieldClass={styles['input-field']}
           placeholder={`${t('common:link.name')} : ${link.name}`}
           innerRef={autoFocusRef}
+          required
         />
         <TextBox
           name='url'
           label={t('common:link.link')}
-          onChangeCallback={(value) => setUrl(value)}
+          onChangeCallback={setUrl}
           value={url}
           fieldClass={styles['input-field']}
           placeholder='https://example.com/'
+          required
+        />
+        <TextBox
+          name='description'
+          label={t('common:link.description')}
+          onChangeCallback={setDescription}
+          value={description}
+          fieldClass={styles['input-field']}
+          placeholder={`${t('common:link.description')} : ${link.description}`}
         />
         <Selector
           name='category'
@@ -113,11 +115,12 @@ export default function PageEditLink({
             label: name,
             value: id,
           }))}
+          required
         />
         <Checkbox
           name='favorite'
           isChecked={favorite}
-          onChangeCallback={(value) => setFavorite(value)}
+          onChangeCallback={setFavorite}
           label={t('common:favorite')}
         />
       </FormLayout>
