@@ -1,6 +1,6 @@
 {
   "name": "my-links",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MyLinks is a free and open source software, that lets you manage your bookmarks in an intuitive interface",
   "private": false,
   "scripts": {
