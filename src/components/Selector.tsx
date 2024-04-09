@@ -23,6 +23,7 @@ interface SelectorProps {
   ) => ReactNode;
 
   disabled?: boolean;
+  required?: boolean;
 }
 
 export default function Selector({
@@ -36,6 +37,7 @@ export default function Selector({
   onChangeCallback,
   formatOptionLabel,
   disabled = false,
+  required = false,
 }: SelectorProps): JSX.Element {
   const [selectorValue, setSelectorValue] = useState<Option>();
 
@@ -56,7 +58,7 @@ export default function Selector({
   }
 
   return (
-    <div className={`input-field ${fieldClass}`}>
+    <div className={`input-field ${fieldClass} ${required && 'required'}`}>
       {label && (
         <label
           htmlFor={name}
