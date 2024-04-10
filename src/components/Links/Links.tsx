@@ -66,6 +66,11 @@ export default function Links({
           />
         </span>
       </h2>
+      {activeCategory.description && (
+        <p className={styles['category-description']}>
+          {activeCategory.description}
+        </p>
+      )}
       {links.length !== 0 ? (
         <ul className={clsx(styles['links'], 'reset')}>
           {links.map((link, index) => (

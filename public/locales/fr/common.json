@@ -18,6 +18,7 @@
     "categories": "Catégories",
     "category": "Catégorie",
     "name": "Nom de la catégorie",
+    "description": "Description de la catégorie",
     "create": "Créer une catégorie",
     "edit": "Modifier une catégorie",
     "remove": "Supprimer une catégorie",

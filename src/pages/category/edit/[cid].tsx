@@ -23,14 +23,17 @@ export default function PageEditCategory({
   const autoFocusRef = useAutoFocus();
 
   const [name, setName] = useState<string>(category.name);
+  const [description, setDescription] = useState<string>(category.description);
 
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
-  const canSubmit = useMemo<boolean>(
-    () => name !== category.name && name !== '' && !submitted,
-    [category.name, name, submitted],
-  );
+  const canSubmit = useMemo<boolean>(() => {
+    const isFormEdited =
+      name !== category.name || description !== category.description;
+    const isFormValid = name !== '';
+    return isFormEdited && isFormValid && !submitted;
+  }, [category.description, category.name, description, name, submitted]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,7 +43,7 @@ export default function PageEditCategory({
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
       method: 'PUT',
-      body: { name, nextId: category.nextId },
+      body: { name, description, nextId: category.nextId },
     })
       .then((data) =>
         router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
@@ -60,11 +63,20 @@ export default function PageEditCategory({
         <TextBox
           name='name'
           label={t('common:category.name')}
-          onChangeCallback={(value) => setName(value)}
+          onChangeCallback={setName}
           value={name}
           fieldClass={styles['input-field']}
           placeholder={`${t('common:category.name')} : ${category.name}`}
           innerRef={autoFocusRef}
+          required
+        />
+        <TextBox
+          name='description'
+          label={t('common:category.description')}
+          onChangeCallback={setDescription}
+          value={description}
+          fieldClass={styles['input-field']}
+          placeholder={t('common:category.description')}
         />
       </FormLayout>
     </PageTransition>

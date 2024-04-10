@@ -29,9 +29,10 @@ model User {
 }
 
 model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @db.VarChar(255)
-  links Link[]
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String? @db.VarChar(255)
+  links       Link[]
 
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
@@ -45,10 +46,10 @@ model Category {
 }
 
 model Link {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(255)
-  description String? @db.VarChar(255)
-  url         String  @db.Text
+  id          Int    @id @default(autoincrement())
+  name        String @db.VarChar(255)
+  description String @db.VarChar(255)
+  url         String @db.Text
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int

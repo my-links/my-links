@@ -29,24 +29,15 @@
   flex: 1;
   flex-direction: column;
 
-  & h2 {
-    color: $blue;
+  & .category-description {
+    font-size: 0.85em;
     margin-bottom: 0.5em;
-    font-weight: 500;
-
-    & svg {
-      display: flex;
-    }
-
-    & .links-count {
-      color: $grey;
-      font-weight: 300;
-      font-size: 0.8em;
-    }
   }
 }
 
 .category-header {
+  color: $blue;
+  font-weight: 500;
   display: flex;
   gap: 0.4em;
   align-items: center;
@@ -64,6 +55,16 @@
     display: flex;
     gap: 0.5em;
     align-items: center;
+  }
+
+  & svg {
+    display: flex;
+  }
+
+  & .links-count {
+    color: $grey;
+    font-weight: 300;
+    font-size: 0.8em;
   }
 }
 
