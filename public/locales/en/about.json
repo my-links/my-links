@@ -1,0 +1,28 @@
+{
+  "hero": {
+    "title": "Welcome to MyLinks",
+    "cta": "Get started"
+  },
+  "category": {
+    "title": "Create categories",
+    "text": "Organize your bookmarks by categories to keep your links tidy and find them easily."
+  },
+  "link": {
+    "title": "Manage Links",
+    "text": "Add, edit, and manage your bookmarks with a simple and intuitive interface."
+  },
+  "search": {
+    "title": "Search",
+    "text": "Quickly find the bookmark you're looking for with the powerful search feature."
+  },
+  "extension": {
+    "title": "Browser extension",
+    "text": "Enhance your experience with the official MyLinks browser extension."
+  },
+  "contribute": {
+    "title": "Contribute to MyLinks",
+    "text": "Suggest improvements you would like to see on MyLinks."
+  },
+  "look-title": "Take a look",
+  "website-screenshot-alt": "A screenshot of MyLinks"
+}

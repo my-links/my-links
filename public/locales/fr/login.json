@@ -1,6 +1,5 @@
 {
   "title": "Authentification",
   "informative-text": "Authentification requise pour utiliser MyLinks",
-  "continue-with": "Continuer avec {{provider}}",
-  "slogan": "Gérez vos liens de la meilleure des façons"
+  "continue-with": "Continuer avec {{provider}}"
 }
