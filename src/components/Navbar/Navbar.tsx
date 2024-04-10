@@ -22,10 +22,7 @@ export default function Navbar() {
           <LinkTag href={PATHS.HOME}>MyLinks</LinkTag>
         </li>
         <li>
-          <LinkTag href={PATHS.PRIVACY}>{t('common:privacy')}</LinkTag>
-        </li>
-        <li>
-          <LinkTag href={PATHS.TERMS}>{t('common:terms')}</LinkTag>
+          <LinkTag href={PATHS.REPO_GITHUB}>GitHub</LinkTag>
         </li>
         {status === 'authenticated' ? (
           <>

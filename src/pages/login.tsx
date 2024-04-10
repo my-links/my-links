@@ -3,6 +3,7 @@ import Footer from 'components/Footer/Footer';
 import LangSelector from 'components/LangSelector';
 import MessageManager from 'components/MessageManager/MessageManager';
 import PageTransition from 'components/PageTransition';
+import Quotes from 'components/Quotes/Quotes';
 import PATHS from 'constants/paths';
 import getUser from 'lib/user/getUser';
 import { Provider } from 'next-auth/providers';
@@ -35,7 +36,7 @@ export default function SignIn({ providers }: Readonly<SignInProps>) {
           height={100}
           alt="MyLinks's logo"
         />
-        <p className={styles['slogan']}>{t('login:slogan')}</p>
+        <Quotes>{t('common:slogan')}</Quotes>
         <div className={styles['form-wrapper']}>
           <h1>{t('login:title')}</h1>
           <MessageManager info={t('login:informative-text')} />

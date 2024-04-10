@@ -1,0 +1,25 @@
+@import 'styles/colors.scss';
+
+.quotes {
+  position: relative;
+  width: fit-content;
+  white-space: pre-wrap;
+  text-align: center;
+  font-style: italic;
+  color: rgba($color: $black, $alpha: 0.75);
+
+  &::before {
+    position: absolute;
+    left: -0.65em;
+    content: '“';
+    font-family: sans-serif;
+    font-size: 2.25em;
+  }
+  &::after {
+    position: absolute;
+    right: -0.5em;
+    content: '”';
+    font-family: sans-serif;
+    font-size: 2.25em;
+  }
+}
