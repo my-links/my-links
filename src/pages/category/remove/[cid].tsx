@@ -70,6 +70,16 @@ export default function PageRemoveCategory({
           fieldClass={styles['input-field']}
           disabled={true}
         />
+        <TextBox
+          name='description'
+          label={t('common:category.description')}
+          value={category.description}
+          fieldClass={styles['input-field']}
+          placeholder={
+            !category.description && t('common:category.no-description')
+          }
+          disabled={true}
+        />
         <Checkbox
           name='confirm-delete'
           label={t('common:category.remove-confirm')}
