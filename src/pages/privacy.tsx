@@ -27,9 +27,11 @@ export default function Privacy() {
         <h3>{t('privacy:collect.user.title')}</h3>
         <p>{t('privacy:collect.user.description')}</p>
         <ul>
-          {t('privacy:collect.user.fields', {
-            returnObjects: true,
-          }).map((field) => (
+          {(
+            t('privacy:collect.user.fields', {
+              returnObjects: true,
+            }) as Array<string>
+          ).map((field) => (
             <li key={field}>{field}</li>
           ))}
         </ul>
