@@ -16,7 +16,9 @@ export default apiHandler({
 
 async function editCategory({ req, res, user }) {
   const { cid } = await CategoryQuerySchema.validate(req.query);
-  const { name, nextId } = await CategoryBodySchema.validate(req.body);
+  const { name, description, nextId } = await CategoryBodySchema.validate(
+    req.body,
+  );
   const userId = user.id as User['id'];
 
   const category = await getUserCategory(user, cid);
@@ -104,6 +106,7 @@ async function editCategory({ req, res, user }) {
       },
       data: {
         name,
+        description,
         nextId: category.nextId,
       },
     });

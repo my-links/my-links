@@ -104,7 +104,9 @@ export default function PageEditLink({
           onChangeCallback={setDescription}
           value={description}
           fieldClass={styles['input-field']}
-          placeholder={`${t('common:link.description')} : ${link.description}`}
+          placeholder={`${t('common:link.description')}${
+            ` : ${link.description}` ?? ''
+          }`}
         />
         <Selector
           name='category'

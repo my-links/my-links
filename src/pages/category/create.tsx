@@ -23,6 +23,7 @@ export default function PageCreateCategory({
   const info = useRouter().query?.info as string;
 
   const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -40,7 +41,7 @@ export default function PageCreateCategory({
     makeRequest({
       url: PATHS.API.CATEGORY,
       method: 'POST',
-      body: { name, nextId: null },
+      body: { name, description, nextId: null },
     })
       .then((data) =>
         router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
@@ -62,11 +63,20 @@ export default function PageCreateCategory({
         <TextBox
           name='name'
           label={t('common:category.name')}
-          onChangeCallback={(value) => setName(value)}
+          onChangeCallback={setName}
           value={name}
           fieldClass={styles['input-field']}
           placeholder={t('common:category.name')}
           innerRef={autoFocusRef}
+          required
+        />
+        <TextBox
+          name='description'
+          label={t('common:category.description')}
+          onChangeCallback={setDescription}
+          value={description}
+          fieldClass={styles['input-field']}
+          placeholder={t('common:category.description')}
         />
       </FormLayout>
     </PageTransition>
