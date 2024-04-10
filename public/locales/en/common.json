@@ -19,6 +19,7 @@
     "category": "Category",
     "name": "Category name",
     "description": "Category description",
+    "no-description": "No description",
     "create": "Create a category",
     "edit": "Edit a category",
     "remove": "Delete a category",

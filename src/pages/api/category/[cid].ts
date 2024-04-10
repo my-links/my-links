@@ -134,18 +134,22 @@ async function deleteCategory({ req, res, user }) {
     where: { id: cid },
   });
 
-  const { id: previousCategoryId } = await prisma.category.findFirst({
+  const previousCategory = await prisma.category.findFirst({
     where: { nextId: category.id },
     select: { id: true },
   });
-  await prisma.category.update({
-    where: {
-      id: previousCategoryId,
-    },
-    data: {
-      nextId: category.nextId,
-    },
-  });
+
+  if (previousCategory) {
+    await prisma.category.update({
+      where: {
+        id: previousCategory?.id,
+      },
+      data: {
+        nextId: category.nextId,
+      },
+    });
+  }
+
   return res.send({
     success: 'Category successfully deleted',
     categoryId: category.id,
