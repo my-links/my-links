@@ -23,8 +23,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   // TODO: use dynamic locale import
   dayjs.locale(i18n.language);
 
-  useHotkeys(Keys.CLOSE_SEARCH_KEY, () => router.push(PATHS.HOME), {
-    enabled: router.pathname !== PATHS.HOME,
+  useHotkeys(Keys.CLOSE_SEARCH_KEY, () => router.push(PATHS.APP), {
+    enabled: router.pathname !== PATHS.APP,
     enableOnFormTags: ['INPUT'],
   });
 

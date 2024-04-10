@@ -44,7 +44,7 @@ export default function PageCreateCategory({
       body: { name, description, nextId: null },
     })
       .then((data) =>
-        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+        router.push(`${PATHS.APP}?categoryId=${data?.categoryId}`),
       )
       .catch(setError)
       .finally(() => setSubmitted(false));

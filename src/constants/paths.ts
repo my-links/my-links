@@ -2,6 +2,7 @@ const PATHS = {
   LOGIN: '/login',
   LOGOUT: '/logout',
   HOME: '/',
+  APP: '/app',
   PRIVACY: '/privacy',
   TERMS: '/terms',
   ADMIN: '/admin',

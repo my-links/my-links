@@ -66,7 +66,7 @@ export async function getServerSideProps({ req, res, locale }) {
   if (user) {
     return {
       redirect: {
-        destination: PATHS.HOME,
+        destination: PATHS.APP,
       },
     };
   }

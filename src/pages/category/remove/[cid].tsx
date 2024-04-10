@@ -39,7 +39,7 @@ export default function PageRemoveCategory({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
       method: 'DELETE',
     })
-      .then(() => router.push(PATHS.HOME))
+      .then(() => router.push(PATHS.APP))
       .catch(setError)
       .finally(() => setSubmitted(false));
   };
@@ -100,7 +100,7 @@ export const getServerSideProps = withAuthentication(
     if (!category) {
       return {
         redirect: {
-          destination: PATHS.HOME,
+          destination: PATHS.APP,
         },
       };
     }

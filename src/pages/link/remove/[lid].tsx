@@ -38,7 +38,7 @@ export default function PageRemoveLink({
       method: 'DELETE',
     })
       .then((data) =>
-        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+        router.push(`${PATHS.APP}?categoryId=${data?.categoryId}`),
       )
       .catch(setError)
       .finally(() => setSubmitted(false));
@@ -108,7 +108,7 @@ export const getServerSideProps = withAuthentication(
     if (!link) {
       return {
         redirect: {
-          destination: PATHS.HOME,
+          destination: PATHS.APP,
         },
       };
     }

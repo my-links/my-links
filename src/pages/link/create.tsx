@@ -59,7 +59,7 @@ export default function PageCreateLink({
       body: { name, url, description, favorite, categoryId },
     })
       .then((data) =>
-        router.push(`${PATHS.HOME}?categoryId=${data?.categoryId}`),
+        router.push(`${PATHS.APP}?categoryId=${data?.categoryId}`),
       )
       .catch(setError)
       .finally(() => setSubmitted(false));
@@ -129,7 +129,7 @@ export const getServerSideProps = withAuthentication(
     if (categories.length === 0) {
       return {
         redirect: {
-          destination: PATHS.HOME,
+          destination: PATHS.APP,
         },
       };
     }

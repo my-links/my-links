@@ -16,7 +16,7 @@ export function buildSearchItem(
     url:
       type === 'link'
         ? (item as LinkWithCategory).url
-        : `${PATHS.HOME}?categoryId=${item.id}`,
+        : `${PATHS.APP}?categoryId=${item.id}`,
     type,
     category: type === 'link' ? (item as LinkWithCategory).category : undefined,
   };

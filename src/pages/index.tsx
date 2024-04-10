@@ -1,205 +1,105 @@
 import clsx from 'clsx';
-import Links from 'components/Links/Links';
+import Footer from 'components/Footer/Footer';
+import Navbar from 'components/Navbar/Navbar';
 import PageTransition from 'components/PageTransition';
-import SideMenu from 'components/SideMenu/SideMenu';
-import SideNavigation from 'components/SideNavigation/SideNavigation';
-import * as Keys from 'constants/keys';
-import PATHS from 'constants/paths';
-import ActiveCategoryContext from 'contexts/activeCategoryContext';
-import CategoriesContext from 'contexts/categoriesContext';
-import FavoritesContext from 'contexts/favoritesContext';
-import GlobalHotkeysContext from 'contexts/globalHotkeysContext';
-import { AnimatePresence } from 'framer-motion';
-import { useMediaQuery } from 'hooks/useMediaQuery';
-import useModal from 'hooks/useModal';
 import { getServerSideTranslation } from 'i18n';
-import getUserCategories from 'lib/category/getUserCategories';
-import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
-import { useRouter } from 'next/router';
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { useSwipeable } from 'react-swipeable';
-import styles from 'styles/home.module.scss';
-import { CategoryWithLinks, LinkWithCategory } from 'types/types';
-import { withAuthentication } from 'utils/session';
+import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { IconType } from 'react-icons';
+import { AiFillFolderOpen } from 'react-icons/ai';
+import { FaUser } from 'react-icons/fa';
+import { IoIosLink, IoIosSearch } from 'react-icons/io';
+import { IoExtensionPuzzleOutline } from 'react-icons/io5';
+import websiteScreenshot from '../../public/website-screenshot.png';
 
-interface HomePageProps {
-  categories: CategoryWithLinks[];
-  activeCategory: CategoryWithLinks | undefined;
-}
+import Quotes from 'components/Quotes/Quotes';
+import PATHS from 'constants/paths';
+import styles from 'styles/about.module.scss';
 
-export default function HomePage(props: Readonly<HomePageProps>) {
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const { isShowing, open, close } = useModal();
-  const handlers = useSwipeable({
-    trackMouse: true,
-    onSwipedRight: open,
-  });
-
-  useEffect(() => {
-    if (!isMobile && isShowing) {
-      close();
-    }
-  }, [close, isMobile, isShowing]);
-
+export default function AboutPage() {
+  const { t } = useTranslation('about');
   return (
-    <PageTransition
-      className={clsx('App', 'flex-row')}
-      hideLangageSelector
-    >
-      <HomeProviders
-        categories={props.categories}
-        activeCategory={props.activeCategory}
-      >
-        <div
-          className={styles['swipe-handler']}
-          {...handlers}
-        >
-          {!isMobile && (
-            <div className={styles['side-bar']}>
-              <SideNavigation />
-            </div>
-          )}
-          <AnimatePresence>
-            {isShowing && (
-              <SideMenu close={close}>
-                <SideNavigation />
-              </SideMenu>
-            )}
-          </AnimatePresence>
-          <Links
-            isMobile={isMobile}
-            openSideMenu={open}
+    <PageTransition className={clsx('App', styles['about-page'])}>
+      <Navbar />
+      <HeroHeader />
+      <div className={styles['page-content']}>
+        <ul className={`reset ${styles['about-list']}`}>
+          <AboutItem
+            icon={AiFillFolderOpen}
+            title={t('about:category.title')}
+            text={t('about:category.text')}
+          />
+          <AboutItem
+            icon={IoIosLink}
+            title={t('about:link.title')}
+            text={t('about:link.text')}
+          />
+          <AboutItem
+            icon={IoIosSearch}
+            title={t('about:search.title')}
+            text={t('about:search.text')}
+          />
+          <AboutItem
+            icon={IoExtensionPuzzleOutline}
+            title={t('about:extension.title')}
+            text={t('about:extension.text')}
+          />
+          <AboutItem
+            icon={FaUser}
+            title={t('about:contribute.title')}
+            text={t('about:contribute.text')}
+          />
+        </ul>
+        <h2>{t('about:look-title')}</h2>
+        <div className={styles['screenshot-wrapper']}>
+          <Image
+            src={websiteScreenshot}
+            alt={t('about:website-screenshot-alt')}
+            title={t('about:website-screenshot-alt')}
+            fill
           />
         </div>
-      </HomeProviders>
+      </div>
+      <Footer />
     </PageTransition>
   );
 }
 
-function HomeProviders(
-  props: Readonly<{
-    children: ReactNode;
-    categories: CategoryWithLinks[];
-    activeCategory: CategoryWithLinks;
-  }>,
-) {
-  const router = useRouter();
-  const [globalHotkeysEnabled, setGlobalHotkeysEnabled] =
-    useState<boolean>(true);
-  const [categories, setCategories] = useState<CategoryWithLinks[]>(
-    props.categories,
-  );
-  const [activeCategory, setActiveCategory] =
-    useState<CategoryWithLinks | null>(props.activeCategory || categories?.[0]);
+const AboutItem = ({
+  title,
+  text,
+  icon: Icon,
+}: {
+  title: string;
+  text: string;
+  icon: IconType;
+}) => (
+  <li className={styles['about-item']}>
+    <Icon size={60} />
+    <div>{title}</div>
+    <p>{text}</p>
+  </li>
+);
 
-  const handleChangeCategory = useCallback(
-    (category: CategoryWithLinks) => {
-      setActiveCategory(category);
-      router.push(`${PATHS.HOME}?categoryId=${category.id}`);
-    },
-    [router],
-  );
-
-  const favorites = useMemo<LinkWithCategory[]>(
-    () =>
-      categories.reduce((acc, category) => {
-        category.links.forEach((link) =>
-          link.favorite ? acc.push(link) : null,
-        );
-        return acc;
-      }, [] as LinkWithCategory[]),
-    [categories],
-  );
-
-  const categoriesContextValue = useMemo(
-    () => ({ categories, setCategories }),
-    [categories],
-  );
-  const activeCategoryContextValue = useMemo(
-    () => ({ activeCategory, setActiveCategory: handleChangeCategory }),
-    [activeCategory, handleChangeCategory],
-  );
-  const favoritesContextValue = useMemo(() => ({ favorites }), [favorites]);
-  const globalHotkeysContextValue = useMemo(
-    () => ({
-      globalHotkeysEnabled: globalHotkeysEnabled,
-      setGlobalHotkeysEnabled,
-    }),
-    [globalHotkeysEnabled],
-  );
-
-  useHotkeys(
-    Keys.OPEN_CREATE_LINK_KEY,
-    () => {
-      router.push(`${PATHS.LINK.CREATE}?categoryId=${activeCategory.id}`);
-    },
-    { enabled: globalHotkeysEnabled },
-  );
-  useHotkeys(
-    Keys.OPEN_CREATE_CATEGORY_KEY,
-    () => {
-      router.push(PATHS.CATEGORY.CREATE);
-    },
-    { enabled: globalHotkeysEnabled },
-  );
+function HeroHeader() {
+  const { t } = useTranslation('about');
   return (
-    <CategoriesContext.Provider value={categoriesContextValue}>
-      <ActiveCategoryContext.Provider value={activeCategoryContextValue}>
-        <FavoritesContext.Provider value={favoritesContextValue}>
-          <GlobalHotkeysContext.Provider value={globalHotkeysContextValue}>
-            {props.children}
-          </GlobalHotkeysContext.Provider>
-        </FavoritesContext.Provider>
-      </ActiveCategoryContext.Provider>
-    </CategoriesContext.Provider>
+    <header className={styles['hero']}>
+      <h1>{t('about:hero.title')}</h1>
+      <Quotes>{t('common:slogan')}</Quotes>
+      <Link
+        href={PATHS.APP}
+        className='reset'
+      >
+        {t('about:hero.cta')}
+      </Link>
+    </header>
   );
 }
 
-export const getServerSideProps = withAuthentication(
-  async ({ query, session, user, locale }) => {
-    const queryCategoryId = (query?.categoryId as string) || '';
-    const searchQueryParam = (query?.q as string)?.toLowerCase() || '';
-
-    const categories = await getUserCategories(user);
-    if (categories.length === 0) {
-      return {
-        redirect: {
-          destination: PATHS.CATEGORY.CREATE,
-        },
-      };
-    }
-
-    const link = categories
-      .map((category) => category.links)
-      .flat()
-      .find(
-        (link: LinkWithCategory) =>
-          link.name.toLowerCase() === searchQueryParam ||
-          link.url.toLowerCase() === searchQueryParam,
-      );
-    if (link) {
-      return {
-        redirect: {
-          destination: link.url,
-        },
-      };
-    }
-
-    const activeCategory = categories.find(
-      ({ id }) => id === Number(queryCategoryId),
-    );
-    return {
-      props: {
-        session,
-        categories: JSON.parse(
-          JSON.stringify(sortCategoriesByNextId(categories)),
-        ),
-        activeCategory: activeCategory
-          ? JSON.parse(JSON.stringify(activeCategory))
-          : null,
-        ...(await getServerSideTranslation(locale, ['home'])),
-      },
-    };
+export const getServerSideProps = async ({ locale }) => ({
+  props: {
+    ...(await getServerSideTranslation(locale, ['about'])),
   },
-);
+});
