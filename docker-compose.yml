@@ -30,8 +30,6 @@ services:
     container_name: MyLinksDB
     image: mysql:latest
     restart: always
-    volumes:
-      - ./docker-config/mysql-dev-init.sql:/docker-entrypoint-initdb.d/init.sql
     env_file:
       - .env
     healthcheck:
