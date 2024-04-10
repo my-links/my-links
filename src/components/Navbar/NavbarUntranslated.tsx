@@ -13,10 +13,7 @@ export default function NavbarUntranslated() {
           <LinkTag href={PATHS.HOME}>MyLinks</LinkTag>
         </li>
         <li>
-          <LinkTag href={PATHS.PRIVACY}>Privacy</LinkTag>
-        </li>
-        <li>
-          <LinkTag href={PATHS.TERMS}>Terms of use</LinkTag>
+          <LinkTag href={PATHS.REPO_GITHUB}>GitHub</LinkTag>
         </li>
         {status === 'authenticated' ? (
           <li>
