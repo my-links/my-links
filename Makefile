@@ -2,7 +2,7 @@ db:
 	docker compose -f dev.docker-compose.yml up -d --wait
 
 dev: db
-	npx prisma migrate deploy
+	npx prisma db push
 	npx prisma generate
 	npm run dev
 
