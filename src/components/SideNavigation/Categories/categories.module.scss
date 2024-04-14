@@ -37,7 +37,7 @@
   }
 
   & .content {
-    width: 100%;
+    width: calc(100% - 24px);
     display: flex;
     gap: 0.35em;
     align-items: center;

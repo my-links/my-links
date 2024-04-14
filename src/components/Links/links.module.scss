@@ -47,6 +47,7 @@
     min-width: 0;
     width: 100%;
     display: flex;
+    gap: 0.35em;
     flex: 1;
     align-items: center;
   }
@@ -68,9 +69,10 @@
   }
 
   & .links-count {
-    color: $grey;
+    min-width: fit-content;
     font-weight: 300;
     font-size: 0.8em;
+    color: $grey;
   }
 }
 
