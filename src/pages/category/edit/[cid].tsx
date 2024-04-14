@@ -1,3 +1,5 @@
+import { Visibility } from '@prisma/client';
+import Checkbox from 'components/Checkbox';
 import FormLayout from 'components/FormLayout';
 import PageTransition from 'components/PageTransition';
 import TextBox from 'components/TextBox';
@@ -24,16 +26,27 @@ export default function PageEditCategory({
 
   const [name, setName] = useState<string>(category.name);
   const [description, setDescription] = useState<string>(category.description);
+  const [visibility, setVisibility] = useState<Visibility>(category.visibility);
 
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const canSubmit = useMemo<boolean>(() => {
     const isFormEdited =
-      name !== category.name || description !== category.description;
+      name !== category.name ||
+      description !== category.description ||
+      visibility !== category.visibility;
     const isFormValid = name !== '';
     return isFormEdited && isFormValid && !submitted;
-  }, [category.description, category.name, description, name, submitted]);
+  }, [
+    category.description,
+    category.name,
+    category.visibility,
+    description,
+    name,
+    submitted,
+    visibility,
+  ]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,7 +56,7 @@ export default function PageEditCategory({
     makeRequest({
       url: `${PATHS.API.CATEGORY}/${category.id}`,
       method: 'PUT',
-      body: { name, description, nextId: category.nextId },
+      body: { name, description, visibility, nextId: category.nextId },
     })
       .then((data) =>
         router.push(`${PATHS.APP}?categoryId=${data?.categoryId}`),
@@ -77,6 +90,14 @@ export default function PageEditCategory({
           value={description}
           fieldClass={styles['input-field']}
           placeholder={t('common:category.description')}
+        />
+        <Checkbox
+          name='visibility'
+          isChecked={visibility === Visibility.public}
+          onChangeCallback={(value) =>
+            setVisibility(!!value ? Visibility.public : Visibility.private)
+          }
+          label={t('common:category.visibility')}
         />
       </FormLayout>
     </PageTransition>

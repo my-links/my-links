@@ -18,7 +18,9 @@ async function getCategories({ res, user }) {
 }
 
 async function createCategory({ req, res, user }) {
-  const { name, description } = await CategoryBodySchema.validate(req.body);
+  const { name, description, visibility } = await CategoryBodySchema.validate(
+    req.body,
+  );
 
   const category = await getUserCategoryByName(user, name);
   if (category) {
@@ -36,7 +38,7 @@ async function createCategory({ req, res, user }) {
   });
 
   const categoryCreated = await prisma.category.create({
-    data: { name, description, authorId: user.id },
+    data: { name, description, visibility, authorId: user.id },
   });
 
   if (lastCategory) {

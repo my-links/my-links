@@ -37,13 +37,22 @@
   }
 
   & .content {
-    width: calc(100% - 42px);
+    width: 100%;
     display: flex;
-    flex: 1;
+    gap: 0.35em;
     align-items: center;
 
+    & .name-wrapper {
+      min-width: 0;
+      width: 100%;
+      display: flex;
+      gap: 0.35em;
+      flex: 1;
+      align-items: center;
+    }
+
     & .name {
-      margin-right: 5px;
+      min-width: 0;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;

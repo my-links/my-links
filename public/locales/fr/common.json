@@ -20,6 +20,7 @@
     "category": "Catégorie",
     "name": "Nom de la catégorie",
     "description": "Description de la catégorie",
+    "visibility": "Public",
     "no-description": "Aucune description",
     "create": "Créer une catégorie",
     "edit": "Modifier une catégorie",

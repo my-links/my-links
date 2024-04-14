@@ -1,10 +1,12 @@
 import clsx from 'clsx';
+import VisibilityBadge from 'components/Visibility/Visibility';
 import PATHS from 'constants/paths';
 import { motion } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
 import useCategories from 'hooks/useCategories';
 import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
 import { makeRequest } from 'lib/request';
+import { useTranslation } from 'next-i18next';
 import { useCallback, useEffect, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
@@ -28,6 +30,7 @@ export default function CategoryItem({
 }: Readonly<CategoryItemProps>): JSX.Element {
   const { activeCategory, setActiveCategory } = useActiveCategory();
   const { categories, setCategories } = useCategories();
+  const { t } = useTranslation('common');
 
   const ref = useRef<HTMLLIElement>();
 
@@ -155,8 +158,16 @@ export default function CategoryItem({
       )}
 
       <div className={styles['content']}>
-        <span className={styles['name']}>{category.name}</span>
-        <span className={styles['links-count']}>— {category.links.length}</span>
+        <div className={styles['name-wrapper']}>
+          <span className={styles['name']}>{category.name}</span>
+          <span className={styles['links-count']}>
+            — {category.links.length}
+          </span>
+        </div>
+        <VisibilityBadge
+          label={t('common:category.visibility')}
+          visibility={category.visibility}
+        />
       </div>
     </motion.li>
   );
