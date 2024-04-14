@@ -13,15 +13,17 @@ import { AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from 'hooks/useMediaQuery';
 import useModal from 'hooks/useModal';
 import { getServerSideTranslation } from 'i18n';
+import getPublicCategoryById from 'lib/category/getPublicCategoryById';
 import getUserCategories from 'lib/category/getUserCategories';
 import sortCategoriesByNextId from 'lib/category/sortCategoriesByNextId';
+import getUser from 'lib/user/getUser';
 import { useRouter } from 'next/router';
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useSwipeable } from 'react-swipeable';
 import styles from 'styles/home.module.scss';
 import { CategoryWithLinks, LinkWithCategory } from 'types/types';
-import { withAuthentication } from 'utils/session';
+import { getSession } from 'utils/session';
 
 interface HomePageProps {
   categories: CategoryWithLinks[];
@@ -156,50 +158,72 @@ function HomeProviders(
   );
 }
 
-export const getServerSideProps = withAuthentication(
-  async ({ query, session, user, locale }) => {
-    const queryCategoryId = (query?.categoryId as string) || '';
-    const searchQueryParam = (query?.q as string)?.toLowerCase() || '';
+export async function getServerSideProps({ req, res, locale, query }) {
+  const session = await getSession(req, res);
+  const user = await getUser(session);
 
-    const categories = await getUserCategories(user);
-    if (categories.length === 0) {
-      return {
-        redirect: {
-          destination: PATHS.CATEGORY.CREATE,
-        },
-      };
-    }
+  const queryCategoryId = (query?.categoryId as string) || '';
+  const searchQueryParam = (query?.q as string)?.toLowerCase() || '';
 
-    const link = categories
-      .map((category) => category.links)
-      .flat()
-      .find(
-        (link: LinkWithCategory) =>
-          link.name.toLowerCase() === searchQueryParam ||
-          link.url.toLowerCase() === searchQueryParam,
-      );
-    if (link) {
-      return {
-        redirect: {
-          destination: link.url,
-        },
-      };
-    }
-
-    const activeCategory = categories.find(
-      ({ id }) => id === Number(queryCategoryId),
-    );
+  const publicCategory = await getPublicCategoryById(Number(queryCategoryId));
+  if (!publicCategory && !user) {
     return {
-      props: {
-        session,
-        categories: JSON.parse(
-          JSON.stringify(sortCategoriesByNextId(categories)),
-        ),
-        activeCategory: activeCategory
-          ? JSON.parse(JSON.stringify(activeCategory))
-          : null,
-        ...(await getServerSideTranslation(locale, ['home'])),
+      redirect: {
+        destination: PATHS.LOGIN,
       },
     };
-  },
-);
+  }
+
+  if (!!publicCategory && publicCategory.authorId !== user?.id) {
+    return {
+      redirect: {
+        destination: `${PATHS.SHARED}?id=${publicCategory.id}`,
+      },
+    };
+  }
+
+  const categories = await getUserCategories(user);
+  if (categories.length === 0) {
+    return {
+      redirect: {
+        destination: PATHS.CATEGORY.CREATE,
+      },
+    };
+  }
+
+  const link = categories
+    .map((category) => category.links)
+    .flat()
+    .find(
+      (link: LinkWithCategory) =>
+        link.name.toLowerCase() === searchQueryParam ||
+        link.url.toLowerCase() === searchQueryParam,
+    );
+  if (link) {
+    return {
+      redirect: {
+        destination: link.url,
+      },
+    };
+  }
+
+  const activeCategory = categories.find(
+    ({ id }) => id === Number(queryCategoryId),
+  );
+  return {
+    redirect: !activeCategory &&
+      queryCategoryId && {
+        destination: PATHS.APP,
+      },
+    props: {
+      session,
+      categories: JSON.parse(
+        JSON.stringify(sortCategoriesByNextId(categories)),
+      ),
+      activeCategory: activeCategory
+        ? JSON.parse(JSON.stringify(activeCategory))
+        : null,
+      ...(await getServerSideTranslation(locale, ['home'])),
+    },
+  };
+}

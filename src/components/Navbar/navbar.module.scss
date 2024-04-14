@@ -7,10 +7,17 @@
   display: flex;
   gap: 1.5em;
   justify-content: center;
+  transition: 0.15s;
 }
 
 .navbar .user {
   display: flex;
   gap: 0.25em;
   justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .navbar ul {
+    gap: 0.5em;
+  }
 }

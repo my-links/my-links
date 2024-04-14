@@ -1,0 +1,24 @@
+@import 'styles/colors.scss';
+
+.category-name-wrapper {
+  min-width: 0;
+  width: 100%;
+  display: flex;
+  gap: 0.35em;
+  flex: 1;
+  align-items: center;
+}
+
+.category-name {
+  min-width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.links-count {
+  min-width: fit-content;
+  font-weight: 300;
+  font-size: 0.8em;
+  color: $grey;
+}

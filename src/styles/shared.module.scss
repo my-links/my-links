@@ -1,0 +1,21 @@
+.header {
+  margin-bottom: 1.5em;
+}
+
+.title {
+  font-size: 24px;
+  margin-top: 0.5em;
+}
+
+main.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.no-link-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
