@@ -1,16 +1,17 @@
-import clsx from 'clsx';
 import ButtonLink from 'components/ButtonLink';
 import Footer from 'components/Footer/Footer';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
-import VisibilityBadge from 'components/Visibility/Visibility';
-import { motion } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
+import useUser from 'hooks/useUser';
 import { useTranslation } from 'next-i18next';
 import LinkTag from 'next/link';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import LinkItem from './LinkItem';
+import CategoryDescription from './CategoryDescription/CategoryDescription';
+import CategoryHeader from './CategoryHeader/CategoryHeader';
+import LinkList from './LinkList/LinkList';
+import NoLinkItem from './LinkList/NoLinkItem';
 import styles from './links.module.scss';
 
 interface LinksProps {
@@ -22,6 +23,7 @@ export default function Links({
   isMobile,
   openSideMenu,
 }: Readonly<LinksProps>) {
+  const { status } = useUser();
   const { t } = useTranslation('home');
   const { activeCategory } = useActiveCategory();
 
@@ -34,7 +36,7 @@ export default function Links({
     );
   }
 
-  const { id, name, links } = activeCategory;
+  const { id, name, description, links } = activeCategory;
   return (
     <div className={styles['links-wrapper']}>
       <h2 className={styles['category-header']}>
@@ -46,68 +48,36 @@ export default function Links({
             <RxHamburgerMenu size={'1.5em'} />
           </ButtonLink>
         )}
-        <div className={styles['category-name-wrapper']}>
-          <div className={styles['category-name']}>{name}</div>
-          {links.length > 0 && (
-            <span className={styles['links-count']}> — {links.length}</span>
-          )}
-          <VisibilityBadge
-            label={t('common:category.visibility')}
-            visibility={activeCategory.visibility}
-          />
-        </div>
-        <span className={styles['category-controls']}>
-          <CreateItem
-            type='link'
-            categoryId={id}
-          />
-          <EditItem
-            type='category'
-            id={id}
-          />
-          <RemoveItem
-            type='category'
-            id={id}
-          />
-        </span>
-      </h2>
-      {activeCategory.description && (
-        <p className={styles['category-description']}>
-          {activeCategory.description}
-        </p>
-      )}
-      {links.length !== 0 ? (
-        <ul className={clsx(styles['links'], 'reset')}>
-          {links.map((link, index) => (
-            <LinkItem
-              link={link}
-              index={index}
-              key={link.id}
+        <CategoryHeader activeCategory={activeCategory} />
+        {status === 'authenticated' && (
+          <span className={styles['category-controls']}>
+            <CreateItem
+              type='link'
+              categoryId={id}
             />
-          ))}
-        </ul>
+            <EditItem
+              type='category'
+              id={id}
+            />
+            <RemoveItem
+              type='category'
+              id={id}
+            />
+          </span>
+        )}
+      </h2>
+      <CategoryDescription description={description} />
+      {links.length !== 0 ? (
+        <LinkList
+          links={links}
+          showUserControls
+        />
       ) : (
-        <div className={styles['no-link']}>
-          <motion.p
-            key={id}
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{
-              type: 'spring',
-              stiffness: 260,
-              damping: 20,
-              duration: 0.01,
-            }}
-            dangerouslySetInnerHTML={{
-              __html: t('home:no-link', { name } as any, {
-                interpolation: { escapeValue: false },
-              }),
-            }}
-          />
-          <LinkTag href={`/link/create?categoryId=${id}`}>
-            {t('common:link.create')}
-          </LinkTag>
-        </div>
+        <NoLinkItem
+          categoryId={id}
+          categoryName={name}
+          key={id}
+        />
       )}
       <Footer />
     </div>

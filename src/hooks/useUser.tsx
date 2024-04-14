@@ -2,7 +2,12 @@ import { User } from '@prisma/client';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 
-export default function useUser() {
-  const { data } = useSession();
-  return data as Session & { user?: User };
+type SessionStatus = ReturnType<typeof useSession>['status'];
+
+export default function useUser(): Session & {
+  user?: User;
+  status: SessionStatus;
+} {
+  const { data, status } = useSession();
+  return { status, ...data, user: data?.user as User };
 }

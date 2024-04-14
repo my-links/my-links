@@ -3,6 +3,7 @@ const PATHS = {
   LOGOUT: '/logout',
   HOME: '/',
   APP: '/app',
+  SHARED: '/shared',
   PRIVACY: '/privacy',
   TERMS: '/terms',
   ADMIN: '/admin',

@@ -28,11 +28,6 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-
-  & .category-description {
-    font-size: 0.85em;
-    margin-bottom: 0.5em;
-  }
 }
 
 .category-header {
@@ -43,21 +38,6 @@
   align-items: center;
   justify-content: space-between;
 
-  & .category-name-wrapper {
-    min-width: 0;
-    width: 100%;
-    display: flex;
-    gap: 0.35em;
-    flex: 1;
-    align-items: center;
-  }
-  & .category-name {
-    min-width: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   & .category-controls {
     display: flex;
     gap: 0.5em;
@@ -66,13 +46,6 @@
 
   & > svg {
     display: flex;
-  }
-
-  & .links-count {
-    min-width: fit-content;
-    font-weight: 300;
-    font-size: 0.8em;
-    color: $grey;
   }
 }
 

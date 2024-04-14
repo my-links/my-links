@@ -15,9 +15,11 @@ import styles from './links.module.scss';
 export default function LinkItem({
   link,
   index,
+  showUserControls = false,
 }: {
   link: LinkWithCategory;
   index: number;
+  showUserControls: boolean;
 }) {
   const { id, name, url, description, favorite } = link;
   const { categories, setCategories } = useCategories();
@@ -80,24 +82,27 @@ export default function LinkItem({
           className='reset'
         >
           <span className={styles['link-name']}>
-            {name} {favorite && <AiFillStar color='#ffc107' />}
+            {name}{' '}
+            {showUserControls && favorite && <AiFillStar color='#ffc107' />}
           </span>
           <LinkItemURL url={url} />
         </ExternalLink>
-        <div className={styles['controls']}>
-          <FavoriteItem
-            isFavorite={favorite}
-            onClick={onFavorite}
-          />
-          <EditItem
-            type='link'
-            id={id}
-          />
-          <RemoveItem
-            type='link'
-            id={id}
-          />
-        </div>
+        {showUserControls && (
+          <div className={styles['controls']}>
+            <FavoriteItem
+              isFavorite={favorite}
+              onClick={onFavorite}
+            />
+            <EditItem
+              type='link'
+              id={id}
+            />
+            <RemoveItem
+              type='link'
+              id={id}
+            />
+          </div>
+        )}
       </div>
       {description && (
         <div className={styles['link-description']}>{description}</div>
