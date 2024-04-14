@@ -71,6 +71,7 @@ function ListCategories() {
   return (
     <ul
       className={clsx(styles['items'], 'reset')}
+      // @ts-ignore
       ref={drop}
     >
       {categories.map((category, index) => (
