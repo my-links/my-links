@@ -29,10 +29,11 @@ model User {
 }
 
 model Category {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(255)
-  description String? @db.VarChar(255)
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(255)
+  description String?    @db.VarChar(255)
   links       Link[]
+  visibility  Visibility @default(private)
 
   author   User @relation(fields: [authorId], references: [id])
   authorId Int
@@ -62,4 +63,9 @@ model Link {
   updatedAt DateTime @updatedAt
 
   @@map("link")
+}
+
+enum Visibility {
+  private
+  public
 }

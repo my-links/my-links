@@ -1,3 +1,5 @@
+import { Visibility } from '@prisma/client';
+import Checkbox from 'components/Checkbox';
 import FormLayout from 'components/FormLayout';
 import PageTransition from 'components/PageTransition';
 import TextBox from 'components/TextBox';
@@ -24,6 +26,7 @@ export default function PageCreateCategory({
 
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [visibility, setVisibility] = useState<Visibility>(Visibility.private);
 
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -41,7 +44,7 @@ export default function PageCreateCategory({
     makeRequest({
       url: PATHS.API.CATEGORY,
       method: 'POST',
-      body: { name, description, nextId: null },
+      body: { name, description, visibility, nextId: null },
     })
       .then((data) =>
         router.push(`${PATHS.APP}?categoryId=${data?.categoryId}`),
@@ -77,6 +80,14 @@ export default function PageCreateCategory({
           value={description}
           fieldClass={styles['input-field']}
           placeholder={t('common:category.description')}
+        />
+        <Checkbox
+          name='visibility'
+          isChecked={visibility === Visibility.public}
+          onChangeCallback={(value) =>
+            setVisibility(!!value ? Visibility.public : Visibility.private)
+          }
+          label={t('common:category.visibility')}
         />
       </FormLayout>
     </PageTransition>

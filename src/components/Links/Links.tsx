@@ -4,6 +4,7 @@ import Footer from 'components/Footer/Footer';
 import CreateItem from 'components/QuickActions/CreateItem';
 import EditItem from 'components/QuickActions/EditItem';
 import RemoveItem from 'components/QuickActions/RemoveItem';
+import VisibilityBadge from 'components/Visibility/Visibility';
 import { motion } from 'framer-motion';
 import useActiveCategory from 'hooks/useActiveCategory';
 import { useTranslation } from 'next-i18next';
@@ -45,12 +46,16 @@ export default function Links({
             <RxHamburgerMenu size={'1.5em'} />
           </ButtonLink>
         )}
-        <span className={styles['category-name']}>
-          {name}
+        <div className={styles['category-name-wrapper']}>
+          <div className={styles['category-name']}>{name}</div>
           {links.length > 0 && (
             <span className={styles['links-count']}> — {links.length}</span>
           )}
-        </span>
+          <VisibilityBadge
+            label={t('common:category.visibility')}
+            visibility={activeCategory.visibility}
+          />
+        </div>
         <span className={styles['category-controls']}>
           <CreateItem
             type='link'
