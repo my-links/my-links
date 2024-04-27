@@ -1,9 +1,14 @@
+import PATHS from '#constants/paths';
 import User from '#models/user';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 
 export default class UsersController {
-  private redirectTo = '/';
+  private redirectTo = PATHS.HOME;
+
+  login({ inertia }: HttpContext) {
+    return inertia.render('login');
+  }
 
   google = ({ ally }: HttpContext) => ally.use('google').redirect();
 
@@ -44,13 +49,13 @@ export default class UsersController {
     session.flash('flash', 'Successfully authenticated');
     logger.info(`[${user.email}] auth success`);
 
-    response.redirect('/');
+    response.redirect(this.redirectTo);
   }
 
   async logout({ auth, response, session }: HttpContext) {
     await auth.use('web').logout();
     session.flash('flash', 'Successfully disconnected');
     logger.info(`[${auth.user?.email}] disconnected successfully`);
-    response.redirect('/');
+    response.redirect(this.redirectTo);
   }
 }

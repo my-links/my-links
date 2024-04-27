@@ -3,14 +3,14 @@
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 import { createInertiaApp } from '@inertiajs/react';
 import { hydrateRoot } from 'react-dom/client';
-import '../css/app.css';
+import { theme } from '~/styles/theme';
 
-const appName = import.meta.env.VITE_APP_NAME || 'AdonisJS';
+const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';
 
 createInertiaApp({
-  progress: { color: '#5468FF' },
+  progress: { color: theme.colors.primary },
 
-  title: (title) => `${title} - ${appName}`,
+  title: (title) => `${appName}${title && ` - ${title}`}`,
 
   resolve: (name) => {
     return resolvePageComponent(`../pages/${name}.tsx`, import.meta.glob('../pages/**/*.tsx'));
