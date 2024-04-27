@@ -7,3 +7,6 @@ dev:
 prod:
 	docker compose -f dev.docker-compose.yml down
 	docker compose up -d --build --wait
+
+seed:
+	node ace db:seed
