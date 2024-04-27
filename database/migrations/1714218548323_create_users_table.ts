@@ -5,10 +5,15 @@ export default class extends BaseSchema {
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').notNullable();
-      table.string('full_name').nullable();
+      table.string('id').notNullable();
       table.string('email', 254).notNullable().unique();
-      table.string('password').notNullable();
+      table.string('name', 254).notNullable();
+      table.string('nick_name', 254).notNullable();
+      table.text('avatar_url').notNullable();
+      table.boolean('is_admin').defaultTo(0).notNullable();
+
+      table.json('token').notNullable();
+      table.string('provider_id').notNullable();
 
       table.timestamp('created_at').notNullable();
       table.timestamp('updated_at').nullable();
