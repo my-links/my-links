@@ -1,0 +1,34 @@
+name: my-links
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready']
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+
+  my-links:
+    container_name: my-links
+    restart: always
+    build:
+      context: .
+    environment:
+      - DB_HOST=postgres
+      - HOST=0.0.0.0
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${PORT}:3333
+
+volumes:
+  postgres-volume:
+    name: postgres-prod-my-links
