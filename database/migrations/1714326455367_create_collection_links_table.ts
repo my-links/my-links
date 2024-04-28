@@ -1,29 +1,20 @@
 import { BaseSchema } from '@adonisjs/lucid/schema';
 
 export default class extends BaseSchema {
-  protected tableName = 'links';
+  protected tableName = 'collection_link';
 
   async up() {
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').unique().notNullable();
-
-      table.string('name', 254).notNullable();
-      table.string('description', 254);
-      table.text('url').notNullable();
-      table.boolean('favorite').notNullable().defaultTo(0);
       table
         .uuid('collection_id')
         .references('id')
         .inTable('collections')
         .onDelete('CASCADE');
       table
-        .uuid('author_id')
+        .uuid('link_id')
         .references('id')
-        .inTable('users')
+        .inTable('links')
         .onDelete('CASCADE');
-
-      table.timestamp('created_at');
-      table.timestamp('updated_at');
     });
   }
 

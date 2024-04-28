@@ -1,4 +1,5 @@
 import Collection from '#models/collection';
+import Link from '#models/link';
 import type { GoogleToken } from '@adonisjs/ally/types';
 import { column, manyToMany } from '@adonisjs/lucid/orm';
 import type { ManyToMany } from '@adonisjs/lucid/types/relations';
@@ -30,4 +31,9 @@ export default class User extends AppBaseModel {
     relatedKey: 'authorId',
   })
   declare collections: ManyToMany<typeof Collection>;
+
+  @manyToMany(() => Link, {
+    relatedKey: 'authorId',
+  })
+  declare links: ManyToMany<typeof Link>;
 }
