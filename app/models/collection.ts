@@ -3,6 +3,7 @@ import Link from '#models/link';
 import User from '#models/user';
 import { belongsTo, column, manyToMany } from '@adonisjs/lucid/orm';
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
+import { Visibility } from '../enums/visibility.js';
 
 export default class Collection extends AppBaseModel {
   @column()
@@ -25,9 +26,4 @@ export default class Collection extends AppBaseModel {
 
   @manyToMany(() => Link)
   declare links: ManyToMany<typeof Link>;
-}
-
-export enum Visibility {
-  PUBLIC = 'PUBLIC',
-  PRIVATE = 'PRIVATE',
 }
