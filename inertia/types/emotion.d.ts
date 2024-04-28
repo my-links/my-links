@@ -12,9 +12,23 @@ declare module '@emotion/react' {
       darkBlack: string;
 
       white: string;
-      gray: string;
 
+      lightestGrey: string;
+      lightGrey: string;
+      grey: string;
+      darkGrey: string;
+
+      lightestBlue: string;
+      lightBlue: string;
       blue: string;
+      darkBlue: string;
+      darkestBlue: string;
+
+      lightRed: string;
+      red: string;
+
+      lightGreen: string;
+      green: string;
     };
 
     border: {
