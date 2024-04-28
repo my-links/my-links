@@ -1,5 +1,5 @@
-import { Visibility } from '#models/collection';
 import { BaseSchema } from '@adonisjs/lucid/schema';
+import { Visibility } from '../../app/enums/visibility.js';
 
 export default class extends BaseSchema {
   protected tableName = 'collections';
@@ -12,7 +12,7 @@ export default class extends BaseSchema {
 
       table.string('name', 254).notNullable();
       table.string('description', 254);
-      table.uuid('next_id').notNullable();
+      table.uuid('next_id').defaultTo(null);
       table.uuid('author_id').notNullable();
       table.enum('visibility', Object.values(Visibility), {
         useNative: true,
