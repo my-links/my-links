@@ -11,7 +11,8 @@
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "imports": {
     "#controllers/*": "./app/controllers/*.js",
@@ -50,6 +51,8 @@
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.57.0",
     "hot-hook": "^0.2.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "pino-pretty": "^11.0.0",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
@@ -97,5 +100,8 @@
     "bracketSpacing": true,
     "arrowParens": "always",
     "printWidth": 100
+  },
+  "lint-staged": {
+    "*.js,*.ts,*.jsx,*.tsx": "eslint --cache --fix"
   }
 }

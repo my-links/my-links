@@ -19,7 +19,6 @@ yarn-error.log
 # Editors specific
 .fleet
 .idea
-.vscode
 
 # Platform specific
 .DS_Store
