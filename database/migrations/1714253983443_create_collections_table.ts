@@ -8,12 +8,20 @@ export default class extends BaseSchema {
   async up() {
     this.schema.raw(`DROP TYPE IF EXISTS ${this.visibilityEnumName}`);
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').notNullable();
+      table.uuid('id').unique().notNullable();
 
       table.string('name', 254).notNullable();
       table.string('description', 254);
-      table.uuid('next_id').defaultTo(null);
-      table.uuid('author_id').notNullable();
+      table
+        .uuid('next_id')
+        .references('id')
+        .inTable('collections')
+        .defaultTo(null);
+      table
+        .uuid('author_id')
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE');
       table.enum('visibility', Object.values(Visibility), {
         useNative: true,
         enumName: this.visibilityEnumName,
