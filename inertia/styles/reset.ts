@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { theme } from '~/styles/theme';
 
 export const cssReset = css({
   '*': {
@@ -17,20 +18,20 @@ export const cssReset = css({
     border: 0,
   },
 
-  'a': {
+  a: {
     width: 'fit-content',
     color: '#3f88c5',
     textDecoration: 'none',
     borderBottom: '1px solid transparent',
   },
 
-  'b': {
+  b: {
     fontWeight: 600,
     letterSpacing: '0.5px',
   },
 
   'h1, h2, h3, h4, h5, h6': {
-    fontWeight: '400',
-    margin: '1em 0',
+    fontWeight: '500',
+    color: theme.colors.primary,
   },
 });

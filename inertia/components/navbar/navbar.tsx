@@ -17,13 +17,15 @@ const Nav = styled.nav({
   alignItems: 'center',
 });
 
-const NavList = styled(UnstyledList)<NavbarListDirection>(({ theme, right }) => ({
-  display: 'flex',
-  flex: 1,
-  gap: '1.5em',
-  justifyContent: right ? 'flex-end' : 'flex-start',
-  transition: theme.transition.delay,
-}));
+const NavList = styled(UnstyledList)<NavbarListDirection>(
+  ({ theme, right }) => ({
+    display: 'flex',
+    flex: 1,
+    gap: '1.5em',
+    justifyContent: right ? 'flex-end' : 'flex-start',
+    transition: theme.transition.delay,
+  })
+);
 
 const UserCard = styled.div({
   display: 'flex',
@@ -53,14 +55,23 @@ export default function Navbar() {
           <ExternalLink href={PATHS.REPO_GITHUB}>GitHub</ExternalLink>
         </li>
         {isAuthenticated && !!user ? (
-          <li>
-            <a href={PATHS.AUTH.LOGOUT}>
-              <UserCard>
-                <RoundedImage src={user.avatarUrl} width={22} referrerPolicy="no-referrer" />
-                {user.nickName}
-              </UserCard>
-            </a>
-          </li>
+          <>
+            <li>
+              <Link href={PATHS.APP}>Dashboard</Link>
+            </li>
+            <li>
+              <a href={PATHS.AUTH.LOGOUT}>
+                <UserCard>
+                  <RoundedImage
+                    src={user.avatarUrl}
+                    width={22}
+                    referrerPolicy="no-referrer"
+                  />
+                  {user.nickName}
+                </UserCard>
+              </a>
+            </li>
+          </>
         ) : (
           <li>
             <Link href={PATHS.AUTH.LOGIN}>Login</Link>
