@@ -15,9 +15,9 @@ router.get('/auth/callback', [UsersController, 'callbackAuth']);
 router
   .group(() => {
     router.get(PATHS.AUTH.LOGOUT, [UsersController, 'logout']);
-    router.get(PATHS.APP, [CollectionsController, 'index']);
+    router.get(PATHS.DASHBOARD, [CollectionsController, 'index']);
 
-    router.get('/collections/create', [
+    router.get(PATHS.COLLECTION.CREATE, [
       CollectionsController,
       'showCreatePage',
     ]);

@@ -1,0 +1,5 @@
+{
+  "select-category": "Please select a category",
+  "or-create-one": "or create one",
+  "no-link": "No link for <b>{{name}}</b>"
+}

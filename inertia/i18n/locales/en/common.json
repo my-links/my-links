@@ -1,0 +1,53 @@
+{
+  "slogan": "Manage your links in the best possible way",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "back-home": "← Back to home page",
+  "logout": "Logout",
+  "login": "Login",
+  "link": {
+    "links": "Links",
+    "link": "Link",
+    "name": "Link name",
+    "description": "Link description",
+    "create": "Create a link",
+    "edit": "Edit a link",
+    "remove": "Delete a link",
+    "remove-confirm": "Confirm deletion?"
+  },
+  "category": {
+    "categories": "Categories",
+    "category": "Category",
+    "name": "Category name",
+    "description": "Category description",
+    "no-description": "No description",
+    "visibility": "Public",
+    "create": "Create a category",
+    "edit": "Edit a category",
+    "remove": "Delete a category",
+    "remove-confirm": "Confirm deletion?",
+    "remove-description": "You must delete all links in this category before you can delete this category."
+  },
+  "favorite": "Favorite",
+  "no-item-found": "No item found",
+  "search": "Search",
+  "avatar": "{{name}}'s avatar",
+  "generic-error": "Something went wrong",
+  "generic-error-description": "An error has occurred, if this happens again please <a href=\"https://github.com/Sonny93/my-links\" target=\"_blank\">create an issue</a> with as much detail as possible.",
+  "retry": "Retry",
+  "privacy": "Privacy",
+  "terms": "Terms of use",
+  "language": {
+    "fr": "Français",
+    "en": "English"
+  },
+  "lang": "Language",
+  "settings": "Settings",
+  "profile": "Profile",
+  "select-your-lang": "Change the language",
+  "name": "Name",
+  "email": "Email",
+  "footer": {
+    "made_by": "Made with ❤\uFE0F by"
+  }
+}
