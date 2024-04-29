@@ -30,7 +30,14 @@ export default class UsersController {
       return response.redirect(this.redirectTo);
     }
 
-    const { email, id: providerId, name, nickName, avatarUrl, token } = await google.user();
+    const {
+      email,
+      id: providerId,
+      name,
+      nickName,
+      avatarUrl,
+      token,
+    } = await google.user();
     const user = await User.updateOrCreate(
       {
         email,
@@ -49,7 +56,7 @@ export default class UsersController {
     session.flash('flash', 'Successfully authenticated');
     logger.info(`[${user.email}] auth success`);
 
-    response.redirect(this.redirectTo);
+    response.redirect(PATHS.DASHBOARD);
   }
 
   async logout({ auth, response, session }: HttpContext) {

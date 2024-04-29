@@ -1,0 +1,45 @@
+{
+  "title": "Privacy Policy of MyLinks",
+  "edited_at": "Last updated: {{date}}",
+  "welcome": "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data.",
+  "collect": {
+    "title": "1. Data Collection",
+    "cookie": {
+      "title": "1.1 Cookies",
+      "description": "Cookies used on MyLinks are essential to ensure the proper functioning of the site. By continuing to use our service, you consent to the use of these cookies."
+    },
+    "user": {
+      "title": "1.2 User Data",
+      "description": "To create personalized categories and links and associate them with their author, we collect the following information:",
+      "fields": ["Google ID", "Lastname", "Firstname", "Email", "Avatar"]
+    }
+  },
+  "data_use": {
+    "title": "2. Data Use",
+    "description": "The collected data is neither resold nor used for purposes other than initially intended, namely the management of categories and links created by the user."
+  },
+  "data_storage": {
+    "title": "3. Data Storage",
+    "description": "Data is stored securely to protect your privacy.",
+    "data_retention": {
+      "title": "3.1 Data Retention Period",
+      "description": "Functional data is retained until the user requests deletion. Once this request is made, the data will be permanently deleted."
+    }
+  },
+  "user_rights": {
+    "title": "4. User Rights",
+    "description": "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
+  },
+  "gdpr": {
+    "title": "5. GDPR Compliance",
+    "description": "MyLinks complies with the General Data Protection Regulation (GDPR) of the European Union."
+  },
+  "contact": {
+    "title": "6. Contact",
+    "description": "If you have any questions or concerns about our privacy policy, feel free to contact us at the following address:"
+  },
+  "footer": {
+    "changes": "We reserve the right to update this privacy policy. We encourage you to regularly check this page to stay informed of any changes.",
+    "thanks": "Thank you for using MyLinks!"
+  }
+}

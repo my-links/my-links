@@ -1,0 +1,5 @@
+{
+  "title": "Authentification",
+  "informative-text": "Authentification requise pour utiliser MyLinks",
+  "continue-with": "Continuer avec {{provider}}"
+}
