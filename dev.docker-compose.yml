@@ -31,4 +31,4 @@ services:
 
 volumes:
   postgres_volume:
-    name: postgres_test_adonisv6
+    name: postgres_test_dev_stack

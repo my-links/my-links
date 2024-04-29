@@ -4,8 +4,17 @@ import { collectionValidator } from '#validators/collection';
 import type { HttpContext } from '@adonisjs/core/http';
 
 export default class CollectionsController {
-  async index({ inertia }: HttpContext) {
-    return inertia.render('app');
+  async index({ auth, inertia }: HttpContext) {
+    const collections = await Collection.findManyBy('author_id', auth.user!.id);
+
+    const collectionsWithLinks = await Promise.all(
+      collections.map((collection) => {
+        collection.load('links');
+        return collection;
+      })
+    );
+
+    return inertia.render('dashboard', { collections: collectionsWithLinks });
   }
 
   async showCreatePage({ inertia }: HttpContext) {
@@ -25,6 +34,6 @@ export default class CollectionsController {
     response: HttpContext['response'],
     collectionId: Collection['id']
   ) {
-    return response.redirect(`${PATHS.APP}?categoryId=${collectionId}`);
+    return response.redirect(`${PATHS.DASHBOARD}?categoryId=${collectionId}`);
   }
 }

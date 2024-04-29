@@ -11,6 +11,7 @@ const FormLayoutStyle = styled.div(({ theme }) => ({
   width: theme.media.mobile,
   maxWidth: '100%',
   marginTop: '10em',
+  paddingInline: '1em',
   display: 'flex',
   gap: '0.75em',
   flexDirection: 'column',
@@ -46,7 +47,7 @@ const FormLayout = ({
       </Form>
       {!disableHomeLink && (
         // <Link href={categoryId ? `/?categoryId=${categoryId}` : '/'}>{t('common:back-home')}</Link>
-        <Link href={PATHS.APP}>← Revenir à l'accueil</Link>
+        <Link href={PATHS.DASHBOARD}>← Revenir à l'accueil</Link>
       )}
     </FormLayoutStyle>
   </BaseLayout>

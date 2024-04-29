@@ -57,7 +57,7 @@ export default function Navbar() {
         {isAuthenticated && !!user ? (
           <>
             <li>
-              <Link href={PATHS.APP}>Dashboard</Link>
+              <Link href={PATHS.DASHBOARD}>Dashboard</Link>
             </li>
             <li>
               <a href={PATHS.AUTH.LOGOUT}>
