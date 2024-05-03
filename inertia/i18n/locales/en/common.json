@@ -15,18 +15,18 @@
     "remove": "Delete a link",
     "remove-confirm": "Confirm deletion?"
   },
-  "category": {
-    "categories": "Categories",
-    "category": "Category",
-    "name": "Category name",
-    "description": "Category description",
+  "collection": {
+    "collections": "Collections",
+    "collection": "Collection",
+    "name": "Collection name",
+    "description": "Collection description",
     "no-description": "No description",
     "visibility": "Public",
-    "create": "Create a category",
-    "edit": "Edit a category",
-    "remove": "Delete a category",
+    "create": "Create a collection",
+    "edit": "Edit a collection",
+    "remove": "Delete a collection",
     "remove-confirm": "Confirm deletion?",
-    "remove-description": "You must delete all links in this category before you can delete this category."
+    "remove-description": "You must delete all links in this collection before you can delete this collection."
   },
   "favorite": "Favorite",
   "no-item-found": "No item found",

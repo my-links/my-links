@@ -7,14 +7,15 @@ WORKDIR /usr/src/app
 
 # Install dependencies
 COPY package*.json ./
-RUN npm ci --omit="dev"
+RUN npm ci --omit="dev" --ignore-scripts
 
 # Copy app source code
 COPY . .
 
 # Build app
-RUN npm install
+RUN npm install --ignore-scripts
 RUN npm run build --omit="dev"
+RUN npx vite build
 
 COPY ./.env ./build
 
@@ -30,4 +31,4 @@ ENV SESSION_DRIVER=cookie
 EXPOSE $PORT
 
 # Start app
-CMD node build/bin/console.js migration:run --force && node build/bin/server.js
+CMD node build/bin/console.js migration:run && node build/bin/server.js
