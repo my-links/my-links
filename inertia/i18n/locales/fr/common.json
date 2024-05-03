@@ -15,18 +15,19 @@
     "remove": "Supprimer un lien",
     "remove-confirm": "Confirmer la suppression ?"
   },
-  "category": {
-    "categories": "Catégories",
-    "category": "Catégorie",
-    "name": "Nom de la catégorie",
-    "description": "Description de la catégorie",
+  "collection": {
+    "collections": "Collection",
+    "collections_other": "Collections",
+    "collection": "Collection",
+    "name": "Nom de la collection",
+    "description": "Description de la collection",
     "visibility": "Public",
     "no-description": "Aucune description",
-    "create": "Créer une catégorie",
-    "edit": "Modifier une catégorie",
-    "remove": "Supprimer une catégorie",
+    "create": "Créer une collection",
+    "edit": "Modifier une collection",
+    "remove": "Supprimer une collection",
     "remove-confirm": "Confirmer la suppression ?",
-    "remove-description": "Vous devez supprimer tous les liens de cette catégorie avant de pouvoir supprimer cette catégorie"
+    "remove-description": "Vous devez supprimer tous les liens de cette collection avant de pouvoir supprimer cette collection"
   },
   "favorite": "Favoris",
   "no-item-found": "Aucun élément trouvé",

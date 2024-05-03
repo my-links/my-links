@@ -46,7 +46,7 @@ const FormLayout = ({
         </Button>
       </Form>
       {!disableHomeLink && (
-        // <Link href={categoryId ? `/?categoryId=${categoryId}` : '/'}>{t('common:back-home')}</Link>
+        // <Link href={collectionId ? `/?collectionId=${collectionId}` : '/'}>{t('common:back-home')}</Link>
         <Link href={PATHS.DASHBOARD}>← Revenir à l'accueil</Link>
       )}
     </FormLayoutStyle>

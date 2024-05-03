@@ -29,6 +29,8 @@ declare module '@emotion/react' {
 
       lightGreen: string;
       green: string;
+
+      yellow: string;
     };
 
     border: {

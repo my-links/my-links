@@ -21,6 +21,7 @@ services:
     environment:
       - DB_HOST=postgres
       - HOST=0.0.0.0
+      - NODE_ENV=production
     env_file:
       - .env
     depends_on:

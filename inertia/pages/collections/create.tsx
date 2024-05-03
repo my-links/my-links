@@ -2,6 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { ChangeEvent, FormEvent, useMemo } from 'react';
 import FormField from '~/components/common/form/_form_field';
 import TextBox from '~/components/common/form/textbox';
+import BackToDashboard from '~/components/common/navigation/bask_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
 import { Visibility } from '../../../app/enums/visibility';
 
@@ -34,28 +35,30 @@ export default function CreateCollectionPage() {
       handleSubmit={handleSubmit}
       canSubmit={!isFormDisabled}
     >
-      <TextBox
-        label="Collection name"
-        placeholder="Collection name"
-        name="name"
-        onChange={setData}
-        value={data.name}
-        required
-        autoFocus
-      />
-      {errors.name && <div>{errors.name}</div>}
-      <TextBox
-        label="Collection description"
-        placeholder="Collection description"
-        name="description"
-        onChange={setData}
-        value={data.name}
-      />
-      {errors.description && <div>{errors.description}</div>}
-      <FormField>
-        <label htmlFor="visibility">Public</label>
-        <input type="checkbox" onChange={handleOnCheck} id="visibility" />
-      </FormField>
+      <BackToDashboard>
+        <TextBox
+          label="Collection name"
+          placeholder="Collection name"
+          name="name"
+          onChange={setData}
+          value={data.name}
+          required
+          autoFocus
+        />
+        {errors.name && <div>{errors.name}</div>}
+        <TextBox
+          label="Collection description"
+          placeholder="Collection description"
+          name="description"
+          onChange={setData}
+          value={data.name}
+        />
+        {errors.description && <div>{errors.description}</div>}
+        <FormField>
+          <label htmlFor="visibility">Public</label>
+          <input type="checkbox" onChange={handleOnCheck} id="visibility" />
+        </FormField>
+      </BackToDashboard>
     </FormLayout>
   );
 }

@@ -10,7 +10,7 @@
     },
     "user": {
       "title": "1.2 Données utilisateur",
-      "description": "Pour créer des catégories et liens personnalisés et les associer à leur auteur, nous collectons les informations suivantes :",
+      "description": "Pour créer des collections et liens personnalisés et les associer à leur auteur, nous collectons les informations suivantes :",
       "fields": [
         "Identifiant Google",
         "Nom",
@@ -22,7 +22,7 @@
   },
   "data_use": {
     "title": "2. Utilisation des données",
-    "description": "Les données collectées ne sont ni revendues ni utilisées à d'autres fins que celles prévues initialement, à savoir la gestion des catégories et des liens créés par l'utilisateur."
+    "description": "Les données collectées ne sont ni revendues ni utilisées à d'autres fins que celles prévues initialement, à savoir la gestion des collections et des liens créés par l'utilisateur."
   },
   "data_storage": {
     "title": "3. Stockage des données",

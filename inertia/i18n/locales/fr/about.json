@@ -3,9 +3,9 @@
     "title": "Bienvenue sur MyLinks",
     "cta": "Lancez-vous !"
   },
-  "category": {
-    "title": "Créer des catégories",
-    "text": "Organisez vos favoris dans des catégories pour garder vos liens en ordre et les retrouver facilement."
+  "collection": {
+    "title": "Créer des collections",
+    "text": "Organisez vos favoris dans des collections pour garder vos liens en ordre et les retrouver facilement."
   },
   "link": {
     "title": "Gérer les liens",

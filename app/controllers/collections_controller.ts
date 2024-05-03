@@ -8,8 +8,8 @@ export default class CollectionsController {
     const collections = await Collection.findManyBy('author_id', auth.user!.id);
 
     const collectionsWithLinks = await Promise.all(
-      collections.map((collection) => {
-        collection.load('links');
+      collections.map(async (collection) => {
+        await collection.load('links');
         return collection;
       })
     );
@@ -18,7 +18,7 @@ export default class CollectionsController {
   }
 
   async showCreatePage({ inertia }: HttpContext) {
-    return inertia.render('collection/create');
+    return inertia.render('collections/create');
   }
 
   async store({ request, response, auth }: HttpContext) {
@@ -34,6 +34,6 @@ export default class CollectionsController {
     response: HttpContext['response'],
     collectionId: Collection['id']
   ) {
-    return response.redirect(`${PATHS.DASHBOARD}?categoryId=${collectionId}`);
+    return response.redirect(`${PATHS.DASHBOARD}?collectionId=${collectionId}`);
   }
 }
