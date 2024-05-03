@@ -3,9 +3,9 @@
     "title": "Welcome to MyLinks",
     "cta": "Get started"
   },
-  "category": {
-    "title": "Create categories",
-    "text": "Organize your bookmarks by categories to keep your links tidy and find them easily."
+  "collection": {
+    "title": "Create collections",
+    "text": "Organize your bookmarks by collections to keep your links tidy and find them easily."
   },
   "link": {
     "title": "Manage Links",

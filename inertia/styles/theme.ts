@@ -23,6 +23,8 @@ const red = '#d8000c';
 const lightGreen = '#c1ffbab9';
 const green = 'green';
 
+const yellow = '#ffc107';
+
 export const theme: Theme = {
   colors: {
     font: black,
@@ -51,6 +53,8 @@ export const theme: Theme = {
 
     lightGreen,
     green,
+
+    yellow,
   },
 
   border: {

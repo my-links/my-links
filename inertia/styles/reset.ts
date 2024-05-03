@@ -34,4 +34,16 @@ export const cssReset = css({
     fontWeight: '500',
     color: theme.colors.primary,
   },
+
+  kbd: {
+    textShadow: '0 1px 0 #fff',
+    fontSize: '12px',
+    color: 'rgb(51, 51, 51)',
+    backgroundColor: 'rgb(247, 247, 247)',
+    padding: '0.25em 0.5em',
+    borderRadius: '3px',
+    border: '1px solid rgb(204, 204, 204)',
+    boxShadow: '0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset',
+    display: 'inline-block',
+  },
 });
