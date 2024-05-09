@@ -46,4 +46,25 @@ export const cssReset = css({
     boxShadow: '0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset',
     display: 'inline-block',
   },
+
+  /* width */
+  '::-webkit-scrollbar': {
+    height: '0.45em',
+    width: '0.45em',
+  },
+
+  /* Track */
+  '::-webkit-scrollbar-track': {
+    borderRadius: theme.border.radius,
+  },
+
+  /* Handle */
+  '::-webkit-scrollbar-thumb': {
+    background: theme.colors.blue,
+    borderRadius: theme.border.radius,
+
+    '&:hover': {
+      background: theme.colors.darkBlue,
+    },
+  },
 });
