@@ -58,7 +58,7 @@ export const theme: Theme = {
   },
 
   border: {
-    radius: '5px',
+    radius: '3px',
   },
 
   media: {

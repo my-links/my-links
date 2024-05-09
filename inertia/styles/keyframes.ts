@@ -8,3 +8,12 @@ export const fadeIn = keyframes({
     opacity: 1,
   },
 });
+
+export const rotate = keyframes({
+  to: {
+    transform: 'rotate(0deg)',
+  },
+  from: {
+    transform: 'rotate(360deg)',
+  },
+});

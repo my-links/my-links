@@ -7,7 +7,7 @@ import FormLayout from '~/components/layouts/form_layout';
 import { Visibility } from '../../../app/enums/visibility';
 
 export default function CreateCollectionPage() {
-  const { data, setData, post, processing, errors } = useForm({
+  const { data, setData, post, processing } = useForm({
     name: '',
     description: '',
     visibility: Visibility.PRIVATE,
@@ -45,7 +45,6 @@ export default function CreateCollectionPage() {
           required
           autoFocus
         />
-        {errors.name && <div>{errors.name}</div>}
         <TextBox
           label="Collection description"
           placeholder="Collection description"
@@ -53,10 +52,14 @@ export default function CreateCollectionPage() {
           onChange={setData}
           value={data.name}
         />
-        {errors.description && <div>{errors.description}</div>}
         <FormField>
           <label htmlFor="visibility">Public</label>
-          <input type="checkbox" onChange={handleOnCheck} id="visibility" />
+          <input
+            type="checkbox"
+            onChange={handleOnCheck}
+            value={data.visibility}
+            id="visibility"
+          />
         </FormField>
       </BackToDashboard>
     </FormLayout>

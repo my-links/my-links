@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TbLoader3 } from 'react-icons/tb';
 import { TfiWorld } from 'react-icons/tfi';
+import { rotate } from '~/styles/keyframes';
+
+const IMG_LOAD_TIMEOUT = 7_500;
 
 interface LinkFaviconProps {
   url: string;
@@ -22,7 +25,7 @@ const FaviconLoader = styled.div(({ theme }) => ({
   backgroundColor: theme.colors.white,
 
   '& > *': {
-    animation: 'rotate 1s both reverse infinite linear',
+    animation: `${rotate} 1s both reverse infinite linear`,
   },
 }));
 
@@ -35,25 +38,27 @@ export default function LinkFavicon({
 }: LinkFaviconProps) {
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
-  const baseUrlApi =
-    (process.env.NEXT_PUBLIC_SITE_URL ||
-      (typeof window !== 'undefined' && window?.location?.origin)) + '/api';
-  if (!baseUrlApi) {
-    console.warn('Missing API URL');
-  }
 
   const setFallbackFavicon = () => setFailed(true);
   const handleStopLoading = () => setLoading(false);
 
+  const handleErrorLoading = () => {
+    setFallbackFavicon();
+    handleStopLoading();
+  };
+
+  useEffect(() => {
+    if (!isLoading) return;
+    const id = setTimeout(() => handleErrorLoading(), IMG_LOAD_TIMEOUT);
+    return () => clearTimeout(id);
+  }, [isLoading]);
+
   return (
     <Favicon style={{ marginRight: !noMargin ? '1em' : '0' }}>
-      {!isFailed && baseUrlApi ? (
+      {!isFailed ? (
         <img
-          src={`${baseUrlApi}/favicon?urlParam=${url}`}
-          onError={() => {
-            setFallbackFavicon();
-            handleStopLoading();
-          }}
+          src={`/favicon?urlParam=${url}`}
+          onError={handleErrorLoading}
           onLoad={handleStopLoading}
           height={size}
           width={size}
