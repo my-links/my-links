@@ -1,8 +1,8 @@
 import AppBaseModel from '#models/app_base_model';
 import Link from '#models/link';
 import User from '#models/user';
-import { belongsTo, column, manyToMany } from '@adonisjs/lucid/orm';
-import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
+import { belongsTo, column, hasMany } from '@adonisjs/lucid/orm';
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations';
 import { Visibility } from '../enums/visibility.js';
 
 export default class Collection extends AppBaseModel {
@@ -24,6 +24,6 @@ export default class Collection extends AppBaseModel {
   @belongsTo(() => User, { foreignKey: 'authorId' })
   declare author: BelongsTo<typeof User>;
 
-  @manyToMany(() => Link)
-  declare links: ManyToMany<typeof Link>;
+  @hasMany(() => Link)
+  declare links: HasMany<typeof Link>;
 }

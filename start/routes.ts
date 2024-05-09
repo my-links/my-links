@@ -2,6 +2,7 @@ import PATHS from '#constants/paths';
 import { middleware } from '#start/kernel';
 import router from '@adonisjs/core/services/router';
 
+const LinksController = () => import('#controllers/links_controller');
 const CollectionsController = () =>
   import('#controllers/collections_controller');
 const UsersController = () => import('#controllers/users_controller');
@@ -22,5 +23,8 @@ router
       'showCreatePage',
     ]);
     router.post('/collections', [CollectionsController, 'store']);
+
+    router.get(PATHS.LINK.CREATE, [LinksController, 'showCreatePage']);
+    router.post('/links', [LinksController, 'store']);
   })
   .middleware([middleware.auth()]);
