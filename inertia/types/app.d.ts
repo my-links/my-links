@@ -1,4 +1,11 @@
-import { Serialize } from '@tuyau/utils/types';
-import type UserModel from '../../app/models/user';
+import type Collection from '#models/collection';
 
-type User = Serialize<UserModel>;
+type User = {
+  id: string;
+  email: string;
+  name: string;
+  nickName: string;
+  avatarUrl: string;
+  isAdmin: boolean;
+  collections: Collection[];
+};

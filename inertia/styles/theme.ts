@@ -8,7 +8,7 @@ const white = '#fff';
 
 const lightestGrey = '#dadce0';
 const lightGrey = '#f0eef6';
-const grey = '#aaa';
+const grey = '#888888';
 const darkGrey = '#4b5563';
 
 const lightestBlue = '#d3e8fa';
@@ -17,7 +17,8 @@ const blue = '#3f88c5';
 const darkBlue = '#005aa5';
 const darkestBlue = '#1f2937';
 
-const lightRed = '#ffbabab9';
+const lightestRed = '#ffbabab9';
+const lightRed = '#FF5A5A';
 const red = '#d8000c';
 
 const lightGreen = '#c1ffbab9';
@@ -48,6 +49,7 @@ export const theme: Theme = {
     darkBlue,
     darkestBlue,
 
+    lightestRed,
     lightRed,
     red,
 

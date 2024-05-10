@@ -24,6 +24,7 @@ declare module '@emotion/react' {
       darkBlue: string;
       darkestBlue: string;
 
+      lightestRed: string;
       lightRed: string;
       red: string;
 

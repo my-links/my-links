@@ -1,69 +1,51 @@
+import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
-import CollectionList from '~/components/dashboard/side_nav/collection/collection_list';
-import FavoriteList from '~/components/dashboard/side_nav/favorites/favorite_list';
-import NavigationLinks from '~/components/dashboard/side_nav/navigation_links/navigation_links';
-import UserCard from '~/components/dashboard/side_nav/user_card/user_card';
+import { AiOutlineFolderAdd } from 'react-icons/ai';
+import { BsGear } from 'react-icons/bs';
+import { IoAdd } from 'react-icons/io5';
+import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import FavoriteList from '~/components/dashboard/side_nav/favorite/favorite_list';
+import { ItemLink } from '~/components/dashboard/side_nav/nav_item';
+import UserCard from '~/components/dashboard/side_nav/user_card';
 
 const SideMenu = styled.nav({
   height: '100%',
-  width: '325px',
   display: 'flex',
-  alignItems: 'center',
+  gap: '.35em',
   flexDirection: 'column',
-  overflow: 'hidden',
 });
 
-const BlockWrapper = styled.section(({ theme }) => ({
-  height: 'auto',
-  width: '100%',
+const AdminButton = styled(ItemLink)(({ theme }) => ({
+  color: theme.colors.lightRed,
+}));
 
-  '& h4': {
-    userSelect: 'none',
-    textTransform: 'uppercase',
-    fontSize: '0.85em',
-    fontWeight: 500,
-    color: theme.colors.grey,
-    marginBottom: '5px',
-  },
+const SettingsButton = styled(ItemLink)(({ theme }) => ({
+  color: theme.colors.grey,
+}));
 
-  '& ul': {
-    flex: 1,
-    animation: 'fadein 0.3s both',
-  },
-
-  '& ul li': {
-    position: 'relative',
-    userSelect: 'none',
-    cursor: 'pointer',
-    height: 'fit-content',
-    width: '100%',
-    fontSize: '0.9em',
-    backgroundColor: theme.colors.white,
-    padding: '0.5em 1em',
-    borderBottom: `2px solid ${theme.colors.lightestGrey}`,
-    borderRadius: theme.border.radius,
-    transition: theme.transition.delay,
-
-    '&:not(:last-child)': {
-      marginBottom: '5px',
-    },
-  },
+const AddButton = styled(ItemLink)(({ theme }) => ({
+  color: theme.colors.primary,
 }));
 
 const SideNavigation = () => (
   <SideMenu>
-    <BlockWrapper>
-      <FavoriteList />
-    </BlockWrapper>
-    <BlockWrapper css={{ minHeight: '0', flex: '1' }}>
-      <CollectionList />
-    </BlockWrapper>
-    <BlockWrapper>
-      <NavigationLinks />
-    </BlockWrapper>
-    <BlockWrapper>
+    <div css={{ paddingInline: '10px' }}>
       <UserCard />
-    </BlockWrapper>
+      <AdminButton href="/admin">
+        <MdOutlineAdminPanelSettings /> Administrator
+      </AdminButton>
+      <SettingsButton href="/settings">
+        <BsGear />
+        Settings
+      </SettingsButton>
+      <AddButton href={PATHS.LINK.CREATE}>
+        <IoAdd /> Create link
+      </AddButton>
+      <AddButton href={PATHS.COLLECTION.CREATE}>
+        <AiOutlineFolderAdd /> Create collection
+      </AddButton>
+    </div>
+    <FavoriteList />
   </SideMenu>
 );
 
