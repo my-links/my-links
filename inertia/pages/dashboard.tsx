@@ -36,7 +36,6 @@ export default function HomePage(props: Readonly<HomePageProps>) {
     trackMouse: true,
     onSwipedRight: open,
   });
-  console.log(props.collections);
 
   useEffect(() => {
     if (!isMobile && isShowing) {
