@@ -17,7 +17,7 @@ services:
 
   pgadmin:
     container_name: pgadmin
-    image: dpage/pgadmin4:8.5
+    image: dpage/pgadmin4:8.6
     restart: always
     environment:
       - PGADMIN_DEFAULT_EMAIL=myemail@gmail.com

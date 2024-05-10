@@ -8,7 +8,7 @@ export default class extends BaseSchema {
   async up() {
     this.schema.raw(`DROP TYPE IF EXISTS ${this.visibilityEnumName}`);
     this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').unique().notNullable();
+      table.uuid('id').primary().unique().notNullable();
 
       table.string('name', 254).notNullable();
       table.string('description', 254);
