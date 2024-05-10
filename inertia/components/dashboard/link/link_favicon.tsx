@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TbLoader3 } from 'react-icons/tb';
 import { TfiWorld } from 'react-icons/tfi';
 import { rotate } from '~/styles/keyframes';
@@ -36,6 +36,8 @@ export default function LinkFavicon({
   size = 32,
   noMargin = false,
 }: LinkFaviconProps) {
+  const imgRef = useRef<HTMLImageElement>(null);
+
   const [isFailed, setFailed] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -48,7 +50,11 @@ export default function LinkFavicon({
   };
 
   useEffect(() => {
-    if (!isLoading) return;
+    // Ugly hack, onLoad cb not triggered on first load when SSR
+    if (imgRef.current?.complete) {
+      handleStopLoading();
+      return;
+    }
     const id = setTimeout(() => handleErrorLoading(), IMG_LOAD_TIMEOUT);
     return () => clearTimeout(id);
   }, [isLoading]);
@@ -57,12 +63,14 @@ export default function LinkFavicon({
     <Favicon style={{ marginRight: !noMargin ? '1em' : '0' }}>
       {!isFailed ? (
         <img
-          src={`/favicon?urlParam=${url}`}
+          src={`/favicon?url=${url}`}
           onError={handleErrorLoading}
           onLoad={handleStopLoading}
           height={size}
           width={size}
           alt="icon"
+          ref={imgRef}
+          decoding="async"
         />
       ) : (
         <TfiWorld size={size} />
