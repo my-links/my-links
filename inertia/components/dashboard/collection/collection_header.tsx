@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
-import VisibilityBadge from '~/components/dashboard/side_nav/visibilty/visibilty';
+import VisibilityBadge from '~/components/visibilty/visibilty';
 import useActiveCollection from '~/hooks/use_active_collection';
 
 const CollectionNameWrapper = styled.div({

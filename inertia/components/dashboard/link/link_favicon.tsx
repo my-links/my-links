@@ -9,7 +9,6 @@ const IMG_LOAD_TIMEOUT = 7_500;
 interface LinkFaviconProps {
   url: string;
   size?: number;
-  noMargin?: boolean;
 }
 
 const Favicon = styled.div({
@@ -31,11 +30,7 @@ const FaviconLoader = styled.div(({ theme }) => ({
 
 // The Favicon API should always return an image, so it's not really useful to keep the loader nor placeholder icon,
 // but for slow connections and other random stuff, I'll keep this
-export default function LinkFavicon({
-  url,
-  size = 32,
-  noMargin = false,
-}: LinkFaviconProps) {
+export default function LinkFavicon({ url, size = 32 }: LinkFaviconProps) {
   const imgRef = useRef<HTMLImageElement>(null);
 
   const [isFailed, setFailed] = useState<boolean>(false);
@@ -60,7 +55,7 @@ export default function LinkFavicon({
   }, [isLoading]);
 
   return (
-    <Favicon style={{ marginRight: !noMargin ? '1em' : '0' }}>
+    <Favicon>
       {!isFailed ? (
         <img
           src={`/favicon?url=${url}`}
