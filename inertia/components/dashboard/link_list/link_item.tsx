@@ -9,7 +9,6 @@ import QuickResourceAction from '~/components/dashboard/quick_action/quick_actio
 import QuickLinkFavorite from '~/components/dashboard/quick_action/quick_favorite_link';
 import useCollections from '~/hooks/use_collections';
 import { makeRequest } from '~/lib/request';
-import { theme as globalTheme } from '~/styles/theme';
 
 const LinkWrapper = styled.li(({ theme }) => ({
   userSelect: 'none',
@@ -17,9 +16,9 @@ const LinkWrapper = styled.li(({ theme }) => ({
   height: 'fit-content',
   width: '100%',
   color: theme.colors.primary,
-  backgroundColor: theme.colors.white,
+  backgroundColor: theme.colors.secondary,
   padding: '0.75em 1em',
-  border: `1px solid ${theme.colors.lightestGrey}`,
+  border: `1px solid ${theme.colors.lightGrey}`,
   borderRadius: theme.border.radius,
   outline: '3px solid transparent',
 }));
@@ -82,6 +81,10 @@ const LinkUrl = styled.span(({ theme }) => ({
   fontSize: '0.8em',
 }));
 
+const StarIcon = styled(AiFillStar)(({ theme }) => ({
+  color: theme.colors.yellow,
+}));
+
 const LinkUrlPathname = styled.span({
   opacity: 0,
 });
@@ -140,10 +143,7 @@ export default function LinkItem({
         <LinkFavicon url={url} />
         <ExternalLink href={url} className="reset">
           <LinkName>
-            {name}{' '}
-            {showUserControls && favorite && (
-              <AiFillStar color={globalTheme.colors.yellow} />
-            )}
+            {name} {showUserControls && favorite && <StarIcon />}
           </LinkName>
           <LinkItemURL url={url} />
         </ExternalLink>
