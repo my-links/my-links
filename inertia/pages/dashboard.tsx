@@ -25,7 +25,7 @@ interface HomePageProps {
 
 const SideBar = styled.div(({ theme }) => ({
   paddingRight: '0.75em',
-  borderRight: `1px solid ${theme.colors.lightestGrey}`,
+  borderRight: `1px solid ${theme.colors.lightGrey}`,
   marginRight: '5px',
 }));
 
@@ -55,13 +55,6 @@ export default function HomePage(props: Readonly<HomePageProps>) {
               <SideNavigation />
             </SideBar>
           )}
-          {/* <AnimatePresence>
-            {isShowing && (
-              <SideMenu close={close}>
-                <SideNavigation />
-              </SideMenu>
-            )}
-          </AnimatePresence> */}
           <Links isMobile={isMobile} openSideMenu={open} />
         </SwiperHandler>
       </HomeProviders>

@@ -5,7 +5,8 @@ export const Item = styled.div(({ theme }) => ({
   userSelect: 'none',
   height: '40px',
   width: '280px',
-  backgroundColor: theme.colors.lightGrey,
+  color: theme.colors.font,
+  backgroundColor: theme.colors.background,
   padding: '8px 12px',
   borderRadius: theme.border.radius,
   display: 'flex',
@@ -19,7 +20,7 @@ export const Item = styled.div(({ theme }) => ({
 
   // Disable hover effect for UserCard
   '&:hover:not(.disable-hover)': {
-    backgroundColor: theme.colors.white,
+    backgroundColor: theme.colors.secondary,
     outlineWidth: '1px',
     outlineStyle: 'solid',
   },

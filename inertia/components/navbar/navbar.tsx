@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import ExternalLink from '~/components/common/external_link';
 import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
+import useDarkTheme from '~/hooks/use_dark_theme';
 import useUser from '~/hooks/use_user';
 import PATHS from '../../../app/constants/paths';
 
@@ -52,6 +53,9 @@ export default function Navbar() {
           </select>
         </li>
         <li>
+          <ThemeSwitch />
+        </li>
+        <li>
           <ExternalLink href={PATHS.REPO_GITHUB}>GitHub</ExternalLink>
         </li>
         {isAuthenticated && !!user ? (
@@ -79,5 +83,16 @@ export default function Navbar() {
         )}
       </NavList>
     </Nav>
+  );
+}
+
+function ThemeSwitch() {
+  const { isDarkTheme, toggleDarkTheme } = useDarkTheme();
+  return (
+    <input
+      type="checkbox"
+      onChange={({ target }) => toggleDarkTheme(target.checked)}
+      checked={isDarkTheme}
+    />
   );
 }

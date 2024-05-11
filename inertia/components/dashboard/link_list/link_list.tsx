@@ -19,7 +19,7 @@ const LinksWrapper = styled.div({
 });
 
 const CollectionHeaderWrapper = styled.h2(({ theme }) => ({
-  color: theme.colors.blue,
+  color: theme.colors.primary,
   fontWeight: 500,
   display: 'flex',
   gap: '0.4em',

@@ -6,30 +6,18 @@ declare module '@emotion/react' {
       font: string;
       background: string;
       primary: string;
-
-      lightBlack: string;
-      black: string;
-      darkBlack: string;
+      secondary: string;
 
       white: string;
 
-      lightestGrey: string;
       lightGrey: string;
       grey: string;
-      darkGrey: string;
 
-      lightestBlue: string;
       lightBlue: string;
       blue: string;
       darkBlue: string;
-      darkestBlue: string;
 
-      lightestRed: string;
       lightRed: string;
-      red: string;
-
-      lightGreen: string;
-      green: string;
 
       yellow: string;
     };
