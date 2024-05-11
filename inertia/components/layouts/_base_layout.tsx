@@ -1,14 +1,11 @@
-import { Global, ThemeProvider } from '@emotion/react';
 import { ReactNode } from 'react';
-import documentStyle from '~/styles/document';
-import { cssReset } from '~/styles/reset';
-import { theme } from '~/styles/theme';
+import ContextThemeProvider from '~/components/layouts/_theme_layout';
+import DarkThemeContextProvider from '~/contexts/dark_theme_context';
 
-export default function BaseLayout({ children }: { children: ReactNode }) {
-  return (
-    <>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      <Global styles={[cssReset, documentStyle]} />
-    </>
-  );
-}
+const BaseLayout = ({ children }: { children: ReactNode }) => (
+  <DarkThemeContextProvider>
+    <ContextThemeProvider>{children}</ContextThemeProvider>
+  </DarkThemeContextProvider>
+);
+
+export default BaseLayout;

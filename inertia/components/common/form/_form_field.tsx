@@ -17,7 +17,7 @@ const FormField = styled('div', {
     position: 'absolute',
     top: 0,
     right: '-0.75em',
-    color: theme.colors.red,
+    color: theme.colors.lightRed,
     content: (required ? '"*"' : '""') as any,
   },
 }));

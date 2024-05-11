@@ -1,78 +1,80 @@
 import { Theme } from '@emotion/react';
 
-const lightBlack = '#555';
-const black = '#333';
-const darkBlack = '#111';
+export const primaryColor = '#3f88c5';
+export const primaryDarkColor = '#005aa5';
 
-const white = '#fff';
-
-const lightestGrey = '#dadce0';
-const lightGrey = '#f0eef6';
-const grey = '#888888';
-const darkGrey = '#4b5563';
-
-const lightestBlue = '#d3e8fa';
 const lightBlue = '#82c5fede';
-const blue = '#3f88c5';
-const darkBlue = '#005aa5';
-const darkestBlue = '#1f2937';
+const darkBlue = primaryDarkColor;
 
-const lightestRed = '#ffbabab9';
 const lightRed = '#FF5A5A';
-const red = '#d8000c';
-
-const lightGreen = '#c1ffbab9';
-const green = 'green';
 
 const yellow = '#ffc107';
 
-export const theme: Theme = {
+const border: Theme['border'] = {
+  radius: '3px',
+};
+
+const media: Theme['media'] = {
+  mobile: '768px',
+  tablet: '1024px',
+  small_desktop: '1280px',
+  medium_desktop: '1440px',
+  large_desktop: '1920px',
+  xlarge_desktop: '2560px',
+};
+
+const transition: Theme['transition'] = {
+  delay: '0.15s',
+};
+
+export const lightTheme: Theme = {
   colors: {
-    font: black,
-    background: lightGrey,
-    primary: blue,
+    font: '#333',
+    background: '#f0eef6',
+    primary: primaryColor,
+    secondary: '#fff',
 
-    lightBlack,
-    black,
-    darkBlack,
+    white: '#fff',
 
-    white,
+    lightGrey: '#dadce0',
+    grey: '#888888',
 
-    lightestGrey,
-    lightGrey,
-    grey,
-    darkGrey,
-
-    lightestBlue,
     lightBlue,
-    blue,
+    blue: primaryColor,
     darkBlue,
-    darkestBlue,
 
-    lightestRed,
     lightRed,
-    red,
-
-    lightGreen,
-    green,
 
     yellow,
   },
 
-  border: {
-    radius: '3px',
+  border,
+  media,
+  transition,
+};
+
+export const darkTheme: Theme = {
+  colors: {
+    font: '#f0eef6',
+    background: '#222831',
+    primary: '#4fadfc',
+    secondary: '#323a47',
+
+    white: '#fff',
+
+    lightGrey: '#323a47',
+    grey: '#888888',
+
+    lightBlue,
+    blue: '#4fadfc',
+    darkBlue,
+
+    lightRed,
+
+    yellow,
   },
 
-  media: {
-    mobile: '768px',
-    tablet: '1024px',
-    small_desktop: '1280px',
-    medium_desktop: '1440px',
-    large_desktop: '1920px',
-    xlarge_desktop: '2560px',
-  },
-
-  transition: {
-    delay: '0.15s',
-  },
+  border,
+  media,
+  transition,
 };

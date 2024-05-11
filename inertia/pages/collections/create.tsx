@@ -6,7 +6,11 @@ import BackToDashboard from '~/components/common/navigation/bask_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
 import { Visibility } from '../../../app/enums/visibility';
 
-export default function CreateCollectionPage() {
+export default function CreateCollectionPage({
+  disableHomeLink,
+}: {
+  disableHomeLink: boolean;
+}) {
   const { data, setData, post, processing } = useForm({
     name: '',
     description: '',
@@ -34,6 +38,7 @@ export default function CreateCollectionPage() {
       title="Create a collection"
       handleSubmit={handleSubmit}
       canSubmit={!isFormDisabled}
+      disableHomeLink={disableHomeLink}
     >
       <BackToDashboard>
         <TextBox
