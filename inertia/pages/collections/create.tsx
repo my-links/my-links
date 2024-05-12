@@ -2,7 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { ChangeEvent, FormEvent, useMemo } from 'react';
 import FormField from '~/components/common/form/_form_field';
 import TextBox from '~/components/common/form/textbox';
-import BackToDashboard from '~/components/common/navigation/bask_to_dashboard';
+import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
 import { Visibility } from '../../../app/enums/visibility';
 

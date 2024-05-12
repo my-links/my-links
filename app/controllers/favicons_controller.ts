@@ -26,13 +26,11 @@ export default class FaviconsController {
   ];
 
   async index(ctx: HttpContext) {
-    console.log('0');
     const url = ctx.request.qs()?.url;
     if (!url) {
       throw new Error('Missing URL');
     }
 
-    console.log('1');
     const faviconRequestUrl = this.buildFaviconUrl(url, '/favicon.ico');
     try {
       const favicon = await this.getFavicon(faviconRequestUrl);
@@ -42,7 +40,6 @@ export default class FaviconsController {
         `[Favicon] [first: ${faviconRequestUrl}] Unable to retrieve favicon from favicon.ico url`
       );
     }
-    console.log('2');
 
     const requestDocument = await this.makeRequestWithUserAgent(url);
     const documentAsText = await requestDocument.text();
@@ -57,7 +54,6 @@ export default class FaviconsController {
       return this.sendDefaultImage(ctx);
     }
 
-    console.log('3');
     const finalUrl = this.buildFaviconUrl(requestDocument.url, faviconPath);
     try {
       if (!faviconPath) {
@@ -186,14 +182,12 @@ export default class FaviconsController {
     Buffer.from(base64, 'base64');
 
   private sendImage(ctx: HttpContext, { buffer, type, size }: Favicon) {
-    console.log('ouiiiiiiii', type, size);
     ctx.response.header('Content-Type', type);
     ctx.response.header('Content-Length', size);
     ctx.response.send(buffer);
   }
 
   private sendDefaultImage(ctx: HttpContext) {
-    console.log('oui');
     const readStream = createReadStream(
       resolve(process.cwd(), './public/empty-image.png')
     );

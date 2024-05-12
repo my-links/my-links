@@ -34,7 +34,7 @@ export const lightTheme: Theme = {
     primary: primaryColor,
     secondary: '#fff',
 
-    white: '#fff',
+    white: '#ffffff',
 
     lightGrey: '#dadce0',
     grey: '#888888',
@@ -46,6 +46,8 @@ export const lightTheme: Theme = {
     lightRed,
 
     yellow,
+
+    boxShadow: '0 0 1em 0 rgba(102, 102, 102, 0.25)',
   },
 
   border,
@@ -60,10 +62,10 @@ export const darkTheme: Theme = {
     primary: '#4fadfc',
     secondary: '#323a47',
 
-    white: '#fff',
+    white: '#ffffff',
 
     lightGrey: '#323a47',
-    grey: '#888888',
+    grey: '#999999',
 
     lightBlue,
     blue: '#4fadfc',
@@ -72,6 +74,8 @@ export const darkTheme: Theme = {
     lightRed,
 
     yellow,
+
+    boxShadow: '0 0 1em 0 rgb(40 40 40)',
   },
 
   border,
