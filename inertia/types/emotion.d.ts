@@ -20,6 +20,8 @@ declare module '@emotion/react' {
       lightRed: string;
 
       yellow: string;
+
+      boxShadow: string;
     };
 
     border: {

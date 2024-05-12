@@ -16,7 +16,7 @@ import CollectionsContext from '~/contexts/collections_context';
 import FavoritesContext from '~/contexts/favorites_context';
 import GlobalHotkeysContext from '~/contexts/global_hotkeys_context';
 import { useMediaQuery } from '~/hooks/use_media_query';
-import useModal from '~/hooks/use_modal';
+import useToggle from '~/hooks/use_modal';
 
 interface HomePageProps {
   collections: Collection[];
@@ -31,7 +31,7 @@ const SideBar = styled.div(({ theme }) => ({
 
 export default function HomePage(props: Readonly<HomePageProps>) {
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const { isShowing, open, close } = useModal();
+  const { isShowing, open, close } = useToggle();
   const handlers = useSwipeable({
     trackMouse: true,
     onSwipedRight: open,

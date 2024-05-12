@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useModal = (defaultValue: boolean = false) => {
+const useToggle = (defaultValue: boolean = false) => {
   const [isShowing, setIsShowing] = useState<boolean>(defaultValue);
 
   const toggle = () => setIsShowing((value) => !value);
@@ -15,4 +15,4 @@ const useModal = (defaultValue: boolean = false) => {
   };
 };
 
-export default useModal;
+export default useToggle;
