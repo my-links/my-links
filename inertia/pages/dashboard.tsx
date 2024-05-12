@@ -18,18 +18,17 @@ import GlobalHotkeysContext from '~/contexts/global_hotkeys_context';
 import { useMediaQuery } from '~/hooks/use_media_query';
 import useToggle from '~/hooks/use_modal';
 
-interface HomePageProps {
+interface DashboardPageProps {
   collections: Collection[];
   activeCollection: Collection;
 }
 
 const SideBar = styled.div(({ theme }) => ({
-  paddingRight: '0.75em',
   borderRight: `1px solid ${theme.colors.lightGrey}`,
   marginRight: '5px',
 }));
 
-export default function HomePage(props: Readonly<HomePageProps>) {
+export default function DashboardPage(props: Readonly<DashboardPageProps>) {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const { isShowing, open, close } = useToggle();
   const handlers = useSwipeable({
@@ -45,7 +44,7 @@ export default function HomePage(props: Readonly<HomePageProps>) {
 
   return (
     <DashboardLayout>
-      <HomeProviders
+      <DashboardProviders
         collections={props.collections}
         activeCollection={props.activeCollection}
       >
@@ -57,11 +56,11 @@ export default function HomePage(props: Readonly<HomePageProps>) {
           )}
           <Links isMobile={isMobile} openSideMenu={open} />
         </SwiperHandler>
-      </HomeProviders>
+      </DashboardProviders>
     </DashboardLayout>
   );
 }
-function HomeProviders(
+function DashboardProviders(
   props: Readonly<{
     children: ReactNode;
     collections: Collection[];

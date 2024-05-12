@@ -13,7 +13,6 @@ const LinkWrapper = styled.li(({ theme }) => ({
   color: theme.colors.primary,
   backgroundColor: theme.colors.secondary,
   padding: '0.75em 1em',
-  border: `1px solid ${theme.colors.lightGrey}`,
   borderRadius: theme.border.radius,
 
   '&:hover': {

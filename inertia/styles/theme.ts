@@ -8,8 +8,6 @@ const darkBlue = primaryDarkColor;
 
 const lightRed = '#FF5A5A';
 
-const yellow = '#ffc107';
-
 const border: Theme['border'] = {
   radius: '3px',
 };
@@ -45,7 +43,7 @@ export const lightTheme: Theme = {
 
     lightRed,
 
-    yellow,
+    yellow: '#FF8A08',
 
     boxShadow: '0 0 1em 0 rgba(102, 102, 102, 0.25)',
   },
@@ -73,7 +71,7 @@ export const darkTheme: Theme = {
 
     lightRed,
 
-    yellow,
+    yellow: '#ffc107',
 
     boxShadow: '0 0 1em 0 rgb(40 40 40)',
   },

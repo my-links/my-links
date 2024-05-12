@@ -69,7 +69,7 @@ export default function LinkControls({ link }: { link: Link }) {
   console.log(link.favorite, link.favorite ? 'oui' : 'non');
   return (
     <Dropdown
-      label={<BsThreeDotsVertical />}
+      label={<BsThreeDotsVertical css={{ color: theme.colors.grey }} />}
       css={{ backgroundColor: theme.colors.secondary }}
     >
       <StartItem onClick={onFavorite}>
