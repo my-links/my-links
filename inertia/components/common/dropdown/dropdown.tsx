@@ -32,9 +32,11 @@ const DropdownStyle = styled.div<{ opened: boolean }>(({ opened, theme }) => ({
 export default function Dropdown({
   children,
   label,
+  className,
 }: {
   children: ReactNode;
   label: ReactNode | string;
+  className?: string;
 }) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { isShowing, toggle, close } = useToggle();
@@ -48,7 +50,12 @@ export default function Dropdown({
   });
 
   return (
-    <DropdownStyle opened={isShowing} onClick={toggle} ref={dropdownRef}>
+    <DropdownStyle
+      opened={isShowing}
+      onClick={toggle}
+      ref={dropdownRef}
+      className={className}
+    >
       <DropdownLabel>{label}</DropdownLabel>
       <DropdownContainer show={isShowing}>{children}</DropdownContainer>
     </DropdownStyle>

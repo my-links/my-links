@@ -6,18 +6,33 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 export default class CollectionsController {
   // Dashboard
-  async index({ auth, inertia, response }: HttpContext) {
+  async index({ auth, inertia, request, response }: HttpContext) {
     const collections = await this.getCollectionByAuthorId(auth.user!.id);
     if (collections.length === 0) {
       return response.redirect('/collections/create');
     }
 
-    return inertia.render('dashboard', { collections });
+    const activeCollectionId = request.qs()?.collectionId ?? '';
+    const activeCollection = collections.find(
+      (c) => c.id === activeCollectionId
+    );
+
+    if (!activeCollection && !!activeCollectionId) {
+      return response.redirect('/dashboard');
+    }
+
+    return inertia.render('dashboard', {
+      collections,
+      activeCollection: activeCollection || collections[0],
+    });
   }
 
   // Create collection form
-  async showCreatePage({ inertia }: HttpContext) {
-    return inertia.render('collections/create');
+  async showCreatePage({ inertia, auth }: HttpContext) {
+    const collections = await this.getCollectionByAuthorId(auth.user!.id);
+    return inertia.render('collections/create', {
+      disableHomeLink: collections.length === 0,
+    });
   }
 
   // Method called when creating a collection

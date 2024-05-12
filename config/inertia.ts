@@ -12,10 +12,10 @@ export default defineConfig({
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
     auth: async (ctx) => {
-      await ctx.auth.check();
+      await ctx.auth?.check();
       return {
-        user: ctx.auth.user,
-        isAuthenticated: ctx.auth.isAuthenticated,
+        user: ctx.auth?.user || null,
+        isAuthenticated: ctx.auth?.isAuthenticated || false,
       };
     },
   },

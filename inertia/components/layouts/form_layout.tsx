@@ -1,10 +1,11 @@
-import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { FormEvent, ReactNode } from 'react';
 import Button from '~/components/common/form/_button';
 import Form from '~/components/common/form/_form';
 import BaseLayout from './_base_layout';
+import { appendCollectionId } from '~/lib/navigation';
+import PATHS from '#constants/paths';
 
 const FormLayoutStyle = styled.div(({ theme }) => ({
   height: 'fit-content',
@@ -26,6 +27,7 @@ interface FormLayoutProps {
   textSubmitButton?: string;
 
   disableHomeLink?: boolean;
+  collectionId?: string;
 }
 
 const FormLayout = ({
@@ -35,6 +37,7 @@ const FormLayout = ({
   handleSubmit,
   textSubmitButton = 'Confirm',
   disableHomeLink = false,
+  collectionId,
 }: FormLayoutProps) => (
   <BaseLayout>
     <FormLayoutStyle>
@@ -46,8 +49,9 @@ const FormLayout = ({
         </Button>
       </Form>
       {!disableHomeLink && (
-        // <Link href={collectionId ? `/?collectionId=${collectionId}` : '/'}>{t('common:back-home')}</Link>
-        <Link href={PATHS.DASHBOARD}>← Revenir à l'accueil</Link>
+        <Link href={appendCollectionId(PATHS.DASHBOARD, collectionId)}>
+          ← Back to home
+        </Link>
       )}
     </FormLayoutStyle>
   </BaseLayout>

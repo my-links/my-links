@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 const DropdownContainer = styled.div<{ show: boolean }>(({ show, theme }) => ({
+  zIndex: 99,
   position: 'absolute',
   top: 'calc(100% + 0.5em)',
   right: 0,
