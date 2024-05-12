@@ -1,34 +1,28 @@
+import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
-import QuickResourceAction from '~/components/dashboard/quick_action/quick_action';
-import useActiveCollection from '~/hooks/use_active_collection';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { HiOutlinePencil } from 'react-icons/hi2';
+import { IoIosAddCircleOutline } from 'react-icons/io';
+import { IoTrashOutline } from 'react-icons/io5';
+import Dropdown from '~/components/common/dropdown/dropdown';
+import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
 
-const CollectionControlsStyle = styled.span({
-  display: 'flex',
-  gap: '0.5em',
-  alignItems: 'center',
-});
+const DeleteItem = styled(DropdownItemLink)(({ theme }) => ({
+  color: theme.colors.lightRed,
+}));
 
-export default function CollectionControls() {
-  const { activeCollection } = useActiveCollection();
-  return (
-    activeCollection && (
-      <CollectionControlsStyle>
-        <QuickResourceAction
-          resource="link"
-          action="create"
-          collectionId={activeCollection.id}
-        />
-        <QuickResourceAction
-          resource="collection"
-          action="edit"
-          resourceId={activeCollection.id}
-        />
-        <QuickResourceAction
-          resource="collection"
-          action="remove"
-          resourceId={activeCollection.id}
-        />
-      </CollectionControlsStyle>
-    )
-  );
-}
+const CollectionControls = () => (
+  <Dropdown label={<BsThreeDotsVertical />}>
+    <DropdownItemLink href={PATHS.LINK.CREATE}>
+      <IoIosAddCircleOutline /> Add
+    </DropdownItemLink>
+    <DropdownItemLink href={PATHS.COLLECTION.EDIT}>
+      <HiOutlinePencil /> Edit
+    </DropdownItemLink>
+    <DeleteItem href={PATHS.COLLECTION.REMOVE}>
+      <IoTrashOutline /> Delete
+    </DeleteItem>
+  </Dropdown>
+);
+
+export default CollectionControls;

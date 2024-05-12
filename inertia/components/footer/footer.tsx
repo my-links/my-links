@@ -10,6 +10,9 @@ const FooterStyle = styled.footer(({ theme }) => ({
   color: theme.colors.grey,
   textAlign: 'center',
   paddingTop: '0.75em',
+  '& a:hover': {
+    textDecoration: 'underline',
+  },
 }));
 
 export default function Footer() {
