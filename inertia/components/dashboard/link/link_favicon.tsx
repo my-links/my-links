@@ -17,11 +17,13 @@ const Favicon = styled.div({
   alignItems: 'center',
   justifyContent: 'center',
 });
+
 const FaviconLoader = styled.div(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,
-  backgroundColor: theme.colors.white,
+  color: theme.colors.font,
+  backgroundColor: theme.colors.secondary,
 
   '& > *': {
     animation: `${rotate} 1s both reverse infinite linear`,
