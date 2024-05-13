@@ -66,7 +66,6 @@ export default function LinkControls({ link }: { link: Link }) {
       .catch(console.error);
   };
 
-  console.log(link.favorite, link.favorite ? 'oui' : 'non');
   return (
     <Dropdown
       label={<BsThreeDotsVertical css={{ color: theme.colors.grey }} />}
