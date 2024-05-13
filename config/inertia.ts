@@ -1,3 +1,4 @@
+import { PREFER_DARK_THEME } from '#constants/session';
 import { defineConfig } from '@adonisjs/inertia';
 
 export default defineConfig({
@@ -11,6 +12,7 @@ export default defineConfig({
    */
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
+    preferDarkTheme: (ctx) => ctx.session.get(PREFER_DARK_THEME, true),
     auth: async (ctx) => {
       await ctx.auth?.check();
       return {
