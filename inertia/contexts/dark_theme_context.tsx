@@ -1,4 +1,6 @@
+import { usePage } from '@inertiajs/react';
 import { ReactNode, createContext, useEffect, useState } from 'react';
+import { makeRequest } from '~/lib/request';
 
 const LS_KEY = 'dark_theme';
 
@@ -12,18 +14,18 @@ export default function DarkThemeContextProvider({
 }: {
   children: ReactNode;
 }) {
-  const [isDarkTheme, setDarkTheme] = useState<boolean>(() => {
-    if (typeof window === 'undefined' || typeof localStorage === 'undefined')
-      return true;
-
-    const doUserPreferDarkTheme = window?.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    return (
-      localStorage.getItem(LS_KEY) === 'true' ?? doUserPreferDarkTheme ?? true
-    );
-  });
-  const toggleDarkTheme = (value: boolean) => setDarkTheme(value);
+  const { preferDarkTheme } = usePage<{ preferDarkTheme: boolean }>().props;
+  const [isDarkTheme, setDarkTheme] = useState<boolean>(preferDarkTheme);
+  const toggleDarkTheme = (value: boolean) => {
+    setDarkTheme(value);
+    makeRequest({
+      method: 'POST',
+      url: '/user/theme',
+      body: {
+        preferDarkTheme: value,
+      },
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem(LS_KEY, String(isDarkTheme));
