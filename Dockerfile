@@ -1,34 +1,44 @@
-# Source: https://docs.adonisjs.com/cookbooks/dockerizing-adonis#document
+# Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
-FROM node:lts-alpine3.19
+FROM node:20-alpine3.18 as base
 
-# Set working directory
-WORKDIR /usr/src/app
+RUN apk --no-cache add curl
+RUN corepack enable
 
-# Install dependencies
-COPY package*.json ./
-RUN npm ci --omit="dev" --ignore-scripts
-
-# Copy app source code
-COPY . .
-
-# Build app
+# All deps stage
+FROM base as deps
+WORKDIR /app
+ADD package.json package-lock.json ./
 RUN npm install --ignore-scripts
-RUN npm run build --omit="dev"
-RUN npx vite build
 
-COPY ./.env ./build
+# Production only deps stage
+FROM base as production-deps
+WORKDIR /app
+ADD package.json package-lock.json ./
+RUN npm install --omit="dev" --ignore-scripts
 
-ENV PORT=$PORT
-ENV HOST=0.0.0.0
-ENV APP_KEY=DIhtF2IY1-MCAm_wlh3VYx7KLVOhpeOb
+# Build stage
+FROM base as build
+WORKDIR /app
+COPY --from=deps /app/node_modules /app/node_modules
+ADD . .
+RUN node ace build
+
+# Production stage
+FROM base
+
 ENV NODE_ENV=production
 ENV LOG_LEVEL=debug
 ENV CACHE_VIEWS=false
 ENV SESSION_DRIVER=cookie
+ENV PORT=$PORT
+
+WORKDIR /app
+COPY --from=production-deps /app/node_modules /app/node_modules
+COPY --from=build /app/build /app
 
 # Expose port
 EXPOSE $PORT
 
 # Start app
-CMD node build/bin/console.js migration:run && node build/bin/server.js
+CMD node bin/console.js migration:run --force && node bin/server.js
