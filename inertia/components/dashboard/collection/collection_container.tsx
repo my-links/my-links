@@ -4,8 +4,8 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import CollectionControls from '~/components/dashboard/collection/collection_controls';
 import CollectionDescription from '~/components/dashboard/collection/collection_description';
 import CollectionHeader from '~/components/dashboard/collection/collection_header';
-import LinkItem from '~/components/dashboard/link_list/link_item';
-import { NoCollection, NoLink } from '~/components/dashboard/link_list/no_item';
+import LinkList from '~/components/dashboard/link/link_list';
+import { NoCollection } from '~/components/dashboard/link/no_item';
 import Footer from '~/components/footer/footer';
 import useActiveCollection from '~/hooks/use_active_collection';
 
@@ -32,15 +32,15 @@ const CollectionHeaderWrapper = styled.h2(({ theme }) => ({
   },
 }));
 
-interface LinksProps {
+interface CollectionContainerProps {
   isMobile: boolean;
   openSideMenu: () => void;
 }
 
-export default function Links({
+export default function CollectionContainer({
   isMobile,
   openSideMenu,
-}: Readonly<LinksProps>) {
+}: Readonly<CollectionContainerProps>) {
   const { activeCollection } = useActiveCollection();
 
   if (activeCollection === null) {
@@ -66,29 +66,8 @@ export default function Links({
         <CollectionControls />
       </CollectionHeaderWrapper>
       <CollectionDescription />
-      {activeCollection?.links.length !== 0 ? (
-        <LinkListStyle>
-          {activeCollection?.links.map((link) => (
-            <LinkItem link={link} key={link.id} showUserControls />
-          ))}
-        </LinkListStyle>
-      ) : (
-        <NoLink />
-      )}
+      <LinkList links={activeCollection.links} />
       <Footer />
     </LinksWrapper>
   );
 }
-
-const LinkListStyle = styled.ul({
-  height: '100%',
-  width: '100%',
-  minWidth: 0,
-  display: 'flex',
-  flex: 1,
-  gap: '0.5em',
-  padding: '3px',
-  flexDirection: 'column',
-  overflowX: 'hidden',
-  overflowY: 'scroll',
-});

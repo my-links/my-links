@@ -7,7 +7,7 @@ import { router } from '@inertiajs/react';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useSwipeable } from 'react-swipeable';
-import Links from '~/components/dashboard/link_list/link_list';
+import CollectionContainer from '~/components/dashboard/collection/collection_container';
 import SideNavigation from '~/components/dashboard/side_nav/side_navigation';
 import SwiperHandler from '~/components/dashboard/swiper_handler';
 import DashboardLayout from '~/components/layouts/dashboard_layout';
@@ -54,7 +54,7 @@ export default function DashboardPage(props: Readonly<DashboardPageProps>) {
               <SideNavigation />
             </SideBar>
           )}
-          <Links isMobile={isMobile} openSideMenu={open} />
+          <CollectionContainer isMobile={isMobile} openSideMenu={open} />
         </SwiperHandler>
       </DashboardProviders>
     </DashboardLayout>
