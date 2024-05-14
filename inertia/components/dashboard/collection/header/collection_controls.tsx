@@ -7,7 +7,7 @@ import Dropdown from '~/components/common/dropdown/dropdown';
 import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
 
 const CollectionControls = () => (
-  <Dropdown label={<BsThreeDotsVertical />}>
+  <Dropdown label={<BsThreeDotsVertical />} svgSize={18}>
     <DropdownItemLink href={PATHS.LINK.CREATE}>
       <IoIosAddCircleOutline /> Add
     </DropdownItemLink>
