@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import { IoIosLogOut } from 'react-icons/io';
+import Dropdown from '~/components/common/dropdown/dropdown';
+import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
 import ExternalLink from '~/components/common/external_link';
 import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
@@ -25,10 +28,16 @@ const NavList = styled(UnstyledList)<NavbarListDirection>(
     gap: '1.5em',
     justifyContent: right ? 'flex-end' : 'flex-start',
     transition: theme.transition.delay,
+
+    '& li': {
+      display: 'flex',
+      alignItems: 'center',
+    },
   })
 );
 
 const UserCard = styled.div({
+  padding: '0.25em 0.5em',
   display: 'flex',
   gap: '0.35em',
   alignItems: 'center',
@@ -64,16 +73,22 @@ export default function Navbar() {
               <Link href={PATHS.DASHBOARD}>Dashboard</Link>
             </li>
             <li>
-              <a href={PATHS.AUTH.LOGOUT}>
-                <UserCard>
-                  <RoundedImage
-                    src={user.avatarUrl}
-                    width={22}
-                    referrerPolicy="no-referrer"
-                  />
-                  {user.nickName}
-                </UserCard>
-              </a>
+              <Dropdown
+                label={
+                  <UserCard>
+                    <RoundedImage
+                      src={user.avatarUrl}
+                      width={22}
+                      referrerPolicy="no-referrer"
+                    />
+                    {user.nickName}
+                  </UserCard>
+                }
+              >
+                <DropdownItemLink href={PATHS.AUTH.LOGOUT} danger>
+                  <IoIosLogOut /> Logout
+                </DropdownItemLink>
+              </Dropdown>
             </li>
           </>
         ) : (

@@ -12,7 +12,7 @@ export default defineConfig({
    */
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
-    preferDarkTheme: (ctx) => ctx.session.get(PREFER_DARK_THEME, true),
+    preferDarkTheme: (ctx) => ctx.session?.get(PREFER_DARK_THEME, true),
     auth: async (ctx) => {
       await ctx.auth?.check();
       return {
