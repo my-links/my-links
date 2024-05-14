@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import CollectionControls from '~/components/dashboard/collection/collection_controls';
-import CollectionDescription from '~/components/dashboard/collection/collection_description';
-import CollectionHeader from '~/components/dashboard/collection/collection_header';
+import CollectionControls from '~/components/dashboard/collection/header/collection_controls';
+import CollectionDescription from '~/components/dashboard/collection/header/collection_description';
+import CollectionHeader from '~/components/dashboard/collection/header/collection_header';
 import LinkList from '~/components/dashboard/link/link_list';
 import { NoCollection } from '~/components/dashboard/link/no_item';
 import Footer from '~/components/footer/footer';

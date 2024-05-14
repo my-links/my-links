@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 export const Item = styled.div(({ theme }) => ({
   userSelect: 'none',
   height: '40px',
-  width: '280px',
+  width: '250px',
   color: theme.colors.font,
   backgroundColor: theme.colors.background,
   padding: '8px 12px',
