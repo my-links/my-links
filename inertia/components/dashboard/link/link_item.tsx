@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { AiFillStar } from 'react-icons/ai';
 import ExternalLink from '~/components/common/external_link';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
-import LinkControls from '~/components/dashboard/link_list/link_controls';
+import LinkControls from '~/components/dashboard/link/link_controls';
 
 const LinkWrapper = styled.li(({ theme }) => ({
   userSelect: 'none',
