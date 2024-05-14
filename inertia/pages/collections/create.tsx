@@ -1,9 +1,8 @@
 import { useForm } from '@inertiajs/react';
-import { ChangeEvent, FormEvent, useMemo } from 'react';
-import FormField from '~/components/common/form/_form_field';
-import TextBox from '~/components/common/form/textbox';
-import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
-import FormLayout from '~/components/layouts/form_layout';
+import { useMemo } from 'react';
+import FormCollection, {
+  FormCollectionData,
+} from '~/components/form/form_collection';
 import { Visibility } from '../../../app/enums/visibility';
 
 export default function CreateCollectionPage({
@@ -11,7 +10,7 @@ export default function CreateCollectionPage({
 }: {
   disableHomeLink: boolean;
 }) {
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing } = useForm<FormCollectionData>({
     name: '',
     description: '',
     visibility: Visibility.PRIVATE,
@@ -21,52 +20,16 @@ export default function CreateCollectionPage({
     [processing, data]
   );
 
-  function handleOnCheck({ target }: ChangeEvent<HTMLInputElement>) {
-    setData(
-      'visibility',
-      target.checked ? Visibility.PUBLIC : Visibility.PRIVATE
-    );
-  }
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    post('/collections');
-  }
+  const handleSubmit = () => post('/collections');
 
   return (
-    <FormLayout
+    <FormCollection
       title="Create a collection"
-      handleSubmit={handleSubmit}
       canSubmit={!isFormDisabled}
       disableHomeLink={disableHomeLink}
-    >
-      <BackToDashboard>
-        <TextBox
-          label="Collection name"
-          placeholder="Collection name"
-          name="name"
-          onChange={setData}
-          value={data.name}
-          required
-          autoFocus
-        />
-        <TextBox
-          label="Collection description"
-          placeholder="Collection description"
-          name="description"
-          onChange={setData}
-          value={data.name}
-        />
-        <FormField>
-          <label htmlFor="visibility">Public</label>
-          <input
-            type="checkbox"
-            onChange={handleOnCheck}
-            value={data.visibility}
-            id="visibility"
-          />
-        </FormField>
-      </BackToDashboard>
-    </FormLayout>
+      data={data}
+      setData={setData}
+      handleSubmit={handleSubmit}
+    />
   );
 }
