@@ -63,7 +63,7 @@ export default function CollectionContainer({
           </Link>
         )}
         <CollectionHeader />
-        <CollectionControls />
+        <CollectionControls collectionId={activeCollection.id} />
       </CollectionHeaderWrapper>
       <CollectionDescription />
       <LinkList links={activeCollection.links} />

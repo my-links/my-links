@@ -4,7 +4,7 @@ import BaseLayout from './_base_layout';
 
 const DashboardLayoutStyle = styled.div(({ theme }) => ({
   height: '100%',
-  width: theme.media.small_desktop,
+  width: theme.media.medium_desktop,
   maxWidth: '100%',
   padding: '0.75em 1em',
 }));

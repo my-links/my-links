@@ -1,20 +1,31 @@
 import PATHS from '#constants/paths';
+import type Collection from '#models/collection';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { HiOutlinePencil } from 'react-icons/hi2';
+import { GoPencil } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
 import Dropdown from '~/components/common/dropdown/dropdown';
 import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
+import { appendCollectionId } from '~/lib/navigation';
 
-const CollectionControls = () => (
+const CollectionControls = ({
+  collectionId,
+}: {
+  collectionId: Collection['id'];
+}) => (
   <Dropdown label={<BsThreeDotsVertical />} svgSize={18}>
     <DropdownItemLink href={PATHS.LINK.CREATE}>
       <IoIosAddCircleOutline /> Add
     </DropdownItemLink>
-    <DropdownItemLink href={PATHS.COLLECTION.EDIT}>
-      <HiOutlinePencil /> Edit
+    <DropdownItemLink
+      href={appendCollectionId(PATHS.COLLECTION.EDIT, collectionId)}
+    >
+      <GoPencil /> Edit
     </DropdownItemLink>
-    <DropdownItemLink href={PATHS.COLLECTION.REMOVE} danger>
+    <DropdownItemLink
+      href={appendCollectionId(PATHS.COLLECTION.REMOVE, collectionId)}
+      danger
+    >
       <IoTrashOutline /> Delete
     </DropdownItemLink>
   </Dropdown>

@@ -16,6 +16,7 @@ export default function FormCollection({
   canSubmit,
   disableHomeLink,
   data,
+  errors,
 
   setData,
   handleSubmit,
@@ -24,6 +25,7 @@ export default function FormCollection({
   canSubmit: boolean;
   disableHomeLink?: boolean;
   data: FormCollectionData;
+  errors?: Record<string, Array<string>>;
 
   setData: (name: string, value: string) => void;
   handleSubmit: () => void;
@@ -53,6 +55,7 @@ export default function FormCollection({
           name="name"
           onChange={setData}
           value={data.name}
+          errors={errors?.name}
           required
           autoFocus
         />
@@ -62,13 +65,14 @@ export default function FormCollection({
           name="description"
           onChange={setData}
           value={data.description ?? undefined}
+          errors={errors?.description}
         />
         <FormField>
           <label htmlFor="visibility">Public</label>
           <input
             type="checkbox"
             onChange={handleOnCheck}
-            value={data.visibility}
+            checked={data.visibility === Visibility.PUBLIC}
             id="visibility"
           />
         </FormField>
