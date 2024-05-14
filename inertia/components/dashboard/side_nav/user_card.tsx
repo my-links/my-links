@@ -8,7 +8,12 @@ export default function UserCard() {
   return (
     isAuthenticated && (
       <Item className="disable-hover">
-        <RoundedImage src={user.avatarUrl} width={24} alt={altImage} />
+        <RoundedImage
+          src={user.avatarUrl}
+          width={24}
+          alt={altImage}
+          referrerPolicy="no-referrer"
+        />
         {user.nickName}
       </Item>
     )

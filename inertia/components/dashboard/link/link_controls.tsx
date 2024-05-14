@@ -66,6 +66,7 @@ export default function LinkControls({ link }: { link: Link }) {
     <Dropdown
       label={<BsThreeDotsVertical css={{ color: theme.colors.grey }} />}
       css={{ backgroundColor: theme.colors.secondary }}
+      svgSize={18}
     >
       <StartItem onClick={onFavorite}>
         {!link.favorite ? (

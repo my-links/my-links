@@ -8,6 +8,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useSwipeable } from 'react-swipeable';
 import CollectionContainer from '~/components/dashboard/collection/collection_container';
+import CollectionList from '~/components/dashboard/collection/list/collection_list';
 import SideNavigation from '~/components/dashboard/side_nav/side_navigation';
 import SwiperHandler from '~/components/dashboard/swiper_handler';
 import DashboardLayout from '~/components/layouts/dashboard_layout';
@@ -55,6 +56,7 @@ export default function DashboardPage(props: Readonly<DashboardPageProps>) {
             </SideBar>
           )}
           <CollectionContainer isMobile={isMobile} openSideMenu={open} />
+          <CollectionList />
         </SwiperHandler>
       </DashboardProviders>
     </DashboardLayout>
