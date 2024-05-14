@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { useCallback } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import { HiOutlinePencil } from 'react-icons/hi2';
+import { GoPencil } from 'react-icons/go';
 import { IoTrashOutline } from 'react-icons/io5';
 import Dropdown from '~/components/common/dropdown/dropdown';
 import {
@@ -82,7 +82,7 @@ export default function LinkControls({ link }: { link: Link }) {
       <DropdownItemLink
         href={appendCollectionId(PATHS.LINK.EDIT, link.collectionId)}
       >
-        <HiOutlinePencil /> Edit
+        <GoPencil /> Edit
       </DropdownItemLink>
       <DropdownItemLink
         href={appendCollectionId(PATHS.LINK.REMOVE, link.collectionId)}

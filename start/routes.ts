@@ -27,6 +27,9 @@ router
     ]);
     router.post('/collections', [CollectionsController, 'store']);
 
+    router.get(PATHS.COLLECTION.EDIT, [CollectionsController, 'showEditPage']);
+    router.put('/collections/:id', [CollectionsController, 'update']);
+
     router.get(PATHS.LINK.CREATE, [LinksController, 'showCreatePage']);
     router.post('/links', [LinksController, 'store']);
   })

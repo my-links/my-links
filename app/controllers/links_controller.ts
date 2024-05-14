@@ -10,7 +10,7 @@ export default class LinksController {
 
   async showCreatePage({ auth, inertia }: HttpContext) {
     const collections =
-      await this.collectionsController.getCollectionByAuthorId(auth.user!.id);
+      await this.collectionsController.getCollectionsByAuthorId(auth.user!.id);
     return inertia.render('links/create', { collections });
   }
 
@@ -18,7 +18,10 @@ export default class LinksController {
     const { collectionId, ...payload } =
       await request.validateUsing(linkValidator);
 
-    await this.collectionsController.getCollectionById(collectionId);
+    await this.collectionsController.getCollectionById(
+      collectionId,
+      auth.user!.id
+    );
     await Link.create({
       ...payload,
       collectionId,
