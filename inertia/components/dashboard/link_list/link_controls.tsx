@@ -20,10 +20,6 @@ const StartItem = styled(DropdownItemButton)(({ theme }) => ({
   color: theme.colors.yellow,
 }));
 
-const DeleteItem = styled(DropdownItemLink)(({ theme }) => ({
-  color: theme.colors.lightRed,
-}));
-
 export default function LinkControls({ link }: { link: Link }) {
   const theme = useTheme();
   const { collections, setCollections } = useCollections();
@@ -87,11 +83,12 @@ export default function LinkControls({ link }: { link: Link }) {
       >
         <HiOutlinePencil /> Edit
       </DropdownItemLink>
-      <DeleteItem
+      <DropdownItemLink
         href={appendCollectionId(PATHS.LINK.REMOVE, link.collectionId)}
+        danger
       >
         <IoTrashOutline /> Delete
-      </DeleteItem>
+      </DropdownItemLink>
     </Dropdown>
   );
 }
