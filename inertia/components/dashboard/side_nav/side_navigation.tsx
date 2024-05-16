@@ -5,8 +5,8 @@ import { IoAdd } from 'react-icons/io5';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
 import FavoriteList from '~/components/dashboard/side_nav/favorite/favorite_list';
 import { Item, ItemLink } from '~/components/dashboard/side_nav/nav_item';
-import OpenSettingsButton from '~/components/dashboard/side_nav/open_settings';
 import UserCard from '~/components/dashboard/side_nav/user_card';
+import ModalSettings from '~/components/settings/modal';
 import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
 
@@ -19,6 +19,10 @@ const SideMenu = styled.nav({
 
 const AdminButton = styled(Item)(({ theme }) => ({
   color: theme.colors.lightRed,
+}));
+
+const SettingsButton = styled(Item)(({ theme }) => ({
+  color: theme.colors.grey,
 }));
 
 const AddButton = styled(ItemLink)(({ theme }) => ({
@@ -34,7 +38,7 @@ export default function SideNavigation() {
         <AdminButton>
           <MdOutlineAdminPanelSettings /> Administrator
         </AdminButton>
-        <OpenSettingsButton />
+        <ModalSettings openItem={SettingsButton} />
         <AddButton
           href={appendCollectionId(
             route('link.create-form').url,

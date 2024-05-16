@@ -1,24 +1,29 @@
-import styled from '@emotion/styled';
 import { BsGear } from 'react-icons/bs';
 import Modal from '~/components/common/modal/modal';
-import { Item } from '~/components/dashboard/side_nav/nav_item';
+import ThemeSwitcher from '~/components/theme_switcher';
 import useToggle from '~/hooks/use_modal';
 
-const SettingsButton = styled(Item)(({ theme }) => ({
-  color: theme.colors.grey,
-}));
-
-export default function OpenSettingsButton() {
+export default function ModalSettings({
+  openItem: OpenItem,
+}: {
+  // TODO: fix this :()
+  openItem: any;
+}) {
   const { isShowing, open, close } = useToggle();
-
   return (
     <>
-      <SettingsButton onClick={open}>
+      <OpenItem onClick={open}>
         <BsGear />
         Settings
-      </SettingsButton>
+      </OpenItem>
       <Modal title="Settings" opened={isShowing} close={close}>
         Modal settings
+        <hr />
+        <select>
+          <option>EN</option>
+        </select>
+        <hr />
+        <ThemeSwitcher />
       </Modal>
     </>
   );

@@ -3,11 +3,14 @@ import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { IoIosLogOut } from 'react-icons/io';
 import Dropdown from '~/components/common/dropdown/dropdown';
-import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
+import {
+  DropdownItemButton,
+  DropdownItemLink,
+} from '~/components/common/dropdown/dropdown_item';
 import ExternalLink from '~/components/common/external_link';
 import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
-import useDarkTheme from '~/hooks/use_dark_theme';
+import ModalSettings from '~/components/settings/modal';
 import useUser from '~/hooks/use_user';
 import PATHS from '../../../app/constants/paths';
 
@@ -58,14 +61,6 @@ export default function Navbar() {
       </NavList>
       <NavList right>
         <li>
-          <select>
-            <option>EN</option>
-          </select>
-        </li>
-        <li>
-          <ThemeSwitch />
-        </li>
-        <li>
           <ExternalLink href={PATHS.REPO_GITHUB}>GitHub</ExternalLink>
         </li>
         {isAuthenticated && !!user ? (
@@ -74,22 +69,7 @@ export default function Navbar() {
               <Link href={route('dashboard').url}>Dashboard</Link>
             </li>
             <li>
-              <Dropdown
-                label={
-                  <UserCard>
-                    <RoundedImage
-                      src={user.avatarUrl}
-                      width={22}
-                      referrerPolicy="no-referrer"
-                    />
-                    {user.nickName}
-                  </UserCard>
-                }
-              >
-                <DropdownItemLink href={route('auth.logout').url} danger>
-                  <IoIosLogOut /> Logout
-                </DropdownItemLink>
-              </Dropdown>
+              <ProfileDropdown />
             </li>
           </>
         ) : (
@@ -102,13 +82,25 @@ export default function Navbar() {
   );
 }
 
-function ThemeSwitch() {
-  const { isDarkTheme, toggleDarkTheme } = useDarkTheme();
+function ProfileDropdown() {
+  const { user } = useUser();
   return (
-    <input
-      type="checkbox"
-      onChange={({ target }) => toggleDarkTheme(target.checked)}
-      checked={isDarkTheme}
-    />
+    <Dropdown
+      label={
+        <UserCard>
+          <RoundedImage
+            src={user!.avatarUrl}
+            width={22}
+            referrerPolicy="no-referrer"
+          />
+          {user!.nickName}
+        </UserCard>
+      }
+    >
+      <ModalSettings openItem={DropdownItemButton} />
+      <DropdownItemLink href={route('auth.logout').url} danger>
+        <IoIosLogOut /> Logout
+      </DropdownItemLink>
+    </Dropdown>
   );
 }
