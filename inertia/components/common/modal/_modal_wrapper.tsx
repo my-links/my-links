@@ -9,7 +9,7 @@ const ModalWrapper = styled.div(({ theme }) => ({
   height: '100%',
   width: '100%',
   background: rgba(theme.colors.black, 0.35),
-  backdropFilter: 'blur(0.25em)',
+  backdropFilter: 'blur(0.1em)',
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
