@@ -4,6 +4,8 @@ import { parse } from 'node-html-parser';
 import { createReadStream } from 'node:fs';
 import { resolve } from 'node:path';
 
+const LOG_PREFIX = '[Favicon]';
+
 interface Favicon {
   buffer: Buffer;
   url: string;
@@ -36,8 +38,8 @@ export default class FaviconsController {
       const favicon = await this.getFavicon(faviconRequestUrl);
       return this.sendImage(ctx, favicon);
     } catch (error) {
-      logger.info(
-        `[Favicon] [first: ${faviconRequestUrl}] Unable to retrieve favicon from favicon.ico url`
+      logger.debug(
+        `${LOG_PREFIX} [first: ${faviconRequestUrl}] unable to retrieve favicon from favicon.ico url`
       );
     }
 
@@ -46,10 +48,8 @@ export default class FaviconsController {
 
     const faviconPath = this.findFaviconPath(documentAsText);
     if (!faviconPath) {
-      console.error(
-        '[Favicon]',
-        `[first: ${faviconRequestUrl}]`,
-        'No link/href attribute found'
+      logger.debug(
+        `${LOG_PREFIX} [first: ${faviconRequestUrl}] no link/href attribute found`
       );
       return this.sendDefaultImage(ctx);
     }
@@ -61,10 +61,8 @@ export default class FaviconsController {
       }
 
       if (this.isBase64Image(faviconPath)) {
-        console.log(
-          '[Favicon]',
-          `[second: ${faviconRequestUrl}]`,
-          'info: base64, convert it to buffer'
+        logger.debug(
+          `${LOG_PREFIX} [second: ${faviconRequestUrl}] info: base64, convert it to buffer`
         );
         const buffer = this.convertBase64ToBuffer(faviconPath);
         return this.sendImage(ctx, {
@@ -84,11 +82,13 @@ export default class FaviconsController {
         throw new Error('Favicon path does not return an image');
       }
 
-      console.log('[Favicon]', `[second: ${finalUrl}]`, 'success: image found');
+      logger.debug(`${LOG_PREFIX} [second: ${finalUrl}] success: image found`);
       return this.sendImage(ctx, favicon);
     } catch (error) {
       const errorMessage = error?.message || 'Unable to retrieve favicon';
-      console.log('[Favicon]', `[second: ${finalUrl}], error:`, errorMessage);
+      logger.debug(`${LOG_PREFIX} [second: ${finalUrl}] error`, {
+        errorMessage,
+      });
       return this.sendDefaultImage(ctx);
     }
   }
@@ -184,7 +184,7 @@ export default class FaviconsController {
   private sendImage(ctx: HttpContext, { buffer, type, size }: Favicon) {
     ctx.response.header('Content-Type', type);
     ctx.response.header('Content-Length', size);
-    ctx.response.send(buffer);
+    ctx.response.send(buffer, true);
   }
 
   private sendDefaultImage(ctx: HttpContext) {
