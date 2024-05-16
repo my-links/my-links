@@ -1,4 +1,3 @@
-import PATHS from '#constants/paths';
 import { ExceptionHandler, HttpContext } from '@adonisjs/core/http';
 import app from '@adonisjs/core/services/app';
 import type {
@@ -38,7 +37,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    */
   async handle(error: unknown, ctx: HttpContext) {
     if (error instanceof errors.E_ROW_NOT_FOUND) {
-      return ctx.response.redirect(PATHS.DASHBOARD);
+      return ctx.response.redirectToNamedRoute('dashboard');
     }
     return super.handle(error, ctx);
   }

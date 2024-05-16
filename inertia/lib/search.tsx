@@ -1,6 +1,7 @@
-import PATHS from '#constants/paths';
 import Collection from '#models/collection';
 import Link from '#models/link';
+import { route } from '@izzyjs/route/client';
+import { appendCollectionId } from '~/lib/navigation';
 import { SearchItem, SearchResult } from '~/types/search';
 
 export function buildSearchItem(
@@ -13,7 +14,7 @@ export function buildSearchItem(
     url:
       type === 'link'
         ? (item as Link).url
-        : `${PATHS.DASHBOARD}?collectionId=${item.id}`,
+        : appendCollectionId(route('dashboard').url, item.id),
     type,
     collection: type === 'link' ? (item as Link).collection : undefined,
   };

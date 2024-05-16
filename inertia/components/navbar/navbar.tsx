@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { IoIosLogOut } from 'react-icons/io';
 import Dropdown from '~/components/common/dropdown/dropdown';
 import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
@@ -50,7 +51,7 @@ export default function Navbar() {
     <Nav>
       <NavList>
         <li>
-          <Link href={PATHS.HOME} css={{ fontSize: '24px' }}>
+          <Link href={route('home').url} css={{ fontSize: '24px' }}>
             MyLinks
           </Link>
         </li>
@@ -70,7 +71,7 @@ export default function Navbar() {
         {isAuthenticated && !!user ? (
           <>
             <li>
-              <Link href={PATHS.DASHBOARD}>Dashboard</Link>
+              <Link href={route('dashboard').url}>Dashboard</Link>
             </li>
             <li>
               <Dropdown
@@ -85,7 +86,7 @@ export default function Navbar() {
                   </UserCard>
                 }
               >
-                <DropdownItemLink href={PATHS.AUTH.LOGOUT} danger>
+                <DropdownItemLink href={route('auth.logout').url} danger>
                   <IoIosLogOut /> Logout
                 </DropdownItemLink>
               </Dropdown>
@@ -93,7 +94,7 @@ export default function Navbar() {
           </>
         ) : (
           <li>
-            <Link href={PATHS.AUTH.LOGIN}>Login</Link>
+            <Link href={route('auth.login').url}>Login</Link>
           </li>
         )}
       </NavList>

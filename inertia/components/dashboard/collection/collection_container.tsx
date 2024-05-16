@@ -21,7 +21,7 @@ const LinksWrapper = styled.div({
 const CollectionHeaderWrapper = styled.h2(({ theme }) => ({
   fontWeight: 400,
   color: theme.colors.font,
-  paddingInline: '0.8em 1.1em',
+  paddingRight: '1.1em',
   display: 'flex',
   gap: '0.4em',
   alignItems: 'center',

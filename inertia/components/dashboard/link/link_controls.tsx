@@ -1,7 +1,7 @@
-import PATHS from '#constants/paths';
 import type Link from '#models/link';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+import { route } from '@izzyjs/route/client';
 import { useCallback } from 'react';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -48,9 +48,12 @@ export default function LinkControls({ link }: { link: Link }) {
   );
 
   const onFavorite = () => {
+    const editRoute = route('link.edit', {
+      params: { id: link.id },
+    });
     makeRequest({
-      url: `${PATHS.API.LINK}/${link.id}`,
-      method: 'PUT',
+      url: editRoute.url,
+      method: editRoute.method,
       body: {
         name: link.name,
         url: link.url,
@@ -80,12 +83,18 @@ export default function LinkControls({ link }: { link: Link }) {
         )}
       </StartItem>
       <DropdownItemLink
-        href={appendCollectionId(PATHS.LINK.EDIT, link.collectionId)}
+        href={appendCollectionId(
+          route('link.edit-form').url,
+          link.collectionId
+        )}
       >
         <GoPencil /> Edit
       </DropdownItemLink>
       <DropdownItemLink
-        href={appendCollectionId(PATHS.LINK.REMOVE, link.collectionId)}
+        href={appendCollectionId(
+          route('link.delete-form').url,
+          link.collectionId
+        )}
         danger
       >
         <IoTrashOutline /> Delete

@@ -1,10 +1,9 @@
+import { route } from '@izzyjs/route/client';
 import ContentLayout from '~/components/layouts/content_layout';
-import PATHS from '../../app/constants/paths';
 
-export default function LoginPage() {
-  return (
-    <ContentLayout>
-      <a href={PATHS.AUTH.GOOGLE}>Continue with Google</a>
-    </ContentLayout>
-  );
-}
+const LoginPage = () => (
+  <ContentLayout>
+    <a href={route('auth.google').url}>Continue with Google</a>
+  </ContentLayout>
+);
+export default LoginPage;

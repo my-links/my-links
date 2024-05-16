@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { FormEvent, ReactNode } from 'react';
 import Button from '~/components/common/form/_button';
 import Form from '~/components/common/form/_form';
-import BaseLayout from './_base_layout';
 import { appendCollectionId } from '~/lib/navigation';
-import PATHS from '#constants/paths';
+import BaseLayout from './_base_layout';
 
 const FormLayoutStyle = styled.div(({ theme }) => ({
   height: 'fit-content',
@@ -49,7 +49,7 @@ const FormLayout = ({
         </Button>
       </Form>
       {!disableHomeLink && (
-        <Link href={appendCollectionId(PATHS.DASHBOARD, collectionId)}>
+        <Link href={appendCollectionId(route('dashboard').url, collectionId)}>
           ← Back to home
         </Link>
       )}

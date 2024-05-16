@@ -1,5 +1,4 @@
 import KEYS from '#constants/keys';
-import PATHS from '#constants/paths';
 import type Collection from '#models/collection';
 import Link from '#models/link';
 import styled from '@emotion/styled';
@@ -116,14 +115,16 @@ function DashboardProviders(
   useHotkeys(
     KEYS.OPEN_CREATE_LINK_KEY,
     () => {
-      router.visit(`${PATHS.LINK.CREATE}?collectionId=${activeCollection?.id}`);
+      router.visit(
+        appendCollectionId(route('link.create-form').url, activeCollection?.id)
+      );
     },
     { enabled: globalHotkeysEnabled }
   );
   useHotkeys(
     KEYS.OPEN_CREATE_COLLECTION_KEY,
     () => {
-      router.visit(PATHS.COLLECTION.CREATE);
+      router.visit(route('collection.create-form').url);
     },
     { enabled: globalHotkeysEnabled }
   );
