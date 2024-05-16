@@ -1,10 +1,10 @@
-import PATHS from '#constants/paths';
 import User from '#models/user';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
+import { RouteName } from '@izzyjs/route/types';
 
 export default class UsersController {
-  private redirectTo = PATHS.HOME;
+  private redirectTo: RouteName = 'auth.login';
 
   login({ inertia }: HttpContext) {
     return inertia.render('login');
@@ -17,17 +17,17 @@ export default class UsersController {
     if (google.accessDenied()) {
       // TODO: translate error messages + show them in UI
       session.flash('flash', 'Access was denied');
-      return response.redirect(this.redirectTo);
+      return response.redirectToNamedRoute(this.redirectTo);
     }
 
     if (google.stateMisMatch()) {
       session.flash('flash', 'Request expired. Retry again');
-      return response.redirect(this.redirectTo);
+      return response.redirectToNamedRoute(this.redirectTo);
     }
 
     if (google.hasError()) {
       session.flash('flash', google.getError() || 'Something went wrong');
-      return response.redirect(this.redirectTo);
+      return response.redirectToNamedRoute(this.redirectTo);
     }
 
     const {
@@ -56,13 +56,13 @@ export default class UsersController {
     session.flash('flash', 'Successfully authenticated');
     logger.info(`[${user.email}] auth success`);
 
-    response.redirect(PATHS.DASHBOARD);
+    response.redirectToNamedRoute('dashboard');
   }
 
   async logout({ auth, response, session }: HttpContext) {
     await auth.use('web').logout();
     session.flash('flash', 'Successfully disconnected');
     logger.info(`[${auth.user?.email}] disconnected successfully`);
-    response.redirect(this.redirectTo);
+    response.redirectToNamedRoute(this.redirectTo);
   }
 }

@@ -20,6 +20,8 @@ declare module '@adonisjs/core/http' {
 Response.macro(
   'redirectToNamedRoute',
   function (this: Response, routeName, options) {
+    // TODO: fix this
+    // @ts-ignore
     const current = route(routeName, options);
     this.redirect().toRoute(current.url, current.params, {
       qs: current.qs,
