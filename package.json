@@ -76,6 +76,7 @@
     "@izzyjs/route": "^1.1.0-0",
     "@vinejs/vine": "^2.0.0",
     "edge.js": "^6.0.2",
+    "hex-rgb": "^5.0.0",
     "i18next": "^23.11.3",
     "luxon": "^3.4.4",
     "node-html-parser": "^6.1.13",
