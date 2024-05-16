@@ -1,5 +1,5 @@
-import PATHS from '#constants/paths';
 import type Collection from '#models/collection';
+import { route } from '@izzyjs/route/client';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { GoPencil } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
@@ -14,16 +14,19 @@ const CollectionControls = ({
   collectionId: Collection['id'];
 }) => (
   <Dropdown label={<BsThreeDotsVertical />} svgSize={18}>
-    <DropdownItemLink href={PATHS.LINK.CREATE}>
+    <DropdownItemLink href={route('link.create-form').url}>
       <IoIosAddCircleOutline /> Add
     </DropdownItemLink>
     <DropdownItemLink
-      href={appendCollectionId(PATHS.COLLECTION.EDIT, collectionId)}
+      href={appendCollectionId(route('collection.edit-form').url, collectionId)}
     >
       <GoPencil /> Edit
     </DropdownItemLink>
     <DropdownItemLink
-      href={appendCollectionId(PATHS.COLLECTION.REMOVE, collectionId)}
+      href={appendCollectionId(
+        route('collection.delete-form').url,
+        collectionId
+      )}
       danger
     >
       <IoTrashOutline /> Delete

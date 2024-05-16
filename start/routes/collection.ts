@@ -25,6 +25,8 @@ router
         router
           .put('/:id', [CollectionsController, 'update'])
           .as('collection.edit');
+
+        router.get('/delete', () => 'delete').as('collection.delete-form');
       })
       .prefix('/collections');
   })

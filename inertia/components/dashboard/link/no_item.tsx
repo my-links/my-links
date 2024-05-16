@@ -1,6 +1,6 @@
-import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
@@ -30,7 +30,9 @@ export function NoCollection() {
   return (
     <NoCollectionStyle>
       <Text>{t('select-collection')}</Text>
-      <Link href={PATHS.COLLECTION.CREATE}>{t('or-create-one')}</Link>
+      <Link href={route('collection.create-form').url}>
+        {t('or-create-one')}
+      </Link>
     </NoCollectionStyle>
   );
 }
@@ -51,7 +53,12 @@ export function NoLink() {
           ),
         }}
       />
-      <Link href={appendCollectionId(PATHS.LINK.CREATE, activeCollection?.id)}>
+      <Link
+        href={appendCollectionId(
+          route('link.create-form').url,
+          activeCollection?.id
+        )}
+      >
         {t('link.create')}
       </Link>
     </NoCollectionStyle>

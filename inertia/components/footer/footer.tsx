@@ -4,6 +4,7 @@ import { Link } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
 import packageJson from '../../../package.json';
+import { route } from '@izzyjs/route/client';
 
 const FooterStyle = styled.footer(({ theme }) => ({
   fontSize: '0.9em',
@@ -21,9 +22,9 @@ export default function Footer() {
   return (
     <FooterStyle>
       <div className="row">
-        <Link href={PATHS.PRIVACY}>{t('privacy')}</Link>
+        <Link href={route('privacy').url}>{t('privacy')}</Link>
         {' • '}
-        <Link href={PATHS.TERMS}>{t('terms')}</Link>
+        <Link href={route('terms').url}>{t('terms')}</Link>
         {' • '}
         <ExternalLink href={PATHS.EXTENSION}>Extension</ExternalLink>
       </div>

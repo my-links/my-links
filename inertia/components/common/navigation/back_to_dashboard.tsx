@@ -1,6 +1,6 @@
 import KEYS from '#constants/keys';
-import PATHS from '#constants/paths';
 import { router } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { ReactNode } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import useGlobalHotkeys from '~/hooks/use_global_hotkeys';
@@ -13,7 +13,7 @@ export default function BackToDashboard({ children }: { children: ReactNode }) {
   useHotkeys(
     KEYS.ESCAPE_KEY,
     () => {
-      router.visit(appendCollectionId(PATHS.DASHBOARD, collectionId));
+      router.visit(appendCollectionId(route('dashboard').url, collectionId));
     },
     { enabled: globalHotkeysEnabled, enableOnFormTags: ['INPUT'] }
   );
