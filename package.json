@@ -73,6 +73,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@inertiajs/react": "^1.0.16",
+    "@izzyjs/route": "^1.1.0-0",
     "@vinejs/vine": "^2.0.0",
     "edge.js": "^6.0.2",
     "i18next": "^23.11.3",
