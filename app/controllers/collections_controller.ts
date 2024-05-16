@@ -1,4 +1,3 @@
-import PATHS from '#constants/paths';
 import Collection from '#models/collection';
 import User from '#models/user';
 import {
@@ -12,7 +11,7 @@ export default class CollectionsController {
   async index({ auth, inertia, request, response }: HttpContext) {
     const collections = await this.getCollectionsByAuthorId(auth.user!.id);
     if (collections.length === 0) {
-      return response.redirect('/collections/create');
+      return response.redirectToNamedRoute('collection.create-form');
     }
 
     const activeCollectionId = request.qs()?.collectionId ?? '';
@@ -21,7 +20,7 @@ export default class CollectionsController {
     );
 
     if (!activeCollection && !!activeCollectionId) {
-      return response.redirect('/dashboard');
+      return response.redirectToNamedRoute('dashboard');
     }
 
     return inertia.render('dashboard', {
@@ -51,7 +50,7 @@ export default class CollectionsController {
   async showEditPage({ auth, request, inertia, response }: HttpContext) {
     const collectionId = request.qs()?.collectionId;
     if (!collectionId) {
-      return response.redirect('/dashboard');
+      return response.redirectToNamedRoute('dashboard');
     }
 
     const collection = await this.getCollectionById(
@@ -105,6 +104,8 @@ export default class CollectionsController {
     response: HttpContext['response'],
     collectionId: Collection['id']
   ) {
-    return response.redirect(`${PATHS.DASHBOARD}?collectionId=${collectionId}`);
+    return response.redirectToNamedRoute('dashboard', {
+      qs: { collectionId },
+    });
   }
 }

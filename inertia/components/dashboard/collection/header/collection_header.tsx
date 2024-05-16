@@ -13,12 +13,13 @@ const CollectionNameWrapper = styled.div({
   alignItems: 'center',
 });
 
-const CollectionName = styled.div({
+const CollectionName = styled.div(({ theme }) => ({
   minWidth: 0,
+  color: theme.colors.primary,
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-});
+}));
 
 const LinksCount = styled.div(({ theme }) => ({
   minWidth: 'fit-content',

@@ -4,6 +4,7 @@ import type Collection from '#models/collection';
 import Link from '#models/link';
 import styled from '@emotion/styled';
 import { router } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useSwipeable } from 'react-swipeable';
@@ -18,6 +19,7 @@ import FavoritesContext from '~/contexts/favorites_context';
 import GlobalHotkeysContext from '~/contexts/global_hotkeys_context';
 import { useMediaQuery } from '~/hooks/use_media_query';
 import useToggle from '~/hooks/use_modal';
+import { appendCollectionId } from '~/lib/navigation';
 
 interface DashboardPageProps {
   collections: Collection[];
@@ -78,8 +80,10 @@ function DashboardProviders(
     props.activeCollection || collections?.[0]
   );
 
-  const handleChangeCollection = (collection: Collection) =>
+  const handleChangeCollection = (collection: Collection) => {
     setActiveCollection(collection);
+    router.visit(appendCollectionId(route('dashboard').url, collection.id));
+  };
 
   const favorites = useMemo<Link[]>(
     () =>
