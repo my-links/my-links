@@ -1,11 +1,15 @@
 import styled from '@emotion/styled';
+import { rgba } from '~/lib/color';
 
-const RoundedImage = styled.img({
-  'borderRadius': '50%',
+const RoundedImage = styled.img(({ theme }) => {
+  const transparentBlack = rgba(theme.colors.black, 0.1);
+  return {
+    borderRadius: '50%',
 
-  '&:hover': {
-    boxShadow: '0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1)',
-  },
+    '&:hover': {
+      boxShadow: `0 1px 3px 0 ${transparentBlack}, 0 1px 2px -1px ${transparentBlack}`,
+    },
+  };
 });
 
 export default RoundedImage;

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 
 export const Item = styled.div(({ theme }) => ({
+  cursor: 'pointer',
   userSelect: 'none',
   height: '40px',
   width: '250px',

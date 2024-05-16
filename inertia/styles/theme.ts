@@ -1,4 +1,5 @@
 import { Theme } from '@emotion/react';
+import { rgba } from '~/lib/color';
 
 export const primaryColor = '#3f88c5';
 export const primaryDarkColor = '#005aa5';
@@ -32,6 +33,7 @@ export const lightTheme: Theme = {
     primary: primaryColor,
     secondary: '#fff',
 
+    black: '#333',
     white: '#ffffff',
 
     lightGrey: '#dadce0',
@@ -45,7 +47,7 @@ export const lightTheme: Theme = {
 
     yellow: '#FF8A08',
 
-    boxShadow: '0 0 1em 0 rgba(102, 102, 102, 0.25)',
+    boxShadow: `0 0 1em 0 ${rgba('#aaa', 0.4)}`,
   },
 
   border,
@@ -60,6 +62,7 @@ export const darkTheme: Theme = {
     primary: '#4fadfc',
     secondary: '#323a47',
 
+    black: '#333',
     white: '#ffffff',
 
     lightGrey: '#323a47',
@@ -73,7 +76,7 @@ export const darkTheme: Theme = {
 
     yellow: '#ffc107',
 
-    boxShadow: '0 0 1em 0 rgb(40 40 40)',
+    boxShadow: `0 0 1em 0 ${rgba('#111', 0.4)}`,
   },
 
   border,
