@@ -1,12 +1,10 @@
-import KEYS from '#constants/keys';
 import styled from '@emotion/styled';
 import { ReactNode, useRef } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import DropdownContainer from '~/components/common/dropdown/dropdown_container';
 import DropdownLabel from '~/components/common/dropdown/dropdown_label';
 import useClickOutside from '~/hooks/use_click_outside';
-import useGlobalHotkeys from '~/hooks/use_global_hotkeys';
 import useToggle from '~/hooks/use_modal';
+import useShortcut from '~/hooks/use_shortcut';
 
 const DropdownStyle = styled.div<{ opened: boolean; svgSize?: number }>(
   ({ opened, theme, svgSize = 24 }) => ({
@@ -44,14 +42,9 @@ export default function Dropdown({
 }) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { isShowing, toggle, close } = useToggle();
-  const { globalHotkeysEnabled } = useGlobalHotkeys();
 
   useClickOutside(dropdownRef, close);
-
-  useHotkeys(KEYS.ESCAPE_KEY, close, {
-    enabled: globalHotkeysEnabled,
-    enableOnFormTags: ['INPUT'],
-  });
+  useShortcut('ESCAPE_KEY', close);
 
   return (
     <DropdownStyle

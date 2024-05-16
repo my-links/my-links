@@ -1,11 +1,9 @@
-import KEYS from '#constants/keys';
 import type Collection from '#models/collection';
 import Link from '#models/link';
 import styled from '@emotion/styled';
 import { router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { useSwipeable } from 'react-swipeable';
 import CollectionContainer from '~/components/dashboard/collection/collection_container';
 import CollectionList from '~/components/dashboard/collection/list/collection_list';
@@ -18,6 +16,7 @@ import FavoritesContext from '~/contexts/favorites_context';
 import GlobalHotkeysContext from '~/contexts/global_hotkeys_context';
 import { useMediaQuery } from '~/hooks/use_media_query';
 import useToggle from '~/hooks/use_modal';
+import useShortcut from '~/hooks/use_shortcut';
 import { appendCollectionId } from '~/lib/navigation';
 
 interface DashboardPageProps {
@@ -112,21 +111,13 @@ function DashboardProviders(
     [globalHotkeysEnabled]
   );
 
-  useHotkeys(
-    KEYS.OPEN_CREATE_LINK_KEY,
-    () => {
-      router.visit(
-        appendCollectionId(route('link.create-form').url, activeCollection?.id)
-      );
-    },
-    { enabled: globalHotkeysEnabled }
+  useShortcut('OPEN_CREATE_LINK_KEY', () =>
+    router.visit(
+      appendCollectionId(route('link.create-form').url, activeCollection?.id)
+    )
   );
-  useHotkeys(
-    KEYS.OPEN_CREATE_COLLECTION_KEY,
-    () => {
-      router.visit(route('collection.create-form').url);
-    },
-    { enabled: globalHotkeysEnabled }
+  useShortcut('OPEN_CREATE_COLLECTION_KEY', () =>
+    router.visit(route('collection.create-form').url)
   );
   return (
     <CollectionsContext.Provider value={collectionsContextValue}>

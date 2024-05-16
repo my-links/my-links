@@ -1,11 +1,9 @@
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
-import TextEllipsis from '~/components/common/text_ellipsis';
 import CollectionItem from '~/components/dashboard/collection/list/collection_item';
 import CollectionListContainer from '~/components/dashboard/collection/list/collection_list_container';
 import useActiveCollection from '~/hooks/use_active_collection';
 import useCollections from '~/hooks/use_collections';
+import useShortcut from '~/hooks/use_shortcut';
 
 const SideMenu = styled.nav(({ theme }) => ({
   height: '100%',
@@ -31,33 +29,41 @@ const CollectionListStyle = styled.div({
 });
 
 export default function CollectionList() {
-  const { activeCollection, setActiveCollection } = useActiveCollection();
   const { collections } = useCollections();
-  const theme = useTheme();
+  const { activeCollection, setActiveCollection } = useActiveCollection();
+
+  const goToPreviousCollection = () => {
+    const currentCategoryIndex = collections.findIndex(
+      ({ id }) => id === activeCollection?.id
+    );
+    if (currentCategoryIndex === -1 || currentCategoryIndex === 0) return;
+
+    setActiveCollection(collections[currentCategoryIndex - 1]);
+  };
+
+  const goToNextCollection = () => {
+    const currentCategoryIndex = collections.findIndex(
+      ({ id }) => id === activeCollection?.id
+    );
+    if (
+      currentCategoryIndex === -1 ||
+      currentCategoryIndex === collections.length - 1
+    )
+      return;
+
+    setActiveCollection(collections[currentCategoryIndex + 1]);
+  };
+
+  useShortcut('ARROW_UP', goToPreviousCollection);
+  useShortcut('ARROW_DOWN', goToNextCollection);
+
   return (
     <SideMenu>
       <CollectionListContainer>
         <CollectionLabel>Collections • {collections.length}</CollectionLabel>
         <CollectionListStyle>
           {collections.map((collection) => (
-            <CollectionItem
-              css={{
-                cursor: 'pointer',
-                color:
-                  activeCollection?.id === collection.id
-                    ? theme.colors.primary
-                    : theme.colors.font,
-              }}
-              onClick={() => setActiveCollection(collection)}
-              key={collection.id}
-            >
-              {collection.id === activeCollection?.id ? (
-                <AiFillFolderOpen size={24} />
-              ) : (
-                <AiOutlineFolder size={24} />
-              )}
-              <TextEllipsis>{collection.name}</TextEllipsis>
-            </CollectionItem>
+            <CollectionItem collection={collection} key={collection.id} />
           ))}
         </CollectionListStyle>
       </CollectionListContainer>
