@@ -1,6 +1,7 @@
 import type Collection from '#models/collection';
 import { useForm } from '@inertiajs/react';
 import { ChangeEvent, FormEvent, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import FormField from '~/components/common/form/_form_field';
 import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
@@ -13,6 +14,7 @@ export default function CreateLinkPage({
 }: {
   collections: Collection[];
 }) {
+  const { t } = useTranslation('common');
   const collectionId = useSearchParam('collectionId') ?? collections[0].id;
   const { data, setData, post, processing } = useForm({
     name: '',
@@ -50,8 +52,8 @@ export default function CreateLinkPage({
     >
       <BackToDashboard>
         <TextBox
-          label="Link name"
-          placeholder="Link name"
+          label={t('link.name')}
+          placeholder={t('link.name')}
           name="name"
           onChange={setData}
           value={data.name}
@@ -67,8 +69,8 @@ export default function CreateLinkPage({
           required
         />
         <TextBox
-          label="Link description"
-          placeholder="Link description"
+          label={t('link.description')}
+          placeholder={t('link.description')}
           name="description"
           onChange={setData}
           value={data.description}
@@ -84,7 +86,7 @@ export default function CreateLinkPage({
           ))}
         </select>
         <FormField required>
-          <label htmlFor="favorite">Favorite</label>
+          <label htmlFor="favorite">{t('favorite')}</label>
           <input
             type="checkbox"
             onChange={handleOnCheck}

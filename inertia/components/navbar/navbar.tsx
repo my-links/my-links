@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
+import { useTranslation } from 'react-i18next';
 import { IoIosLogOut } from 'react-icons/io';
 import Dropdown from '~/components/common/dropdown/dropdown';
 import {
@@ -49,7 +50,9 @@ const UserCard = styled.div({
 });
 
 export default function Navbar() {
+  const { t } = useTranslation('common');
   const { isAuthenticated, user } = useUser();
+
   return (
     <Nav>
       <NavList>
@@ -73,9 +76,14 @@ export default function Navbar() {
             </li>
           </>
         ) : (
-          <li>
-            <Link href={route('auth.login').url}>Login</Link>
-          </li>
+          <>
+            <li>
+              <ModalSettings openItem={DropdownItemButton} />
+            </li>
+            <li>
+              <Link href={route('auth.login').url}>{t('login')}</Link>
+            </li>
+          </>
         )}
       </NavList>
     </Nav>
@@ -83,7 +91,9 @@ export default function Navbar() {
 }
 
 function ProfileDropdown() {
+  const { t } = useTranslation('common');
   const { user } = useUser();
+
   return (
     <Dropdown
       label={
@@ -99,7 +109,7 @@ function ProfileDropdown() {
     >
       <ModalSettings openItem={DropdownItemButton} />
       <DropdownItemLink href={route('auth.logout').url} danger>
-        <IoIosLogOut /> Logout
+        <IoIosLogOut /> {t('logout')}
       </DropdownItemLink>
     </Dropdown>
   );

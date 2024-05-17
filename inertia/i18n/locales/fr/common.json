@@ -12,8 +12,8 @@
     "description": "Description du lien",
     "create": "Créer un lien",
     "edit": "Modifier un lien",
-    "remove": "Supprimer un lien",
-    "remove-confirm": "Confirmer la suppression ?"
+    "delete": "Supprimer un lien",
+    "delete-confirm": "Confirmer la suppression ?"
   },
   "collection": {
     "collections": "Collection",
@@ -25,12 +25,16 @@
     "no-description": "Aucune description",
     "create": "Créer une collection",
     "edit": "Modifier une collection",
-    "remove": "Supprimer une collection",
-    "remove-confirm": "Confirmer la suppression ?",
-    "remove-description": "Vous devez supprimer tous les liens de cette collection avant de pouvoir supprimer cette collection"
+    "delete": "Supprimer une collection",
+    "delete-confirm": "Confirmer la suppression ?",
+    "delete-description": "Vous devez supprimer tous les liens de cette collection avant de pouvoir supprimer cette collection"
   },
   "favorite": "Favoris",
+  "add-favorite": "Ajouter aux favoris",
+  "remove-favorite": "Retirer des favoris",
+  "favorites-appears-here": "Vos favoris apparaîtront ici",
   "no-item-found": "Aucun élément trouvé",
+  "admin": "Administrateur",
   "search": "Rechercher",
   "avatar": "Avatar de {{name}}",
   "generic-error": "Une erreur est survenue",

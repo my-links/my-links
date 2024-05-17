@@ -3,6 +3,7 @@ import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { route } from '@izzyjs/route/client';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { GoPencil } from 'react-icons/go';
@@ -22,6 +23,7 @@ const StartItem = styled(DropdownItemButton)(({ theme }) => ({
 
 export default function LinkControls({ link }: { link: Link }) {
   const theme = useTheme();
+  const { t } = useTranslation('common');
   const { collections, setCollections } = useCollections();
 
   const toggleFavorite = useCallback(
@@ -74,11 +76,11 @@ export default function LinkControls({ link }: { link: Link }) {
       <StartItem onClick={onFavorite}>
         {!link.favorite ? (
           <>
-            <AiFillStar /> Add to favorites
+            <AiFillStar /> {t('add-favorite')}
           </>
         ) : (
           <>
-            <AiOutlineStar /> Remove from favorites
+            <AiOutlineStar /> {t('remove-favorite')}
           </>
         )}
       </StartItem>
@@ -88,7 +90,7 @@ export default function LinkControls({ link }: { link: Link }) {
           link.collectionId
         )}
       >
-        <GoPencil /> Edit
+        <GoPencil /> {t('link.edit')}
       </DropdownItemLink>
       <DropdownItemLink
         href={appendCollectionId(
@@ -97,7 +99,7 @@ export default function LinkControls({ link }: { link: Link }) {
         )}
         danger
       >
-        <IoTrashOutline /> Delete
+        <IoTrashOutline /> {t('link.delete')}
       </DropdownItemLink>
     </Dropdown>
   );

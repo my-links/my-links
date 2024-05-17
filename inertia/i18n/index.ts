@@ -12,6 +12,7 @@ import frResourceLogin from './locales/fr/login.json';
 import frResourcePrivacy from './locales/fr/privacy.json';
 import frResourceTerms from './locales/fr/terms.json';
 
+import { LS_LANG_KEY } from '~/constants';
 import enResourceAbout from './locales/en/about.json';
 import enResourceAdmin from './locales/en/admin.json';
 import enResourceCommon from './locales/en/common.json';
@@ -51,9 +52,16 @@ export const resources = {
   },
 } as const;
 
+export const languages = ['en', 'fr'] as const;
+
+const lng =
+  typeof window !== 'undefined'
+    ? localStorage.getItem(LS_LANG_KEY) || undefined
+    : undefined;
 i18n.use(initReactI18next).init({
   returnNull: false,
   resources,
+  lng,
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
