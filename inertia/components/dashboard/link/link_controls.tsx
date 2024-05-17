@@ -13,8 +13,9 @@ import {
   DropdownItemButton,
   DropdownItemLink,
 } from '~/components/common/dropdown/dropdown_item';
+import useActiveCollection from '~/hooks/use_active_collection';
 import useCollections from '~/hooks/use_collections';
-import { appendCollectionId } from '~/lib/navigation';
+import { appendLinkId } from '~/lib/navigation';
 import { makeRequest } from '~/lib/request';
 
 const StartItem = styled(DropdownItemButton)(({ theme }) => ({
@@ -25,6 +26,7 @@ export default function LinkControls({ link }: { link: Link }) {
   const theme = useTheme();
   const { t } = useTranslation('common');
   const { collections, setCollections } = useCollections();
+  const { setActiveCollection } = useActiveCollection();
 
   const toggleFavorite = useCallback(
     (linkId: Link['id']) => {
@@ -45,22 +47,20 @@ export default function LinkControls({ link }: { link: Link }) {
       };
 
       setCollections(collectionsCopy);
+      setActiveCollection(collectionsCopy[collectionIndex]);
     },
     [collections, setCollections]
   );
 
   const onFavorite = () => {
-    const editRoute = route('link.edit', {
+    const { url, method } = route('link.toggle-favorite', {
       params: { id: link.id },
     });
     makeRequest({
-      url: editRoute.url,
-      method: editRoute.method,
+      url,
+      method,
       body: {
-        name: link.name,
-        url: link.url,
         favorite: !link.favorite,
-        collectionId: link.collectionId,
       },
     })
       .then(() => toggleFavorite(link.id))
@@ -85,18 +85,12 @@ export default function LinkControls({ link }: { link: Link }) {
         )}
       </StartItem>
       <DropdownItemLink
-        href={appendCollectionId(
-          route('link.edit-form').url,
-          link.collectionId
-        )}
+        href={appendLinkId(route('link.edit-form').url, link.id)}
       >
         <GoPencil /> {t('link.edit')}
       </DropdownItemLink>
       <DropdownItemLink
-        href={appendCollectionId(
-          route('link.delete-form').url,
-          link.collectionId
-        )}
+        href={appendLinkId(route('link.delete-form').url, link.id)}
         danger
       >
         <IoTrashOutline /> {t('link.delete')}

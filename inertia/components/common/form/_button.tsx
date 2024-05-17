@@ -14,7 +14,7 @@ const Button = styled.button(({ theme }) => ({
 
   '&:disabled': {
     cursor: 'not-allowed',
-    opacity: '0.75',
+    opacity: '0.5',
   },
 
   '&:not(:disabled):hover': {

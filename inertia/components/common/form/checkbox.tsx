@@ -1,46 +1,52 @@
-import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
+import { ChangeEvent, Fragment, InputHTMLAttributes, useState } from 'react';
+import Toggle from 'react-toggle';
 import FormField from '~/components/common/form/_form_field';
 import FormFieldError from '~/components/common/form/_form_field_error';
-import Input from '~/components/common/form/_input';
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   label: string;
   name: string;
-  value?: string;
+  checked: boolean;
   errors?: string[];
-  onChange?: (name: string, value: string) => void;
+  onChange?: (name: string, checked: boolean) => void;
 }
 
-export default function TextBox({
+export default function Checkbox({
   name,
   label,
-  value = '',
+  checked = false,
   errors = [],
   onChange,
   required = false,
   ...props
 }: InputProps): JSX.Element {
-  const [inputValue, setInputValue] = useState<string>(value);
+  const [checkboxChecked, setCheckboxChecked] = useState<boolean>(checked);
+
+  if (typeof window === 'undefined') return <Fragment />;
 
   function _onChange({ target }: ChangeEvent<HTMLInputElement>) {
-    setInputValue(target.value);
+    setCheckboxChecked(target.checked);
     if (onChange) {
-      onChange(target.name, target.value);
+      onChange(target.name, target.checked);
     }
   }
 
   return (
-    <FormField required={required}>
+    <FormField
+      css={{ alignItems: 'center', gap: '1em', flexDirection: 'row' }}
+      required={required}
+    >
       <label htmlFor={name} title={label}>
         {label}
       </label>
-      <Input
+      <Toggle
         {...props}
-        name={name}
         onChange={_onChange}
-        value={inputValue}
+        checked={checkboxChecked}
         placeholder={props.placeholder ?? 'Type something...'}
+        name={name}
+        id={name}
       />
       {errors.length > 0 &&
         errors.map((error) => <FormFieldError>{error}</FormFieldError>)}

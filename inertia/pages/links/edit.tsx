@@ -1,38 +1,46 @@
 import type Collection from '#models/collection';
+import type Link from '#models/link';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormLink from '~/components/form/form_link';
-import useSearchParam from '~/hooks/use_search_param';
 import { isValidHttpUrl } from '~/lib/navigation';
 
-export default function CreateLinkPage({
+export default function EditLinkPage({
   collections,
+  link,
 }: {
   collections: Collection[];
+  link: Link;
 }) {
   const { t } = useTranslation('common');
-  const collectionId = useSearchParam('collectionId') ?? collections[0].id;
   const { data, setData, submit, processing } = useForm({
-    name: '',
-    description: '',
-    url: '',
-    favorite: false,
-    collectionId,
+    name: link.name,
+    description: link.description,
+    url: link.url,
+    favorite: link.favorite,
+    collectionId: link.collectionId,
   });
-  const canSubmit = useMemo<boolean>(
-    () =>
+  const canSubmit = useMemo<boolean>(() => {
+    const isFormEdited =
+      data.name !== link.name ||
+      data.url !== link.url ||
+      data.description !== link.description ||
+      data.favorite !== link.favorite ||
+      data.collectionId !== link.collectionId;
+
+    const isFormValid =
       data.name !== '' &&
       isValidHttpUrl(data.url) &&
       data.favorite !== null &&
-      data.collectionId !== null &&
-      !processing,
-    [data, processing]
-  );
+      data.collectionId !== null;
+
+    return isFormEdited && isFormValid && !processing;
+  }, [data, processing]);
 
   const handleSubmit = () => {
-    const { method, url } = route('link.create');
+    const { method, url } = route('link.edit', { params: { id: link.id } });
     submit(method, url);
   };
 
