@@ -7,7 +7,7 @@
   "login": "Connexion",
   "link": {
     "links": "Liens",
-    "link": "Lien",
+    "link": "URL du lien",
     "name": "Nom du lien",
     "description": "Description du lien",
     "create": "Créer un lien",

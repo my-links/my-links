@@ -13,6 +13,7 @@ const ModalWrapper = styled.div(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
+  transition: theme.transition.delay,
 }));
 
 export default ModalWrapper;

@@ -1,16 +1,27 @@
-import { ChangeEvent, FormEvent } from 'react';
-import FormField from '~/components/common/form/_form_field';
+import { FormEvent } from 'react';
+import { useTranslation } from 'react-i18next';
+import Checkbox from '~/components/common/form/checkbox';
 import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
 import { Visibility } from '../../../app/enums/visibility';
-import { useTranslation } from 'react-i18next';
 
 export type FormCollectionData = {
   name: string;
   description: string | null;
   visibility: Visibility;
 };
+
+interface FormCollectionProps {
+  title: string;
+  canSubmit: boolean;
+  disableHomeLink?: boolean;
+  data: FormCollectionData;
+  errors?: Record<string, Array<string>>;
+
+  setData: (name: string, value: any) => void;
+  handleSubmit: () => void;
+}
 
 export default function FormCollection({
   title,
@@ -21,22 +32,10 @@ export default function FormCollection({
 
   setData,
   handleSubmit,
-}: {
-  title: string;
-  canSubmit: boolean;
-  disableHomeLink?: boolean;
-  data: FormCollectionData;
-  errors?: Record<string, Array<string>>;
-
-  setData: (name: string, value: string) => void;
-  handleSubmit: () => void;
-}) {
+}: FormCollectionProps) {
   const { t } = useTranslation('common');
-  const handleOnCheck = ({ target }: ChangeEvent<HTMLInputElement>) =>
-    setData(
-      'visibility',
-      target.checked ? Visibility.PUBLIC : Visibility.PRIVATE
-    );
+  const handleOnCheck: FormCollectionProps['setData'] = (name, value) =>
+    setData(name, value ? Visibility.PUBLIC : Visibility.PRIVATE);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,22 +61,19 @@ export default function FormCollection({
           autoFocus
         />
         <TextBox
-          label={t('collection.name')}
-          placeholder={t('collection.name')}
+          label={t('collection.description')}
+          placeholder={t('collection.description')}
           name="description"
           onChange={setData}
           value={data.description ?? undefined}
           errors={errors?.description}
         />
-        <FormField>
-          <label htmlFor="visibility">Public</label>
-          <input
-            type="checkbox"
-            onChange={handleOnCheck}
-            checked={data.visibility === Visibility.PUBLIC}
-            id="visibility"
-          />
-        </FormField>
+        <Checkbox
+          label="Public"
+          name="visibility"
+          onChange={handleOnCheck}
+          checked={data.visibility === Visibility.PUBLIC}
+        />
       </BackToDashboard>
     </FormLayout>
   );

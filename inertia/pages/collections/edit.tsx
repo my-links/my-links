@@ -1,5 +1,6 @@
 import type Collection from '#models/collection';
 import { useForm } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import FormCollection, {
   FormCollectionData,
@@ -10,7 +11,7 @@ export default function EditCollectionPage({
 }: {
   collection: Collection;
 }) {
-  const { data, setData, put, processing, errors } =
+  const { data, setData, submit, processing, errors } =
     useForm<FormCollectionData>({
       name: collection.name,
       description: collection.description,
@@ -25,7 +26,12 @@ export default function EditCollectionPage({
     return isFormEdited && isFormValid && !processing;
   }, [data, collection]);
 
-  const handleSubmit = () => put(`/collections/${collection.id}`);
+  const handleSubmit = () => {
+    const { method, url } = route('collection.edit', {
+      params: { id: collection.id },
+    });
+    submit(method, url);
+  };
 
   return (
     <FormCollection

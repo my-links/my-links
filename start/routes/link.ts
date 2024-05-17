@@ -12,8 +12,12 @@ router
       .as('link.create-form');
     router.post('/', [LinksController, 'store']).as('link.create');
 
-    router.get('/edit', () => 'edit form').as('link.edit-form');
-    router.put('/:id', () => 'edit route api').as('link.edit');
+    router.get('/edit', [LinksController, 'showEditPage']).as('link.edit-form');
+    router.put('/:id', [LinksController, 'update']).as('link.edit');
+
+    router
+      .put('/:id/favorite', [LinksController, 'toggleFavorite'])
+      .as('link.toggle-favorite');
 
     router.get('/delete', () => 'delete').as('link.delete-form');
   })

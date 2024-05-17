@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
+import TransitionLayout from '~/components/layouts/_transition_layout';
 
-const ModalContainer = styled.div(({ theme }) => ({
+const ModalContainer = styled(TransitionLayout)(({ theme }) => ({
   minWidth: '500px',
   background: theme.colors.secondary,
   padding: '1em',

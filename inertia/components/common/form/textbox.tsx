@@ -1,13 +1,7 @@
-import styled from '@emotion/styled';
 import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 import FormField from '~/components/common/form/_form_field';
+import FormFieldError from '~/components/common/form/_form_field_error';
 import Input from '~/components/common/form/_input';
-
-// TODO: create a global style variable (fontSize)
-const InputLegend = styled.p(({ theme }) => ({
-  fontSize: '12px',
-  color: theme.colors.lightRed,
-}));
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -49,7 +43,7 @@ export default function TextBox({
         placeholder={props.placeholder ?? 'Type something...'}
       />
       {errors.length > 0 &&
-        errors.map((error) => <InputLegend>{error}</InputLegend>)}
+        errors.map((error) => <FormFieldError>{error}</FormFieldError>)}
     </FormField>
   );
 }

@@ -21,7 +21,9 @@ export default function LangSelector() {
       defaultValue={i18n.language}
     >
       {languages.map((lang) => (
-        <option value={lang}>{t(`language.${lang}`)}</option>
+        <option value={lang} key={lang}>
+          {t(`language.${lang}`)}
+        </option>
       ))}
     </select>
   );
