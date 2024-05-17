@@ -4,12 +4,14 @@ import FormCollection, {
   FormCollectionData,
 } from '~/components/form/form_collection';
 import { Visibility } from '../../../app/enums/visibility';
+import { useTranslation } from 'react-i18next';
 
 export default function CreateCollectionPage({
   disableHomeLink,
 }: {
   disableHomeLink: boolean;
 }) {
+  const { t } = useTranslation('common');
   const { data, setData, post, processing } = useForm<FormCollectionData>({
     name: '',
     description: '',
@@ -24,7 +26,7 @@ export default function CreateCollectionPage({
 
   return (
     <FormCollection
-      title="Create a collection"
+      title={t('collection.create')}
       canSubmit={!isFormDisabled}
       disableHomeLink={disableHomeLink}
       data={data}

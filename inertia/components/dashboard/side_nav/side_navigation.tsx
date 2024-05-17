@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { route } from '@izzyjs/route/client';
+import { useTranslation } from 'react-i18next';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { IoAdd } from 'react-icons/io5';
 import { MdOutlineAdminPanelSettings } from 'react-icons/md';
@@ -30,13 +31,14 @@ const AddButton = styled(ItemLink)(({ theme }) => ({
 }));
 
 export default function SideNavigation() {
+  const { t } = useTranslation('common');
   const { activeCollection } = useActiveCollection();
   return (
     <SideMenu>
       <div css={{ paddingInline: '10px' }}>
         <UserCard />
         <AdminButton>
-          <MdOutlineAdminPanelSettings /> Administrator
+          <MdOutlineAdminPanelSettings /> {t('admin')}
         </AdminButton>
         <ModalSettings openItem={SettingsButton} />
         <AddButton
@@ -45,10 +47,10 @@ export default function SideNavigation() {
             activeCollection?.id
           )}
         >
-          <IoAdd /> Create link
+          <IoAdd /> {t('link.create')}
         </AddButton>
         <AddButton href={route('collection.create-form').url}>
-          <AiOutlineFolderAdd /> Create collection
+          <AiOutlineFolderAdd /> {t('collection.create')}
         </AddButton>
       </div>
       <FavoriteList />

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useTranslation } from 'react-i18next';
 import CollectionItem from '~/components/dashboard/collection/list/collection_item';
 import CollectionListContainer from '~/components/dashboard/collection/list/collection_list_container';
 import useActiveCollection from '~/hooks/use_active_collection';
@@ -17,7 +18,10 @@ const SideMenu = styled.nav(({ theme }) => ({
 
 const CollectionLabel = styled.p(({ theme }) => ({
   color: theme.colors.grey,
+  marginBlock: '0.35em',
+  paddingInline: '15px',
 }));
+
 const CollectionListStyle = styled.div({
   padding: '1px',
   paddingRight: '5px',
@@ -29,6 +33,7 @@ const CollectionListStyle = styled.div({
 });
 
 export default function CollectionList() {
+  const { t } = useTranslation('common');
   const { collections } = useCollections();
   const { activeCollection, setActiveCollection } = useActiveCollection();
 
@@ -60,7 +65,10 @@ export default function CollectionList() {
   return (
     <SideMenu>
       <CollectionListContainer>
-        <CollectionLabel>Collections • {collections.length}</CollectionLabel>
+        <CollectionLabel>
+          {t('collection.collections', { count: collections.length })} •{' '}
+          {collections.length}
+        </CollectionLabel>
         <CollectionListStyle>
           {collections.map((collection) => (
             <CollectionItem collection={collection} key={collection.id} />

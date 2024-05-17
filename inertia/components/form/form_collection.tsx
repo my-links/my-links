@@ -4,6 +4,7 @@ import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
 import { Visibility } from '../../../app/enums/visibility';
+import { useTranslation } from 'react-i18next';
 
 export type FormCollectionData = {
   name: string;
@@ -30,6 +31,7 @@ export default function FormCollection({
   setData: (name: string, value: string) => void;
   handleSubmit: () => void;
 }) {
+  const { t } = useTranslation('common');
   const handleOnCheck = ({ target }: ChangeEvent<HTMLInputElement>) =>
     setData(
       'visibility',
@@ -50,8 +52,8 @@ export default function FormCollection({
     >
       <BackToDashboard>
         <TextBox
-          label="Collection name"
-          placeholder="Collection name"
+          label={t('collection.name')}
+          placeholder={t('collection.name')}
           name="name"
           onChange={setData}
           value={data.name}
@@ -60,8 +62,8 @@ export default function FormCollection({
           autoFocus
         />
         <TextBox
-          label="Collection description"
-          placeholder="Collection description"
+          label={t('collection.name')}
+          placeholder={t('collection.name')}
           name="description"
           onChange={setData}
           value={data.description ?? undefined}

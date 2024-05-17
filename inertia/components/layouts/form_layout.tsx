@@ -1,13 +1,16 @@
 import styled from '@emotion/styled';
-import { Link } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { FormEvent, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '~/components/common/form/_button';
 import Form from '~/components/common/form/_form';
+import TransitionLayout from '~/components/layouts/_transition_layout';
+import i18n from '~/i18n';
 import { appendCollectionId } from '~/lib/navigation';
 import BaseLayout from './_base_layout';
 
-const FormLayoutStyle = styled.div(({ theme }) => ({
+const FormLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
   height: 'fit-content',
   width: theme.media.mobile,
   maxWidth: '100%',
@@ -30,31 +33,33 @@ interface FormLayoutProps {
   collectionId?: string;
 }
 
-const FormLayout = ({
+export default function FormLayout({
   title,
   children,
   canSubmit,
   handleSubmit,
-  textSubmitButton = 'Confirm',
+  textSubmitButton = i18n.t('common:confirm'),
   disableHomeLink = false,
   collectionId,
-}: FormLayoutProps) => (
-  <BaseLayout>
-    <FormLayoutStyle>
-      <h2>{title}</h2>
-      <Form onSubmit={handleSubmit}>
-        {children}
-        <Button type="submit" disabled={!canSubmit}>
-          {textSubmitButton}
-        </Button>
-      </Form>
-      {!disableHomeLink && (
-        <Link href={appendCollectionId(route('dashboard').url, collectionId)}>
-          ← Back to home
-        </Link>
-      )}
-    </FormLayoutStyle>
-  </BaseLayout>
-);
-
-export default FormLayout;
+}: FormLayoutProps) {
+  const { t } = useTranslation('common');
+  return (
+    <BaseLayout>
+      <FormLayoutStyle>
+        <Head title={title} />
+        <h2>{title}</h2>
+        <Form onSubmit={handleSubmit}>
+          {children}
+          <Button type="submit" disabled={!canSubmit}>
+            {textSubmitButton}
+          </Button>
+        </Form>
+        {!disableHomeLink && (
+          <Link href={appendCollectionId(route('dashboard').url, collectionId)}>
+            {t('back-home')}
+          </Link>
+        )}
+      </FormLayoutStyle>
+    </BaseLayout>
+  );
+}
