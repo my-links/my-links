@@ -1,41 +1,45 @@
+import type Collection from '#models/collection';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '~/components/common/form/checkbox';
 import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
-import { Visibility } from '../../../app/enums/visibility';
+import useSearchParam from '~/hooks/use_search_param';
 
-export type FormCollectionData = {
+export type FormLinkData = {
   name: string;
   description: string | null;
-  visibility: Visibility;
+  url: string;
+  favorite: boolean;
+  collectionId: Collection['id'];
 };
 
-interface FormCollectionProps {
+interface FormLinkProps {
   title: string;
   canSubmit: boolean;
   disableHomeLink?: boolean;
-  data: FormCollectionData;
+  data: FormLinkData;
   errors?: Record<string, Array<string>>;
+  collections: Collection[];
 
   setData: (name: string, value: any) => void;
   handleSubmit: () => void;
 }
 
-export default function FormCollection({
+export default function FormLink({
   title,
   canSubmit,
   disableHomeLink,
   data,
   errors,
+  collections,
 
   setData,
   handleSubmit,
-}: FormCollectionProps) {
+}: FormLinkProps) {
   const { t } = useTranslation('common');
-  const handleOnCheck: FormCollectionProps['setData'] = (name, value) =>
-    setData(name, value ? Visibility.PUBLIC : Visibility.PRIVATE);
+  const collectionId = useSearchParam('collectionId') ?? collections[0].id;
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -48,11 +52,12 @@ export default function FormCollection({
       handleSubmit={onSubmit}
       canSubmit={canSubmit}
       disableHomeLink={disableHomeLink}
+      collectionId={collectionId}
     >
       <BackToDashboard>
         <TextBox
-          label={t('collection.name')}
-          placeholder={t('collection.name')}
+          label={t('link.name')}
+          placeholder={t('link.name')}
           name="name"
           onChange={setData}
           value={data.name}
@@ -61,18 +66,38 @@ export default function FormCollection({
           autoFocus
         />
         <TextBox
-          label={t('collection.description')}
-          placeholder={t('collection.description')}
+          label={t('link.link')}
+          placeholder={t('link.link')}
+          name="url"
+          onChange={setData}
+          value={data.url}
+          errors={errors?.url}
+          required
+        />
+        <TextBox
+          label={t('link.description')}
+          placeholder={t('link.description')}
           name="description"
           onChange={setData}
           value={data.description ?? undefined}
           errors={errors?.description}
         />
+        <select
+          onChange={({ target }) => setData('collectionId', target.value)}
+          defaultValue={data.collectionId}
+        >
+          {collections.map((collection) => (
+            <option key={collection.id} value={collection.id}>
+              {collection.name}
+            </option>
+          ))}
+        </select>
         <Checkbox
-          label="Public"
-          name="visibility"
-          onChange={handleOnCheck}
-          checked={data.visibility === Visibility.PUBLIC}
+          label={t('favorite')}
+          name="favorite"
+          onChange={setData}
+          checked={data.favorite}
+          errors={errors?.favorite}
         />
       </BackToDashboard>
     </FormLayout>

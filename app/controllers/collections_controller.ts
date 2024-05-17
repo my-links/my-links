@@ -62,18 +62,6 @@ export default class CollectionsController {
     });
   }
 
-  /**
-   * Get collection by id.
-   *
-   * /!\ Only return private collection (create by the current user)
-   */
-  async getCollectionById(id: Collection['id'], userId: User['id']) {
-    return await Collection.query()
-      .where('id', id)
-      .andWhere('author_id', userId)
-      .firstOrFail();
-  }
-
   async update({ request, auth, response }: HttpContext) {
     const { params, ...payload } = await request.validateUsing(
       updateCollectionValidator
@@ -92,6 +80,18 @@ export default class CollectionsController {
       payload
     );
     return this.redirectToCollectionId(response, params.id);
+  }
+
+  /**
+   * Get collection by id.
+   *
+   * /!\ Only return private collection (create by the current user)
+   */
+  async getCollectionById(id: Collection['id'], userId: User['id']) {
+    return await Collection.query()
+      .where('id', id)
+      .andWhere('author_id', userId)
+      .firstOrFail();
   }
 
   async getCollectionsByAuthorId(authorId: User['id']) {

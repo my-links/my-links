@@ -7,7 +7,7 @@
   "login": "Login",
   "link": {
     "links": "Links",
-    "link": "Link",
+    "link": "Link URL",
     "name": "Link name",
     "description": "Link description",
     "create": "Create a link",
