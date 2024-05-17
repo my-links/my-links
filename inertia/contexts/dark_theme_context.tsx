@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import { makeRequest } from '~/lib/request';
 
@@ -18,9 +19,10 @@ export default function DarkThemeContextProvider({
   const [isDarkTheme, setDarkTheme] = useState<boolean>(preferDarkTheme);
   const toggleDarkTheme = (value: boolean) => {
     setDarkTheme(value);
+    const { method, url } = route('user.theme');
     makeRequest({
-      method: 'POST',
-      url: '/user/theme',
+      method,
+      url,
       body: {
         preferDarkTheme: value,
       },

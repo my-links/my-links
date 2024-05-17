@@ -1,5 +1,5 @@
 import { PREFER_DARK_THEME } from '#constants/session';
-import { updateUserThemeValidator } from '#validators/user_theme';
+import { updateUserThemeValidator } from '#validators/user';
 import type { HttpContext } from '@adonisjs/core/http';
 
 export default class AppsController {
