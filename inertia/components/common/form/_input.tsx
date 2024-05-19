@@ -15,7 +15,7 @@ const Input = styled.input(({ theme }) => ({
   },
 
   '&:disabled': {
-    opacity: 0.5,
+    opacity: 0.85,
   },
 
   '&::placeholder': {

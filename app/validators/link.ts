@@ -1,5 +1,9 @@
 import vine from '@vinejs/vine';
 
+const params = vine.object({
+  id: vine.string().trim(),
+});
+
 export const createLinkValidator = vine.compile(
   vine.object({
     name: vine.string().trim().minLength(1).maxLength(254),
@@ -18,9 +22,13 @@ export const updateLinkValidator = vine.compile(
     favorite: vine.boolean(),
     collectionId: vine.string().trim(),
 
-    params: vine.object({
-      id: vine.string().trim(),
-    }),
+    params,
+  })
+);
+
+export const deleteLinkValidator = vine.compile(
+  vine.object({
+    params,
   })
 );
 

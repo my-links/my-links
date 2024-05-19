@@ -34,7 +34,7 @@ export default function DeleteCollectionPage({
       setData={setData}
       handleSubmit={handleSubmit}
       errors={errors as any}
-      disableInputs={true}
+      disableInputs
       submitBtnDanger
     />
   );
