@@ -7,6 +7,7 @@ export const primaryDarkColor = '#005aa5';
 const lightestBlue = '#d3e8fa';
 const lightBlue = '#82c5fede';
 const darkBlue = primaryDarkColor;
+const darkestBlue = '#1f2937';
 
 const lightRed = '#FF5A5A';
 
@@ -44,6 +45,7 @@ export const lightTheme: Theme = {
     lightBlue,
     blue: primaryColor,
     darkBlue,
+    darkestBlue,
 
     lightRed,
 
@@ -74,6 +76,7 @@ export const darkTheme: Theme = {
     lightBlue,
     blue: '#4fadfc',
     darkBlue,
+    darkestBlue,
 
     lightRed,
 
