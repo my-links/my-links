@@ -1,24 +1,37 @@
 import styled from '@emotion/styled';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
+import TextEllipsis from '~/components/common/text_ellipsis';
+import CollectionControls from '~/components/dashboard/collection/header/collection_controls';
+import CollectionDescription from '~/components/dashboard/collection/header/collection_description';
 import VisibilityBadge from '~/components/visibilty/visibilty';
 import useActiveCollection from '~/hooks/use_active_collection';
 
-const CollectionNameWrapper = styled.div({
+const paddingLeft = '1.25em';
+const paddingRight = '1.65em';
+
+const CollectionHeaderWrapper = styled.div({
   minWidth: 0,
   width: '100%',
-  display: 'flex',
-  gap: '0.35em',
-  flex: 1,
-  alignItems: 'center',
+  paddingInline: `${paddingLeft} ${paddingRight}`,
 });
 
-const CollectionName = styled.div(({ theme }) => ({
-  minWidth: 0,
+const CollectionHeaderStyle = styled.div({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  '& > svg': {
+    display: 'flex',
+  },
+});
+
+const CollectionName = styled.h2(({ theme }) => ({
+  width: `calc(100% - (${paddingLeft} + ${paddingRight}))`,
   color: theme.colors.primary,
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
+  display: 'flex',
+  gap: '0.35em',
+  alignItems: 'center',
 }));
 
 const LinksCount = styled.div(({ theme }) => ({
@@ -36,13 +49,19 @@ export default function CollectionHeader() {
 
   const { name, links, visibility } = activeCollection;
   return (
-    <CollectionNameWrapper>
-      <CollectionName>{name}</CollectionName>
-      {links.length > 0 && <LinksCount> — {links.length}</LinksCount>}
-      <VisibilityBadge
-        label={t('collection.visibility')}
-        visibility={visibility}
-      />
-    </CollectionNameWrapper>
+    <CollectionHeaderWrapper>
+      <CollectionHeaderStyle>
+        <CollectionName title={name}>
+          <TextEllipsis>{name}</TextEllipsis>
+          {links.length > 0 && <LinksCount> — {links.length}</LinksCount>}
+          <VisibilityBadge
+            label={t('collection.visibility')}
+            visibility={visibility}
+          />
+        </CollectionName>
+        <CollectionControls collectionId={activeCollection.id} />
+      </CollectionHeaderStyle>
+      <CollectionDescription />
+    </CollectionHeaderWrapper>
   );
 }
