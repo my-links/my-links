@@ -33,7 +33,7 @@ export default function CollectionContainer({
     <CollectionContainerStyle>
       <CollectionHeader />
       <LinkList links={activeCollection.links} />
-      <Footer />
+      <Footer css={{ paddingBottom: 0 }} />
     </CollectionContainerStyle>
   );
 }

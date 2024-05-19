@@ -19,6 +19,10 @@
     "title": "Browser extension",
     "text": "Enhance your experience with the official MyLinks browser extension."
   },
+  "share": {
+    "title": "Share your collections",
+    "text": "Share your collections with anyone"
+  },
   "contribute": {
     "title": "Contribute to MyLinks",
     "text": "Suggest improvements you would like to see on MyLinks."

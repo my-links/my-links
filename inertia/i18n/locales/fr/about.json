@@ -19,6 +19,10 @@
     "title": "Extension de navigateur",
     "text": "Améliorez votre expérience avec l'extension de navigateur officielle MyLinks."
   },
+  "share": {
+    "title": "Partagez vos collections",
+    "text": "Partagez vos collections à n'importe qui"
+  },
   "contribute": {
     "title": "Contribuer à MyLinks",
     "text": "Proposez des améliorations que vous souhaiteriez voir sur MyLinks."

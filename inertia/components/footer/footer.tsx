@@ -1,26 +1,26 @@
 import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
 import packageJson from '../../../package.json';
-import { route } from '@izzyjs/route/client';
 
 const FooterStyle = styled.footer(({ theme }) => ({
   fontSize: '0.9em',
   color: theme.colors.grey,
   textAlign: 'center',
-  paddingTop: '0.75em',
+  paddingBlock: '0.75em',
   '& a:hover': {
     textDecoration: 'underline',
   },
 }));
 
-export default function Footer() {
+export default function Footer({ className }: { className?: string }) {
   const { t } = useTranslation('common');
 
   return (
-    <FooterStyle>
+    <FooterStyle className={className}>
       <div className="row">
         <Link href={route('privacy').url}>{t('privacy')}</Link>
         {' • '}
