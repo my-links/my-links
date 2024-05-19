@@ -52,6 +52,9 @@ export default function SideNavigation() {
         <AddButton href={route('collection.create-form').url}>
           <AiOutlineFolderAdd /> {t('collection.create')}
         </AddButton>
+        <Item>
+          <AiOutlineFolderAdd /> Archives
+        </Item>
       </div>
       <FavoriteList />
     </SideMenu>

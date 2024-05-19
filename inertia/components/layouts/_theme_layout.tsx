@@ -64,6 +64,12 @@ function GlobalStyles() {
       boxShadow: '0 1px 0 rgba(0, 0, 0, 0.2), 0 0 0 2px #ffffff inset',
       display: 'inline-block',
     },
+
+    hr: {
+      color: localTheme.colors.secondary,
+      width: '100%',
+      marginBlock: '1em',
+    },
   });
 
   const documentStyle = css({
