@@ -46,7 +46,7 @@ export default function EditLinkPage({
 
   return (
     <FormLink
-      title={t('link.create')}
+      title={t('link.edit')}
       canSubmit={canSubmit}
       data={data}
       setData={setData}

@@ -30,16 +30,20 @@ interface FormLayoutProps {
   textSubmitButton?: string;
 
   disableHomeLink?: boolean;
+  submitBtnDanger?: boolean;
   collectionId?: string;
 }
 
 export default function FormLayout({
   title,
   children,
+
   canSubmit,
   handleSubmit,
   textSubmitButton = i18n.t('common:confirm'),
+
   disableHomeLink = false,
+  submitBtnDanger = false,
   collectionId,
 }: FormLayoutProps) {
   const { t } = useTranslation('common');
@@ -50,7 +54,7 @@ export default function FormLayout({
         <h2>{title}</h2>
         <Form onSubmit={handleSubmit}>
           {children}
-          <Button type="submit" disabled={!canSubmit}>
+          <Button type="submit" disabled={!canSubmit} danger={submitBtnDanger}>
             {textSubmitButton}
           </Button>
         </Form>

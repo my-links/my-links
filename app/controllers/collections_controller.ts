@@ -2,6 +2,7 @@ import Collection from '#models/collection';
 import User from '#models/user';
 import {
   createCollectionValidator,
+  deleteCollectionValidator,
   updateCollectionValidator,
 } from '#validators/collection';
 import type { HttpContext } from '@adonisjs/core/http';
@@ -80,6 +81,28 @@ export default class CollectionsController {
       payload
     );
     return this.redirectToCollectionId(response, params.id);
+  }
+
+  async showDeletePage({ auth, request, inertia, response }: HttpContext) {
+    const collectionId = request.qs()?.collectionId;
+    if (!collectionId) {
+      return response.redirectToNamedRoute('dashboard');
+    }
+
+    const collection = await this.getCollectionById(
+      collectionId,
+      auth.user!.id
+    );
+    return inertia.render('collections/delete', {
+      collection,
+    });
+  }
+
+  async delete({ request, auth, response }: HttpContext) {
+    const { params } = await request.validateUsing(deleteCollectionValidator);
+    const collection = await this.getCollectionById(params.id, auth.user!.id);
+    await collection.delete();
+    return response.redirectToNamedRoute('dashboard');
   }
 
   /**

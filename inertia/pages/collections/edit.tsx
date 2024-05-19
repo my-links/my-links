@@ -2,6 +2,7 @@ import type Collection from '#models/collection';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import FormCollection, {
   FormCollectionData,
 } from '~/components/form/form_collection';
@@ -11,6 +12,7 @@ export default function EditCollectionPage({
 }: {
   collection: Collection;
 }) {
+  const { t } = useTranslation('common');
   const { data, setData, submit, processing, errors } =
     useForm<FormCollectionData>({
       name: collection.name,
@@ -35,7 +37,7 @@ export default function EditCollectionPage({
 
   return (
     <FormCollection
-      title="Edit a collection"
+      title={t('collection.edit')}
       canSubmit={canSubmit}
       data={data}
       setData={setData}

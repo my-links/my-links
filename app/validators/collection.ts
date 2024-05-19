@@ -1,6 +1,10 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 import { Visibility } from '../enums/visibility.js';
 
+const params = vine.object({
+  id: vine.string().trim(),
+});
+
 export const createCollectionValidator = vine.compile(
   vine.object({
     name: vine.string().trim().minLength(1).maxLength(254),
@@ -17,9 +21,13 @@ export const updateCollectionValidator = vine.compile(
     visibility: vine.enum(Visibility),
     nextId: vine.string().optional(),
 
-    params: vine.object({
-      id: vine.string().trim(),
-    }),
+    params,
+  })
+);
+
+export const deleteCollectionValidator = vine.compile(
+  vine.object({
+    params,
   })
 );
 
