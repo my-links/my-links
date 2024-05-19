@@ -13,6 +13,13 @@ const CollectionItemStyle = styled(Item)<{ isActive: boolean }>(
   })
 );
 
+const LinksCount = styled.div(({ theme }) => ({
+  minWidth: 'fit-content',
+  fontWeight: 300,
+  fontSize: '0.9rem',
+  color: theme.colors.grey,
+}));
+
 export default function CollectionItem({
   collection,
 }: {
@@ -27,8 +34,11 @@ export default function CollectionItem({
       onClick={() => setActiveCollection(collection)}
       isActive={isActiveCollection}
     >
-      <FolderIcon size={24} />
+      <FolderIcon css={{ minWidth: '24px' }} size={24} />
       <TextEllipsis>{collection.name}</TextEllipsis>
+      {collection.links.length > 0 && (
+        <LinksCount>— {collection.links.length}</LinksCount>
+      )}
     </CollectionItemStyle>
   );
 }
