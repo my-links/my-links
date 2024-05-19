@@ -14,6 +14,10 @@ const Input = styled.input(({ theme }) => ({
     borderBottom: `2px solid ${theme.colors.primary}`,
   },
 
+  '&:disabled': {
+    opacity: 0.5,
+  },
+
   '&::placeholder': {
     fontStyle: 'italic',
     color: theme.colors.grey,

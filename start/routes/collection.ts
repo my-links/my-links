@@ -26,7 +26,12 @@ router
           .put('/:id', [CollectionsController, 'update'])
           .as('collection.edit');
 
-        router.get('/delete', () => 'delete').as('collection.delete-form');
+        router
+          .get('/delete', [CollectionsController, 'showDeletePage'])
+          .as('collection.delete-form');
+        router
+          .delete('/:id', [CollectionsController, 'delete'])
+          .as('collection.delete');
       })
       .prefix('/collections');
   })
