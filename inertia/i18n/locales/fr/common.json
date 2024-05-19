@@ -18,11 +18,10 @@
   "collection": {
     "collections": "Collection",
     "collections_other": "Collections",
-    "collection": "Collection",
     "name": "Nom de la collection",
     "description": "Description de la collection",
-    "visibility": "Public",
     "no-description": "Aucune description",
+    "visibility": "Public",
     "create": "Créer une collection",
     "edit": "Modifier une collection",
     "delete": "Supprimer une collection",

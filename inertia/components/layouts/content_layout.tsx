@@ -18,9 +18,15 @@ const ContentLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
   },
 }));
 
-const ContentLayout = ({ children }: { children: ReactNode }) => (
+const ContentLayout = ({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) => (
   <BaseLayout>
-    <ContentLayoutStyle>
+    <ContentLayoutStyle className={className}>
       <Navbar />
       <main>{children}</main>
       <Footer />

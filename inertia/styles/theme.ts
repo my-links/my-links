@@ -4,6 +4,7 @@ import { rgba } from '~/lib/color';
 export const primaryColor = '#3f88c5';
 export const primaryDarkColor = '#005aa5';
 
+const lightestBlue = '#d3e8fa';
 const lightBlue = '#82c5fede';
 const darkBlue = primaryDarkColor;
 
@@ -39,6 +40,7 @@ export const lightTheme: Theme = {
     lightGrey: '#dadce0',
     grey: '#888888',
 
+    lightestBlue,
     lightBlue,
     blue: primaryColor,
     darkBlue,
@@ -68,6 +70,7 @@ export const darkTheme: Theme = {
     lightGrey: '#323a47',
     grey: '#999999',
 
+    lightestBlue,
     lightBlue,
     blue: '#4fadfc',
     darkBlue,
