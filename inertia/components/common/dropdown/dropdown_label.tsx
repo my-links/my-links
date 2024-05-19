@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-const DropdownLabel = styled.p(({ theme }) => ({
+const DropdownLabel = styled.div(({ theme }) => ({
   height: 'auto',
   width: 'auto',
   color: theme.colors.font,

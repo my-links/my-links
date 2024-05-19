@@ -5,9 +5,9 @@ const AppsController = () => import('#controllers/apps_controller');
  * All routes for both logged and guest users
  */
 router.group(() => {
-  router.get('/', [AppsController, 'index']).as('home');
-  router.get('/privacy', () => 'privacy').as('privacy');
-  router.get('/terms', () => 'terms').as('terms');
+  router.on('/').renderInertia('home').as('home');
+  router.on('/terms').renderInertia('terms').as('terms');
+  router.on('/privacy').renderInertia('privacy').as('privacy');
 
   router
     .post('/user/theme', [AppsController, 'updateUserTheme'])

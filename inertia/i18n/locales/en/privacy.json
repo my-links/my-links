@@ -39,13 +39,5 @@
   "gdpr": {
     "title": "5. GDPR Compliance",
     "description": "MyLinks complies with the General Data Protection Regulation (GDPR) of the European Union."
-  },
-  "contact": {
-    "title": "6. Contact",
-    "description": "If you have any questions or concerns about our privacy policy, feel free to contact us at the following address:"
-  },
-  "footer": {
-    "changes": "We reserve the right to update this privacy policy. We encourage you to regularly check this page to stay informed of any changes.",
-    "thanks": "Thank you for using MyLinks!"
   }
 }

@@ -3,10 +3,6 @@ import { updateUserThemeValidator } from '#validators/user';
 import type { HttpContext } from '@adonisjs/core/http';
 
 export default class AppsController {
-  index({ inertia }: HttpContext) {
-    return inertia.render('home');
-  }
-
   async updateUserTheme({ request, session, response }: HttpContext) {
     const { preferDarkTheme } = await request.validateUsing(
       updateUserThemeValidator
