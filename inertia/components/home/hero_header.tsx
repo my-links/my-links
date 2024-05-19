@@ -8,7 +8,7 @@ const HeroStyle = styled.header(({ theme }) => ({
   height: '250px',
   minHeight: '250px',
   width: '100%',
-  backgroundColor: theme.colors.darkestBlue,
+  backgroundColor: theme.colors.secondary,
   marginTop: '0.5em',
   borderRadius: theme.border.radius,
   padding: '1em',
@@ -19,7 +19,6 @@ const HeroStyle = styled.header(({ theme }) => ({
   flexDirection: 'column',
 
   '& *': {
-    color: `${theme.colors.white} !important`,
     textAlign: 'center',
   },
 }));
@@ -35,6 +34,7 @@ const HeroQuote = styled(Quotes)({
 const LinkButton = styled(Link)(({ theme }) => ({
   fontSize: '1rem',
   width: 'fit-content',
+  color: theme.colors.white,
   backgroundColor: theme.colors.primary,
   borderRadius: '5rem',
   padding: '0.5em 1.5em',
