@@ -19,7 +19,10 @@ router
       .put('/:id/favorite', [LinksController, 'toggleFavorite'])
       .as('link.toggle-favorite');
 
-    router.get('/delete', () => 'delete').as('link.delete-form');
+    router
+      .get('/delete', [LinksController, 'showDeletePage'])
+      .as('link.delete-form');
+    router.delete('/:id', [LinksController, 'delete']).as('link.delete');
   })
   .middleware([middleware.auth()])
   .prefix('/links');

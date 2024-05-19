@@ -22,6 +22,8 @@ interface FormLinkProps {
   data: FormLinkData;
   errors?: Record<string, Array<string>>;
   collections: Collection[];
+  disableInputs?: boolean;
+  submitBtnDanger?: boolean;
 
   setData: (name: string, value: any) => void;
   handleSubmit: () => void;
@@ -34,12 +36,14 @@ export default function FormLink({
   data,
   errors,
   collections,
+  disableInputs = false,
+  submitBtnDanger = false,
 
   setData,
   handleSubmit,
 }: FormLinkProps) {
   const { t } = useTranslation('common');
-  const collectionId = useSearchParam('collectionId') ?? collections[0].id;
+  const collectionId = useSearchParam('collectionId') ?? collections?.[0].id;
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,6 +57,7 @@ export default function FormLink({
       canSubmit={canSubmit}
       disableHomeLink={disableHomeLink}
       collectionId={collectionId}
+      submitBtnDanger={submitBtnDanger}
     >
       <BackToDashboard>
         <TextBox
@@ -62,6 +67,7 @@ export default function FormLink({
           onChange={setData}
           value={data.name}
           errors={errors?.name}
+          disabled={disableInputs}
           required
           autoFocus
         />
@@ -72,6 +78,7 @@ export default function FormLink({
           onChange={setData}
           value={data.url}
           errors={errors?.url}
+          disabled={disableInputs}
           required
         />
         <TextBox
@@ -81,12 +88,14 @@ export default function FormLink({
           onChange={setData}
           value={data.description ?? undefined}
           errors={errors?.description}
+          disabled={disableInputs}
         />
         <select
           onChange={({ target }) => setData('collectionId', target.value)}
           defaultValue={data.collectionId}
+          disabled={disableInputs}
         >
-          {collections.map((collection) => (
+          {collections?.map((collection) => (
             <option key={collection.id} value={collection.id}>
               {collection.name}
             </option>
@@ -98,6 +107,7 @@ export default function FormLink({
           onChange={setData}
           checked={data.favorite}
           errors={errors?.favorite}
+          disabled={disableInputs}
         />
       </BackToDashboard>
     </FormLayout>

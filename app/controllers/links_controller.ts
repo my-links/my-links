@@ -2,6 +2,7 @@ import CollectionsController from '#controllers/collections_controller';
 import Link from '#models/link';
 import {
   createLinkValidator,
+  deleteLinkValidator,
   updateLinkFavoriteStatusValidator,
   updateLinkValidator,
 } from '#validators/link';
@@ -86,6 +87,28 @@ export default class LinksController {
     );
 
     return response.json({ status: 'ok' });
+  }
+
+  async showDeletePage({ auth, inertia, request, response }: HttpContext) {
+    const linkId = request.qs()?.linkId;
+    if (!linkId) {
+      return response.redirectToNamedRoute('dashboard');
+    }
+
+    const link = await this.getLinkById(linkId, auth.user!.id);
+    await link.load('collection');
+    return inertia.render('links/delete', { link });
+  }
+
+  async delete({ request, auth, response }: HttpContext) {
+    const { params } = await request.validateUsing(deleteLinkValidator);
+
+    const link = await this.getLinkById(params.id, auth.user!.id);
+    await link.delete();
+
+    return response.redirectToNamedRoute('dashboard', {
+      qs: { collectionId: link.id },
+    });
   }
 
   /**
