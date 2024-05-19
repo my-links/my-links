@@ -18,6 +18,8 @@ interface FormCollectionProps {
   disableHomeLink?: boolean;
   data: FormCollectionData;
   errors?: Record<string, Array<string>>;
+  disableInputs?: boolean;
+  submitBtnDanger?: boolean;
 
   setData: (name: string, value: any) => void;
   handleSubmit: () => void;
@@ -29,6 +31,8 @@ export default function FormCollection({
   disableHomeLink,
   data,
   errors,
+  disableInputs = false,
+  submitBtnDanger = false,
 
   setData,
   handleSubmit,
@@ -48,6 +52,7 @@ export default function FormCollection({
       handleSubmit={onSubmit}
       canSubmit={canSubmit}
       disableHomeLink={disableHomeLink}
+      submitBtnDanger={submitBtnDanger}
     >
       <BackToDashboard>
         <TextBox
@@ -59,6 +64,7 @@ export default function FormCollection({
           errors={errors?.name}
           required
           autoFocus
+          disabled={disableInputs}
         />
         <TextBox
           label={t('collection.description')}
@@ -67,12 +73,14 @@ export default function FormCollection({
           onChange={setData}
           value={data.description ?? undefined}
           errors={errors?.description}
+          disabled={disableInputs}
         />
         <Checkbox
           label="Public"
           name="visibility"
           onChange={handleOnCheck}
           checked={data.visibility === Visibility.PUBLIC}
+          disabled={disableInputs}
         />
       </BackToDashboard>
     </FormLayout>

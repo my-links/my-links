@@ -1,13 +1,12 @@
 import type Collection from '#models/collection';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormCollection, {
   FormCollectionData,
 } from '~/components/form/form_collection';
 
-export default function EditCollectionPage({
+export default function DeleteCollectionPage({
   collection,
 }: {
   collection: Collection;
@@ -19,17 +18,9 @@ export default function EditCollectionPage({
       description: collection.description,
       visibility: collection.visibility,
     });
-  const canSubmit = useMemo<boolean>(() => {
-    const isFormEdited =
-      data.name !== collection.name ||
-      data.description !== collection.description ||
-      data.visibility !== collection.visibility;
-    const isFormValid = data.name !== '';
-    return isFormEdited && isFormValid && !processing;
-  }, [data, collection]);
 
   const handleSubmit = () => {
-    const { method, url } = route('collection.edit', {
+    const { method, url } = route('collection.delete', {
       params: { id: collection.id },
     });
     submit(method, url);
@@ -37,13 +28,14 @@ export default function EditCollectionPage({
 
   return (
     <FormCollection
-      title={t('collection.edit')}
-      canSubmit={canSubmit}
+      title={t('collection.delete')}
+      canSubmit={!processing}
       data={data}
       setData={setData}
       handleSubmit={handleSubmit}
-      // TODO: fix this, type mistmatch (Record<string, string[]> sent by the backend, but useForm expects a Record<string, string>)
       errors={errors as any}
+      disableInputs={true}
+      submitBtnDanger
     />
   );
 }
