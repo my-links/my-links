@@ -75,7 +75,7 @@ function GlobalStyles() {
   const documentStyle = css({
     'html, body, #app': {
       height: '100svh',
-      width: '100svw',
+      width: '100%',
       fontFamily: "'Poppins', sans-serif",
       fontSize: '14px',
       color: localTheme.colors.font,
@@ -83,7 +83,6 @@ function GlobalStyles() {
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'column',
-      overflow: 'hidden',
     },
   });
 
