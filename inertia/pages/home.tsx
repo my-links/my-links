@@ -19,7 +19,7 @@ const PageContent = styled.div({
   flexDirection: 'column',
 });
 
-export default function Home() {
+export default function HomePage() {
   const { t } = useTranslation();
   return (
     <ContentLayout>

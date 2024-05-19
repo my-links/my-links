@@ -39,13 +39,5 @@
   "gdpr": {
     "title": "5. Conformité au RGPD",
     "description": "MyLinks est conforme au Règlement Général sur la Protection des Données (RGPD) de l'Union européenne."
-  },
-  "contact": {
-    "title": "6. Contact",
-    "description": "Si vous avez des questions ou des préoccupations concernant notre politique de confidentialité, n'hésitez pas à nous contacter à l'adresse suivante :"
-  },
-  "footer": {
-    "changes": "Nous nous réservons le droit de mettre à jour cette politique de confidentialité. Nous vous encourageons à consulter régulièrement cette page pour rester informé des changements éventuels.",
-    "thanks": "Merci d'utiliser MyLinks !"
   }
 }

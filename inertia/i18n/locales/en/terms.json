@@ -50,13 +50,5 @@
   "cancel": {
     "title": "6. Termination",
     "description": "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
-  },
-  "contact": {
-    "title": "7. Contact",
-    "description": "For any questions or concerns regarding these Terms and Conditions of Use, please contact us at the following address:"
-  },
-  "footer": {
-    "changes": "We reserve the right to update these Terms and Conditions of Use. We encourage you to regularly check this page to stay informed of any changes.",
-    "thanks": "Thank you for using MyLinks!"
   }
 }
