@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import { rgba } from '~/lib/color';
 
 export const Item = styled.div(({ theme }) => ({
   userSelect: 'none',
@@ -21,9 +22,7 @@ export const Item = styled.div(({ theme }) => ({
   // Disable hover effect for UserCard
   '&:hover:not(.disable-hover)': {
     cursor: 'pointer',
-    backgroundColor: theme.colors.secondary,
-    outlineWidth: '1px',
-    outlineStyle: 'solid',
+    backgroundColor: rgba(theme.colors.font, 0.1),
   },
 }));
 

@@ -9,6 +9,7 @@ import { Item, ItemLink } from '~/components/dashboard/side_nav/nav_item';
 import UserCard from '~/components/dashboard/side_nav/user_card';
 import ModalSettings from '~/components/settings/modal';
 import useActiveCollection from '~/hooks/use_active_collection';
+import { rgba } from '~/lib/color';
 import { appendCollectionId } from '~/lib/navigation';
 
 const SideMenu = styled.nav({
@@ -20,14 +21,23 @@ const SideMenu = styled.nav({
 
 const AdminButton = styled(Item)(({ theme }) => ({
   color: theme.colors.lightRed,
+  '&:hover': {
+    backgroundColor: `${rgba(theme.colors.lightRed, 0.1)}!important`,
+  },
 }));
 
 const SettingsButton = styled(Item)(({ theme }) => ({
   color: theme.colors.grey,
+  '&:hover': {
+    backgroundColor: `${rgba(theme.colors.grey, 0.1)}!important`,
+  },
 }));
 
 const AddButton = styled(ItemLink)(({ theme }) => ({
   color: theme.colors.primary,
+  '&:hover': {
+    backgroundColor: `${rgba(theme.colors.primary, 0.1)}!important`,
+  },
 }));
 
 export default function SideNavigation() {
@@ -52,9 +62,6 @@ export default function SideNavigation() {
         <AddButton href={route('collection.create-form').url}>
           <AiOutlineFolderAdd /> {t('collection.create')}
         </AddButton>
-        <Item>
-          <AiOutlineFolderAdd /> Archives
-        </Item>
       </div>
       <FavoriteList />
     </SideMenu>

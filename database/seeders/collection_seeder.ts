@@ -2,6 +2,7 @@ import Collection from '#models/collection';
 import User from '#models/user';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';
+import { Visibility } from '../../app/enums/visibility.js';
 
 export default class extends BaseSeeder {
   static environment = ['development', 'testing'];
@@ -10,9 +11,12 @@ export default class extends BaseSeeder {
     // eslint-disable-next-line unicorn/no-await-expression-member
     const users = await getUserIds();
 
-    const collections = faker.helpers.multiple(() => createRandomCollection(users), {
-      count: 50,
-    });
+    const collections = faker.helpers.multiple(
+      () => createRandomCollection(users),
+      {
+        count: 50,
+      }
+    );
     await Collection.createMany(collections);
   }
 }
@@ -28,7 +32,8 @@ function createRandomCollection(userIds: User['id'][]) {
     id: faker.string.uuid(),
     name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
     description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
-    nextId: faker.string.uuid(),
+    visibility: Visibility.PRIVATE,
+    nextId: undefined,
     authorId,
   };
 }
