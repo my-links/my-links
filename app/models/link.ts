@@ -9,7 +9,7 @@ export default class Link extends AppBaseModel {
   declare name: string;
 
   @column()
-  declare description: string;
+  declare description: string | null;
 
   @column()
   declare url: string;
@@ -18,13 +18,13 @@ export default class Link extends AppBaseModel {
   declare favorite: boolean;
 
   @column()
-  declare collectionId: string;
+  declare collectionId: number;
 
   @belongsTo(() => Collection, { foreignKey: 'collectionId' })
   declare collection: BelongsTo<typeof Collection>;
 
   @column()
-  declare authorId: string;
+  declare authorId: number;
 
   @belongsTo(() => User, { foreignKey: 'authorId' })
   declare author: BelongsTo<typeof User>;

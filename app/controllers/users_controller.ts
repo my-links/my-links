@@ -49,6 +49,7 @@ export default class UsersController {
         nickName,
         avatarUrl,
         token,
+        providerType: 'google',
       }
     );
 

@@ -10,7 +10,7 @@ export default class LogRequest {
       !request.url().startsWith('/@react-refresh') &&
       !request.url().includes('.ts')
     ) {
-      logger.info(`-> ${request.method()}: ${request.url()}`);
+      logger.info(`[${request.method()}]: ${request.url()}`);
     }
     await next();
   }

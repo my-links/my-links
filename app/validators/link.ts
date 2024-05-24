@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine';
 
 const params = vine.object({
-  id: vine.string().trim(),
+  id: vine.number(),
 });
 
 export const createLinkValidator = vine.compile(
@@ -10,7 +10,7 @@ export const createLinkValidator = vine.compile(
     description: vine.string().trim().maxLength(300).optional(),
     url: vine.string().trim(),
     favorite: vine.boolean(),
-    collectionId: vine.string().trim(),
+    collectionId: vine.number(),
   })
 );
 
@@ -20,7 +20,7 @@ export const updateLinkValidator = vine.compile(
     description: vine.string().trim().maxLength(300).optional(),
     url: vine.string().trim(),
     favorite: vine.boolean(),
-    collectionId: vine.string().trim(),
+    collectionId: vine.number(),
 
     params,
   })
@@ -37,7 +37,7 @@ export const updateLinkFavoriteStatusValidator = vine.compile(
     favorite: vine.boolean(),
 
     params: vine.object({
-      id: vine.string().trim(),
+      id: vine.number(),
     }),
   })
 );

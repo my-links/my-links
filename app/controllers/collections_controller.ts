@@ -120,6 +120,7 @@ export default class CollectionsController {
   async getCollectionsByAuthorId(authorId: User['id']) {
     return await Collection.query()
       .where('author_id', authorId)
+      .orderBy('created_at')
       .preload('links');
   }
 
