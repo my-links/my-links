@@ -16,10 +16,10 @@ export default class Collection extends AppBaseModel {
   declare visibility: Visibility;
 
   @column()
-  declare nextId: string;
+  declare next_id: number;
 
   @column()
-  declare authorId: string;
+  declare authorId: number;
 
   @belongsTo(() => User, { foreignKey: 'authorId' })
   declare author: BelongsTo<typeof User>;

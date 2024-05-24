@@ -1,33 +1,31 @@
+import { defaultTableFields } from '#database/default_table_fields';
 import { BaseSchema } from '@adonisjs/lucid/schema';
 
-export default class extends BaseSchema {
-  protected tableName = 'links';
+export default class CreateLinksTable extends BaseSchema {
+  static tableName = 'links';
 
   async up() {
-    this.schema.createTable(this.tableName, (table) => {
-      table.uuid('id').primary().unique().notNullable();
-
+    this.schema.createTableIfNotExists(CreateLinksTable.tableName, (table) => {
       table.string('name', 254).notNullable();
-      table.string('description', 254);
+      table.string('description', 254).nullable();
       table.text('url').notNullable();
       table.boolean('favorite').notNullable().defaultTo(0);
       table
-        .uuid('collection_id')
+        .integer('collection_id')
         .references('id')
         .inTable('collections')
         .onDelete('CASCADE');
       table
-        .uuid('author_id')
+        .integer('author_id')
         .references('id')
         .inTable('users')
         .onDelete('CASCADE');
 
-      table.timestamp('created_at');
-      table.timestamp('updated_at');
+      defaultTableFields(table);
     });
   }
 
   async down() {
-    this.schema.dropTable(this.tableName);
+    this.schema.dropTable(CreateLinksTable.tableName);
   }
 }

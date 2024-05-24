@@ -4,7 +4,7 @@ import useUser from '~/hooks/use_user';
 
 export default function UserCard() {
   const { user, isAuthenticated } = useUser();
-  const altImage = `${user?.nickName}'s avatar`;
+  const altImage = `${user?.fullname}'s avatar`;
   return (
     isAuthenticated && (
       <Item className="disable-hover">
@@ -14,7 +14,7 @@ export default function UserCard() {
           alt={altImage}
           referrerPolicy="no-referrer"
         />
-        {user.nickName}
+        {user.fullname}
       </Item>
     )
   );

@@ -1,29 +1,27 @@
-import { BaseModel, CamelCaseNamingStrategy, beforeCreate, column } from '@adonisjs/lucid/orm';
+import {
+  BaseModel,
+  CamelCaseNamingStrategy,
+  column,
+} from '@adonisjs/lucid/orm';
 import { DateTime } from 'luxon';
-import { v4 as uuidv4 } from 'uuid';
 
 export default class AppBaseModel extends BaseModel {
   static namingStrategy = new CamelCaseNamingStrategy();
   static selfAssignPrimaryKey = true;
 
   @column({ isPrimary: true })
-  declare id: string; // UUID
+  declare id: number;
 
   @column.dateTime({
     autoCreate: true,
-    serializeAs: 'createdAt',
+    serializeAs: 'created_at',
   })
-  declare createdAt: DateTime;
+  declare created_at: DateTime;
 
   @column.dateTime({
     autoCreate: true,
     autoUpdate: true,
-    serializeAs: 'updatedAt',
+    serializeAs: 'updated_at',
   })
-  declare updatedAt: DateTime;
-
-  @beforeCreate()
-  static assignUuid(item: any) {
-    item.id = uuidv4();
-  }
+  declare updated_at: DateTime;
 }
