@@ -2,7 +2,7 @@ import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 import { Visibility } from '../enums/visibility.js';
 
 const params = vine.object({
-  id: vine.string().trim(),
+  id: vine.number(),
 });
 
 export const createCollectionValidator = vine.compile(
@@ -10,7 +10,7 @@ export const createCollectionValidator = vine.compile(
     name: vine.string().trim().minLength(1).maxLength(254),
     description: vine.string().trim().maxLength(254).nullable(),
     visibility: vine.enum(Visibility),
-    nextId: vine.string().optional(),
+    nextId: vine.number(),
   })
 );
 
@@ -19,7 +19,7 @@ export const updateCollectionValidator = vine.compile(
     name: vine.string().trim().minLength(1).maxLength(254),
     description: vine.string().trim().maxLength(254).nullable(),
     visibility: vine.enum(Visibility),
-    nextId: vine.string().optional(),
+    nextId: vine.number(),
 
     params,
   })

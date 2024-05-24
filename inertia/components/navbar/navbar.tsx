@@ -103,7 +103,7 @@ function ProfileDropdown() {
             width={22}
             referrerPolicy="no-referrer"
           />
-          {user!.nickName}
+          {user!.fullname}
         </UserCard>
       }
     >

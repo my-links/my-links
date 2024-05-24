@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
-import { BsGear } from 'react-icons/bs';
+import { PiGearLight } from 'react-icons/pi';
 import Modal from '~/components/common/modal/modal';
 import LangSelector from '~/components/lang_selector';
 import ThemeSwitcher from '~/components/theme_switcher';
@@ -20,7 +20,7 @@ export default function ModalSettings({
   return (
     <>
       <OpenItem onClick={open}>
-        <BsGear />
+        <PiGearLight />
         {t('settings')}
       </OpenItem>
       <Modal title={t('settings')} opened={isShowing} close={close}>
