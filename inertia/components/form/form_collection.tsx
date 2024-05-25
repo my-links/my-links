@@ -1,3 +1,4 @@
+import type Collection from '#models/collection';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '~/components/common/form/checkbox';
@@ -10,6 +11,7 @@ export type FormCollectionData = {
   name: string;
   description: string | null;
   visibility: Visibility;
+  nextId: Collection['id'];
 };
 
 interface FormCollectionProps {

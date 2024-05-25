@@ -15,7 +15,7 @@ export default class CollectionsController {
       return response.redirectToNamedRoute('collection.create-form');
     }
 
-    const activeCollectionId = request.qs()?.collectionId ?? '';
+    const activeCollectionId = Number(request.qs()?.collectionId ?? '');
     const activeCollection = collections.find(
       (c) => c.id === activeCollectionId
     );

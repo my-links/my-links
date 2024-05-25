@@ -16,7 +16,7 @@ export default class Collection extends AppBaseModel {
   declare visibility: Visibility;
 
   @column()
-  declare next_id: number;
+  declare nextId: number;
 
   @column()
   declare authorId: number;

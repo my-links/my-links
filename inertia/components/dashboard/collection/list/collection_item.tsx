@@ -2,6 +2,7 @@ import type Collection from '#models/collection';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
+import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import TextEllipsis from '~/components/common/text_ellipsis';
 import { Item } from '~/components/dashboard/side_nav/nav_item';
@@ -29,14 +30,22 @@ export default function CollectionItem({
 }: {
   collection: Collection;
 }) {
+  const itemRef = useRef<HTMLDivElement>(null);
   const { activeCollection } = useActiveCollection();
   const isActiveCollection = collection.id === activeCollection?.id;
   const FolderIcon = isActiveCollection ? AiFillFolderOpen : AiOutlineFolder;
+
+  useEffect(() => {
+    if (collection.id === activeCollection?.id) {
+      itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [collection.id, activeCollection?.id]);
 
   return (
     <CollectionItemLink
       href={appendCollectionId(route('dashboard').url, collection.id)}
       isActive={isActiveCollection}
+      ref={itemRef}
     >
       <FolderIcon css={{ minWidth: '24px' }} size={24} />
       <TextEllipsis>{collection.name}</TextEllipsis>
