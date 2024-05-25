@@ -13,7 +13,8 @@ export default function CreateLinkPage({
   collections: Collection[];
 }) {
   const { t } = useTranslation('common');
-  const collectionId = useSearchParam('collectionId') ?? collections[0].id;
+  const collectionId =
+    Number(useSearchParam('collectionId')) ?? collections[0].id;
   const { data, setData, submit, processing } = useForm({
     name: '',
     description: '',

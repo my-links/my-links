@@ -31,7 +31,7 @@ interface FormLayoutProps {
 
   disableHomeLink?: boolean;
   submitBtnDanger?: boolean;
-  collectionId?: string;
+  collectionId?: number;
 }
 
 export default function FormLayout({
