@@ -18,6 +18,7 @@ export default class extends BaseSchema {
           id INTEGER,
           type TEXT,
           name VARCHAR(254),
+          url TEXT,
           collection_id INTEGER,
           matched_part TEXT,
           rank DOUBLE PRECISION
@@ -25,20 +26,20 @@ export default class extends BaseSchema {
       AS $$
       BEGIN
           RETURN QUERY
-          SELECT links.id, 'link' AS type, links.name, collections.id AS collection_id,
-                ts_headline('english', unaccent(links.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
-                ts_rank_cd(to_tsvector('english', unaccent(links.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
+          SELECT links.id, 'link' AS type, links.name, links.url, collections.id AS collection_id,
+                  ts_headline('english', unaccent(links.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
+                  ts_rank_cd(to_tsvector('english', unaccent(links.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
           FROM links
           LEFT JOIN collections ON links.collection_id = collections.id
           WHERE unaccent(links.name) ILIKE '%' || unaccent(search_query) || '%'
-            AND (p_author_id IS NULL OR links.author_id = p_author_id)
+              AND (p_author_id IS NULL OR links.author_id = p_author_id)
           UNION ALL
-          SELECT collections.id, 'collection' AS type, collections.name, NULL AS collection_id,
-                ts_headline('english', unaccent(collections.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
-                ts_rank_cd(to_tsvector('english', unaccent(collections.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
+          SELECT collections.id, 'collection' AS type, collections.name, NULL AS url, NULL AS collection_id,
+                  ts_headline('english', unaccent(collections.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
+                  ts_rank_cd(to_tsvector('english', unaccent(collections.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
           FROM collections
           WHERE unaccent(collections.name) ILIKE '%' || unaccent(search_query) || '%'
-            AND (p_author_id IS NULL OR collections.author_id = p_author_id)
+              AND (p_author_id IS NULL OR collections.author_id = p_author_id)
           ORDER BY rank DESC NULLS LAST, matched_part DESC NULLS LAST;
       END;
       $$

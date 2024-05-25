@@ -44,7 +44,7 @@ export default function Dropdown({
   const { isShowing, toggle, close } = useToggle();
 
   useClickOutside(dropdownRef, close);
-  useShortcut('ESCAPE_KEY', close);
+  useShortcut('ESCAPE_KEY', close, { disableGlobalCheck: true });
 
   return (
     <DropdownStyle

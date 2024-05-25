@@ -4,13 +4,15 @@ import useGlobalHotkeys from '~/hooks/use_global_hotkeys';
 
 type ShortcutOptions = {
   enabled?: boolean;
+  disableGlobalCheck?: boolean;
 };
 
 export default function useShortcut(
   key: keyof typeof KEYS,
   cb: () => void,
-  { enabled }: ShortcutOptions = {
+  { enabled, disableGlobalCheck }: ShortcutOptions = {
     enabled: true,
+    disableGlobalCheck: false,
   }
 ) {
   const { globalHotkeysEnabled } = useGlobalHotkeys();
@@ -21,7 +23,7 @@ export default function useShortcut(
       cb();
     },
     {
-      enabled: key === 'ESCAPE_KEY' ? true : enabled && globalHotkeysEnabled,
+      enabled: disableGlobalCheck ? enabled : enabled && globalHotkeysEnabled,
       enableOnFormTags: ['INPUT'],
     }
   );

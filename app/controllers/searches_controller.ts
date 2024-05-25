@@ -5,7 +5,8 @@ export default class SearchesController {
   async search({ request, auth }: HttpContext) {
     const term = request.qs()?.term;
     if (!term) {
-      return console.warn('qs term null');
+      console.warn('qs term null');
+      return { error: 'missing "term" query param' };
     }
 
     const { rows } = await db.rawQuery('SELECT * FROM search_text(?, ?)', [

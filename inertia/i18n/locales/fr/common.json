@@ -35,6 +35,7 @@
   "no-item-found": "Aucun élément trouvé",
   "admin": "Administrateur",
   "search": "Rechercher",
+  "search-with": "Rechercher avec",
   "avatar": "Avatar de {{name}}",
   "generic-error": "Une erreur est survenue",
   "generic-error-description": "Une erreur est survenue, si cela se reproduit merci de <a href=\"https://github.com/Sonny93/my-links\" target=\"_blank\">créer une issue</a> avec le maximum de détails.",

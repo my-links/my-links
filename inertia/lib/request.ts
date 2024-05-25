@@ -4,10 +4,12 @@ export async function makeRequest({
   method = 'GET',
   url,
   body,
+  controller,
 }: {
   method?: RequestInit['method'];
   url: string;
   body?: object | any[];
+  controller?: AbortController;
 }): Promise<any> {
   const request = await fetch(url, {
     method,
@@ -15,6 +17,7 @@ export async function makeRequest({
     headers: {
       'Content-Type': 'application/json',
     },
+    signal: controller ? controller.signal : undefined,
   });
 
   const data = await request.json();
