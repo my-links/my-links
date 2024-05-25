@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import { route } from '@izzyjs/route/client';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AiOutlineFolder } from 'react-icons/ai';
-import { CiLink } from 'react-icons/ci';
 import { IoIosSearch } from 'react-icons/io';
 import Modal from '~/components/common/modal/modal';
-import UnstyledList from '~/components/common/unstyled/unstyled_list';
+import NoSearchResult from '~/components/dashboard/search/no_search_result';
+import SearchResultList from '~/components/dashboard/search/search_result_list';
+import { GOOGLE_SEARCH_URL } from '~/constants';
+import useActiveCollection from '~/hooks/use_active_collection';
 import useCollections from '~/hooks/use_collections';
 import useToggle from '~/hooks/use_modal';
 import useShortcut from '~/hooks/use_shortcut';
@@ -29,8 +30,11 @@ interface SearchModalProps {
 function SearchModal({ openItem: OpenItem }: SearchModalProps) {
   const { t } = useTranslation();
   const { collections } = useCollections();
+  const { setActiveCollection } = useActiveCollection();
+
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [selectedItem, setSelectedItem] = useState<SearchResult | null>(null);
 
   const searchModal = useToggle(!!searchTerm);
 
@@ -40,25 +44,52 @@ function SearchModal({ openItem: OpenItem }: SearchModalProps) {
   }, [searchModal]);
 
   const handleSearchInputChange = (value: string) => setSearchTerm(value);
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) =>
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    handleCloseModal();
+
+    if (results.length === 0) {
+      return window.open(GOOGLE_SEARCH_URL + encodeURI(searchTerm.trim()));
+    }
+
+    if (!selectedItem) return;
+
+    if (selectedItem.type === 'collection') {
+      const collection = collections.find((c) => c.id === selectedItem.id);
+      if (collection) {
+        setActiveCollection(collection);
+      }
+      return;
+    }
+
+    window.open(selectedItem.url);
+  };
 
   useShortcut('OPEN_SEARCH_KEY', searchModal.open, {
     enabled: !searchModal.isShowing,
   });
   useShortcut('ESCAPE_KEY', handleCloseModal, {
     enabled: searchModal.isShowing,
+    disableGlobalCheck: true,
   });
 
   useEffect(() => {
     if (searchTerm.trim() === '') {
       return setResults([]);
     }
+
+    const controller = new AbortController();
     const { url, method } = route('search', { qs: { term: searchTerm } });
     makeRequest({
       method,
       url,
-    }).then(({ results: _results }) => setResults(_results));
+      controller,
+    }).then(({ results: _results }) => {
+      setResults(_results);
+      setSelectedItem(_results?.[0]);
+    });
+
+    return () => controller.abort();
   }, [searchTerm]);
 
   return (
@@ -70,6 +101,7 @@ function SearchModal({ openItem: OpenItem }: SearchModalProps) {
         close={handleCloseModal}
         opened={searchModal.isShowing}
         hideCloseBtn
+        css={{ width: '650px' }}
       >
         <form
           onSubmit={handleSubmit}
@@ -100,37 +132,14 @@ function SearchModal({ openItem: OpenItem }: SearchModalProps) {
               autoFocus
             />
           </div>
-          {results.length > 0 && (
-            <UnstyledList css={{ maxHeight: '500px', overflow: 'auto' }}>
-              {results.map((result) => {
-                const ItemIcon =
-                  result.type === 'link' ? CiLink : AiOutlineFolder;
-                const collection =
-                  result.type === 'link'
-                    ? collections.find((c) => c.id === result.collection_id)
-                    : undefined;
-                return (
-                  <li
-                    key={result.type + result.id.toString()}
-                    css={{
-                      fontSize: '16px',
-                      display: 'flex',
-                      gap: '0.35em',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <ItemIcon size={24} />
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: result.matched_part ?? result.name,
-                      }}
-                    />
-                    {collection && <>({collection.name})</>}
-                  </li>
-                );
-              })}
-            </UnstyledList>
+          {results.length > 0 && selectedItem && (
+            <SearchResultList
+              results={results}
+              selectedItem={selectedItem}
+              setSelectedItem={setSelectedItem}
+            />
           )}
+          {results.length === 0 && !!searchTerm.trim() && <NoSearchResult />}
           <button
             type="submit"
             disabled={searchTerm.length === 0}
