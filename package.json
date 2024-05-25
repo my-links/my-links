@@ -75,6 +75,7 @@
     "@inertiajs/react": "^1.0.16",
     "@izzyjs/route": "^1.1.0-0",
     "@vinejs/vine": "^2.0.0",
+    "bentocache": "^1.0.0-beta.9",
     "edge.js": "^6.0.2",
     "hex-rgb": "^5.0.0",
     "i18next": "^23.11.4",

@@ -28,10 +28,10 @@ const ItemLegeng = styled.span(({ theme }) => ({
 }));
 
 interface CommonResultProps {
-  isActive: boolean;
   innerRef: RefObject<HTMLLIElement>;
-  onHoverEnter: () => void;
-  onHoverLeave: () => void;
+  isActive: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
 export default function SearchResultItem({
@@ -46,14 +46,13 @@ export default function SearchResultItem({
   const itemRef = useRef<HTMLLIElement>(null);
   const [isHovering, setHovering] = useState<boolean>(false);
 
-  const handleHoverEnter = () => {
+  const onMouseEnter = () => {
     if (!isHovering) {
       onHover(result);
       setHovering(true);
     }
   };
-
-  const handleHoverLeave = () => setHovering(false);
+  const onMouseLeave = () => setHovering(false);
 
   useEffect(() => {
     if (isActive && !isHovering) {
@@ -64,31 +63,22 @@ export default function SearchResultItem({
     }
   }, [itemRef, isActive]);
 
+  const commonProps = {
+    onMouseEnter,
+    onMouseLeave,
+    isActive,
+  };
   return result.type === 'collection' ? (
-    <ResultCollection
-      result={result}
-      isActive={isActive}
-      onHoverEnter={handleHoverEnter}
-      onHoverLeave={handleHoverLeave}
-      innerRef={itemRef}
-    />
+    <ResultCollection result={result} innerRef={itemRef} {...commonProps} />
   ) : (
-    <ResultLink
-      result={result}
-      isActive={isActive}
-      onHoverEnter={handleHoverEnter}
-      onHoverLeave={handleHoverLeave}
-      innerRef={itemRef}
-    />
+    <ResultLink result={result} innerRef={itemRef} {...commonProps} />
   );
 }
 
 function ResultLink({
   result,
-  isActive,
   innerRef,
-  onHoverEnter,
-  onHoverLeave,
+  ...props
 }: {
   result: SearchResultLink;
 } & CommonResultProps) {
@@ -100,11 +90,9 @@ function ResultLink({
 
   return (
     <SearchItemStyle
-      onMouseEnter={onHoverEnter}
-      onMouseLeave={onHoverLeave}
-      isActive={isActive}
       key={result.type + result.id.toString()}
       ref={innerRef}
+      {...props}
     >
       <LinkFavicon url={link.url} size={20} />
       <TextEllipsis
@@ -119,19 +107,15 @@ function ResultLink({
 
 const ResultCollection = ({
   result,
-  isActive,
   innerRef,
-  onHoverEnter,
-  onHoverLeave,
+  ...props
 }: {
   result: SearchResultCollection;
 } & CommonResultProps) => (
   <SearchItemStyle
-    onMouseEnter={onHoverEnter}
-    onMouseLeave={onHoverLeave}
-    isActive={isActive}
     key={result.type + result.id.toString()}
     ref={innerRef}
+    {...props}
   >
     <AiOutlineFolder size={24} />
     <TextEllipsis
