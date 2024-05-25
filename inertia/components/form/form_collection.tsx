@@ -11,7 +11,7 @@ export type FormCollectionData = {
   name: string;
   description: string | null;
   visibility: Visibility;
-  nextId: Collection['id'];
+  nextId?: Collection['id'];
 };
 
 interface FormCollectionProps {

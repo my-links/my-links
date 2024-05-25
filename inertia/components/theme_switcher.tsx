@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import Toggle from 'react-toggle';
-import 'react-toggle/style.css';
 import useDarkTheme from '~/hooks/use_dark_theme';
 
 export default function ThemeSwitcher() {
