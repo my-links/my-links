@@ -43,7 +43,8 @@ export default function FormLink({
   handleSubmit,
 }: FormLinkProps) {
   const { t } = useTranslation('common');
-  const collectionId = useSearchParam('collectionId') ?? collections?.[0].id;
+  const collectionId =
+    Number(useSearchParam('collectionId')) ?? collections?.[0].id;
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

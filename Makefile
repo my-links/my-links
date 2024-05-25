@@ -10,3 +10,7 @@ prod:
 
 seed:
 	node ace db:seed
+
+down:
+	-docker compose down
+	-docker compose -f dev.docker-compose.yml down

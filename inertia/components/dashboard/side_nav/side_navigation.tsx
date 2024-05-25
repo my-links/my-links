@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
-import { IoAdd } from 'react-icons/io5';
-import { MdOutlineAdminPanelSettings } from 'react-icons/md';
+import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
+import SearchModal from '~/components/dashboard/search/search_modal';
 import FavoriteList from '~/components/dashboard/side_nav/favorite/favorite_list';
 import { Item, ItemLink } from '~/components/dashboard/side_nav/nav_item';
 import UserCard from '~/components/dashboard/side_nav/user_card';
@@ -40,6 +40,8 @@ const AddButton = styled(ItemLink)(({ theme }) => ({
   },
 }));
 
+const SearchButton = AddButton.withComponent(Item);
+
 export default function SideNavigation() {
   const { t } = useTranslation('common');
   const { activeCollection } = useActiveCollection();
@@ -48,9 +50,10 @@ export default function SideNavigation() {
       <div css={{ paddingInline: '10px' }}>
         <UserCard />
         <AdminButton>
-          <MdOutlineAdminPanelSettings /> {t('admin')}
+          <IoShieldHalfSharp /> {t('admin')}
         </AdminButton>
         <ModalSettings openItem={SettingsButton} />
+        <SearchModal openItem={SearchButton} />
         <AddButton
           href={appendCollectionId(
             route('link.create-form').url,

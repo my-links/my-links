@@ -105,19 +105,28 @@ function DashboardProviders(
   const favoritesContextValue = useMemo(() => ({ favorites }), [favorites]);
   const globalHotkeysContextValue = useMemo(
     () => ({
-      globalHotkeysEnabled: globalHotkeysEnabled,
+      globalHotkeysEnabled,
       setGlobalHotkeysEnabled,
     }),
     [globalHotkeysEnabled]
   );
 
-  useShortcut('OPEN_CREATE_LINK_KEY', () =>
-    router.visit(
-      appendCollectionId(route('link.create-form').url, activeCollection?.id)
-    )
+  useShortcut(
+    'OPEN_CREATE_LINK_KEY',
+    () =>
+      router.visit(
+        appendCollectionId(route('link.create-form').url, activeCollection?.id)
+      ),
+    {
+      enabled: globalHotkeysEnabled,
+    }
   );
-  useShortcut('OPEN_CREATE_COLLECTION_KEY', () =>
-    router.visit(route('collection.create-form').url)
+  useShortcut(
+    'OPEN_CREATE_COLLECTION_KEY',
+    () => router.visit(route('collection.create-form').url),
+    {
+      enabled: globalHotkeysEnabled,
+    }
   );
   return (
     <CollectionsContext.Provider value={collectionsContextValue}>
