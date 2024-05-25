@@ -1,18 +1,18 @@
-import type Link from '#models/link';
+type SearchResultCommon = {
+  id: number;
+  name: string;
+  matched_part?: string;
+  rank?: number;
+};
 
-export type SearchResult =
-  | {
-      id: string;
-      type: 'collection';
-      name: string;
-      matched_part?: string;
-      rank?: number;
-    }
-  | {
-      id: string;
-      type: 'link';
-      name: string;
-      matched_part?: string;
-      rank?: number;
-      collection_id: number;
-    };
+export type SearchResultCollection = SearchResultCommon & {
+  type: 'collection';
+};
+
+export type SearchResultLink = SearchResultCommon & {
+  type: 'link';
+  collection_id: number;
+  url: string;
+};
+
+export type SearchResult = SearchResultCollection | SearchResultLink;
