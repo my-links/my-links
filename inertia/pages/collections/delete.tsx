@@ -21,7 +21,7 @@ export default function DeleteCollectionPage({
 
   const handleSubmit = () => {
     const { method, url } = route('collection.delete', {
-      params: { id: collection.id },
+      params: { id: collection.id.toString() },
     });
     submit(method, url);
   };

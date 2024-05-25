@@ -40,7 +40,9 @@ export default function EditLinkPage({
   }, [data, processing]);
 
   const handleSubmit = () => {
-    const { method, url } = route('link.edit', { params: { id: link.id } });
+    const { method, url } = route('link.edit', {
+      params: { id: link.id.toString() },
+    });
     submit(method, url);
   };
 
