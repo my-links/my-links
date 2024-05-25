@@ -18,6 +18,7 @@ interface ModalProps {
   children: ReactNode;
   opened: boolean;
   hideCloseBtn?: boolean;
+  className?: string;
 
   close: () => void;
 }
@@ -27,13 +28,14 @@ export default function Modal({
   children,
   opened = true,
   hideCloseBtn = false,
+  className,
   close,
 }: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const { setGlobalHotkeysEnabled } = useGlobalHotkeys();
 
   useClickOutside(modalRef, close);
-  useShortcut('ESCAPE_KEY', close);
+  useShortcut('ESCAPE_KEY', close, { disableGlobalCheck: true });
 
   useEffect(() => setGlobalHotkeysEnabled(!opened), [opened]);
 
@@ -45,18 +47,17 @@ export default function Modal({
     opened &&
     createPortal(
       <ModalWrapper>
-        <ModalContainer ref={modalRef}>
-          {!hideCloseBtn ||
-            (title && (
-              <ModalHeader>
-                {title && <TextEllipsis>{title}</TextEllipsis>}
-                {!hideCloseBtn && (
-                  <ModalCloseBtn onClick={close}>
-                    <IoClose size={20} />
-                  </ModalCloseBtn>
-                )}
-              </ModalHeader>
-            ))}
+        <ModalContainer className={className} ref={modalRef}>
+          {(!hideCloseBtn || title) && (
+            <ModalHeader>
+              {title && <TextEllipsis>{title}</TextEllipsis>}
+              {!hideCloseBtn && (
+                <ModalCloseBtn onClick={close}>
+                  <IoClose size={20} />
+                </ModalCloseBtn>
+              )}
+            </ModalHeader>
+          )}
           <ModalBody>{children}</ModalBody>
         </ModalContainer>
       </ModalWrapper>,

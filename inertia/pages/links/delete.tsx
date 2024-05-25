@@ -15,10 +15,11 @@ export default function DeleteLinkPage({ link }: { link: Link }) {
   });
 
   const handleSubmit = () => {
-    const { method, url } = route('link.delete', { params: { id: link.id } });
+    const { method, url } = route('link.delete', {
+      params: { id: link.id.toString() },
+    });
     submit(method, url);
   };
-  console.log(link);
 
   return (
     <FormLink
