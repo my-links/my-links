@@ -30,7 +30,7 @@ export default function EditCollectionPage({
 
   const handleSubmit = () => {
     const { method, url } = route('collection.edit', {
-      params: { id: collection.id },
+      params: { id: collection.id.toString() },
     });
     submit(method, url);
   };
