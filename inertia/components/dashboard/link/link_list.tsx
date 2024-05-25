@@ -23,9 +23,11 @@ export default function LinkList({ links }: { links: Link[] }) {
 
   return (
     <LinkListStyle>
-      {links.map((link) => (
-        <LinkItem link={link} key={link.id} showUserControls />
-      ))}
+      {links
+        .sort((a, b) => (a.created_at > b.created_at ? 1 : -1))
+        .map((link) => (
+          <LinkItem link={link} key={link.id} showUserControls />
+        ))}
     </LinkListStyle>
   );
 }
