@@ -10,3 +10,17 @@ type User = {
   isAdmin: boolean;
   collections: Collection[];
 };
+
+type UserWithRelationCount = {
+  id: number;
+  email: string;
+  fullname: string;
+  avatarUrl: string;
+  isAdmin: string;
+  createdAt: string;
+  updatedAt: string;
+  count: {
+    link: number;
+    collection: number;
+  };
+};

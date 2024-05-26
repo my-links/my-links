@@ -47,6 +47,8 @@ export const lightTheme: Theme = {
     darkBlue,
     darkestBlue,
 
+    green: 'green',
+
     lightRed,
 
     yellow: '#FF8A08',
@@ -77,6 +79,8 @@ export const darkTheme: Theme = {
     blue: '#4fadfc',
     darkBlue,
     darkestBlue,
+
+    green: '#09b909',
 
     lightRed,
 

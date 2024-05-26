@@ -41,6 +41,10 @@ const NavList = styled(UnstyledList)<NavbarListDirection>(
   })
 );
 
+const AdminLink = styled(Link)(({ theme }) => ({
+  color: theme.colors.lightRed,
+}));
+
 const UserCard = styled.div({
   padding: '0.25em 0.5em',
   display: 'flex',
@@ -68,6 +72,13 @@ export default function Navbar() {
         </li>
         {isAuthenticated && !!user ? (
           <>
+            {user.isAdmin && (
+              <li>
+                <AdminLink href={route('admin.dashboard').url}>
+                  {t('admin')}
+                </AdminLink>
+              </li>
+            )}
             <li>
               <Link href={route('dashboard').url}>Dashboard</Link>
             </li>
