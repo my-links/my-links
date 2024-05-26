@@ -1,11 +1,11 @@
 import { Visibility } from '#enums/visibility';
-import type Collection from '#models/collection';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '~/components/common/form/checkbox';
 import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
+import { Collection } from '~/types/app';
 
 export type FormCollectionData = {
   name: string;

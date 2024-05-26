@@ -1,5 +1,4 @@
-import type Collection from '#models/collection';
-import type Link from '#models/link';
+import { Collection, Link } from '~/types/app';
 
 export const appendCollectionId = (
   url: string,
@@ -11,8 +10,10 @@ export const appendLinkId = (
   linkId?: Link['id'] | null | undefined
 ) => `${url}${linkId ? `?linkId=${linkId}` : ''}`;
 
-export const appendResourceId = (url: string, resourceId?: string) =>
-  `${url}${resourceId ? `/${resourceId}` : ''}`;
+export const appendResourceId = (
+  url: string,
+  resourceId?: Collection['id'] | Link['id']
+) => `${url}${resourceId ? `/${resourceId}` : ''}`;
 
 export function isValidHttpUrl(urlParam: string) {
   let url;

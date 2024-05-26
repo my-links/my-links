@@ -6,6 +6,7 @@ import {
   updateCollectionValidator,
 } from '#validators/collection';
 import type { HttpContext } from '@adonisjs/core/http';
+import db from '@adonisjs/lucid/services/db';
 
 export default class CollectionsController {
   // Dashboard
@@ -103,6 +104,11 @@ export default class CollectionsController {
     const collection = await this.getCollectionById(params.id, auth.user!.id);
     await collection.delete();
     return response.redirectToNamedRoute('dashboard');
+  }
+
+  async getTotalCollectionsCount() {
+    const totalCount = await db.from('collections').count('* as total');
+    return Number(totalCount[0].total);
   }
 
   /**
