@@ -1,4 +1,4 @@
-import { defineConfig } from '@adonisjs/core/app'
+import { defineConfig } from '@adonisjs/core/app';
 
 export default defineConfig({
   /*
@@ -44,7 +44,7 @@ export default defineConfig({
     () => import('@adonisjs/inertia/inertia_provider'),
     () => import('@adonisjs/ally/ally_provider'),
     () => import('@izzyjs/route/izzy_provider'),
-    () => import('#providers/route_provider')
+    () => import('#providers/route_provider'),
   ],
 
   /*
@@ -107,4 +107,4 @@ export default defineConfig({
     onBuildStarting: [() => import('@adonisjs/vite/build_hook')],
     onDevServerStarted: [() => import('@izzyjs/route/dev_hook')],
   },
-})
+});

@@ -3,7 +3,7 @@ import Link from '#models/link';
 import User from '#models/user';
 import { belongsTo, column, hasMany } from '@adonisjs/lucid/orm';
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations';
-import { Visibility } from '../enums/visibility.js';
+import { Visibility } from '#enums/visibility';
 
 export default class Collection extends AppBaseModel {
   @column()

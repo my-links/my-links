@@ -1,3 +1,4 @@
+import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
@@ -13,7 +14,6 @@ import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
 import ModalSettings from '~/components/settings/modal';
 import useUser from '~/hooks/use_user';
-import PATHS from '../../../app/constants/paths';
 
 type NavbarListDirection = {
   right?: boolean;

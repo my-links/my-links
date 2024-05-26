@@ -1,8 +1,8 @@
 import FaviconNotFoundException from '#exceptions/favicon_not_found_exception';
+import { cache } from '#lib/cache';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { parse } from 'node-html-parser';
-import { cache } from '../lib/cache.js';
 
 interface Favicon {
   buffer: Buffer;
@@ -11,7 +11,6 @@ interface Favicon {
   size: number;
 }
 
-// TODO: refactor this controller (adapted from the previous version of MyLinks)
 export default class FaviconsController {
   private userAgent =
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0';
