@@ -1,8 +1,8 @@
 import Collection from '#models/collection';
 import Link from '#models/link';
 import type { GoogleToken } from '@adonisjs/ally/types';
-import { column, computed, manyToMany } from '@adonisjs/lucid/orm';
-import type { ManyToMany } from '@adonisjs/lucid/types/relations';
+import { column, computed, hasMany } from '@adonisjs/lucid/orm';
+import type { HasMany } from '@adonisjs/lucid/types/relations';
 import AppBaseModel from './app_base_model.js';
 
 export default class User extends AppBaseModel {
@@ -30,15 +30,15 @@ export default class User extends AppBaseModel {
   @column({ serializeAs: null })
   declare providerType: 'google';
 
-  @manyToMany(() => Collection, {
-    relatedKey: 'authorId',
+  @hasMany(() => Collection, {
+    foreignKey: 'authorId',
   })
-  declare collections: ManyToMany<typeof Collection>;
+  declare collections: HasMany<typeof Collection>;
 
-  @manyToMany(() => Link, {
-    relatedKey: 'authorId',
+  @hasMany(() => Link, {
+    foreignKey: 'authorId',
   })
-  declare links: ManyToMany<typeof Link>;
+  declare links: HasMany<typeof Link>;
 
   @computed()
   get fullname() {

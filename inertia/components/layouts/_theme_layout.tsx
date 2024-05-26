@@ -109,5 +109,35 @@ function GlobalStyles() {
     },
   });
 
-  return <Global styles={[cssReset, documentStyle, scrollbarStyle]} />;
+  const tableStyle = css({
+    table: {
+      height: 'auto',
+      width: '100%',
+      borderCollapse: 'collapse',
+      borderRadius: localTheme.border.radius,
+      overflow: 'hidden',
+    },
+
+    th: {
+      textAlign: 'center',
+      fontWeight: 400,
+      backgroundColor: localTheme.colors.secondary,
+    },
+
+    'td, th': {
+      padding: '0.45em',
+    },
+
+    'th, td': {
+      whiteSpace: 'nowrap',
+    },
+
+    'tr:nth-of-type(even)': {
+      backgroundColor: localTheme.colors.secondary,
+    },
+  });
+
+  return (
+    <Global styles={[cssReset, documentStyle, scrollbarStyle, tableStyle]} />
+  );
 }

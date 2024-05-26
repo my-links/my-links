@@ -37,3 +37,6 @@ export function arrayMove<T>(
   arrayCopy.splice(nextIndex, 0, removedElement);
   return arrayCopy;
 }
+
+export const sortByCreationDate = <T extends { createdAt: any }>(arr: T[]) =>
+  arr.sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1));

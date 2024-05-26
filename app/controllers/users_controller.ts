@@ -1,6 +1,7 @@
 import User from '#models/user';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
+import db from '@adonisjs/lucid/services/db';
 import { RouteName } from '@izzyjs/route/types';
 
 export default class UsersController {
@@ -30,6 +31,7 @@ export default class UsersController {
       return response.redirectToNamedRoute(this.redirectTo);
     }
 
+    const userCount = await db.from('users').count('* as total');
     const {
       email,
       id: providerId,
@@ -50,6 +52,7 @@ export default class UsersController {
         avatarUrl,
         token,
         providerType: 'google',
+        isAdmin: userCount[0].total === '0',
       }
     );
 
@@ -65,5 +68,11 @@ export default class UsersController {
     session.flash('flash', 'Successfully disconnected');
     logger.info(`[${auth.user?.email}] disconnected successfully`);
     response.redirectToNamedRoute(this.redirectTo);
+  }
+
+  async getAllUsersWithTotalRelations() {
+    return User.query()
+      .withCount('collections', (q) => q.as('totalCollections'))
+      .withCount('links', (q) => q.as('totalLinks'));
   }
 }

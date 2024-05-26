@@ -9,6 +9,7 @@ import { Item, ItemLink } from '~/components/dashboard/side_nav/nav_item';
 import UserCard from '~/components/dashboard/side_nav/user_card';
 import ModalSettings from '~/components/settings/modal';
 import useActiveCollection from '~/hooks/use_active_collection';
+import useUser from '~/hooks/use_user';
 import { rgba } from '~/lib/color';
 import { appendCollectionId } from '~/lib/navigation';
 
@@ -19,7 +20,7 @@ const SideMenu = styled.nav({
   flexDirection: 'column',
 });
 
-const AdminButton = styled(Item)(({ theme }) => ({
+const AdminButton = styled(ItemLink)(({ theme }) => ({
   color: theme.colors.lightRed,
   '&:hover': {
     backgroundColor: `${rgba(theme.colors.lightRed, 0.1)}!important`,
@@ -43,15 +44,18 @@ const AddButton = styled(ItemLink)(({ theme }) => ({
 const SearchButton = AddButton.withComponent(Item);
 
 export default function SideNavigation() {
+  const { user } = useUser();
   const { t } = useTranslation('common');
   const { activeCollection } = useActiveCollection();
   return (
     <SideMenu>
       <div css={{ paddingInline: '10px' }}>
         <UserCard />
-        <AdminButton>
-          <IoShieldHalfSharp /> {t('admin')}
-        </AdminButton>
+        {user!.isAdmin && (
+          <AdminButton href={route('admin.dashboard').url}>
+            <IoShieldHalfSharp /> {t('admin')}
+          </AdminButton>
+        )}
         <ModalSettings openItem={SettingsButton} />
         <SearchModal openItem={SearchButton} />
         <AddButton

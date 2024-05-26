@@ -2,6 +2,7 @@ import type Link from '#models/link';
 import styled from '@emotion/styled';
 import LinkItem from '~/components/dashboard/link/link_item';
 import { NoLink } from '~/components/dashboard/link/no_item';
+import { sortByCreationDate } from '~/lib/array';
 
 const LinkListStyle = styled.ul({
   height: '100%',
@@ -23,11 +24,9 @@ export default function LinkList({ links }: { links: Link[] }) {
 
   return (
     <LinkListStyle>
-      {links
-        .sort((a, b) => (a.created_at > b.created_at ? 1 : -1))
-        .map((link) => (
-          <LinkItem link={link} key={link.id} showUserControls />
-        ))}
+      {sortByCreationDate(links).map((link) => (
+        <LinkItem link={link} key={link.id} showUserControls />
+      ))}
     </LinkListStyle>
   );
 }

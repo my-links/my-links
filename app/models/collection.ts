@@ -21,7 +21,7 @@ export default class Collection extends AppBaseModel {
   @column()
   declare authorId: number;
 
-  @belongsTo(() => User, { foreignKey: 'authorId' })
+  @belongsTo(() => User, { foreignKey: 'author_id' })
   declare author: BelongsTo<typeof User>;
 
   @hasMany(() => Link)
