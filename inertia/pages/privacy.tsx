@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import LegalContentLayout from '~/components/layouts/legal_content_layout';
 
-export default function TermsPage() {
+function PrivacyPage() {
   const { t } = useTranslation('privacy');
   return (
-    <LegalContentLayout>
+    <>
       <h1>{t('title')}</h1>
       <p>{t('edited_at', { date: '19/11/2023' })}</p>
       <p>{t('welcome')}</p>
@@ -39,6 +40,11 @@ export default function TermsPage() {
 
       <h2>{t('gdpr.title')}</h2>
       <p>{t('gdpr.description')}</p>
-    </LegalContentLayout>
+    </>
   );
 }
+
+PrivacyPage.layout = (page: ReactNode) => (
+  <LegalContentLayout children={page} />
+);
+export default PrivacyPage;

@@ -52,7 +52,7 @@ export default class UsersController {
         avatarUrl,
         token,
         providerType: 'google',
-        isAdmin: userCount[0].total === '0',
+        isAdmin: userCount[0].total === '0' ? true : undefined,
       }
     );
 

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AiFillFolderOpen } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
@@ -19,10 +20,10 @@ const PageContent = styled.div({
   flexDirection: 'column',
 });
 
-export default function HomePage() {
+function HomePage() {
   const { t } = useTranslation();
   return (
-    <ContentLayout>
+    <>
       <HeroHeader />
       <PageContent>
         <AboutList>
@@ -59,6 +60,9 @@ export default function HomePage() {
         </AboutList>
         <WebsitePreview />
       </PageContent>
-    </ContentLayout>
+    </>
   );
 }
+
+HomePage.layout = (page: ReactNode) => <ContentLayout children={page} />;
+export default HomePage;

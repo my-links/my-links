@@ -7,8 +7,9 @@ import DarkThemeContextProvider from '~/contexts/dark_theme_context';
 export default function BaseLayout({ children }: { children: ReactNode }) {
   const { i18n } = useTranslation();
   dayjs.locale(i18n.language);
+  console.log('a');
   return (
-    <DarkThemeContextProvider>
+    <DarkThemeContextProvider key="a">
       <ContextThemeProvider>{children}</ContextThemeProvider>
     </DarkThemeContextProvider>
   );
