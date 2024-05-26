@@ -1,8 +1,8 @@
-import type Link from '#models/link';
 import styled from '@emotion/styled';
 import LinkItem from '~/components/dashboard/link/link_item';
 import { NoLink } from '~/components/dashboard/link/no_item';
 import { sortByCreationDate } from '~/lib/array';
+import { Link } from '~/types/app';
 
 const LinkListStyle = styled.ul({
   height: '100%',

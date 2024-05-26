@@ -1,11 +1,11 @@
-import type Collection from '#models/collection';
+import { CollectionWithLinks } from '~/types/app';
 
 export default function sortCcollectionsByNextId(
-  collections: Collection[]
-): Collection[] {
-  const sortedCollections: Collection[] = [];
+  collections: CollectionWithLinks[]
+): CollectionWithLinks[] {
+  const sortedCollections: CollectionWithLinks[] = [];
 
-  const visit = (collection: Collection) => {
+  const visit = (collection: CollectionWithLinks) => {
     // Check if the collection has been visited
     if (sortedCollections.includes(collection)) {
       return;

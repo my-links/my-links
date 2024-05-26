@@ -8,6 +8,7 @@ import {
 } from '#validators/link';
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
+import db from '@adonisjs/lucid/services/db';
 
 @inject()
 export default class LinksController {
@@ -109,6 +110,11 @@ export default class LinksController {
     return response.redirectToNamedRoute('dashboard', {
       qs: { collectionId: link.id },
     });
+  }
+
+  async getTotalLinksCount() {
+    const totalCount = await db.from('links').count('* as total');
+    return Number(totalCount[0].total);
   }
 
   /**

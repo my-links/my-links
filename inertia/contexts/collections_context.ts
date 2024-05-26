@@ -1,14 +1,16 @@
-import Collection from '#models/collection';
 import { createContext } from 'react';
+import { CollectionWithLinks } from '~/types/app';
 
 type CollectionsContextType = {
-  collections: Collection[];
-  setCollections: (collections: Collection[]) => void | Collection[];
+  collections: CollectionWithLinks[];
+  setCollections: (
+    collections: CollectionWithLinks[]
+  ) => void | CollectionWithLinks[];
 };
 
 const iCollectionsContextState: CollectionsContextType = {
-  collections: [] as Collection[],
-  setCollections: (_: Collection[]) => {},
+  collections: [] as CollectionWithLinks[],
+  setCollections: (_: CollectionWithLinks[]) => {},
 };
 
 const CollectionsContext = createContext<CollectionsContextType>(

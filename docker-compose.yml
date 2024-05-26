@@ -12,6 +12,22 @@ services:
       test: ['CMD-SHELL', 'pg_isready']
     volumes:
       - postgres-volume:/var/lib/postgresql/data
+    ports:
+      - '${DB_PORT}:5432'
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:8.6
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=myemail@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=a12345678
+    depends_on:
+      - postgres
+    volumes:
+      - ./docker-config/servers_pgadmin.json:/pgadmin4/servers.json
+    ports:
+      - '5050:80'
 
   my-links:
     container_name: my-links
