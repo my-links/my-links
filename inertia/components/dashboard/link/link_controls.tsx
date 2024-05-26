@@ -1,4 +1,3 @@
-import type Link from '#models/link';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { route } from '@izzyjs/route/client';
@@ -17,6 +16,7 @@ import useActiveCollection from '~/hooks/use_active_collection';
 import useCollections from '~/hooks/use_collections';
 import { appendLinkId } from '~/lib/navigation';
 import { makeRequest } from '~/lib/request';
+import { Link } from '~/types/app';
 
 const StartItem = styled(DropdownItemButton)(({ theme }) => ({
   color: theme.colors.yellow,
@@ -54,7 +54,7 @@ export default function LinkControls({ link }: { link: Link }) {
 
   const onFavorite = () => {
     const { url, method } = route('link.toggle-favorite', {
-      params: { id: link.id },
+      params: { id: link.id.toString() },
     });
     makeRequest({
       url,

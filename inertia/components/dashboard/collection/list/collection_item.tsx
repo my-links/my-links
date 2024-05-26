@@ -1,4 +1,3 @@
-import type Collection from '#models/collection';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
@@ -8,6 +7,7 @@ import TextEllipsis from '~/components/common/text_ellipsis';
 import { Item } from '~/components/dashboard/side_nav/nav_item';
 import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
+import { CollectionWithLinks } from '~/types/app';
 
 const CollectionItemStyle = styled(Item, {
   shouldForwardProp: (propName) => propName !== 'isActive',
@@ -28,7 +28,7 @@ const LinksCount = styled.div(({ theme }) => ({
 export default function CollectionItem({
   collection,
 }: {
-  collection: Collection;
+  collection: CollectionWithLinks;
 }) {
   const itemRef = useRef<HTMLDivElement>(null);
   const { activeCollection } = useActiveCollection();

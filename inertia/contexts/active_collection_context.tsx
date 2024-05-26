@@ -1,14 +1,14 @@
-import type Collection from '#models/collection';
 import { createContext } from 'react';
+import { CollectionWithLinks } from '~/types/app';
 
 type ActiveCollectionContextType = {
-  activeCollection: Collection | null;
-  setActiveCollection: (collection: Collection) => void;
+  activeCollection: CollectionWithLinks | null;
+  setActiveCollection: (collection: CollectionWithLinks) => void;
 };
 
 const iActiveCollectionContextState: ActiveCollectionContextType = {
   activeCollection: null,
-  setActiveCollection: (_: Collection) => {},
+  setActiveCollection: (_: CollectionWithLinks) => {},
 };
 
 export const ActiveCollectionContext =

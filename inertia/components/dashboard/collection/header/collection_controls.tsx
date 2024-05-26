@@ -1,4 +1,3 @@
-import type Collection from '#models/collection';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -8,6 +7,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import Dropdown from '~/components/common/dropdown/dropdown';
 import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
 import { appendCollectionId } from '~/lib/navigation';
+import { Collection } from '~/types/app';
 
 export default function CollectionControls({
   collectionId,

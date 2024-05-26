@@ -1,5 +1,3 @@
-import type Collection from '#models/collection';
-import Link from '#models/link';
 import styled from '@emotion/styled';
 import { router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
@@ -18,10 +16,11 @@ import { useMediaQuery } from '~/hooks/use_media_query';
 import useToggle from '~/hooks/use_modal';
 import useShortcut from '~/hooks/use_shortcut';
 import { appendCollectionId } from '~/lib/navigation';
+import { CollectionWithLinks, Link } from '~/types/app';
 
 interface DashboardPageProps {
-  collections: Collection[];
-  activeCollection: Collection;
+  collections: CollectionWithLinks[];
+  activeCollection: CollectionWithLinks;
 }
 
 const SideBar = styled.div(({ theme }) => ({
@@ -65,20 +64,21 @@ export default function DashboardPage(props: Readonly<DashboardPageProps>) {
 function DashboardProviders(
   props: Readonly<{
     children: ReactNode;
-    collections: Collection[];
-    activeCollection: Collection;
+    collections: CollectionWithLinks[];
+    activeCollection: CollectionWithLinks;
   }>
 ) {
   const [globalHotkeysEnabled, setGlobalHotkeysEnabled] =
     useState<boolean>(true);
-  const [collections, setCollections] = useState<Collection[]>(
+  const [collections, setCollections] = useState<CollectionWithLinks[]>(
     props.collections
   );
-  const [activeCollection, setActiveCollection] = useState<Collection | null>(
-    props.activeCollection || collections?.[0]
-  );
+  const [activeCollection, setActiveCollection] =
+    useState<CollectionWithLinks | null>(
+      props.activeCollection || collections?.[0]
+    );
 
-  const handleChangeCollection = (collection: Collection) => {
+  const handleChangeCollection = (collection: CollectionWithLinks) => {
     setActiveCollection(collection);
     router.visit(appendCollectionId(route('dashboard').url, collection.id));
   };

@@ -1,5 +1,5 @@
-import type Link from '#models/link';
 import { createContext } from 'react';
+import { Link } from '~/types/app';
 
 type FavoritesContextType = {
   favorites: Link[];
