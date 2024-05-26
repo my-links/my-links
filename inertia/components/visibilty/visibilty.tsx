@@ -1,6 +1,6 @@
+import { Visibility } from '#enums/visibility';
 import styled from '@emotion/styled';
 import { IoEarthOutline } from 'react-icons/io5';
-import { Visibility } from '../../../app/enums/visibility';
 
 const VisibilityStyle = styled.span(({ theme }) => ({
   fontWeight: 300,

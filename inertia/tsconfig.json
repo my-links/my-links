@@ -14,7 +14,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "@/*": ["../*"]
     },
     "types": ["vite/client", "@emotion/styled", "@emotion/react"]
   },

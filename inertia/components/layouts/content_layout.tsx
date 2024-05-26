@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { ReactNode } from 'react';
 import Footer from '~/components/footer/footer';
 import TransitionLayout from '~/components/layouts/_transition_layout';
-import Navbar from '../navbar/navbar';
+import Navbar from '~/components/navbar/navbar';
 import BaseLayout from './_base_layout';
 
 const ContentLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
