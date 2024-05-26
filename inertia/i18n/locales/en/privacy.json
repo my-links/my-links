@@ -11,13 +11,7 @@
     "user": {
       "title": "1.2 User Data",
       "description": "To create personalized collections and links and associate them with their author, we collect the following information:",
-      "fields": [
-        "Google ID",
-        "Lastname",
-        "Firstname",
-        "Email",
-        "Avatar"
-      ]
+      "fields": ["Google ID", "Lastname", "Firstname", "Email", "Avatar"]
     }
   },
   "data_use": {

@@ -1,5 +1,5 @@
+import { Visibility } from '#enums/visibility';
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
-import { Visibility } from '../enums/visibility.js';
 
 const params = vine.object({
   id: vine.number(),

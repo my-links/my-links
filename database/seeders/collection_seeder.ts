@@ -1,8 +1,8 @@
+import { Visibility } from '#enums/visibility';
 import Collection from '#models/collection';
 import User from '#models/user';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';
-import { Visibility } from '../../app/enums/visibility.js';
 
 export default class extends BaseSeeder {
   static environment = ['development', 'testing'];

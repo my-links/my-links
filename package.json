@@ -19,6 +19,7 @@
     "#exceptions/*": "./app/exceptions/*.js",
     "#models/*": "./app/models/*.js",
     "#constants/*": "./app/constants/*.js",
+    "#enums/*": "./app/enums/*.js",
     "#mails/*": "./app/mails/*.js",
     "#services/*": "./app/services/*.js",
     "#listeners/*": "./app/listeners/*.js",
@@ -31,7 +32,8 @@
     "#database/*": "./database/*.js",
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
-    "#config/*": "./config/*.js"
+    "#config/*": "./config/*.js",
+    "#lib/*": "./app/lib/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.6.1",
