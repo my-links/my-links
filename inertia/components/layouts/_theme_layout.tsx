@@ -1,7 +1,8 @@
 import { Global, ThemeProvider, css, useTheme } from '@emotion/react';
 import { ReactNode } from 'react';
 import useDarkTheme from '~/hooks/use_dark_theme';
-import { darkTheme, lightTheme } from '~/styles/theme';
+import { darkTheme } from '~/styles/themes/dark_theme';
+import { lightTheme } from '~/styles/themes/light_theme';
 
 export default function ContextThemeProvider({
   children,
