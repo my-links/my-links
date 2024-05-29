@@ -11,10 +11,8 @@ const CollectionDescriptionStyle = styled.div({
 export default function CollectionDescription() {
   const { activeCollection } = useActiveCollection();
   return (
-    activeCollection && (
-      <CollectionDescriptionStyle>
-        <TextEllipsis lines={3}>{activeCollection?.description}</TextEllipsis>
-      </CollectionDescriptionStyle>
-    )
+    <CollectionDescriptionStyle>
+      <TextEllipsis lines={3}>{activeCollection!.description}</TextEllipsis>
+    </CollectionDescriptionStyle>
   );
 }
