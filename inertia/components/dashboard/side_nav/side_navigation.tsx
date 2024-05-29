@@ -13,12 +13,16 @@ import useUser from '~/hooks/use_user';
 import { rgba } from '~/lib/color';
 import { appendCollectionId } from '~/lib/navigation';
 
-const SideMenu = styled.nav({
+const SideMenu = styled.nav(({ theme }) => ({
   height: '100%',
+  width: '300px',
+  backgroundColor: theme.colors.background,
+  borderRight: `1px solid ${theme.colors.lightGrey}`,
+  marginRight: '5px',
   display: 'flex',
   gap: '.35em',
   flexDirection: 'column',
-});
+}));
 
 const AdminButton = styled(ItemLink)(({ theme }) => ({
   color: theme.colors.lightRed,

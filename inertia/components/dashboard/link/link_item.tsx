@@ -81,7 +81,7 @@ export default function LinkItem({
 }) {
   const { id, name, url, description, favorite } = link;
   return (
-    <LinkWrapper key={id}>
+    <LinkWrapper key={id} title={name}>
       <LinkHeader>
         <LinkFavicon url={url} />
         <ExternalLink href={url} className="reset">

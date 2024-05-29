@@ -8,6 +8,8 @@ import useShortcut from '~/hooks/use_shortcut';
 
 const SideMenu = styled.nav(({ theme }) => ({
   height: '100%',
+  width: '300px',
+  backgroundColor: theme.colors.background,
   paddingLeft: '10px',
   marginLeft: '5px',
   borderLeft: `1px solid ${theme.colors.lightGrey}`,

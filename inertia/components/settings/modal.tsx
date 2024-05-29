@@ -20,7 +20,7 @@ export default function ModalSettings({
   return (
     <>
       <OpenItem onClick={open}>
-        <PiGearLight />
+        <PiGearLight size={20} />
         {t('settings')}
       </OpenItem>
       <Modal title={t('settings')} opened={isShowing} close={close}>

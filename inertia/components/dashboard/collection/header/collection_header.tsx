@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextEllipsis from '~/components/common/text_ellipsis';
+import { CollectionHeaderProps } from '~/components/dashboard/collection/collection_container';
 import CollectionControls from '~/components/dashboard/collection/header/collection_controls';
 import CollectionDescription from '~/components/dashboard/collection/header/collection_description';
 import VisibilityBadge from '~/components/visibilty/visibilty';
@@ -10,11 +11,13 @@ import useActiveCollection from '~/hooks/use_active_collection';
 const paddingLeft = '1.25em';
 const paddingRight = '1.65em';
 
-const CollectionHeaderWrapper = styled.div({
-  minWidth: 0,
-  width: '100%',
-  paddingInline: `${paddingLeft} ${paddingRight}`,
-});
+const CollectionHeaderWrapper = styled.div<{ padding?: boolean }>(
+  ({ padding }) => ({
+    minWidth: 0,
+    width: '100%',
+    paddingInline: padding ? `${paddingLeft} ${paddingRight}` : 0,
+  })
+);
 
 const CollectionHeaderStyle = styled.div({
   display: 'flex',
@@ -41,7 +44,11 @@ const LinksCount = styled.div(({ theme }) => ({
   color: theme.colors.grey,
 }));
 
-export default function CollectionHeader() {
+export default function CollectionHeader({
+  openNavigationItem,
+  openCollectionItem,
+  showButtons,
+}: CollectionHeaderProps) {
   const { t } = useTranslation('common');
   const { activeCollection } = useActiveCollection();
 
@@ -51,6 +58,7 @@ export default function CollectionHeader() {
   return (
     <CollectionHeaderWrapper>
       <CollectionHeaderStyle>
+        {showButtons && openNavigationItem && openNavigationItem}
         <CollectionName title={name}>
           <TextEllipsis>{name}</TextEllipsis>
           {links.length > 0 && <LinksCount> — {links.length}</LinksCount>}
@@ -60,8 +68,9 @@ export default function CollectionHeader() {
           />
         </CollectionName>
         <CollectionControls collectionId={activeCollection.id} />
+        {showButtons && openCollectionItem && openCollectionItem}
       </CollectionHeaderStyle>
-      <CollectionDescription />
+      {activeCollection.description && <CollectionDescription />}
     </CollectionHeaderWrapper>
   );
 }

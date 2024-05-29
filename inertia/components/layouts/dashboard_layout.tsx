@@ -4,10 +4,12 @@ import TransitionLayout from '~/components/layouts/_transition_layout';
 import BaseLayout from './_base_layout';
 
 const DashboardLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
+  position: 'relative',
   height: '100%',
   width: theme.media.medium_desktop,
   maxWidth: '100%',
   padding: '0.75em 1em',
+  overflow: 'hidden',
 }));
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => (

@@ -12,6 +12,8 @@ const LoginContainer = styled.div({
   width: '100%',
   maxWidth: '100%',
   whiteSpace: 'nowrap',
+  marginTop: '50px',
+  paddingInline: '1rem',
   display: 'flex',
   alignItems: 'center',
   gap: '1.5em',
@@ -19,7 +21,8 @@ const LoginContainer = styled.div({
 });
 
 const FormWrapper = styled.div(({ theme }) => ({
-  width: '100%',
+  width: '500px',
+  maxWidth: '100%',
   backgroundColor: theme.colors.secondary,
   padding: '2em',
   borderRadius: theme.border.radius,
@@ -55,7 +58,7 @@ const ButtonLink = styled(Button.withComponent('a'))({
 function LoginPage() {
   const { t } = useTranslation();
   return (
-    <LoginContainer css={{ width: '500px', marginTop: '50px' }}>
+    <LoginContainer>
       <Head title={t('login:title')} />
       <img
         src={'/logo-light.png'}

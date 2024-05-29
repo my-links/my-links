@@ -1,9 +1,16 @@
 import styled from '@emotion/styled';
+import { ReactNode } from 'react';
 import CollectionHeader from '~/components/dashboard/collection/header/collection_header';
 import LinkList from '~/components/dashboard/link/link_list';
 import { NoCollection } from '~/components/dashboard/link/no_item';
 import Footer from '~/components/footer/footer';
 import useActiveCollection from '~/hooks/use_active_collection';
+
+export interface CollectionHeaderProps {
+  openNavigationItem: ReactNode;
+  openCollectionItem: ReactNode;
+  showButtons: boolean;
+}
 
 const CollectionContainerStyle = styled.div({
   height: '100%',
@@ -14,15 +21,7 @@ const CollectionContainerStyle = styled.div({
   flexDirection: 'column',
 });
 
-interface CollectionContainerProps {
-  isMobile: boolean;
-  openSideMenu: () => void;
-}
-
-export default function CollectionContainer({
-  isMobile: _,
-  openSideMenu: __,
-}: Readonly<CollectionContainerProps>) {
+export default function CollectionContainer(props: CollectionHeaderProps) {
   const { activeCollection } = useActiveCollection();
 
   if (activeCollection === null) {
@@ -31,7 +30,7 @@ export default function CollectionContainer({
 
   return (
     <CollectionContainerStyle>
-      <CollectionHeader />
+      <CollectionHeader {...props} />
       <LinkList links={activeCollection.links} />
       <Footer css={{ paddingBottom: 0 }} />
     </CollectionContainerStyle>

@@ -53,6 +53,11 @@ const UserCard = styled.div({
   justifyContent: 'center',
 });
 
+const DropdownItemButtonWithPadding = styled(DropdownItemButton)({
+  cursor: 'pointer',
+  padding: 0,
+});
+
 export default function Navbar() {
   const { t } = useTranslation('common');
   const { isAuthenticated, user } = useUser();
@@ -89,7 +94,7 @@ export default function Navbar() {
         ) : (
           <>
             <li>
-              <ModalSettings openItem={DropdownItemButton} />
+              <ModalSettings openItem={DropdownItemButtonWithPadding} />
             </li>
             <li>
               <Link href={route('auth.login').url}>{t('login')}</Link>

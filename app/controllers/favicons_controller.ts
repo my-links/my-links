@@ -54,13 +54,21 @@ export default class FaviconsController {
       throw new FaviconNotFoundException(`No favicon path found in ${url}`);
     }
 
+    if (faviconPath.startsWith('http')) {
+      try {
+        return await this.fetchFavicon(faviconPath);
+      } catch {
+        logger.debug(`Unable to retrieve favicon from ${faviconPath}`);
+      }
+    }
+
     return this.fetchFaviconFromPath(url, faviconPath);
   }
 
   private async fetchFavicon(url: string): Promise<Favicon> {
     const response = await this.fetchWithUserAgent(url);
     if (!response.ok) {
-      throw new FaviconNotFoundException(`Request to ${url} failed`);
+      throw new FaviconNotFoundException(`Request to favicon ${url} failed`);
     }
 
     const blob = await response.blob();

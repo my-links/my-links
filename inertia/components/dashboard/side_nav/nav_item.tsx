@@ -5,7 +5,7 @@ import { rgba } from '~/lib/color';
 export const Item = styled.div(({ theme }) => ({
   userSelect: 'none',
   height: '40px',
-  width: '250px',
+  width: '100%',
   color: theme.colors.font,
   backgroundColor: theme.colors.background,
   padding: '8px 12px',
