@@ -14,6 +14,7 @@ const ContentLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
   flexDirection: 'column',
 
   '& main': {
+    width: '100%',
     flex: 1,
   },
 }));
