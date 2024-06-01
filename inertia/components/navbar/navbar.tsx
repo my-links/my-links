@@ -12,7 +12,7 @@ import {
 import ExternalLink from '~/components/common/external_link';
 import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
-import ModalSettings from '~/components/settings/modal';
+import ModalSettings from '~/components/settings/settings_modal';
 import useUser from '~/hooks/use_user';
 
 type NavbarListDirection = {

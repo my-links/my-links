@@ -52,6 +52,7 @@
   "select-your-lang": "Modifier la langue",
   "name": "Nom",
   "email": "Email",
+  "member-since": "Membre depuis",
   "footer": {
     "made_by": "Fait avec ❤\uFE0F par"
   }
