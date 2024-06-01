@@ -67,9 +67,10 @@ function GlobalStyles() {
     },
 
     hr: {
-      color: localTheme.colors.secondary,
       width: '100%',
       marginBlock: '1em',
+      border: 0,
+      borderTop: `1px solid ${localTheme.colors.background}`,
     },
   });
 

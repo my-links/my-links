@@ -1,6 +1,7 @@
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Checkbox from '~/components/common/form/checkbox';
+import Selector from '~/components/common/form/selector';
 import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import FormLayout from '~/components/layouts/form_layout';
@@ -91,17 +92,18 @@ export default function FormLink({
           errors={errors?.description}
           disabled={disableInputs}
         />
-        <select
-          onChange={({ target }) => setData('collectionId', target.value)}
-          defaultValue={data.collectionId}
-          disabled={disableInputs}
-        >
-          {collections?.map((collection) => (
-            <option key={collection.id} value={collection.id}>
-              {collection.name}
-            </option>
-          ))}
-        </select>
+        <Selector
+          label={t('collection.collections')}
+          name="collection"
+          placeholder={t('collection.collections')}
+          value={data.collectionId}
+          onChangeCallback={(value) => setData('collectionId', value)}
+          options={collections.map(({ id, name }) => ({
+            label: name,
+            value: id,
+          }))}
+          required
+        />
         <Checkbox
           label={t('favorite')}
           name="favorite"
