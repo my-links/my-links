@@ -1,4 +1,3 @@
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ReactNode, useEffect } from 'react';
 import { CiMenuBurger } from 'react-icons/ci';
@@ -9,8 +8,8 @@ import DashboardProviders from '~/components/dashboard/dashboard_provider';
 import SideNavigation from '~/components/dashboard/side_nav/side_navigation';
 import SwiperHandler from '~/components/dashboard/swiper_handler';
 import DashboardLayout from '~/components/layouts/dashboard_layout';
-import { useMediaQuery } from '~/hooks/use_media_query';
 import useToggle from '~/hooks/use_modal';
+import useScreenType from '~/hooks/viewport/use_screen_type';
 import { rgba } from '~/lib/color';
 import { CollectionWithLinks } from '~/types/app';
 
@@ -55,10 +54,18 @@ const RightSideBar = styled(SideBar)(({ opened }) => ({
   alignItems: 'flex-end',
 }));
 
+const BugerIcon = styled(CiMenuBurger)(({ theme }) => ({
+  cursor: 'pointer',
+  height: '24px',
+  minHeight: 'fit-content',
+  width: '24px',
+  minWidth: 'fit-content',
+  color: theme.colors.primary,
+}));
+
 function DashboardPage(props: Readonly<DashboardPageProps>) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(`(max-width: ${theme.media.mobile})`);
-  const isTablet = useMediaQuery(`(max-width: ${theme.media.tablet})`);
+  const isMobile = useScreenType('mobile');
+  const isTablet = useScreenType('tablet');
 
   const {
     isShowing: isNavigationOpen,
@@ -118,27 +125,9 @@ function DashboardPage(props: Readonly<DashboardPageProps>) {
         </LeftSideBar>
         <CollectionContainer
           openNavigationItem={
-            <CiMenuBurger
-              size={24}
-              onClick={openNavigation}
-              css={{
-                cursor: 'pointer',
-                marginRight: '1em',
-                color: theme.colors.primary,
-              }}
-            />
+            <BugerIcon css={{ marginRight: '1em' }} onClick={openNavigation} />
           }
-          openCollectionItem={
-            <CiMenuBurger
-              size={24}
-              onClick={openCollectionList}
-              css={{
-                cursor: 'pointer',
-                marginLeft: '1em',
-                color: theme.colors.primary,
-              }}
-            />
-          }
+          openCollectionItem={<BugerIcon onClick={openCollectionList} />}
           showButtons={isMobile || isTablet}
         />
         <RightSideBar

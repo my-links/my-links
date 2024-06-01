@@ -11,13 +11,17 @@ import useActiveCollection from '~/hooks/use_active_collection';
 const paddingLeft = '1.25em';
 const paddingRight = '1.65em';
 
-const CollectionHeaderWrapper = styled.div<{ padding?: boolean }>(
-  ({ padding }) => ({
-    minWidth: 0,
-    width: '100%',
-    paddingInline: padding ? `${paddingLeft} ${paddingRight}` : 0,
-  })
-);
+const CollectionHeaderWrapper = styled.div(({ theme }) => ({
+  minWidth: 0,
+  width: '100%',
+  paddingInline: `${paddingLeft} ${paddingRight}`,
+  marginBottom: 0,
+
+  [`@media (max-width: ${theme.media.tablet})`]: {
+    paddingInline: 0,
+    marginBottom: '1rem',
+  },
+}));
 
 const CollectionHeaderStyle = styled.div({
   display: 'flex',
@@ -35,6 +39,10 @@ const CollectionName = styled.h2(({ theme }) => ({
   display: 'flex',
   gap: '0.35em',
   alignItems: 'center',
+
+  [`@media (max-width: ${theme.media.tablet})`]: {
+    width: `calc(100% - (${paddingLeft} + ${paddingRight} + 1.75em))`,
+  },
 }));
 
 const LinksCount = styled.div(({ theme }) => ({
