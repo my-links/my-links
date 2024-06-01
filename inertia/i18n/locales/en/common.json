@@ -52,6 +52,7 @@
   "select-your-lang": "Change the language",
   "name": "Name",
   "email": "Email",
+  "member-since": "Member since",
   "footer": {
     "made_by": "Made with ❤\uFE0F by"
   }
