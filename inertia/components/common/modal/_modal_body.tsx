@@ -6,7 +6,6 @@ const ModalBody = styled.div({
   flex: 1,
   alignItems: 'center',
   flexDirection: 'column',
-  overflow: 'auto',
 });
 
 export default ModalBody;
