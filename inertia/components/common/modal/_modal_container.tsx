@@ -3,7 +3,7 @@ import TransitionLayout from '~/components/layouts/_transition_layout';
 
 const ModalContainer = styled(TransitionLayout)(({ theme }) => ({
   minWidth: '500px',
-  background: theme.colors.secondary,
+  background: theme.colors.background,
   padding: '1em',
   borderRadius: theme.border.radius,
   marginTop: '6em',
