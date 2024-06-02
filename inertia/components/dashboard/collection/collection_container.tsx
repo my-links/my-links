@@ -7,9 +7,10 @@ import Footer from '~/components/footer/footer';
 import useActiveCollection from '~/hooks/use_active_collection';
 
 export interface CollectionHeaderProps {
-  openNavigationItem: ReactNode;
-  openCollectionItem: ReactNode;
   showButtons: boolean;
+  showControls?: boolean;
+  openNavigationItem?: ReactNode;
+  openCollectionItem?: ReactNode;
 }
 
 const CollectionContainerStyle = styled.div({

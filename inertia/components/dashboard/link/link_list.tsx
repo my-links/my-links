@@ -17,7 +17,13 @@ const LinkListStyle = styled.ul({
   overflowY: 'scroll',
 });
 
-export default function LinkList({ links }: { links: Link[] }) {
+export default function LinkList({
+  links,
+  showControls = true,
+}: {
+  links: Link[];
+  showControls?: boolean;
+}) {
   if (links.length === 0) {
     return <NoLink />;
   }
@@ -25,7 +31,7 @@ export default function LinkList({ links }: { links: Link[] }) {
   return (
     <LinkListStyle>
       {sortByCreationDate(links).map((link) => (
-        <LinkItem link={link} key={link.id} showUserControls />
+        <LinkItem link={link} key={link.id} showUserControls={showControls} />
       ))}
     </LinkListStyle>
   );

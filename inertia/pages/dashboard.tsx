@@ -109,7 +109,6 @@ function DashboardPage(props: Readonly<DashboardPageProps>) {
     }
   }, [isMobile, isTablet, closeCollectionList, closeNavigation]);
 
-  console.log(isMobile, isTablet, isNavigationOpen, isCollectionListOpen);
   return (
     <DashboardProviders
       collections={props.collections}
