@@ -8,6 +8,6 @@ export default class AppsController {
       updateUserThemeValidator
     );
     session.put(PREFER_DARK_THEME, preferDarkTheme);
-    return response.ok('ok');
+    return response.ok({ message: 'ok' });
   }
 }
