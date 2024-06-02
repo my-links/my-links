@@ -18,11 +18,11 @@ export const darkTheme: Theme = {
     primary: '#4fadfc',
     secondary: '#323a47',
 
-    black: '#333',
+    black: '#333333',
     white: '#ffffff',
 
     lightGrey: '#323a47',
-    grey: '#999999',
+    grey: '#aaaaaa',
 
     lightestBlue,
     lightBlue,
