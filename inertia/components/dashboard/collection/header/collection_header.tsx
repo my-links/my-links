@@ -15,7 +15,7 @@ const CollectionHeaderWrapper = styled.div(({ theme }) => ({
   minWidth: 0,
   width: '100%',
   paddingInline: `${paddingLeft} ${paddingRight}`,
-  marginBottom: 0,
+  marginBottom: '0.5em',
 
   [`@media (max-width: ${theme.media.tablet})`]: {
     paddingInline: 0,
@@ -53,9 +53,10 @@ const LinksCount = styled.div(({ theme }) => ({
 }));
 
 export default function CollectionHeader({
+  showButtons,
+  showControls = true,
   openNavigationItem,
   openCollectionItem,
-  showButtons,
 }: CollectionHeaderProps) {
   const { t } = useTranslation('common');
   const { activeCollection } = useActiveCollection();
@@ -75,7 +76,9 @@ export default function CollectionHeader({
             visibility={visibility}
           />
         </CollectionName>
-        <CollectionControls collectionId={activeCollection.id} />
+        {showControls && (
+          <CollectionControls collectionId={activeCollection.id} />
+        )}
         {showButtons && openCollectionItem && openCollectionItem}
       </CollectionHeaderStyle>
       {activeCollection.description && <CollectionDescription />}

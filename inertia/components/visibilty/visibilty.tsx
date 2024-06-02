@@ -3,10 +3,11 @@ import styled from '@emotion/styled';
 import { IoEarthOutline } from 'react-icons/io5';
 
 const VisibilityStyle = styled.span(({ theme }) => ({
+  userSelect: 'none',
   fontWeight: 300,
   fontSize: '0.6em',
-  color: theme.colors.lightBlue,
-  border: `1px solid ${theme.colors.lightBlue}`,
+  color: theme.colors.primary,
+  border: `1px solid ${theme.colors.primary}`,
   borderRadius: '50px',
   padding: '0.15em 0.65em',
   display: 'flex',

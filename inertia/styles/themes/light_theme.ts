@@ -23,7 +23,7 @@ export const lightTheme: Theme = {
     white: '#ffffff',
 
     lightGrey: '#dadce0',
-    grey: '#888888',
+    grey: '#777777',
 
     lightestBlue,
     lightBlue,

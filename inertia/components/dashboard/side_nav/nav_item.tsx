@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
+import ExternalLink from '~/components/common/external_link';
 import { rgba } from '~/lib/color';
 
 export const Item = styled.div(({ theme }) => ({
@@ -27,3 +28,4 @@ export const Item = styled.div(({ theme }) => ({
 }));
 
 export const ItemLink = Item.withComponent(Link);
+export const ItemExternalLink = Item.withComponent(ExternalLink);

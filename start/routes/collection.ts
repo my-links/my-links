@@ -3,9 +3,6 @@ import router from '@adonisjs/core/services/router';
 const CollectionsController = () =>
   import('#controllers/collections_controller');
 
-/**
- * Routes for authenticated users
- */
 router
   .group(() => {
     router.get('/dashboard', [CollectionsController, 'index']).as('dashboard');

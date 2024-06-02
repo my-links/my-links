@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { ItemLink } from '~/components/dashboard/side_nav/nav_item';
+import { ItemExternalLink } from '~/components/dashboard/side_nav/nav_item';
 
-const FavoriteItem = styled(ItemLink)(({ theme }) => ({
+const FavoriteItem = styled(ItemExternalLink)(({ theme }) => ({
   backgroundColor: theme.colors.secondary,
 }));
 
