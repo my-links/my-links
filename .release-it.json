@@ -1,11 +1,15 @@
 {
   "hooks": {
     "before:init": [
-      "npm run lint"
+      "pnpm format",
+      "pnpm lint"
     ]
   },
   "git": {
-    "commitMessage": "chore: release v${version}"
+    "commitMessage": "chore: release v${version}",
+    "commit": true,
+    "tag": true,
+    "push": true
   },
   "github": {
     "release": true

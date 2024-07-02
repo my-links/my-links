@@ -94,6 +94,7 @@ function TableUserRow({ user }: { user: UserWithRelationCount }) {
             height={24}
             alt={fullname}
             title={fullname}
+            referrerPolicy="no-referrer"
           />
         )}
         <TextEllipsis>{fullname ?? '-'}</TextEllipsis>
