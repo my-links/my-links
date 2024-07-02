@@ -9,8 +9,8 @@
     "build": "node ace build",
     "dev": "node ace serve --watch",
     "test": "node ace test",
-    "lint": "eslint .",
-    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts,.tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
     "typecheck": "tsc --noEmit",
     "prepare": "husky",
     "release": "release-it"

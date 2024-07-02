@@ -19,6 +19,11 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4:8.6
     restart: always
+    healthcheck:
+      test: ['CMD', 'wget', '-O', '-', 'http://localhost:80/misc/ping']
+      interval: 2s
+      timeout: 10s
+      retries: 30
     environment:
       - PGADMIN_DEFAULT_EMAIL=myemail@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=a12345678
