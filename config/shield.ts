@@ -28,7 +28,8 @@ const shieldConfig = defineConfig({
    */
   xFrame: {
     enabled: true,
-    action: 'DENY',
+    action: 'ALLOW-FROM',
+    domain: '*',
   },
 
   /**
