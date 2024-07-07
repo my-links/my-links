@@ -8,14 +8,14 @@ RUN corepack enable
 # All deps stage
 FROM base AS deps
 WORKDIR /app
-ADD package.json package-lock.json ./
-RUN npm install --ignore-scripts
+ADD package.json pnpm-lock.yaml ./
+RUN pnpm install --ignore-scripts
 
 # Production only deps stage
 FROM base AS production-deps
 WORKDIR /app
-ADD package.json package-lock.json ./
-RUN npm install --ignore-scripts
+ADD package.json pnpm-lock.yaml ./
+RUN pnpm install --ignore-scripts
 
 # Build stage
 FROM base AS build
