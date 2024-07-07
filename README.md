@@ -19,13 +19,13 @@ cp example.env .env
 make dev
 ```
 
-### NPM
+### PNPM
 
 ```shell
 # reset database and (force) apply all migrations
 node ace migration:fresh
 # start dev server
-npm run dev
+pnpm run dev
 ```
 
 ## Start as prod
@@ -36,17 +36,17 @@ npm run dev
 make prod
 ```
 
-### NPM
+### PNPM
 
 ```shell
 # create production build
-npm run build
+pnpm run build
 # go to the build folder
 cd build
 # clone your .env
 cp ../.env .
 # then start the production build
-npm run start
+pnpm run start
 ```
 
 ## Generate app_key
