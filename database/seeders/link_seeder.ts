@@ -9,7 +9,6 @@ export default class extends BaseSeeder {
   static environment = ['development', 'testing'];
 
   async run() {
-    // eslint-disable-next-line unicorn/no-await-expression-member
     const users = await getUserIds();
 
     const links = await Promise.all(

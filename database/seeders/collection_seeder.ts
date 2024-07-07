@@ -8,7 +8,6 @@ export default class extends BaseSeeder {
   static environment = ['development', 'testing'];
 
   async run() {
-    // eslint-disable-next-line unicorn/no-await-expression-member
     const users = await getUserIds();
 
     const collections = faker.helpers.multiple(
@@ -26,14 +25,16 @@ export async function getUserIds() {
   return users.map(({ id }) => id);
 }
 
+let collectionId = 0;
 function createRandomCollection(userIds: User['id'][]) {
   const authorId = faker.helpers.arrayElements(userIds, 1).at(0);
+  collectionId++;
   return {
-    id: faker.string.uuid(),
+    id: collectionId,
     name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
     description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
     visibility: Visibility.PRIVATE,
-    nextId: undefined,
+    nextId: collectionId + 1,
     authorId,
   };
 }
