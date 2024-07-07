@@ -1,5 +1,4 @@
 import env from '#start/env';
-import app from '@adonisjs/core/services/app';
 import { defineConfig, stores } from '@adonisjs/session';
 
 const sessionConfig = defineConfig({
@@ -16,7 +15,7 @@ const sessionConfig = defineConfig({
    * Define how long to keep the session data alive without
    * any activity.
    */
-  age: '2h',
+  age: '7d',
 
   /**
    * Configuration for session cookie and the
@@ -25,8 +24,10 @@ const sessionConfig = defineConfig({
   cookie: {
     path: '/',
     httpOnly: true,
-    secure: app.inProduction,
-    sameSite: 'lax',
+    secure: true,
+
+    // TODO: set this to lax and found a solution to keep auth when using extension
+    sameSite: 'none',
   },
 
   /**
