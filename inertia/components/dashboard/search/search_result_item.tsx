@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { AiOutlineFolder } from 'react-icons/ai';
+import Legend from '~/components/common/legend';
 import TextEllipsis from '~/components/common/text_ellipsis';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
 import useCollections from '~/hooks/use_collections';
@@ -20,11 +21,6 @@ const SearchItemStyle = styled('li', {
   alignItems: 'center',
   borderRadius: theme.border.radius,
   padding: '0.25em 0.35em !important',
-}));
-
-const ItemLegeng = styled.span(({ theme }) => ({
-  fontSize: '13px',
-  color: theme.colors.grey,
 }));
 
 interface CommonResultProps {
@@ -100,7 +96,7 @@ function ResultLink({
           __html: result.matched_part ?? result.name,
         }}
       />
-      <ItemLegeng>({collection.name})</ItemLegeng>
+      <Legend>({collection.name})</Legend>
     </SearchItemStyle>
   );
 }

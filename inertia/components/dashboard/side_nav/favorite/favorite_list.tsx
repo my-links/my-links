@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
-import TextEllipsis from '~/components/common/text_ellipsis';
-import LinkFavicon from '~/components/dashboard/link/link_favicon';
 import FavoriteListContainer from '~/components/dashboard/side_nav/favorite/favorite_container';
 import FavoriteItem from '~/components/dashboard/side_nav/favorite/favorite_item';
 import useFavorites from '~/hooks/use_favorites';
@@ -44,11 +42,8 @@ export default function FavoriteList() {
         {t('favorite')} • {favorites.length}
       </FavoriteLabel>
       <FavoriteListStyle>
-        {favorites.map(({ id, name, url }) => (
-          <FavoriteItem href={url} key={id}>
-            <LinkFavicon url={url} size={24} />
-            <TextEllipsis>{name}</TextEllipsis>
-          </FavoriteItem>
+        {favorites.map((link) => (
+          <FavoriteItem link={link} key={link.id} />
         ))}
       </FavoriteListStyle>
     </FavoriteListContainer>

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ReactNode, useRef } from 'react';
+import { HtmlHTMLAttributes, ReactNode, useRef } from 'react';
 import DropdownContainer from '~/components/common/dropdown/dropdown_container';
 import DropdownLabel from '~/components/common/dropdown/dropdown_label';
 import useClickOutside from '~/hooks/use_click_outside';
@@ -34,8 +34,8 @@ export default function Dropdown({
   label,
   className,
   svgSize,
-}: {
-  children: ReactNode;
+  onClick,
+}: HtmlHTMLAttributes<HTMLDivElement> & {
   label: ReactNode | string;
   className?: string;
   svgSize?: number;
@@ -49,7 +49,10 @@ export default function Dropdown({
   return (
     <DropdownStyle
       opened={isShowing}
-      onClick={toggle}
+      onClick={(event) => {
+        onClick?.(event);
+        toggle();
+      }}
       ref={dropdownRef}
       className={className}
       svgSize={svgSize}
