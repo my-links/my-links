@@ -1,12 +1,12 @@
 import { createContext } from 'react';
-import { Link } from '~/types/app';
+import { LinkWithCollection } from '~/types/app';
 
 type FavoritesContextType = {
-  favorites: Link[];
+  favorites: LinkWithCollection[];
 };
 
 const iFavoritesContextState = {
-  favorites: [] as Link[],
+  favorites: [] as LinkWithCollection[],
 };
 
 const FavoritesContext = createContext<FavoritesContextType>(

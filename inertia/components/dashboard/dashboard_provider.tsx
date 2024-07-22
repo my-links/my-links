@@ -7,7 +7,7 @@ import FavoritesContext from '~/contexts/favorites_context';
 import GlobalHotkeysContext from '~/contexts/global_hotkeys_context';
 import useShortcut from '~/hooks/use_shortcut';
 import { appendCollectionId } from '~/lib/navigation';
-import { CollectionWithLinks, Link } from '~/types/app';
+import { CollectionWithLinks, LinkWithCollection } from '~/types/app';
 
 export default function DashboardProviders(
   props: Readonly<{
@@ -31,14 +31,18 @@ export default function DashboardProviders(
     router.visit(appendCollectionId(route('dashboard').url, collection.id));
   };
 
-  const favorites = useMemo<Link[]>(
+  // TODO: compute this in controller
+  const favorites = useMemo<LinkWithCollection[]>(
     () =>
       collections.reduce((acc, collection) => {
-        collection.links.forEach((link) =>
-          link.favorite ? acc.push(link) : null
-        );
+        collection.links.forEach((link) => {
+          if (link.favorite) {
+            const newLink: LinkWithCollection = { ...link, collection };
+            acc.push(newLink);
+          }
+        });
         return acc;
-      }, [] as Link[]),
+      }, [] as LinkWithCollection[]),
     [collections]
   );
 
