@@ -78,6 +78,7 @@
     "@emotion/styled": "^11.11.5",
     "@inertiajs/react": "^1.2.0",
     "@izzyjs/route": "^1.1.0-0",
+    "@tanstack/react-table": "^8.20.5",
     "@vinejs/vine": "^2.1.0",
     "bentocache": "^1.0.0-beta.9",
     "dayjs": "^1.11.11",

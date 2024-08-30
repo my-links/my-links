@@ -131,7 +131,9 @@ function GlobalStyles() {
     },
 
     'th, td': {
-      whiteSpace: 'nowrap',
+      whiteSspace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     },
 
     'tr:nth-of-type(even)': {
