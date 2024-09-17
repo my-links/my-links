@@ -80,6 +80,7 @@ export default function DashboardProviders(
       enabled: globalHotkeysEnabled,
     }
   );
+
   return (
     <CollectionsContext.Provider value={collectionsContextValue}>
       <ActiveCollectionContext.Provider value={activeCollectionContextValue}>

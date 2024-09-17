@@ -14,7 +14,7 @@ const ProfileStyle = styled(UnstyledList)({
   gap: '1.25em',
 });
 
-const Column = styled.li({
+const Column = styled.div({
   display: 'flex',
   gap: '1rem',
   flexDirection: 'column',

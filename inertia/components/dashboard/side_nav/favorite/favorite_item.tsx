@@ -16,6 +16,7 @@ import { appendCollectionId, appendLinkId } from '~/lib/navigation';
 import { LinkWithCollection } from '~/types/app';
 
 const FavoriteItemStyle = styled(ItemExternalLink)(({ theme }) => ({
+  height: 'auto',
   backgroundColor: theme.colors.secondary,
 }));
 
@@ -23,13 +24,20 @@ const FavoriteDropdown = styled(Dropdown)(({ theme }) => ({
   backgroundColor: theme.colors.secondary,
 }));
 
+const FavoriteContainer = styled.div({
+  flex: 1,
+  lineHeight: '1.1rem',
+});
+
 export default function FavoriteItem({ link }: { link: LinkWithCollection }) {
   const { t } = useTranslation();
   return (
     <FavoriteItemStyle href={link.url}>
       <LinkFavicon url={link.url} size={24} />
-      <TextEllipsis>{link.name}</TextEllipsis>
-      <Legend>({link.collection.name})</Legend>
+      <FavoriteContainer>
+        <TextEllipsis>{link.name}</TextEllipsis>
+        <Legend>{link.collection.name}</Legend>
+      </FavoriteContainer>
       <FavoriteDropdown
         onClick={(event) => {
           event.preventDefault();

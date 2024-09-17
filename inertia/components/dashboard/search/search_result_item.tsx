@@ -15,7 +15,7 @@ const SearchItemStyle = styled('li', {
   shouldForwardProp: (propName) => propName !== 'isActive',
 })<{ isActive: boolean }>(({ theme, isActive }) => ({
   fontSize: '16px',
-  backgroundColor: isActive ? theme.colors.background : 'transparent',
+  backgroundColor: isActive ? theme.colors.secondary : 'transparent',
   display: 'flex',
   gap: '0.35em',
   alignItems: 'center',
