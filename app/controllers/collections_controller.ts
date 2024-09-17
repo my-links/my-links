@@ -25,9 +25,11 @@ export default class CollectionsController {
       return response.redirectToNamedRoute('dashboard');
     }
 
+    // TODO: Create DTOs
     return inertia.render('dashboard', {
-      collections,
-      activeCollection: activeCollection || collections[0],
+      collections: collections.map((collection) => collection.serialize()),
+      activeCollection:
+        activeCollection?.serialize() || collections[0].serialize(),
     });
   }
 
