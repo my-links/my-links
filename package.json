@@ -75,7 +75,7 @@
     "@adonisjs/shield": "^8.1.1",
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^3.0.0",
-    "@emotion/react": "^11.13.3",
+    "@emotion/react": "11.12.0",
     "@emotion/styled": "^11.13.0",
     "@inertiajs/react": "^1.2.0",
     "@izzyjs/route": "^1.1.0-0",
