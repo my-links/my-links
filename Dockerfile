@@ -53,9 +53,10 @@ ENV PORT=$PORT
 WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app
+COPY --from=build /app/startup.sh /app/startup.sh
 
 # Expose port
 EXPOSE $PORT
 
 # Start app
-CMD node bin/console.js migration:run --force && node bin/server.js
+CMD node bin/console.js migration:run --force && sh startup.sh

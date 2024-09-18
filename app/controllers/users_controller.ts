@@ -4,6 +4,8 @@ import logger from '@adonisjs/core/services/logger';
 import db from '@adonisjs/lucid/services/db';
 import { RouteName } from '@izzyjs/route/types';
 
+const INACTIVE_USER_THRESHOLD = 7;
+
 export default class UsersController {
   private redirectTo: RouteName = 'auth.login';
 
@@ -74,5 +76,19 @@ export default class UsersController {
     return User.query()
       .withCount('collections', (q) => q.as('totalCollections'))
       .withCount('links', (q) => q.as('totalLinks'));
+  }
+
+  async getAllInactiveUsers() {
+    const users = await this.getAllUsersWithTotalRelations();
+    const inactiveUsers = users.filter((user) => {
+      const totalLinks = Number(user.$extras.totalLinks);
+      const totalCollections = Number(user.$extras.totalCollections);
+
+      const isOlderThan7Days =
+        Math.abs(user.updatedAt.diffNow('days').days) > INACTIVE_USER_THRESHOLD;
+
+      return (totalLinks === 0 || totalCollections === 0) && isOlderThan7Days;
+    });
+    return inactiveUsers ?? [];
   }
 }

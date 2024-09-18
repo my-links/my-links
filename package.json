@@ -33,7 +33,8 @@
     "#tests/*": "./tests/*.js",
     "#start/*": "./start/*.js",
     "#config/*": "./config/*.js",
-    "#lib/*": "./app/lib/*.js"
+    "#lib/*": "./app/lib/*.js",
+    "#routes/*": "./start/routes/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
@@ -81,6 +82,7 @@
     "@izzyjs/route": "^1.1.0-0",
     "@tanstack/react-table": "^8.20.5",
     "@vinejs/vine": "^2.1.0",
+    "adonisjs-scheduler": "^1.0.5",
     "bentocache": "^1.0.0-beta.9",
     "dayjs": "^1.11.13",
     "edge.js": "^6.0.2",

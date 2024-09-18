@@ -14,6 +14,7 @@ export default defineConfig({
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
     () => import('@izzyjs/route/commands'),
+    () => import('adonisjs-scheduler/commands'),
   ],
 
   /*
@@ -45,6 +46,10 @@ export default defineConfig({
     () => import('@adonisjs/ally/ally_provider'),
     () => import('@izzyjs/route/izzy_provider'),
     () => import('#providers/route_provider'),
+    {
+      file: () => import('adonisjs-scheduler/scheduler_provider'),
+      environment: ['console'],
+    },
   ],
 
   /*
@@ -55,7 +60,14 @@ export default defineConfig({
   | List of modules to import before starting the application.
   |
   */
-  preloads: [() => import('#start/routes'), () => import('#start/kernel')],
+  preloads: [
+    () => import('#start/routes'),
+    () => import('#start/kernel'),
+    {
+      file: () => import('#start/scheduler'),
+      environment: ['console'],
+    },
+  ],
 
   /*
   |--------------------------------------------------------------------------
