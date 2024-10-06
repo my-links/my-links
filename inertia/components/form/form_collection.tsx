@@ -8,83 +8,83 @@ import FormLayout from '~/components/layouts/form_layout';
 import { Collection } from '~/types/app';
 
 export type FormCollectionData = {
-  name: string;
-  description: string | null;
-  visibility: Visibility;
-  nextId?: Collection['id'];
+	name: string;
+	description: string | null;
+	visibility: Visibility;
+	nextId?: Collection['id'];
 };
 
 interface FormCollectionProps {
-  title: string;
-  canSubmit: boolean;
-  disableHomeLink?: boolean;
-  data: FormCollectionData;
-  errors?: Record<string, Array<string>>;
-  disableInputs?: boolean;
-  submitBtnDanger?: boolean;
+	title: string;
+	canSubmit: boolean;
+	disableHomeLink?: boolean;
+	data: FormCollectionData;
+	errors?: Record<string, Array<string>>;
+	disableInputs?: boolean;
+	submitBtnDanger?: boolean;
 
-  setData: (name: string, value: any) => void;
-  handleSubmit: () => void;
+	setData: (name: string, value: any) => void;
+	handleSubmit: () => void;
 }
 
 export default function FormCollection({
-  title,
-  canSubmit,
-  disableHomeLink,
-  data,
-  errors,
-  disableInputs = false,
-  submitBtnDanger = false,
+	title,
+	canSubmit,
+	disableHomeLink,
+	data,
+	errors,
+	disableInputs = false,
+	submitBtnDanger = false,
 
-  setData,
-  handleSubmit,
+	setData,
+	handleSubmit,
 }: FormCollectionProps) {
-  const { t } = useTranslation('common');
-  const handleOnCheck: FormCollectionProps['setData'] = (name, value) =>
-    setData(name, value ? Visibility.PUBLIC : Visibility.PRIVATE);
+	const { t } = useTranslation('common');
+	const handleOnCheck: FormCollectionProps['setData'] = (name, value) =>
+		setData(name, value ? Visibility.PUBLIC : Visibility.PRIVATE);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleSubmit();
-  };
+	const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		handleSubmit();
+	};
 
-  return (
-    <FormLayout
-      title={title}
-      handleSubmit={onSubmit}
-      canSubmit={canSubmit}
-      disableHomeLink={disableHomeLink}
-      submitBtnDanger={submitBtnDanger}
-    >
-      <BackToDashboard>
-        <TextBox
-          label={t('collection.name')}
-          placeholder={t('collection.name')}
-          name="name"
-          onChange={setData}
-          value={data.name}
-          errors={errors?.name}
-          required
-          autoFocus
-          disabled={disableInputs}
-        />
-        <TextBox
-          label={t('collection.description')}
-          placeholder={t('collection.description')}
-          name="description"
-          onChange={setData}
-          value={data.description ?? undefined}
-          errors={errors?.description}
-          disabled={disableInputs}
-        />
-        <Checkbox
-          label="Public"
-          name="visibility"
-          onChange={handleOnCheck}
-          checked={data.visibility === Visibility.PUBLIC}
-          disabled={disableInputs}
-        />
-      </BackToDashboard>
-    </FormLayout>
-  );
+	return (
+		<FormLayout
+			title={title}
+			handleSubmit={onSubmit}
+			canSubmit={canSubmit}
+			disableHomeLink={disableHomeLink}
+			submitBtnDanger={submitBtnDanger}
+		>
+			<BackToDashboard>
+				<TextBox
+					label={t('collection.name')}
+					placeholder={t('collection.name')}
+					name="name"
+					onChange={setData}
+					value={data.name}
+					errors={errors?.name}
+					required
+					autoFocus
+					disabled={disableInputs}
+				/>
+				<TextBox
+					label={t('collection.description')}
+					placeholder={t('collection.description')}
+					name="description"
+					onChange={setData}
+					value={data.description ?? undefined}
+					errors={errors?.description}
+					disabled={disableInputs}
+				/>
+				<Checkbox
+					label="Public"
+					name="visibility"
+					onChange={handleOnCheck}
+					checked={data.visibility === Visibility.PUBLIC}
+					disabled={disableInputs}
+				/>
+			</BackToDashboard>
+		</FormLayout>
+	);
 }

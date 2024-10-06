@@ -8,10 +8,10 @@ import { defineConfig } from '@adonisjs/static';
  * https://docs.adonisjs.com/guides/static-assets
  */
 const staticServerConfig = defineConfig({
-  enabled: true,
-  etag: true,
-  lastModified: true,
-  dotFiles: 'ignore',
+	enabled: true,
+	etag: true,
+	lastModified: true,
+	dotFiles: 'ignore',
 });
 
 export default staticServerConfig;

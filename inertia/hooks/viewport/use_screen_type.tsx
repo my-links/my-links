@@ -4,6 +4,6 @@ import { media } from '~/styles/media_queries';
 
 type ScreenTypes = keyof Theme['media'];
 const useScreenType = (screen: ScreenTypes) =>
-  useMediaQuery(`(max-width: ${media[screen]})`);
+	useMediaQuery(`(max-width: ${media[screen]})`);
 
 export default useScreenType;

@@ -2,19 +2,19 @@ import { createContext } from 'react';
 import { CollectionWithLinks } from '~/types/app';
 
 type CollectionsContextType = {
-  collections: CollectionWithLinks[];
-  setCollections: (
-    collections: CollectionWithLinks[]
-  ) => void | CollectionWithLinks[];
+	collections: CollectionWithLinks[];
+	setCollections: (
+		collections: CollectionWithLinks[]
+	) => void | CollectionWithLinks[];
 };
 
 const iCollectionsContextState: CollectionsContextType = {
-  collections: [] as CollectionWithLinks[],
-  setCollections: (_: CollectionWithLinks[]) => {},
+	collections: [] as CollectionWithLinks[],
+	setCollections: (_: CollectionWithLinks[]) => {},
 };
 
 const CollectionsContext = createContext<CollectionsContextType>(
-  iCollectionsContextState
+	iCollectionsContextState
 );
 
 export default CollectionsContext;

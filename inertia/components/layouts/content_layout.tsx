@@ -6,33 +6,33 @@ import Navbar from '~/components/navbar/navbar';
 import BaseLayout from './_base_layout';
 
 const ContentLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
-  height: '100%',
-  width: theme.media.small_desktop,
-  maxWidth: '100%',
-  padding: '1em',
-  display: 'flex',
-  flexDirection: 'column',
+	height: '100%',
+	width: theme.media.small_desktop,
+	maxWidth: '100%',
+	padding: '1em',
+	display: 'flex',
+	flexDirection: 'column',
 
-  '& main': {
-    width: '100%',
-    flex: 1,
-  },
+	'& main': {
+		width: '100%',
+		flex: 1,
+	},
 }));
 
 const ContentLayout = ({
-  children,
-  className,
+	children,
+	className,
 }: {
-  children: ReactNode;
-  className?: string;
+	children: ReactNode;
+	className?: string;
 }) => (
-  <BaseLayout>
-    <ContentLayoutStyle className={className}>
-      <Navbar />
-      <main>{children}</main>
-      <Footer />
-    </ContentLayoutStyle>
-  </BaseLayout>
+	<BaseLayout>
+		<ContentLayoutStyle className={className}>
+			<Navbar />
+			<main>{children}</main>
+			<Footer />
+		</ContentLayoutStyle>
+	</BaseLayout>
 );
 
 export default ContentLayout;

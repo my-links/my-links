@@ -10,33 +10,33 @@ import { appendCollectionId } from '~/lib/navigation';
 import { Collection } from '~/types/app';
 
 export default function CollectionControls({
-  collectionId,
+	collectionId,
 }: {
-  collectionId: Collection['id'];
+	collectionId: Collection['id'];
 }) {
-  const { t } = useTranslation('common');
-  return (
-    <Dropdown label={<BsThreeDotsVertical />} svgSize={18}>
-      <DropdownItemLink href={route('link.create-form').url}>
-        <IoIosAddCircleOutline /> {t('link.create')}
-      </DropdownItemLink>
-      <DropdownItemLink
-        href={appendCollectionId(
-          route('collection.edit-form').url,
-          collectionId
-        )}
-      >
-        <GoPencil /> {t('collection.edit')}
-      </DropdownItemLink>
-      <DropdownItemLink
-        href={appendCollectionId(
-          route('collection.delete-form').url,
-          collectionId
-        )}
-        danger
-      >
-        <IoTrashOutline /> {t('collection.delete')}
-      </DropdownItemLink>
-    </Dropdown>
-  );
+	const { t } = useTranslation('common');
+	return (
+		<Dropdown label={<BsThreeDotsVertical />} svgSize={18}>
+			<DropdownItemLink href={route('link.create-form').url}>
+				<IoIosAddCircleOutline /> {t('link.create')}
+			</DropdownItemLink>
+			<DropdownItemLink
+				href={appendCollectionId(
+					route('collection.edit-form').url,
+					collectionId
+				)}
+			>
+				<GoPencil /> {t('collection.edit')}
+			</DropdownItemLink>
+			<DropdownItemLink
+				href={appendCollectionId(
+					route('collection.delete-form').url,
+					collectionId
+				)}
+				danger
+			>
+				<IoTrashOutline /> {t('collection.delete')}
+			</DropdownItemLink>
+		</Dropdown>
+	);
 }

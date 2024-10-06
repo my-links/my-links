@@ -7,52 +7,52 @@ import { isValidHttpUrl } from '~/lib/navigation';
 import { Collection, Link } from '~/types/app';
 
 export default function EditLinkPage({
-  collections,
-  link,
+	collections,
+	link,
 }: {
-  collections: Collection[];
-  link: Link;
+	collections: Collection[];
+	link: Link;
 }) {
-  const { t } = useTranslation('common');
-  const { data, setData, submit, processing } = useForm({
-    name: link.name,
-    description: link.description,
-    url: link.url,
-    favorite: link.favorite,
-    collectionId: link.collectionId,
-  });
-  const canSubmit = useMemo<boolean>(() => {
-    const isFormEdited =
-      data.name !== link.name ||
-      data.url !== link.url ||
-      data.description !== link.description ||
-      data.favorite !== link.favorite ||
-      data.collectionId !== link.collectionId;
+	const { t } = useTranslation('common');
+	const { data, setData, submit, processing } = useForm({
+		name: link.name,
+		description: link.description,
+		url: link.url,
+		favorite: link.favorite,
+		collectionId: link.collectionId,
+	});
+	const canSubmit = useMemo<boolean>(() => {
+		const isFormEdited =
+			data.name !== link.name ||
+			data.url !== link.url ||
+			data.description !== link.description ||
+			data.favorite !== link.favorite ||
+			data.collectionId !== link.collectionId;
 
-    const isFormValid =
-      data.name !== '' &&
-      isValidHttpUrl(data.url) &&
-      data.favorite !== null &&
-      data.collectionId !== null;
+		const isFormValid =
+			data.name !== '' &&
+			isValidHttpUrl(data.url) &&
+			data.favorite !== null &&
+			data.collectionId !== null;
 
-    return isFormEdited && isFormValid && !processing;
-  }, [data, processing]);
+		return isFormEdited && isFormValid && !processing;
+	}, [data, processing]);
 
-  const handleSubmit = () => {
-    const { method, url } = route('link.edit', {
-      params: { id: link.id.toString() },
-    });
-    submit(method, url);
-  };
+	const handleSubmit = () => {
+		const { method, url } = route('link.edit', {
+			params: { id: link.id.toString() },
+		});
+		submit(method, url);
+	};
 
-  return (
-    <FormLink
-      title={t('link.edit')}
-      canSubmit={canSubmit}
-      data={data}
-      setData={setData}
-      handleSubmit={handleSubmit}
-      collections={collections}
-    />
-  );
+	return (
+		<FormLink
+			title={t('link.edit')}
+			canSubmit={canSubmit}
+			data={data}
+			setData={setData}
+			handleSubmit={handleSubmit}
+			collections={collections}
+		/>
+	);
 }

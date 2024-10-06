@@ -2,45 +2,45 @@ import { Theme } from '@emotion/react';
 import { rgba } from '~/lib/color';
 import { border } from '~/styles/border';
 import {
-  darkBlue,
-  darkestBlue,
-  lightBlue,
-  lightRed,
-  lightestBlue,
-  primaryColor,
+	darkBlue,
+	darkestBlue,
+	lightBlue,
+	lightRed,
+	lightestBlue,
+	primaryColor,
 } from '~/styles/common_colors';
 import { media } from '~/styles/media_queries';
 import { transition } from '~/styles/transition';
 
 export const lightTheme: Theme = {
-  colors: {
-    font: '#333',
-    background: '#f0eef6',
-    primary: primaryColor,
-    secondary: '#fff',
+	colors: {
+		font: '#333',
+		background: '#f0eef6',
+		primary: primaryColor,
+		secondary: '#fff',
 
-    black: '#333',
-    white: '#ffffff',
+		black: '#333',
+		white: '#ffffff',
 
-    lightGrey: '#dadce0',
-    grey: '#777777',
+		lightGrey: '#dadce0',
+		grey: '#777777',
 
-    lightestBlue,
-    lightBlue,
-    blue: primaryColor,
-    darkBlue,
-    darkestBlue,
+		lightestBlue,
+		lightBlue,
+		blue: primaryColor,
+		darkBlue,
+		darkestBlue,
 
-    green: 'green',
+		green: 'green',
 
-    lightRed,
+		lightRed,
 
-    yellow: '#FF8A08',
+		yellow: '#FF8A08',
 
-    boxShadow: `0 0 1em 0 ${rgba('#aaa', 0.4)}`,
-  },
+		boxShadow: `0 0 1em 0 ${rgba('#aaa', 0.4)}`,
+	},
 
-  border,
-  media,
-  transition,
+	border,
+	media,
+	transition,
 };

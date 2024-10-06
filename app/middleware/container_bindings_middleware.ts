@@ -10,10 +10,10 @@ import { NextFn } from '@adonisjs/core/types/http';
  * - And bind "Logger" class to the "ctx.logger" object
  */
 export default class ContainerBindingsMiddleware {
-  handle(ctx: HttpContext, next: NextFn) {
-    ctx.containerResolver.bindValue(HttpContext, ctx);
-    ctx.containerResolver.bindValue(Logger, ctx.logger);
+	handle(ctx: HttpContext, next: NextFn) {
+		ctx.containerResolver.bindValue(HttpContext, ctx);
+		ctx.containerResolver.bindValue(Logger, ctx.logger);
 
-    return next();
-  }
+		return next();
+	}
 }

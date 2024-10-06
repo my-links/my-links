@@ -1,17 +1,17 @@
 import { createContext } from 'react';
 
 type GlobalHotkeysContext = {
-  globalHotkeysEnabled: boolean;
-  setGlobalHotkeysEnabled: (value: boolean) => void;
+	globalHotkeysEnabled: boolean;
+	setGlobalHotkeysEnabled: (value: boolean) => void;
 };
 
 const iGlobalHotkeysContextState = {
-  globalHotkeysEnabled: true,
-  setGlobalHotkeysEnabled: (_: boolean) => {},
+	globalHotkeysEnabled: true,
+	setGlobalHotkeysEnabled: (_: boolean) => {},
 };
 
 const GlobalHotkeysContext = createContext<GlobalHotkeysContext>(
-  iGlobalHotkeysContextState
+	iGlobalHotkeysContextState
 );
 
 export default GlobalHotkeysContext;

@@ -6,17 +6,17 @@ import { RefObject, useEffect } from 'react';
  * This Hook can be used for detecting clicks outside the Opened Menu
  */
 export default function useClickOutside(
-  ref: RefObject<HTMLElement>,
-  onClickOutside: () => void
+	ref: RefObject<HTMLElement>,
+	onClickOutside: () => void
 ) {
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (ref?.current && !ref.current?.contains(event.target as any)) {
-        onClickOutside();
-      }
-    }
+	useEffect(() => {
+		function handleClickOutside(event: MouseEvent) {
+			if (ref?.current && !ref.current?.contains(event.target as any)) {
+				onClickOutside();
+			}
+		}
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [ref, onClickOutside]);
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	}, [ref, onClickOutside]);
 }
