@@ -12,55 +12,55 @@ import ThemeSwitcher from '~/components/theme_switcher';
 import useToggle from '~/hooks/use_modal';
 import useUser from '~/hooks/use_user';
 export default function ModalSettings({
-  openItem: OpenItem,
+	openItem: OpenItem,
 }: {
-  // TODO: fix this :()
-  openItem: any;
+	// TODO: fix this :()
+	openItem: any;
 }) {
-  const { t } = useTranslation('common');
-  const { isShowing, open, close } = useToggle();
-  const { isAuthenticated } = useUser();
+	const { t } = useTranslation('common');
+	const { isShowing, open, close } = useToggle();
+	const { isAuthenticated } = useUser();
 
-  let tabs: Tab[] = [
-    {
-      title: t('lang'),
-      content: <LangSelector />,
-      icon: IoLanguageOutline,
-    },
-    {
-      title: 'Theme',
-      content: (
-        <FormField css={{ flexDirection: 'row' }}>
-          <label>Dark theme?</label>
-          <ThemeSwitcher />
-        </FormField>
-      ),
-      icon: CiDark,
-    },
-  ];
+	let tabs: Tab[] = [
+		{
+			title: t('lang'),
+			content: <LangSelector />,
+			icon: IoLanguageOutline,
+		},
+		{
+			title: 'Theme',
+			content: (
+				<FormField css={{ flexDirection: 'row' }}>
+					<label>Dark theme?</label>
+					<ThemeSwitcher />
+				</FormField>
+			),
+			icon: CiDark,
+		},
+	];
 
-  if (isAuthenticated) {
-    tabs.push({
-      title: t('profile'),
-      content: <Profile />,
-      icon: FaUser,
-    });
-  }
+	if (isAuthenticated) {
+		tabs.push({
+			title: t('profile'),
+			content: <Profile />,
+			icon: FaUser,
+		});
+	}
 
-  return (
-    <>
-      <OpenItem onClick={open}>
-        <PiGearLight size={20} />
-        {t('settings')}
-      </OpenItem>
-      <Modal
-        title={t('settings')}
-        opened={isShowing}
-        close={close}
-        css={{ justifyContent: 'flex-start' }}
-      >
-        <Tabs tabs={tabs} />
-      </Modal>
-    </>
-  );
+	return (
+		<>
+			<OpenItem onClick={open}>
+				<PiGearLight size={20} />
+				{t('settings')}
+			</OpenItem>
+			<Modal
+				title={t('settings')}
+				opened={isShowing}
+				close={close}
+				css={{ justifyContent: 'flex-start' }}
+			>
+				<Tabs tabs={tabs} />
+			</Modal>
+		</>
+	);
 }

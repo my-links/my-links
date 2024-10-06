@@ -8,43 +8,43 @@ import { isValidHttpUrl } from '~/lib/navigation';
 import { Collection } from '~/types/app';
 
 export default function CreateLinkPage({
-  collections,
+	collections,
 }: {
-  collections: Collection[];
+	collections: Collection[];
 }) {
-  const { t } = useTranslation('common');
-  const collectionId =
-    Number(useSearchParam('collectionId')) ?? collections[0].id;
-  const { data, setData, submit, processing } = useForm({
-    name: '',
-    description: '',
-    url: '',
-    favorite: false,
-    collectionId,
-  });
-  const canSubmit = useMemo<boolean>(
-    () =>
-      data.name !== '' &&
-      isValidHttpUrl(data.url) &&
-      data.favorite !== null &&
-      data.collectionId !== null &&
-      !processing,
-    [data, processing]
-  );
+	const { t } = useTranslation('common');
+	const collectionId =
+		Number(useSearchParam('collectionId')) ?? collections[0].id;
+	const { data, setData, submit, processing } = useForm({
+		name: '',
+		description: '',
+		url: '',
+		favorite: false,
+		collectionId,
+	});
+	const canSubmit = useMemo<boolean>(
+		() =>
+			data.name !== '' &&
+			isValidHttpUrl(data.url) &&
+			data.favorite !== null &&
+			data.collectionId !== null &&
+			!processing,
+		[data, processing]
+	);
 
-  const handleSubmit = () => {
-    const { method, url } = route('link.create');
-    submit(method, url);
-  };
+	const handleSubmit = () => {
+		const { method, url } = route('link.create');
+		submit(method, url);
+	};
 
-  return (
-    <FormLink
-      title={t('link.create')}
-      canSubmit={canSubmit}
-      data={data}
-      setData={setData}
-      handleSubmit={handleSubmit}
-      collections={collections}
-    />
-  );
+	return (
+		<FormLink
+			title={t('link.create')}
+			canSubmit={canSubmit}
+			data={data}
+			setData={setData}
+			handleSubmit={handleSubmit}
+			collections={collections}
+		/>
+	);
 }

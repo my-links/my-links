@@ -5,47 +5,47 @@ import FavoriteItem from '~/components/dashboard/side_nav/favorite/favorite_item
 import useFavorites from '~/hooks/use_favorites';
 
 const FavoriteLabel = styled.p(({ theme }) => ({
-  color: theme.colors.grey,
-  marginBlock: '0.35em',
-  paddingInline: '15px',
+	color: theme.colors.grey,
+	marginBlock: '0.35em',
+	paddingInline: '15px',
 }));
 
 const NoFavorite = () => {
-  const { t } = useTranslation('common');
-  return (
-    <FavoriteLabel css={{ textAlign: 'center' }}>
-      {t('favorites-appears-here')}
-    </FavoriteLabel>
-  );
+	const { t } = useTranslation('common');
+	return (
+		<FavoriteLabel css={{ textAlign: 'center' }}>
+			{t('favorites-appears-here')}
+		</FavoriteLabel>
+	);
 };
 
 const FavoriteListStyle = styled.div({
-  padding: '1px',
-  paddingRight: '5px',
-  display: 'flex',
-  flex: 1,
-  gap: '.35em',
-  flexDirection: 'column',
-  overflow: 'auto',
+	padding: '1px',
+	paddingRight: '5px',
+	display: 'flex',
+	flex: 1,
+	gap: '.35em',
+	flexDirection: 'column',
+	overflow: 'auto',
 });
 
 export default function FavoriteList() {
-  const { t } = useTranslation('common');
-  const { favorites } = useFavorites();
-  if (favorites.length === 0) {
-    return <NoFavorite key="no-favorite" />;
-  }
+	const { t } = useTranslation('common');
+	const { favorites } = useFavorites();
+	if (favorites.length === 0) {
+		return <NoFavorite key="no-favorite" />;
+	}
 
-  return (
-    <FavoriteListContainer>
-      <FavoriteLabel>
-        {t('favorite')} • {favorites.length}
-      </FavoriteLabel>
-      <FavoriteListStyle>
-        {favorites.map((link) => (
-          <FavoriteItem link={link} key={link.id} />
-        ))}
-      </FavoriteListStyle>
-    </FavoriteListContainer>
-  );
+	return (
+		<FavoriteListContainer>
+			<FavoriteLabel>
+				{t('favorite')} • {favorites.length}
+			</FavoriteLabel>
+			<FavoriteListStyle>
+				{favorites.map((link) => (
+					<FavoriteItem link={link} key={link.id} />
+				))}
+			</FavoriteListStyle>
+		</FavoriteListContainer>
+	);
 }

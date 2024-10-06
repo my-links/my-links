@@ -26,54 +26,54 @@ import enResourceTerms from './locales/en/terms.json';
 import enResourceLegal from './locales/en/legal.json';
 
 type I18nFR =
-  | RemoveSuffix<Leaves<typeof frResourceAbout>>
-  | RemoveSuffix<Leaves<typeof frResourceAdmin>>
-  | RemoveSuffix<Leaves<typeof frResourceCommon>>
-  | RemoveSuffix<Leaves<typeof frResourceHome>>
-  | RemoveSuffix<Leaves<typeof frResourceLogin>>
-  | RemoveSuffix<Leaves<typeof frResourcePrivacy>>
-  | RemoveSuffix<Leaves<typeof frResourceTerms>>
-  | RemoveSuffix<Leaves<typeof frResourceLegal>>;
+	| RemoveSuffix<Leaves<typeof frResourceAbout>>
+	| RemoveSuffix<Leaves<typeof frResourceAdmin>>
+	| RemoveSuffix<Leaves<typeof frResourceCommon>>
+	| RemoveSuffix<Leaves<typeof frResourceHome>>
+	| RemoveSuffix<Leaves<typeof frResourceLogin>>
+	| RemoveSuffix<Leaves<typeof frResourcePrivacy>>
+	| RemoveSuffix<Leaves<typeof frResourceTerms>>
+	| RemoveSuffix<Leaves<typeof frResourceLegal>>;
 export type I18nKey = I18nFR;
 
 export const resources = {
-  en: {
-    about: enResourceAbout,
-    admin: enResourceAdmin,
-    common: enResourceCommon,
-    home: enResourceHome,
-    login: enResourceLogin,
-    privacy: enResourcePrivacy,
-    terms: enResourceTerms,
-    legal: enResourceLegal,
-  },
-  fr: {
-    about: frResourceAbout,
-    admin: frResourceAdmin,
-    common: frResourceCommon,
-    home: frResourceHome,
-    login: frResourceLogin,
-    privacy: frResourcePrivacy,
-    terms: frResourceTerms,
-    legal: frResourceLegal,
-  },
+	en: {
+		about: enResourceAbout,
+		admin: enResourceAdmin,
+		common: enResourceCommon,
+		home: enResourceHome,
+		login: enResourceLogin,
+		privacy: enResourcePrivacy,
+		terms: enResourceTerms,
+		legal: enResourceLegal,
+	},
+	fr: {
+		about: frResourceAbout,
+		admin: frResourceAdmin,
+		common: frResourceCommon,
+		home: frResourceHome,
+		login: frResourceLogin,
+		privacy: frResourcePrivacy,
+		terms: frResourceTerms,
+		legal: frResourceLegal,
+	},
 } as const;
 
 export const languages = ['en', 'fr'] as const;
 
 const lng =
-  typeof window !== 'undefined'
-    ? localStorage.getItem(LS_LANG_KEY) || undefined
-    : undefined;
+	typeof window !== 'undefined'
+		? localStorage.getItem(LS_LANG_KEY) || undefined
+		: undefined;
 i18n.use(initReactI18next).init({
-  returnNull: false,
-  resources,
-  lng,
-  fallbackLng: 'en',
-  interpolation: {
-    escapeValue: false,
-  },
-  defaultNS: 'common',
+	returnNull: false,
+	resources,
+	lng,
+	fallbackLng: 'en',
+	interpolation: {
+		escapeValue: false,
+	},
+	defaultNS: 'common',
 });
 
 export default i18n;

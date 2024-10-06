@@ -6,118 +6,118 @@ import TextEllipsis from '~/components/common/text_ellipsis';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
 import useCollections from '~/hooks/use_collections';
 import {
-  SearchResult,
-  SearchResultCollection,
-  SearchResultLink,
+	SearchResult,
+	SearchResultCollection,
+	SearchResultLink,
 } from '~/types/search';
 
 const SearchItemStyle = styled('li', {
-  shouldForwardProp: (propName) => propName !== 'isActive',
+	shouldForwardProp: (propName) => propName !== 'isActive',
 })<{ isActive: boolean }>(({ theme, isActive }) => ({
-  fontSize: '16px',
-  backgroundColor: isActive ? theme.colors.secondary : 'transparent',
-  display: 'flex',
-  gap: '0.35em',
-  alignItems: 'center',
-  borderRadius: theme.border.radius,
-  padding: '0.25em 0.35em !important',
+	fontSize: '16px',
+	backgroundColor: isActive ? theme.colors.secondary : 'transparent',
+	display: 'flex',
+	gap: '0.35em',
+	alignItems: 'center',
+	borderRadius: theme.border.radius,
+	padding: '0.25em 0.35em !important',
 }));
 
 interface CommonResultProps {
-  innerRef: RefObject<HTMLLIElement>;
-  isActive: boolean;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
+	innerRef: RefObject<HTMLLIElement>;
+	isActive: boolean;
+	onMouseEnter: () => void;
+	onMouseLeave: () => void;
 }
 
 export default function SearchResultItem({
-  result,
-  isActive,
-  onHover,
+	result,
+	isActive,
+	onHover,
 }: {
-  result: SearchResult;
-  isActive: boolean;
-  onHover: (result: SearchResult) => void;
+	result: SearchResult;
+	isActive: boolean;
+	onHover: (result: SearchResult) => void;
 }) {
-  const itemRef = useRef<HTMLLIElement>(null);
-  const [isHovering, setHovering] = useState<boolean>(false);
+	const itemRef = useRef<HTMLLIElement>(null);
+	const [isHovering, setHovering] = useState<boolean>(false);
 
-  const onMouseEnter = () => {
-    if (!isHovering) {
-      onHover(result);
-      setHovering(true);
-    }
-  };
-  const onMouseLeave = () => setHovering(false);
+	const onMouseEnter = () => {
+		if (!isHovering) {
+			onHover(result);
+			setHovering(true);
+		}
+	};
+	const onMouseLeave = () => setHovering(false);
 
-  useEffect(() => {
-    if (isActive && !isHovering) {
-      itemRef.current?.scrollIntoView({
-        behavior: 'instant',
-        block: 'nearest',
-      });
-    }
-  }, [itemRef, isActive]);
+	useEffect(() => {
+		if (isActive && !isHovering) {
+			itemRef.current?.scrollIntoView({
+				behavior: 'instant',
+				block: 'nearest',
+			});
+		}
+	}, [itemRef, isActive]);
 
-  const commonProps = {
-    onMouseEnter,
-    onMouseLeave,
-    isActive,
-  };
-  return result.type === 'collection' ? (
-    <ResultCollection result={result} innerRef={itemRef} {...commonProps} />
-  ) : (
-    <ResultLink result={result} innerRef={itemRef} {...commonProps} />
-  );
+	const commonProps = {
+		onMouseEnter,
+		onMouseLeave,
+		isActive,
+	};
+	return result.type === 'collection' ? (
+		<ResultCollection result={result} innerRef={itemRef} {...commonProps} />
+	) : (
+		<ResultLink result={result} innerRef={itemRef} {...commonProps} />
+	);
 }
 
 function ResultLink({
-  result,
-  innerRef,
-  ...props
+	result,
+	innerRef,
+	...props
 }: {
-  result: SearchResultLink;
+	result: SearchResultLink;
 } & CommonResultProps) {
-  const { collections } = useCollections();
-  const collection = collections.find((c) => c.id === result.collection_id);
-  const link = collection?.links.find((l) => l.id === result.id);
+	const { collections } = useCollections();
+	const collection = collections.find((c) => c.id === result.collection_id);
+	const link = collection?.links.find((l) => l.id === result.id);
 
-  if (!collection || !link) return <></>;
+	if (!collection || !link) return <></>;
 
-  return (
-    <SearchItemStyle
-      key={result.type + result.id.toString()}
-      ref={innerRef}
-      {...props}
-    >
-      <LinkFavicon url={link.url} size={20} />
-      <TextEllipsis
-        dangerouslySetInnerHTML={{
-          __html: result.matched_part ?? result.name,
-        }}
-      />
-      <Legend>({collection.name})</Legend>
-    </SearchItemStyle>
-  );
+	return (
+		<SearchItemStyle
+			key={result.type + result.id.toString()}
+			ref={innerRef}
+			{...props}
+		>
+			<LinkFavicon url={link.url} size={20} />
+			<TextEllipsis
+				dangerouslySetInnerHTML={{
+					__html: result.matched_part ?? result.name,
+				}}
+			/>
+			<Legend>({collection.name})</Legend>
+		</SearchItemStyle>
+	);
 }
 
 const ResultCollection = ({
-  result,
-  innerRef,
-  ...props
+	result,
+	innerRef,
+	...props
 }: {
-  result: SearchResultCollection;
+	result: SearchResultCollection;
 } & CommonResultProps) => (
-  <SearchItemStyle
-    key={result.type + result.id.toString()}
-    ref={innerRef}
-    {...props}
-  >
-    <AiOutlineFolder size={24} />
-    <TextEllipsis
-      dangerouslySetInnerHTML={{
-        __html: result.matched_part ?? result.name,
-      }}
-    />
-  </SearchItemStyle>
+	<SearchItemStyle
+		key={result.type + result.id.toString()}
+		ref={innerRef}
+		{...props}
+	>
+		<AiOutlineFolder size={24} />
+		<TextEllipsis
+			dangerouslySetInnerHTML={{
+				__html: result.matched_part ?? result.name,
+			}}
+		/>
+	</SearchItemStyle>
 );

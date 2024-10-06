@@ -1,18 +1,18 @@
 import { BaseSchema } from '@adonisjs/lucid/schema';
 
 export default class extends BaseSchema {
-  async up() {
-    this.schema.raw(`
+	async up() {
+		this.schema.raw(`
       CREATE EXTENSION IF NOT EXISTS unaccent;
       CREATE EXTENSION IF NOT EXISTS pg_trgm;
     `);
-    this.schema.raw(`
+		this.schema.raw(`
       CREATE INDEX ON links USING gin(to_tsvector('english', name));
       CREATE INDEX ON collections USING gin(to_tsvector('english', name));
       CREATE INDEX ON links USING gin(to_tsvector('french', name));
       CREATE INDEX ON collections USING gin(to_tsvector('french', name));
     `);
-    this.schema.raw(`
+		this.schema.raw(`
       CREATE OR REPLACE FUNCTION search_text(search_query TEXT, p_author_id INTEGER)
       RETURNS TABLE (
           id INTEGER,
@@ -45,9 +45,9 @@ export default class extends BaseSchema {
       $$
       LANGUAGE plpgsql;
     `);
-  }
+	}
 
-  async down() {
-    this.schema.raw('DROP FUNCTION IF EXISTS search_text');
-  }
+	async down() {
+		this.schema.raw('DROP FUNCTION IF EXISTS search_text');
+	}
 }

@@ -14,9 +14,9 @@ import { izzyRoutePlugin } from '@izzyjs/route/plugins/japa';
  * Learn more - https://japa.dev/docs/runner-config#plugins-optional
  */
 export const plugins: Config['plugins'] = [
-  assert(),
-  pluginAdonisJS(app),
-  izzyRoutePlugin(),
+	assert(),
+	pluginAdonisJS(app),
+	izzyRoutePlugin(),
 ];
 
 /**
@@ -27,8 +27,8 @@ export const plugins: Config['plugins'] = [
  * The teardown functions are executer after all the tests
  */
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
-  setup: [],
-  teardown: [],
+	setup: [],
+	teardown: [],
 };
 
 /**
@@ -36,7 +36,7 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
  * Learn more - https://japa.dev/docs/test-suites#lifecycle-hooks
  */
 export const configureSuite: Config['configureSuite'] = (suite) => {
-  if (['browser', 'functional', 'e2e'].includes(suite.name)) {
-    return suite.setup(() => testUtils.httpServer().start());
-  }
+	if (['browser', 'functional', 'e2e'].includes(suite.name)) {
+		return suite.setup(() => testUtils.httpServer().start());
+	}
 };

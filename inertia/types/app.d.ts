@@ -1,55 +1,55 @@
 import { Visibility } from '@/app/enums/visibility';
 
 type CommonBase = {
-  id: number;
-  createdAt: string;
-  updatedAt: string;
+	id: number;
+	createdAt: string;
+	updatedAt: string;
 };
 
 type User = CommonBase & {
-  email: string;
-  name: string;
-  nickName: string;
-  fullname: string;
-  avatarUrl: string;
-  isAdmin: boolean;
+	email: string;
+	name: string;
+	nickName: string;
+	fullname: string;
+	avatarUrl: string;
+	isAdmin: boolean;
 };
 
 type UserWithCollections = User & {
-  collections: Collection[];
+	collections: Collection[];
 };
 
 type UserWithRelationCount = CommonBase & {
-  email: string;
-  fullname: string;
-  avatarUrl: string;
-  isAdmin: string;
-  count: {
-    link: number;
-    collection: number;
-  };
+	email: string;
+	fullname: string;
+	avatarUrl: string;
+	isAdmin: string;
+	count: {
+		link: number;
+		collection: number;
+	};
 };
 
 type Link = CommonBase & {
-  name: string;
-  description: string | null;
-  url: string;
-  favorite: boolean;
-  collectionId: number;
+	name: string;
+	description: string | null;
+	url: string;
+	favorite: boolean;
+	collectionId: number;
 };
 
 type LinkWithCollection = Link & {
-  collection: Collection;
+	collection: Collection;
 };
 
 type Collection = CommonBase & {
-  name: string;
-  description: string | null;
-  visibility: Visibility;
-  nextId: number;
-  authorId: number;
+	name: string;
+	description: string | null;
+	visibility: Visibility;
+	nextId: number;
+	authorId: number;
 };
 
 type CollectionWithLinks = Collection & {
-  links: Link[];
+	links: Link[];
 };
