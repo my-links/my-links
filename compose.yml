@@ -17,7 +17,7 @@ services:
 
   pgadmin:
     container_name: pgadmin
-    image: dpage/pgadmin4:8.6
+    image: dpage/pgadmin4:8
     restart: always
     healthcheck:
       test: ['CMD', 'wget', '-O', '-', 'http://localhost:80/misc/ping']
