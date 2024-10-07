@@ -14,9 +14,10 @@ class UserWithRelationCountDto {
 		fullname: this.user.name,
 		avatarUrl: this.user.avatarUrl,
 		isAdmin: this.user.isAdmin,
-		createdAt: this.user.createdAt,
-		updatedAt: this.user.updatedAt,
-		lastSeenAt: this.user.lastSeenAt,
+		createdAt: this.user.createdAt.toString(),
+		updatedAt: this.user.updatedAt.toString(),
+		lastSeenAt:
+			this.user.lastSeenAt?.toString() ?? this.user.updatedAt.toString(),
 		linksCount: Number(this.user.$extras.totalLinks),
 		collectionsCount: Number(this.user.$extras.totalCollections),
 	});
