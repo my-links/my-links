@@ -51,7 +51,7 @@ function AdminDashboard({
 			[
 				{
 					accessorKey: 'id',
-					header: (
+					header: () => (
 						<>
 							# <span css={{ color: theme.colors.grey }}>({users.length})</span>
 						</>
@@ -69,8 +69,8 @@ function AdminDashboard({
 					cell: (info) => info.getValue(),
 				},
 				{
-					accessorKey: 'count',
-					header: (
+					accessorKey: 'collectionsCount',
+					header: () => (
 						<>
 							{t('common:collection.collections', { count: totalCollections })}{' '}
 							<span css={{ color: theme.colors.grey }}>
@@ -78,17 +78,17 @@ function AdminDashboard({
 							</span>
 						</>
 					),
-					cell: (info) => (info.getValue() as any)?.collection,
+					cell: (info) => info.getValue(),
 				},
 				{
-					accessorKey: 'count',
-					header: (
+					accessorKey: 'linksCount',
+					header: () => (
 						<>
 							{t('common:link.links', { count: totalLinks })}{' '}
 							<span css={{ color: theme.colors.grey }}>({totalLinks})</span>
 						</>
 					),
-					cell: (info: any) => info.getValue()?.link,
+					cell: (info: any) => info.getValue(),
 				},
 				{
 					accessorKey: 'isAdmin',
@@ -110,12 +110,23 @@ function AdminDashboard({
 					cell: RenderDateCell,
 				},
 				{
-					accessorKey: 'updatedAt',
-					header: t('admin:updated_at'),
+					accessorKey: 'lastSeenAt',
+					header: t('admin:last_seen_at'),
 					cell: RenderDateCell,
 				},
-			] as ColumnDef<UserWithRelationCount>[],
+			] satisfies ColumnDef<UserWithRelationCount>[],
 		[]
 	);
-	return <Table columns={columns} data={users} />;
+	return (
+		<Table
+			columns={columns}
+			data={users}
+			defaultSorting={[
+				{
+					id: 'lastSeenAt',
+					desc: true,
+				},
+			]}
+		/>
+	);
 }

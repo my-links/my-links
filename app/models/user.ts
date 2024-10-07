@@ -4,6 +4,7 @@ import type { GoogleToken } from '@adonisjs/ally/types';
 import { column, computed, hasMany } from '@adonisjs/lucid/orm';
 import type { HasMany } from '@adonisjs/lucid/types/relations';
 import AppBaseModel from './app_base_model.js';
+import { DateTime } from 'luxon';
 
 export default class User extends AppBaseModel {
 	@column()
@@ -44,4 +45,10 @@ export default class User extends AppBaseModel {
 	get fullname() {
 		return this.nickName || this.name;
 	}
+
+	@column.dateTime({
+		autoCreate: true,
+		autoUpdate: true,
+	})
+	declare lastSeenAt: DateTime;
 }

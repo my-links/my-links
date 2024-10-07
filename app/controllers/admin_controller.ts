@@ -16,10 +16,9 @@ class UserWithRelationCountDto {
 		isAdmin: this.user.isAdmin,
 		createdAt: this.user.createdAt,
 		updatedAt: this.user.updatedAt,
-		count: {
-			link: Number(this.user.$extras.totalLinks),
-			collection: Number(this.user.$extras.totalCollections),
-		},
+		lastSeenAt: this.user.lastSeenAt,
+		linksCount: Number(this.user.$extras.totalLinks),
+		collectionsCount: Number(this.user.$extras.totalCollections),
 	});
 }
 
