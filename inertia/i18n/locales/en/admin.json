@@ -1,9 +1,9 @@
 {
-  "role": "Role",
-  "created_at": "Created at",
-  "updated_at": "Updated at",
-  "admin": "Administrator",
-  "user": "User",
-  "users": "Users",
-  "stats": "Statistics"
+	"role": "Role",
+	"created_at": "Created at",
+	"last_seen_at": "Last seen at",
+	"admin": "Administrator",
+	"user": "User",
+	"users": "Users",
+	"stats": "Statistics"
 }

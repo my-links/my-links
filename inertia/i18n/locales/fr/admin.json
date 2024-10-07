@@ -1,9 +1,9 @@
 {
-  "role": "Rôle",
-  "created_at": "Création",
-  "updated_at": "Mise à jour",
-  "admin": "Administrateur",
-  "user": "Utilisateur",
-  "users": "Utilisateurs",
-  "stats": "Statistiques"
+	"role": "Rôle",
+	"created_at": "Création",
+	"last_seen_at": "Dernière connexion",
+	"admin": "Administrateur",
+	"user": "Utilisateur",
+	"users": "Utilisateurs",
+	"stats": "Statistiques"
 }

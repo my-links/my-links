@@ -24,10 +24,9 @@ type UserWithRelationCount = CommonBase & {
 	fullname: string;
 	avatarUrl: string;
 	isAdmin: string;
-	count: {
-		link: number;
-		collection: number;
-	};
+	linksCount: number;
+	collectionsCount: number;
+	lastSeenAt: string;
 };
 
 type Link = CommonBase & {

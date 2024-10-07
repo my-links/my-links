@@ -6,6 +6,7 @@ import {
 	getPaginationRowModel,
 	getSortedRowModel,
 	PaginationState,
+	SortingState,
 	useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -50,13 +51,19 @@ const Resizer = styled.div<{ isResizing: boolean }>(
 type TableProps<T> = {
 	columns: ColumnDef<T>[];
 	data: T[];
+	defaultSorting?: SortingState;
 };
 
-export default function Table<T>({ columns, data }: TableProps<T>) {
+export default function Table<T>({
+	columns,
+	data,
+	defaultSorting = [],
+}: TableProps<T>) {
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
 	});
+	const [sorting, setSorting] = useState<SortingState>(defaultSorting);
 
 	const table = useReactTable({
 		data,
@@ -65,11 +72,13 @@ export default function Table<T>({ columns, data }: TableProps<T>) {
 		columnResizeMode: 'onChange',
 		state: {
 			pagination,
+			sorting,
 		},
 		onPaginationChange: setPagination,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: setSorting,
 		debugTable: true,
 	});
 
