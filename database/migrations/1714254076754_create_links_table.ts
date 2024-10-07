@@ -5,7 +5,13 @@ export default class CreateLinksTable extends BaseSchema {
 	static tableName = 'links';
 
 	async up() {
-		this.schema.createTableIfNotExists(CreateLinksTable.tableName, (table) => {
+		const exists = await this.schema.hasTable(CreateLinksTable.tableName);
+		if (exists) {
+			return console.warn(`Table ${CreateLinksTable.tableName} already
+			exists.`);
+		}
+
+		this.schema.createTable(CreateLinksTable.tableName, (table) => {
 			table.string('name', 254).notNullable();
 			table.string('description', 254).nullable();
 			table.text('url').notNullable();

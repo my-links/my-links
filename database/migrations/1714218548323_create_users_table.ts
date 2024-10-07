@@ -5,7 +5,14 @@ export default class CreateUsersTable extends BaseSchema {
 	static tableName = 'users';
 
 	async up() {
-		this.schema.createTableIfNotExists(CreateUsersTable.tableName, (table) => {
+		const exists = await this.schema.hasTable(CreateUsersTable.tableName);
+		if (exists) {
+			return console.warn(
+				`Table ${CreateUsersTable.tableName} already exists.`
+			);
+		}
+
+		this.schema.createTable(CreateUsersTable.tableName, (table) => {
 			table.string('email', 254).notNullable().unique();
 			table.string('name', 254).notNullable();
 			table.string('nick_name', 254).nullable();
