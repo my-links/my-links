@@ -9,7 +9,7 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready']
+      test: ['CMD-SHELL', 'pg_isready', '-U', '${DB_USER}']
     volumes:
       - postgres-volume:/var/lib/postgresql/data
     ports:
@@ -19,20 +19,28 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4:8
     restart: always
+    entrypoint: /bin/sh -c "chmod 0600 /pgpass; /entrypoint.sh;"
     healthcheck:
       test: ['CMD', 'wget', '-O', '-', 'http://localhost:80/misc/ping']
       interval: 2s
       timeout: 10s
       retries: 30
+    env_file: .env
     environment:
       - PGADMIN_DEFAULT_EMAIL=myemail@gmail.com
       - PGADMIN_DEFAULT_PASSWORD=a12345678
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED=False
     depends_on:
       - postgres
-    volumes:
-      - ./docker-config/servers_pgadmin.json:/pgadmin4/servers.json
     ports:
       - '5050:80'
+    user: root
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+      - source: pgpass
+        target: /pgpass
 
   my-links:
     container_name: my-links
@@ -53,4 +61,19 @@ services:
 
 volumes:
   postgres-volume:
-    name: postgres-prod-my-links
+
+configs:
+  pgpass:
+    content: postgres:${DB_PORT}:*:${DB_USER}:${DB_PASSWORD}
+  servers.json:
+    content: |
+      {"Servers": {"1": {
+        "Group": "Servers",
+        "Name": "project",
+        "Host": "postgres",
+        "Port": ${DB_PORT},
+        "MaintenanceDB": "${DB_DATABASE}",
+        "Username": "${DB_USER}",
+        "PassFile": "/pgpass",
+        "SSLMode": "prefer"
+      }}}
