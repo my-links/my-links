@@ -1,10 +1,10 @@
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormCollection, {
 	FormCollectionData,
 } from '~/components/form/form_collection';
+import { tuyau } from '~/lib/tuyau';
 import { Collection } from '~/types/app';
 
 export default function EditCollectionPage({
@@ -30,10 +30,10 @@ export default function EditCollectionPage({
 	}, [data, collection]);
 
 	const handleSubmit = () => {
-		const { method, url } = route('collection.edit', {
-			params: { id: collection.id.toString() },
+		const { method, path } = tuyau.$route('collection.edit', {
+			id: collection.id.toString(),
 		});
-		submit(method, url);
+		submit(method.at(0) as any, path);
 	};
 
 	return (

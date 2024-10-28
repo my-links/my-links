@@ -1,7 +1,6 @@
 import { usePage } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { ReactNode, createContext, useEffect, useState } from 'react';
-import { makeRequest } from '~/lib/request';
+import { tuyau } from '~/lib/tuyau';
 
 const LS_KEY = 'dark_theme';
 
@@ -19,13 +18,8 @@ export default function DarkThemeContextProvider({
 	const [isDarkTheme, setDarkTheme] = useState<boolean>(preferDarkTheme);
 	const toggleDarkTheme = (value: boolean) => {
 		setDarkTheme(value);
-		const { method, url } = route('user.theme');
-		makeRequest({
-			method,
-			url,
-			body: {
-				preferDarkTheme: value,
-			},
+		tuyau.user.theme.$post({
+			preferDarkTheme: value,
 		});
 	};
 

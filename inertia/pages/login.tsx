@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { Head, Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FcGoogle } from 'react-icons/fc';
 import Button from '~/components/common/form/_button';
 import ContentLayout from '~/components/layouts/content_layout';
 import Quotes from '~/components/quotes';
+import { getPath } from '~/lib/navigation';
 
 const LoginContainer = styled.div({
 	width: '100%',
@@ -70,14 +70,14 @@ function LoginPage() {
 			<FormWrapper>
 				<h1>{t('login:title')}</h1>
 				<InformativeText>{t('login:informative-text')}</InformativeText>
-				<ButtonLink href={route('auth.google').url}>
+				<ButtonLink href={getPath('auth.google')}>
 					<FcGoogle size="1.5em" />{' '}
 					{t('login:continue-with', { provider: 'Google' })}
 				</ButtonLink>
 			</FormWrapper>
 			<AgreementText>
 				{t('login:accept-terms')}{' '}
-				<Link href={route('terms').url}>{t('common:terms')}</Link>
+				<Link href={getPath('terms')}>{t('common:terms')}</Link>
 			</AgreementText>
 		</LoginContainer>
 	);

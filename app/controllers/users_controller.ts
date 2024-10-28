@@ -1,8 +1,8 @@
 import User from '#models/user';
+import { RouteName } from '#types/tuyau';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import db from '@adonisjs/lucid/services/db';
-import { RouteName } from '@izzyjs/route/types';
 
 export default class UsersController {
 	private redirectTo: RouteName = 'auth.login';

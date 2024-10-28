@@ -1,7 +1,7 @@
+import { getPath } from '#lib/tuyau';
 import type { Authenticators } from '@adonisjs/auth/types';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
-import { route } from '@izzyjs/route/client';
 
 /**
  * Auth middleware is used authenticate HTTP requests and deny
@@ -11,7 +11,7 @@ export default class AuthMiddleware {
 	/**
 	 * The URL to redirect to, when authentication fails
 	 */
-	redirectTo = route('auth.login').url;
+	redirectTo = getPath('auth.login');
 
 	async handle(
 		ctx: HttpContext,

@@ -1,7 +1,6 @@
 import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { IoIosLogOut } from 'react-icons/io';
 import Dropdown from '~/components/common/dropdown/dropdown';
@@ -14,6 +13,7 @@ import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
 import ModalSettings from '~/components/settings/settings_modal';
 import useUser from '~/hooks/use_user';
+import { getPath } from '~/lib/navigation';
 
 type NavbarListDirection = {
 	right?: boolean;
@@ -66,7 +66,7 @@ export default function Navbar() {
 		<Nav>
 			<NavList>
 				<li>
-					<Link href={route('home').url} css={{ fontSize: '24px' }}>
+					<Link href={getPath('home')} css={{ fontSize: '24px' }}>
 						MyLinks
 					</Link>
 				</li>
@@ -79,13 +79,13 @@ export default function Navbar() {
 					<>
 						{user.isAdmin && (
 							<li>
-								<AdminLink href={route('admin.dashboard').url}>
+								<AdminLink href={getPath('admin.dashboard')}>
 									{t('admin')}
 								</AdminLink>
 							</li>
 						)}
 						<li>
-							<Link href={route('dashboard').url}>Dashboard</Link>
+							<Link href={getPath('dashboard')}>Dashboard</Link>
 						</li>
 						<li>
 							<ProfileDropdown />
@@ -97,7 +97,7 @@ export default function Navbar() {
 							<ModalSettings openItem={DropdownItemButtonWithPadding} />
 						</li>
 						<li>
-							<Link href={route('auth.login').url}>{t('login')}</Link>
+							<Link href={getPath('auth.login')}>{t('login')}</Link>
 						</li>
 					</>
 				)}
@@ -124,7 +124,7 @@ function ProfileDropdown() {
 			}
 		>
 			<ModalSettings openItem={DropdownItemButton} />
-			<DropdownItemLink href={route('auth.logout').url} danger>
+			<DropdownItemLink href={getPath('auth.logout')} danger>
 				<IoIosLogOut /> {t('logout')}
 			</DropdownItemLink>
 		</Dropdown>

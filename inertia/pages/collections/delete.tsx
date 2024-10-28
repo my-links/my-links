@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import FormCollection, {
 	FormCollectionData,
 } from '~/components/form/form_collection';
+import { tuyau } from '~/lib/tuyau';
 import { Collection } from '~/types/app';
 
 export default function DeleteCollectionPage({
@@ -20,10 +20,10 @@ export default function DeleteCollectionPage({
 		});
 
 	const handleSubmit = () => {
-		const { method, url } = route('collection.delete', {
-			params: { id: collection.id.toString() },
+		const { method, path } = tuyau.$route('collection.delete', {
+			id: collection.id.toString(),
 		});
-		submit(method, url);
+		submit(method.at(0) as any, path);
 	};
 
 	return (

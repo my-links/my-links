@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
@@ -11,7 +10,7 @@ import ModalSettings from '~/components/settings/settings_modal';
 import useActiveCollection from '~/hooks/use_active_collection';
 import useUser from '~/hooks/use_user';
 import { rgba } from '~/lib/color';
-import { appendCollectionId } from '~/lib/navigation';
+import { getPath, routeWithCollectionId } from '~/lib/navigation';
 
 const SideMenu = styled.nav(({ theme }) => ({
 	height: '100%',
@@ -56,21 +55,18 @@ export default function SideNavigation() {
 			<div css={{ paddingInline: '10px' }}>
 				<UserCard />
 				{user!.isAdmin && (
-					<AdminButton href={route('admin.dashboard').url}>
+					<AdminButton href={getPath('admin.dashboard')}>
 						<IoShieldHalfSharp /> {t('admin')}
 					</AdminButton>
 				)}
 				<ModalSettings openItem={SettingsButton} />
 				<SearchModal openItem={SearchButton} />
 				<AddButton
-					href={appendCollectionId(
-						route('link.create-form').url,
-						activeCollection?.id
-					)}
+					href={routeWithCollectionId('link.create-form', activeCollection?.id)}
 				>
 					<IoAdd /> {t('link.create')}
 				</AddButton>
-				<AddButton href={route('collection.create-form').url}>
+				<AddButton href={getPath('collection.create-form')}>
 					<AiOutlineFolderAdd /> {t('collection.create')}
 				</AddButton>
 			</div>

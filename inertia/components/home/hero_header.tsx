@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import Quotes from '~/components/quotes';
+import { getPath } from '~/lib/navigation';
 
 const HeroStyle = styled.header(({ theme }) => ({
 	height: '250px',
@@ -46,9 +46,7 @@ export default function HeroHeader() {
 		<HeroStyle>
 			<HeroTitle>{t('about:hero.title')}</HeroTitle>
 			<HeroQuote>{t('common:slogan')}</HeroQuote>
-			<LinkButton href={route('dashboard').url}>
-				{t('about:hero.cta')}
-			</LinkButton>
+			<LinkButton href={getPath('dashboard')}>{t('about:hero.cta')}</LinkButton>
 		</HeroStyle>
 	);
 }

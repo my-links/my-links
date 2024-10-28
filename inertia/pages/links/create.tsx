@@ -1,10 +1,10 @@
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormLink from '~/components/form/form_link';
 import useSearchParam from '~/hooks/use_search_param';
 import { isValidHttpUrl } from '~/lib/navigation';
+import { tuyau } from '~/lib/tuyau';
 import { Collection } from '~/types/app';
 
 export default function CreateLinkPage({
@@ -33,8 +33,8 @@ export default function CreateLinkPage({
 	);
 
 	const handleSubmit = () => {
-		const { method, url } = route('link.create');
-		submit(method, url);
+		const { method, path } = tuyau.$route('link.create');
+		submit(method.at(0) as any, path);
 	};
 
 	return (

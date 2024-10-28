@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import dayjs from 'dayjs';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +7,7 @@ import RoundedImage from '~/components/common/rounded_image';
 import UnstyledList from '~/components/common/unstyled/unstyled_list';
 import { DATE_FORMAT } from '~/constants';
 import useUser from '~/hooks/use_user';
+import { getPath } from '~/lib/navigation';
 
 const ProfileStyle = styled(UnstyledList)({
 	display: 'flex',
@@ -47,7 +47,7 @@ export default function Profile() {
 					alt={avatarLabel}
 					title={avatarLabel}
 				/>
-				<Link href={route('auth.logout').url}>{t('logout')}</Link>
+				<Link href={getPath('auth.logout')}>{t('logout')}</Link>
 			</Column>
 			<Column>
 				<Field>

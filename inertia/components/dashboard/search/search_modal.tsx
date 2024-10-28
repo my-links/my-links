@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { route } from '@izzyjs/route/client';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IoIosSearch } from 'react-icons/io';
@@ -11,7 +10,7 @@ import useActiveCollection from '~/hooks/use_active_collection';
 import useCollections from '~/hooks/use_collections';
 import useToggle from '~/hooks/use_modal';
 import useShortcut from '~/hooks/use_shortcut';
-import { makeRequest } from '~/lib/request';
+import { tuyau, tuyauAbortController } from '~/lib/tuyau';
 import { SearchResult } from '~/types/search';
 
 const SearchInput = styled.input(({ theme }) => ({
@@ -78,18 +77,14 @@ function SearchModal({ openItem: OpenItem }: SearchModalProps) {
 			return setResults([]);
 		}
 
-		const controller = new AbortController();
-		const { url, method } = route('search', { qs: { term: searchTerm } });
-		makeRequest({
-			method,
-			url,
-			controller,
-		}).then(({ results: _results }) => {
-			setResults(_results);
-			setSelectedItem(_results?.[0]);
+		tuyau.search.$get({ query: { searchTerm } }).then(({ error, data }) => {
+			if (error?.status === 404) return setResults([]);
+			const results = data?.results || [];
+			setResults(results);
+			setSelectedItem(results?.[0]);
 		});
 
-		return () => controller.abort();
+		return () => tuyauAbortController.abort();
 	}, [searchTerm]);
 
 	return (

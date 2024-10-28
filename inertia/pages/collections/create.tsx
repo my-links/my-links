@@ -1,11 +1,11 @@
 import { Visibility } from '#enums/visibility';
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormCollection, {
 	FormCollectionData,
 } from '~/components/form/form_collection';
+import { getRoute } from '~/lib/navigation';
 
 export default function CreateCollectionPage({
 	disableHomeLink,
@@ -24,8 +24,8 @@ export default function CreateCollectionPage({
 	);
 
 	const handleSubmit = () => {
-		const { method, url } = route('collection.create');
-		submit(method, url);
+		const { method, path } = getRoute('collection.create');
+		submit(method.at(0) as any, path);
 	};
 
 	return (

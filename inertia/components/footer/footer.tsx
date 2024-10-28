@@ -1,9 +1,9 @@
 import PATHS from '#constants/paths';
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
+import { getPath } from '~/lib/navigation';
 import packageJson from '../../../package.json';
 
 const FooterStyle = styled.footer(({ theme }) => ({
@@ -22,9 +22,9 @@ export default function Footer({ className }: { className?: string }) {
 	return (
 		<FooterStyle className={className}>
 			<div className="row">
-				<Link href={route('privacy').url}>{t('privacy')}</Link>
+				<Link href={getPath('privacy')}>{t('privacy')}</Link>
 				{' • '}
-				<Link href={route('terms').url}>{t('terms')}</Link>
+				<Link href={getPath('terms')}>{t('terms')}</Link>
 				{' • '}
 				<ExternalLink href={PATHS.EXTENSION}>Extension</ExternalLink>
 			</div>

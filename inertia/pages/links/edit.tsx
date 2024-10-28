@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormLink from '~/components/form/form_link';
 import { isValidHttpUrl } from '~/lib/navigation';
+import { tuyau } from '~/lib/tuyau';
 import { Collection, Link } from '~/types/app';
 
 export default function EditLinkPage({
@@ -39,10 +39,10 @@ export default function EditLinkPage({
 	}, [data, processing]);
 
 	const handleSubmit = () => {
-		const { method, url } = route('link.edit', {
-			params: { id: link.id.toString() },
+		const { method, path } = tuyau.$route('link.edit', {
+			id: link.id.toString(),
 		});
-		submit(method, url);
+		submit(method.at(0) as any, path);
 	};
 
 	return (

@@ -37,8 +37,7 @@ ENV DB_DATABASE=db_db
 ENV GOOGLE_CLIENT_ID=client_id
 ENV GOOGLE_CLIENT_SECRET=client_secret
 ENV GOOGLE_CLIENT_CALLBACK_URL=http://localhost:3333/auth/callback
-
-RUN node ace izzy:routes
+RUN node ace tuyau:generate
 RUN node ace build
 
 # Production stage
@@ -53,6 +52,7 @@ ENV PORT=$PORT
 WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app
+COPY --from=build /app/.adonisjs /app/.adonisjs
 
 # Expose port
 EXPOSE $PORT

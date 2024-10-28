@@ -1,5 +1,4 @@
 import { useTheme } from '@emotion/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { GoPencil } from 'react-icons/go';
@@ -7,7 +6,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import Dropdown from '~/components/common/dropdown/dropdown';
 import { DropdownItemLink } from '~/components/common/dropdown/dropdown_item';
 import FavoriteDropdownItem from '~/components/dashboard/side_nav/favorite/favorite_dropdown_item';
-import { appendLinkId } from '~/lib/navigation';
+import { routeWithLinkId } from '~/lib/navigation';
 import { Link } from '~/types/app';
 
 export default function LinkControls({ link }: { link: Link }) {
@@ -21,13 +20,11 @@ export default function LinkControls({ link }: { link: Link }) {
 			svgSize={18}
 		>
 			<FavoriteDropdownItem link={link} />
-			<DropdownItemLink
-				href={appendLinkId(route('link.edit-form').url, link.id)}
-			>
+			<DropdownItemLink href={routeWithLinkId('link.edit-form', link.id)}>
 				<GoPencil /> {t('link.edit')}
 			</DropdownItemLink>
 			<DropdownItemLink
-				href={appendLinkId(route('link.delete-form').url, link.id)}
+				href={routeWithLinkId('link.delete-form', link.id)}
 				danger
 			>
 				<IoTrashOutline /> {t('link.delete')}

@@ -1,5 +1,4 @@
-import { route } from '@izzyjs/route/client';
-import { makeRequest } from '~/lib/request';
+import { tuyau } from '~/lib/tuyau';
 import { Link } from '~/types/app';
 
 export const onFavorite = (
@@ -7,16 +6,14 @@ export const onFavorite = (
 	isFavorite: boolean,
 	cb: () => void
 ) => {
-	const { url, method } = route('link.toggle-favorite', {
-		params: { id: linkId.toString() },
-	});
-	makeRequest({
-		url,
-		method,
-		body: {
+	tuyau
+		.$route('link.toggle-favorite', {
+			id: linkId.toString(),
+		})
+		.$put({
 			favorite: isFavorite,
-		},
-	})
+			params: { id: linkId.toString() },
+		})
 		.then(() => cb())
 		.catch(console.error);
 };

@@ -1,13 +1,12 @@
 import styled from '@emotion/styled';
 import { Head, Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { FormEvent, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from '~/components/common/form/_button';
 import Form from '~/components/common/form/_form';
 import TransitionLayout from '~/components/layouts/_transition_layout';
 import i18n from '~/i18n';
-import { appendCollectionId } from '~/lib/navigation';
+import { routeWithCollectionId } from '~/lib/navigation';
 import BaseLayout from './_base_layout';
 
 const FormLayoutStyle = styled(TransitionLayout)(({ theme }) => ({
@@ -59,7 +58,7 @@ export default function FormLayout({
 					</Button>
 				</Form>
 				{!disableHomeLink && (
-					<Link href={appendCollectionId(route('dashboard').url, collectionId)}>
+					<Link href={routeWithCollectionId('dashboard', collectionId)}>
 						{t('back-home')}
 					</Link>
 				)}

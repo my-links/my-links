@@ -1,8 +1,8 @@
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { ReactNode } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import LegalContentLayout from '~/components/layouts/legal_content_layout';
+import { getPath } from '~/lib/navigation';
 
 function TermsPage() {
 	const { t } = useTranslation('terms');
@@ -30,7 +30,7 @@ function TermsPage() {
 			<p>
 				<Trans
 					i18nKey="personal_data.collect.description"
-					components={{ a: <Link href={route('privacy').url} /> }}
+					components={{ a: <Link href={getPath('privacy')} /> }}
 				/>
 			</p>
 

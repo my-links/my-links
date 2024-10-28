@@ -1,12 +1,11 @@
 import { router } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { ReactNode, useMemo, useState } from 'react';
 import { ActiveCollectionContext } from '~/contexts/active_collection_context';
 import CollectionsContext from '~/contexts/collections_context';
 import FavoritesContext from '~/contexts/favorites_context';
 import GlobalHotkeysContext from '~/contexts/global_hotkeys_context';
 import useShortcut from '~/hooks/use_shortcut';
-import { appendCollectionId } from '~/lib/navigation';
+import { routeWithCollectionId } from '~/lib/navigation';
 import { CollectionWithLinks, LinkWithCollection } from '~/types/app';
 
 export default function DashboardProviders(
@@ -28,7 +27,7 @@ export default function DashboardProviders(
 
 	const handleChangeCollection = (collection: CollectionWithLinks) => {
 		setActiveCollection(collection);
-		router.visit(appendCollectionId(route('dashboard').url, collection.id));
+		router.visit(routeWithCollectionId('dashboard', collection.id));
 	};
 
 	// TODO: compute this in controller
@@ -67,7 +66,7 @@ export default function DashboardProviders(
 		'OPEN_CREATE_LINK_KEY',
 		() =>
 			router.visit(
-				appendCollectionId(route('link.create-form').url, activeCollection?.id)
+				routeWithCollectionId('link.create-form', activeCollection?.id)
 			),
 		{
 			enabled: globalHotkeysEnabled,
@@ -75,7 +74,7 @@ export default function DashboardProviders(
 	);
 	useShortcut(
 		'OPEN_CREATE_COLLECTION_KEY',
-		() => router.visit(route('collection.create-form').url),
+		() => router.visit('collection.create-form'),
 		{
 			enabled: globalHotkeysEnabled,
 		}

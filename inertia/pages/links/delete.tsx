@@ -1,7 +1,7 @@
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import FormLink from '~/components/form/form_link';
+import { tuyau } from '~/lib/tuyau';
 import { LinkWithCollection } from '~/types/app';
 
 export default function DeleteLinkPage({ link }: { link: LinkWithCollection }) {
@@ -15,10 +15,10 @@ export default function DeleteLinkPage({ link }: { link: LinkWithCollection }) {
 	});
 
 	const handleSubmit = () => {
-		const { method, url } = route('link.delete', {
-			params: { id: link.id.toString() },
+		const { method, path } = tuyau.$route('link.delete', {
+			id: link.id.toString(),
 		});
-		submit(method, url);
+		submit(method.at(0) as any, path);
 	};
 
 	return (

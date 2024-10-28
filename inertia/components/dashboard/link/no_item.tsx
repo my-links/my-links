@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import useActiveCollection from '~/hooks/use_active_collection';
-import { appendCollectionId } from '~/lib/navigation';
+import { routeWithCollectionId } from '~/lib/navigation';
 import { fadeIn } from '~/styles/keyframes';
 
 const NoCollectionStyle = styled.div({
@@ -30,9 +29,7 @@ export function NoCollection() {
 	return (
 		<NoCollectionStyle>
 			<Text>{t('select-collection')}</Text>
-			<Link href={route('collection.create-form').url}>
-				{t('or-create-one')}
-			</Link>
+			<Link href={'collection.create-form'}>{t('or-create-one')}</Link>
 		</NoCollectionStyle>
 	);
 }
@@ -54,10 +51,7 @@ export function NoLink() {
 				}}
 			/>
 			<Link
-				href={appendCollectionId(
-					route('link.create-form').url,
-					activeCollection?.id
-				)}
+				href={routeWithCollectionId('link.create-form', activeCollection?.id)}
 			>
 				{t('link.create')}
 			</Link>

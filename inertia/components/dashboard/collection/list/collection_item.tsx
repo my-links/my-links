@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import TextEllipsis from '~/components/common/text_ellipsis';
 import { Item } from '~/components/dashboard/side_nav/nav_item';
 import useActiveCollection from '~/hooks/use_active_collection';
-import { appendCollectionId } from '~/lib/navigation';
+import { routeWithCollectionId } from '~/lib/navigation';
 import { CollectionWithLinks } from '~/types/app';
 
 const CollectionItemStyle = styled(Item, {
@@ -43,7 +42,7 @@ export default function CollectionItem({
 
 	return (
 		<CollectionItemLink
-			href={appendCollectionId(route('dashboard').url, collection.id)}
+			href={routeWithCollectionId('dashboard', collection.id)}
 			isActive={isActiveCollection}
 			ref={itemRef}
 		>

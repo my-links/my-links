@@ -47,12 +47,18 @@ importers:
       '@inertiajs/react':
         specifier: ^1.2.0
         version: 1.2.0(react@18.3.1)
-      '@izzyjs/route':
-        specifier: ^1.2.0
-        version: 1.2.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.5.4))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0)
       '@tanstack/react-table':
         specifier: ^8.20.5
         version: 8.20.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tuyau/client':
+        specifier: ^0.1.3
+        version: 0.1.3
+      '@tuyau/core':
+        specifier: ^0.2.1
+        version: 0.2.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.5.4))(@vinejs/vine@2.1.0)(edge.js@6.2.0))
+      '@tuyau/utils':
+        specifier: ^0.0.4
+        version: 0.0.4
       '@vinejs/vine':
         specifier: ^2.1.0
         version: 2.1.0
@@ -933,13 +939,6 @@ packages:
     resolution: {integrity: sha512-ErXXzENMH5pJt5/ssXV0DfWUZqly8nGzf0UcBV9xTnP+KyffE2mqyxIMBrZ8ijQck2nU0TQm40EQB53YreyWHw==}
     engines: {node: '>=18'}
 
-  '@izzyjs/route@1.2.0':
-    resolution: {integrity: sha512-GOc2tf4xNrFMZK3SGK7XSweUfxNskJX6vrdhx9M8mDOgkRONnpuIzaVM/N7AgRjCft8f97d5t2oOXyk5Sq92hA==}
-    engines: {node: '>=20.6.0'}
-    peerDependencies:
-      '@adonisjs/core': ^6.2.0
-      edge.js: ^6.0.2
-
   '@japa/assert@3.0.0':
     resolution: {integrity: sha512-4Uvixj78PBpRGeNTqO1GN/qYyl4EeWmIwt/cKiQSLLsoZQpQfe8tvF4PO2Z+zteUi3Zv7WR6pluKYbLQrn3vjg==}
     engines: {node: '>=18.16.0'}
@@ -1394,6 +1393,15 @@ packages:
 
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+
+  '@tuyau/client@0.1.3':
+    resolution: {integrity: sha512-00IqAkbae7a154bpcavuJYcv1oRQW4nfSVND2jZn/ZACHPEcFVWoBmgM9Gl0wdELoHotsQSQ2eC+nDqfDvanAQ==}
+
+  '@tuyau/core@0.2.1':
+    resolution: {integrity: sha512-CUA1bfEoqVOLFEzSQ8cTHBu+Z+Sbv8CFArr0iKctuApbQ+YJVuY8sAW4J0KgjfoTFOC+wVYtU2Dcp90ZVBZj8g==}
+    engines: {node: '>=20.6.0'}
+    peerDependencies:
+      '@adonisjs/core': ^6.2.0
 
   '@tuyau/utils@0.0.4':
     resolution: {integrity: sha512-ex6CAJNLiTuOvx7nUrgs8FwNG/t88Mi8QTLSO3muHbB6vBSpYimZ6iSUkk4cjEFd4XDy0y+24GDgXKoBfGf4ag==}
@@ -3306,6 +3314,10 @@ packages:
     resolution: {integrity: sha512-KJ/IXXkFhTDqxcN8wKqMXk1/UoOpc0UnOB6H7QcqlPInh/M2B5Mlj+i9exez1w4RSwJhNFmHiUDPriAYFwb5VA==}
     engines: {node: '>=18'}
 
+  ky@1.7.2:
+    resolution: {integrity: sha512-OzIvbHKKDpi60TnF9t7UUVAF1B4mcqc02z5PIvrm08Wyb+yOcz63GRvEuVxNT18a9E1SrNouhB4W2NNLeD7Ykg==}
+    engines: {node: '>=18'}
+
   latest-version@9.0.0:
     resolution: {integrity: sha512-7W0vV3rqv5tokqkBAFV1LbR7HPOWzXQDpDgEuib/aJ1jsZZx6x3c2mBI+TJhJzOhkGeaLbCKEHXEXLfirtG2JA==}
     engines: {node: '>=18'}
@@ -3606,6 +3618,9 @@ packages:
   object-keys@1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
+
+  object-to-formdata@4.5.1:
+    resolution: {integrity: sha512-QiM9D0NiU5jV6J6tjE1g7b4Z2tcUnKs1OPUi4iMb2zH+7jwlcUrASghgkFk9GtzqNNq8rTQJtT8AzjBAvLoNMw==}
 
   object.assign@4.1.5:
     resolution: {integrity: sha512-byy+U7gp+FVwmyzKPYhW2h5l3crpmGsxl7X2s8y43IgxvG4g3QZ6CffDtsNQy1WsmZpQbO+ybo0AlW7TY6DcBQ==}
@@ -5736,11 +5751,6 @@ snapshots:
 
   '@inquirer/figures@1.0.3': {}
 
-  '@izzyjs/route@1.2.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.5.4))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0)':
-    dependencies:
-      '@adonisjs/core': 6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.5.4))(@vinejs/vine@2.1.0)(edge.js@6.2.0)
-      edge.js: 6.2.0
-
   '@japa/assert@3.0.0(@japa/runner@3.1.4)(openapi-types@1.3.4)':
     dependencies:
       '@japa/runner': 3.1.4
@@ -6179,6 +6189,17 @@ snapshots:
   '@tsconfig/node14@1.0.3': {}
 
   '@tsconfig/node16@1.0.4': {}
+
+  '@tuyau/client@0.1.3':
+    dependencies:
+      '@poppinss/matchit': 3.1.2
+      ky: 1.7.2
+      object-to-formdata: 4.5.1
+
+  '@tuyau/core@0.2.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.5.4))(@vinejs/vine@2.1.0)(edge.js@6.2.0))':
+    dependencies:
+      '@adonisjs/core': 6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.5.4))(@vinejs/vine@2.1.0)(edge.js@6.2.0)
+      ts-morph: 23.0.0
 
   '@tuyau/utils@0.0.4': {}
 
@@ -8196,6 +8217,8 @@ snapshots:
 
   ky@1.7.1: {}
 
+  ky@1.7.2: {}
+
   latest-version@9.0.0:
     dependencies:
       package-json: 10.0.1
@@ -8455,6 +8478,8 @@ snapshots:
   object-inspect@1.13.2: {}
 
   object-keys@1.1.1: {}
+
+  object-to-formdata@4.5.1: {}
 
   object.assign@4.1.5:
     dependencies:
