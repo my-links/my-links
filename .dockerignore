@@ -21,4 +21,3 @@ docker-compose*
 
 # App specific
 database/seeders
-.adonisjs
