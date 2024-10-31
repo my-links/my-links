@@ -3,6 +3,7 @@
     "title": "Bienvenue sur MyLinks",
     "cta": "Lancez-vous !"
   },
+	"description": "Un gestionnaire de favoris open-source et auto-hébergé qui vous permet de gérer vos liens favoris dans une interface intuitive",
   "collection": {
     "title": "Créer des collections",
     "text": "Organisez vos favoris dans des collections pour garder vos liens en ordre et les retrouver facilement."

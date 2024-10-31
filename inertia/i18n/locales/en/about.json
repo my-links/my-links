@@ -3,6 +3,7 @@
     "title": "Welcome to MyLinks",
     "cta": "Get started"
   },
+	"description": "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface",
   "collection": {
     "title": "Create collections",
     "text": "Organize your bookmarks by collections to keep your links tidy and find them easily."
