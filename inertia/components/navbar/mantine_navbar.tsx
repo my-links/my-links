@@ -15,6 +15,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
+import { MantineLanguageSwitcher } from '~/components/common/mantine_language_switcher';
 import { MantineThemeSwitcher } from '~/components/common/mantine_theme_switcher';
 import classes from './mobile_navbar.module.css';
 
@@ -43,10 +44,12 @@ export default function MantineNavbar() {
 
 					<Group gap="xs">
 						<MantineThemeSwitcher />
+						<MantineLanguageSwitcher />
 						<Button
 							component={Link}
 							href={route('auth.login').url}
 							visibleFrom="sm"
+							w={110}
 						>
 							{t('login')}
 						</Button>
