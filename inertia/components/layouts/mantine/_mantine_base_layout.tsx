@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import '@mantine/core/styles.css';
 import '@mantine/spotlight/styles.css';
+import '../../../styles/index.css';
 
 const theme = createTheme({});
 
