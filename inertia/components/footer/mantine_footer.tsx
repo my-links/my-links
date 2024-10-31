@@ -1,7 +1,7 @@
 import PATHS from '#constants/paths';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { Anchor, Group, Image } from '@mantine/core';
+import { Anchor, Group, Image, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
 import packageJson from '../../../package.json';
@@ -33,13 +33,13 @@ export function MantineFooter() {
 			<div className={classes.inner}>
 				<Image src="/logo-light.png" h={40} alt="MyLinks's logo" />
 
-				<Group gap={4}>
-					{t('footer.made_by')}{' '}
-					<Anchor component={ExternalLink} href={PATHS.AUTHOR}>
+				<Group gap={4} c="dimmed">
+					<Text size="sm">{t('footer.made_by')}</Text>{' '}
+					<Anchor size="sm" component={ExternalLink} href={PATHS.AUTHOR}>
 						Sonny
 					</Anchor>
 					{' • '}
-					<Anchor component={ExternalLink} href={PATHS.REPO_GITHUB}>
+					<Anchor size="sm" component={ExternalLink} href={PATHS.REPO_GITHUB}>
 						{packageJson.version}
 					</Anchor>
 				</Group>

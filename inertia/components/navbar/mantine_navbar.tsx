@@ -41,7 +41,7 @@ export default function MantineNavbar() {
 						</ExternalLink>
 					</Group>
 
-					<Group>
+					<Group gap="xs">
 						<MantineThemeSwitcher />
 						<Button
 							component={Link}

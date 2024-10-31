@@ -4,27 +4,25 @@ import { MantineFooter } from '~/components/footer/mantine_footer';
 import BaseLayout from '~/components/layouts/mantine/_mantine_base_layout';
 import MantineNavbar from '~/components/navbar/mantine_navbar';
 
-function MantineContentLayout({ children }: PropsWithChildren) {
-	return (
-		<Container
+const MantineContentLayout = ({ children }: PropsWithChildren) => (
+	<Container
+		style={{
+			minHeight: '100%',
+			display: 'flex',
+			flexDirection: 'column',
+		}}
+	>
+		<MantineNavbar />
+		<main
 			style={{
-				minHeight: '100%',
-				display: 'flex',
-				flexDirection: 'column',
+				flex: 1,
 			}}
 		>
-			<MantineNavbar />
-			<main
-				style={{
-					flex: 1,
-				}}
-			>
-				{children}
-			</main>
-			<MantineFooter />
-		</Container>
-	);
-}
+			{children}
+		</main>
+		<MantineFooter />
+	</Container>
+);
 
 const LayoutWrapper = ({ children }: PropsWithChildren) => (
 	<BaseLayout>
