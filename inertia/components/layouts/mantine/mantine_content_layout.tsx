@@ -6,19 +6,23 @@ import MantineNavbar from '~/components/navbar/mantine_navbar';
 
 function MantineContentLayout({ children }: PropsWithChildren) {
 	return (
-		<div
+		<Container
 			style={{
 				minHeight: '100%',
-				width: '100%',
-				backgroundColor: 'rgb(34, 40, 49)',
+				display: 'flex',
+				flexDirection: 'column',
 			}}
 		>
-			<Container>
-				<MantineNavbar />
-				<main>{children}</main>
-				<MantineFooter />
-			</Container>
-		</div>
+			<MantineNavbar />
+			<main
+				style={{
+					flex: 1,
+				}}
+			>
+				{children}
+			</main>
+			<MantineFooter />
+		</Container>
 	);
 }
 

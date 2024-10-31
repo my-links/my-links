@@ -15,6 +15,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
+import { MantineThemeSwitcher } from '~/components/common/mantine_theme_switcher';
 import classes from './mobile_navbar.module.css';
 
 export default function MantineNavbar() {
@@ -29,7 +30,7 @@ export default function MantineNavbar() {
 					<Image src="/logo-light.png" h={40} alt="MyLinks's logo" />
 
 					<Group h="100%" gap={0} visibleFrom="sm">
-						<Link href="#" className={classes.link}>
+						<Link href="/" className={classes.link}>
 							{t('home')}
 						</Link>
 						<ExternalLink href={PATHS.REPO_GITHUB} className={classes.link}>
@@ -40,17 +41,21 @@ export default function MantineNavbar() {
 						</ExternalLink>
 					</Group>
 
-					<Group visibleFrom="sm">
-						<Button component={Link} href={route('auth.login').url}>
+					<Group>
+						<MantineThemeSwitcher />
+						<Button
+							component={Link}
+							href={route('auth.login').url}
+							visibleFrom="sm"
+						>
 							{t('login')}
 						</Button>
+						<Burger
+							opened={drawerOpened}
+							onClick={toggleDrawer}
+							hiddenFrom="sm"
+						/>
 					</Group>
-
-					<Burger
-						opened={drawerOpened}
-						onClick={toggleDrawer}
-						hiddenFrom="sm"
-					/>
 				</Group>
 			</header>
 

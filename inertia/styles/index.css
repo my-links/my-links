@@ -1,0 +1,6 @@
+html,
+body {
+	height: 100svh;
+	width: 100%;
+	background-color: light-dark(var(--mantine-color-white), rgb(34, 40, 49));
+}

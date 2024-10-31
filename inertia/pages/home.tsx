@@ -1,68 +1,95 @@
-import styled from '@emotion/styled';
 import { ReactNode } from 'react';
+import { MantineContentLayout } from '~/components/layouts/mantine/mantine_content_layout';
+
+import {
+	Container,
+	SimpleGrid,
+	Text,
+	ThemeIcon,
+	Title,
+	rem,
+} from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { AiFillFolderOpen } from 'react-icons/ai';
 import { FaUser } from 'react-icons/fa';
 import { IoIosLink, IoIosSearch, IoIosShareAlt } from 'react-icons/io';
 import { IoExtensionPuzzleOutline } from 'react-icons/io5';
-import AboutItem from '~/components/home/about/about_item';
-import AboutList from '~/components/home/about/about_list';
-import HeroHeader from '~/components/home/hero_header';
-import WebsitePreview from '~/components/home/website_preview';
-import ContentLayout from '~/components/layouts/content_layout';
+import classes from './home.module.css';
 
-const PageContent = styled.div({
-	marginBottom: '4em',
-	textAlign: 'center',
-	display: 'flex',
-	gap: '2em',
-	flex: 1,
-	flexDirection: 'column',
-});
+const features = [
+	'collection',
+	'link',
+	'search',
+	'extension',
+	'share',
+	'contribute',
+] as const;
+type FeatureName = (typeof features)[number];
 
-function HomePage() {
-	const { t } = useTranslation();
+interface FeatureProps {
+	name: FeatureName;
+}
+
+function getIcon(name: FeatureName) {
+	switch (name) {
+		case 'collection':
+			return AiFillFolderOpen;
+		case 'link':
+			return IoIosLink;
+		case 'search':
+			return IoIosSearch;
+		case 'extension':
+			return IoExtensionPuzzleOutline;
+		case 'share':
+			return IoIosShareAlt;
+		case 'contribute':
+			return FaUser;
+	}
+}
+
+export function Feature({ name: featureName }: FeatureProps) {
+	const { t } = useTranslation('about');
+	const Icon = getIcon(featureName);
 	return (
-		<>
-			<HeroHeader />
-			<PageContent>
-				<AboutList>
-					<AboutItem
-						icon={AiFillFolderOpen}
-						title={t('about:collection.title')}
-						text={t('about:collection.text')}
-					/>
-					<AboutItem
-						icon={IoIosLink}
-						title={t('about:link.title')}
-						text={t('about:link.text')}
-					/>
-					<AboutItem
-						icon={IoIosSearch}
-						title={t('about:search.title')}
-						text={t('about:search.text')}
-					/>
-					<AboutItem
-						icon={IoExtensionPuzzleOutline}
-						title={t('about:extension.title')}
-						text={t('about:extension.text')}
-					/>
-					<AboutItem
-						icon={IoIosShareAlt}
-						title={t('about:share.title')}
-						text={t('about:share.text')}
-					/>
-					<AboutItem
-						icon={FaUser}
-						title={t('about:contribute.title')}
-						text={t('about:contribute.text')}
-					/>
-				</AboutList>
-				<WebsitePreview />
-			</PageContent>
-		</>
+		<div>
+			<ThemeIcon variant="light" size={40} radius={40}>
+				<Icon style={{ width: rem(18), height: rem(18) }} />
+			</ThemeIcon>
+			<Text mt="sm" mb={7}>
+				{t(`${featureName}.title`)}
+			</Text>
+			<Text size="sm" c="dimmed" lh={1.6}>
+				{t(`${featureName}.text`)}
+			</Text>
+		</div>
 	);
 }
 
-HomePage.layout = (page: ReactNode) => <ContentLayout children={page} />;
+function HomePage() {
+	const { t } = useTranslation('about');
+	return (
+		<Container className={classes.wrapper}>
+			<Title className={classes.title}>{t('hero.title')}</Title>
+
+			<Container size={560} p={0}>
+				<Text size="sm" className={classes.description}>
+					{t('description')}
+				</Text>
+			</Container>
+
+			<SimpleGrid
+				mt={60}
+				cols={{ base: 1, sm: 2, md: 3 }}
+				spacing={{ base: 'xl', md: 50 }}
+				verticalSpacing={{ base: 'xl', md: 50 }}
+			>
+				{features.map((feature, index) => (
+					<Feature name={feature} key={index} />
+				))}
+			</SimpleGrid>
+		</Container>
+	);
+}
+
+HomePage.layout = (page: ReactNode) => <MantineContentLayout children={page} />;
 export default HomePage;
