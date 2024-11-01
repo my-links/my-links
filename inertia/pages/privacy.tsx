@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MantineContentLayout } from '~/components/layouts/mantine/mantine_content_layout';
+import { MantineContentLayout } from '~/mantine/layouts/mantine_content_layout';
 
 function PrivacyPage() {
 	const { t } = useTranslation('privacy');
