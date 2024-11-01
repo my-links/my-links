@@ -36,7 +36,7 @@ export default class CollectionsController {
 	// Create collection form
 	async showCreatePage({ inertia, auth }: HttpContext) {
 		const collections = await this.getCollectionsByAuthorId(auth.user!.id);
-		return inertia.render('collections/create', {
+		return inertia.render('mantine/collections/create', {
 			disableHomeLink: collections.length === 0,
 		});
 	}

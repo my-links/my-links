@@ -29,6 +29,24 @@
     "delete-confirm": "Confirmer la suppression ?",
     "delete-description": "Vous devez supprimer tous les liens de cette collection avant de pouvoir supprimer cette collection"
   },
+	"form": {
+		"name": "Nom",
+		"description": "Description",
+		"visibility": "Visibilité",
+		"visibility-warning": "Le contenu sera visible par tout le monde",
+		"create": "Créer",
+		"update": "Mettre à jour",
+		"delete": "Supprimer",
+		"cancel": "Annuler",
+		"save": "Sauvegarder",
+		"close": "Fermer",
+		"confirm": "Confirmer",
+		"delete-confirm": "Confirmer la suppression ?"
+	},
+	"visibility": {
+		"private": "Privé",
+		"public": "Public"
+	},
   "favorite": "Favoris",
   "add-favorite": "Ajouter aux favoris",
   "remove-favorite": "Retirer des favoris",
