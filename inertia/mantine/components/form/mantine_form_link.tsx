@@ -91,6 +91,7 @@ export default function MantineFormLink({
 					}))}
 					onChange={(value) => setData('collectionId', value)}
 					value={data.collectionId.toString()}
+					readOnly={disableInputs}
 					mt="md"
 					searchable
 					required
@@ -100,7 +101,7 @@ export default function MantineFormLink({
 					onChange={({ target }) => setData('favorite', target.checked)}
 					checked={data.favorite}
 					error={errors?.favorite}
-					disabled={disableInputs}
+					disabled={disableInputs} // readonly not working
 					mt="md"
 				/>
 			</BackToDashboard>

@@ -47,8 +47,8 @@ export default function EditLinkPage({
 
 	return (
 		<MantineFormLink
-			title={t('link.create')}
-			textSubmitButton={t('form.create')}
+			title={t('link.edit')}
+			textSubmitButton={t('form.update')}
 			canSubmit={canSubmit}
 			data={data}
 			setData={setData}
