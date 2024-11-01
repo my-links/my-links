@@ -17,7 +17,7 @@ export default class LinksController {
 	async showCreatePage({ auth, inertia }: HttpContext) {
 		const collections =
 			await this.collectionsController.getCollectionsByAuthorId(auth.user!.id);
-		return inertia.render('links/create', { collections });
+		return inertia.render('mantine/links/create', { collections });
 	}
 
 	async store({ auth, request, response }: HttpContext) {

@@ -34,6 +34,7 @@
 		"description": "Description",
 		"visibility": "Visibilité",
 		"visibility-warning": "Le contenu sera visible par tout le monde",
+		"url": "URL",
 		"create": "Créer",
 		"update": "Mettre à jour",
 		"delete": "Supprimer",
