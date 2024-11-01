@@ -50,7 +50,7 @@ export default class LinksController {
 			await this.collectionsController.getCollectionsByAuthorId(userId);
 		const link = await this.getLinkById(linkId, userId);
 
-		return inertia.render('links/edit', { collections, link });
+		return inertia.render('mantine/links/edit', { collections, link });
 	}
 
 	async update({ request, auth, response }: HttpContext) {
