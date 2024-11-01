@@ -61,7 +61,7 @@ export default class CollectionsController {
 			collectionId,
 			auth.user!.id
 		);
-		return inertia.render('collections/edit', {
+		return inertia.render('mantine/collections/edit', {
 			collection,
 		});
 	}
