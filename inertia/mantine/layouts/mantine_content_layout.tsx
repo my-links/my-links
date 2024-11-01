@@ -1,8 +1,8 @@
 import { Container } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 import { MantineFooter } from '~/components/footer/mantine_footer';
-import BaseLayout from '~/components/layouts/mantine/_mantine_base_layout';
 import MantineNavbar from '~/components/navbar/mantine_navbar';
+import BaseLayout from '~/mantine/layouts/_mantine_base_layout';
 
 const MantineContentLayout = ({ children }: PropsWithChildren) => (
 	<Container
