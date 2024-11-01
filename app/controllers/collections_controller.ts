@@ -96,7 +96,7 @@ export default class CollectionsController {
 			collectionId,
 			auth.user!.id
 		);
-		return inertia.render('collections/delete', {
+		return inertia.render('mantine/collections/delete', {
 			collection,
 		});
 	}
