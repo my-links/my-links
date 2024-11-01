@@ -31,6 +31,7 @@ export default function CreateCollectionPage({
 	return (
 		<MantineFormCollection
 			title={t('collection.create')}
+			textSubmitButton={t('form.create')}
 			canSubmit={!isFormDisabled}
 			disableHomeLink={disableHomeLink}
 			data={data}

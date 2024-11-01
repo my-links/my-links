@@ -8,7 +8,7 @@ import i18n from '~/i18n';
 import { appendCollectionId } from '~/lib/navigation';
 import BaseLayout from '~/mantine/layouts/_mantine_base_layout';
 
-interface FormLayoutProps extends PropsWithChildren {
+export interface FormLayoutProps extends PropsWithChildren {
 	title: string;
 
 	canSubmit: boolean;
@@ -26,7 +26,7 @@ function MantineFormLayout({
 
 	canSubmit,
 	handleSubmit,
-	textSubmitButton = i18n.t('common:form.create'),
+	textSubmitButton = i18n.t('common:form.confirm'),
 
 	disableHomeLink = false,
 	submitBtnDanger = false,

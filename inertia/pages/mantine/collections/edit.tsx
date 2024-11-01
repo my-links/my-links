@@ -39,6 +39,7 @@ export default function EditCollectionPage({
 	return (
 		<MantineFormCollection
 			title={t('collection.edit')}
+			textSubmitButton={t('form.update')}
 			canSubmit={canSubmit}
 			data={data}
 			setData={setData}
