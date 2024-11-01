@@ -29,6 +29,24 @@
     "delete-confirm": "Confirm deletion?",
     "delete-description": "You must delete all links in this collection before you can delete this collection."
   },
+	"form": {
+		"name": "Name",
+		"description": "Description",
+		"visibility": "Visibility",
+		"visibility-warning": "The content will be visible to everyone",
+		"create": "Create",
+		"update": "Update",
+		"delete": "Delete",
+		"cancel": "Cancel",
+		"save": "Save",
+		"close": "Close",
+		"confirm": "Confirm",
+		"delete-confirm": "Confirmer deletion?"
+	},
+	"visibility": {
+		"private": "Privé",
+		"public": "Public"
+	},
   "favorite": "Favorite",
   "add-favorite": "Add to favorites",
   "remove-favorite": "Remove from favorites",
