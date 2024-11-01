@@ -1,13 +1,12 @@
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import MantineFormCollection, {
 	FormCollectionData,
 } from '~/mantine/components/form/mantine_form_collection';
 import { Collection } from '~/types/app';
 
-export default function EditCollectionPage({
+export default function DeleteCollectionPage({
 	collection,
 }: {
 	collection: Collection;
@@ -18,19 +17,10 @@ export default function EditCollectionPage({
 			name: collection.name,
 			description: collection.description,
 			visibility: collection.visibility,
-			nextId: collection.nextId,
 		});
-	const canSubmit = useMemo<boolean>(() => {
-		const isFormEdited =
-			data.name !== collection.name ||
-			data.description !== collection.description ||
-			data.visibility !== collection.visibility;
-		const isFormValid = data.name !== '';
-		return isFormEdited && isFormValid && !processing;
-	}, [data, collection]);
 
 	const handleSubmit = () => {
-		const { method, url } = route('collection.edit', {
+		const { method, url } = route('collection.delete', {
 			params: { id: collection.id.toString() },
 		});
 		submit(method, url);
@@ -38,14 +28,15 @@ export default function EditCollectionPage({
 
 	return (
 		<MantineFormCollection
-			title={t('collection.edit')}
-			textSubmitButton={t('form.update')}
-			canSubmit={canSubmit}
+			title={t('collection.delete')}
+			textSubmitButton={t('form.delete')}
+			canSubmit={!processing}
 			data={data}
 			setData={setData}
 			handleSubmit={handleSubmit}
-			// TODO: fix this, type mistmatch (Record<string, string[]> sent by the backend, but useForm expects a Record<string, string>)
 			errors={errors as any}
+			disableInputs
+			submitBtnDanger
 		/>
 	);
 }
