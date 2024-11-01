@@ -98,7 +98,7 @@ export default class LinksController {
 
 		const link = await this.getLinkById(linkId, auth.user!.id);
 		await link.load('collection');
-		return inertia.render('links/delete', { link });
+		return inertia.render('mantine/links/delete', { link });
 	}
 
 	async delete({ request, auth, response }: HttpContext) {
