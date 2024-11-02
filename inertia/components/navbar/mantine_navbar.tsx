@@ -17,10 +17,13 @@ import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
 import { MantineLanguageSwitcher } from '~/components/common/mantine_language_switcher';
 import { MantineThemeSwitcher } from '~/components/common/mantine_theme_switcher';
+import { MantineUserCard } from '~/components/common/mantine_user_card';
+import useUser from '~/hooks/use_user';
 import classes from './mobile_navbar.module.css';
 
 export default function MantineNavbar() {
 	const { t } = useTranslation('common');
+	const { isAuthenticated } = useUser();
 	const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
 		useDisclosure(false);
 
@@ -28,7 +31,7 @@ export default function MantineNavbar() {
 		<Box pb={40}>
 			<header className={classes.header}>
 				<Group justify="space-between" h="100%">
-					<Image src="/logo-light.png" h={40} alt="MyLinks's logo" />
+					<Image src="/logo-light.png" h={35} alt="MyLinks's logo" />
 
 					<Group h="100%" gap={0} visibleFrom="sm">
 						<Link href="/" className={classes.link}>
@@ -45,14 +48,25 @@ export default function MantineNavbar() {
 					<Group gap="xs">
 						<MantineThemeSwitcher />
 						<MantineLanguageSwitcher />
-						<Button
-							component={Link}
-							href={route('auth.login').url}
-							visibleFrom="sm"
-							w={110}
-						>
-							{t('login')}
-						</Button>
+						{!isAuthenticated ? (
+							<Button
+								component={Link}
+								href={route('auth.login').url}
+								visibleFrom="sm"
+								w={110}
+							>
+								{t('login')}
+							</Button>
+						) : (
+							<Button
+								component={Link}
+								href={route('dashboard').url}
+								visibleFrom="sm"
+								w={110}
+							>
+								Dashboard
+							</Button>
+						)}
 						<Burger
 							opened={drawerOpened}
 							onClick={toggleDrawer}
@@ -87,9 +101,13 @@ export default function MantineNavbar() {
 					<Divider my="sm" />
 
 					<Group justify="center" grow pb="xl" px="md">
-						<Button component={Link} href={route('auth.login').url}>
-							{t('login')}
-						</Button>
+						{!isAuthenticated ? (
+							<Button component={Link} href={route('auth.login').url}>
+								{t('login')}
+							</Button>
+						) : (
+							<MantineUserCard />
+						)}
 					</Group>
 				</ScrollArea>
 			</Drawer>
