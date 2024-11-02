@@ -1,17 +1,24 @@
 import { router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { ReactNode } from 'react';
+import { PropsWithChildren } from 'react';
 import useSearchParam from '~/hooks/use_search_param';
 import useShortcut from '~/hooks/use_shortcut';
 import { appendCollectionId } from '~/lib/navigation';
 
-export default function BackToDashboard({ children }: { children: ReactNode }) {
+interface BackToDashboardProps extends PropsWithChildren {
+	disabled?: boolean;
+}
+
+export default function BackToDashboard({
+	disabled = false,
+	children,
+}: BackToDashboardProps) {
 	const collectionId = Number(useSearchParam('collectionId'));
 	useShortcut(
 		'ESCAPE_KEY',
 		() =>
 			router.visit(appendCollectionId(route('dashboard').url, collectionId)),
-		{ disableGlobalCheck: true }
+		{ disableGlobalCheck: true, enabled: !disabled }
 	);
 	return <>{children}</>;
 }

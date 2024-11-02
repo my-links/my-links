@@ -58,7 +58,7 @@ function MantineFormLayout({
 						width: rem(600),
 					}}
 				>
-					<Title order={1} size="h2">
+					<Title order={1} size="h2" c="blue">
 						{title}
 					</Title>
 					{children}
