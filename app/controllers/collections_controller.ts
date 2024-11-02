@@ -26,7 +26,7 @@ export default class CollectionsController {
 		}
 
 		// TODO: Create DTOs
-		return inertia.render('dashboard', {
+		return inertia.render('mantine_dashboard', {
 			collections: collections.map((collection) => collection.serialize()),
 			activeCollection:
 				activeCollection?.serialize() || collections[0].serialize(),

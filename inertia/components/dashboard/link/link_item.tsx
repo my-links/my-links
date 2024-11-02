@@ -1,76 +1,9 @@
-import styled from '@emotion/styled';
+import { Card, Group, Text } from '@mantine/core'; // Import de Mantine
 import { AiFillStar } from 'react-icons/ai';
-import ExternalLink from '~/components/common/external_link';
-import LinkControls from '~/components/dashboard/link/link_controls';
+import { ExternalLinkStyled } from '~/components/common/external_link_styled';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
 import { Link } from '~/types/app';
-
-const LinkWrapper = styled.li(({ theme }) => ({
-	userSelect: 'none',
-	cursor: 'pointer',
-	height: 'fit-content',
-	width: '100%',
-	color: theme.colors.primary,
-	backgroundColor: theme.colors.secondary,
-	padding: '0.75em 1em',
-	borderRadius: theme.border.radius,
-
-	'&:hover': {
-		outlineWidth: '1px',
-		outlineStyle: 'solid',
-	},
-}));
-
-const LinkHeader = styled.div(({ theme }) => ({
-	display: 'flex',
-	gap: '1em',
-	alignItems: 'center',
-
-	'& > a': {
-		height: '100%',
-		maxWidth: 'calc(100% - 75px)', // TODO: fix this, it is ugly af :(
-		textDecoration: 'none',
-		display: 'flex',
-		flex: 1,
-		flexDirection: 'column',
-		transition: theme.transition.delay,
-
-		'&, &:hover': {
-			border: 0,
-		},
-	},
-}));
-
-const LinkName = styled.div({
-	width: '100%',
-	textOverflow: 'ellipsis',
-	whiteSpace: 'nowrap',
-	overflow: 'hidden',
-});
-
-const LinkDescription = styled.div(({ theme }) => ({
-	marginTop: '0.5em',
-	color: theme.colors.font,
-	fontSize: '0.8em',
-	wordWrap: 'break-word',
-}));
-
-const LinkUrl = styled.span(({ theme }) => ({
-	width: '100%',
-	textOverflow: 'ellipsis',
-	whiteSpace: 'nowrap',
-	overflow: 'hidden',
-	color: theme.colors.grey,
-	fontSize: '0.8em',
-}));
-
-const StarIcon = styled(AiFillStar)(({ theme }) => ({
-	color: theme.colors.yellow,
-}));
-
-const LinkUrlPathname = styled.span({
-	opacity: 0,
-});
+import styles from './link.module.css';
 
 export default function LinkItem({
 	link,
@@ -79,21 +12,34 @@ export default function LinkItem({
 	link: Link;
 	showUserControls: boolean;
 }) {
-	const { id, name, url, description, favorite } = link;
+	const { name, url, description, favorite } = link;
 	return (
-		<LinkWrapper key={id} title={name}>
-			<LinkHeader>
+		<Card
+			className={styles.linkWrapper}
+			padding="xs"
+			pl="md"
+			pr="md"
+			radius="sm"
+		>
+			<Group className={styles.linkHeader} justify="space-between">
 				<LinkFavicon url={url} />
-				<ExternalLink href={url} className="reset">
-					<LinkName>
-						{name} {showUserControls && favorite && <StarIcon />}
-					</LinkName>
+				<ExternalLinkStyled href={url} style={{ flex: 1 }}>
+					<div className={styles.linkName}>
+						<Text c="blue" lineClamp={1}>
+							{name}{' '}
+							{showUserControls && favorite && <AiFillStar color="gold" />}
+						</Text>
+					</div>
 					<LinkItemURL url={url} />
-				</ExternalLink>
-				{showUserControls && <LinkControls link={link} />}
-			</LinkHeader>
-			{description && <LinkDescription>{description}</LinkDescription>}
-		</LinkWrapper>
+				</ExternalLinkStyled>
+				{/* {showUserControls && <LinkControls link={link} />} */}
+			</Group>
+			{description && (
+				<Text c="dimmed" size="sm">
+					{description}
+				</Text>
+			)}
+		</Card>
 	);
 }
 
@@ -114,13 +60,17 @@ function LinkItemURL({ url }: { url: Link['url'] }) {
 		}
 
 		return (
-			<LinkUrl>
+			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
 				{origin}
-				<LinkUrlPathname>{text}</LinkUrlPathname>
-			</LinkUrl>
+				<span className={styles.linkUrlPathname}>{text}</span>
+			</Text>
 		);
 	} catch (error) {
 		console.error('error', error);
-		return <LinkUrl>{url}</LinkUrl>;
+		return (
+			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
+				{url}
+			</Text>
+		);
 	}
 }
