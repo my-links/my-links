@@ -1,0 +1,26 @@
+.favicon {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.faviconLoader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: var(--secondary-color);
+}
+
+.faviconLoader > * {
+	animation: rotate 1s both reverse infinite linear;
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

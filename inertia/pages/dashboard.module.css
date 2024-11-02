@@ -1,0 +1,3 @@
+.ml_bg_color {
+	background-color: light-dark(var(--ml-bg-light), var(--ml-bg-dark));
+}

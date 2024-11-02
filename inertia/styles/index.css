@@ -1,40 +1,41 @@
+:root {
+	--ml-bg-light: rgb(240, 238, 246);
+	--ml-bg-dark: rgb(34, 40, 49);
+}
+
 html,
 body {
 	min-height: 100svh;
 	width: 100%;
-	background-color: light-dark(var(--mantine-color-white), rgb(34, 40, 49));
+	background-color: light-dark(var(--ml-bg-light), var(--ml-bg-dark));
 }
 
 .__transition_fadeIn {
-	animation: fadeIn 0.25s ease;
-	opacity: 1;
-	scale: 1;
+	animation: fadeIn 0.15s ease both;
 }
 
 .__transition_fadeOut {
-	animation: fadeOut 0.25s ease;
-	opacity: 0;
-	scale: 0.9;
+	animation: fadeOut 0.15s ease both;
 }
 
 @keyframes fadeIn {
 	from {
 		opacity: 0;
-		scale: 0.9;
+		transform: scale(0.9);
 	}
 	to {
 		opacity: 1;
-		scale: 1;
+		transform: none;
 	}
 }
 
 @keyframes fadeOut {
 	from {
 		opacity: 1;
-		scale: 1;
+		transform: none;
 	}
 	to {
 		opacity: 0;
-		scale: 0.9;
+		transform: scale(0.9);
 	}
 }
