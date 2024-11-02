@@ -51,7 +51,7 @@ export default function MantineFormLink({
 			collectionId={collectionId}
 			{...props}
 		>
-			<BackToDashboard>
+			<BackToDashboard disabled={props.disableHomeLink}>
 				<TextInput
 					label={t('form.name')}
 					placeholder={t('form.name')}
