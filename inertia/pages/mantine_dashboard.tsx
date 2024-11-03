@@ -14,6 +14,7 @@ import { MantineFooter } from '~/components/footer/mantine_footer';
 import useShortcut from '~/hooks/use_shortcut';
 import { DashboardAside } from '~/mantine/components/dashboard/dashboard_aside';
 import { DashboardNavbar } from '~/mantine/components/dashboard/dashboard_navbar';
+import { NoLink } from '~/mantine/components/dashboard/link/no_link';
 import { MantineDashboardLayout } from '~/mantine/layouts/mantine_dashboard_layout';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './dashboard.module.css';
@@ -85,16 +86,20 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 					</AppShell.Header>
 					<DashboardNavbar isOpen={openedNavbar} toggle={toggleNavbar} />
 					<AppShell.Main>
-						<ScrollArea
-							h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px))"
-							p="md"
-						>
-							<Stack gap="xs">
-								{props.activeCollection.links.map((link) => (
-									<LinkItem key={link.id} link={link} showUserControls />
-								))}
-							</Stack>
-						</ScrollArea>
+						{props.activeCollection.links.length > 0 ? (
+							<ScrollArea
+								h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px))"
+								p="md"
+							>
+								<Stack gap="xs">
+									{props.activeCollection.links.map((link) => (
+										<LinkItem key={link.id} link={link} showUserControls />
+									))}
+								</Stack>
+							</ScrollArea>
+						) : (
+							<NoLink />
+						)}
 					</AppShell.Main>
 					<DashboardAside isOpen={openedAside} toggle={toggleAside} />
 					<AppShell.Footer pl="xs" pr="xs">
