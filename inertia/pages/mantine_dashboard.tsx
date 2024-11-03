@@ -7,13 +7,15 @@ import {
 	Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useEffect } from 'react';
 import DashboardProviders from '~/components/dashboard/dashboard_provider';
 import LinkItem from '~/components/dashboard/link/link_item';
 import { MantineFooter } from '~/components/footer/mantine_footer';
+import useShortcut from '~/hooks/use_shortcut';
+import { DashboardAside } from '~/mantine/components/dashboard/dashboard_aside';
 import { DashboardNavbar } from '~/mantine/components/dashboard/dashboard_navbar';
 import { MantineDashboardLayout } from '~/mantine/layouts/mantine_dashboard_layout';
 import { CollectionWithLinks } from '~/types/app';
-import '../styles/body_overflow_hidden.css';
 import classes from './dashboard.module.css';
 
 interface DashboardPageProps {
@@ -22,15 +24,29 @@ interface DashboardPageProps {
 }
 
 export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
-	const [openedNavbar, { toggle: toggleNavbar }] = useDisclosure();
-	const [openedAside, { toggle: toggleAside }] = useDisclosure();
+	const [openedNavbar, { toggle: toggleNavbar, close: closeNavbar }] =
+		useDisclosure();
+	const [openedAside, { toggle: toggleAside, close: closeAside }] =
+		useDisclosure();
+
+	useShortcut('ESCAPE_KEY', () => {
+		closeNavbar();
+		closeAside();
+	});
+
+	useEffect(() => {
+		document.body.style.overflow = 'hidden';
+		return () => {
+			document.body.style.overflow = 'auto';
+		};
+	}, []);
 
 	return (
 		<MantineDashboardLayout>
 			<DashboardProviders {...props}>
 				<AppShell
 					layout="alt"
-					header={{ height: 60 }}
+					header={{ height: 50 }}
 					navbar={{
 						width: 300,
 						breakpoint: 'sm',
@@ -57,7 +73,7 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 									hiddenFrom="sm"
 									size="sm"
 								/>
-								{props.activeCollection.name}
+								<Text lineClamp={1}>{props.activeCollection.name}</Text>
 							</Group>
 							<Burger
 								opened={openedAside}
@@ -80,17 +96,7 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 							</Stack>
 						</ScrollArea>
 					</AppShell.Main>
-					<AppShell.Aside p="md">
-						<Group justify="space-between">
-							<Text>Aside</Text>
-							<Burger
-								opened={openedAside}
-								onClick={toggleAside}
-								hiddenFrom="md"
-								size="md"
-							/>
-						</Group>
-					</AppShell.Aside>
+					<DashboardAside isOpen={openedAside} toggle={toggleAside} />
 					<AppShell.Footer pl="xs" pr="xs">
 						<MantineFooter />
 					</AppShell.Footer>
