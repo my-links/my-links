@@ -9,6 +9,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import DashboardProviders from '~/components/dashboard/dashboard_provider';
 import LinkItem from '~/components/dashboard/link/link_item';
+import { MantineFooter } from '~/components/footer/mantine_footer';
 import { DashboardNavbar } from '~/mantine/components/dashboard/dashboard_navbar';
 import { MantineDashboardLayout } from '~/mantine/layouts/mantine_dashboard_layout';
 import { CollectionWithLinks } from '~/types/app';
@@ -30,7 +31,6 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 				<AppShell
 					layout="alt"
 					header={{ height: 60 }}
-					footer={{ height: 60 }}
 					navbar={{
 						width: 300,
 						breakpoint: 'sm',
@@ -41,7 +41,6 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 						breakpoint: 'md',
 						collapsed: { mobile: !openedAside },
 					}}
-					padding={0}
 					classNames={{
 						aside: classes.ml_bg_color,
 						footer: classes.ml_bg_color,
@@ -58,7 +57,7 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 									hiddenFrom="sm"
 									size="sm"
 								/>
-								Ma super collection
+								{props.activeCollection.name}
 							</Group>
 							<Burger
 								opened={openedAside}
@@ -92,7 +91,9 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 							/>
 						</Group>
 					</AppShell.Aside>
-					<AppShell.Footer p="md">Footer</AppShell.Footer>
+					<AppShell.Footer pl="xs" pr="xs">
+						<MantineFooter />
+					</AppShell.Footer>
 				</AppShell>
 			</DashboardProviders>
 		</MantineDashboardLayout>
