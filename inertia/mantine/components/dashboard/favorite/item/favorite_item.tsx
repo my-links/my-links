@@ -11,7 +11,7 @@ export const FavoriteItem = ({
 }) => (
 	<Card className={styles.linkWrapper} radius="sm" withBorder>
 		<Group justify="center" gap="xs">
-			<LinkFavicon url={url} />
+			<LinkFavicon size={32} url={url} />
 			<ExternalLinkStyled href={url} style={{ flex: 1 }}>
 				<div className={styles.linkName}>
 					<Text lineClamp={1}>{name} </Text>
