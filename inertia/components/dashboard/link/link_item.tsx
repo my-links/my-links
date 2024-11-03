@@ -1,6 +1,7 @@
 import { Card, Group, Text } from '@mantine/core';
 import { AiFillStar } from 'react-icons/ai';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
+import LinkControls from '~/components/dashboard/link/link_controls';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
 import { Link } from '~/types/app';
 import styles from './link.module.css';
@@ -26,7 +27,7 @@ export default function LinkItem({
 					</div>
 					<LinkItemURL url={url} />
 				</ExternalLinkStyled>
-				{/* {showUserControls && <LinkControls link={link} />} */}
+				{showUserControls && <LinkControls link={link} />}
 			</Group>
 			{description && (
 				<Text className={styles.linkDescription} c="dimmed" size="sm">
