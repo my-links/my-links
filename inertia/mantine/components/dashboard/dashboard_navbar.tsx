@@ -61,7 +61,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				{...common}
 				label={t('settings')}
 				leftSection={<PiGearLight size="1.5rem" />}
-				color="var(--mantine-color-gray-7)"
+				color="var(--mantine-color-text)"
 			/>
 			<NavLink
 				{...common}
