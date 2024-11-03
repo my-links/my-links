@@ -26,13 +26,24 @@ export default function BaseLayout({ children }: { children: ReactNode }) {
 		}
 	};
 
+	const canTransition = (currentLocation: URL, newLocation: URL) =>
+		currentLocation.pathname !== newLocation.pathname;
+
 	useEffect(() => {
+		const currentLocation = new URL(window.location.href);
 		flipClass(TRANSITION_IN_CLASS, TRANSITION_OUT_CLASS);
-		router.on('start', () =>
-			flipClass(TRANSITION_OUT_CLASS, TRANSITION_IN_CLASS)
+
+		router.on(
+			'start',
+			(event) =>
+				canTransition(currentLocation, event.detail.visit.url) &&
+				flipClass(TRANSITION_OUT_CLASS, TRANSITION_IN_CLASS)
 		);
-		router.on('finish', () =>
-			flipClass(TRANSITION_IN_CLASS, TRANSITION_OUT_CLASS)
+		router.on(
+			'finish',
+			(event) =>
+				canTransition(currentLocation, event.detail.visit.url) &&
+				flipClass(TRANSITION_IN_CLASS, TRANSITION_OUT_CLASS)
 		);
 	}, []);
 

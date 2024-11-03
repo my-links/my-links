@@ -8,6 +8,7 @@ import {
 	NavLink,
 	ScrollArea,
 	Skeleton,
+	Stack,
 	Text,
 } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
@@ -29,12 +30,17 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 		variant: 'subtle',
 		color: 'blue',
 		active: true,
+		styles: {
+			label: {
+				fontSize: '16px',
+			},
+		},
 	};
 	return (
 		<AppShell.Navbar p="md">
 			<Group hiddenFrom="sm" mb="md">
 				<Burger opened={isOpen} onClick={toggle} size="sm" />
-				<Text>Menu</Text>
+				<Text>Navigation</Text>
 			</Group>
 			<MantineUserCard />
 			<Divider mt="xs" mb="md" />
@@ -52,6 +58,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				label={t('settings')}
 				leftSection={<PiGearLight size="1.5rem" />}
 				variant="subtle"
+				styles={common.styles}
 			/>
 			<NavLink
 				{...common}
@@ -72,15 +79,17 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				label={t('link.create')}
 				leftSection={<AiOutlineFolderAdd size="1.5rem" />}
 			/>
-			<Text size="sm" fw={500} c="dimmed" mt="sm" ml="md">
+			<Text c="dimmed" mt="xs" ml="md" mb="sm">
 				{t('favorite')} • {0}
 			</Text>
 			<AppShell.Section grow component={ScrollArea}>
-				{Array(15)
-					.fill(0)
-					.map((_, index) => (
-						<Skeleton key={index} h={28} mt="sm" animate={false} />
-					))}
+				<Stack gap="xs">
+					{Array(15)
+						.fill(0)
+						.map((_, index) => (
+							<Skeleton key={index} h={28} animate={false} />
+						))}
+				</Stack>
 			</AppShell.Section>
 		</AppShell.Navbar>
 	);
