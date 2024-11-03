@@ -54,7 +54,7 @@ function LinkItemURL({ url }: { url: Link['url'] }) {
 		}
 
 		return (
-			<Text className={styles.linkUrl} color="gray" size="xs" lineClamp={1}>
+			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
 				{origin}
 				<span className={styles.linkUrlPathname}>{text}</span>
 			</Text>
@@ -62,7 +62,7 @@ function LinkItemURL({ url }: { url: Link['url'] }) {
 	} catch (error) {
 		console.error('error', error);
 		return (
-			<Text className={styles.linkUrl} color="gray" size="xs" lineClamp={1}>
+			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
 				{url}
 			</Text>
 		);
