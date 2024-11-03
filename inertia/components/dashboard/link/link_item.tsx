@@ -1,4 +1,4 @@
-import { Card, Group, Text } from '@mantine/core'; // Import de Mantine
+import { Card, Group, Text } from '@mantine/core';
 import { AiFillStar } from 'react-icons/ai';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
@@ -14,18 +14,12 @@ export default function LinkItem({
 }) {
 	const { name, url, description, favorite } = link;
 	return (
-		<Card
-			className={styles.linkWrapper}
-			padding="xs"
-			pl="md"
-			pr="md"
-			radius="sm"
-		>
-			<Group className={styles.linkHeader} justify="space-between">
+		<Card className={styles.linkWrapper} padding="sm" radius="sm" withBorder>
+			<Group className={styles.linkHeader} justify="center">
 				<LinkFavicon url={url} />
 				<ExternalLinkStyled href={url} style={{ flex: 1 }}>
 					<div className={styles.linkName}>
-						<Text c="blue" lineClamp={1}>
+						<Text lineClamp={1}>
 							{name}{' '}
 							{showUserControls && favorite && <AiFillStar color="gold" />}
 						</Text>
@@ -35,7 +29,7 @@ export default function LinkItem({
 				{/* {showUserControls && <LinkControls link={link} />} */}
 			</Group>
 			{description && (
-				<Text c="dimmed" size="sm">
+				<Text className={styles.linkDescription} c="dimmed" size="sm">
 					{description}
 				</Text>
 			)}
@@ -60,7 +54,7 @@ function LinkItemURL({ url }: { url: Link['url'] }) {
 		}
 
 		return (
-			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
+			<Text className={styles.linkUrl} color="gray" size="xs" lineClamp={1}>
 				{origin}
 				<span className={styles.linkUrlPathname}>{text}</span>
 			</Text>
@@ -68,7 +62,7 @@ function LinkItemURL({ url }: { url: Link['url'] }) {
 	} catch (error) {
 		console.error('error', error);
 		return (
-			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
+			<Text className={styles.linkUrl} color="gray" size="xs" lineClamp={1}>
 				{url}
 			</Text>
 		);
