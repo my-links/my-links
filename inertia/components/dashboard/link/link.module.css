@@ -37,8 +37,14 @@
 	white-space: nowrap;
 	overflow: hidden;
 	font-size: 0.8em;
+	transition: opacity 0.3s;
+}
+
+.linkWrapper:hover .linkUrlPathname {
+	opacity: 1;
 }
 
 .linkUrlPathname {
 	opacity: 0;
+	transition: opacity 0.3s;
 }
