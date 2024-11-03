@@ -6,9 +6,8 @@ import {
 	Divider,
 	Group,
 	NavLink,
+	rem,
 	ScrollArea,
-	Skeleton,
-	Stack,
 	Text,
 } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +17,7 @@ import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
 import { PiGearLight } from 'react-icons/pi';
 import { MantineUserCard } from '~/components/common/mantine_user_card';
 import useUser from '~/hooks/use_user';
+import { FavoriteList } from '~/mantine/components/dashboard/favorite/favorite_list';
 
 interface DashboardNavbarProps {
 	isOpen: boolean;
@@ -32,7 +32,10 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 		active: true,
 		styles: {
 			label: {
-				fontSize: '16px',
+				fontSize: rem(16),
+			},
+			root: {
+				borderRadius: rem(5),
 			},
 		},
 	};
@@ -55,10 +58,10 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				/>
 			)}
 			<NavLink
+				{...common}
 				label={t('settings')}
 				leftSection={<PiGearLight size="1.5rem" />}
-				variant="subtle"
-				styles={common.styles}
+				color="var(--mantine-color-gray-7)"
 			/>
 			<NavLink
 				{...common}
@@ -68,28 +71,19 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			<NavLink
 				{...common}
 				component={Link}
-				href={route('collection.create-form').url}
-				label={t('collection.create')}
+				href={route('link.create-form').url}
+				label={t('link.create')}
 				leftSection={<IoAdd size="1.5rem" />}
 			/>
 			<NavLink
 				{...common}
 				component={Link}
-				href={route('link.create-form').url}
-				label={t('link.create')}
+				href={route('collection.create-form').url}
+				label={t('collection.create')}
 				leftSection={<AiOutlineFolderAdd size="1.5rem" />}
 			/>
-			<Text c="dimmed" mt="xs" ml="md" mb="sm">
-				{t('favorite')} • {0}
-			</Text>
 			<AppShell.Section grow component={ScrollArea}>
-				<Stack gap="xs">
-					{Array(15)
-						.fill(0)
-						.map((_, index) => (
-							<Skeleton key={index} h={28} animate={false} />
-						))}
-				</Stack>
+				<FavoriteList />
 			</AppShell.Section>
 		</AppShell.Navbar>
 	);

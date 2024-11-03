@@ -24,7 +24,8 @@ export default function CollectionItem({
 		}
 	}, [collection.id, activeCollection?.id]);
 
-	const linksCount = activeCollection?.links.length ?? 0;
+	const linksCount = collection?.links.length ?? 0;
+	const showLinks = linksCount > 0;
 	return (
 		<Link
 			className={classes.link}
@@ -34,10 +35,10 @@ export default function CollectionItem({
 			ref={itemRef}
 		>
 			<FolderIcon className={classes.linkIcon} />
-			<Text lineClamp={1} maw="160px">
+			<Text lineClamp={1} maw={showLinks ? '160px' : '200px'}>
 				{collection.name}
 			</Text>
-			{linksCount > 0 && (
+			{showLinks && (
 				<Text c="var(--mantine-color-gray-5)" ml="xs">
 					— {linksCount}
 				</Text>
