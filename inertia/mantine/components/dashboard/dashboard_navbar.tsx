@@ -16,6 +16,7 @@ import { IoIosSearch } from 'react-icons/io';
 import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
 import { PiGearLight } from 'react-icons/pi';
 import { MantineUserCard } from '~/components/common/mantine_user_card';
+import useUser from '~/hooks/use_user';
 
 interface DashboardNavbarProps {
 	isOpen: boolean;
@@ -23,6 +24,7 @@ interface DashboardNavbarProps {
 }
 export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 	const { t } = useTranslation('common');
+	const { isAuthenticated, user } = useUser();
 	const common = {
 		variant: 'subtle',
 		color: 'blue',
@@ -36,14 +38,16 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			</Group>
 			<MantineUserCard />
 			<Divider mt="xs" mb="md" />
-			<NavLink
-				{...common}
-				component={Link}
-				href={route('admin.dashboard').url}
-				label={t('admin')}
-				leftSection={<IoShieldHalfSharp size="1.5rem" />}
-				color="var(--mantine-color-red-5)"
-			/>
+			{isAuthenticated && user.isAdmin && (
+				<NavLink
+					{...common}
+					component={Link}
+					href={route('admin.dashboard').url}
+					label={t('admin')}
+					leftSection={<IoShieldHalfSharp size="1.5rem" />}
+					color="var(--mantine-color-red-5)"
+				/>
+			)}
 			<NavLink
 				label={t('settings')}
 				leftSection={<PiGearLight size="1.5rem" />}
@@ -71,13 +75,13 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			<Text size="sm" fw={500} c="dimmed" mt="sm" ml="md">
 				{t('favorite')} • {0}
 			</Text>
-			<ScrollArea>
+			<AppShell.Section grow component={ScrollArea}>
 				{Array(15)
 					.fill(0)
 					.map((_, index) => (
 						<Skeleton key={index} h={28} mt="sm" animate={false} />
 					))}
-			</ScrollArea>
+			</AppShell.Section>
 		</AppShell.Navbar>
 	);
 }
