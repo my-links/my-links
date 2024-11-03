@@ -21,7 +21,11 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 			{...others}
 		>
 			<Group>
-				<Avatar src={image} radius="xl" />
+				<Avatar
+					src={image}
+					radius="xl"
+					imageProps={{ referrerPolicy: 'no-referrer' }}
+				/>
 
 				<div style={{ flex: 1 }}>
 					<Text size="sm" fw={500}>
