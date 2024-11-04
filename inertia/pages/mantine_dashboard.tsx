@@ -39,52 +39,55 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 	return (
 		<MantineDashboardLayout>
 			<DashboardProviders {...props}>
-				<AppShell
-					layout="alt"
-					header={{ height: 50 }}
-					navbar={{
-						width: 300,
-						breakpoint: 'sm',
-						collapsed: { mobile: !openedNavbar },
-					}}
-					aside={{
-						width: 300,
-						breakpoint: 'md',
-						collapsed: { mobile: !openedAside },
-					}}
-					classNames={{
-						aside: classes.ml_bg_color,
-						footer: classes.ml_bg_color,
-						navbar: classes.ml_bg_color,
-						header: classes.ml_bg_color,
-					}}
-				>
-					<DashboardHeader
-						navbar={{ opened: openedNavbar, toggle: toggleNavbar }}
-						aside={{ opened: openedAside, toggle: toggleAside }}
-					/>
-					<DashboardNavbar isOpen={openedNavbar} toggle={toggleNavbar} />
-					<AppShell.Main>
-						{props.activeCollection.links.length > 0 ? (
-							<ScrollArea
-								h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px))"
-								p="md"
-							>
-								<Stack gap="xs">
-									{props.activeCollection.links.map((link) => (
-										<LinkItem key={link.id} link={link} showUserControls />
-									))}
-								</Stack>
-							</ScrollArea>
-						) : (
-							<NoLink />
-						)}
-					</AppShell.Main>
-					<DashboardAside isOpen={openedAside} toggle={toggleAside} />
-					<AppShell.Footer pl="xs" pr="xs">
-						<MantineFooter />
-					</AppShell.Footer>
-				</AppShell>
+				<div className={classes.app_wrapper}>
+					<AppShell
+						layout="alt"
+						header={{ height: 50 }}
+						navbar={{
+							width: 300,
+							breakpoint: 'sm',
+							collapsed: { mobile: !openedNavbar },
+						}}
+						aside={{
+							width: 300,
+							breakpoint: 'md',
+							collapsed: { mobile: !openedAside },
+						}}
+						classNames={{
+							aside: classes.ml_custom_class,
+							footer: classes.ml_custom_class,
+							navbar: classes.ml_custom_class,
+							header: classes.ml_custom_class,
+						}}
+						className={classes.app_shell}
+					>
+						<DashboardHeader
+							navbar={{ opened: openedNavbar, toggle: toggleNavbar }}
+							aside={{ opened: openedAside, toggle: toggleAside }}
+						/>
+						<DashboardNavbar isOpen={openedNavbar} toggle={toggleNavbar} />
+						<AppShell.Main>
+							{props.activeCollection.links.length > 0 ? (
+								<ScrollArea
+									h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px))"
+									p="md"
+								>
+									<Stack gap="xs">
+										{props.activeCollection.links.map((link) => (
+											<LinkItem key={link.id} link={link} showUserControls />
+										))}
+									</Stack>
+								</ScrollArea>
+							) : (
+								<NoLink key={props.activeCollection.id} />
+							)}
+						</AppShell.Main>
+						<DashboardAside isOpen={openedAside} toggle={toggleAside} />
+						<AppShell.Footer pl="xs" pr="xs">
+							<MantineFooter />
+						</AppShell.Footer>
+					</AppShell>
+				</div>
 			</DashboardProviders>
 		</MantineDashboardLayout>
 	);

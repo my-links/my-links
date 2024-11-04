@@ -74,7 +74,7 @@ export default function LinkControls({
 						onFavorite(link.id, !link.favorite, onFavoriteCallback)
 					}
 					leftSection={link.favorite ? <MdFavorite /> : <MdFavoriteBorder />}
-					color="yellow"
+					color="var(--mantine-color-yellow-7)"
 				>
 					{link.favorite ? t('remove-favorite') : t('add-favorite')}
 				</Menu.Item>
@@ -82,7 +82,7 @@ export default function LinkControls({
 					component={InertiaLink}
 					href={appendLinkId(route('link.edit-form').path, link.id)}
 					leftSection={<GoPencil />}
-					color="var(--mantine-color-blue-4)"
+					color="blue"
 				>
 					{t('link.edit')}
 				</Menu.Item>
