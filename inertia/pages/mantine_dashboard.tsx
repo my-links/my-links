@@ -1,11 +1,4 @@
-import {
-	AppShell,
-	Burger,
-	Group,
-	ScrollArea,
-	Stack,
-	Text,
-} from '@mantine/core';
+import { AppShell, ScrollArea, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import DashboardProviders from '~/components/dashboard/dashboard_provider';
@@ -13,6 +6,7 @@ import LinkItem from '~/components/dashboard/link/link_item';
 import { MantineFooter } from '~/components/footer/mantine_footer';
 import useShortcut from '~/hooks/use_shortcut';
 import { DashboardAside } from '~/mantine/components/dashboard/dashboard_aside';
+import { DashboardHeader } from '~/mantine/components/dashboard/dashboard_header';
 import { DashboardNavbar } from '~/mantine/components/dashboard/dashboard_navbar';
 import { NoLink } from '~/mantine/components/dashboard/link/no_link';
 import { MantineDashboardLayout } from '~/mantine/layouts/mantine_dashboard_layout';
@@ -65,25 +59,10 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 						header: classes.ml_bg_color,
 					}}
 				>
-					<AppShell.Header style={{ display: 'flex', alignItems: 'center' }}>
-						<Group justify="space-between" px="md" flex={1}>
-							<Group h="100%">
-								<Burger
-									opened={openedNavbar}
-									onClick={toggleNavbar}
-									hiddenFrom="sm"
-									size="sm"
-								/>
-								<Text lineClamp={1}>{props.activeCollection.name}</Text>
-							</Group>
-							<Burger
-								opened={openedAside}
-								onClick={toggleAside}
-								hiddenFrom="md"
-								size="md"
-							/>
-						</Group>
-					</AppShell.Header>
+					<DashboardHeader
+						navbar={{ opened: openedNavbar, toggle: toggleNavbar }}
+						aside={{ opened: openedAside, toggle: toggleAside }}
+					/>
 					<DashboardNavbar isOpen={openedNavbar} toggle={toggleNavbar} />
 					<AppShell.Main>
 						{props.activeCollection.links.length > 0 ? (
