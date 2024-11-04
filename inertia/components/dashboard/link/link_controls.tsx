@@ -4,16 +4,24 @@ import { ActionIcon, Menu } from '@mantine/core';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaRegEye } from 'react-icons/fa';
 import { GoPencil } from 'react-icons/go';
 import { IoTrashOutline } from 'react-icons/io5';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import useActiveCollection from '~/hooks/use_active_collection';
 import useCollections from '~/hooks/use_collections';
 import { onFavorite } from '~/lib/favorite';
-import { appendLinkId } from '~/lib/navigation';
+import { appendCollectionId, appendLinkId } from '~/lib/navigation';
 import { Link } from '~/types/app';
 
-export default function LinkControls({ link }: { link: Link }) {
+interface LinksControlsProps {
+	link: Link;
+	showGoToCollection?: boolean;
+}
+export default function LinkControls({
+	link,
+	showGoToCollection = false,
+}: LinksControlsProps) {
 	const { collections, setCollections } = useCollections();
 	const { setActiveCollection } = useActiveCollection();
 	const { t } = useTranslation('common');
@@ -51,6 +59,16 @@ export default function LinkControls({ link }: { link: Link }) {
 				</ActionIcon>
 			</Menu.Target>
 			<Menu.Dropdown>
+				{showGoToCollection && (
+					<Menu.Item
+						component={InertiaLink}
+						href={appendCollectionId(route('dashboard').url, link.collectionId)}
+						leftSection={<FaRegEye />}
+						color="blue"
+					>
+						{t('go-to-collection')}
+					</Menu.Item>
+				)}
 				<Menu.Item
 					onClick={() =>
 						onFavorite(link.id, !link.favorite, onFavoriteCallback)
