@@ -49,7 +49,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 									activeCollection?.id
 								)}
 								leftSection={<IoIosAddCircleOutline />}
-								color="var(--mantine-color-blue-4)"
+								color="blue"
 							>
 								{t('link.create')}
 							</Menu.Item>
@@ -60,7 +60,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 									activeCollection?.id
 								)}
 								leftSection={<GoPencil />}
-								color="var(--mantine-color-blue-4)"
+								color="blue"
 							>
 								{t('collection.edit')}
 							</Menu.Item>
