@@ -5,7 +5,7 @@ import db from '@adonisjs/lucid/services/db';
 import { RouteName } from '@izzyjs/route/types';
 
 export default class UsersController {
-	private redirectTo: RouteName = 'auth.login';
+	private redirectTo: RouteName = 'auth';
 
 	login({ inertia }: HttpContext) {
 		return inertia.render('login');
@@ -67,7 +67,7 @@ export default class UsersController {
 		await auth.use('web').logout();
 		session.flash('flash', 'Successfully disconnected');
 		logger.info(`[${auth.user?.email}] disconnected successfully`);
-		response.redirectToNamedRoute(this.redirectTo);
+		response.redirect('/');
 	}
 
 	async getAllUsersWithTotalRelations() {

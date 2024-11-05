@@ -97,7 +97,7 @@ export default function Navbar() {
 							<ModalSettings openItem={DropdownItemButtonWithPadding} />
 						</li>
 						<li>
-							<Link href={route('auth.login').url}>{t('login')}</Link>
+							<Link href={route('auth').path}>{t('login')}</Link>
 						</li>
 					</>
 				)}

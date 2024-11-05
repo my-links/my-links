@@ -50,8 +50,8 @@ export default function MantineNavbar() {
 						<MantineLanguageSwitcher />
 						{!isAuthenticated ? (
 							<Button
-								component={Link}
-								href={route('auth.login').url}
+								component="a"
+								href={route('auth').path}
 								visibleFrom="sm"
 								w={110}
 							>
@@ -60,7 +60,7 @@ export default function MantineNavbar() {
 						) : (
 							<Button
 								component={Link}
-								href={route('dashboard').url}
+								href={route('dashboard').path}
 								visibleFrom="sm"
 								w={110}
 							>
@@ -102,7 +102,7 @@ export default function MantineNavbar() {
 
 					<Group justify="center" grow pb="xl" px="md">
 						{!isAuthenticated ? (
-							<Button component={Link} href={route('auth.login').url}>
+							<Button component="a" href={route('auth').path}>
 								{t('login')}
 							</Button>
 						) : (
