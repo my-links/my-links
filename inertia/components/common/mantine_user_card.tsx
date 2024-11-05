@@ -1,5 +1,7 @@
+import { route } from '@izzyjs/route/client';
 import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TbChevronRight } from 'react-icons/tb';
 import useUser from '~/hooks/use_user';
 
@@ -44,6 +46,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 );
 
 export function MantineUserCard() {
+	const { t } = useTranslation('common');
 	const { user, isAuthenticated } = useUser();
 	return (
 		isAuthenticated && (
@@ -56,7 +59,9 @@ export function MantineUserCard() {
 					/>
 				</Menu.Target>
 				<Menu.Dropdown>
-					<Menu.Item>Logout</Menu.Item>
+					<Menu.Item component="a" href={route('auth.logout').path}>
+						{t('logout')}
+					</Menu.Item>
 				</Menu.Dropdown>
 			</Menu>
 		)
