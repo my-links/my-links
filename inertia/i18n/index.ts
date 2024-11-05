@@ -8,29 +8,26 @@ import frResourceAbout from './locales/fr/about.json';
 import frResourceAdmin from './locales/fr/admin.json';
 import frResourceCommon from './locales/fr/common.json';
 import frResourceHome from './locales/fr/home.json';
-import frResourceLogin from './locales/fr/login.json';
 
+import frResourceLegal from './locales/fr/legal.json';
 import frResourcePrivacy from './locales/fr/privacy.json';
 import frResourceTerms from './locales/fr/terms.json';
-import frResourceLegal from './locales/fr/legal.json';
 
 import { LS_LANG_KEY } from '~/constants';
 import enResourceAbout from './locales/en/about.json';
 import enResourceAdmin from './locales/en/admin.json';
 import enResourceCommon from './locales/en/common.json';
 import enResourceHome from './locales/en/home.json';
-import enResourceLogin from './locales/en/login.json';
 
+import enResourceLegal from './locales/en/legal.json';
 import enResourcePrivacy from './locales/en/privacy.json';
 import enResourceTerms from './locales/en/terms.json';
-import enResourceLegal from './locales/en/legal.json';
 
 type I18nFR =
 	| RemoveSuffix<Leaves<typeof frResourceAbout>>
 	| RemoveSuffix<Leaves<typeof frResourceAdmin>>
 	| RemoveSuffix<Leaves<typeof frResourceCommon>>
 	| RemoveSuffix<Leaves<typeof frResourceHome>>
-	| RemoveSuffix<Leaves<typeof frResourceLogin>>
 	| RemoveSuffix<Leaves<typeof frResourcePrivacy>>
 	| RemoveSuffix<Leaves<typeof frResourceTerms>>
 	| RemoveSuffix<Leaves<typeof frResourceLegal>>;
@@ -42,7 +39,6 @@ export const resources = {
 		admin: enResourceAdmin,
 		common: enResourceCommon,
 		home: enResourceHome,
-		login: enResourceLogin,
 		privacy: enResourcePrivacy,
 		terms: enResourceTerms,
 		legal: enResourceLegal,
@@ -52,7 +48,6 @@ export const resources = {
 		admin: frResourceAdmin,
 		common: frResourceCommon,
 		home: frResourceHome,
-		login: frResourceLogin,
 		privacy: frResourcePrivacy,
 		terms: frResourceTerms,
 		legal: frResourceLegal,

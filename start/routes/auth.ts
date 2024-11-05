@@ -9,8 +9,7 @@ const ROUTES_PREFIX = '/auth';
  */
 router
 	.group(() => {
-		router.get('/login', [UsersController, 'login']).as('auth.login');
-		router.get('/google', [UsersController, 'google']).as('auth.google');
+		router.get('/google', [UsersController, 'google']).as('auth');
 		router
 			.get('/callback', [UsersController, 'callbackAuth'])
 			.as('auth.callback');

@@ -11,7 +11,7 @@ export default class AuthMiddleware {
 	/**
 	 * The URL to redirect to, when authentication fails
 	 */
-	redirectTo = route('auth.login').url;
+	redirectTo = route('auth').path;
 
 	async handle(
 		ctx: HttpContext,
