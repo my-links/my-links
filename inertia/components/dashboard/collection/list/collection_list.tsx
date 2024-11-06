@@ -2,7 +2,7 @@ import { Box, ScrollArea, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import CollectionItem from '~/components/dashboard/collection/item/collection_item';
 import useShortcut from '~/hooks/use_shortcut';
-import { useActiveCollection, useCollections } from '~/store/collection_store';
+import { useActiveCollection, useCollections } from '~/stores/collection_store';
 import styles from './collection_list.module.css';
 
 export default function CollectionList() {

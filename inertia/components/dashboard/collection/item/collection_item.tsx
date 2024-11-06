@@ -4,7 +4,7 @@ import { Text } from '@mantine/core';
 import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import { appendCollectionId } from '~/lib/navigation';
-import { useActiveCollection } from '~/store/collection_store';
+import { useActiveCollection } from '~/stores/collection_store';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './collection_item.module.css';
 
