@@ -3,7 +3,7 @@ import { route } from '@izzyjs/route/client';
 import { Anchor, Box, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { appendCollectionId } from '~/lib/navigation';
-import { useActiveCollection } from '~/store/collection_store';
+import { useActiveCollection } from '~/stores/collection_store';
 import styles from './no_link.module.css';
 
 export function NoLink() {

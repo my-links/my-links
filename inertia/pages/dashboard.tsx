@@ -16,8 +16,8 @@ import { appendCollectionId } from '~/lib/navigation';
 import {
 	useActiveCollection,
 	useCollectionsSetter,
-} from '~/store/collection_store';
-import { useGlobalHotkeysStore } from '~/store/global_hotkeys_store';
+} from '~/stores/collection_store';
+import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './dashboard.module.css';
 
