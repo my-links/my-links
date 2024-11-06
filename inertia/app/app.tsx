@@ -3,14 +3,12 @@ import { createInertiaApp } from '@inertiajs/react';
 import 'dayjs/locale/en';
 import 'dayjs/locale/fr';
 import { hydrateRoot } from 'react-dom/client';
-import 'react-toggle/style.css';
-import { primaryColor } from '~/styles/common_colors';
 import '../i18n/index';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';
 
 createInertiaApp({
-	progress: { color: primaryColor },
+	progress: { color: '#5474B4' },
 
 	title: (title) => `${appName}${title && ` - ${title}`}`,
 

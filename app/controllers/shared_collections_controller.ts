@@ -4,13 +4,16 @@ import { getSharedCollectionValidator } from '#validators/shared_collection';
 import type { HttpContext } from '@adonisjs/core/http';
 
 export default class SharedCollectionsController {
-	async index({ request, inertia }: HttpContext) {
+	async index({ request, response }: HttpContext) {
 		const { params } = await request.validateUsing(
 			getSharedCollectionValidator
 		);
 
 		const collection = await this.getSharedCollectionById(params.id);
-		return inertia.render('shared', { collection });
+		console.log('shared page', collection);
+		// TODO: return view
+		return response.json(collection);
+		// return inertia.render('shared', { collection });
 	}
 
 	private async getSharedCollectionById(id: Collection['id']) {

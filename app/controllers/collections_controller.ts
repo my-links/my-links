@@ -26,7 +26,7 @@ export default class CollectionsController {
 		}
 
 		// TODO: Create DTOs
-		return inertia.render('mantine_dashboard', {
+		return inertia.render('dashboard', {
 			collections: collections.map((collection) => collection.serialize()),
 			activeCollection:
 				activeCollection?.serialize() || collections[0].serialize(),
@@ -36,7 +36,7 @@ export default class CollectionsController {
 	// Create collection form
 	async showCreatePage({ inertia, auth }: HttpContext) {
 		const collections = await this.getCollectionsByAuthorId(auth.user!.id);
-		return inertia.render('mantine/collections/create', {
+		return inertia.render('collections/create', {
 			disableHomeLink: collections.length === 0,
 		});
 	}
@@ -61,7 +61,7 @@ export default class CollectionsController {
 			collectionId,
 			auth.user!.id
 		);
-		return inertia.render('mantine/collections/edit', {
+		return inertia.render('collections/edit', {
 			collection,
 		});
 	}
@@ -96,7 +96,7 @@ export default class CollectionsController {
 			collectionId,
 			auth.user!.id
 		);
-		return inertia.render('mantine/collections/delete', {
+		return inertia.render('collections/delete', {
 			collection,
 		});
 	}

@@ -17,7 +17,7 @@ export default class LinksController {
 	async showCreatePage({ auth, inertia }: HttpContext) {
 		const collections =
 			await this.collectionsController.getCollectionsByAuthorId(auth.user!.id);
-		return inertia.render('mantine/links/create', { collections });
+		return inertia.render('links/create', { collections });
 	}
 
 	async store({ auth, request, response }: HttpContext) {
@@ -50,7 +50,7 @@ export default class LinksController {
 			await this.collectionsController.getCollectionsByAuthorId(userId);
 		const link = await this.getLinkById(linkId, userId);
 
-		return inertia.render('mantine/links/edit', { collections, link });
+		return inertia.render('links/edit', { collections, link });
 	}
 
 	async update({ request, auth, response }: HttpContext) {
@@ -98,7 +98,7 @@ export default class LinksController {
 
 		const link = await this.getLinkById(linkId, auth.user!.id);
 		await link.load('collection');
-		return inertia.render('mantine/links/delete', { link });
+		return inertia.render('links/delete', { link });
 	}
 
 	async delete({ request, auth, response }: HttpContext) {

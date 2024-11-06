@@ -1,9 +1,9 @@
 import { Container, Text, Title } from '@mantine/core';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FeatureList } from '~/mantine/components/home/feature_list';
-import { MantineContentLayout } from '~/mantine/layouts/mantine_content_layout';
+import { FeatureList } from '~/components/home/feature_list';
 import classes from './home.module.css';
+import { ContentLayout } from '~/layouts/content_layout';
 
 function HomePage() {
 	const { t } = useTranslation('about');
@@ -22,5 +22,5 @@ function HomePage() {
 	);
 }
 
-HomePage.layout = (page: ReactNode) => <MantineContentLayout children={page} />;
+HomePage.layout = (page: ReactNode) => <ContentLayout children={page} />;
 export default HomePage;

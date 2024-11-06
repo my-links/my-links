@@ -3,7 +3,7 @@ import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import FormCollection, {
+import MantineFormCollection, {
 	FormCollectionData,
 } from '~/components/form/form_collection';
 
@@ -29,8 +29,9 @@ export default function CreateCollectionPage({
 	};
 
 	return (
-		<FormCollection
+		<MantineFormCollection
 			title={t('collection.create')}
+			textSubmitButton={t('form.create')}
 			canSubmit={!isFormDisabled}
 			disableHomeLink={disableHomeLink}
 			data={data}

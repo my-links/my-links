@@ -31,16 +31,22 @@ export default class AdminController {
 		protected collectionsController: CollectionsController
 	) {}
 
-	async index({ inertia }: HttpContext) {
+	async index({ response }: HttpContext) {
 		const users = await this.usersController.getAllUsersWithTotalRelations();
 		const linksCount = await this.linksController.getTotalLinksCount();
 		const collectionsCount =
 			await this.collectionsController.getTotalCollectionsCount();
 
-		return inertia.render('admin/dashboard', {
+		// TODO: return view
+		return response.json({
 			users: users.map((user) => new UserWithRelationCountDto(user).toJson()),
 			totalLinks: linksCount,
 			totalCollections: collectionsCount,
 		});
+		// return inertia.render('admin/dashboard', {
+		// 	users: users.map((user) => new UserWithRelationCountDto(user).toJson()),
+		// 	totalLinks: linksCount,
+		// 	totalCollections: collectionsCount,
+		// });
 	}
 }

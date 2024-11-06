@@ -1,10 +1,9 @@
 import { Visibility } from '#enums/visibility';
+import { Box, Group, SegmentedControl, Text, TextInput } from '@mantine/core';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import Checkbox from '~/components/common/form/checkbox';
-import TextBox from '~/components/common/form/textbox';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
-import FormLayout from '~/components/layouts/form_layout';
+import { FormLayout, FormLayoutProps } from '~/layouts/form_layout';
 import { Collection } from '~/types/app';
 
 export type FormCollectionData = {
@@ -14,34 +13,24 @@ export type FormCollectionData = {
 	nextId?: Collection['id'];
 };
 
-interface FormCollectionProps {
-	title: string;
-	canSubmit: boolean;
-	disableHomeLink?: boolean;
+interface FormCollectionProps extends FormLayoutProps {
 	data: FormCollectionData;
 	errors?: Record<string, Array<string>>;
 	disableInputs?: boolean;
-	submitBtnDanger?: boolean;
 
 	setData: (name: string, value: any) => void;
 	handleSubmit: () => void;
 }
 
-export default function FormCollection({
-	title,
-	canSubmit,
-	disableHomeLink,
+export default function MantineFormCollection({
 	data,
 	errors,
 	disableInputs = false,
-	submitBtnDanger = false,
-
 	setData,
 	handleSubmit,
+	...props
 }: FormCollectionProps) {
 	const { t } = useTranslation('common');
-	const handleOnCheck: FormCollectionProps['setData'] = (name, value) =>
-		setData(name, value ? Visibility.PUBLIC : Visibility.PRIVATE);
 
 	const onSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -49,41 +38,50 @@ export default function FormCollection({
 	};
 
 	return (
-		<FormLayout
-			title={title}
-			handleSubmit={onSubmit}
-			canSubmit={canSubmit}
-			disableHomeLink={disableHomeLink}
-			submitBtnDanger={submitBtnDanger}
-		>
-			<BackToDashboard>
-				<TextBox
-					label={t('collection.name')}
-					placeholder={t('collection.name')}
-					name="name"
-					onChange={setData}
+		<FormLayout handleSubmit={onSubmit} {...props}>
+			<BackToDashboard disabled={props.disableHomeLink}>
+				<TextInput
+					label={t('form.name')}
+					placeholder={t('form.name')}
+					onChange={({ target }) => setData('name', target.value)}
 					value={data.name}
-					errors={errors?.name}
-					required
+					readOnly={disableInputs}
+					error={errors?.name}
+					mt="md"
 					autoFocus
-					disabled={disableInputs}
+					required
 				/>
-				<TextBox
-					label={t('collection.description')}
-					placeholder={t('collection.description')}
-					name="description"
-					onChange={setData}
+				<TextInput
+					label={t('form.description')}
+					placeholder={t('form.description')}
+					onChange={({ target }) => setData('description', target.value)}
 					value={data.description ?? undefined}
-					errors={errors?.description}
-					disabled={disableInputs}
+					readOnly={disableInputs}
+					error={errors?.description}
+					mt="md"
 				/>
-				<Checkbox
-					label="Public"
-					name="visibility"
-					onChange={handleOnCheck}
-					checked={data.visibility === Visibility.PUBLIC}
-					disabled={disableInputs}
-				/>
+				<Box mt="md">
+					<Text size="sm" fw={500} mb={3}>
+						{t('form.visibility')}
+					</Text>
+					<Group wrap="nowrap">
+						<SegmentedControl
+							data={[
+								{ label: t('visibility.private'), value: Visibility.PRIVATE },
+								{ label: t('visibility.public'), value: Visibility.PUBLIC },
+							]}
+							onChange={(value) => setData('visibility', value as Visibility)}
+							value={data.visibility}
+							style={{ minWidth: 'fit-content' }}
+							readOnly={disableInputs}
+						/>
+						{data.visibility === Visibility.PUBLIC && (
+							<Text c="dimmed" size="sm">
+								{t('form.visibility-warning')}
+							</Text>
+						)}
+					</Group>
+				</Box>
 			</BackToDashboard>
 		</FormLayout>
 	);

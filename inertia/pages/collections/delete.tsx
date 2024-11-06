@@ -1,7 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
-import FormCollection, {
+import MantineFormCollection, {
 	FormCollectionData,
 } from '~/components/form/form_collection';
 import { Collection } from '~/types/app';
@@ -27,8 +27,9 @@ export default function DeleteCollectionPage({
 	};
 
 	return (
-		<FormCollection
+		<MantineFormCollection
 			title={t('collection.delete')}
+			textSubmitButton={t('form.delete')}
 			canSubmit={!processing}
 			data={data}
 			setData={setData}

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MantineContentLayout } from '~/mantine/layouts/mantine_content_layout';
+import { ContentLayout } from '~/layouts/content_layout';
 
 function PrivacyPage() {
 	const { t } = useTranslation('privacy');
@@ -44,7 +44,5 @@ function PrivacyPage() {
 	);
 }
 
-PrivacyPage.layout = (page: ReactNode) => (
-	<MantineContentLayout children={page} />
-);
+PrivacyPage.layout = (page: ReactNode) => <ContentLayout children={page} />;
 export default PrivacyPage;

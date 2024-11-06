@@ -1,132 +1,116 @@
 import PATHS from '#constants/paths';
-import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { useTranslation } from 'react-i18next';
-import { IoIosLogOut } from 'react-icons/io';
-import Dropdown from '~/components/common/dropdown/dropdown';
 import {
-	DropdownItemButton,
-	DropdownItemLink,
-} from '~/components/common/dropdown/dropdown_item';
+	Box,
+	Burger,
+	Button,
+	Divider,
+	Drawer,
+	Group,
+	Image,
+	ScrollArea,
+	rem,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
-import RoundedImage from '~/components/common/rounded_image';
-import UnstyledList from '~/components/common/unstyled/unstyled_list';
-import ModalSettings from '~/components/settings/settings_modal';
+import { MantineLanguageSwitcher } from '~/components/common/language_switcher';
+import { MantineThemeSwitcher } from '~/components/common/theme_switcher';
+import { MantineUserCard } from '~/components/common/user_card';
 import useUser from '~/hooks/use_user';
-
-type NavbarListDirection = {
-	right?: boolean;
-};
-
-const Nav = styled.nav({
-	width: '100%',
-	padding: '0.75em 0',
-	display: 'flex',
-	alignItems: 'center',
-});
-
-const NavList = styled(UnstyledList)<NavbarListDirection>(
-	({ theme, right }) => ({
-		display: 'flex',
-		flex: 1,
-		gap: '1.5em',
-		justifyContent: right ? 'flex-end' : 'flex-start',
-		transition: theme.transition.delay,
-
-		'& li': {
-			display: 'flex',
-			alignItems: 'center',
-		},
-	})
-);
-
-const AdminLink = styled(Link)(({ theme }) => ({
-	color: theme.colors.lightRed,
-}));
-
-const UserCard = styled.div({
-	padding: '0.25em 0.5em',
-	display: 'flex',
-	gap: '0.35em',
-	alignItems: 'center',
-	justifyContent: 'center',
-});
-
-const DropdownItemButtonWithPadding = styled(DropdownItemButton)({
-	cursor: 'pointer',
-	padding: 0,
-});
+import classes from './mobile.module.css';
 
 export default function Navbar() {
 	const { t } = useTranslation('common');
-	const { isAuthenticated, user } = useUser();
+	const { isAuthenticated } = useUser();
+	const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
+		useDisclosure(false);
 
 	return (
-		<Nav>
-			<NavList>
-				<li>
-					<Link href={route('home').url} css={{ fontSize: '24px' }}>
-						MyLinks
-					</Link>
-				</li>
-			</NavList>
-			<NavList right>
-				<li>
-					<ExternalLink href={PATHS.REPO_GITHUB}>GitHub</ExternalLink>
-				</li>
-				{isAuthenticated && !!user ? (
-					<>
-						{user.isAdmin && (
-							<li>
-								<AdminLink href={route('admin.dashboard').url}>
-									{t('admin')}
-								</AdminLink>
-							</li>
+		<Box pb={40}>
+			<header className={classes.header}>
+				<Group justify="space-between" h="100%">
+					<Image src="/logo-light.png" h={35} alt="MyLinks's logo" />
+
+					<Group h="100%" gap={0} visibleFrom="sm">
+						<Link href="/" className={classes.link}>
+							{t('home')}
+						</Link>
+						<ExternalLink href={PATHS.REPO_GITHUB} className={classes.link}>
+							Github
+						</ExternalLink>
+						<ExternalLink href={PATHS.EXTENSION} className={classes.link}>
+							Extension
+						</ExternalLink>
+					</Group>
+
+					<Group gap="xs">
+						<MantineThemeSwitcher />
+						<MantineLanguageSwitcher />
+						{!isAuthenticated ? (
+							<Button
+								component="a"
+								href={route('auth').path}
+								visibleFrom="sm"
+								w={110}
+							>
+								{t('login')}
+							</Button>
+						) : (
+							<Button
+								component={Link}
+								href={route('dashboard').path}
+								visibleFrom="sm"
+								w={110}
+							>
+								Dashboard
+							</Button>
 						)}
-						<li>
-							<Link href={route('dashboard').url}>Dashboard</Link>
-						</li>
-						<li>
-							<ProfileDropdown />
-						</li>
-					</>
-				) : (
-					<>
-						<li>
-							<ModalSettings openItem={DropdownItemButtonWithPadding} />
-						</li>
-						<li>
-							<Link href={route('auth').path}>{t('login')}</Link>
-						</li>
-					</>
-				)}
-			</NavList>
-		</Nav>
-	);
-}
+						<Burger
+							opened={drawerOpened}
+							onClick={toggleDrawer}
+							hiddenFrom="sm"
+						/>
+					</Group>
+				</Group>
+			</header>
 
-function ProfileDropdown() {
-	const { t } = useTranslation('common');
-	const { user } = useUser();
+			<Drawer
+				opened={drawerOpened}
+				onClose={closeDrawer}
+				size="100%"
+				padding="md"
+				title="Navigation"
+				hiddenFrom="sm"
+				zIndex={1000000}
+			>
+				<ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
+					<Divider my="sm" />
 
-	return (
-		<Dropdown
-			label={
-				<UserCard>
-					<RoundedImage
-						src={user!.avatarUrl}
-						width={22}
-						referrerPolicy="no-referrer"
-					/>
-					{user!.fullname}
-				</UserCard>
-			}
-		>
-			<ModalSettings openItem={DropdownItemButton} />
-			<DropdownItemLink href={route('auth.logout').url} danger>
-				<IoIosLogOut /> {t('logout')}
-			</DropdownItemLink>
-		</Dropdown>
+					<Link href="#" className={classes.link}>
+						{t('home')}
+					</Link>
+					<ExternalLink href={PATHS.REPO_GITHUB} className={classes.link}>
+						Github
+					</ExternalLink>
+					<ExternalLink href={PATHS.EXTENSION} className={classes.link}>
+						Extension
+					</ExternalLink>
+
+					<Divider my="sm" />
+
+					<Group justify="center" grow pb="xl" px="md">
+						{!isAuthenticated ? (
+							<Button component="a" href={route('auth').path}>
+								{t('login')}
+							</Button>
+						) : (
+							<MantineUserCard />
+						)}
+					</Group>
+				</ScrollArea>
+			</Drawer>
+		</Box>
 	);
 }
