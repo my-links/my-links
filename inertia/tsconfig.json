@@ -1,23 +1,22 @@
 {
-  "extends": "@adonisjs/tsconfig/tsconfig.client.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "jsxImportSource": "@emotion/react",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "paths": {
-      "~/*": ["./*"],
-      "@/*": ["../*"]
-    },
-    "types": ["vite/client", "@emotion/styled", "@emotion/react"]
-  },
-  "include": ["./**/*.ts", "./**/*.tsx"]
+	"extends": "@adonisjs/tsconfig/tsconfig.client.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"target": "ESNext",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"jsx": "react-jsx",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"paths": {
+			"~/*": ["./*"],
+			"@/*": ["../*"]
+		},
+		"types": ["vite/client"]
+	},
+	"include": ["./**/*.ts", "./**/*.tsx"]
 }

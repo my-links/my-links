@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { ReactNode } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { MantineContentLayout } from '~/mantine/layouts/mantine_content_layout';
+import { ContentLayout } from '~/layouts/content_layout';
 
 function TermsPage() {
 	const { t } = useTranslation('terms');
@@ -53,7 +53,5 @@ function TermsPage() {
 	);
 }
 
-TermsPage.layout = (page: ReactNode) => (
-	<MantineContentLayout children={page} />
-);
+TermsPage.layout = (page: ReactNode) => <ContentLayout children={page} />;
 export default TermsPage;

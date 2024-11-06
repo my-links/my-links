@@ -1,7 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
-import FormLink from '~/components/form/form_link';
+import MantineFormLink from '~/components/form/form_link';
 import { LinkWithCollection } from '~/types/app';
 
 export default function DeleteLinkPage({ link }: { link: LinkWithCollection }) {
@@ -22,8 +22,9 @@ export default function DeleteLinkPage({ link }: { link: LinkWithCollection }) {
 	};
 
 	return (
-		<FormLink
+		<MantineFormLink
 			title={t('link.delete')}
+			textSubmitButton={t('form.delete')}
 			canSubmit={!processing}
 			data={data}
 			setData={setData}
