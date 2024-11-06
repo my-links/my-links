@@ -1,6 +1,6 @@
 import KEYS from '#constants/keys';
 import { useHotkeys } from 'react-hotkeys-hook';
-import useGlobalHotkeys from '~/hooks/use_global_hotkeys';
+import { useGlobalHotkeysStore } from '~/store/global_hotkeys_store';
 
 type ShortcutOptions = {
 	enabled?: boolean;
@@ -15,7 +15,7 @@ export default function useShortcut(
 		disableGlobalCheck: false,
 	}
 ) {
-	const { globalHotkeysEnabled } = useGlobalHotkeys();
+	const { globalHotkeysEnabled } = useGlobalHotkeysStore();
 	return useHotkeys(
 		KEYS[key],
 		(event) => {

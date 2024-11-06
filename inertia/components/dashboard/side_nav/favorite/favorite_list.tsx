@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import FavoriteListContainer from '~/components/dashboard/side_nav/favorite/favorite_container';
 import FavoriteItem from '~/components/dashboard/side_nav/favorite/favorite_item';
-import useFavorites from '~/hooks/use_favorites';
+import { useFavorites } from '~/store/collection_store';
 
 const FavoriteLabel = styled.p(({ theme }) => ({
 	color: theme.colors.grey,

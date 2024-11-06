@@ -6,7 +6,7 @@ import { CollectionHeaderProps } from '~/components/dashboard/collection/collect
 import CollectionControls from '~/components/dashboard/collection/header/collection_controls';
 import CollectionDescription from '~/components/dashboard/collection/header/collection_description';
 import VisibilityBadge from '~/components/visibilty/visibilty';
-import useActiveCollection from '~/hooks/use_active_collection';
+import { useActiveCollection } from '~/store/collection_store';
 
 const paddingLeft = '1.25em';
 const paddingRight = '1.65em';

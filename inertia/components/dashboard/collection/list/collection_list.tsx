@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import { useTranslation } from 'react-i18next';
 import CollectionItem from '~/components/dashboard/collection/list/collection_item';
 import CollectionListContainer from '~/components/dashboard/collection/list/collection_list_container';
-import useActiveCollection from '~/hooks/use_active_collection';
-import useCollections from '~/hooks/use_collections';
 import useShortcut from '~/hooks/use_shortcut';
+import { useActiveCollection, useCollections } from '~/store/collection_store';
 
 const SideMenu = styled.nav(({ theme }) => ({
 	height: '100%',

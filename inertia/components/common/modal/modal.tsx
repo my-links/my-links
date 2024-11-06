@@ -10,8 +10,8 @@ import {
 import ModalWrapper from '~/components/common/modal/_modal_wrapper';
 import TextEllipsis from '~/components/common/text_ellipsis';
 import useClickOutside from '~/hooks/use_click_outside';
-import useGlobalHotkeys from '~/hooks/use_global_hotkeys';
 import useShortcut from '~/hooks/use_shortcut';
+import { useGlobalHotkeysStore } from '~/store/global_hotkeys_store';
 
 interface ModalProps {
 	title?: string;
@@ -32,7 +32,7 @@ export default function Modal({
 	close,
 }: ModalProps) {
 	const modalRef = useRef<HTMLDivElement>(null);
-	const { setGlobalHotkeysEnabled } = useGlobalHotkeys();
+	const { setGlobalHotkeysEnabled } = useGlobalHotkeysStore();
 
 	useClickOutside(modalRef, close);
 	useShortcut('ESCAPE_KEY', close, { disableGlobalCheck: true });

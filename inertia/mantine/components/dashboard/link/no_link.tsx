@@ -2,8 +2,8 @@ import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { Anchor, Box, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/store/collection_store';
 import styles from './no_link.module.css';
 
 export function NoLink() {

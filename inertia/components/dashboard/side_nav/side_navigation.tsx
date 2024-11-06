@@ -8,10 +8,10 @@ import FavoriteList from '~/components/dashboard/side_nav/favorite/favorite_list
 import { Item, ItemLink } from '~/components/dashboard/side_nav/nav_item';
 import UserCard from '~/components/dashboard/side_nav/user_card';
 import ModalSettings from '~/components/settings/settings_modal';
-import useActiveCollection from '~/hooks/use_active_collection';
 import useUser from '~/hooks/use_user';
 import { rgba } from '~/lib/color';
 import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/store/collection_store';
 
 const SideMenu = styled.nav(({ theme }) => ({
 	height: '100%',

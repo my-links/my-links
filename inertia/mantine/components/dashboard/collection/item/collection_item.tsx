@@ -3,8 +3,8 @@ import { route } from '@izzyjs/route/client';
 import { Text } from '@mantine/core';
 import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
-import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/store/collection_store';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './collection_item.module.css';
 

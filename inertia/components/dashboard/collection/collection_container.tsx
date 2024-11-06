@@ -4,7 +4,7 @@ import CollectionHeader from '~/components/dashboard/collection/header/collectio
 import LinkList from '~/components/dashboard/link/link_list';
 import { NoCollection } from '~/components/dashboard/link/no_item';
 import Footer from '~/components/footer/footer';
-import useActiveCollection from '~/hooks/use_active_collection';
+import { useActiveCollection } from '~/store/collection_store';
 
 export interface CollectionHeaderProps {
 	showButtons: boolean;

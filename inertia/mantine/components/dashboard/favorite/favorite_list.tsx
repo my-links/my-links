@@ -1,7 +1,7 @@
 import { Box, Group, ScrollArea, Stack, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import useFavorites from '~/hooks/use_favorites';
 import { FavoriteItem } from '~/mantine/components/dashboard/favorite/item/favorite_item';
+import { useFavorites } from '~/store/collection_store';
 import styles from './favorite_list.module.css';
 
 export function FavoriteList() {
