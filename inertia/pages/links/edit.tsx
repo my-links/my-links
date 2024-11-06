@@ -2,7 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import FormLink from '~/components/form/form_link';
+import MantineFormLink from '~/components/form/form_link';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { Collection, Link } from '~/types/app';
 
@@ -46,8 +46,9 @@ export default function EditLinkPage({
 	};
 
 	return (
-		<FormLink
+		<MantineFormLink
 			title={t('link.edit')}
+			textSubmitButton={t('form.update')}
 			canSubmit={canSubmit}
 			data={data}
 			setData={setData}

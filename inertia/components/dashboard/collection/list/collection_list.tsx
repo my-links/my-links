@@ -1,37 +1,9 @@
-import styled from '@emotion/styled';
+import { Box, ScrollArea, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import CollectionItem from '~/components/dashboard/collection/list/collection_item';
-import CollectionListContainer from '~/components/dashboard/collection/list/collection_list_container';
+import CollectionItem from '~/components/dashboard/collection/item/collection_item';
 import useShortcut from '~/hooks/use_shortcut';
 import { useActiveCollection, useCollections } from '~/store/collection_store';
-
-const SideMenu = styled.nav(({ theme }) => ({
-	height: '100%',
-	width: '300px',
-	backgroundColor: theme.colors.background,
-	paddingLeft: '10px',
-	marginLeft: '5px',
-	borderLeft: `1px solid ${theme.colors.lightGrey}`,
-	display: 'flex',
-	gap: '.35em',
-	flexDirection: 'column',
-}));
-
-const CollectionLabel = styled.p(({ theme }) => ({
-	color: theme.colors.grey,
-	marginBlock: '0.35em',
-	paddingInline: '15px',
-}));
-
-const CollectionListStyle = styled.div({
-	padding: '1px',
-	paddingRight: '5px',
-	display: 'flex',
-	flex: 1,
-	gap: '.35em',
-	flexDirection: 'column',
-	overflow: 'auto',
-});
+import styles from './collection_list.module.css';
 
 export default function CollectionList() {
 	const { t } = useTranslation('common');
@@ -64,18 +36,20 @@ export default function CollectionList() {
 	useShortcut('ARROW_DOWN', goToNextCollection);
 
 	return (
-		<SideMenu>
-			<CollectionListContainer>
-				<CollectionLabel>
-					{t('collection.collections', { count: collections.length })} •{' '}
-					{collections.length}
-				</CollectionLabel>
-				<CollectionListStyle>
-					{collections.map((collection) => (
-						<CollectionItem collection={collection} key={collection.id} />
-					))}
-				</CollectionListStyle>
-			</CollectionListContainer>
-		</SideMenu>
+		<Box className={styles.sideMenu}>
+			<Box className={styles.listContainer}>
+				<div style={{ display: 'flex', flexDirection: 'column' }}>
+					<Text c="dimmed" ml="md" mb="sm">
+						{t('collection.collections', { count: collections.length })} •{' '}
+						{collections.length}
+					</Text>
+					<ScrollArea className={styles.collectionList}>
+						{collections.map((collection) => (
+							<CollectionItem collection={collection} key={collection.id} />
+						))}
+					</ScrollArea>
+				</div>
+			</Box>
+		</Box>
 	);
 }
