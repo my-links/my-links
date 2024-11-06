@@ -7,7 +7,7 @@ import { GoPencil } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
 import { appendCollectionId } from '~/lib/navigation';
-import { useActiveCollection } from '~/store/collection_store';
+import { useActiveCollection } from '~/stores/collection_store';
 
 interface DashboardHeaderProps {
 	navbar: {

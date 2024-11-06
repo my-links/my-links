@@ -1,6 +1,6 @@
 import KEYS from '#constants/keys';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useGlobalHotkeysStore } from '~/store/global_hotkeys_store';
+import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
 type ShortcutOptions = {
 	enabled?: boolean;

@@ -9,7 +9,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
-import { useFavorites } from '~/store/collection_store';
+import { useFavorites } from '~/stores/collection_store';
 import { Link } from '~/types/app';
 
 interface LinksControlsProps {
