@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "node bin/server.js",
 		"build": "node ace build",
-		"dev": "node ace serve --watch",
+		"dev": "node ace serve --hmr",
 		"test": "node ace test",
 		"lint": "eslint . --report-unused-disable-directives --max-warnings 0",
 		"format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
