@@ -7,11 +7,10 @@ import Modal from '~/components/common/modal/modal';
 import NoSearchResult from '~/components/dashboard/search/no_search_result';
 import SearchResultList from '~/components/dashboard/search/search_result_list';
 import { GOOGLE_SEARCH_URL } from '~/constants';
-import useActiveCollection from '~/hooks/use_active_collection';
-import useCollections from '~/hooks/use_collections';
 import useToggle from '~/hooks/use_modal';
 import useShortcut from '~/hooks/use_shortcut';
 import { makeRequest } from '~/lib/request';
+import { useActiveCollection, useCollections } from '~/store/collection_store';
 import { SearchResult } from '~/types/search';
 
 const SearchInput = styled.input(({ theme }) => ({

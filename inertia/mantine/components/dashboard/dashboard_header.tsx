@@ -6,8 +6,8 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { GoPencil } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
-import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/store/collection_store';
 
 interface DashboardHeaderProps {
 	navbar: {

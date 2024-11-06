@@ -4,7 +4,7 @@ import { AiOutlineFolder } from 'react-icons/ai';
 import Legend from '~/components/common/legend';
 import TextEllipsis from '~/components/common/text_ellipsis';
 import LinkFavicon from '~/components/dashboard/link/link_favicon';
-import useCollections from '~/hooks/use_collections';
+import { useCollections } from '~/store/collection_store';
 import {
 	SearchResult,
 	SearchResultCollection,

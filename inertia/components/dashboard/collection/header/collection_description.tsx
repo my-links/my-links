@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import TextEllipsis from '~/components/common/text_ellipsis';
-import useActiveCollection from '~/hooks/use_active_collection';
+import { useActiveCollection } from '~/store/collection_store';
 
 const CollectionDescriptionStyle = styled.div({
 	width: '100%',
