@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
-import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/store/collection_store';
 import { fadeIn } from '~/styles/keyframes';
 
 const NoCollectionStyle = styled.div({

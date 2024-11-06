@@ -5,8 +5,8 @@ import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import TextEllipsis from '~/components/common/text_ellipsis';
 import { Item } from '~/components/dashboard/side_nav/nav_item';
-import useActiveCollection from '~/hooks/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/store/collection_store';
 import { CollectionWithLinks } from '~/types/app';
 
 const CollectionItemStyle = styled(Item, {
