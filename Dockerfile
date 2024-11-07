@@ -1,6 +1,6 @@
 # Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
-FROM node:20-alpine3.18 AS base
+FROM node:22.11-alpine3.20 AS base
 
 RUN apk --no-cache add curl
 RUN corepack enable
@@ -15,7 +15,7 @@ RUN pnpm install --ignore-scripts
 FROM base AS production-deps
 WORKDIR /app
 ADD package.json pnpm-lock.yaml ./
-RUN pnpm install --ignore-scripts
+RUN pnpm install --ignore-scripts --prod
 
 # Build stage
 FROM base AS build

@@ -118,6 +118,6 @@
 		"*.js,*.ts,*.jsx,*.tsx": "eslint --cache --fix"
 	},
 	"volta": {
-		"node": "22.2.0"
+		"node": "22.11.0"
 	}
 }
