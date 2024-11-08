@@ -21,11 +21,13 @@ export default function EditCollectionPage({
 			nextId: collection.nextId,
 		});
 	const canSubmit = useMemo<boolean>(() => {
+		const trimmedName = data.name.trim();
+		const trimmedDescription = data.description?.trim();
 		const isFormEdited =
-			data.name !== collection.name ||
-			data.description !== collection.description ||
+			trimmedName !== collection.name ||
+			trimmedDescription !== collection.description ||
 			data.visibility !== collection.visibility;
-		const isFormValid = data.name !== '';
+		const isFormValid = trimmedName !== '';
 		return isFormEdited && isFormValid && !processing;
 	}, [data, collection]);
 

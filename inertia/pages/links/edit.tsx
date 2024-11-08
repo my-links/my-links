@@ -22,16 +22,20 @@ export default function EditLinkPage({
 		collectionId: link.collectionId,
 	});
 	const canSubmit = useMemo<boolean>(() => {
+		const trimmedName = data.name.trim();
+		const trimmedDescription = data.description?.trim();
+		const trimmedUrl = data.url.trim();
+
 		const isFormEdited =
-			data.name !== link.name ||
-			data.url !== link.url ||
-			data.description !== link.description ||
+			trimmedName !== link.name ||
+			trimmedUrl !== link.url ||
+			trimmedDescription !== link.description ||
 			data.favorite !== link.favorite ||
 			data.collectionId !== link.collectionId;
 
 		const isFormValid =
-			data.name !== '' &&
-			isValidHttpUrl(data.url) &&
+			trimmedName !== '' &&
+			isValidHttpUrl(trimmedUrl) &&
 			data.favorite !== null &&
 			data.collectionId !== null;
 
