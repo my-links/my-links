@@ -26,6 +26,9 @@ interface DashboardPageProps {
 	activeCollection: CollectionWithLinks;
 }
 
+const HEADER_SIZE_WITH_DESCRIPTION = 60;
+const HEADER_SIZE_WITHOUT_DESCRIPTION = 50;
+
 export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 	const [openedNavbar, { toggle: toggleNavbar, close: closeNavbar }] =
 		useDisclosure();
@@ -71,7 +74,11 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 			<div className={classes.app_wrapper}>
 				<AppShell
 					layout="alt"
-					header={{ height: 50 }}
+					header={{
+						height: !!activeCollection?.description
+							? HEADER_SIZE_WITH_DESCRIPTION
+							: HEADER_SIZE_WITHOUT_DESCRIPTION,
+					}}
 					navbar={{
 						width: 300,
 						breakpoint: 'sm',
