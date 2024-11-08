@@ -5,6 +5,7 @@ import {
 	Burger,
 	Divider,
 	Group,
+	Kbd,
 	NavLink,
 	rem,
 	ScrollArea,
@@ -51,7 +52,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				<NavLink
 					{...common}
 					component={Link}
-					href={route('admin.dashboard').url}
+					href={route('admin.dashboard').path}
 					label={t('admin')}
 					leftSection={<IoShieldHalfSharp size="1.5rem" />}
 					color="var(--mantine-color-red-5)"
@@ -62,25 +63,29 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				label={t('settings')}
 				leftSection={<PiGearLight size="1.5rem" />}
 				color="var(--mantine-color-text)"
+				disabled
 			/>
 			<NavLink
 				{...common}
 				label={t('search')}
 				leftSection={<IoIosSearch size="1.5rem" />}
+				disabled
 			/>
 			<NavLink
 				{...common}
 				component={Link}
-				href={route('link.create-form').url}
+				href={route('link.create-form').path}
 				label={t('link.create')}
 				leftSection={<IoAdd size="1.5rem" />}
+				rightSection={<Kbd size="xs">C</Kbd>}
 			/>
 			<NavLink
 				{...common}
 				component={Link}
-				href={route('collection.create-form').url}
+				href={route('collection.create-form').path}
 				label={t('collection.create')}
 				leftSection={<AiOutlineFolderAdd size="1.5rem" />}
+				rightSection={<Kbd size="xs">L</Kbd>}
 			/>
 			<AppShell.Section grow component={ScrollArea}>
 				<FavoriteList />
