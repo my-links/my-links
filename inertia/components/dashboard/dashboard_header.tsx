@@ -1,6 +1,16 @@
+import { Visibility } from '#enums/visibility';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { ActionIcon, AppShell, Burger, Group, Menu, Text } from '@mantine/core';
+import {
+	ActionIcon,
+	AppShell,
+	Badge,
+	Burger,
+	Flex,
+	Group,
+	Menu,
+	Text,
+} from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { GoPencil } from 'react-icons/go';
@@ -32,7 +42,19 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 						hiddenFrom="sm"
 						size="sm"
 					/>
-					<Text lineClamp={1}>{activeCollection?.name}</Text>
+					<Flex direction="column">
+						<Text lineClamp={1}>
+							{activeCollection?.name}{' '}
+							{activeCollection?.visibility === Visibility.PUBLIC && (
+								<Badge variant="light">{t('visibility.public')}</Badge>
+							)}
+						</Text>
+						{activeCollection?.description && (
+							<Text c="dimmed" size="sm">
+								{activeCollection.description}
+							</Text>
+						)}
+					</Flex>
 				</Group>
 				<Group>
 					<Menu withinPortal shadow="md" width={225}>
