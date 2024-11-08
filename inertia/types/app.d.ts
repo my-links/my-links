@@ -8,12 +8,13 @@ type CommonBase = {
 
 type User = CommonBase & {
 	email: string;
-	name: string;
-	nickName: string;
 	fullname: string;
 	avatarUrl: string;
 	isAdmin: boolean;
+	lastSeenAt: string;
 };
+
+type Users = User[];
 
 type UserWithCollections = User & {
 	collections: Collection[];
