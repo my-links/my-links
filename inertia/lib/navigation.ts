@@ -1,4 +1,4 @@
-import { Collection, Link } from '~/types/app';
+import { Collection, CollectionWithLinks, Link } from '~/types/app';
 
 export const appendCollectionId = (
 	url: string,
@@ -26,3 +26,11 @@ export function isValidHttpUrl(urlParam: string) {
 
 	return url.protocol === 'http:' || url.protocol === 'https:';
 }
+
+export const generateShareUrl = (
+	collection: Collection | CollectionWithLinks
+) => {
+	const pathname = `/shared/${collection.id}`;
+	if (typeof window === 'undefined') return pathname;
+	return `${window.location.origin}${pathname}`;
+};

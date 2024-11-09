@@ -16,6 +16,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import { GoPencil } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
+import { ShareCollection } from '~/components/share/share_collection';
 import { appendCollectionId } from '~/lib/navigation';
 import { useActiveCollection } from '~/stores/collection_store';
 
@@ -57,6 +58,8 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 					</Flex>
 				</Group>
 				<Group>
+					<ShareCollection />
+
 					<Menu withinPortal shadow="md" width={225}>
 						<Menu.Target>
 							<ActionIcon variant="subtle" color="var(--mantine-color-text)">
@@ -99,6 +102,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 							</Menu.Item>
 						</Menu.Dropdown>
 					</Menu>
+
 					<Burger
 						opened={aside.opened}
 						onClick={aside.toggle}
