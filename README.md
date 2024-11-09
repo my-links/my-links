@@ -1,25 +1,58 @@
-# MyLinks
+![](./docs//imgs/ml_dashboard_dark.png)
 
-MyLinks is a tool that lets you manage your favorite links in an intuitive interface.
-Free and open source software, focused on privacy and self-hosting.
+<div align="center">
+  <h1>MyLinks</h1>
+  <p>Another bookmark manager that lets you manage and share<br>your favorite links in an intuitive interface</p>
+  <p>
+    <a href="https://github.com/my-links/my-links/issues"><img src="https://img.shields.io/github/issues/my-links/my-links.svg" alt="GitHub Issues"></a>
+    <a href="https://github.com/my-links/my-links/blob/main/LICENSE"><img src="https://img.shields.io/github/license/my-links/my-links.svg" alt="License"></a>
+    <a href="https://trello.com/b/CwxkMeZp/mylinks"><img src="https://img.shields.io/badge/roadmap-Trello-blue" alt="Project Roadmap"></a>
+  </p>
+</div>
 
-# Setup
+## Table of Contents
+- [Main Features](#main-features)
+- [Getting Started](#getting-started)
+  - [Setup](#setup)
+  - [Development](#development)
+    - [Using Docker](#docker)
+    - [Using PNPM](#pnpm)
+  - [Production](#start-as-prod)
+- [Configuration](#configuration)
+  - [Generate app_key](#generate_app_key)
+  - [GitHub Actions](#github-actions)
+- [Contributing](#contributing)
+- [License](#license)
 
-Copy `example.env` file as `.env` and edit the properties.
+## Main Features 
 
-```
+- **Organize bookmarks with collections**: Keep your links tidy and easily accessible by grouping them into customizable collections.
+- **Intuitive link management**: Add, edit, and manage your bookmarks effortlessly with a user-friendly interface.
+- **Powerful search functionality**: Quickly locate any bookmark using the robust search feature, enhancing your productivity.
+- **Privacy-focused and open-source**: Enjoy a secure, transparent experience with an open-source platform that prioritizes your privacy.
+- **Browser extension (coming soon)**: Seamlessly integrate MyLinks into your browsing experience with the upcoming official browser extension.
+- **Shareable collections**: Easily share your curated collections with others, facilitating collaboration and information sharing.
+- **Community-driven development**: Contribute to MyLinks by suggesting improvements and features, helping to shape the tool to better meet user needs.
+
+## Getting Started
+
+### Setup
+
+Copy the `example.env` file to `.env` and edit the properties:
+
+```bash
 cp example.env .env
 ```
 
-## Development
+### Development
 
-### Docker
+#### Docker
 
 ```shell
 make dev
 ```
 
-### PNPM
+#### PNPM
 
 ```shell
 # reset database and (force) apply all migrations
@@ -28,15 +61,15 @@ node ace migration:fresh
 pnpm run dev
 ```
 
-## Start as prod
+### Start as prod
 
-### Docker
+#### Docker
 
 ```shell
 make prod
 ```
 
-### PNPM
+#### PNPM
 
 ```shell
 # create production build
@@ -49,14 +82,16 @@ cp ../.env .
 pnpm run start
 ```
 
-## Generate app_key
+## Configuration
+
+### Generate app_key
 
 ```shell
 # generate a random app key
 openssl rand -base64 32
 ```
 
-## GitHub Actions
+### GitHub Actions
 
 Env var to define :
 
@@ -87,3 +122,15 @@ ssh-copy-id -i ./id_rsa.pub user@host
 ```
 
 > Source: https://github.com/appleboy/ssh-action#setting-up-a-ssh-key
+
+## Contributing
+We welcome contributions! Please visit our Trello board for project management and roadmap details. You can contribute by:
+
+- Creating issues for bugs, features, or discussions.
+- Submitting pull requests (PRs) with bug fixes, new features, or documentation updates.
+
+For detailed contribution guidelines, refer to the CONTRIBUTING.md file.
+
+## License
+
+This project is licensed under the [GPLv3 License](./LICENCE). 
