@@ -80,5 +80,7 @@
     "made_by": "Fait avec ❤\uFE0F par"
   },
 	"loading": "Chargement...",
-	"no-results": "Aucun résultat trouvé"
+	"no-results": "Aucun résultat trouvé",
+	"click-to-copy": "Cliquez sur le lien suivant pour copier l'URL partageable",
+	"success-copy": "Link copié dans le presse-papiers"
 }
