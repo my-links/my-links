@@ -1,0 +1,61 @@
+## Contributing to MyLinks
+
+First of all, thank you for considering contributing to MyLinks! We appreciate your time and efforts, and we want to make the contribution process as smooth and transparent as possible.
+
+### Table of Contents
+
+- [How to Contribute](#how-to-contribute)
+- [Code of Conduct](#code-of-conduct)
+- [Bug Reports and Feature Requests](#bug-reports-and-feature-requests)
+- [Pull Requests](#pull-requests)
+- [Development Setup](#development-setup)
+- [Community](#community)
+
+### How to Contribute
+
+There are several ways to contribute to MyLinks:
+- Reporting bugs
+- Suggesting new features
+- Improving the documentation
+- Writing or improving tests
+- Submitting code enhancements
+
+### Code of Conduct
+
+We are committed to fostering a welcoming community. Please review our [Code of Conduct](./CODE_OF_CONDUCT.md) to understand our expectations for all contributors.
+
+### Bug Reports and Feature Requests
+
+If you encounter any bugs or have ideas for new features, please create an issue in our [GitHub Issues](https://github.com/your-repo-url/issues). When reporting bugs, please provide:
+- A clear description of the problem.
+- Steps to reproduce the issue.
+- Any relevant log/error messages.
+
+For feature requests, please describe:
+- The problem you aim to solve.
+- How the feature could benefit users.
+
+### Pull Requests
+
+When making a pull request (PR), please adhere to the following guidelines:
+1. Fork the repository and create your branch from `main` (or the default branch).
+2. Run `pnpm run lint` and ensure your code passes the linter checks.
+3. Add tests for new features or bug fixes.
+4. Ensure your code passes existing tests (`pnpm run test`).
+5. Clearly describe the purpose of your pull request. Provide relevant issue numbers if applicable.
+
+To create a pull request:
+1. Push your branch to your forked repository.
+2. Submit a pull request (PR) to the `main` branch of MyLinks.
+
+> **Note:** All contributions are reviewed by maintainers. We may request changes or improvements before merging.
+
+### Development Setup
+
+For instructions on setting up your development environment, please refer to the [Getting Started](./README.md#getting-started) section in the `README.md`.
+
+### Community
+
+Feel free to join our community discussions on [our Trello board](https://trello.com/b/CwxkMeZp/mylinks) to collaborate on ideas, issues, and features!
+
+Thank you for helping make MyLinks better!
