@@ -11,10 +11,12 @@ body {
 }
 
 .__transition_fadeIn {
+	transform-origin: 50% top;
 	animation: fadeIn 0.15s ease both;
 }
 
 .__transition_fadeOut {
+	transform-origin: 50% top;
 	animation: fadeOut 0.15s ease both;
 }
 
