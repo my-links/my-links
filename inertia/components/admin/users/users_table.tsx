@@ -8,7 +8,7 @@ import {
 } from '@mantine/core';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TbSearch } from 'react-icons/tb';
 import { Th } from '~/components/admin/users/th';
@@ -25,6 +25,11 @@ export type UserWithCounts = User & {
 };
 export type UsersWithCounts = UserWithCounts[];
 
+export type Columns = keyof UserWithCounts;
+
+const DEFAULT_SORT_BY: Columns = 'lastSeenAt';
+const DEFAULT_SORT_DIRECTION = true;
+
 export interface UsersTableProps {
 	users: UsersWithCounts;
 	totalCollections: number;
@@ -37,10 +42,19 @@ export function UsersTable({
 	totalLinks,
 }: UsersTableProps) {
 	const { t } = useTranslation();
-	const [search, setSearch] = useState('');
-	const [sortedData, setSortedData] = useState(users);
-	const [sortBy, setSortBy] = useState<keyof UserWithCounts | null>(null);
-	const [reverseSortDirection, setReverseSortDirection] = useState(false);
+
+	const [search, setSearch] = useState<string>('');
+	const [sortBy, setSortBy] = useState<Columns | null>(DEFAULT_SORT_BY);
+	const [reverseSortDirection, setReverseSortDirection] = useState(
+		DEFAULT_SORT_DIRECTION
+	);
+	const [sortedData, setSortedData] = useState(() =>
+		sortData(users, {
+			sortBy: sortBy,
+			reversed: reverseSortDirection,
+			search: '',
+		})
+	);
 
 	const setSorting = (field: keyof UserWithCounts) => {
 		const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -49,7 +63,7 @@ export function UsersTable({
 		setSortedData(sortData(users, { sortBy: field, reversed, search }));
 	};
 
-	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.currentTarget;
 		setSearch(value);
 		setSortedData(
@@ -83,7 +97,7 @@ export function UsersTable({
 	return (
 		<ScrollArea>
 			<TextInput
-				placeholder="Search by any field"
+				placeholder={`Search by any field (${users.length} users)`}
 				mb="md"
 				leftSection={<TbSearch style={{ width: rem(16), height: rem(16) }} />}
 				value={search}
