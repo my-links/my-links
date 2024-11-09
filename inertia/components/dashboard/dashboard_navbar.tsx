@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import {
 	AppShell,
@@ -11,6 +11,7 @@ import {
 	ScrollArea,
 	Text,
 } from '@mantine/core';
+import { openSpotlight } from '@mantine/spotlight';
 import { useTranslation } from 'react-i18next';
 import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { IoIosSearch } from 'react-icons/io';
@@ -18,7 +19,12 @@ import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
 import { PiGearLight } from 'react-icons/pi';
 import { MantineUserCard } from '~/components/common/user_card';
 import { FavoriteList } from '~/components/dashboard/favorite/favorite_list';
+import { SearchSpotlight } from '~/components/search/search';
+import useShortcut from '~/hooks/use_shortcut';
 import useUser from '~/hooks/use_user';
+import { appendCollectionId } from '~/lib/navigation';
+import { useActiveCollection } from '~/stores/collection_store';
+import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
 interface DashboardNavbarProps {
 	isOpen: boolean;
@@ -27,6 +33,11 @@ interface DashboardNavbarProps {
 export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 	const { t } = useTranslation('common');
 	const { isAuthenticated, user } = useUser();
+
+	const { activeCollection } = useActiveCollection();
+	const { globalHotkeysEnabled, setGlobalHotkeysEnabled } =
+		useGlobalHotkeysStore();
+
 	const common = {
 		variant: 'subtle',
 		color: 'blue',
@@ -40,6 +51,33 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			},
 		},
 	};
+
+	useShortcut(
+		'OPEN_CREATE_LINK_KEY',
+		() =>
+			router.visit(
+				appendCollectionId(route('link.create-form').url, activeCollection?.id)
+			),
+		{
+			enabled: globalHotkeysEnabled,
+		}
+	);
+
+	useShortcut(
+		'OPEN_CREATE_COLLECTION_KEY',
+		() => router.visit(route('collection.create-form').url),
+		{
+			enabled: globalHotkeysEnabled,
+		}
+	);
+
+	useShortcut('OPEN_SEARCH_KEY', () => openSpotlight(), {
+		enabled: globalHotkeysEnabled,
+	});
+
+	const onSpotlightOpen = () => setGlobalHotkeysEnabled(false);
+	const onSpotlightClose = () => setGlobalHotkeysEnabled(true);
+
 	return (
 		<AppShell.Navbar p="md">
 			<Group hiddenFrom="sm" mb="md">
@@ -65,12 +103,21 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				color="var(--mantine-color-text)"
 				disabled
 			/>
-			<NavLink
-				{...common}
-				label={t('search')}
-				leftSection={<IoIosSearch size="1.5rem" />}
-				disabled
-			/>
+			<>
+				{/* Search button */}
+				<NavLink
+					{...common}
+					label={t('search')}
+					leftSection={<IoIosSearch size="1.5rem" />}
+					onClick={() => openSpotlight()}
+					rightSection={<Kbd size="xs">S</Kbd>}
+				/>
+				{/* Search spotlight / modal */}
+				<SearchSpotlight
+					openCallback={onSpotlightOpen}
+					closeCallback={onSpotlightClose}
+				/>
+			</>
 			<NavLink
 				{...common}
 				component={Link}
