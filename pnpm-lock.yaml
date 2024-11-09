@@ -51,8 +51,8 @@ importers:
         specifier: ^7.13.4
         version: 7.13.4(react@18.3.1)
       '@mantine/spotlight':
-        specifier: ^7.13.4
-        version: 7.13.4(@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^7.13.5
+        version: 7.13.5(@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@vinejs/vine':
         specifier: ^2.1.0
         version: 2.1.0
@@ -931,18 +931,18 @@ packages:
     peerDependencies:
       react: ^18.2.0
 
-  '@mantine/spotlight@7.13.4':
-    resolution: {integrity: sha512-rplcuOa9tSia8WmWjdqQvn/WG76BQ9d2/Gy6t3e5wHM3TURPPFYCcwUHp9HUvNELj98Hx6TUJ9BmZqyi/TxIPg==}
+  '@mantine/spotlight@7.13.5':
+    resolution: {integrity: sha512-gVwhyDNJxjnvKZG44O99g4fKVsVJEmo3CZC/aMkoRoz9IvKrRpWx11pPfsk/eQJ5kp5nsy49fNRX24yKRkW7Mg==}
     peerDependencies:
-      '@mantine/core': 7.13.4
-      '@mantine/hooks': 7.13.4
-      react: ^18.2.0
-      react-dom: ^18.2.0
+      '@mantine/core': 7.13.5
+      '@mantine/hooks': 7.13.5
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
 
-  '@mantine/store@7.13.4':
-    resolution: {integrity: sha512-DUlnXizE7aCjbVg2J3XLLKsOzt2c2qfQl2Xmx9l/BPE4FFZZKUqGDkYaTDbTAmnN3FVZ9xXycL7bAlq9udO8mA==}
+  '@mantine/store@7.13.5':
+    resolution: {integrity: sha512-+enhEaZpVKn0x3PLN3Txlk/06eIuq2wQhlFQnBe4dnD+C9VZZhXdff/IYCtXwB4XojwJl3rln7BSL4Ih4rSGmw==}
     peerDependencies:
-      react: ^18.2.0
+      react: ^18.x || ^19.x
 
   '@noble/hashes@1.4.0':
     resolution: {integrity: sha512-V1JJ1WTRUqHHrOSh597hURcMqVKVGL/ea3kv0gSnEdsEZ0/+VyPghM1lMNGc00z7CIQorSvbKpuJkxvuHbvdbg==}
@@ -5699,15 +5699,15 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  '@mantine/spotlight@7.13.4(@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@mantine/spotlight@7.13.5(@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@mantine/core': 7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/hooks': 7.13.4(react@18.3.1)
-      '@mantine/store': 7.13.4(react@18.3.1)
+      '@mantine/store': 7.13.5(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@mantine/store@7.13.4(react@18.3.1)':
+  '@mantine/store@7.13.5(react@18.3.1)':
     dependencies:
       react: 18.3.1
 

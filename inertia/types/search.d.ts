@@ -3,6 +3,7 @@ type SearchResultCommon = {
 	name: string;
 	matched_part?: string;
 	rank?: number;
+	description?: string;
 };
 
 export type SearchResultCollection = SearchResultCommon & {
@@ -11,7 +12,7 @@ export type SearchResultCollection = SearchResultCommon & {
 
 export type SearchResultLink = SearchResultCommon & {
 	type: 'link';
-	collection_id: number;
+	collectionId: number;
 	url: string;
 };
 

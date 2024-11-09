@@ -1,5 +1,3 @@
-import { router } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { AppShell, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
@@ -11,12 +9,10 @@ import { MantineFooter } from '~/components/footer/footer';
 import { useDisableOverflow } from '~/hooks/use_disable_overflow';
 import useShortcut from '~/hooks/use_shortcut';
 import { DashboardLayout } from '~/layouts/dashboard_layout';
-import { appendCollectionId } from '~/lib/navigation';
 import {
 	useActiveCollection,
 	useCollectionsSetter,
 } from '~/stores/collection_store';
-import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './dashboard.module.css';
 
@@ -36,7 +32,6 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 
 	const { activeCollection } = useActiveCollection();
 	const { _setCollections, setActiveCollection } = useCollectionsSetter();
-	const { globalHotkeysEnabled } = useGlobalHotkeysStore();
 
 	useShortcut('ESCAPE_KEY', () => {
 		closeNavbar();
@@ -49,24 +44,6 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 		_setCollections(props.collections);
 		setActiveCollection(props.activeCollection);
 	}, []);
-
-	useShortcut(
-		'OPEN_CREATE_LINK_KEY',
-		() =>
-			router.visit(
-				appendCollectionId(route('link.create-form').url, activeCollection?.id)
-			),
-		{
-			enabled: globalHotkeysEnabled,
-		}
-	);
-	useShortcut(
-		'OPEN_CREATE_COLLECTION_KEY',
-		() => router.visit(route('collection.create-form').url),
-		{
-			enabled: globalHotkeysEnabled,
-		}
-	);
 
 	const headerHeight = !!activeCollection?.description
 		? HEADER_SIZE_WITH_DESCRIPTION
