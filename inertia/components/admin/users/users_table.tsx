@@ -1,5 +1,4 @@
 import {
-	Badge,
 	ScrollArea,
 	Table,
 	Text,
@@ -14,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { TbSearch } from 'react-icons/tb';
 import { Th } from '~/components/admin/users/th';
 import { sortData } from '~/components/admin/users/utils';
+import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { DATE_FORMAT } from '~/constants';
 import { User } from '~/types/app';
 
@@ -71,15 +71,7 @@ export function UsersTable({
 		<Table.Tr key={user.id}>
 			<Table.Td>{user.fullname}</Table.Td>
 			<Table.Td>
-				{user.isAdmin ? (
-					<Badge variant="light" color="red">
-						{t('admin:admin')}
-					</Badge>
-				) : (
-					<Badge variant="light" color="green">
-						{t('admin:user')}
-					</Badge>
-				)}
+				<UserBadgeRole user={user} />
 			</Table.Td>
 			<Table.Td>{user.collectionsCount}</Table.Td>
 			<Table.Td>{user.linksCount}</Table.Td>
