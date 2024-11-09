@@ -27,7 +27,8 @@
     "edit": "Modifier une collection",
     "delete": "Supprimer une collection",
     "delete-confirm": "Confirmer la suppression ?",
-    "delete-description": "Vous devez supprimer tous les liens de cette collection avant de pouvoir supprimer cette collection"
+    "delete-description": "Vous devez supprimer tous les liens de cette collection avant de pouvoir supprimer cette collection",
+		"managed-by": "Collection gérée par <b>{{name}}</b>"
   },
 	"form": {
 		"name": "Nom",
@@ -54,7 +55,8 @@
   "favorites-appears-here": "Vos favoris apparaîtront ici",
   "go-to-collection": "Voir la collection",
   "no-item-found": "Aucun élément trouvé",
-  "admin": "Administrateur",
+	"admin": "Administrateur",
+	"user": "Utilisateur",
   "search": "Rechercher",
   "search-with": "Rechercher avec",
   "avatar": "Avatar de {{name}}",

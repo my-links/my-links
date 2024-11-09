@@ -2,11 +2,14 @@ import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { Anchor, Box, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import type { LinkListProps } from '~/components/dashboard/link/list/link_list';
 import { appendCollectionId } from '~/lib/navigation';
 import { useActiveCollection } from '~/stores/collection_store';
 import styles from './no_link.module.css';
 
-export function NoLink() {
+interface NoLinkProps extends LinkListProps {}
+
+export function NoLink({ hideMenu }: NoLinkProps) {
 	const { t } = useTranslation('common');
 	const { activeCollection } = useActiveCollection();
 	return (
@@ -23,15 +26,17 @@ export function NoLink() {
 					),
 				}}
 			/>
-			<Anchor
-				component={Link}
-				href={appendCollectionId(
-					route('link.create-form').path,
-					activeCollection?.id
-				)}
-			>
-				{t('link.create')}
-			</Anchor>
+			{!hideMenu && (
+				<Anchor
+					component={Link}
+					href={appendCollectionId(
+						route('link.create-form').path,
+						activeCollection?.id
+					)}
+				>
+					{t('link.create')}
+				</Anchor>
+			)}
 		</Box>
 	);
 }
