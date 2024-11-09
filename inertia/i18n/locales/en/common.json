@@ -78,5 +78,7 @@
   "member-since": "Member since",
   "footer": {
     "made_by": "Made with ❤\uFE0F by"
-  }
+  },
+	"loading": "Loading...",
+	"no-results": "No results found"
 }
