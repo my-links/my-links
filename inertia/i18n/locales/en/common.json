@@ -80,5 +80,7 @@
     "made_by": "Made with ❤\uFE0F by"
   },
 	"loading": "Loading...",
-	"no-results": "No results found"
+	"no-results": "No results found",
+	"click-to-copy": "Click on the following link to copy the shareable url",
+	"success-copy": "Link copied to clipboard"
 }
