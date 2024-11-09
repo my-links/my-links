@@ -14,6 +14,8 @@ type User = CommonBase & {
 	lastSeenAt: string;
 };
 
+type PublicUser = Omit<User, 'email'>;
+
 type Users = User[];
 
 type UserWithCollections = User & {
@@ -41,6 +43,9 @@ type Link = CommonBase & {
 type LinkWithCollection = Link & {
 	collection: Collection;
 };
+
+type PublicLink = Omit<Link, 'favorite'>;
+type PublicLinkWithCollection = Omit<Link, 'favorite'>;
 
 type Collection = CommonBase & {
 	name: string;

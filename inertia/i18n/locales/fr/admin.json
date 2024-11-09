@@ -2,8 +2,6 @@
 	"role": "Rôle",
 	"created_at": "Création",
 	"last_seen_at": "Dernière connexion",
-	"admin": "Administrateur",
-	"user": "Utilisateur",
 	"users": "Utilisateurs",
 	"stats": "Statistiques"
 }

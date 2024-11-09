@@ -1,19 +1,19 @@
 import { Card, Group, Text } from '@mantine/core';
 import { AiFillStar } from 'react-icons/ai';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
-import LinkControls from '~/components/dashboard/link/link_controls';
-import LinkFavicon from '~/components/dashboard/link/link_favicon';
-import { Link } from '~/types/app';
+import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
+import LinkControls from '~/components/dashboard/link/item/link_controls';
+import type { LinkListProps } from '~/components/dashboard/link/list/link_list';
+import { Link, PublicLink } from '~/types/app';
 import styles from './link.module.css';
 
-export default function LinkItem({
-	link,
-	showUserControls = false,
-}: {
-	link: Link;
-	showUserControls: boolean;
-}) {
-	const { name, url, description, favorite } = link;
+interface LinkItemProps extends LinkListProps {
+	link: Link | PublicLink;
+}
+
+export function LinkItem({ link, hideMenu: hideMenu = false }: LinkItemProps) {
+	const { name, url, description } = link;
+	const showFavoriteIcon = !hideMenu && 'favorite' in link && link.favorite;
 	return (
 		<Card className={styles.linkWrapper} padding="sm" radius="sm" withBorder>
 			<Group className={styles.linkHeader} justify="center">
@@ -21,13 +21,12 @@ export default function LinkItem({
 				<ExternalLinkStyled href={url} style={{ flex: 1 }}>
 					<div className={styles.linkName}>
 						<Text lineClamp={1}>
-							{name}{' '}
-							{showUserControls && favorite && <AiFillStar color="gold" />}
+							{name} {showFavoriteIcon && <AiFillStar color="gold" />}
 						</Text>
 					</div>
 					<LinkItemURL url={url} />
 				</ExternalLinkStyled>
-				{showUserControls && <LinkControls link={link} />}
+				{!hideMenu && <LinkControls link={link} />}
 			</Group>
 			{description && (
 				<Text className={styles.linkDescription} c="dimmed" size="sm">

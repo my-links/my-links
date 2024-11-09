@@ -1,7 +1,7 @@
 import { Card, Group, Text } from '@mantine/core';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
-import LinkControls from '~/components/dashboard/link/link_controls';
-import LinkFavicon from '~/components/dashboard/link/link_favicon';
+import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
+import LinkControls from '~/components/dashboard/link/item/link_controls';
 import { LinkWithCollection } from '~/types/app';
 import styles from './favorite_item.module.css';
 

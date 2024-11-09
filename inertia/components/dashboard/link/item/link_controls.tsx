@@ -10,10 +10,10 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
 import { useFavorites } from '~/stores/collection_store';
-import { Link } from '~/types/app';
+import { Link, PublicLink } from '~/types/app';
 
 interface LinksControlsProps {
-	link: Link;
+	link: Link | PublicLink;
 	showGoToCollection?: boolean;
 }
 export default function LinkControls({
@@ -42,15 +42,17 @@ export default function LinkControls({
 						{t('go-to-collection')}
 					</Menu.Item>
 				)}
-				<Menu.Item
-					onClick={() =>
-						onFavorite(link.id, !link.favorite, onFavoriteCallback)
-					}
-					leftSection={link.favorite ? <MdFavorite /> : <MdFavoriteBorder />}
-					color="var(--mantine-color-yellow-7)"
-				>
-					{link.favorite ? t('remove-favorite') : t('add-favorite')}
-				</Menu.Item>
+				{'favorite' in link && (
+					<Menu.Item
+						onClick={() =>
+							onFavorite(link.id, !link.favorite, onFavoriteCallback)
+						}
+						leftSection={link.favorite ? <MdFavorite /> : <MdFavoriteBorder />}
+						color="var(--mantine-color-yellow-7)"
+					>
+						{link.favorite ? t('remove-favorite') : t('add-favorite')}
+					</Menu.Item>
+				)}
 				<Menu.Item
 					component={InertiaLink}
 					href={appendLinkId(route('link.edit-form').path, link.id)}

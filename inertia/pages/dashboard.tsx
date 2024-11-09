@@ -1,13 +1,12 @@
 import { router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
-import { AppShell, ScrollArea, Stack } from '@mantine/core';
+import { AppShell, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { DashboardAside } from '~/components/dashboard/dashboard_aside';
 import { DashboardHeader } from '~/components/dashboard/dashboard_header';
 import { DashboardNavbar } from '~/components/dashboard/dashboard_navbar';
-import LinkItem from '~/components/dashboard/link/link_item';
-import { NoLink } from '~/components/dashboard/link/no_link';
+import { LinkList } from '~/components/dashboard/link/list/link_list';
 import { MantineFooter } from '~/components/footer/footer';
 import { useDisableOverflow } from '~/hooks/use_disable_overflow';
 import useShortcut from '~/hooks/use_shortcut';
@@ -69,16 +68,16 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 		}
 	);
 
+	const headerHeight = !!activeCollection?.description
+		? HEADER_SIZE_WITH_DESCRIPTION
+		: HEADER_SIZE_WITHOUT_DESCRIPTION;
+	const footerHeight = 45;
 	return (
 		<DashboardLayout>
 			<div className={classes.app_wrapper}>
 				<AppShell
 					layout="alt"
-					header={{
-						height: !!activeCollection?.description
-							? HEADER_SIZE_WITH_DESCRIPTION
-							: HEADER_SIZE_WITHOUT_DESCRIPTION,
-					}}
+					header={{ height: headerHeight }}
 					navbar={{
 						width: 300,
 						breakpoint: 'sm',
@@ -89,6 +88,7 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 						breakpoint: 'md',
 						collapsed: { mobile: !openedAside },
 					}}
+					footer={{ height: footerHeight }}
 					classNames={{
 						aside: classes.ml_custom_class,
 						footer: classes.ml_custom_class,
@@ -103,20 +103,12 @@ export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
 					/>
 					<DashboardNavbar isOpen={openedNavbar} toggle={toggleNavbar} />
 					<AppShell.Main>
-						{activeCollection?.links && activeCollection.links.length > 0 ? (
-							<ScrollArea
-								h="calc(100vh - var(--app-shell-header-height, 0px) - var(--app-shell-footer-height, 0px))"
-								p="md"
-							>
-								<Stack gap="xs">
-									{activeCollection?.links.map((link) => (
-										<LinkItem key={link.id} link={link} showUserControls />
-									))}
-								</Stack>
-							</ScrollArea>
-						) : (
-							<NoLink key={activeCollection?.id} />
-						)}
+						<ScrollArea
+							h="calc(100vh - var(--app-shell-header-height) - var(--app-shell-footer-height, 0px))"
+							p="md"
+						>
+							<LinkList />
+						</ScrollArea>
 					</AppShell.Main>
 					<DashboardAside isOpen={openedAside} toggle={toggleAside} />
 					<AppShell.Footer pl="xs" pr="xs">

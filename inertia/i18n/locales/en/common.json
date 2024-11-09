@@ -27,7 +27,8 @@
     "edit": "Edit a collection",
     "delete": "Delete a collection",
     "delete-confirm": "Confirm deletion?",
-    "delete-description": "You must delete all links in this collection before you can delete this collection."
+    "delete-description": "You must delete all links in this collection before you can delete this collection.",
+		"managed-by": "Collection managed by <b>{{name}}</b>"
   },
 	"form": {
 		"name": "Name",
@@ -55,6 +56,7 @@
   "go-to-collection": "Go to collection",
   "no-item-found": "No item found",
   "admin": "Administrator",
+	"user": "User",
   "search": "Search",
   "search-with": "Search with",
   "avatar": "{{name}}'s avatar",
