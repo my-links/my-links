@@ -2,7 +2,7 @@
 	"name": "my-links",
 	"version": "2.2.1",
 	"type": "module",
-	"license": "UNLICENSED",
+	"license": "GPL-3.0-only",
 	"scripts": {
 		"start": "node bin/server.js",
 		"build": "node ace build",
