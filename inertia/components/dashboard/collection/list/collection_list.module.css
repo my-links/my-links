@@ -14,8 +14,6 @@
 }
 
 .collectionList {
-	padding: 1px;
-	padding-right: 5px;
 	display: flex;
 	flex: 1;
 	gap: 0.35em;
