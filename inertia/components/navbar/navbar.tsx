@@ -1,4 +1,4 @@
-import PATHS from '#constants/paths';
+import PATHS from '#core/constants/paths';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import {

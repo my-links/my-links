@@ -1,4 +1,4 @@
-import User from '#models/user';
+import User from '#user/models/user';
 import { GoogleToken } from '@adonisjs/ally/types';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';

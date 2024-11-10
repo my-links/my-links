@@ -1,8 +1,9 @@
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { ColorSchemeScript, createTheme, MantineProvider } from '@mantine/core';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { InertiaPage } from '~/types/inertia';
 
 import '@mantine/core/styles.css';
 import '@mantine/spotlight/styles.css';
@@ -14,6 +15,8 @@ const TRANSITION_OUT_CLASS = '__transition_fadeOut';
 
 export default function BaseLayout({ children }: { children: ReactNode }) {
 	const { i18n } = useTranslation();
+	const { language } = usePage<InertiaPage>().props;
+	i18n.changeLanguage(language);
 	dayjs.locale(i18n.language);
 
 	const findAppElement = () => document.getElementById('app');
