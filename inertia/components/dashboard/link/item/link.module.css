@@ -12,7 +12,6 @@
 }
 
 .linkUrl {
-	max-width: calc(100% - 50px);
 	transition: opacity 0.15s;
 }
 

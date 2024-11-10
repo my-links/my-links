@@ -4,8 +4,8 @@ import {
 	ActionIcon,
 	AppShell,
 	Badge,
+	Box,
 	Burger,
-	Flex,
 	Group,
 	Menu,
 	Text,
@@ -36,14 +36,14 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 	return (
 		<AppShell.Header style={{ display: 'flex', alignItems: 'center' }}>
 			<Group justify="space-between" px="md" flex={1}>
-				<Group h="100%">
+				<Group h="100%" wrap="nowrap">
 					<Burger
 						opened={navbar.opened}
 						onClick={navbar.toggle}
 						hiddenFrom="sm"
 						size="sm"
 					/>
-					<Flex direction="column">
+					<Box w="50%">
 						<Text lineClamp={1}>
 							{activeCollection?.name}{' '}
 							{activeCollection?.visibility === Visibility.PUBLIC && (
@@ -55,7 +55,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 								{activeCollection.description}
 							</Text>
 						)}
-					</Flex>
+					</Box>
 				</Group>
 				<Group>
 					<ShareCollection />
