@@ -1,4 +1,3 @@
-import { Visibility } from '#enums/visibility';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
@@ -6,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import MantineFormCollection, {
 	FormCollectionData,
 } from '~/components/form/form_collection';
+import { Visibility } from '~/types/app';
 
 export default function CreateCollectionPage({
 	disableHomeLink,

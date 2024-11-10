@@ -1,4 +1,3 @@
-import { Visibility } from '#enums/visibility';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import {
@@ -19,6 +18,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { ShareCollection } from '~/components/share/share_collection';
 import { appendCollectionId } from '~/lib/navigation';
 import { useActiveCollection } from '~/stores/collection_store';
+import { Visibility } from '~/types/app';
 
 interface DashboardHeaderProps {
 	navbar: {

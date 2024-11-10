@@ -1,10 +1,9 @@
-import { Visibility } from '#enums/visibility';
 import { Box, Group, SegmentedControl, Text, TextInput } from '@mantine/core';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import { FormLayout, FormLayoutProps } from '~/layouts/form_layout';
-import { Collection } from '~/types/app';
+import { Collection, Visibility } from '~/types/app';
 
 export type FormCollectionData = {
 	name: string;

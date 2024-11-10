@@ -1,7 +1,7 @@
 import {
-	DARK_THEME_DEFAULT_VALUE,
 	PREFER_DARK_THEME,
-} from '#constants/session';
+	DARK_THEME_DEFAULT_VALUE,
+} from '#user/constants/theme';
 import { defineConfig } from '@adonisjs/inertia';
 
 export default defineConfig({

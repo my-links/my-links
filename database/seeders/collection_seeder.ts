@@ -1,6 +1,6 @@
-import { Visibility } from '#enums/visibility';
-import Collection from '#models/collection';
-import User from '#models/user';
+import { Visibility } from '#collections/enums/visibility';
+import Collection from '#collections/models/collection';
+import User from '#user/models/user';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';
 

@@ -1,10 +1,10 @@
-import { Visibility } from '#enums/visibility';
 import { ActionIcon, Anchor, CopyButton, Popover, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { TbShare3 } from 'react-icons/tb';
 import { Fragment } from 'react/jsx-runtime';
 import { generateShareUrl } from '~/lib/navigation';
 import { useActiveCollection } from '~/stores/collection_store';
+import { Visibility } from '~/types/app';
 
 const COPY_SUCCESS_TIMEOUT = 2_000;
 
