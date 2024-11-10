@@ -43,7 +43,7 @@ function LinkItemURL({ url }: { url: Link['url'] }) {
 		return (
 			<Text className={styles.linkUrl} c="gray" size="xs" lineClamp={1}>
 				{origin}
-				{pathname}
+				{pathname !== '/' && pathname}
 			</Text>
 		);
 	} catch (error) {
