@@ -12,8 +12,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))
       '@adonisjs/auth':
-        specifier: ^9.2.3
-        version: 9.2.3(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(luxon@3.5.0)(pg@8.13.1))(@adonisjs/session@7.5.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0))(@japa/plugin-adonisjs@3.0.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@japa/runner@3.1.4))
+        specifier: ^9.2.4
+        version: 9.2.4(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(luxon@3.5.0)(pg@8.13.1))(@adonisjs/session@7.5.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0))(@japa/plugin-adonisjs@3.0.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@japa/runner@3.1.4))
       '@adonisjs/core':
         specifier: ^6.14.1
         version: 6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0)
@@ -45,14 +45,14 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0)
       '@mantine/core':
-        specifier: ^7.13.4
-        version: 7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^7.13.5
+        version: 7.13.5(@mantine/hooks@7.13.5(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/hooks':
-        specifier: ^7.13.4
-        version: 7.13.4(react@18.3.1)
+        specifier: ^7.13.5
+        version: 7.13.5(react@18.3.1)
       '@mantine/spotlight':
         specifier: ^7.13.5
-        version: 7.13.5(@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 7.13.5(@mantine/core@7.13.5(@mantine/hooks@7.13.5(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.5(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@vinejs/vine':
         specifier: ^2.1.0
         version: 2.1.0
@@ -66,8 +66,8 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0
       i18next:
-        specifier: ^23.16.4
-        version: 23.16.4
+        specifier: ^23.16.5
+        version: 23.16.5
       knex:
         specifier: ^3.1.0
         version: 3.1.0(pg@8.13.1)
@@ -90,8 +90,8 @@ importers:
         specifier: ^4.6.1
         version: 4.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-i18next:
-        specifier: ^15.1.0
-        version: 15.1.0(i18next@23.16.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^15.1.1
+        version: 15.1.1(i18next@23.16.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-icons:
         specifier: ^5.3.0
         version: 5.3.0(react@18.3.1)
@@ -160,8 +160,8 @@ importers:
         specifier: ^15.2.10
         version: 15.2.10
       pino-pretty:
-        specifier: ^11.3.0
-        version: 11.3.0
+        specifier: ^12.1.0
+        version: 12.1.0
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
@@ -212,8 +212,8 @@ packages:
     peerDependencies:
       typescript: ^4.0.0 || ^5.0.0
 
-  '@adonisjs/auth@9.2.3':
-    resolution: {integrity: sha512-my/dqQJo1LQRhT3bW0RuK/1BhDTWcY3tVrGZmVMedCRBfYGt91OAreMy0muukJcWr8AkXBtbBsju2D+myaDa4Q==}
+  '@adonisjs/auth@9.2.4':
+    resolution: {integrity: sha512-n6YLy1U0ClKCNFRwC3t+TQBXlJjKwGmRQEQdJnuSgK1L38R8KhU9LbsFTkMH+iKSOigMRQlILtd4Sgf0ekoC6w==}
     engines: {node: '>=18.16.0'}
     peerDependencies:
       '@adonisjs/core': ^6.11.0
@@ -357,15 +357,6 @@ packages:
       '@adonisjs/assembler':
         optional: true
       luxon:
-        optional: true
-
-  '@adonisjs/presets@2.6.1':
-    resolution: {integrity: sha512-OIk5FYrbtymu1tGLv5yyZfirnXQSjrJYNyBstrTKvu7dW/jsAi9Mlm8wpXMpNhrEzo6sHGEkQKmDIz0m7TP9Pw==}
-    peerDependencies:
-      '@adonisjs/assembler': ^7.4.0
-      '@adonisjs/core': ^6.5.0
-    peerDependenciesMeta:
-      '@adonisjs/assembler':
         optional: true
 
   '@adonisjs/presets@2.6.3':
@@ -794,14 +785,11 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  '@floating-ui/react@0.26.26':
-    resolution: {integrity: sha512-iv2BjdcyoF1j1708Z9CrGtMc9ZZvMPZnDqyB1FrSWYCi+/nlPArUO/u9QhwC4E1Pi4T0g18GZ4W702m0NDh9bw==}
+  '@floating-ui/react@0.26.27':
+    resolution: {integrity: sha512-jLP72x0Kr2CgY6eTYi/ra3VA9LOkTo4C+DUTrbFgFOExKy3omYVmwMjNKqxAHdsnyLS96BIDLcO2SlnsNf8KUQ==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
-
-  '@floating-ui/utils@0.2.4':
-    resolution: {integrity: sha512-dWO2pw8hhi+WrXq1YJy2yCuWoL20PddgGaqTgVe4cOS9Q6qklXCiA1tJEqX6BEwRNSCP84/afac9hd4MS+zEUA==}
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
@@ -919,17 +907,17 @@ packages:
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
     engines: {node: '>=8'}
 
-  '@mantine/core@7.13.4':
-    resolution: {integrity: sha512-9I6+SqTq90pnI3WPmOQzQ1PL7IkhQg/5ft8Awhgut8tvk1VaKruDm/K5ysUG3ncHrP+QTI2UHYjNlUrux6HKlw==}
+  '@mantine/core@7.13.5':
+    resolution: {integrity: sha512-1m0C0qH9eIWJZy19M06kKNWbbSLZhsTDvHPqTxMgvFg6JuSN7a6r3v6fqCbvaI1kTQiK51NMe+9vMNVnw4zOsA==}
     peerDependencies:
-      '@mantine/hooks': 7.13.4
-      react: ^18.2.0
-      react-dom: ^18.2.0
+      '@mantine/hooks': 7.13.5
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
 
-  '@mantine/hooks@7.13.4':
-    resolution: {integrity: sha512-B2QCegQyWlLdenVNaLNK8H9cTAjLW9JKJ3xWg+ShhpjZDHT2hjZz4L0Nt071Z7mPvyAaOwKGM0FyqTcTjdECfg==}
+  '@mantine/hooks@7.13.5':
+    resolution: {integrity: sha512-hxFOQn6NeN7fP37VXZh7z5KxwqA9HYmydivIay0jyQTYA4Falc8Pb4ozSxnyFbXyxzUWcFIQL4xayHRvedgE+Q==}
     peerDependencies:
-      react: ^18.2.0
+      react: ^18.x || ^19.x
 
   '@mantine/spotlight@7.13.5':
     resolution: {integrity: sha512-gVwhyDNJxjnvKZG44O99g4fKVsVJEmo3CZC/aMkoRoz9IvKrRpWx11pPfsk/eQJ5kp5nsy49fNRX24yKRkW7Mg==}
@@ -2814,8 +2802,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next@23.16.4:
-    resolution: {integrity: sha512-9NIYBVy9cs4wIqzurf7nLXPyf3R78xYbxExVqHLK9od3038rjpyOEzW+XB130kZ1N4PZ9inTtJ471CRJ4Ituyg==}
+  i18next@23.16.5:
+    resolution: {integrity: sha512-KTlhE3EP9x6pPTAW7dy0WKIhoCpfOGhRQlO+jttQLgzVaoOjWwBWramu7Pp0i+8wDNduuzXfe3kkVbzrKyrbTA==}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -3769,8 +3757,8 @@ packages:
   pino-abstract-transport@2.0.0:
     resolution: {integrity: sha512-F63x5tizV6WCh4R6RHyi2Ml+M70DNRXt/+HANowMflpgGFMAym/VKm6G7ZOQRjqN7XbGxK1Lg9t6ZrtzOaivMw==}
 
-  pino-pretty@11.3.0:
-    resolution: {integrity: sha512-oXwn7ICywaZPHmu3epHGU2oJX4nPmKvHvB/bwrJHlGcbEWaVcotkpyVHMKLKmiVryWYByNp0jpgAcXpFJDXJzA==}
+  pino-pretty@12.1.0:
+    resolution: {integrity: sha512-Z7JdCPqggoRyo0saJyCe1BN8At5qE+ZBElNbyx+znCaCVN+ohOqlWb+/WSYnamzfi2e6P6pXq/3H66KwFQHXWg==}
     hasBin: true
 
   pino-std-serializers@6.2.2:
@@ -3963,8 +3951,8 @@ packages:
       react: '>=16.8.1'
       react-dom: '>=16.8.1'
 
-  react-i18next@15.1.0:
-    resolution: {integrity: sha512-zj3nJynMnZsy2gPZiOTC7XctCY5eQGqT3tcKMmfJWC9FMvgd+960w/adq61j8iPzpwmsXejqID9qC3Mqu1Xu2Q==}
+  react-i18next@15.1.1:
+    resolution: {integrity: sha512-R/Vg9wIli2P3FfeI8o1eNJUJue5LWpFsQePCHdQDmX0Co3zkr6kdT8gAseb/yGeWbNz1Txc4bKDQuZYsC0kQfw==}
     peerDependencies:
       i18next: '>= 23.2.3'
       react: '>= 16.8.0'
@@ -4027,8 +4015,8 @@ packages:
       '@types/react':
         optional: true
 
-  react-textarea-autosize@8.5.3:
-    resolution: {integrity: sha512-XT1024o2pqCuZSuBt9FwHlaDeNtVrtCXu0Rnz88t1jUGheCLa3PhjE1GH8Ctm2axEtvdCl5SUHYschyQ0L5QHQ==}
+  react-textarea-autosize@8.5.4:
+    resolution: {integrity: sha512-eSSjVtRLcLfFwFcariT77t9hcbVJHQV76b51QjQGarQIHml2+gM2lms0n3XrhnDmgK5B+/Z7TmQk5OHNzqYm/A==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -4585,6 +4573,10 @@ packages:
     resolution: {integrity: sha512-ADn2w7hVPcK6w1I0uWnM//y1rLXZhzB9mr0a3OirzclKF1Wp6VzevUmzz/NRAWunOT6E8HrnpGY7xOfc6K57fA==}
     engines: {node: '>=16'}
 
+  type-fest@4.26.1:
+    resolution: {integrity: sha512-yOGpmOAL7CkKe/91I5O3gPICmJNLJ1G4zFYVAsRHg7M64biSnPtRj0WNQt++bRkjYOqjWXrhnUw1utzmVErAdg==}
+    engines: {node: '>=16'}
+
   type-is@1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
@@ -4959,10 +4951,11 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  '@adonisjs/auth@9.2.3(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(luxon@3.5.0)(pg@8.13.1))(@adonisjs/session@7.5.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0))(@japa/plugin-adonisjs@3.0.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@japa/runner@3.1.4))':
+  '@adonisjs/auth@9.2.4(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@adonisjs/lucid@21.3.0(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(luxon@3.5.0)(pg@8.13.1))(@adonisjs/session@7.5.0(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(edge.js@6.2.0))(@japa/plugin-adonisjs@3.0.1(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(@japa/runner@3.1.4))':
     dependencies:
       '@adonisjs/core': 6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0)
-      '@adonisjs/presets': 2.6.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))
+      '@adonisjs/presets': 2.6.3(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))
+      '@poppinss/utils': 6.8.3
       basic-auth: 2.0.1
     optionalDependencies:
       '@adonisjs/lucid': 21.3.0(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))(luxon@3.5.0)(pg@8.13.1)
@@ -5163,13 +5156,6 @@ snapshots:
       - sqlite3
       - supports-color
       - tedious
-
-  '@adonisjs/presets@2.6.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))':
-    dependencies:
-      '@adonisjs/core': 6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0)
-      '@poppinss/utils': 6.7.3
-    optionalDependencies:
-      '@adonisjs/assembler': 7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3)
 
   '@adonisjs/presets@2.6.3(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@adonisjs/core@6.14.1(@adonisjs/assembler@7.8.2(babel-plugin-macros@3.1.0)(typescript@5.6.3))(@vinejs/vine@2.1.0)(edge.js@6.2.0))':
     dependencies:
@@ -5533,12 +5519,12 @@ snapshots:
 
   '@floating-ui/core@1.6.4':
     dependencies:
-      '@floating-ui/utils': 0.2.4
+      '@floating-ui/utils': 0.2.8
 
   '@floating-ui/dom@1.6.7':
     dependencies:
       '@floating-ui/core': 1.6.4
-      '@floating-ui/utils': 0.2.4
+      '@floating-ui/utils': 0.2.8
 
   '@floating-ui/react-dom@2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
@@ -5546,15 +5532,13 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@floating-ui/react@0.26.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@floating-ui/react@0.26.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/react-dom': 2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@floating-ui/utils': 0.2.8
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       tabbable: 6.2.0
-
-  '@floating-ui/utils@0.2.4': {}
 
   '@floating-ui/utils@0.2.8': {}
 
@@ -5681,28 +5665,28 @@ snapshots:
 
   '@lukeed/ms@2.0.2': {}
 
-  '@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@mantine/core@7.13.5(@mantine/hooks@7.13.5(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@floating-ui/react': 0.26.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.13.4(react@18.3.1)
+      '@floating-ui/react': 0.26.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/hooks': 7.13.5(react@18.3.1)
       clsx: 2.1.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-number-format: 5.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-remove-scroll: 2.6.0(@types/react@18.3.12)(react@18.3.1)
-      react-textarea-autosize: 8.5.3(@types/react@18.3.12)(react@18.3.1)
-      type-fest: 4.21.0
+      react-textarea-autosize: 8.5.4(@types/react@18.3.12)(react@18.3.1)
+      type-fest: 4.26.1
     transitivePeerDependencies:
       - '@types/react'
 
-  '@mantine/hooks@7.13.4(react@18.3.1)':
+  '@mantine/hooks@7.13.5(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
-  '@mantine/spotlight@7.13.5(@mantine/core@7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.4(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@mantine/spotlight@7.13.5(@mantine/core@7.13.5(@mantine/hooks@7.13.5(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.13.5(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@mantine/core': 7.13.4(@mantine/hooks@7.13.4(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.13.4(react@18.3.1)
+      '@mantine/core': 7.13.5(@mantine/hooks@7.13.5(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/hooks': 7.13.5(react@18.3.1)
       '@mantine/store': 7.13.5(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -7704,7 +7688,7 @@ snapshots:
 
   husky@9.1.6: {}
 
-  i18next@23.16.4:
+  i18next@23.16.5:
     dependencies:
       '@babel/runtime': 7.25.6
 
@@ -8583,7 +8567,7 @@ snapshots:
     dependencies:
       split2: 4.2.0
 
-  pino-pretty@11.3.0:
+  pino-pretty@12.1.0:
     dependencies:
       colorette: 2.0.20
       dateformat: 4.6.3
@@ -8793,11 +8777,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  react-i18next@15.1.0(i18next@23.16.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-i18next@15.1.1(i18next@23.16.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.6
       html-parse-stringify: 3.0.1
-      i18next: 23.16.4
+      i18next: 23.16.5
       react: 18.3.1
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
@@ -8845,7 +8829,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.12
 
-  react-textarea-autosize@8.5.3(@types/react@18.3.12)(react@18.3.1):
+  react-textarea-autosize@8.5.4(@types/react@18.3.12)(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.6
       react: 18.3.1
@@ -9433,6 +9417,8 @@ snapshots:
   type-fest@2.19.0: {}
 
   type-fest@4.21.0: {}
+
+  type-fest@4.26.1: {}
 
   type-is@1.6.18:
     dependencies:
