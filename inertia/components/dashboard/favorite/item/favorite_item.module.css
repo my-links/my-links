@@ -2,43 +2,11 @@
 	user-select: none;
 	cursor: pointer;
 	width: 100%;
-	background-color: light-dark(var(--mantine-color-gray-1), rgb(50, 58, 71));
+	background-color: light-dark(var(--mantine-color-white), rgb(50, 58, 71));
 	padding: 0.25em 0.5em !important;
-	border-radius: var(--border-radius);
 	border: 1px solid transparent;
 }
 
 .linkWrapper:hover {
 	border: 1px solid var(--mantine-color-blue-4);
-}
-
-.linkName {
-	width: 100%;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-}
-
-.linkDescription {
-	margin-top: 0.5em;
-	font-size: 0.8em;
-	word-wrap: break-word;
-}
-
-.linkUrl {
-	width: 100%;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
-	font-size: 0.8em;
-	transition: opacity 0.3s;
-}
-
-.linkWrapper:hover .linkUrlPathname {
-	opacity: 1;
-}
-
-.linkUrlPathname {
-	opacity: 0;
-	transition: opacity 0.3s;
 }

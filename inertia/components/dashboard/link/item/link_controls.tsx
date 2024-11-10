@@ -1,6 +1,7 @@
 import { Link as InertiaLink } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { ActionIcon, Menu } from '@mantine/core';
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { FaRegEye } from 'react-icons/fa';
@@ -24,10 +25,17 @@ export default function LinkControls({
 	const { t } = useTranslation('common');
 
 	const onFavoriteCallback = () => toggleFavorite(link.id);
+	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) =>
+		event.preventDefault();
+
 	return (
 		<Menu withinPortal shadow="md" width={200}>
 			<Menu.Target>
-				<ActionIcon variant="subtle" color="var(--mantine-color-text)">
+				<ActionIcon
+					variant="subtle"
+					color="var(--mantine-color-text)"
+					onClick={handleStopPropagation}
+				>
 					<BsThreeDotsVertical />
 				</ActionIcon>
 			</Menu.Target>
