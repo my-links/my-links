@@ -1,8 +1,10 @@
 import { CacheService } from '#favicons/services/cache_service';
 import { FaviconService } from '#favicons/services/favicons_service';
 import { Favicon } from '#favicons/types/favicon_type';
+import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
+@inject()
 export default class FaviconsController {
 	private faviconService: FaviconService;
 	private cacheService: CacheService;
