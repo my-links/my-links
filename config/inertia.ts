@@ -1,8 +1,5 @@
 import { isSSREnableForPage } from '#config/ssr';
-import {
-	DARK_THEME_DEFAULT_VALUE,
-	PREFER_DARK_THEME,
-} from '#user/constants/theme';
+import { DEFAULT_USER_THEME, KEY_USER_THEME } from '#user/constants/theme';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
 
@@ -17,8 +14,9 @@ export default defineConfig({
 	 */
 	sharedData: {
 		errors: (ctx) => ctx.session?.flashMessages.get('errors'),
-		preferDarkTheme: (ctx) =>
-			ctx.session?.get(PREFER_DARK_THEME, DARK_THEME_DEFAULT_VALUE),
+		user: (ctx) => ({
+			theme: ctx.session?.get(KEY_USER_THEME, DEFAULT_USER_THEME),
+		}),
 		auth: async (ctx) => {
 			await ctx.auth?.check();
 			return {
