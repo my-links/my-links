@@ -1,7 +1,9 @@
+import { isSSREnableForPage } from '#config/ssr';
 import {
-	PREFER_DARK_THEME,
 	DARK_THEME_DEFAULT_VALUE,
+	PREFER_DARK_THEME,
 } from '#user/constants/theme';
+import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
 
 export default defineConfig({
@@ -32,5 +34,10 @@ export default defineConfig({
 	ssr: {
 		enabled: true,
 		entrypoint: 'inertia/app/ssr.tsx',
+		pages: (_, page) => {
+			const ssrEnabled = isSSREnableForPage(page);
+			logger.debug(`Page "${page}" SSR enabled: ${ssrEnabled}`);
+			return ssrEnabled;
+		},
 	},
 });
