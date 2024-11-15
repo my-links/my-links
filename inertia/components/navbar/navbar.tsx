@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
 import { MantineLanguageSwitcher } from '~/components/common/language_switcher';
 import { MantineThemeSwitcher } from '~/components/common/theme_switcher';
-import { MantineUserCard } from '~/components/common/user_card';
 import useUser from '~/hooks/use_user';
 import classes from './mobile.module.css';
 
@@ -31,7 +30,9 @@ export default function Navbar() {
 		<Box pb={40}>
 			<header className={classes.header}>
 				<Group justify="space-between" h="100%">
-					<Image src="/logo-light.png" h={35} alt="MyLinks's logo" />
+					<Link href="/">
+						<Image src="/logo-light.png" h={35} alt="MyLinks's logo" />
+					</Link>
 
 					<Group h="100%" gap={0} visibleFrom="sm">
 						<Link href="/" className={classes.link}>
@@ -102,11 +103,13 @@ export default function Navbar() {
 
 					<Group justify="center" grow pb="xl" px="md">
 						{!isAuthenticated ? (
-							<Button component="a" href={route('auth').path}>
+							<Button component="a" href={route('auth').path} w={110}>
 								{t('login')}
 							</Button>
 						) : (
-							<MantineUserCard />
+							<Button component={Link} href={route('dashboard').path} w={110}>
+								Dashboard
+							</Button>
 						)}
 					</Group>
 				</ScrollArea>

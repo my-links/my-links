@@ -1,5 +1,4 @@
 import PATHS from '#core/constants/paths';
-import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { Anchor, Group, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +20,7 @@ export function MantineFooter() {
 	const items = links.map((link) => (
 		<Anchor
 			c="dimmed"
-			component={Link}
+			component={ExternalLink}
 			key={link.label}
 			href={link.link}
 			size="sm"
