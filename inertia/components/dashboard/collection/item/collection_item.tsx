@@ -36,7 +36,12 @@ export default function CollectionItem({
 			title={collection.name}
 		>
 			<FolderIcon className={classes.linkIcon} />
-			<Text lineClamp={1} maw={'200px'} style={{ wordBreak: 'break-all' }}>
+			<Text
+				lineClamp={1}
+				maw={'200px'}
+				w="100%"
+				style={{ wordBreak: 'break-all' }}
+			>
 				{collection.name}
 			</Text>
 			{showLinks && (
@@ -45,7 +50,7 @@ export default function CollectionItem({
 					c="var(--mantine-color-gray-5)"
 					ml={4}
 				>
-					— {linksCount}0
+					— {linksCount}
 				</Text>
 			)}
 		</Link>
