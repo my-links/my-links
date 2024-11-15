@@ -14,7 +14,13 @@ export const FavoriteItem = ({ link }: { link: LinkWithCollection }) => (
 					<Text lineClamp={1} c="blue">
 						{link.name}
 					</Text>
-					<Text c="gray" size="xs" mb={4} lineClamp={1}>
+					<Text
+						c="gray"
+						size="xs"
+						mb={4}
+						lineClamp={1}
+						style={{ wordBreak: 'break-all' }}
+					>
 						{link.collection.name}
 					</Text>
 				</Flex>
