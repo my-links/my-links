@@ -35,7 +35,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 	const { activeCollection } = useActiveCollection();
 	return (
 		<AppShell.Header style={{ display: 'flex', alignItems: 'center' }}>
-			<Group justify="space-between" px="md" flex={1}>
+			<Group justify="space-between" px="md" flex={1} wrap="nowrap">
 				<Group h="100%" wrap="nowrap">
 					<Burger
 						opened={navbar.opened}
@@ -57,7 +57,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 						)}
 					</Box>
 				</Group>
-				<Group>
+				<Group wrap="nowrap">
 					<ShareCollection />
 
 					<Menu withinPortal shadow="md" width={225}>
