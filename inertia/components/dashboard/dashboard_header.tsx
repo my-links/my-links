@@ -43,7 +43,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 						hiddenFrom="sm"
 						size="sm"
 					/>
-					<Box w="50%">
+					<Box>
 						<Text lineClamp={1}>
 							{activeCollection?.name}{' '}
 							{activeCollection?.visibility === Visibility.PUBLIC && (

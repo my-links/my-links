@@ -33,14 +33,19 @@ export default function CollectionItem({
 			href={appendCollectionId(route('dashboard').path, collection.id)}
 			key={collection.id}
 			ref={itemRef}
+			title={collection.name}
 		>
 			<FolderIcon className={classes.linkIcon} />
-			<Text lineClamp={1} maw={showLinks ? '160px' : '200px'}>
+			<Text lineClamp={1} maw={'200px'} style={{ wordBreak: 'break-all' }}>
 				{collection.name}
 			</Text>
 			{showLinks && (
-				<Text c="var(--mantine-color-gray-5)" ml="xs">
-					— {linksCount}
+				<Text
+					style={{ whiteSpace: 'nowrap' }}
+					c="var(--mantine-color-gray-5)"
+					ml={4}
+				>
+					— {linksCount}0
 				</Text>
 			)}
 		</Link>
