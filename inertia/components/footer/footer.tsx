@@ -1,4 +1,5 @@
 import PATHS from '#core/constants/paths';
+import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { Anchor, Group, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
@@ -12,15 +13,16 @@ export function MantineFooter() {
 	const { t } = useTranslation('common');
 
 	const links = [
-		{ link: route('privacy').url, label: t('privacy') },
-		{ link: route('terms').url, label: t('terms') },
-		{ link: PATHS.EXTENSION, label: 'Extension' },
+		{ link: route('privacy').path, label: t('privacy'), external: false },
+		{ link: route('terms').path, label: t('terms'), external: false },
+		{ link: PATHS.EXTENSION, label: 'Extension', external: true },
 	];
 
 	const items = links.map((link) => (
 		<Anchor
 			c="dimmed"
-			component={ExternalLink}
+			// @ts-expect-error
+			component={link.external ? ExternalLink : Link}
 			key={link.label}
 			href={link.link}
 			size="sm"
