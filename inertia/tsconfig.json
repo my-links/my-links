@@ -6,8 +6,9 @@
 		"jsx": "react-jsx",
 		"resolveJsonModule": true,
 		"paths": {
-			"~/*": ["./*"]
+			"~/*": ["./*"],
+			"config-ssr": ["../config/ssr"]
 		}
 	},
-	"include": ["./**/*.ts", "./**/*.tsx"]
+	"include": ["./**/*.ts", "./**/*.tsx", "../config/ssr.ts"]
 }

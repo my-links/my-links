@@ -1,8 +1,9 @@
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 import { createInertiaApp } from '@inertiajs/react';
+import { isSSREnableForPage } from 'config-ssr';
 import 'dayjs/locale/en';
 import 'dayjs/locale/fr';
-import { hydrateRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import '../i18n/index';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';
@@ -20,6 +21,13 @@ createInertiaApp({
 	},
 
 	setup({ el, App, props }) {
-		hydrateRoot(el, <App {...props} />);
+		const componentName = props.initialPage.component;
+		const isSSREnabled = isSSREnableForPage(componentName);
+		console.debug(`Page "${componentName}" SSR enabled: ${isSSREnabled}`);
+		if (isSSREnabled) {
+			hydrateRoot(el, <App {...props} />);
+		} else {
+			createRoot(el).render(<App {...props} />);
+		}
 	},
 });
