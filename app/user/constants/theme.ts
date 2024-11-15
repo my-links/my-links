@@ -1,2 +1,3 @@
-export const PREFER_DARK_THEME = 'prefer_dark_theme';
-export const DARK_THEME_DEFAULT_VALUE = true;
+export const KEY_USER_THEME = 'user_theme';
+export const THEMES = ['dark', 'light'] as const;
+export const DEFAULT_USER_THEME = THEMES.at(0);
