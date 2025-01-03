@@ -19,7 +19,7 @@
   />
   <link
     rel='manifest'
-    href='/manifest.json'
+    href='/assets/manifest.webmanifest'
   />
   <link
     rel='apple-touch-icon'
@@ -30,6 +30,13 @@
     href='/favicon.png'
   />
   <title inertia>MyLinks</title>
+	<script defer>
+    if('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/assets/sw.js', { scope: '/' })
+      })
+    }
+  </script>
 
   @routes()
   @inertiaHead()

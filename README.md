@@ -11,6 +11,7 @@
 </div>
 
 ## Table of Contents
+
 - [Main Features](#main-features)
 - [Getting Started](#getting-started)
   - [Setup](#setup)
@@ -24,7 +25,7 @@
 - [Contributing](#contributing)
 - [License](#license)
 
-## Main Features 
+## Main Features
 
 - **Organize bookmarks with collections**: Keep your links tidy and easily accessible by grouping them into customizable collections.
 - **Intuitive link management**: Add, edit, and manage your bookmarks effortlessly with a user-friendly interface.
@@ -124,6 +125,7 @@ ssh-copy-id -i ./id_rsa.pub user@host
 > Source: https://github.com/appleboy/ssh-action#setting-up-a-ssh-key
 
 ## Contributing
+
 We welcome contributions! Please visit our Trello board for project management and roadmap details. You can contribute by:
 
 - Creating issues for bugs, features, or discussions.
@@ -133,4 +135,4 @@ For detailed contribution guidelines, refer to the CONTRIBUTING.md file.
 
 ## License
 
-This project is licensed under the [GPLv3 License](./LICENCE). 
+This project is licensed under the [GPLv3 License](./LICENCE).

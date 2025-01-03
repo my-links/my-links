@@ -24,6 +24,7 @@ server.errorHandler(() => import('#core/exceptions/handler'));
  */
 server.use([
 	() => import('#core/middlewares/container_bindings_middleware'),
+	() => import('#core/middlewares/service_worker_scope_extender'),
 	() => import('@adonisjs/static/static_middleware'),
 	() => import('#core/middlewares/log_request'),
 	() => import('@adonisjs/cors/cors_middleware'),
