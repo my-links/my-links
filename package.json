@@ -6,13 +6,14 @@
 	"scripts": {
 		"start": "node bin/server.js",
 		"build": "node ace build",
-		"dev": "node ace serve --watch",
+		"dev": "node ace serve --hmr",
 		"test": "node ace test",
 		"lint": "eslint . --report-unused-disable-directives --max-warnings 0",
 		"format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
 		"typecheck": "tsc --noEmit",
 		"prepare": "husky",
-		"release": "release-it"
+		"release": "release-it",
+		"generate-icons": "pwa-assets-generator"
 	},
 	"imports": {
 		"#admin/*": "./app/admin/*.js",
@@ -47,6 +48,7 @@
 		"@types/react": "^19.0.2",
 		"@types/react-dom": "^19.0.2",
 		"@typescript-eslint/eslint-plugin": "^8.19.0",
+		"@vite-pwa/assets-generator": "^0.2.6",
 		"@vitejs/plugin-react": "^4.3.4",
 		"eslint": "^9.17.0",
 		"hot-hook": "^0.4.0",
@@ -93,6 +95,7 @@
 		"react-i18next": "^15.4.0",
 		"react-icons": "^5.4.0",
 		"reflect-metadata": "^0.2.2",
+		"vite-plugin-pwa": "^0.21.1",
 		"zustand": "^5.0.2"
 	},
 	"hotHook": {

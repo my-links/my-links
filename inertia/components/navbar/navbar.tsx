@@ -31,7 +31,7 @@ export default function Navbar() {
 			<header className={classes.header}>
 				<Group justify="space-between" h="100%">
 					<Link href="/">
-						<Image src="/logo-light.png" h={35} alt="MyLinks's logo" />
+						<Image src="/logo.png" h={35} alt="MyLinks's logo" />
 					</Link>
 
 					<Group h="100%" gap={0} visibleFrom="sm">
