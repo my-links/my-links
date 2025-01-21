@@ -18,7 +18,6 @@ export default function EditCollectionPage({
 			name: collection.name,
 			description: collection.description,
 			visibility: collection.visibility,
-			nextId: collection.nextId,
 		});
 	const canSubmit = useMemo<boolean>(() => {
 		const trimmedName = data.name.trim();
