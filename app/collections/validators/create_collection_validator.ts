@@ -6,7 +6,6 @@ export const createCollectionValidator = vine.compile(
 		name: vine.string().trim().minLength(1).maxLength(254),
 		description: vine.string().trim().maxLength(254).nullable(),
 		visibility: vine.enum(Visibility),
-		nextId: vine.number().optional(),
 	})
 );
 

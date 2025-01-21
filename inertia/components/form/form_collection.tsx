@@ -3,13 +3,12 @@ import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import { FormLayout, FormLayoutProps } from '~/layouts/form_layout';
-import { Collection, Visibility } from '~/types/app';
+import { Visibility } from '~/types/app';
 
 export type FormCollectionData = {
 	name: string;
 	description: string | null;
 	visibility: Visibility;
-	nextId?: Collection['id'];
 };
 
 interface FormCollectionProps extends FormLayoutProps {

@@ -34,7 +34,6 @@ function createRandomCollection(userIds: User['id'][]) {
 		name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
 		description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
 		visibility: Visibility.PRIVATE,
-		nextId: collectionId + 1,
 		authorId,
 	};
 }

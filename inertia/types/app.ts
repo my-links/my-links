@@ -49,7 +49,6 @@ export type Collection = CommonBase & {
 	name: string;
 	description: string | null;
 	visibility: Visibility;
-	nextId: number;
 	authorId: number;
 };
 
