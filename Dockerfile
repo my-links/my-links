@@ -1,6 +1,6 @@
 # Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
-FROM node:22.11-alpine3.20 AS base
+FROM node:22.14-alpine3.20 AS base
 
 RUN apk --no-cache add curl
 RUN corepack enable
