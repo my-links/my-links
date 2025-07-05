@@ -74,6 +74,7 @@ export const useFavorites = () =>
 	);
 
 export function useCollectionsSetter() {
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	const { _setCollections, setActiveCollection } = useCollectionStore();
 	return { _setCollections, setActiveCollection };
 }

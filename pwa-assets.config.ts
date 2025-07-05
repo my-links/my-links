@@ -1,3 +1,4 @@
+/* eslint-disable @unicorn/filename-case */
 import {
 	defineConfig,
 	minimal2023Preset as preset,
