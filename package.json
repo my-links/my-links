@@ -118,7 +118,7 @@
 		"*.js,*.ts,*.jsx,*.tsx": "eslint --cache --fix"
 	},
 	"volta": {
-		"node": "22.11.0"
+		"node": "24.1.0"
 	},
 	"pnpm": {
 		"overrides": {
