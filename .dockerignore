@@ -13,7 +13,7 @@ storage
 
 # Additional good to have ignores for dockerignore
 Dockerfile*
-docker-compose*
+compose*
 .dockerignore
 *.md
 .git
