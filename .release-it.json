@@ -1,9 +1,6 @@
 {
   "hooks": {
-    "before:init": [
-      "pnpm format",
-      "pnpm lint"
-    ]
+    "before:init": ["pnpm lint", "pnpm run typecheck"]
   },
   "git": {
     "commitMessage": "chore: release v${version}",

@@ -11,6 +11,7 @@
 		"lint": "eslint . --report-unused-disable-directives --max-warnings 0",
 		"format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
 		"typecheck": "tsc --noEmit",
+		"check": "pnpm run lint && pnpm run typecheck",
 		"prepare": "husky",
 		"release": "release-it",
 		"generate-icons": "pwa-assets-generator"
