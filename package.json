@@ -49,7 +49,6 @@
 		"@types/react-dom": "^19.1.6",
 		"@typescript-eslint/eslint-plugin": "^8.35.1",
 		"@vite-pwa/assets-generator": "^1.0.0",
-		"@vitejs/plugin-react": "^4.6.0",
 		"eslint": "^9.30.1",
 		"hot-hook": "^0.4.0",
 		"husky": "^9.1.7",
@@ -81,6 +80,7 @@
 		"@mantine/hooks": "^8.1.2",
 		"@mantine/spotlight": "^8.1.2",
 		"@vinejs/vine": "^3.0.1",
+		"@vitejs/plugin-react-oxc": "^0.2.3",
 		"bentocache": "^1.4.0",
 		"dayjs": "^1.11.13",
 		"edge.js": "^6.2.1",
@@ -119,5 +119,10 @@
 	},
 	"volta": {
 		"node": "22.11.0"
+	},
+	"pnpm": {
+		"overrides": {
+			"vite": "npm:rolldown-vite@latest"
+		}
 	}
 }
