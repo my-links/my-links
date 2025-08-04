@@ -13,6 +13,9 @@ prod:
 seed:
 	@node ace db:seed
 
+fresh:
+	@node ace migration:fresh
+
 down:
 	@-docker compose down
 	@-docker compose -f dev.compose.yml down
