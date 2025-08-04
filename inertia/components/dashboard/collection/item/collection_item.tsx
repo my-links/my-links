@@ -24,8 +24,6 @@ export default function CollectionItem({
 		}
 	}, [collection.id, activeCollection?.id]);
 
-	const linksCount = collection?.links.length ?? 0;
-	const showLinks = linksCount > 0;
 	return (
 		<Link
 			className={classes.link}
@@ -39,11 +37,6 @@ export default function CollectionItem({
 			<Text lineClamp={1} maw={'200px'} style={{ wordBreak: 'break-all' }}>
 				{collection.name}
 			</Text>
-			{showLinks && (
-				<Text style={{ whiteSpace: 'nowrap' }} c="dimmed" ml="sm">
-					— {linksCount}
-				</Text>
-			)}
 		</Link>
 	);
 }
