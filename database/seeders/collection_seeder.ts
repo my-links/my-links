@@ -4,6 +4,8 @@ import User from '#user/models/user';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';
 
+const ID_OFFSET = 100;
+
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
@@ -11,7 +13,7 @@ export default class extends BaseSeeder {
 		const users = await getUserIds();
 
 		const collections = faker.helpers.multiple(
-			() => createRandomCollection(users),
+			(_, index) => createRandomCollection(users, ID_OFFSET + index),
 			{
 				count: 50,
 			}
@@ -25,12 +27,10 @@ export async function getUserIds() {
 	return users.map(({ id }) => id);
 }
 
-let collectionId = 0;
-function createRandomCollection(userIds: User['id'][]) {
+function createRandomCollection(userIds: User['id'][], id: number) {
 	const authorId = faker.helpers.arrayElements(userIds, 1).at(0);
-	collectionId++;
 	return {
-		id: collectionId,
+		id,
 		name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
 		description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
 		visibility: Visibility.PRIVATE,
