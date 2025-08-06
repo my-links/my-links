@@ -14,10 +14,12 @@
 		"check": "pnpm run lint && pnpm run typecheck",
 		"prepare": "husky",
 		"release": "release-it",
-		"generate-icons": "pwa-assets-generator"
+		"generate-icons": "pwa-assets-generator",
+		"tuyau": "node ace tuyau:generate"
 	},
 	"imports": {
 		"#admin/*": "./app/admin/*.js",
+		"#adonis/api": "./.adonisjs/api.ts",
 		"#auth/*": "./app/auth/*.js",
 		"#collections/*": "./app/collections/*.js",
 		"#core/*": "./app/core/*.js",
@@ -31,6 +33,7 @@
 		"#providers/*": "./providers/*.js",
 		"#database/*": "./database/*.js",
 		"#tests/*": "./tests/*.js",
+		"#shared/*": "./shared/*.js",
 		"#start/*": "./start/*.js",
 		"#config/*": "./config/*.js"
 	},
@@ -44,6 +47,7 @@
 		"@japa/plugin-adonisjs": "^4.0.0",
 		"@japa/runner": "^4.3.0",
 		"@swc/core": "^1.13.3",
+		"@tuyau/utils": "^0.0.9",
 		"@types/luxon": "^3.7.1",
 		"@types/node": "^24.2.0",
 		"@types/react": "^19.1.9",
@@ -76,9 +80,13 @@
 		"@adonisjs/static": "^1.1.1",
 		"@adonisjs/vite": "^4.0.0",
 		"@inertiajs/react": "^2.0.17",
+		"@izzyjs/route": "^1.2.0",
 		"@mantine/core": "^8.2.3",
 		"@mantine/hooks": "^8.2.3",
 		"@mantine/spotlight": "^8.2.3",
+		"@tuyau/client": "^0.2.10",
+		"@tuyau/core": "^0.4.2",
+		"@tuyau/inertia": "^0.0.15",
 		"@vinejs/vine": "^3.0.1",
 		"@vitejs/plugin-react-oxc": "^0.3.0",
 		"bentocache": "^1.5.0",

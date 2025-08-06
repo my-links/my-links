@@ -44,6 +44,9 @@ importers:
       '@inertiajs/react':
         specifier: ^2.0.17
         version: 2.0.17(react@19.1.1)
+      '@izzyjs/route':
+        specifier: ^1.2.0
+        version: 1.2.0(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(edge.js@6.3.0))(edge.js@6.3.0)
       '@mantine/core':
         specifier: ^8.2.3
         version: 8.2.3(@mantine/hooks@8.2.3(react@19.1.1))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -53,6 +56,15 @@ importers:
       '@mantine/spotlight':
         specifier: ^8.2.3
         version: 8.2.3(@mantine/core@8.2.3(@mantine/hooks@8.2.3(react@19.1.1))(@types/react@19.1.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mantine/hooks@8.2.3(react@19.1.1))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
+      '@tuyau/client':
+        specifier: ^0.2.10
+        version: 0.2.10
+      '@tuyau/core':
+        specifier: ^0.4.2
+        version: 0.4.2(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(edge.js@6.3.0))
+      '@tuyau/inertia':
+        specifier: ^0.0.15
+        version: 0.0.15(@inertiajs/react@2.0.17(react@19.1.1))(@tuyau/client@0.2.10)(react@19.1.1)
       '@vinejs/vine':
         specifier: ^3.0.1
         version: 3.0.1
@@ -135,6 +147,9 @@ importers:
       '@swc/core':
         specifier: ^1.13.3
         version: 1.13.3
+      '@tuyau/utils':
+        specifier: ^0.0.9
+        version: 0.0.9
       '@types/luxon':
         specifier: ^3.7.1
         version: 3.7.1
@@ -1336,6 +1351,21 @@ packages:
       '@types/node':
         optional: true
 
+  '@isaacs/balanced-match@4.0.1':
+    resolution: {integrity: sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ==}
+    engines: {node: 20 || >=22}
+
+  '@isaacs/brace-expansion@5.0.0':
+    resolution: {integrity: sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==}
+    engines: {node: 20 || >=22}
+
+  '@izzyjs/route@1.2.0':
+    resolution: {integrity: sha512-GOc2tf4xNrFMZK3SGK7XSweUfxNskJX6vrdhx9M8mDOgkRONnpuIzaVM/N7AgRjCft8f97d5t2oOXyk5Sq92hA==}
+    engines: {node: '>=20.6.0'}
+    peerDependencies:
+      '@adonisjs/core': ^6.2.0
+      edge.js: ^6.0.2
+
   '@japa/assert@4.1.1':
     resolution: {integrity: sha512-Hhv8A/gkd1b4Xa2Jti4XJ3FsP/pJ8ZXAWwvgYVKZQNcl79lqIHsMjMrL3e475pbf8lybB++FvXi4ruoz2SsiBA==}
     engines: {node: '>=18.16.0'}
@@ -1850,6 +1880,9 @@ packages:
   '@ts-morph/common@0.24.0':
     resolution: {integrity: sha512-c1xMmNHWpNselmpIqursHeOHHBTIsJLbB+NuovbTTRCNiTLEr/U9dbJ8qy0jd/O2x5pc3seWuOUN5R2IoOTp8A==}
 
+  '@ts-morph/common@0.27.0':
+    resolution: {integrity: sha512-Wf29UqxWDpc+i61k3oIOzcUfQt79PIT9y/MWfAGlrkjg6lBC1hwDECLXPVJAhWjiGbfBCxZd65F/LIZF3+jeJQ==}
+
   '@tsconfig/node10@1.0.11':
     resolution: {integrity: sha512-DcRjDCujK/kCk/cUe8Xz8ZSpm8mS3mNNpta+jGCA6USEDfktlNvm1+IuZ9eTcDbNk41BHwpHHeW+N1lKCz4zOw==}
 
@@ -1862,8 +1895,38 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
+  '@tuyau/client@0.2.10':
+    resolution: {integrity: sha512-sVp4JX9uvvV3BSPgZNogJWYp0oleqi2Zy0gyBLFjFz6KWtTVPqNKBA74n0UsnaeZB8y3xxXkYSeWf19z+7yhmg==}
+
+  '@tuyau/core@0.4.2':
+    resolution: {integrity: sha512-thobRIBW+fQGt9gXQ9zdvhVUyZE5qLZorBeDqxJ2SF07igZAqm0+fyvMTQbOH/vIcpwK2ob9ev3bBhqW4E2hWw==}
+    engines: {node: '>=20.6.0'}
+    peerDependencies:
+      '@adonisjs/core': ^6.2.0
+
+  '@tuyau/inertia@0.0.15':
+    resolution: {integrity: sha512-1pJCqeGOUPYvdR1FuvyvpGci0n69QJmeKAy7bJx+rtg8cxGnGCh+fa0vYp/o2LJ8CEOUBT7bDZya9GzLx82Mwg==}
+    peerDependencies:
+      '@inertiajs/react': ^1.0.0 || ^2.0.0
+      '@inertiajs/vue3': ^1.0.0 || ^2.0.0
+      '@tuyau/client': 0.2.10
+      react: ^18.0.0 || ^19.0.0
+      vue: ^3.0.0
+    peerDependenciesMeta:
+      '@inertiajs/react':
+        optional: true
+      '@inertiajs/vue3':
+        optional: true
+      react:
+        optional: true
+      vue:
+        optional: true
+
   '@tuyau/utils@0.0.7':
     resolution: {integrity: sha512-Y1JgQoshbcxEwmajeWpJibBmoBlGuEq38ICKmWQ5dS+ESqY0J0757rWcHAQgiB74J1vf/DxHkt8veBRSKTAjJQ==}
+
+  '@tuyau/utils@0.0.9':
+    resolution: {integrity: sha512-Uirv4CH7d7US5atdKda3mPmg2K0PsYQx2Gab7Xe/PSGdlq/fp4Ia1IWYKRL2Lfx36QAzEuHqrk4WmDxmw1sTVw==}
 
   '@tybys/wasm-util@0.10.0':
     resolution: {integrity: sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ==}
@@ -3771,6 +3834,10 @@ packages:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
 
+  minimatch@10.0.3:
+    resolution: {integrity: sha512-IPZ167aShDZZUMdRk66cyQAW3qr0WzbHkPdMYa8bzZhlHhO3jALbKdxcaak7W9FfT2rZNpQuUu4Od7ILEpXSaw==}
+    engines: {node: 20 || >=22}
+
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
@@ -3875,6 +3942,9 @@ packages:
   object-keys@1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
+
+  object-to-formdata@4.5.1:
+    resolution: {integrity: sha512-QiM9D0NiU5jV6J6tjE1g7b4Z2tcUnKs1OPUi4iMb2zH+7jwlcUrASghgkFk9GtzqNNq8rTQJtT8AzjBAvLoNMw==}
 
   object.assign@4.1.7:
     resolution: {integrity: sha512-nK28WOo+QIjBkDduTINE4JkF/UJJKyf2EJxvJKfblDpyg0Q+pkOHNTL0Qwy6NP6FhE/EnzV73BxxqcJaXY9anw==}
@@ -4891,6 +4961,9 @@ packages:
 
   ts-morph@23.0.0:
     resolution: {integrity: sha512-FcvFx7a9E8TUe6T3ShihXJLiJOiqyafzFKUO4aqIHDUCIvADdGNShcbc2W5PMr3LerXRv7mafvFZ9lRENxJmug==}
+
+  ts-morph@26.0.0:
+    resolution: {integrity: sha512-ztMO++owQnz8c/gIENcM9XfCEzgoGphTv+nKpYNM1bgsdOVC/jRZuEBf6N+mLLDNg68Kl+GgUZfOySaRiG1/Ug==}
 
   ts-node-maintained@10.9.6:
     resolution: {integrity: sha512-m/1ZCksNnIofWjmY5/K+6y8oia05Y/5+vMWTvuFzrr6UGRV7ImrLMyYAB06cHlwBW5/NuYeZoh44mAOGNRNxZA==}
@@ -6655,6 +6728,17 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.2.0
 
+  '@isaacs/balanced-match@4.0.1': {}
+
+  '@isaacs/brace-expansion@5.0.0':
+    dependencies:
+      '@isaacs/balanced-match': 4.0.1
+
+  '@izzyjs/route@1.2.0(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(edge.js@6.3.0))(edge.js@6.3.0)':
+    dependencies:
+      '@adonisjs/core': 6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(edge.js@6.3.0)
+      edge.js: 6.3.0
+
   '@japa/assert@4.1.1(@japa/runner@4.3.0)':
     dependencies:
       '@japa/runner': 4.3.0
@@ -7177,6 +7261,12 @@ snapshots:
       mkdirp: 3.0.1
       path-browserify: 1.0.1
 
+  '@ts-morph/common@0.27.0':
+    dependencies:
+      fast-glob: 3.3.3
+      minimatch: 10.0.3
+      path-browserify: 1.0.1
+
   '@tsconfig/node10@1.0.11': {}
 
   '@tsconfig/node12@1.0.11': {}
@@ -7185,7 +7275,28 @@ snapshots:
 
   '@tsconfig/node16@1.0.4': {}
 
+  '@tuyau/client@0.2.10':
+    dependencies:
+      '@tuyau/utils': 0.0.9
+      ky: 1.8.2
+      object-to-formdata: 4.5.1
+
+  '@tuyau/core@0.4.2(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(edge.js@6.3.0))':
+    dependencies:
+      '@adonisjs/core': 6.19.0(@adonisjs/assembler@7.8.2(typescript@5.9.2))(@vinejs/vine@3.0.1)(edge.js@6.3.0)
+      '@tuyau/utils': 0.0.9
+      ts-morph: 26.0.0
+
+  '@tuyau/inertia@0.0.15(@inertiajs/react@2.0.17(react@19.1.1))(@tuyau/client@0.2.10)(react@19.1.1)':
+    dependencies:
+      '@tuyau/client': 0.2.10
+    optionalDependencies:
+      '@inertiajs/react': 2.0.17(react@19.1.1)
+      react: 19.1.1
+
   '@tuyau/utils@0.0.7': {}
+
+  '@tuyau/utils@0.0.9': {}
 
   '@tybys/wasm-util@0.10.0':
     dependencies:
@@ -9068,6 +9179,10 @@ snapshots:
 
   min-indent@1.0.1: {}
 
+  minimatch@10.0.3:
+    dependencies:
+      '@isaacs/brace-expansion': 5.0.0
+
   minimatch@3.1.2:
     dependencies:
       brace-expansion: 1.1.12
@@ -9151,6 +9266,8 @@ snapshots:
   object-inspect@1.13.4: {}
 
   object-keys@1.1.1: {}
+
+  object-to-formdata@4.5.1: {}
 
   object.assign@4.1.7:
     dependencies:
@@ -10241,6 +10358,11 @@ snapshots:
   ts-morph@23.0.0:
     dependencies:
       '@ts-morph/common': 0.24.0
+      code-block-writer: 13.0.3
+
+  ts-morph@26.0.0:
+    dependencies:
+      '@ts-morph/common': 0.27.0
       code-block-writer: 13.0.3
 
   ts-node-maintained@10.9.6(@swc/core@1.13.3)(@types/node@24.2.0)(typescript@5.9.2):
