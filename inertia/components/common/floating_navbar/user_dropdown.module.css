@@ -1,6 +1,6 @@
 .user {
 	color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
-	padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm);
+	padding: var(--mantine-spacing-xs) var(--mantine-spacing-sm) !important;
 	border-radius: var(--mantine-radius-sm);
 	transition: background-color 100ms ease;
 

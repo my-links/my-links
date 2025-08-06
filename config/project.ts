@@ -1,4 +1,4 @@
-export const APP_COLOR = '#f0eef6';
+export const PRIMARY_COLOR = '#3f88c5';
 
 export const PROJECT_NAME = 'MyLinks';
 export const PROJECT_DESCRIPTION =
