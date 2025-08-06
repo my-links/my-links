@@ -1,7 +1,11 @@
-import { router } from '@inertiajs/react';
+import { api } from '#adonis/api';
+import { PageProps } from '@adonisjs/inertia/types';
+import { router, usePage } from '@inertiajs/react';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/spotlight/styles.css';
+import { createTuyau } from '@tuyau/client';
+import { TuyauProvider } from '@tuyau/inertia/react';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -10,9 +14,15 @@ import '../styles/index.css';
 const TRANSITION_IN_CLASS = '__transition_fadeIn';
 const TRANSITION_OUT_CLASS = '__transition_fadeOut';
 
-export default function BaseLayout({ children }: { children: ReactNode }) {
+export function BaseLayout({ children }: { children: ReactNode }) {
 	const { i18n } = useTranslation();
 	dayjs.locale(i18n.language);
+	const { props } = usePage<PageProps & { appBaseUrl: string }>();
+
+	const tuyauClient = createTuyau({
+		api,
+		baseUrl: props.appBaseUrl,
+	});
 
 	const findAppElement = () => document.getElementById('app');
 
@@ -50,9 +60,9 @@ export default function BaseLayout({ children }: { children: ReactNode }) {
 	}, []);
 
 	return (
-		<>
+		<TuyauProvider client={tuyauClient}>
 			<ColorSchemeScript />
 			<MantineProvider>{children}</MantineProvider>
-		</>
+		</TuyauProvider>
 	);
 }

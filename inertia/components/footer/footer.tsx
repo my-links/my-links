@@ -4,8 +4,8 @@ import { route } from '@izzyjs/route/client';
 import { Anchor, Group, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
-import { MantineLanguageSwitcher } from '~/components/common/language_switcher';
-import { MantineThemeSwitcher } from '~/components/common/theme_switcher';
+import { LocaleSwitcher } from '~/components/common/locale_switcher';
+import { ThemeSwitcher } from '~/components/common/theme_switcher';
 import packageJson from '../../../package.json';
 import classes from './footer.module.css';
 
@@ -46,8 +46,8 @@ export function MantineFooter() {
 				</Group>
 
 				<Group gap="sm" mt={4} mb={4}>
-					<MantineThemeSwitcher />
-					<MantineLanguageSwitcher />
+					<ThemeSwitcher />
+					<LocaleSwitcher />
 				</Group>
 
 				<Group gap="xs" justify="flex-end" wrap="nowrap">

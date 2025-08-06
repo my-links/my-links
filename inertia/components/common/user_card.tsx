@@ -3,7 +3,7 @@ import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TbChevronRight } from 'react-icons/tb';
-import useUser from '~/hooks/use_user';
+import useUser from '~/hooks/use_auth';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 	image: string;

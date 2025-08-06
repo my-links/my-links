@@ -1,8 +1,6 @@
-import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ContentLayout } from '~/layouts/content_layout';
 
-function PrivacyPage() {
+export default function PrivacyPage() {
 	const { t } = useTranslation('privacy');
 	return (
 		<>
@@ -43,6 +41,3 @@ function PrivacyPage() {
 		</>
 	);
 }
-
-PrivacyPage.layout = (page: ReactNode) => <ContentLayout children={page} />;
-export default PrivacyPage;

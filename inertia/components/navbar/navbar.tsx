@@ -15,9 +15,9 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
 import ExternalLink from '~/components/common/external_link';
-import { MantineLanguageSwitcher } from '~/components/common/language_switcher';
-import { MantineThemeSwitcher } from '~/components/common/theme_switcher';
-import useUser from '~/hooks/use_user';
+import { LocaleSwitcher } from '~/components/common/locale_switcher';
+import { ThemeSwitcher } from '~/components/common/theme_switcher';
+import useUser from '~/hooks/use_auth';
 import classes from './mobile.module.css';
 
 export default function Navbar() {
@@ -47,8 +47,8 @@ export default function Navbar() {
 					</Group>
 
 					<Group gap="xs">
-						<MantineThemeSwitcher />
-						<MantineLanguageSwitcher />
+						<ThemeSwitcher />
+						<LocaleSwitcher />
 						{!isAuthenticated ? (
 							<Button
 								component="a"

@@ -2,7 +2,7 @@ import { ActionIcon, Image } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { LS_LANG_KEY } from '~/constants';
 
-export function MantineLanguageSwitcher() {
+export function LocaleSwitcher() {
 	const { i18n } = useTranslation();
 	const newLanguage = i18n.language === 'en' ? 'fr' : 'en';
 	return (
