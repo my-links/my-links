@@ -1,8 +1,7 @@
 import { Flex, Text } from '@mantine/core';
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LinkList } from '~/components/dashboard/link/list/link_list';
-import { ContentLayout } from '~/layouts/content_layout';
 import { useCollectionsSetter } from '~/stores/collection_store';
 import type { CollectionWithLinks, PublicUser } from '~/types/app';
 
@@ -10,7 +9,7 @@ interface SharedPageProps {
 	collection: CollectionWithLinks & { author: PublicUser };
 }
 
-function SharedPage({ collection }: SharedPageProps) {
+export default function SharedPage({ collection }: SharedPageProps) {
 	const { t } = useTranslation('common');
 	const { setActiveCollection } = useCollectionsSetter();
 
@@ -43,6 +42,3 @@ function SharedPage({ collection }: SharedPageProps) {
 		</>
 	);
 }
-
-SharedPage.layout = (page: ReactNode) => <ContentLayout>{page}</ContentLayout>;
-export default SharedPage;

@@ -3,11 +3,26 @@
 	--ml-bg-dark: rgb(34, 40, 49);
 }
 
-html,
-body {
-	min-height: 100svh;
-	width: 100%;
-	background-color: light-dark(var(--ml-bg-light), var(--ml-bg-dark));
+/* Fix nprogress position */
+#nprogress {
+	position: relative;
+	z-index: 9999999;
+}
+
+#app {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+/* For light mode */
+:root[data-mantine-color-scheme='light'] {
+	--mantine-color-body: var(--ml-bg-light) !important;
+}
+
+/* For dark mode */
+:root[data-mantine-color-scheme='dark'] {
+	--mantine-color-body: var(--ml-bg-dark) !important;
 }
 
 .__transition_fadeIn {

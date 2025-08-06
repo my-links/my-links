@@ -3,9 +3,9 @@ import { route } from '@izzyjs/route/client';
 import { Anchor, Button, Container, Group, rem, Title } from '@mantine/core';
 import { FormEvent, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MantineFooter } from '~/components/footer/footer';
+import { Footer } from '~/components/common/footer/footer';
 import i18n from '~/i18n';
-import BaseLayout from '~/layouts/_base_layout';
+import { BaseLayout } from '~/layouts/_base_layout';
 import { appendCollectionId } from '~/lib/navigation';
 
 export interface FormLayoutProps extends PropsWithChildren {
@@ -87,7 +87,7 @@ function FormLayout({
 							{textSubmitButton}
 						</Button>
 					</Group>
-					<MantineFooter />
+					<Footer />
 				</form>
 			</main>
 		</Container>

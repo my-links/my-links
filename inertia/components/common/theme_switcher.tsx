@@ -2,7 +2,7 @@ import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { TbMoonStars, TbSun } from 'react-icons/tb';
 import { makeRequest } from '~/lib/request';
 
-export function MantineThemeSwitcher() {
+export function ThemeSwitcher() {
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 	const handleThemeChange = () => {
 		toggleColorScheme();

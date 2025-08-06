@@ -22,6 +22,7 @@
 		"#adonis/api": "./.adonisjs/api.ts",
 		"#auth/*": "./app/auth/*.js",
 		"#collections/*": "./app/collections/*.js",
+		"#config/*": "./config/*.js",
 		"#core/*": "./app/core/*.js",
 		"#favicons/*": "./app/favicons/*.js",
 		"#home/*": "./app/home/*.js",
@@ -34,8 +35,7 @@
 		"#database/*": "./database/*.js",
 		"#tests/*": "./tests/*.js",
 		"#shared/*": "./shared/*.js",
-		"#start/*": "./start/*.js",
-		"#config/*": "./config/*.js"
+		"#start/*": "./start/*.js"
 	},
 	"devDependencies": {
 		"@adonisjs/assembler": "^7.8.2",
@@ -90,6 +90,7 @@
 		"@vinejs/vine": "^3.0.1",
 		"@vitejs/plugin-react-oxc": "^0.3.0",
 		"bentocache": "^1.5.0",
+		"clsx": "^2.1.1",
 		"dayjs": "^1.11.13",
 		"edge.js": "^6.3.0",
 		"i18next": "^25.3.2",

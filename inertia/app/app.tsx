@@ -4,6 +4,7 @@ import { isSSREnableForPage } from 'config-ssr';
 import 'dayjs/locale/en';
 import 'dayjs/locale/fr';
 import { createRoot, hydrateRoot } from 'react-dom/client';
+import DefaultLayout from '~/layouts/default_layout';
 import '../i18n/index';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';
@@ -13,11 +14,17 @@ createInertiaApp({
 
 	title: (title) => `${appName}${title && ` - ${title}`}`,
 
-	resolve: (name) => {
-		return resolvePageComponent(
+	resolve: async (name) => {
+		const currentPage: any = await resolvePageComponent(
 			`../pages/${name}.tsx`,
 			import.meta.glob('../pages/**/*.tsx')
 		);
+
+		currentPage.default.layout =
+			currentPage.default.layout ||
+			((p: any) => <DefaultLayout children={p} />);
+
+		return currentPage;
 	},
 
 	setup({ el, App, props }) {
