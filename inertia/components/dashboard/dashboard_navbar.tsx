@@ -17,10 +17,10 @@ import { AiOutlineFolderAdd } from 'react-icons/ai';
 import { IoIosSearch } from 'react-icons/io';
 import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
 import { PiGearLight } from 'react-icons/pi';
-import { MantineUserCard } from '~/components/common/user_card';
+import { UserCard } from '~/components/common/user_card';
 import { FavoriteList } from '~/components/dashboard/favorite/favorite_list';
 import { SearchSpotlight } from '~/components/search/search';
-import useUser from '~/hooks/use_auth';
+import { useAuth } from '~/hooks/use_auth';
 import useShortcut from '~/hooks/use_shortcut';
 import { appendCollectionId } from '~/lib/navigation';
 import { useActiveCollection } from '~/stores/collection_store';
@@ -32,7 +32,7 @@ interface DashboardNavbarProps {
 }
 export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 	const { t } = useTranslation('common');
-	const { isAuthenticated, user } = useUser();
+	const { isAuthenticated, user } = useAuth();
 
 	const { activeCollection } = useActiveCollection();
 	const { globalHotkeysEnabled, setGlobalHotkeysEnabled } =
@@ -84,7 +84,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				<Burger opened={isOpen} onClick={toggle} size="sm" />
 				<Text>Navigation</Text>
 			</Group>
-			<MantineUserCard />
+			<UserCard />
 			<Divider mt="xs" mb="md" />
 			{isAuthenticated && user.isAdmin && (
 				<NavLink

@@ -3,7 +3,7 @@ import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TbChevronRight } from 'react-icons/tb';
-import useUser from '~/hooks/use_auth';
+import { useAuth } from '~/hooks/use_auth';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 	image: string;
@@ -45,9 +45,9 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 	)
 );
 
-export function MantineUserCard() {
+export function UserCard() {
 	const { t } = useTranslation('common');
-	const { user, isAuthenticated } = useUser();
+	const { user, isAuthenticated } = useAuth();
 	return (
 		isAuthenticated && (
 			<Menu withArrow>

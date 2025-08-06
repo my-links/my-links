@@ -40,7 +40,7 @@ export function FloatingNavbar({ width }: FloatingNavbarProps) {
 
 	const links = (
 		<>
-			<InternalLink href="/dashboard" style={{ fontSize: rem(16) }}>
+			<InternalLink route="dashboard" style={{ fontSize: rem(16) }}>
 				Dashboard
 			</InternalLink>
 			<ExternalLinkUnstyled
