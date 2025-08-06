@@ -17,6 +17,7 @@
 }
 
 .description {
+	color: var(--mantine-color-dimmed);
 	text-align: center;
 
 	@media (max-width: $mantine-breakpoint-sm) {

@@ -1,4 +1,8 @@
-import { APP_COLOR, PROJECT_DESCRIPTION, PROJECT_NAME } from '#config/project';
+import {
+	PRIMARY_COLOR,
+	PROJECT_DESCRIPTION,
+	PROJECT_NAME,
+} from '#config/project';
 import { getDirname } from '@adonisjs/core/helpers';
 import inertia from '@adonisjs/inertia/client';
 import adonisjs from '@adonisjs/vite/client';
@@ -19,8 +23,8 @@ export default defineConfig({
 				name: PROJECT_NAME,
 				short_name: PROJECT_NAME,
 				description: PROJECT_DESCRIPTION,
-				theme_color: APP_COLOR,
-				background_color: APP_COLOR,
+				theme_color: PRIMARY_COLOR,
+				background_color: PRIMARY_COLOR,
 				scope: '/',
 				display: 'standalone',
 				orientation: 'portrait',

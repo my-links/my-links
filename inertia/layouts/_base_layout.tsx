@@ -1,7 +1,13 @@
 import { api } from '#adonis/api';
+import { PRIMARY_COLOR } from '#config/project';
 import { PageProps } from '@adonisjs/inertia/types';
 import { router, usePage } from '@inertiajs/react';
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import {
+	ColorSchemeScript,
+	createTheme,
+	MantineProvider,
+	rem,
+} from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/spotlight/styles.css';
 import { createTuyau } from '@tuyau/client';
@@ -13,6 +19,57 @@ import '../styles/index.css';
 
 const TRANSITION_IN_CLASS = '__transition_fadeIn';
 const TRANSITION_OUT_CLASS = '__transition_fadeOut';
+
+const customTheme = createTheme({
+	colors: {
+		blue: [
+			'#e7f5ff',
+			'#d0ebff',
+			'#a5d8ff',
+			'#74c0fc',
+			'#4dabf7',
+			PRIMARY_COLOR,
+			'#228be6',
+			'#1c7ed6',
+			'#1971c2',
+			'#1864ab',
+		],
+	},
+	primaryColor: 'blue',
+	fontFamily: 'Poppins, sans-serif',
+	respectReducedMotion: true,
+	components: {
+		Button: {
+			styles: {
+				root: {
+					fontWeight: '400',
+				},
+			},
+		},
+		Badge: {
+			styles: {
+				root: {
+					fontWeight: '500',
+				},
+			},
+		},
+	},
+	headings: {
+		fontWeight: '400',
+
+		sizes: {
+			h1: {
+				fontSize: rem(36),
+				lineHeight: '1.4',
+			},
+			h2: { fontSize: rem(30), lineHeight: '1.2' },
+			h3: { fontSize: rem(24), lineHeight: '1.2' },
+			h4: { fontSize: rem(20), lineHeight: '1.2' },
+			h5: { fontSize: rem(16), lineHeight: '1.2' },
+			h6: { fontSize: rem(12), lineHeight: '1.2' },
+		},
+	},
+});
 
 export function BaseLayout({ children }: { children: ReactNode }) {
 	const { i18n } = useTranslation();
@@ -62,7 +119,7 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 	return (
 		<TuyauProvider client={tuyauClient}>
 			<ColorSchemeScript />
-			<MantineProvider>{children}</MantineProvider>
+			<MantineProvider theme={customTheme}>{children}</MantineProvider>
 		</TuyauProvider>
 	);
 }
