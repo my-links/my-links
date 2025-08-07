@@ -31,14 +31,14 @@ type AuthLogoutGetHead = {
 type DashboardGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['index'],
+		import('../app/collections/controllers/show_collections_controller.ts').default['render'],
 		false
 	>;
 };
 type CollectionsCreateGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['showCreatePage'],
+		import('../app/collections/controllers/create_collection_controller.ts').default['render'],
 		false
 	>;
 };
@@ -49,14 +49,14 @@ type CollectionsPost = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['store'],
+		import('../app/collections/controllers/create_collection_controller.ts').default['execute'],
 		true
 	>;
 };
 type CollectionsEditGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['showEditPage'],
+		import('../app/collections/controllers/update_collection_controller.ts').default['render'],
 		false
 	>;
 };
@@ -67,14 +67,14 @@ type CollectionsIdPut = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['update'],
+		import('../app/collections/controllers/update_collection_controller.ts').default['execute'],
 		true
 	>;
 };
 type CollectionsDeleteGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['showDeletePage'],
+		import('../app/collections/controllers/delete_collection_controller.ts').default['render'],
 		false
 	>;
 };
@@ -85,7 +85,7 @@ type CollectionsIdDelete = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/collections_controller.ts').default['delete'],
+		import('../app/collections/controllers/delete_collection_controller.ts').default['execute'],
 		true
 	>;
 };

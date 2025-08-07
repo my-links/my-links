@@ -34,3 +34,11 @@ export const generateShareUrl = (
 	if (typeof window === 'undefined') return pathname;
 	return `${window.location.origin}${pathname}`;
 };
+
+export const buildUrl = (url: string, params: Record<string, string>) => {
+	const urlObj = new URL(url);
+	Object.entries(params).forEach(([key, value]) => {
+		urlObj.searchParams.set(key, value);
+	});
+	return urlObj.toString();
+};
