@@ -1,5 +1,5 @@
 import AuthController from '#auth/controllers/auth_controller';
-import CollectionsController from '#collections/controllers/collections_controller';
+import CollectionsController from '#collections/controllers/show_collections_controller';
 import LinksController from '#links/controllers/links_controller';
 import User from '#user/models/user';
 import { inject } from '@adonisjs/core';

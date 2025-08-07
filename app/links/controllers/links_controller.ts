@@ -1,4 +1,4 @@
-import CollectionsController from '#collections/controllers/collections_controller';
+import CollectionsController from '#collections/controllers/show_collections_controller';
 import Link from '#links/models/link';
 import { createLinkValidator } from '#links/validators/create_link_validator';
 import { deleteLinkValidator } from '#links/validators/delete_link_validator';
