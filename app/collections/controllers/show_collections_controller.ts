@@ -1,18 +1,17 @@
-import BaseCollectionController from '#collections/controllers/base_collection_controller';
 import { CollectionService } from '#collections/services/collection_service';
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 @inject()
-export default class ShowCollectionsController extends BaseCollectionController {
-	constructor(private collectionService: CollectionService) {
-		super();
-	}
+export default class ShowCollectionsController {
+	constructor(private collectionService: CollectionService) {}
 
 	// Dashboard
 	async render({ inertia, response }: HttpContext) {
-		const activeCollectionId = await this.validateCollectionId(false);
-		const collections = await this.collectionService.getCollectionsByAuthorId();
+		const activeCollectionId =
+			await this.collectionService.validateCollectionId(false);
+		const collections =
+			await this.collectionService.getCollectionsForAuthenticatedUser();
 		if (collections.length === 0) {
 			return response.redirectToNamedRoute('collection.create-form');
 		}

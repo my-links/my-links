@@ -1,17 +1,14 @@
-import BaseCollectionController from '#collections/controllers/base_collection_controller';
 import { CollectionService } from '#collections/services/collection_service';
 import { deleteCollectionValidator } from '#collections/validators/delete_collection_validator';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
-export default class DeleteCollectionController extends BaseCollectionController {
-	constructor(private collectionService: CollectionService) {
-		super();
-	}
+export default class DeleteCollectionController {
+	constructor(private collectionService: CollectionService) {}
 
 	async render({ inertia }: HttpContext) {
-		const collectionId = await this.validateCollectionId();
+		const collectionId = await this.collectionService.validateCollectionId();
 		if (!collectionId) return;
 
 		const collection =

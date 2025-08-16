@@ -99,7 +99,7 @@ type FaviconGetHead = {
 type LinksCreateGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['showCreatePage'],
+		import('../app/links/controllers/delete_link_controller.js').default['showCreatePage'],
 		false
 	>;
 };
@@ -110,14 +110,14 @@ type LinksPost = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['store'],
+		import('../app/links/controllers/delete_link_controller.js').default['store'],
 		true
 	>;
 };
 type LinksEditGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['showEditPage'],
+		import('../app/links/controllers/delete_link_controller.js').default['showEditPage'],
 		false
 	>;
 };
@@ -128,7 +128,7 @@ type LinksIdPut = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['update'],
+		import('../app/links/controllers/delete_link_controller.js').default['update'],
 		true
 	>;
 };
@@ -139,14 +139,14 @@ type LinksIdFavoritePut = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['toggleFavorite'],
+		import('../app/links/controllers/delete_link_controller.js').default['toggleFavorite'],
 		true
 	>;
 };
 type LinksDeleteGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['showDeletePage'],
+		import('../app/links/controllers/delete_link_controller.js').default['showDeletePage'],
 		false
 	>;
 };
@@ -157,7 +157,7 @@ type LinksIdDelete = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/links_controller.ts').default['delete'],
+		import('../app/links/controllers/delete_link_controller.js').default['execute'],
 		true
 	>;
 };
