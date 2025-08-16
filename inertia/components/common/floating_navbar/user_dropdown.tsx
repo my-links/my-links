@@ -2,8 +2,7 @@ import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import cx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { TbChevronDown, TbLogout, TbUser } from 'react-icons/tb';
-import { InternalLink } from '~/components/common/links/internal_link';
+import { TbChevronDown, TbLogout, TbShield } from 'react-icons/tb';
 import { InternalLinkUnstyled } from '~/components/common/links/internal_link_unstyled';
 import { useAuth } from '~/hooks/use_auth';
 import classes from './user_dropdown.module.css';
@@ -41,20 +40,17 @@ export function UserDropdown() {
 				</UnstyledButton>
 			</Menu.Target>
 			<Menu.Dropdown>
-				<Menu.Label>{t('common:user')}</Menu.Label>
-				<Menu.Item
-					leftSection={<TbUser size={16} />}
-					component={InternalLinkUnstyled}
-					href={`/user/${auth.user?.fullname}`}
-					color="inherit"
-				>
-					{t('common:profile')}
-				</Menu.Item>
-
 				{auth.user?.isAdmin && (
 					<>
 						<Menu.Label>{t('common:admin')}</Menu.Label>
-						<InternalLink href="/admin">{t('common:admin')}</InternalLink>
+						<Menu.Item
+							leftSection={<TbShield size={16} />}
+							component={InternalLinkUnstyled}
+							href="/admin"
+							color="red"
+						>
+							{t('common:manage_users')}
+						</Menu.Item>
 					</>
 				)}
 
@@ -63,7 +59,6 @@ export function UserDropdown() {
 					leftSection={<TbLogout size={16} />}
 					component={InternalLinkUnstyled}
 					href="/auth/logout"
-					color="inherit"
 				>
 					{t('common:logout')}
 				</Menu.Item>
