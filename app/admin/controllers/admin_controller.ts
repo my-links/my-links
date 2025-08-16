@@ -1,6 +1,6 @@
 import AuthController from '#auth/controllers/auth_controller';
-import CollectionsController from '#collections/controllers/show_collections_controller';
-import LinksController from '#links/controllers/links_controller';
+import { CollectionService } from '#collections/services/collection_service';
+import LinksController from '#links/controllers/delete_link_controller';
 import User from '#user/models/user';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
@@ -28,14 +28,14 @@ export default class AdminController {
 	constructor(
 		protected usersController: AuthController,
 		protected linksController: LinksController,
-		protected collectionsController: CollectionsController
+		protected collectionService: CollectionService
 	) {}
 
 	async index({ inertia }: HttpContext) {
 		const users = await this.usersController.getAllUsersWithTotalRelations();
 		const linksCount = await this.linksController.getTotalLinksCount();
 		const collectionsCount =
-			await this.collectionsController.getTotalCollectionsCount();
+			await this.collectionService.getTotalCollectionsCount();
 
 		return inertia.render('admin/dashboard', {
 			users: users.map((user) => new UserWithRelationCountDto(user).toJson()),

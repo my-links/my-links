@@ -1,5 +1,6 @@
 import { Visibility } from '#collections/enums/visibility';
 import Collection from '#collections/models/collection';
+import { collectionIdValidator } from '#collections/validators/collection_id_validator';
 import { HttpContext } from '@adonisjs/core/http';
 import db from '@adonisjs/lucid/services/db';
 
@@ -20,7 +21,7 @@ export class CollectionService {
 			.firstOrFail();
 	}
 
-	async getCollectionsByAuthorId() {
+	async getCollectionsForAuthenticatedUser() {
 		const context = this.getAuthContext();
 		return await Collection.query()
 			.where('author_id', context.auth.user!.id)
@@ -66,5 +67,29 @@ export class CollectionService {
 			throw new Error('User not authenticated');
 		}
 		return context;
+	}
+
+	async validateCollectionId(collectionIdRequired: boolean = true) {
+		const ctx = HttpContext.getOrFail();
+		const { collectionId } = await ctx.request.validateUsing(
+			collectionIdValidator
+		);
+		if (!collectionId && collectionIdRequired) {
+			this.redirectToDashboard();
+			return null;
+		}
+		return collectionId;
+	}
+
+	redirectToCollectionId(collectionId: Collection['id']) {
+		const ctx = HttpContext.getOrFail();
+		return ctx.response.redirectToNamedRoute('dashboard', {
+			qs: { collectionId },
+		});
+	}
+
+	redirectToDashboard() {
+		const ctx = HttpContext.getOrFail();
+		return ctx.response.redirectToNamedRoute('dashboard');
 	}
 }

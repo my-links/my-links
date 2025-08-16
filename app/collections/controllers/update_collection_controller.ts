@@ -1,17 +1,14 @@
-import BaseCollectionController from '#collections/controllers/base_collection_controller';
 import { CollectionService } from '#collections/services/collection_service';
 import { updateCollectionValidator } from '#collections/validators/update_collection_validator';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
-export default class UpdateCollectionController extends BaseCollectionController {
-	constructor(private collectionService: CollectionService) {
-		super();
-	}
+export default class UpdateCollectionController {
+	constructor(private collectionService: CollectionService) {}
 
 	async render({ inertia }: HttpContext) {
-		const collectionId = await this.validateCollectionId();
+		const collectionId = await this.collectionService.validateCollectionId();
 		if (!collectionId) return;
 
 		const collection =
@@ -28,6 +25,6 @@ export default class UpdateCollectionController extends BaseCollectionController
 		} = await request.validateUsing(updateCollectionValidator);
 
 		await this.collectionService.updateCollection(collectionId, payload);
-		return this.redirectToCollectionId(collectionId);
+		return this.collectionService.redirectToCollectionId(collectionId);
 	}
 }
