@@ -1,4 +1,4 @@
-import { Link as InertiaLink } from '@inertiajs/react';
+import { Link as InertiaLink, router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { ActionIcon, Menu } from '@mantine/core';
 import { MouseEvent } from 'react';
@@ -10,7 +10,6 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
-import { useFavorites } from '~/stores/collection_store';
 import { Link, PublicLink } from '~/types/app';
 
 interface LinksControlsProps {
@@ -21,10 +20,14 @@ export default function LinkControls({
 	link,
 	showGoToCollection = false,
 }: LinksControlsProps) {
-	const { toggleFavorite } = useFavorites();
 	const { t } = useTranslation('common');
 
-	const onFavoriteCallback = () => toggleFavorite(link.id);
+	const onFavoriteCallback = () => {
+		const path = route('link.toggle-favorite', {
+			params: { id: link.id.toString() },
+		}).path;
+		router.put(path);
+	};
 	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) =>
 		event.preventDefault();
 

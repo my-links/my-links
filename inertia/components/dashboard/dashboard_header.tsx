@@ -16,8 +16,8 @@ import { GoPencil } from 'react-icons/go';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
 import { ShareCollection } from '~/components/share/share_collection';
+import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
-import { useActiveCollection } from '~/stores/collection_store';
 import { Visibility } from '~/types/app';
 
 interface DashboardHeaderProps {
@@ -32,7 +32,7 @@ interface DashboardHeaderProps {
 }
 export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 	const { t } = useTranslation('common');
-	const { activeCollection } = useActiveCollection();
+	const activeCollection = useActiveCollection();
 	return (
 		<AppShell.Header style={{ display: 'flex', alignItems: 'center' }}>
 			<Group justify="space-between" px="md" flex={1} wrap="nowrap">

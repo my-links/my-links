@@ -20,10 +20,10 @@ import { PiGearLight } from 'react-icons/pi';
 import { UserCard } from '~/components/common/user_card';
 import { FavoriteList } from '~/components/dashboard/favorite/favorite_list';
 import { SearchSpotlight } from '~/components/search/search';
+import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useAuth } from '~/hooks/use_auth';
 import useShortcut from '~/hooks/use_shortcut';
 import { appendCollectionId } from '~/lib/navigation';
-import { useActiveCollection } from '~/stores/collection_store';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
 interface DashboardNavbarProps {
@@ -34,7 +34,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 	const { t } = useTranslation('common');
 	const { isAuthenticated, user } = useAuth();
 
-	const { activeCollection } = useActiveCollection();
+	const activeCollection = useActiveCollection();
 	const { globalHotkeysEnabled, setGlobalHotkeysEnabled } =
 		useGlobalHotkeysStore();
 
