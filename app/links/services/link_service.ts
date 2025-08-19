@@ -50,6 +50,14 @@ export class LinkService {
 			.update({ favorite });
 	}
 
+	async getFavoriteLinksForAuthenticatedUser() {
+		const context = this.getAuthContext();
+		return await Link.query()
+			.where('author_id', context.auth.user!.id)
+			.where('favorite', true)
+			.orderBy('created_at');
+	}
+
 	getAuthContext() {
 		const context = HttpContext.getOrFail();
 		if (!context.auth.user || !context.auth.user.id) {
