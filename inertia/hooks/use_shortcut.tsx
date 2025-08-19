@@ -1,5 +1,5 @@
 import KEYS from '#core/constants/keys';
-import { useHotkeys } from 'react-hotkeys-hook';
+import { useHotkeys } from '@mantine/hooks';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
 type ShortcutOptions = {
@@ -16,15 +16,12 @@ export default function useShortcut(
 	}
 ) {
 	const { globalHotkeysEnabled } = useGlobalHotkeysStore();
+	const isEnabled = disableGlobalCheck
+		? enabled
+		: enabled && globalHotkeysEnabled;
 	return useHotkeys(
-		KEYS[key],
-		(event) => {
-			event.preventDefault();
-			cb();
-		},
-		{
-			enabled: disableGlobalCheck ? enabled : enabled && globalHotkeysEnabled,
-			enableOnFormTags: ['INPUT'],
-		}
+		[[KEYS[key], () => isEnabled && cb(), { preventDefault: true }]],
+		undefined,
+		true
 	);
 }

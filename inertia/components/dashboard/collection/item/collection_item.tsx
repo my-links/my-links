@@ -3,8 +3,8 @@ import { route } from '@izzyjs/route/client';
 import { Text } from '@mantine/core';
 import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
+import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
-import { useActiveCollection } from '~/stores/collection_store';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './collection_item.module.css';
 
@@ -14,7 +14,7 @@ export default function CollectionItem({
 	collection: CollectionWithLinks;
 }) {
 	const itemRef = useRef<HTMLAnchorElement>(null);
-	const { activeCollection } = useActiveCollection();
+	const activeCollection = useActiveCollection();
 	const isActiveCollection = collection.id === activeCollection?.id;
 	const FolderIcon = isActiveCollection ? AiFillFolderOpen : AiOutlineFolder;
 

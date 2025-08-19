@@ -1,13 +1,13 @@
 import { Flex, Group, Stack, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { FavoriteItem } from '~/components/dashboard/favorite/item/favorite_item';
-import { useFavorites } from '~/stores/collection_store';
+import { useFavoriteLinks } from '~/hooks/collections/use_favorite_links';
 
 export function FavoriteList() {
 	const { t } = useTranslation('common');
-	const { favorites } = useFavorites();
+	const favoriteLinks = useFavoriteLinks();
 
-	if (favorites.length === 0) {
+	if (favoriteLinks.length === 0) {
 		return (
 			<Group justify="center">
 				<Text c="dimmed" size="sm" mt="sm">
@@ -20,10 +20,10 @@ export function FavoriteList() {
 	return (
 		<Flex direction="column">
 			<Text c="dimmed" mt="xs" ml="md" mb={4}>
-				{t('favorite')} • {favorites.length}
+				{t('favorite')} • {favoriteLinks.length}
 			</Text>
 			<Stack gap={4}>
-				{favorites.map((link) => (
+				{favoriteLinks.map((link) => (
 					<FavoriteItem link={link} key={link.id} />
 				))}
 			</Stack>
