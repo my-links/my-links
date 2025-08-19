@@ -9,9 +9,13 @@ export default function render(page: any) {
 		resolve: (name) => {
 			const pages = import.meta.glob('../pages/**/*.tsx', { eager: true });
 			let pageComponent: any = pages[`../pages/${name}.tsx`];
-			pageComponent.default.layout =
-				pageComponent?.default?.layout ||
-				((pageChildren: any) => <DefaultLayout children={pageChildren} />);
+
+			if (pageComponent?.default) {
+				pageComponent.default.layout =
+					pageComponent.default.layout ||
+					((pageChildren: any) => <DefaultLayout children={pageChildren} />);
+			}
+
 			return pageComponent;
 		},
 		setup: ({ App, props }) => <App {...props} />,
