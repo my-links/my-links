@@ -20,9 +20,11 @@ createInertiaApp({
 			import.meta.glob('../pages/**/*.tsx')
 		);
 
-		currentPage.default.layout =
-			currentPage.default.layout ||
-			((p: any) => <DefaultLayout children={p} />);
+		if (currentPage?.default) {
+			currentPage.default.layout =
+				currentPage.default.layout ||
+				((p: any) => <DefaultLayout children={p} />);
+		}
 
 		return currentPage;
 	},
