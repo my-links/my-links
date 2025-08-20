@@ -26,7 +26,7 @@ export class CollectionService {
 		return await Collection.query()
 			.where('author_id', context.auth.user!.id)
 			.orderBy('created_at')
-			.preload('links');
+			.preload('links', (q) => q.orderBy('favorite', 'desc'));
 	}
 
 	async getTotalCollectionsCount() {
