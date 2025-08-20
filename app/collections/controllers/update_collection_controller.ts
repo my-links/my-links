@@ -13,7 +13,7 @@ export default class UpdateCollectionController {
 
 		const collection =
 			await this.collectionService.getCollectionById(collectionId);
-		return inertia.render('collections/update', {
+		return inertia.render('collections/edit', {
 			collection: collection.serialize(),
 		});
 	}
