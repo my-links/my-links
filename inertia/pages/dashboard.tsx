@@ -1,98 +1,117 @@
-import { AppShell, ScrollArea } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
-import { DashboardAside } from '~/components/dashboard/dashboard_aside';
-import { DashboardHeader } from '~/components/dashboard/dashboard_header';
-import { DashboardNavbar } from '~/components/dashboard/dashboard_navbar';
-import { LinkList } from '~/components/dashboard/link/list/link_list';
-import { MantineFooter } from '~/components/footer/footer';
-import { useDisableOverflow } from '~/hooks/use_disable_overflow';
-import useShortcut from '~/hooks/use_shortcut';
-import { DashboardLayout } from '~/layouts/dashboard_layout';
+import { Link } from '@inertiajs/react';
+import { route } from '@izzyjs/route/client';
 import {
-	useActiveCollection,
-	useCollectionsSetter,
-} from '~/stores/collection_store';
-import { CollectionWithLinks } from '~/types/app';
-import classes from './dashboard.module.css';
+	Box,
+	Button,
+	Divider,
+	Group,
+	Input,
+	Stack,
+	Text,
+	Tooltip,
+} from '@mantine/core';
+import { useTranslation } from 'react-i18next';
+import { CollectionList } from '~/components/dashboard/collection/collection_list';
+import { InlineCollectionList } from '~/components/dashboard/collection/inline_collection_list';
+import { MobileCollectionList } from '~/components/dashboard/collection/mobile_collection_list';
+import { SharedCollectionCopyLink } from '~/components/dashboard/collection/shared_collection_copy_link';
+import { LinkList } from '~/components/dashboard/link/list/link_list';
+import { useActiveCollection } from '~/hooks/collections/use_active_collection';
+import { useDisplayPreferences } from '~/hooks/use_display_preferences';
+import { useIsMobile } from '~/hooks/use_is_mobile';
+import { appendCollectionId } from '~/lib/navigation';
+import { Visibility } from '~/types/app';
 
-interface DashboardPageProps {
-	collections: CollectionWithLinks[];
-	activeCollection: CollectionWithLinks;
-}
+export default function Dashboard() {
+	const { t } = useTranslation();
+	const { displayPreferences } = useDisplayPreferences();
+	const activeCollection = useActiveCollection();
 
-const HEADER_SIZE_WITH_DESCRIPTION = 60;
-const HEADER_SIZE_WITHOUT_DESCRIPTION = 50;
-
-export default function MantineDashboard(props: Readonly<DashboardPageProps>) {
-	const [openedNavbar, { toggle: toggleNavbar, close: closeNavbar }] =
-		useDisclosure();
-	const [openedAside, { toggle: toggleAside, close: closeAside }] =
-		useDisclosure();
-
-	const { activeCollection } = useActiveCollection();
-	const { _setCollections, setActiveCollection } = useCollectionsSetter();
-
-	useShortcut('ESCAPE_KEY', () => {
-		closeNavbar();
-		closeAside();
-	});
-
-	useDisableOverflow();
-
-	useEffect(() => {
-		_setCollections(props.collections);
-		setActiveCollection(props.activeCollection);
-	}, []);
-
-	const headerHeight = !!activeCollection?.description
-		? HEADER_SIZE_WITH_DESCRIPTION
-		: HEADER_SIZE_WITHOUT_DESCRIPTION;
-	const footerHeight = 45;
+	const isMobile = useIsMobile();
+	const isFavorite = !activeCollection?.id;
 	return (
-		<DashboardLayout>
-			<div className={classes.app_wrapper}>
-				<AppShell
-					layout="alt"
-					header={{ height: headerHeight }}
-					navbar={{
-						width: 300,
-						breakpoint: 'sm',
-						collapsed: { mobile: !openedNavbar },
-					}}
-					aside={{
-						width: 300,
-						breakpoint: 'md',
-						collapsed: { mobile: !openedAside },
-					}}
-					footer={{ height: footerHeight }}
-					classNames={{
-						aside: classes.ml_custom_class,
-						footer: classes.ml_custom_class,
-						navbar: classes.ml_custom_class,
-						header: classes.ml_custom_class,
-					}}
-					className={classes.app_shell}
-				>
-					<DashboardHeader
-						navbar={{ opened: openedNavbar, toggle: toggleNavbar }}
-						aside={{ opened: openedAside, toggle: toggleAside }}
+		<Stack w="100%">
+			<Group justify="space-between">
+				<Tooltip label={t('coming-soon')}>
+					<Input
+						placeholder={t('search')}
+						w={isMobile ? '100%' : '350px'}
+						disabled
 					/>
-					<DashboardNavbar isOpen={openedNavbar} toggle={toggleNavbar} />
-					<AppShell.Main>
-						<ScrollArea
-							h="calc(100vh - var(--app-shell-header-height) - var(--app-shell-footer-height, 0px))"
-							p="md"
+				</Tooltip>
+				{!isFavorite && (
+					<Group>
+						{activeCollection?.visibility === Visibility.PUBLIC && (
+							<SharedCollectionCopyLink />
+						)}
+
+						<Divider orientation="vertical" />
+						<Button
+							variant="outline"
+							component={Link}
+							href={appendCollectionId(
+								route('collection.create-form').path,
+								activeCollection?.id
+							)}
+							size="xs"
 						>
-							<LinkList />
-						</ScrollArea>
-					</AppShell.Main>
-					<DashboardAside isOpen={openedAside} toggle={toggleAside} />
-					<AppShell.Footer pl="xs" pr="xs">
-						<MantineFooter />
-					</AppShell.Footer>
-				</AppShell>
-			</div>
-		</DashboardLayout>
+							{t('collection.create')}
+						</Button>
+						<Button
+							variant="outline"
+							component={Link}
+							href={appendCollectionId(
+								route('collection.edit-form').path,
+								activeCollection?.id
+							)}
+							size="xs"
+						>
+							{t('collection.edit')}
+						</Button>
+
+						<Divider orientation="vertical" />
+						<Button
+							variant="light"
+							component={Link}
+							href={appendCollectionId(
+								route('link.create-form').path,
+								activeCollection?.id
+							)}
+							size="xs"
+						>
+							{t('link.create')}
+						</Button>
+					</Group>
+				)}
+			</Group>
+			{displayPreferences.collectionListDisplay === 'inline' && !isMobile && (
+				<InlineCollectionList />
+			)}
+			<Group
+				wrap="nowrap"
+				align="flex-start"
+				style={{ flexDirection: isMobile ? 'column-reverse' : 'row' }}
+				flex={1}
+				w="100%"
+			>
+				<Box w="100%">
+					{activeCollection?.description && (
+						<Text
+							size="sm"
+							c="dimmed"
+							mb="md"
+							style={{ wordBreak: 'break-word', whiteSpace: 'pre-line' }}
+						>
+							{activeCollection.description}
+						</Text>
+					)}
+					<LinkList />
+				</Box>
+				{displayPreferences.collectionListDisplay === 'list' && !isMobile && (
+					<CollectionList />
+				)}
+			</Group>
+			{isMobile && <MobileCollectionList />}
+		</Stack>
 	);
 }

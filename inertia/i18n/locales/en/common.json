@@ -56,7 +56,7 @@
 	"go-to-collection": "Go to collection",
 	"no-item-found": "No item found",
 	"admin": "Admin",
-	"manage_users": "Manage users",
+	"manage-users": "Manage users",
 	"user": "User",
 	"search": "Search",
 	"search-with": "Search with",
@@ -83,5 +83,13 @@
 	"loading": "Loading...",
 	"no-results": "No results found",
 	"click-to-copy": "Click on the following link to copy the shareable url",
-	"success-copy": "Link copied to clipboard"
+	"success-copy": "Link copied to clipboard",
+	"user-preferences": "User preferences",
+	"preferences": "Preferences",
+	"preferences-description": "Display preferences do not apply on mobile",
+	"display-preferences": {
+		"collection-list-display": "Collection list display",
+		"link-list-display": "Link list display"
+	},
+	"coming-soon": "Under development"
 }

@@ -28,7 +28,13 @@ export function LinkItem({ link, hideMenu: hideMenu = false }: LinkItemProps) {
 					{!hideMenu && <LinkControls link={link} />}
 				</Group>
 				{description && (
-					<Text c="dimmed" size="sm" mt="xs" lineClamp={3}>
+					<Text
+						c="dimmed"
+						size="sm"
+						mt="xs"
+						lineClamp={3}
+						style={{ wordBreak: 'break-word', whiteSpace: 'pre-line' }}
+					>
 						{description}
 					</Text>
 				)}

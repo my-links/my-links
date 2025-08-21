@@ -8,11 +8,11 @@ import { appendCollectionId } from '~/lib/navigation';
 import { CollectionWithLinks } from '~/types/app';
 import classes from './collection_item.module.css';
 
-export default function CollectionItem({
-	collection,
-}: {
+interface CollectionItemProps {
 	collection: CollectionWithLinks;
-}) {
+}
+
+export function CollectionItem({ collection }: CollectionItemProps) {
 	const itemRef = useRef<HTMLAnchorElement>(null);
 	const activeCollection = useActiveCollection();
 	const isActiveCollection = collection.id === activeCollection?.id;
@@ -34,7 +34,10 @@ export default function CollectionItem({
 			title={collection.name}
 		>
 			<FolderIcon className={classes.linkIcon} />
-			<Text lineClamp={1} maw={'200px'} style={{ wordBreak: 'break-all' }}>
+			<Text
+				lineClamp={1}
+				style={{ wordBreak: 'break-all', whiteSpace: 'pre-line' }}
+			>
 				{collection.name}
 			</Text>
 		</Link>

@@ -1,3 +1,5 @@
+import { DisplayPreferences } from '#shared/types/index';
+
 type CommonBase = {
 	id: number;
 	createdAt: string;
@@ -10,6 +12,7 @@ export type User = CommonBase & {
 	avatarUrl: string;
 	isAdmin: boolean;
 	lastSeenAt: string;
+	displayPreferences: DisplayPreferences;
 };
 
 export type PublicUser = Omit<User, 'email'>;

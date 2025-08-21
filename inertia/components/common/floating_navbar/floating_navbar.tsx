@@ -19,6 +19,8 @@ import { useEffect } from 'react';
 import { UserDropdown } from '~/components/common/floating_navbar/user_dropdown';
 import { ExternalLinkUnstyled } from '~/components/common/links/external_link_unstyled';
 import { InternalLink } from '~/components/common/links/internal_link';
+import { LocaleSwitcher } from '~/components/common/locale_switcher';
+import { ThemeSwitcher } from '~/components/common/theme_switcher';
 import { useAuth } from '~/hooks/use_auth';
 import classes from './floating_navbar.module.css';
 
@@ -74,8 +76,8 @@ export function FloatingNavbar({ width }: FloatingNavbarProps) {
 					</Group>
 					<Group>
 						{!isMobile && <Group>{links}</Group>}
-						{isMobile && <Burger opened={opened} onClick={handler.toggle} />}
 						{auth.isAuthenticated && <UserDropdown />}
+						{isMobile && <Burger opened={opened} onClick={handler.toggle} />}
 						{!auth.isAuthenticated && (
 							<Button
 								variant="default"
@@ -101,6 +103,10 @@ export function FloatingNavbar({ width }: FloatingNavbarProps) {
 					<Flex direction="column" gap="md">
 						{links}
 					</Flex>
+					<Group mt="md">
+						<ThemeSwitcher />
+						<LocaleSwitcher />
+					</Group>
 				</Drawer>
 			</Box>
 		</>

@@ -2,15 +2,15 @@ import { ActionIcon, Anchor, CopyButton, Popover, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { TbShare3 } from 'react-icons/tb';
 import { Fragment } from 'react/jsx-runtime';
+import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { generateShareUrl } from '~/lib/navigation';
-import { useActiveCollection } from '~/stores/collection_store';
 import { Visibility } from '~/types/app';
 
 const COPY_SUCCESS_TIMEOUT = 2_000;
 
 export function ShareCollection() {
 	const { t } = useTranslation('common');
-	const { activeCollection } = useActiveCollection();
+	const activeCollection = useActiveCollection();
 	if (
 		activeCollection?.visibility !== Visibility.PUBLIC ||
 		typeof window === 'undefined'
