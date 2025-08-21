@@ -31,6 +31,7 @@
 		"#search/*": "./app/search/*.js",
 		"#shared_collections/*": "./app/shared_collections/*.js",
 		"#user/*": "./app/user/*.js",
+		"#user_settings/*": "./app/user_settings/*.js",
 		"#providers/*": "./providers/*.js",
 		"#database/*": "./database/*.js",
 		"#tests/*": "./tests/*.js",
