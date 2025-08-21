@@ -4,17 +4,17 @@ import { LinkList } from '~/components/dashboard/link/list/link_list';
 import type { CollectionWithLinks, PublicUser } from '~/types/app';
 
 interface SharedPageProps {
-	collection: CollectionWithLinks & { author: PublicUser };
+	activeCollection: CollectionWithLinks & { author: PublicUser };
 }
 
-export default function SharedPage({ collection }: SharedPageProps) {
+export default function SharedPage({ activeCollection }: SharedPageProps) {
 	const { t } = useTranslation('common');
 	return (
 		<>
 			<Flex direction="column">
-				<Text size="xl">{collection.name}</Text>
+				<Text size="xl">{activeCollection.name}</Text>
 				<Text size="sm" c="dimmed">
-					{collection.description}
+					{activeCollection.description}
 				</Text>
 				<Flex justify="flex-end">
 					<Text
@@ -24,7 +24,7 @@ export default function SharedPage({ collection }: SharedPageProps) {
 						mb="lg"
 						dangerouslySetInnerHTML={{
 							__html: t('collection.managed-by', {
-								name: collection.author.fullname,
+								name: activeCollection.author.fullname,
 							}),
 						}}
 					/>

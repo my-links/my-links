@@ -1,9 +1,11 @@
 import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { modals } from '@mantine/modals';
 import cx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { TbChevronDown, TbLogout, TbShield } from 'react-icons/tb';
+import { TbChevronDown, TbLogout, TbSettings, TbShield } from 'react-icons/tb';
 import { InternalLinkUnstyled } from '~/components/common/links/internal_link_unstyled';
+import { UserPreferences } from '~/components/common/user_preferences/user_preferences';
 import { useAuth } from '~/hooks/use_auth';
 import classes from './user_dropdown.module.css';
 
@@ -12,6 +14,14 @@ export function UserDropdown() {
 	const [userMenuOpened, { open: openUserMenu, close: closeUserMenu }] =
 		useDisclosure(false);
 	const { t } = useTranslation();
+
+	const handlePreferencesModal = () => {
+		modals.open({
+			title: t('user-preferences'),
+			children: <UserPreferences />,
+		});
+	};
+
 	return (
 		<Menu
 			width={260}
@@ -49,12 +59,18 @@ export function UserDropdown() {
 							href="/admin"
 							color="red"
 						>
-							{t('common:manage_users')}
+							{t('common:manage-users')}
 						</Menu.Item>
 					</>
 				)}
 
 				<Menu.Label>{t('common:settings')}</Menu.Label>
+				<Menu.Item
+					leftSection={<TbSettings size={16} />}
+					onClick={handlePreferencesModal}
+				>
+					{t('common:preferences')}
+				</Menu.Item>
 				<Menu.Item
 					leftSection={<TbLogout size={16} />}
 					component={InternalLinkUnstyled}

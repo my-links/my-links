@@ -8,6 +8,7 @@ import {
 	rem,
 } from '@mantine/core';
 import '@mantine/core/styles.css';
+import { ModalsProvider } from '@mantine/modals';
 import '@mantine/spotlight/styles.css';
 import { createTuyau } from '@tuyau/client';
 import { TuyauProvider } from '@tuyau/inertia/react';
@@ -119,7 +120,9 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 	return (
 		<TuyauProvider client={tuyauClient}>
 			<ColorSchemeScript />
-			<MantineProvider theme={customTheme}>{children}</MantineProvider>
+			<MantineProvider theme={customTheme}>
+				<ModalsProvider>{children}</ModalsProvider>
+			</MantineProvider>
 		</TuyauProvider>
 	);
 }

@@ -31,7 +31,7 @@ const Layout = ({ children }: PropsWithChildren) => (
 					maxWidth: '100%',
 					width: LAYOUT_WIDTH,
 					marginInline: 'auto',
-					marginBlock: rem(60),
+					marginBlock: rem(30),
 				}}
 			>
 				{children}

@@ -2,6 +2,7 @@ import { Box, Group, SegmentedControl, Text, TextInput } from '@mantine/core';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
+import useSearchParam from '~/hooks/use_search_param';
 import { FormLayout, FormLayoutProps } from '~/layouts/form_layout';
 import { Visibility } from '~/types/app';
 
@@ -29,6 +30,7 @@ export default function MantineFormCollection({
 	...props
 }: FormCollectionProps) {
 	const { t } = useTranslation('common');
+	const collectionId = Number(useSearchParam('collectionId'));
 
 	const onSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -36,7 +38,7 @@ export default function MantineFormCollection({
 	};
 
 	return (
-		<FormLayout handleSubmit={onSubmit} {...props}>
+		<FormLayout handleSubmit={onSubmit} collectionId={collectionId} {...props}>
 			<BackToDashboard disabled={props.disableHomeLink}>
 				<TextInput
 					label={t('form.name')}

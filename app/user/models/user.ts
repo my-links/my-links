@@ -1,6 +1,8 @@
 import Collection from '#collections/models/collection';
 import AppBaseModel from '#core/models/app_base_model';
 import Link from '#links/models/link';
+import { type DisplayPreferences } from '#shared/types/index';
+import { ensureDisplayPreferences } from '#user/lib/index';
 import type { GoogleToken } from '@adonisjs/ally/types';
 import { column, computed, hasMany } from '@adonisjs/lucid/orm';
 import type { HasMany } from '@adonisjs/lucid/types/relations';
@@ -51,4 +53,15 @@ export default class User extends AppBaseModel {
 		autoUpdate: true,
 	})
 	declare lastSeenAt: DateTime;
+
+	@column({
+		serialize: (value) => {
+			if (typeof value === 'string') {
+				return ensureDisplayPreferences(JSON.parse(value));
+			}
+			return value;
+		},
+		prepare: (value) => JSON.stringify(value),
+	})
+	declare displayPreferences: DisplayPreferences;
 }
