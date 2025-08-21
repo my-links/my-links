@@ -94,5 +94,26 @@
 		"list": "Liste",
 		"grid": "Grille"
 	},
-	"coming-soon": "En cours de développement"
+	"coming-soon": "En cours de développement",
+	"api-tokens": {
+		"title": "Tokens API",
+		"create": "Créer un token",
+		"create-new": "Créer un nouveau token",
+		"create-description": "Ce token sera utilisé pour l'authentification de votre extension navigateur.",
+		"name": "Nom du token",
+		"name-placeholder": "Ex: Extension Chrome",
+		"token-created": "Token créé avec succès",
+		"token-created-description": "Copiez ce token et conservez-le en lieu sûr. Il ne sera plus affiché après fermeture de cette fenêtre.",
+		"revoke": "Révoquer",
+		"confirm-revoke": "Êtes-vous sûr de vouloir révoquer ce token ?",
+		"copy": "Copier",
+		"copied": "Copié",
+		"no-tokens": "Aucun token créé",
+		"expired": "Expiré",
+		"revoked": "Révoqué",
+		"created": "Créé",
+		"last-used": "Dernière utilisation",
+		"expires": "Expire",
+		"never": "Jamais"
+	}
 }

@@ -94,5 +94,26 @@
 		"list": "List",
 		"grid": "Grid"
 	},
-	"coming-soon": "Under development"
+	"coming-soon": "Under development",
+	"api-tokens": {
+		"title": "API Tokens",
+		"create": "Create token",
+		"create-new": "Create new token",
+		"create-description": "This token will be used for browser extension authentication.",
+		"name": "Token name",
+		"name-placeholder": "Ex: Chrome Extension",
+		"token-created": "Token created successfully",
+		"token-created-description": "Copy this token and keep it safe. It will not be displayed again after closing this window.",
+		"revoke": "Revoke",
+		"confirm-revoke": "Are you sure you want to revoke this token?",
+		"copy": "Copy",
+		"copied": "Copied",
+		"no-tokens": "No tokens created",
+		"expired": "Expired",
+		"revoked": "Revoked",
+		"created": "Created",
+		"last-used": "Last used",
+		"expires": "Expires",
+		"never": "Never"
+	}
 }
