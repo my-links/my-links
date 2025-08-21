@@ -1,6 +1,6 @@
 # Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
-FROM node:24.1-alpine3.20 AS base
+FROM node:24.6-alpine3.22 AS base
 
 RUN apk --no-cache add curl
 RUN corepack enable
@@ -34,9 +34,9 @@ ENV DB_PORT=5432
 ENV DB_USER=db_user
 ENV DB_PASSWORD=db_password
 ENV DB_DATABASE=db_db
+ENV APP_URL=http://localhost:3333
 ENV GOOGLE_CLIENT_ID=client_id
 ENV GOOGLE_CLIENT_SECRET=client_secret
-ENV GOOGLE_CLIENT_CALLBACK_URL=http://localhost:3333/auth/callback
 
 RUN node ace izzy:routes
 RUN node ace build
