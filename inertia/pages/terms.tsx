@@ -1,8 +1,9 @@
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { Trans, useTranslation } from 'react-i18next';
+import SmallContentLayout from '~/layouts/small_content';
 
-export default function TermsPage() {
+function TermsPage() {
 	const { t } = useTranslation('terms');
 	return (
 		<>
@@ -28,7 +29,7 @@ export default function TermsPage() {
 			<p>
 				<Trans
 					i18nKey="personal_data.collect.description"
-					components={{ a: <Link href={route('privacy').url} /> }}
+					components={{ a: <Link href={route('privacy').path} /> }}
 				/>
 			</p>
 
@@ -50,3 +51,8 @@ export default function TermsPage() {
 		</>
 	);
 }
+
+TermsPage.layout = (page: React.ReactNode) => (
+	<SmallContentLayout>{page}</SmallContentLayout>
+);
+export default TermsPage;

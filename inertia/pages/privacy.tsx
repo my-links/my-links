@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import SmallContentLayout from '~/layouts/small_content';
 
-export default function PrivacyPage() {
+function PrivacyPage() {
 	const { t } = useTranslation('privacy');
 	return (
 		<>
@@ -41,3 +42,8 @@ export default function PrivacyPage() {
 		</>
 	);
 }
+
+PrivacyPage.layout = (page: React.ReactNode) => (
+	<SmallContentLayout>{page}</SmallContentLayout>
+);
+export default PrivacyPage;
