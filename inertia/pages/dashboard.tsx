@@ -40,13 +40,12 @@ export default function Dashboard() {
 					/>
 				</Tooltip>
 				<Group>
-					{!isFavorite &&
-						activeCollection?.visibility === Visibility.PUBLIC && (
-							<>
-								<SharedCollectionCopyLink />
-								<Divider orientation="vertical" />
-							</>
-						)}
+					{activeCollection?.visibility === Visibility.PUBLIC && (
+						<>
+							<SharedCollectionCopyLink />
+							<Divider orientation="vertical" />
+						</>
+					)}
 
 					<Button
 						variant="outline"
@@ -73,22 +72,20 @@ export default function Dashboard() {
 						</Button>
 					)}
 
-					{!isFavorite && (
-						<>
-							<Divider orientation="vertical" />
-							<Button
-								variant="light"
-								component={Link}
-								href={appendCollectionId(
-									route('link.create-form').path,
-									activeCollection?.id
-								)}
-								size="xs"
-							>
-								{t('link.create')}
-							</Button>
-						</>
-					)}
+					<>
+						<Divider orientation="vertical" />
+						<Button
+							variant="light"
+							component={Link}
+							href={appendCollectionId(
+								route('link.create-form').path,
+								activeCollection?.id
+							)}
+							size="xs"
+						>
+							{t('link.create')}
+						</Button>
+					</>
 				</Group>
 			</Group>
 			{displayPreferences.collectionListDisplay === 'inline' && !isMobile && (
