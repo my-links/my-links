@@ -61,7 +61,16 @@ export class CollectionService {
 			.delete();
 	}
 
-	getAuthContext() {
+	getPublicCollectionById(id: Collection['id']) {
+		return Collection.query()
+			.where('id', id)
+			.andWhere('visibility', Visibility.PUBLIC)
+			.preload('links')
+			.preload('author')
+			.firstOrFail();
+	}
+
+	private getAuthContext() {
 		const context = HttpContext.getOrFail();
 		if (!context.auth.user || !context.auth.user.id) {
 			throw new Error('User not authenticated');
