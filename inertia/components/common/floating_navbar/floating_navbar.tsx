@@ -42,9 +42,11 @@ export function FloatingNavbar({ width }: FloatingNavbarProps) {
 
 	const links = (
 		<>
-			<InternalLink route="dashboard" style={{ fontSize: rem(16) }}>
-				Dashboard
-			</InternalLink>
+			{auth.isAuthenticated && (
+				<InternalLink route="dashboard" style={{ fontSize: rem(16) }}>
+					Dashboard
+				</InternalLink>
+			)}
 			<ExternalLinkUnstyled
 				href={PROJECT_REPO_GITHUB_URL}
 				style={{ fontSize: rem(16) }}
