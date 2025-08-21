@@ -1,5 +1,6 @@
 {
-  "select-collection": "Veuillez sélectionner une collection",
-  "or-create-one": "ou en créer une",
-  "no-link": "Aucun lien pour <b>{{name}}</b>"
+	"select-collection": "Veuillez sélectionner une collection",
+	"or-create-one": "ou en créer une",
+	"no-link": "Aucun lien pour <b>{{name}}</b>",
+	"no-link-favorite": "Aucun lien dans les favoris"
 }

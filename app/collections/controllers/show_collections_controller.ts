@@ -19,10 +19,6 @@ export default class ShowCollectionsController {
 			this.linkService.getFavoriteLinksForAuthenticatedUser(),
 		]);
 
-		if (collections.length === 0) {
-			return response.redirectToNamedRoute('collection.create-form');
-		}
-
 		const activeCollection = collections.find(
 			(c) => c.id === activeCollectionId
 		);

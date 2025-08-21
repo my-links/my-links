@@ -39,24 +39,27 @@ export default function Dashboard() {
 						disabled
 					/>
 				</Tooltip>
-				{!isFavorite && (
-					<Group>
-						{activeCollection?.visibility === Visibility.PUBLIC && (
-							<SharedCollectionCopyLink />
+				<Group>
+					{!isFavorite &&
+						activeCollection?.visibility === Visibility.PUBLIC && (
+							<>
+								<SharedCollectionCopyLink />
+								<Divider orientation="vertical" />
+							</>
 						)}
 
-						<Divider orientation="vertical" />
-						<Button
-							variant="outline"
-							component={Link}
-							href={appendCollectionId(
-								route('collection.create-form').path,
-								activeCollection?.id
-							)}
-							size="xs"
-						>
-							{t('collection.create')}
-						</Button>
+					<Button
+						variant="outline"
+						component={Link}
+						href={appendCollectionId(
+							route('collection.create-form').path,
+							activeCollection?.id
+						)}
+						size="xs"
+					>
+						{t('collection.create')}
+					</Button>
+					{!isFavorite && (
 						<Button
 							variant="outline"
 							component={Link}
@@ -68,21 +71,25 @@ export default function Dashboard() {
 						>
 							{t('collection.edit')}
 						</Button>
+					)}
 
-						<Divider orientation="vertical" />
-						<Button
-							variant="light"
-							component={Link}
-							href={appendCollectionId(
-								route('link.create-form').path,
-								activeCollection?.id
-							)}
-							size="xs"
-						>
-							{t('link.create')}
-						</Button>
-					</Group>
-				)}
+					{!isFavorite && (
+						<>
+							<Divider orientation="vertical" />
+							<Button
+								variant="light"
+								component={Link}
+								href={appendCollectionId(
+									route('link.create-form').path,
+									activeCollection?.id
+								)}
+								size="xs"
+							>
+								{t('link.create')}
+							</Button>
+						</>
+					)}
+				</Group>
 			</Group>
 			{displayPreferences.collectionListDisplay === 'inline' && !isMobile && (
 				<InlineCollectionList />
