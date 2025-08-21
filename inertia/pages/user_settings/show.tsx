@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { ApiTokens } from '~/components/common/api_tokens/api_tokens';
 import {
 	FloatingTab,
 	FloatingTabs,
@@ -13,6 +14,11 @@ function UserSettingsShow() {
 			label: t('preferences'),
 			value: 'preferences',
 			content: <UserPreferences />,
+		},
+		{
+			label: t('api-tokens.title'),
+			value: 'api-tokens',
+			content: <ApiTokens />,
 		},
 	];
 	return <FloatingTabs tabs={tabs} />;

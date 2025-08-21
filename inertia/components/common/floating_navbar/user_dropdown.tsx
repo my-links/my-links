@@ -32,6 +32,9 @@ export function UserDropdown() {
 							alt={auth.user?.fullname}
 							radius="xl"
 							size={20}
+							imageProps={{
+								referrerPolicy: 'no-referrer',
+							}}
 						/>
 						<Text fw={500} size="sm" lh={1} mr={3}>
 							{auth.user?.fullname}

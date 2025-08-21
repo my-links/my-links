@@ -3,6 +3,7 @@ import AppBaseModel from '#core/models/app_base_model';
 import Link from '#links/models/link';
 import { type DisplayPreferences } from '#shared/types/index';
 import { ensureDisplayPreferences } from '#user/lib/index';
+import ApiToken from '#user/models/api_token';
 import type { GoogleToken } from '@adonisjs/ally/types';
 import { column, computed, hasMany } from '@adonisjs/lucid/orm';
 import type { HasMany } from '@adonisjs/lucid/types/relations';
@@ -42,6 +43,11 @@ export default class User extends AppBaseModel {
 		foreignKey: 'authorId',
 	})
 	declare links: HasMany<typeof Link>;
+
+	@hasMany(() => ApiToken, {
+		foreignKey: 'userId',
+	})
+	declare apiTokens: HasMany<typeof ApiToken>;
 
 	@computed()
 	get fullname() {
