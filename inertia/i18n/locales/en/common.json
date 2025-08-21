@@ -89,7 +89,10 @@
 	"preferences-description": "Display preferences do not apply on mobile",
 	"display-preferences": {
 		"collection-list-display": "Collection list display",
-		"link-list-display": "Link list display"
+		"link-list-display": "Link list display",
+		"inline": "Inline",
+		"list": "List",
+		"grid": "Grid"
 	},
 	"coming-soon": "Under development"
 }

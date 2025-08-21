@@ -89,7 +89,10 @@
 	"preferences-description": "Les préférences d'affichage ne s'appliquent pas sur mobile",
 	"display-preferences": {
 		"collection-list-display": "Affichage de la liste des collections",
-		"link-list-display": "Affichage de la liste des liens"
+		"link-list-display": "Affichage de la liste des liens",
+		"inline": "En ligne",
+		"list": "Liste",
+		"grid": "Grille"
 	},
 	"coming-soon": "En cours de développement"
 }

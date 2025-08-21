@@ -12,7 +12,8 @@ const SmallContentLayout = ({ children }: PropsWithChildren) => (
 
 export default SmallContentLayout;
 
-const LAYOUT_WIDTH = '800px';
+const LAYOUT_WIDTH = '1500px';
+const CONTENT_WIDTH = '800px';
 const Layout = ({ children }: PropsWithChildren) => (
 	<>
 		{/* Top navbar */}
@@ -29,7 +30,7 @@ const Layout = ({ children }: PropsWithChildren) => (
 				style={{
 					height: '100%',
 					maxWidth: '100%',
-					width: LAYOUT_WIDTH,
+					width: CONTENT_WIDTH,
 					marginInline: 'auto',
 					marginBlock: rem(30),
 				}}

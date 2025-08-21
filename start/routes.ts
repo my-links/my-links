@@ -8,3 +8,4 @@ import '#links/routes/routes';
 import '#search/routes/routes';
 import '#shared_collections/routes/routes';
 import '#user/routes/routes';
+import '#user_settings/routes/routes';

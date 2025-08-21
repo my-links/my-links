@@ -1,15 +1,10 @@
-import { LinkListDisplay } from '#shared/types/index';
 import { Fieldset, Stack, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { ComboList } from '~/components/common/combo_list/combo_list';
 import { CollectionListSelector } from '~/components/dashboard/collection/collection_list_selector';
-import { useDisplayPreferences } from '~/hooks/use_display_preferences';
+import { LinkListSelector } from '~/components/dashboard/link/link_list_selector';
 import { useIsMobile } from '~/hooks/use_is_mobile';
-import { getLinkListDisplayOptions } from '~/lib/display_preferences';
 
 export function UserPreferences() {
-	const { displayPreferences, handleUpdateDisplayPreferences } =
-		useDisplayPreferences();
 	const { t } = useTranslation();
 	const isMobile = useIsMobile();
 
@@ -28,15 +23,7 @@ export function UserPreferences() {
 				<Text size="sm" c="dimmed">
 					{t('display-preferences.link-list-display')}
 				</Text>
-				<ComboList
-					selectedValue={displayPreferences.linkListDisplay}
-					values={getLinkListDisplayOptions()}
-					setValue={(value) =>
-						handleUpdateDisplayPreferences({
-							linkListDisplay: value as LinkListDisplay,
-						})
-					}
-				/>
+				<LinkListSelector />
 			</Stack>
 		</Fieldset>
 	);
