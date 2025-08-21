@@ -12,21 +12,27 @@ interface NoLinkProps extends LinkListProps {}
 export function NoLink({ hideMenu }: NoLinkProps) {
 	const { t } = useTranslation('common');
 	const activeCollection = useActiveCollection();
+	const isFavorite = !activeCollection?.id;
+
+	const noLinkForCollection = t(
+		'home:no-link',
+		{ name: activeCollection?.name ?? '' } as any,
+		{
+			interpolation: { escapeValue: false },
+		}
+	);
+
+	const noLinkForFavorite = t('home:no-link-favorite');
+
 	return (
 		<Box className={styles.noCollection} p="xl">
 			<Text
 				className={styles.text}
 				dangerouslySetInnerHTML={{
-					__html: t(
-						'home:no-link',
-						{ name: activeCollection?.name ?? '' } as any,
-						{
-							interpolation: { escapeValue: false },
-						}
-					),
+					__html: isFavorite ? noLinkForFavorite : noLinkForCollection,
 				}}
 			/>
-			{!hideMenu && (
+			{!hideMenu && !isFavorite && (
 				<Anchor
 					component={Link}
 					href={appendCollectionId(

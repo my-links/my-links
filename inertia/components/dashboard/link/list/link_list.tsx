@@ -1,5 +1,5 @@
 import { DisplayPreferences } from '#shared/types/index';
-import { SimpleGrid, Stack, StyleProp, useCombobox } from '@mantine/core';
+import { SimpleGrid, Stack, StyleProp } from '@mantine/core';
 import { LinkItem } from '~/components/dashboard/link/item/link_item';
 import { NoLink } from '~/components/dashboard/link/no_link/no_link';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
@@ -15,13 +15,9 @@ export function LinkList({ hideMenu = false }: LinkListProps) {
 	const favoriteLinks = useFavoriteLinks();
 	const { displayPreferences } = useDisplayPreferences();
 
-	const combobox = useCombobox({
-		onDropdownClose: () => combobox.resetSelectedOption(),
-	});
-
 	const links = activeCollection?.links || favoriteLinks;
 
-	if (activeCollection?.links.length === 0) {
+	if (links.length === 0) {
 		return <NoLink hideMenu={hideMenu} />;
 	}
 
