@@ -8,7 +8,7 @@
 		"build": "node ace build",
 		"dev": "node ace serve --hmr",
 		"test": "node ace test",
-		"lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+		"lint": "eslint . --report-unused-disable-directives --max-warnings 0 --ignore-pattern '.adonisjs/*'",
 		"format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
 		"typecheck": "tsc --noEmit",
 		"check": "pnpm run lint && pnpm run typecheck",
