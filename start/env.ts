@@ -27,6 +27,13 @@ export default await Env.create(new URL('../', import.meta.url), {
 
 	/*
   |----------------------------------------------------------
+  | Variables for configuring app url
+  |----------------------------------------------------------
+  */
+	APP_URL: Env.schema.string({ format: 'url', tld: false }), // Remove TLD to allow localhost
+
+	/*
+  |----------------------------------------------------------
   | Variables for configuring database connection
   |----------------------------------------------------------
   */
@@ -43,5 +50,4 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
 	GOOGLE_CLIENT_ID: Env.schema.string(),
 	GOOGLE_CLIENT_SECRET: Env.schema.string(),
-	GOOGLE_CLIENT_CALLBACK_URL: Env.schema.string(),
 });

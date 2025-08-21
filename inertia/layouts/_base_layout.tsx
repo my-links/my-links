@@ -1,7 +1,6 @@
 import { api } from '#adonis/api';
 import { PRIMARY_COLOR } from '#config/project';
-import { PageProps } from '@adonisjs/inertia/types';
-import { router, usePage } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import {
 	ColorSchemeScript,
 	createTheme,
@@ -15,6 +14,7 @@ import { TuyauProvider } from '@tuyau/inertia/react';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAppUrl } from '~/hooks/use_app_url';
 import '../styles/index.css';
 
 const TRANSITION_IN_CLASS = '__transition_fadeIn';
@@ -73,12 +73,12 @@ const customTheme = createTheme({
 
 export function BaseLayout({ children }: { children: ReactNode }) {
 	const { i18n } = useTranslation();
+	const appUrl = useAppUrl();
 	dayjs.locale(i18n.language);
-	const { props } = usePage<PageProps & { appBaseUrl: string }>();
 
 	const tuyauClient = createTuyau({
 		api,
-		baseUrl: props.appBaseUrl,
+		baseUrl: appUrl,
 	});
 
 	const findAppElement = () => document.getElementById('app');

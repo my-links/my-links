@@ -1,4 +1,5 @@
 import { isSSREnableForPage } from '#config/ssr';
+import env from '#start/env';
 import { DEFAULT_USER_THEME, KEY_USER_THEME } from '#user/constants/theme';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
@@ -24,6 +25,7 @@ export default defineConfig({
 				isAuthenticated: ctx.auth?.isAuthenticated || false,
 			};
 		},
+		appUrl: env.get('APP_URL'),
 	},
 
 	/**
