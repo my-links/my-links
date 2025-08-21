@@ -70,7 +70,7 @@ function FormLayout({
 						{!disableHomeLink && (
 							<Anchor
 								component={Link}
-								href={appendCollectionId(route('dashboard').url, collectionId)}
+								href={appendCollectionId(route('dashboard').path, collectionId)}
 								disabled={disableHomeLink}
 							>
 								{t('back-home')}
