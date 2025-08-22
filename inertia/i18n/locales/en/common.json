@@ -114,6 +114,7 @@
 		"created": "Created",
 		"last-used": "Last used",
 		"expires": "Expires",
-		"never": "Never"
+		"never": "Never",
+		"new-token": "New token created"
 	}
 }

@@ -38,7 +38,7 @@ export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
 			/>
 			<Group justify="flex-end">
 				<Button variant="subtle" onClick={onClose}>
-					{t('common.cancel')}
+					{t('cancel')}
 				</Button>
 				<Button
 					onClick={handleCreate}

@@ -114,6 +114,7 @@
 		"created": "Créé",
 		"last-used": "Dernière utilisation",
 		"expires": "Expire",
-		"never": "Jamais"
+		"never": "Jamais",
+		"new-token": "Nouveau token créé"
 	}
 }

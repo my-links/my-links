@@ -8,10 +8,15 @@ export default class ShowUserSettingsController {
 
 	public async render({ auth, inertia }: HttpContext) {
 		const user = await auth.authenticate();
-		const tokens = await this.apiTokenService.getUserTokens(user.id);
+		const tokens = await this.apiTokenService.getTokens(user);
 		return inertia.render('user_settings/show', {
 			user,
-			tokens,
+			tokens: tokens.map((token) => {
+				return {
+					...token.toJSON(),
+					identifier: token.identifier,
+				};
+			}),
 		});
 	}
 }

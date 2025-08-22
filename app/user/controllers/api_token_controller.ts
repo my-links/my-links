@@ -3,21 +3,23 @@ import { createApiTokenValidator } from '#user/validators/token/create_api_token
 import { deleteApiTokenValidator } from '#user/validators/token/delete_api_token';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
-import { DateTime } from 'luxon';
 
 @inject()
 export default class ApiTokenController {
 	constructor(private apiTokenService: ApiTokenService) {}
 
-	async store({ request, response, auth }: HttpContext) {
+	async store({ request, response, auth, session }: HttpContext) {
 		const { name, expiresAt } = await request.validateUsing(
 			createApiTokenValidator
 		);
-
-		await this.apiTokenService.createToken({
-			user: auth.user!,
+		const token = await this.apiTokenService.createToken(auth.user!, {
 			name,
-			expiresAt: expiresAt ? DateTime.fromJSDate(expiresAt) : undefined,
+			expiresAt,
+		});
+		session.flash('token', {
+			...token.toJSON(),
+			token: token.value?.release(),
+			identifier: token.identifier,
 		});
 		return response.redirect().withQs().back();
 	}
@@ -26,7 +28,18 @@ export default class ApiTokenController {
 		const { params } = await request.validateUsing(deleteApiTokenValidator);
 		const tokenId = params.tokenId;
 
-		await this.apiTokenService.revokeToken(tokenId, auth.user!.id);
+		const token = await this.apiTokenService.getTokenByValue(
+			auth.user!,
+			tokenId
+		);
+		if (!token) {
+			return response.notFound();
+		}
+
+		await this.apiTokenService.revokeToken(
+			auth.user!,
+			Number(token.identifier)
+		);
 		return response.redirect().withQs().back();
 	}
 }
