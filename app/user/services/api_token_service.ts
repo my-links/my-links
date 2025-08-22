@@ -1,54 +1,33 @@
-import ApiToken from '#user/models/api_token';
 import User from '#user/models/user';
-import { DateTime } from 'luxon';
+import { AccessToken } from '@adonisjs/auth/access_tokens';
 
-type CreateApiTokenPayload = {
-	user: User;
+type CreateTokenParams = {
 	name: string;
-	expiresAt?: DateTime;
+	expiresAt?: Date;
 };
 
 export class ApiTokenService {
-	async createToken({
-		user,
-		name,
-		expiresAt,
-	}: CreateApiTokenPayload): Promise<ApiToken> {
-		return await ApiToken.create({
-			userId: user.id,
+	createToken(user: User, { name, expiresAt }: CreateTokenParams) {
+		const expiresIn = expiresAt ? expiresAt.getTime() - Date.now() : undefined;
+		return User.accessTokens.create(user, undefined, {
 			name,
-			expiresAt,
-			isActive: true,
+			expiresIn,
 		});
 	}
 
-	async getUserTokens(userId: number): Promise<ApiToken[]> {
-		return await ApiToken.query()
-			.where('userId', userId)
-			.orderBy('created_at', 'desc');
+	getTokens(user: User) {
+		return User.accessTokens.all(user);
 	}
 
-	async revokeToken(tokenId: number, userId: number): Promise<void> {
-		const token = await ApiToken.query()
-			.where('id', tokenId)
-			.where('userId', userId)
-			.firstOrFail();
-
-		token.isActive = false;
-		await token.save();
+	revokeToken(user: User, identifier: number) {
+		return User.accessTokens.delete(user, identifier);
 	}
 
-	async validateToken(tokenString: string): Promise<ApiToken | null> {
-		const token = await ApiToken.query()
-			.where('token', tokenString)
-			.where('isActive', true)
-			.first();
+	validateToken(token: AccessToken) {
+		return User.accessTokens.verify(token.value!);
+	}
 
-		if (!token || !token.isValid()) {
-			return null;
-		}
-
-		await token.markAsUsed();
-		return token;
+	getTokenByValue(user: User, value: string) {
+		return User.accessTokens.find(user, value);
 	}
 }

@@ -15,6 +15,7 @@ export default defineConfig({
 	 */
 	sharedData: {
 		errors: (ctx) => ctx.session?.flashMessages.get('errors'),
+		token: (ctx) => ctx.session?.flashMessages.get('token'),
 		user: (ctx) => ({
 			theme: ctx.session?.get(KEY_USER_THEME, DEFAULT_USER_THEME),
 		}),

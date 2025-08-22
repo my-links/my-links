@@ -1,14 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-
-interface ApiToken {
-	id: number;
-	name: string;
-	token: string;
-	lastUsedAt: string | null;
-	expiresAt: string | null;
-	isActive: boolean;
-	createdAt: string;
-}
+import { ApiToken } from '~/types/app';
 
 export function useApiTokens() {
 	const {

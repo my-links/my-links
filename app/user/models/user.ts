@@ -3,8 +3,8 @@ import AppBaseModel from '#core/models/app_base_model';
 import Link from '#links/models/link';
 import { type DisplayPreferences } from '#shared/types/index';
 import { ensureDisplayPreferences } from '#user/lib/index';
-import ApiToken from '#user/models/api_token';
 import type { GoogleToken } from '@adonisjs/ally/types';
+import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens';
 import { column, computed, hasMany } from '@adonisjs/lucid/orm';
 import type { HasMany } from '@adonisjs/lucid/types/relations';
 import { DateTime } from 'luxon';
@@ -44,11 +44,6 @@ export default class User extends AppBaseModel {
 	})
 	declare links: HasMany<typeof Link>;
 
-	@hasMany(() => ApiToken, {
-		foreignKey: 'userId',
-	})
-	declare apiTokens: HasMany<typeof ApiToken>;
-
 	@computed()
 	get fullname() {
 		return this.nickName || this.name;
@@ -70,4 +65,6 @@ export default class User extends AppBaseModel {
 		prepare: (value) => JSON.stringify(value),
 	})
 	declare displayPreferences: DisplayPreferences;
+
+	static accessTokens = DbAccessTokensProvider.forModel(User);
 }
