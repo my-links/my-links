@@ -1,4 +1,7 @@
 import '#admin/routes/routes';
+import '#api/collections/routes/routes';
+import '#api/links/routes/routes';
+import '#api/tokens/routes/routes';
 import '#auth/routes/routes';
 import '#collections/routes/routes';
 import '#favicons/routes/routes';
