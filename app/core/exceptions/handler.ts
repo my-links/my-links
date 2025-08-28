@@ -36,6 +36,13 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	 * response to the client
 	 */
 	async handle(error: unknown, ctx: HttpContext) {
+		if (ctx.request.url()?.startsWith('/api/v1')) {
+			return ctx.response.status(400).json({
+				message: 'Bad Request',
+				errors: [error],
+			});
+		}
+
 		if (error instanceof errors.E_ROW_NOT_FOUND) {
 			return ctx.response.redirectToNamedRoute('dashboard');
 		}

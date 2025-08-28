@@ -1,5 +1,4 @@
 import User from '#user/models/user';
-import { AccessToken } from '@adonisjs/auth/access_tokens';
 
 type CreateTokenParams = {
 	name: string;
@@ -21,10 +20,6 @@ export class ApiTokenService {
 
 	revokeToken(user: User, identifier: number) {
 		return User.accessTokens.delete(user, identifier);
-	}
-
-	validateToken(token: AccessToken) {
-		return User.accessTokens.verify(token.value!);
 	}
 
 	getTokenByValue(user: User, value: string) {

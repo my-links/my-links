@@ -21,6 +21,7 @@
 		"#admin/*": "./app/admin/*.js",
 		"#adonis/api": "./.adonisjs/api.ts",
 		"#auth/*": "./app/auth/*.js",
+		"#api/*": "./app/api/*.js",
 		"#collections/*": "./app/collections/*.js",
 		"#config/*": "./config/*.js",
 		"#core/*": "./app/core/*.js",
