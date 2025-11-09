@@ -2,7 +2,8 @@ import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import MantineFormCollection, {
+import {
+	FormCollection,
 	FormCollectionData,
 } from '~/components/form/form_collection';
 import { Collection } from '~/types/app';
@@ -38,7 +39,7 @@ export default function EditCollectionPage({
 	};
 
 	return (
-		<MantineFormCollection
+		<FormCollection
 			title={t('collection.edit')}
 			textSubmitButton={t('form.update')}
 			canSubmit={canSubmit}
