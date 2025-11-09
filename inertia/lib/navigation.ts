@@ -16,15 +16,50 @@ export const appendResourceId = (
 ) => `${url}${resourceId ? `/${resourceId}` : ''}`;
 
 export function isValidHttpUrl(urlParam: string) {
-	let url;
+	const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}(:\d+)?(\/.*)?(\?.*)?(#[^#]*)?$/;
+	const domainRegex =
+		/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?(\?.*)?(#[^#]*)?$/;
+	const simpleDomainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]$/;
 
-	try {
-		url = new URL(urlParam);
-	} catch (_) {
-		return false;
+	let urlToTest = urlParam.trim();
+
+	if (urlToTest.startsWith('http://') || urlToTest.startsWith('https://')) {
+		try {
+			const url = new URL(urlToTest);
+			return url.protocol === 'http:' || url.protocol === 'https:';
+		} catch (_) {
+			return false;
+		}
 	}
 
-	return url.protocol === 'http:' || url.protocol === 'https:';
+	if (ipv4Regex.test(urlToTest)) {
+		try {
+			new URL(`http://${urlToTest}`);
+			return true;
+		} catch (_) {
+			return false;
+		}
+	}
+
+	if (domainRegex.test(urlToTest)) {
+		try {
+			new URL(`http://${urlToTest}`);
+			return true;
+		} catch (_) {
+			return false;
+		}
+	}
+
+	if (simpleDomainRegex.test(urlToTest)) {
+		try {
+			new URL(`http://${urlToTest}`);
+			return true;
+		} catch (_) {
+			return false;
+		}
+	}
+
+	return false;
 }
 
 export const generateShareUrl = (

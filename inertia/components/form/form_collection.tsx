@@ -21,7 +21,7 @@ interface FormCollectionProps extends FormLayoutProps {
 	handleSubmit: () => void;
 }
 
-export default function MantineFormCollection({
+export function MantineFormCollection({
 	data,
 	errors,
 	disableInputs = false,
