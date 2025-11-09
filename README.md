@@ -92,6 +92,27 @@ pnpm run start
 openssl rand -base64 32
 ```
 
+### Google OAuth
+
+Pour obtenir le Client ID et Secret Google nécessaires à l'authentification :
+
+1. Accédez à la [Console Google Cloud](https://console.cloud.google.com/)
+2. Créez un nouveau projet ou sélectionnez un projet existant
+3. Activez l'API **Google+ API** (ou utilisez directement l'API OAuth 2.0)
+4. Allez dans **Identifiants** (Credentials) > **Créer des identifiants** > **ID client OAuth 2.0**
+5. Configurez l'écran de consentement OAuth si ce n'est pas déjà fait :
+   - Type d'application : **Interne** ou **Externe**
+   - Remplissez les informations requises (nom de l'application, email de support, etc.)
+6. Créez l'ID client OAuth 2.0 :
+   - Type d'application : **Application Web**
+   - Nom : choisissez un nom pour votre application
+   - URI de redirection autorisés : ajoutez `http://localhost:3333/auth/callback` pour le développement (ou votre URL de production + `/auth/callback`)
+7. Une fois créé, vous obtiendrez :
+   - **Client ID** : à définir dans `GOOGLE_CLIENT_ID`
+   - **Client Secret** : à définir dans `GOOGLE_CLIENT_SECRET`
+
+> **Note** : Pour la production, assurez-vous d'ajouter votre URL de production dans les URI de redirection autorisés (ex: `https://votre-domaine.com/auth/callback`)
+
 ### GitHub Actions
 
 Env var to define :
