@@ -24,7 +24,7 @@ interface FormLinkProps extends FormLayoutProps {
 	handleSubmit: () => void;
 }
 
-export default function MantineFormLink({
+export function FormLink({
 	data,
 	errors,
 	collections,
@@ -83,7 +83,7 @@ export default function MantineFormLink({
 						value: id.toString(),
 					}))}
 					onChange={(value) => setData('collectionId', value)}
-					value={data.collectionId.toString()}
+					value={data.collectionId?.toString()}
 					readOnly={disableInputs}
 					mt="md"
 					searchable
