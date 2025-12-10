@@ -54,6 +54,8 @@
 		"@types/react": "^19.2.2",
 		"@types/react-dom": "^19.2.2",
 		"@typescript-eslint/eslint-plugin": "^8.46.3",
+		"@unocss/preset-icons": "^66.5.10",
+		"@unocss/preset-web-fonts": "^66.5.10",
 		"@vite-pwa/assets-generator": "^1.0.2",
 		"eslint": "^9.39.1",
 		"hot-hook": "^0.4.0",
@@ -67,6 +69,7 @@
 		"release-it": "^19.0.6",
 		"ts-node-maintained": "^10.9.6",
 		"typescript": "~5.9.3",
+		"unocss": "^66.5.10",
 		"vite": "^7.2.2"
 	},
 	"dependencies": {

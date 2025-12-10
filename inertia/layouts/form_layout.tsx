@@ -4,7 +4,7 @@ import { Anchor, Button, Container, Group, rem, Title } from '@mantine/core';
 import { FormEvent, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from '~/i18n';
-import { BaseLayout } from '~/layouts/_base_layout';
+import { BaseLayout } from '~/layouts/base_layout';
 import { appendCollectionId } from '~/lib/navigation';
 
 export interface FormLayoutProps extends PropsWithChildren {
