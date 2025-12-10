@@ -25,34 +25,18 @@
 	--mantine-color-body: var(--ml-bg-dark) !important;
 }
 
-.__transition_fadeIn {
-	transform-origin: 50% top;
-	animation: fadeIn 0.15s ease both;
-}
-
-.__transition_fadeOut {
-	transform-origin: 50% top;
-	animation: fadeOut 0.15s ease both;
-}
-
-@keyframes fadeIn {
+@keyframes pageFadeIn {
 	from {
 		opacity: 0;
-		transform: scale(0.9);
+		filter: blur(0.44rem);
 	}
 	to {
 		opacity: 1;
-		transform: none;
+		filter: blur(0);
 	}
 }
 
-@keyframes fadeOut {
-	from {
-		opacity: 1;
-		transform: none;
-	}
-	to {
-		opacity: 0;
-		transform: scale(0.9);
-	}
+.page-transition-enter {
+	animation: pageFadeIn 250ms ease forwards;
+	will-change: opacity, filter;
 }
