@@ -1,11 +1,15 @@
+import { LinkWithCollection } from '#shared/types/dto';
 import { Card, Flex, Group, Text } from '@mantine/core';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
 import LinkControls from '~/components/dashboard/link/item/link_controls';
-import { LinkWithCollection } from '~/types/app';
 import styles from './favorite_item.module.css';
 
-export const FavoriteItem = ({ link }: { link: LinkWithCollection }) => (
+interface FavoriteItemProps {
+	link: LinkWithCollection;
+}
+
+export const FavoriteItem = ({ link }: FavoriteItemProps) => (
 	<ExternalLinkStyled href={link.url} title={link.url}>
 		<Card className={styles.linkWrapper}>
 			<Group gap="xs" wrap="nowrap">

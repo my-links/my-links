@@ -1,4 +1,4 @@
-import { Collection, CollectionWithLinks, Link } from '~/types/app';
+import { Collection, CollectionWithLinks, Link } from '#shared/types/dto';
 
 export const appendCollectionId = (
 	url: string,

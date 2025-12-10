@@ -19,7 +19,6 @@ export default class DisplayPreferencesController {
 				getDisplayPreferences().collectionListDisplay,
 		};
 		auth.user!.displayPreferences = mergedPrefs;
-		console.log(auth.user!.displayPreferences);
 		await auth.user!.save();
 		return response.redirect().withQs().back();
 	}

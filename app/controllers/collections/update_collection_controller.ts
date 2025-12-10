@@ -1,3 +1,4 @@
+import { CollectionDto } from '#dtos/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { updateCollectionValidator } from '#validators/collections/update_collection_validator';
 import { inject } from '@adonisjs/core';
@@ -14,7 +15,7 @@ export default class UpdateCollectionController {
 		const collection =
 			await this.collectionService.getCollectionById(collectionId);
 		return inertia.render('collections/edit', {
-			collection: collection.serialize(),
+			collection: new CollectionDto(collection).serialize(),
 		});
 	}
 

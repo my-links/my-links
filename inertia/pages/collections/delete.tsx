@@ -1,3 +1,4 @@
+import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
@@ -5,13 +6,14 @@ import {
 	FormCollection,
 	FormCollectionData,
 } from '~/components/form/form_collection';
-import { Collection } from '~/types/app';
+
+interface DeleteCollectionPageProps {
+	collection: Collection;
+}
 
 export default function DeleteCollectionPage({
 	collection,
-}: {
-	collection: Collection;
-}) {
+}: DeleteCollectionPageProps) {
 	const { t } = useTranslation('common');
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({

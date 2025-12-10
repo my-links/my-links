@@ -1,3 +1,4 @@
+import { LinkWithCollectionDto } from '#dtos/link_with_collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { LinkService } from '#services/links/link_service';
 import { deleteLinkValidator } from '#validators/links/delete_link_validator';
@@ -20,7 +21,9 @@ export default class DeleteLinkController {
 
 		const link = await this.linkService.getLinkById(linkId, auth.user!.id);
 		await link.load('collection');
-		return inertia.render('links/delete', { link });
+		return inertia.render('links/delete', {
+			link: new LinkWithCollectionDto(link).serialize(),
+		});
 	}
 
 	async execute({ request, auth }: HttpContext) {

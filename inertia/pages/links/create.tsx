@@ -1,3 +1,4 @@
+import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
@@ -5,13 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { FormLink } from '~/components/form/form_link';
 import useSearchParam from '~/hooks/use_search_param';
 import { isValidHttpUrl } from '~/lib/navigation';
-import { Collection } from '~/types/app';
 
-export default function CreateLinkPage({
-	collections,
-}: {
+interface CreateLinkPageProps {
 	collections: Collection[];
-}) {
+}
+
+export default function CreateLinkPage({ collections }: CreateLinkPageProps) {
 	const { t } = useTranslation('common');
 	const collectionId =
 		Number(useSearchParam('collectionId')) ?? collections[0].id;

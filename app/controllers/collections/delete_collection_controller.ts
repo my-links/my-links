@@ -1,3 +1,4 @@
+import { CollectionDto } from '#dtos/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { deleteCollectionValidator } from '#validators/collections/delete_collection_validator';
 import { inject } from '@adonisjs/core';
@@ -14,7 +15,7 @@ export default class DeleteCollectionController {
 		const collection =
 			await this.collectionService.getCollectionById(collectionId);
 		return inertia.render('collections/delete', {
-			collection,
+			collection: new CollectionDto(collection).serialize(),
 		});
 	}
 

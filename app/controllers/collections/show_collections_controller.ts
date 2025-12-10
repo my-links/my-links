@@ -1,3 +1,5 @@
+import { CollectionDto } from '#dtos/collection';
+import { LinkDto } from '#dtos/link';
 import { CollectionService } from '#services/collections/collection_service';
 import { LinkService } from '#services/links/link_service';
 import { inject } from '@adonisjs/core';
@@ -28,9 +30,11 @@ export default class ShowCollectionsController {
 		}
 
 		return inertia.render('dashboard', {
-			collections: collections.map((collection) => collection.serialize()),
-			favoriteLinks: favoriteLinks.map((link) => link.serialize()),
-			activeCollection: activeCollection?.serialize(),
+			collections: CollectionDto.fromArray(collections),
+			favoriteLinks: LinkDto.fromArray(favoriteLinks),
+			activeCollection: activeCollection
+				? new CollectionDto(activeCollection).serialize()
+				: null,
 		});
 	}
 }

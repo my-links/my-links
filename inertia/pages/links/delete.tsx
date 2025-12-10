@@ -1,10 +1,14 @@
+import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { FormLink } from '~/components/form/form_link';
-import { LinkWithCollection } from '~/types/app';
 
-export default function DeleteLinkPage({ link }: { link: LinkWithCollection }) {
+interface DeleteLinkPageProps {
+	link: LinkWithCollection;
+}
+
+export default function DeleteLinkPage({ link }: DeleteLinkPageProps) {
 	const { t } = useTranslation('common');
 	const { data, setData, submit, processing } = useForm({
 		name: link.name,

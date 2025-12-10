@@ -1,10 +1,10 @@
+import { Collection } from '#shared/types/dto';
 import { Checkbox, Select, TextInput } from '@mantine/core';
 import { FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import useSearchParam from '~/hooks/use_search_param';
 import { FormLayout, FormLayoutProps } from '~/layouts/form_layout';
-import { Collection } from '~/types/app';
 
 export type FormLinkData = {
 	name: string;

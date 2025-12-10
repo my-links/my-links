@@ -1,18 +1,17 @@
+import { Collection, LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormLink } from '~/components/form/form_link';
 import { isValidHttpUrl } from '~/lib/navigation';
-import { Collection, Link } from '~/types/app';
 
-export default function EditLinkPage({
-	collections,
-	link,
-}: {
+interface EditLinkPageProps {
 	collections: Collection[];
-	link: Link;
-}) {
+	link: LinkWithCollection;
+}
+
+export default function EditLinkPage({ collections, link }: EditLinkPageProps) {
 	const { t } = useTranslation('common');
 	const { data, setData, submit, processing } = useForm({
 		name: link.name,

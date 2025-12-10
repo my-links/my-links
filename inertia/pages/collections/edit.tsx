@@ -1,3 +1,4 @@
+import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
@@ -6,13 +7,14 @@ import {
 	FormCollection,
 	FormCollectionData,
 } from '~/components/form/form_collection';
-import { Collection } from '~/types/app';
+
+interface EditCollectionPageProps {
+	collection: Collection;
+}
 
 export default function EditCollectionPage({
 	collection,
-}: {
-	collection: Collection;
-}) {
+}: EditCollectionPageProps) {
 	const { t } = useTranslation('common');
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({

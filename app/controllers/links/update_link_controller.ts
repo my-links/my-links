@@ -1,3 +1,5 @@
+import { CollectionDto } from '#dtos/collection';
+import { LinkDto } from '#dtos/link';
 import { CollectionService } from '#services/collections/collection_service';
 import { LinkService } from '#services/links/link_service';
 import { updateLinkValidator } from '#validators/links/update_link_validator';
@@ -21,7 +23,10 @@ export default class UpdateLinkController {
 			await this.collectionsService.getCollectionsForAuthenticatedUser();
 		const link = await this.linkService.getLinkById(linkId, auth.user!.id);
 
-		return inertia.render('links/edit', { collections, link });
+		return inertia.render('links/edit', {
+			collections: CollectionDto.fromArray(collections),
+			link: new LinkDto(link).serialize(),
+		});
 	}
 
 	async execute({ request }: HttpContext) {

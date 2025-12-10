@@ -1,3 +1,4 @@
+import { UserWithCounters } from '#shared/types/dto';
 import {
 	ScrollArea,
 	Table,
@@ -15,23 +16,16 @@ import { Th } from '~/components/admin/users/th';
 import { sortData } from '~/components/admin/users/utils';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { DATE_FORMAT } from '~/constants';
-import { User } from '~/types/app';
 
 dayjs.extend(relativeTime);
 
-export type UserWithCounts = User & {
-	linksCount: number;
-	collectionsCount: number;
-};
-export type UsersWithCounts = UserWithCounts[];
-
-export type Columns = keyof UserWithCounts;
+export type Columns = keyof UserWithCounters;
 
 const DEFAULT_SORT_BY: Columns = 'lastSeenAt';
 const DEFAULT_SORT_DIRECTION = true;
 
 export interface UsersTableProps {
-	users: UsersWithCounts;
+	users: UserWithCounters[];
 	totalCollections: number;
 	totalLinks: number;
 }
@@ -56,7 +50,7 @@ export function UsersTable({
 		})
 	);
 
-	const setSorting = (field: keyof UserWithCounts) => {
+	const setSorting = (field: keyof UserWithCounters) => {
 		const reversed = field === sortBy ? !reverseSortDirection : false;
 		setReverseSortDirection(reversed);
 		setSortBy(field);
@@ -75,11 +69,14 @@ export function UsersTable({
 		);
 	};
 
-	const renderDateCell = (date: string) => (
-		<Tooltip label={dayjs(date).format(DATE_FORMAT).toString()}>
-			<Text>{dayjs(date).fromNow()}</Text>
-		</Tooltip>
-	);
+	const renderDateCell = (date: string | null) => {
+		if (!date) return '-';
+		return (
+			<Tooltip label={dayjs(date).format(DATE_FORMAT).toString()}>
+				<Text>{dayjs(date).fromNow()}</Text>
+			</Tooltip>
+		);
+	};
 
 	const rows = sortedData.map((user) => (
 		<Table.Tr key={user.id}>
