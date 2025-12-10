@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import i18n from '~/i18n';
 import { BaseLayout } from '~/layouts/base_layout';
-import { appendCollectionId } from '~/lib/navigation';
 
 export interface FormLayoutProps extends PropsWithChildren {
 	title: string;
@@ -16,7 +15,6 @@ export interface FormLayoutProps extends PropsWithChildren {
 
 	disableHomeLink?: boolean;
 	submitBtnDanger?: boolean;
-	collectionId?: number;
 }
 
 function FormLayout({
@@ -29,7 +27,6 @@ function FormLayout({
 
 	disableHomeLink = false,
 	submitBtnDanger = false,
-	collectionId,
 }: FormLayoutProps) {
 	const { t } = useTranslation('common');
 	const tuyau = useTuyauRequired();
@@ -73,10 +70,7 @@ function FormLayout({
 						{!disableHomeLink && (
 							<Anchor
 								component={Link}
-								href={appendCollectionId(
-									tuyau.$route('dashboard').path,
-									collectionId
-								)}
+								href={tuyau.$route('dashboard').path}
 								disabled={disableHomeLink}
 							>
 								{t('back-home')}
