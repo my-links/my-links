@@ -1,45 +1,23 @@
-import { Box, rem } from '@mantine/core';
 import { PropsWithChildren } from 'react';
-import { FloatingNavbar } from '~/components/common/floating_navbar/floating_navbar';
-import { Footer } from '~/components/common/footer/footer';
+import { Footer } from '~/components/common/footer';
+import { Navbar } from '~/components/common/navbar';
 import { BaseLayout } from './base_layout';
 
 const SmallContentLayout = ({ children }: PropsWithChildren) => (
 	<BaseLayout>
-		<Layout>{children}</Layout>
+		<div
+			className="bg-gray-50 dark:bg-gray-900 h-screen overflow-hidden"
+			data-page-transition
+		>
+			<div className="h-full max-w-[1500px] mx-auto p-4 flex flex-col gap-6">
+				<Navbar />
+				<div className="flex-1 min-h-0 flex flex-col">
+					<div className="w-full max-w-[800px] mx-auto my-8">{children}</div>
+				</div>
+				<Footer />
+			</div>
+		</div>
 	</BaseLayout>
 );
 
 export default SmallContentLayout;
-
-const LAYOUT_WIDTH = '1500px';
-const CONTENT_WIDTH = '800px';
-const Layout = ({ children }: PropsWithChildren) => (
-	<>
-		{/* Top navbar */}
-		<FloatingNavbar width={LAYOUT_WIDTH} />
-
-		{/* Page content */}
-		<Box
-			style={{
-				paddingInline: 'var(--mantine-spacing-lg)',
-				flex: 1,
-			}}
-		>
-			<Box
-				style={{
-					height: '100%',
-					maxWidth: '100%',
-					width: CONTENT_WIDTH,
-					marginInline: 'auto',
-					marginBlock: rem(30),
-				}}
-			>
-				{children}
-			</Box>
-		</Box>
-
-		{/* Footer */}
-		<Footer />
-	</>
-);
