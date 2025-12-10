@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import {
 	ActionIcon,
 	AppShell,
@@ -17,6 +16,7 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import { IoTrashOutline } from 'react-icons/io5';
 import { ShareCollection } from '~/components/share/share_collection';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
 import { Visibility } from '~/types/app';
 
@@ -33,6 +33,8 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 	const { t } = useTranslation('common');
 	const activeCollection = useActiveCollection();
+	const tuyau = useTuyauRequired();
+
 	return (
 		<AppShell.Header style={{ display: 'flex', alignItems: 'center' }}>
 			<Group justify="space-between" px="md" flex={1} wrap="nowrap">
@@ -70,7 +72,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 							<Menu.Item
 								component={Link}
 								href={appendCollectionId(
-									route('link.create-form').path,
+									tuyau.$route('link.create-form').path,
 									activeCollection?.id
 								)}
 								leftSection={<IoIosAddCircleOutline />}
@@ -81,7 +83,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 							<Menu.Item
 								component={Link}
 								href={appendCollectionId(
-									route('collection.edit-form').path,
+									tuyau.$route('collection.edit-form').path,
 									activeCollection?.id
 								)}
 								leftSection={<GoPencil />}
@@ -92,7 +94,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 							<Menu.Item
 								component={Link}
 								href={appendCollectionId(
-									route('collection.delete-form').path,
+									tuyau.$route('collection.delete-form').path,
 									activeCollection?.id
 								)}
 								leftSection={<IoTrashOutline />}

@@ -2,10 +2,10 @@ import User from '#models/user';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import db from '@adonisjs/lucid/services/db';
-import { RouteName } from '@izzyjs/route/types';
+import type { ApiRouteName } from '#shared/types/index';
 
 export default class AuthController {
-	private redirectTo: RouteName = 'auth';
+	private redirectTo: ApiRouteName = 'auth';
 
 	login({ inertia }: HttpContext) {
 		return inertia.render('login');

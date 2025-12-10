@@ -1,11 +1,11 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormLink } from '~/components/form/form_link';
 import useSearchParam from '~/hooks/use_search_param';
 import { isValidHttpUrl } from '~/lib/navigation';
+import { useRouteHelper } from '~/lib/route_helper';
 
 interface CreateLinkPageProps {
 	collections: Collection[];
@@ -31,6 +31,8 @@ export default function CreateLinkPage({ collections }: CreateLinkPageProps) {
 			!processing,
 		[data, processing]
 	);
+
+	const { route } = useRouteHelper();
 
 	const handleSubmit = () => {
 		const { method, url } = route('link.create');

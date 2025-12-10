@@ -1,8 +1,8 @@
 import { Head, Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { Anchor, Button, Container, Group, rem, Title } from '@mantine/core';
 import { FormEvent, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import i18n from '~/i18n';
 import { BaseLayout } from '~/layouts/base_layout';
 import { appendCollectionId } from '~/lib/navigation';
@@ -32,6 +32,8 @@ function FormLayout({
 	collectionId,
 }: FormLayoutProps) {
 	const { t } = useTranslation('common');
+	const tuyau = useTuyauRequired();
+
 	return (
 		<Container
 			data-page-transition
@@ -71,7 +73,10 @@ function FormLayout({
 						{!disableHomeLink && (
 							<Anchor
 								component={Link}
-								href={appendCollectionId(route('dashboard').path, collectionId)}
+								href={appendCollectionId(
+									tuyau.$route('dashboard').path,
+									collectionId
+								)}
 								disabled={disableHomeLink}
 							>
 								{t('back-home')}

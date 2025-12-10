@@ -1,10 +1,10 @@
 import { Collection, LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormLink } from '~/components/form/form_link';
 import { isValidHttpUrl } from '~/lib/navigation';
+import { useRouteHelper } from '~/lib/route_helper';
 
 interface EditLinkPageProps {
 	collections: Collection[];
@@ -40,6 +40,8 @@ export default function EditLinkPage({ collections, link }: EditLinkPageProps) {
 
 		return isFormEdited && isFormValid && !processing;
 	}, [data, processing]);
+
+	const { route } = useRouteHelper();
 
 	const handleSubmit = () => {
 		const { method, url } = route('link.edit', {

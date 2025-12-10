@@ -1,8 +1,8 @@
 import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import { FormLink } from '~/components/form/form_link';
+import { useRouteHelper } from '~/lib/route_helper';
 
 interface DeleteLinkPageProps {
 	link: LinkWithCollection;
@@ -17,6 +17,8 @@ export default function DeleteLinkPage({ link }: DeleteLinkPageProps) {
 		favorite: link.favorite,
 		collectionId: link.collectionId,
 	});
+
+	const { route } = useRouteHelper();
 
 	const handleSubmit = () => {
 		const { method, url } = route('link.delete', {
