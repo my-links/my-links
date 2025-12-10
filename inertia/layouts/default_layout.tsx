@@ -2,7 +2,7 @@ import { Box, rem } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 import { FloatingNavbar } from '~/components/common/floating_navbar/floating_navbar';
 import { Footer } from '~/components/common/footer/footer';
-import { BaseLayout } from './_base_layout';
+import { BaseLayout } from './base_layout';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => (
 	<BaseLayout>

@@ -15,8 +15,9 @@ import { TuyauProvider } from '@tuyau/inertia/react';
 import dayjs from 'dayjs';
 import { ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import 'virtual:uno.css';
+import '~/css/app.css';
 import { useAppUrl } from '~/hooks/use_app_url';
-import '../styles/index.css';
 
 const TRANSITION_IN_CLASS = '__transition_fadeIn';
 const TRANSITION_OUT_CLASS = '__transition_fadeOut';

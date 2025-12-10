@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { BaseLayout } from '~/layouts/_base_layout';
+import { BaseLayout } from '~/layouts/base_layout';
 
 const LayoutWrapper = ({ children }: PropsWithChildren) => (
 	<BaseLayout>{children}</BaseLayout>
