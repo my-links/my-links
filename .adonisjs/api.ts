@@ -10,184 +10,307 @@ import type { InferInput } from '@vinejs/vine/types';
 type AdminGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/admin/controllers/admin_controller.ts').default['index'],
+		import('../app/controllers/admin/admin_controller.ts').default['index'],
+		false
+	>;
+};
+type ApiV1CollectionsPost = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/collections/create_collection_validator.ts'))['createCollectionValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/collections/create_collection_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1CollectionsIdDelete = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/collections/delete_collection_validator.ts'))['deleteCollectionValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/collections/delete_collection_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1CollectionsGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/collections/get_collections_controller.ts').default['show'],
+		false
+	>;
+};
+type ApiV1CollectionsIdPut = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/collections/update_collection_validator.ts'))['updateCollectionValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/collections/update_collection_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1LinksPost = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/links/create_link_validator.ts'))['createLinkValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/links/create_link_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1LinksIdDelete = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/links/delete_link_validator.ts'))['deleteLinkValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/links/delete_link_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1LinksFavoritesGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/links/get_favorite_links_controller.ts').default['execute'],
+		false
+	>;
+};
+type ApiV1LinksIdPut = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/links/update_link_validator.ts'))['updateLinkValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/links/update_link_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1TokensCheckGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/tokens/api_token_controller.ts').default['index'],
 		false
 	>;
 };
 type AuthCallbackGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/auth/controllers/auth_controller.ts').default['callbackAuth'],
+		import('../app/controllers/auth/auth_controller.ts').default['callbackAuth'],
 		false
 	>;
 };
 type AuthLogoutGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/auth/controllers/auth_controller.ts').default['logout'],
+		import('../app/controllers/auth/auth_controller.ts').default['logout'],
 		false
 	>;
 };
 type DashboardGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/show_collections_controller.ts').default['render'],
+		import('../app/controllers/collections/show_collections_controller.ts').default['render'],
 		false
 	>;
 };
 type CollectionsCreateGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/create_collection_controller.ts').default['render'],
+		import('../app/controllers/collections/create_collection_controller.ts').default['render'],
 		false
 	>;
 };
 type CollectionsPost = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/collections/validators/create_collection_validator.ts'))['createCollectionValidator']
+			(typeof import('../app/validators/collections/create_collection_validator.ts'))['createCollectionValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/create_collection_controller.ts').default['execute'],
+		import('../app/controllers/collections/create_collection_controller.ts').default['execute'],
 		true
 	>;
 };
 type CollectionsEditGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/update_collection_controller.ts').default['render'],
+		import('../app/controllers/collections/update_collection_controller.ts').default['render'],
 		false
 	>;
 };
 type CollectionsIdPut = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/collections/validators/update_collection_validator.ts'))['updateCollectionValidator']
+			(typeof import('../app/validators/collections/update_collection_validator.ts'))['updateCollectionValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/update_collection_controller.ts').default['execute'],
+		import('../app/controllers/collections/update_collection_controller.ts').default['execute'],
 		true
 	>;
 };
 type CollectionsDeleteGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/delete_collection_controller.ts').default['render'],
+		import('../app/controllers/collections/delete_collection_controller.ts').default['render'],
 		false
 	>;
 };
 type CollectionsIdDelete = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/collections/validators/delete_collection_validator.ts'))['deleteCollectionValidator']
+			(typeof import('../app/validators/collections/delete_collection_validator.ts'))['deleteCollectionValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/collections/controllers/delete_collection_controller.ts').default['execute'],
+		import('../app/controllers/collections/delete_collection_controller.ts').default['execute'],
 		true
 	>;
 };
 type FaviconGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/favicons/controllers/favicons_controller.ts').default['index'],
+		import('../app/controllers/favicons/favicons_controller.ts').default['index'],
 		false
 	>;
 };
 type LinksCreateGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['showCreatePage'],
+		import('../app/controllers/links/create_link_controller.ts').default['render'],
 		false
 	>;
 };
 type LinksPost = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/links/validators/create_link_validator.ts'))['createLinkValidator']
+			(typeof import('../app/validators/links/create_link_validator.ts'))['createLinkValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['store'],
+		import('../app/controllers/links/create_link_controller.ts').default['execute'],
 		true
 	>;
 };
 type LinksEditGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['showEditPage'],
+		import('../app/controllers/links/update_link_controller.ts').default['render'],
 		false
 	>;
 };
 type LinksIdPut = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/links/validators/update_link_validator.ts'))['updateLinkValidator']
+			(typeof import('../app/validators/links/update_link_validator.ts'))['updateLinkValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['update'],
+		import('../app/controllers/links/update_link_controller.ts').default['execute'],
 		true
 	>;
 };
 type LinksIdFavoritePut = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/links/validators/update_favorite_link_validator.ts'))['updateLinkFavoriteStatusValidator']
+			(typeof import('../app/validators/links/update_favorite_link_validator.ts'))['updateLinkFavoriteStatusValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['toggleFavorite'],
+		import('../app/controllers/links/toggle_favorite_controller.ts').default['toggleFavorite'],
 		true
 	>;
 };
 type LinksDeleteGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['showDeletePage'],
+		import('../app/controllers/links/delete_link_controller.ts').default['render'],
 		false
 	>;
 };
 type LinksIdDelete = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/links/validators/delete_link_validator.ts'))['deleteLinkValidator']
+			(typeof import('../app/validators/links/delete_link_validator.ts'))['deleteLinkValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/links/controllers/delete_link_controller.js').default['execute'],
+		import('../app/controllers/links/delete_link_controller.ts').default['execute'],
 		true
 	>;
 };
 type SearchGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/search/controllers/search_controller.ts').default['search'],
+		import('../app/controllers/search/search_controller.ts').default['search'],
 		false
 	>;
 };
 type SharedIdGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/shared_collections/shared_collections_controller.ts').default['index'],
+		false
+	>;
+};
+type UserApitokensPost = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/shared_collections/validators/shared_collection.ts'))['getSharedCollectionValidator']
+			(typeof import('../app/validators/user/token/create_api_token.ts'))['createApiTokenValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/shared_collections/controllers/shared_collections_controller.ts').default['index'],
+		import('../app/controllers/user/api_token_controller.ts').default['store'],
+		true
+	>;
+};
+type UserApitokensIdDelete = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/user/token/delete_api_token.ts'))['deleteApiTokenValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user/api_token_controller.ts').default['destroy'],
+		true
+	>;
+};
+type UserDisplaypreferencesPost = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/user/update_display_preferences.ts'))['updateDisplayPreferencesValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user/display_preferences_controller.ts').default['update'],
 		true
 	>;
 };
 type UserThemePost = {
 	request: MakeTuyauRequest<
 		InferInput<
-			(typeof import('../app/user/validators/update_theme_validator.ts'))['updateThemeValidator']
+			(typeof import('../app/validators/user/update_theme_validator.ts'))['updateThemeValidator']
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/user/controllers/theme_controller.ts').default['index'],
+		import('../app/controllers/user/theme_controller.ts').default['index'],
 		true
+	>;
+};
+type UserSettingsGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user_settings/show_user_settings_controller.ts').default['render'],
+		false
 	>;
 };
 export interface ApiDefinition {
@@ -195,6 +318,42 @@ export interface ApiDefinition {
 		$url: {};
 		$get: AdminGetHead;
 		$head: AdminGetHead;
+	};
+	api: {
+		v1: {
+			collections: {
+				$url: {};
+				$post: ApiV1CollectionsPost;
+				':id': {
+					$url: {};
+					$delete: ApiV1CollectionsIdDelete;
+					$put: ApiV1CollectionsIdPut;
+				};
+				$get: ApiV1CollectionsGetHead;
+				$head: ApiV1CollectionsGetHead;
+			};
+			links: {
+				$url: {};
+				$post: ApiV1LinksPost;
+				':id': {
+					$url: {};
+					$delete: ApiV1LinksIdDelete;
+					$put: ApiV1LinksIdPut;
+				};
+				favorites: {
+					$url: {};
+					$get: ApiV1LinksFavoritesGetHead;
+					$head: ApiV1LinksFavoritesGetHead;
+				};
+			};
+			tokens: {
+				check: {
+					$url: {};
+					$get: ApiV1TokensCheckGetHead;
+					$head: ApiV1TokensCheckGetHead;
+				};
+			};
+		};
 	};
 	auth: {
 		callback: {
@@ -283,9 +442,26 @@ export interface ApiDefinition {
 		};
 	};
 	user: {
+		'api-tokens': {
+			$url: {};
+			$post: UserApitokensPost;
+			':tokenId': {
+				$url: {};
+				$delete: UserApitokensIdDelete;
+			};
+		};
+		'display-preferences': {
+			$url: {};
+			$post: UserDisplaypreferencesPost;
+		};
 		theme: {
 			$url: {};
 			$post: UserThemePost;
+		};
+		settings: {
+			$url: {};
+			$get: UserSettingsGetHead;
+			$head: UserSettingsGetHead;
 		};
 	};
 }
@@ -296,6 +472,69 @@ const routes = [
 		path: '/admin',
 		method: ['GET', 'HEAD'],
 		types: {} as AdminGetHead,
+	},
+	{
+		params: [],
+		name: 'api-collections.create',
+		path: '/api/v1/collections',
+		method: ['POST'],
+		types: {} as ApiV1CollectionsPost,
+	},
+	{
+		params: ['id'],
+		name: 'api-collections.delete',
+		path: '/api/v1/collections/:id',
+		method: ['DELETE'],
+		types: {} as ApiV1CollectionsIdDelete,
+	},
+	{
+		params: [],
+		name: 'api-collections.index',
+		path: '/api/v1/collections',
+		method: ['GET', 'HEAD'],
+		types: {} as ApiV1CollectionsGetHead,
+	},
+	{
+		params: ['id'],
+		name: 'api-collections.update',
+		path: '/api/v1/collections/:id',
+		method: ['PUT'],
+		types: {} as ApiV1CollectionsIdPut,
+	},
+	{
+		params: [],
+		name: 'api-links.create',
+		path: '/api/v1/links',
+		method: ['POST'],
+		types: {} as ApiV1LinksPost,
+	},
+	{
+		params: ['id'],
+		name: 'api-links.delete',
+		path: '/api/v1/links/:id',
+		method: ['DELETE'],
+		types: {} as ApiV1LinksIdDelete,
+	},
+	{
+		params: [],
+		name: 'api-links.get-favorite-links',
+		path: '/api/v1/links/favorites',
+		method: ['GET', 'HEAD'],
+		types: {} as ApiV1LinksFavoritesGetHead,
+	},
+	{
+		params: ['id'],
+		name: 'api-links.update',
+		path: '/api/v1/links/:id',
+		method: ['PUT'],
+		types: {} as ApiV1LinksIdPut,
+	},
+	{
+		params: [],
+		name: 'api-tokens.index',
+		path: '/api/v1/tokens/check',
+		method: ['GET', 'HEAD'],
+		types: {} as ApiV1TokensCheckGetHead,
 	},
 	{
 		params: [],
@@ -460,10 +699,38 @@ const routes = [
 	},
 	{
 		params: [],
+		name: 'user.api-tokens.store',
+		path: '/user/api-tokens',
+		method: ['POST'],
+		types: {} as UserApitokensPost,
+	},
+	{
+		params: ['tokenId'],
+		name: 'user.api-tokens.destroy',
+		path: '/user/api-tokens/:tokenId',
+		method: ['DELETE'],
+		types: {} as UserApitokensIdDelete,
+	},
+	{
+		params: [],
+		name: 'user.update-display-preferences',
+		path: '/user/display-preferences',
+		method: ['POST'],
+		types: {} as UserDisplaypreferencesPost,
+	},
+	{
+		params: [],
 		name: 'user.theme',
 		path: '/user/theme',
 		method: ['POST'],
 		types: {} as UserThemePost,
+	},
+	{
+		params: [],
+		name: 'user.settings',
+		path: '/user/settings',
+		method: ['GET', 'HEAD'],
+		types: {} as UserSettingsGetHead,
 	},
 ] as const;
 export const api = {

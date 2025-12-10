@@ -1,7 +1,7 @@
-import Collection from '#collections/models/collection';
+import Collection from '#models/collection';
 import { getUserIds } from '#database/seeders/collection_seeder';
-import Link from '#links/models/link';
-import User from '#user/models/user';
+import Link from '#models/link';
+import User from '#models/user';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';
 

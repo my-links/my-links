@@ -1,4 +1,4 @@
-import { Visibility } from '#collections/enums/visibility';
+import { Visibility } from '#enums/collections/visibility';
 import { defaultTableFields } from '#database/default_table_fields';
 import { BaseSchema } from '@adonisjs/lucid/schema';
 

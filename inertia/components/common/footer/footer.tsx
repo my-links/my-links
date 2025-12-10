@@ -1,5 +1,5 @@
 import { AUTHOR_GITHUB_URL, AUTHOR_NAME } from '#config/project';
-import PATHS from '#core/constants/paths';
+import PATHS from '#constants/paths';
 import { route } from '@izzyjs/route/client';
 import { Anchor, Group, Text } from '@mantine/core';
 import { withTranslation, WithTranslation } from 'react-i18next';

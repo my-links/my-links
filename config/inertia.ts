@@ -1,6 +1,6 @@
 import { isSSREnableForPage } from '#config/ssr';
+import { DEFAULT_USER_THEME, KEY_USER_THEME } from '#constants/user/theme';
 import env from '#start/env';
-import { DEFAULT_USER_THEME, KEY_USER_THEME } from '#user/constants/theme';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
 
