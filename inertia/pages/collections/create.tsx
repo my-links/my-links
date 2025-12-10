@@ -8,11 +8,13 @@ import {
 } from '~/components/form/form_collection';
 import { Visibility } from '~/types/app';
 
+interface CreateCollectionPageProps {
+	disableHomeLink: boolean;
+}
+
 export default function CreateCollectionPage({
 	disableHomeLink,
-}: {
-	disableHomeLink: boolean;
-}) {
+}: CreateCollectionPageProps) {
 	const { t } = useTranslation('common');
 	const { data, setData, submit, processing } = useForm<FormCollectionData>({
 		name: '',

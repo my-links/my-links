@@ -1,14 +1,14 @@
+import { Link } from '#shared/types/dto';
 import { Card, Flex, Group, Text } from '@mantine/core';
 import { AiFillStar } from 'react-icons/ai';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
 import LinkControls from '~/components/dashboard/link/item/link_controls';
 import type { LinkListProps } from '~/components/dashboard/link/list/link_list';
-import { Link, PublicLink } from '~/types/app';
 import styles from './link.module.css';
 
 interface LinkItemProps extends LinkListProps {
-	link: Link | PublicLink;
+	link: Link;
 }
 
 export function LinkItem({ link, hideMenu: hideMenu = false }: LinkItemProps) {

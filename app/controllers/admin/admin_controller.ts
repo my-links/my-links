@@ -1,27 +1,9 @@
 import AuthController from '#controllers/auth/auth_controller';
 import LinksController from '#controllers/links/delete_link_controller';
-import User from '#models/user';
+import { UserWithCountersDto } from '#dtos/user_with_counters';
 import { CollectionService } from '#services/collections/collection_service';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
-
-class UserWithRelationCountDto {
-	constructor(private user: User) {}
-
-	toJson = () => ({
-		id: this.user.id,
-		email: this.user.email,
-		fullname: this.user.name,
-		avatarUrl: this.user.avatarUrl,
-		isAdmin: this.user.isAdmin,
-		createdAt: this.user.createdAt.toString(),
-		updatedAt: this.user.updatedAt.toString(),
-		lastSeenAt:
-			this.user.lastSeenAt?.toString() ?? this.user.updatedAt.toString(),
-		linksCount: Number(this.user.$extras.totalLinks),
-		collectionsCount: Number(this.user.$extras.totalCollections),
-	});
-}
 
 @inject()
 export default class AdminController {
@@ -38,7 +20,7 @@ export default class AdminController {
 			await this.collectionService.getTotalCollectionsCount();
 
 		return inertia.render('admin/dashboard', {
-			users: users.map((user) => new UserWithRelationCountDto(user).toJson()),
+			users: UserWithCountersDto.fromArray(users),
 			totalLinks: linksCount,
 			totalCollections: collectionsCount,
 		});

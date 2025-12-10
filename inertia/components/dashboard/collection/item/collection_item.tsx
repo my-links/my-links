@@ -1,3 +1,4 @@
+import { CollectionWithLinks } from '#shared/types/dto';
 import { Link } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { Text } from '@mantine/core';
@@ -5,7 +6,6 @@ import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { appendCollectionId } from '~/lib/navigation';
-import { CollectionWithLinks } from '~/types/app';
 import classes from './collection_item.module.css';
 
 interface CollectionItemProps {

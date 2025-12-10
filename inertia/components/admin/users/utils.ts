@@ -1,22 +1,19 @@
-import {
-	UsersWithCounts,
-	UserWithCounts,
-} from '~/components/admin/users/users_table';
+import { UserWithCounters } from '#shared/types/dto';
 
-export function filterData(data: UsersWithCounts, search: string) {
+export function filterData(data: UserWithCounters[], search: string) {
 	const query = search.toLowerCase().trim();
 	return data.filter((item) =>
-		['email', 'name', 'nickName', 'fullname'].some((key) => {
-			const value = item[key as keyof UserWithCounts];
+		['email', 'fullname'].some((key) => {
+			const value = item[key as keyof UserWithCounters];
 			return typeof value === 'string' && value.toLowerCase().includes(query);
 		})
 	);
 }
 
 export function sortData(
-	data: UsersWithCounts,
+	data: UserWithCounters[],
 	payload: {
-		sortBy: keyof UserWithCounts | null;
+		sortBy: keyof UserWithCounters | null;
 		reversed: boolean;
 		search: string;
 	}
@@ -29,6 +26,7 @@ export function sortData(
 
 	return filterData(
 		[...data].sort((a, b) => {
+			if (!a[sortBy] || !b[sortBy]) return 0;
 			if (payload.reversed) {
 				return b[sortBy] > a[sortBy] ? 1 : -1;
 			}
