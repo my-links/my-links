@@ -1,10 +1,10 @@
+import { SharedCollection } from '#shared/types/dto';
 import { Flex, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { LinkList } from '~/components/dashboard/link/list/link_list';
-import type { CollectionWithLinks, PublicUser } from '~/types/app';
 
 interface SharedPageProps {
-	activeCollection: CollectionWithLinks & { author: PublicUser };
+	activeCollection: SharedCollection;
 }
 
 export default function SharedPage({ activeCollection }: SharedPageProps) {

@@ -1,6 +1,6 @@
+import { Link } from '#shared/types/dto';
 import { route } from '@izzyjs/route/client';
 import { makeRequest } from '~/lib/request';
-import { Link } from '~/types/app';
 
 export const onFavorite = (
 	linkId: Link['id'],

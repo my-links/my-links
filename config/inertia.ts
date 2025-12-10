@@ -1,10 +1,12 @@
 import { isSSREnableForPage } from '#config/ssr';
 import { DEFAULT_USER_THEME, KEY_USER_THEME } from '#constants/user/theme';
+import { UserAuthDto } from '#dtos/user_auth';
 import env from '#start/env';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
+import type { InferSharedProps } from '@adonisjs/inertia/types';
 
-export default defineConfig({
+const inertiaConfig = defineConfig({
 	/**
 	 * Path to the Edge view that will be used as the root view for Inertia responses
 	 */
@@ -19,13 +21,11 @@ export default defineConfig({
 		user: (ctx) => ({
 			theme: ctx.session?.get(KEY_USER_THEME, DEFAULT_USER_THEME),
 		}),
-		auth: async (ctx) => {
-			await ctx.auth?.check();
-			return {
-				user: ctx.auth?.user || null,
-				isAuthenticated: ctx.auth?.isAuthenticated || false,
-			};
-		},
+		auth: async (ctx) =>
+			ctx.inertia.always(async () => {
+				await ctx.auth?.check();
+				return new UserAuthDto(ctx.auth?.user).serialize();
+			}),
 		appUrl: env.get('APP_URL'),
 	},
 
@@ -42,3 +42,9 @@ export default defineConfig({
 		},
 	},
 });
+
+export default inertiaConfig;
+
+declare module '@adonisjs/inertia/types' {
+	export interface SharedProps extends InferSharedProps<typeof inertiaConfig> {}
+}

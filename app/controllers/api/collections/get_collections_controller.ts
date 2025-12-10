@@ -1,3 +1,4 @@
+import { CollectionWithLinksDto } from '#dtos/collection_with_links';
 import { CollectionService } from '#services/collections/collection_service';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
@@ -10,7 +11,7 @@ export default class GetCollectionsController {
 		const collections =
 			await this.collectionService.getCollectionsForAuthenticatedUser();
 		return response.json({
-			collections: collections.map((collection) => collection.serialize()),
+			collections: CollectionWithLinksDto.fromArray(collections),
 		});
 	}
 }
