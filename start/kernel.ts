@@ -15,7 +15,7 @@ import server from '@adonisjs/core/services/server';
  * The error handler is used to convert an exception
  * to a HTTP response.
  */
-server.errorHandler(() => import('#core/exceptions/handler'));
+server.errorHandler(() => import('#exceptions/handler'));
 
 /**
  * The server middleware stack runs middleware on all the HTTP
@@ -23,10 +23,10 @@ server.errorHandler(() => import('#core/exceptions/handler'));
  * the request URL.
  */
 server.use([
-	() => import('#core/middlewares/container_bindings_middleware'),
-	() => import('#core/middlewares/service_worker_scope_extender'),
+	() => import('#middlewares/container_bindings_middleware'),
+	() => import('#middlewares/service_worker_scope_extender'),
 	() => import('@adonisjs/static/static_middleware'),
-	() => import('#core/middlewares/log_request'),
+	() => import('#middlewares/log_request'),
 	() => import('@adonisjs/cors/cors_middleware'),
 	() => import('@adonisjs/vite/vite_middleware'),
 	() => import('@adonisjs/inertia/inertia_middleware'),
@@ -42,8 +42,8 @@ router.use([
 	() => import('@adonisjs/session/session_middleware'),
 	() => import('@adonisjs/shield/shield_middleware'),
 	() => import('@adonisjs/auth/initialize_auth_middleware'),
-	() => import('#auth/middlewares/silent_auth_middleware'),
-	() => import('#user/middlewares/update_user_last_seen_middleware'),
+	() => import('#middlewares/auth/silent_auth_middleware'),
+	() => import('#middlewares/user/update_user_last_seen_middleware'),
 ]);
 
 /**
@@ -51,7 +51,7 @@ router.use([
  * the routes or the routes group.
  */
 export const middleware = router.named({
-	admin: () => import('#admin/middlewares/is_admin_middleware'),
-	guest: () => import('#auth/middlewares/guest_middleware'),
-	auth: () => import('#auth/middlewares/auth_middleware'),
+	admin: () => import('#middlewares/admin/is_admin_middleware'),
+	guest: () => import('#middlewares/auth/guest_middleware'),
+	auth: () => import('#middlewares/auth/auth_middleware'),
 });
