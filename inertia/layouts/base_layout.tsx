@@ -1,6 +1,5 @@
 import { api } from '#adonis/api';
 import { PRIMARY_COLOR } from '#config/project';
-import { router } from '@inertiajs/react';
 import {
 	ColorSchemeScript,
 	createTheme,
@@ -13,14 +12,12 @@ import '@mantine/spotlight/styles.css';
 import { createTuyau } from '@tuyau/client';
 import { TuyauProvider } from '@tuyau/inertia/react';
 import dayjs from 'dayjs';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import 'virtual:uno.css';
 import '~/css/app.css';
 import { useAppUrl } from '~/hooks/use_app_url';
-
-const TRANSITION_IN_CLASS = '__transition_fadeIn';
-const TRANSITION_OUT_CLASS = '__transition_fadeOut';
+import { usePageTransition } from '~/hooks/use_page_transition';
 
 const customTheme = createTheme({
 	colors: {
@@ -78,45 +75,12 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 	const appUrl = useAppUrl();
 	dayjs.locale(i18n.language);
 
+	usePageTransition({ querySelector: '#app > div:nth-child(5)' });
+
 	const tuyauClient = createTuyau({
 		api,
 		baseUrl: appUrl,
 	});
-
-	const findAppElement = () => document.getElementById('app');
-
-	const flipClass = (addClass: string, removeClass: string) => {
-		const appElement = findAppElement();
-		if (appElement) {
-			appElement.classList.add(addClass);
-			appElement.classList.remove(removeClass);
-		}
-	};
-
-	const canTransition = (currentLocation: URL, newLocation: URL) =>
-		currentLocation.pathname !== newLocation.pathname;
-
-	useEffect(() => {
-		const currentLocation = new URL(window.location.href);
-
-		const removeStartEventListener = router.on(
-			'start',
-			(event) =>
-				canTransition(currentLocation, event.detail.visit.url) &&
-				flipClass(TRANSITION_OUT_CLASS, TRANSITION_IN_CLASS)
-		);
-		const removefinishEventListener = router.on(
-			'finish',
-			(event) =>
-				canTransition(currentLocation, event.detail.visit.url) &&
-				flipClass(TRANSITION_IN_CLASS, TRANSITION_OUT_CLASS)
-		);
-
-		return () => {
-			removeStartEventListener();
-			removefinishEventListener();
-		};
-	}, []);
 
 	return (
 		<TuyauProvider client={tuyauClient}>
