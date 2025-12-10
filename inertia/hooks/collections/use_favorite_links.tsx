@@ -1,6 +1,6 @@
+import { LinkWithCollection } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
-import { LinkWithCollection } from '~/types/app';
 
 interface UseFavoriteLinksProps {
 	favoriteLinks: LinkWithCollection[];

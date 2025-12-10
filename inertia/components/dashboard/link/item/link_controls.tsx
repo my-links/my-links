@@ -1,3 +1,4 @@
+import { Link } from '#shared/types/dto';
 import { Link as InertiaLink, router } from '@inertiajs/react';
 import { route } from '@izzyjs/route/client';
 import { ActionIcon, Menu } from '@mantine/core';
@@ -10,10 +11,9 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
-import { Link, PublicLink } from '~/types/app';
 
 interface LinksControlsProps {
-	link: Link | PublicLink;
+	link: Link;
 	showGoToCollection?: boolean;
 }
 export default function LinkControls({

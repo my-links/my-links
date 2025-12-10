@@ -1,6 +1,6 @@
+import { CollectionWithLinks } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
-import { CollectionWithLinks } from '~/types/app';
 
 interface UseActiveCollectionProps {
 	activeCollection?: CollectionWithLinks;

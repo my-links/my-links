@@ -1,3 +1,4 @@
+import { LinkDto } from '#dtos/link';
 import { LinkService } from '#services/links/link_service';
 import { createLinkValidator } from '#validators/links/create_link_validator';
 import { inject } from '@adonisjs/core';
@@ -17,7 +18,7 @@ export default class CreateLinkController {
 		});
 		return response.json({
 			message: 'Link created successfully',
-			link: link.serialize(),
+			link: new LinkDto(link).serialize(),
 		});
 	}
 }
