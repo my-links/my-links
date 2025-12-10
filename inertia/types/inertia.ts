@@ -15,3 +15,5 @@ export type InertiaPage<
 > = T & {
 	auth: Auth;
 };
+
+export type InertiaSuccessEvent = CustomEvent<InertiaSuccessDetail>;
