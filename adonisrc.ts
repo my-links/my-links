@@ -13,7 +13,6 @@ export default defineConfig({
 	commands: [
 		() => import('@adonisjs/core/commands'),
 		() => import('@adonisjs/lucid/commands'),
-		() => import('@izzyjs/route/commands'),
 		() => import('@tuyau/core/commands'),
 	],
 
@@ -44,7 +43,6 @@ export default defineConfig({
 		() => import('@adonisjs/auth/auth_provider'),
 		() => import('@adonisjs/inertia/inertia_provider'),
 		() => import('@adonisjs/ally/ally_provider'),
-		() => import('@izzyjs/route/izzy_provider'),
 		() => import('#providers/route_provider'),
 		() => import('@tuyau/core/tuyau_provider'),
 	],
@@ -111,6 +109,5 @@ export default defineConfig({
 	assetsBundler: false,
 	hooks: {
 		onBuildStarting: [() => import('@adonisjs/vite/build_hook')],
-		onDevServerStarted: [() => import('@izzyjs/route/dev_hook')],
 	},
 });

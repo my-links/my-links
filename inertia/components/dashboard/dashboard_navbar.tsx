@@ -1,5 +1,4 @@
 import { Link, router } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import {
 	AppShell,
 	Burger,
@@ -23,6 +22,7 @@ import { SearchSpotlight } from '~/components/search/search';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useAuth } from '~/hooks/use_auth';
 import useShortcut from '~/hooks/use_shortcut';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
@@ -33,6 +33,7 @@ interface DashboardNavbarProps {
 export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 	const { t } = useTranslation('common');
 	const { isAuthenticated, user } = useAuth();
+	const tuyau = useTuyauRequired();
 
 	const activeCollection = useActiveCollection();
 	const { globalHotkeysEnabled, setGlobalHotkeysEnabled } =
@@ -56,7 +57,10 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 		'OPEN_CREATE_LINK_KEY',
 		() =>
 			router.visit(
-				appendCollectionId(route('link.create-form').url, activeCollection?.id)
+				appendCollectionId(
+					tuyau.$route('link.create-form').path,
+					activeCollection?.id
+				)
 			),
 		{
 			enabled: globalHotkeysEnabled,
@@ -65,7 +69,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 
 	useShortcut(
 		'OPEN_CREATE_COLLECTION_KEY',
-		() => router.visit(route('collection.create-form').url),
+		() => router.visit(tuyau.$route('collection.create-form').path),
 		{
 			enabled: globalHotkeysEnabled,
 		}
@@ -86,11 +90,11 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			</Group>
 			<UserCard />
 			<Divider mt="xs" mb="md" />
-			{isAuthenticated && user.isAdmin && (
+			{isAuthenticated && user!.isAdmin && (
 				<NavLink
 					{...common}
 					component={Link}
-					href={route('admin.dashboard').path}
+					href={tuyau.$route('admin.dashboard').path}
 					label={t('admin')}
 					leftSection={<IoShieldHalfSharp size="1.5rem" />}
 					color="var(--mantine-color-red-5)"
@@ -121,7 +125,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			<NavLink
 				{...common}
 				component={Link}
-				href={route('link.create-form').path}
+				href={tuyau.$route('link.create-form').path}
 				label={t('link.create')}
 				leftSection={<IoAdd size="1.5rem" />}
 				rightSection={<Kbd size="xs">C</Kbd>}
@@ -129,7 +133,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			<NavLink
 				{...common}
 				component={Link}
-				href={route('collection.create-form').path}
+				href={tuyau.$route('collection.create-form').path}
 				label={t('collection.create')}
 				leftSection={<AiOutlineFolderAdd size="1.5rem" />}
 				rightSection={<Kbd size="xs">L</Kbd>}

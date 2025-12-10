@@ -1,10 +1,12 @@
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { Trans, useTranslation } from 'react-i18next';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import SmallContentLayout from '~/layouts/small_content';
 
 function TermsPage() {
 	const { t } = useTranslation('terms');
+	const tuyau = useTuyauRequired();
+
 	return (
 		<>
 			<h1>{t('title')}</h1>
@@ -29,7 +31,7 @@ function TermsPage() {
 			<p>
 				<Trans
 					i18nKey="personal_data.collect.description"
-					components={{ a: <Link href={route('privacy').path} /> }}
+					components={{ a: <Link href={tuyau.$route('privacy').path} /> }}
 				/>
 			</p>
 

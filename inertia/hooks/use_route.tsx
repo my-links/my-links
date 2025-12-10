@@ -1,6 +1,6 @@
 import { ApiRouteName } from '#shared/types/index';
-import { useTuyau } from '@tuyau/inertia/react';
 import { buildUrl } from '~/lib/navigation';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 
 interface TuyauRoute {
 	route: ApiRouteName;
@@ -29,14 +29,14 @@ type UseRouteReturn<T extends UseRouteProps> = T extends TuyauRoute
 export const useRoute = <T extends UseRouteProps>(
 	props: T
 ): UseRouteReturn<T> => {
-	const tuyau = useTuyau();
 	if ('href' in props) {
 		return {
 			url: props.href,
 		} as UseRouteReturn<T>;
 	}
 
-	const route = tuyau?.$route(props.route, props.params);
+	const tuyau = useTuyauRequired();
+	const route = tuyau.$route(props.route, props.params);
 	if (!route) {
 		throw new Error(`Route ${props.route} not found`);
 	}

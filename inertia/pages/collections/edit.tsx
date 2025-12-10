@@ -1,12 +1,12 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
 	FormCollection,
 	FormCollectionData,
 } from '~/components/form/form_collection';
+import { useRouteHelper } from '~/lib/route_helper';
 
 interface EditCollectionPageProps {
 	collection: Collection;
@@ -32,6 +32,8 @@ export default function EditCollectionPage({
 		const isFormValid = trimmedName !== '';
 		return isFormEdited && isFormValid && !processing;
 	}, [data, collection]);
+
+	const { route } = useRouteHelper();
 
 	const handleSubmit = () => {
 		const { method, url } = route('collection.edit', {

@@ -1,19 +1,18 @@
-import { route } from '@izzyjs/route/client';
 import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TbChevronRight } from 'react-icons/tb';
 import { useAuth } from '~/hooks/use_auth';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<'button'> {
 	image: string;
 	name: string;
-	email: string;
 	icon?: React.ReactNode;
 }
 
 const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
-	({ image, name, email, icon, ...others }: UserButtonProps, ref) => (
+	({ image, name, icon, ...others }: UserButtonProps, ref) => (
 		<UnstyledButton
 			ref={ref}
 			style={{
@@ -33,10 +32,6 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 					<Text size="sm" fw={500}>
 						{name}
 					</Text>
-
-					<Text c="dimmed" size="xs">
-						{email}
-					</Text>
 				</div>
 
 				{icon || <TbChevronRight size="1rem" />}
@@ -48,18 +43,17 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 export function UserCard() {
 	const { t } = useTranslation('common');
 	const { user, isAuthenticated } = useAuth();
+	const tuyau = useTuyauRequired();
+
 	return (
-		isAuthenticated && (
+		isAuthenticated &&
+		user && (
 			<Menu withArrow>
 				<Menu.Target>
-					<UserButton
-						image={user.avatarUrl}
-						name={user.fullname}
-						email={user.email}
-					/>
+					<UserButton image={user.avatarUrl} name={user.fullname} />
 				</Menu.Target>
 				<Menu.Dropdown>
-					<Menu.Item component="a" href={route('auth.logout').path}>
+					<Menu.Item component="a" href={tuyau.$route('auth.logout').path}>
 						{t('logout')}
 					</Menu.Item>
 				</Menu.Dropdown>

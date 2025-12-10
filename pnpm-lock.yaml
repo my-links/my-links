@@ -39,11 +39,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(@adonisjs/core@6.19.1(@adonisjs/assembler@7.8.2(typescript@5.9.3))(@vinejs/vine@4.1.0)(edge.js@6.3.0))(@adonisjs/shield@8.2.0(@adonisjs/core@6.19.1(@adonisjs/assembler@7.8.2(typescript@5.9.3))(@vinejs/vine@4.1.0)(edge.js@6.3.0))(@adonisjs/session@7.5.1(@adonisjs/core@6.19.1(@adonisjs/assembler@7.8.2(typescript@5.9.3))(@vinejs/vine@4.1.0)(edge.js@6.3.0))(edge.js@6.3.0))(edge.js@6.3.0))(edge.js@6.3.0)(vite@7.2.7(@types/node@24.10.0)(jiti@2.6.1)(lightningcss@1.30.1)(sugarss@5.0.1(postcss@8.5.6))(terser@5.43.1)(yaml@2.8.1))
       '@inertiajs/react':
-        specifier: ^2.3.1
-        version: 2.3.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@izzyjs/route':
-        specifier: ^2.1.7
-        version: 2.1.7(@adonisjs/core@6.19.1(@adonisjs/assembler@7.8.2(typescript@5.9.3))(@vinejs/vine@4.2.0)(edge.js@6.4.0))(edge.js@6.4.0)
+        specifier: ^2.2.15
+        version: 2.2.15(react@19.2.0)
       '@mantine/core':
         specifier: ^8.3.10
         version: 8.3.10(@mantine/hooks@8.3.10(react@19.2.3))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -1576,15 +1573,8 @@ packages:
     resolution: {integrity: sha512-ZT55BDLV0yv0RBm2czMiZ+SqCGO7AvmOM3G/w2xhVPH+te0aKgFjmBvGlL1dH+ql2tgGO3MVrbb3jCKyvpgnxA==}
     engines: {node: 20 || >=22}
 
-  '@izzyjs/route@2.1.7':
-    resolution: {integrity: sha512-8fn0JV0SoyCq75sa7gq3yjWrtir7b6NE7tkrZscg+95vlt05jj740JjTMcZHLPK12mJIocsv7o+HA6cgu0ftRw==}
-    engines: {node: '>=20.6.0'}
-    peerDependencies:
-      '@adonisjs/core': ^6.2.0
-      edge.js: ^6.0.2
-
-  '@japa/assert@4.2.0':
-    resolution: {integrity: sha512-Krgrcee01BN1StlVwK5JQP6LL5t3DE3uFNbfFoDTfW7kQuHB0xh6yfaV0hrgcoiEjsqmm2OOsVWeju9aXK4vIA==}
+  '@japa/assert@4.1.1':
+    resolution: {integrity: sha512-Hhv8A/gkd1b4Xa2Jti4XJ3FsP/pJ8ZXAWwvgYVKZQNcl79lqIHsMjMrL3e475pbf8lybB++FvXi4ruoz2SsiBA==}
     engines: {node: '>=18.16.0'}
     peerDependencies:
       '@japa/runner': ^3.1.2 || ^4.0.0 || ^5.0.0
@@ -7480,12 +7470,7 @@ snapshots:
     dependencies:
       '@isaacs/balanced-match': 4.0.1
 
-  '@izzyjs/route@2.1.7(@adonisjs/core@6.19.1(@adonisjs/assembler@7.8.2(typescript@5.9.3))(@vinejs/vine@4.2.0)(edge.js@6.4.0))(edge.js@6.4.0)':
-    dependencies:
-      '@adonisjs/core': 6.19.1(@adonisjs/assembler@7.8.2(typescript@5.9.3))(@vinejs/vine@4.2.0)(edge.js@6.4.0)
-      edge.js: 6.4.0
-
-  '@japa/assert@4.2.0(@japa/runner@4.4.0)':
+  '@japa/assert@4.1.1(@japa/runner@4.4.0)':
     dependencies:
       '@japa/runner': 4.4.0
       '@poppinss/macroable': 1.1.0

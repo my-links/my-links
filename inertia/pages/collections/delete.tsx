@@ -1,11 +1,11 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useTranslation } from 'react-i18next';
 import {
 	FormCollection,
 	FormCollectionData,
 } from '~/components/form/form_collection';
+import { useRouteHelper } from '~/lib/route_helper';
 
 interface DeleteCollectionPageProps {
 	collection: Collection;
@@ -21,6 +21,8 @@ export default function DeleteCollectionPage({
 			description: collection.description,
 			visibility: collection.visibility,
 		});
+
+	const { route } = useRouteHelper();
 
 	const handleSubmit = () => {
 		const { method, url } = route('collection.delete', {

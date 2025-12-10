@@ -1,5 +1,4 @@
 import { router } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { rem } from '@mantine/core';
 import { Spotlight, SpotlightActionData } from '@mantine/spotlight';
 import { useEffect, useState } from 'react';
@@ -7,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { AiOutlineFolder } from 'react-icons/ai';
 import { TbSearch } from 'react-icons/tb';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
 import { makeRequest } from '~/lib/request';
 import type { SearchResult } from '~/types/search';
@@ -21,6 +21,7 @@ export function SearchSpotlight({
 	closeCallback,
 }: SearchSpotlightProps) {
 	const { t } = useTranslation('common');
+	const tuyau = useTuyauRequired();
 
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const [results, setResults] = useState<SearchResult[]>([]);
@@ -33,10 +34,14 @@ export function SearchSpotlight({
 
 		setLoading(true);
 		const controller = new AbortController();
-		const { path, method } = route('search', { qs: { term: searchTerm } });
+		const routeInfo = tuyau.$route('search');
+		if (!routeInfo) {
+			throw new Error('Route search not found');
+		}
+		const url = `${routeInfo.path}?term=${encodeURIComponent(searchTerm)}`;
 		makeRequest({
-			method,
-			url: path,
+			method: routeInfo.method,
+			url,
 			controller,
 		})
 			.then(({ results: _results }) => {
@@ -53,12 +58,12 @@ export function SearchSpotlight({
 			controller.abort('Canceled by user');
 			setLoading(false);
 		};
-	}, [searchTerm]);
+	}, [searchTerm, tuyau]);
 
 	const handleResultSubmit = (result: SearchResult) => {
 		if (result.type === 'collection') {
 			return router.visit(
-				appendCollectionId(route('dashboard').path, result.id)
+				appendCollectionId(tuyau.$route('dashboard').path, result.id)
 			);
 		}
 
