@@ -1,5 +1,4 @@
 import { useForm } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -7,6 +6,7 @@ import {
 	FormCollectionData,
 } from '~/components/form/form_collection';
 import { Visibility } from '~/types/app';
+import { useRouteHelper } from '~/lib/route_helper';
 
 interface CreateCollectionPageProps {
 	disableHomeLink: boolean;
@@ -25,6 +25,8 @@ export default function CreateCollectionPage({
 		() => processing || data.name.length === 0,
 		[processing, data]
 	);
+
+	const { route } = useRouteHelper();
 
 	const handleSubmit = () => {
 		const { method, url } = route('collection.create');

@@ -1,9 +1,9 @@
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { Anchor, Box, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import type { LinkListProps } from '~/components/dashboard/link/list/link_list';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
 import styles from './no_link.module.css';
 
@@ -12,6 +12,7 @@ interface NoLinkProps extends LinkListProps {}
 export function NoLink({ hideMenu }: NoLinkProps) {
 	const { t } = useTranslation('common');
 	const activeCollection = useActiveCollection();
+	const tuyau = useTuyauRequired();
 	const isFavorite = !activeCollection?.id;
 
 	const noLinkForCollection = t(
@@ -36,7 +37,7 @@ export function NoLink({ hideMenu }: NoLinkProps) {
 				<Anchor
 					component={Link}
 					href={appendCollectionId(
-						route('link.create-form').path,
+						tuyau.$route('link.create-form').path,
 						activeCollection?.id
 					)}
 				>

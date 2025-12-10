@@ -1,10 +1,10 @@
 import { CollectionWithLinks } from '#shared/types/dto';
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { Text } from '@mantine/core';
 import { useEffect, useRef } from 'react';
 import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
 import classes from './collection_item.module.css';
 
@@ -15,6 +15,7 @@ interface CollectionItemProps {
 export function CollectionItem({ collection }: CollectionItemProps) {
 	const itemRef = useRef<HTMLAnchorElement>(null);
 	const activeCollection = useActiveCollection();
+	const tuyau = useTuyauRequired();
 	const isActiveCollection = collection.id === activeCollection?.id;
 	const FolderIcon = isActiveCollection ? AiFillFolderOpen : AiOutlineFolder;
 
@@ -28,7 +29,7 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 		<Link
 			className={classes.link}
 			data-active={isActiveCollection || undefined}
-			href={appendCollectionId(route('dashboard').path, collection.id)}
+			href={appendCollectionId(tuyau.$route('dashboard').path, collection.id)}
 			key={collection.id}
 			ref={itemRef}
 			title={collection.name}

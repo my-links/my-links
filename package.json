@@ -84,7 +84,6 @@
 		"@adonisjs/static": "^1.1.1",
 		"@adonisjs/vite": "^4.0.0",
 		"@inertiajs/react": "^2.2.15",
-		"@izzyjs/route": "^2.1.7",
 		"@mantine/core": "^8.3.6",
 		"@mantine/hooks": "^8.3.6",
 		"@mantine/modals": "^8.3.6",

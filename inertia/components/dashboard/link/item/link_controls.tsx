@@ -1,6 +1,5 @@
 import { Link } from '#shared/types/dto';
 import { Link as InertiaLink, router } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import { ActionIcon, Menu } from '@mantine/core';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +8,7 @@ import { FaRegEye } from 'react-icons/fa';
 import { GoPencil } from 'react-icons/go';
 import { IoTrashOutline } from 'react-icons/io5';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
 
@@ -21,12 +21,16 @@ export default function LinkControls({
 	showGoToCollection = false,
 }: LinksControlsProps) {
 	const { t } = useTranslation('common');
+	const tuyau = useTuyauRequired();
 
 	const onFavoriteCallback = () => {
-		const path = route('link.toggle-favorite', {
-			params: { id: link.id.toString() },
-		}).path;
-		router.put(path);
+		const routeInfo = tuyau.$route('link.toggle-favorite', {
+			id: link.id.toString(),
+		});
+		if (!routeInfo) {
+			throw new Error('Route link.toggle-favorite not found');
+		}
+		router.put(routeInfo.path);
 	};
 	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) =>
 		event.preventDefault();
@@ -46,7 +50,10 @@ export default function LinkControls({
 				{showGoToCollection && (
 					<Menu.Item
 						component={InertiaLink}
-						href={appendCollectionId(route('dashboard').url, link.collectionId)}
+						href={appendCollectionId(
+							tuyau.$route('dashboard').path,
+							link.collectionId
+						)}
 						leftSection={<FaRegEye />}
 						color="blue"
 					>
@@ -56,7 +63,7 @@ export default function LinkControls({
 				{'favorite' in link && (
 					<Menu.Item
 						onClick={() =>
-							onFavorite(link.id, !link.favorite, onFavoriteCallback)
+							onFavorite(tuyau, link.id, !link.favorite, onFavoriteCallback)
 						}
 						leftSection={link.favorite ? <MdFavorite /> : <MdFavoriteBorder />}
 						color="var(--mantine-color-yellow-7)"
@@ -66,7 +73,7 @@ export default function LinkControls({
 				)}
 				<Menu.Item
 					component={InertiaLink}
-					href={appendLinkId(route('link.edit-form').path, link.id)}
+					href={appendLinkId(tuyau.$route('link.edit-form').path, link.id)}
 					leftSection={<GoPencil />}
 					color="blue"
 				>
@@ -74,7 +81,7 @@ export default function LinkControls({
 				</Menu.Item>
 				<Menu.Item
 					component={InertiaLink}
-					href={appendLinkId(route('link.delete-form').path, link.id)}
+					href={appendLinkId(tuyau.$route('link.delete-form').path, link.id)}
 					leftSection={<IoTrashOutline />}
 					color="red"
 				>
