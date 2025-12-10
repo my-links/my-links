@@ -4,7 +4,7 @@ import { isSSREnableForPage } from 'config-ssr';
 import 'dayjs/locale/en';
 import 'dayjs/locale/fr';
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import DefaultLayout from '~/layouts/default_layout';
+import { DefaultLayout } from '~/layouts/default_layout';
 import '../i18n/index';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';

@@ -75,7 +75,9 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 	const appUrl = useAppUrl();
 	dayjs.locale(i18n.language);
 
-	usePageTransition({ querySelector: '#app > div:nth-child(5)' });
+	usePageTransition({
+		querySelector: '[data-page-transition]',
+	});
 
 	const tuyauClient = createTuyau({
 		api,

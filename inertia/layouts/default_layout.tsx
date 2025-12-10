@@ -1,44 +1,18 @@
-import { Box, rem } from '@mantine/core';
-import { PropsWithChildren } from 'react';
-import { FloatingNavbar } from '~/components/common/floating_navbar/floating_navbar';
-import { Footer } from '~/components/common/footer/footer';
-import { BaseLayout } from './base_layout';
+import { Footer } from '~/components/common/footer';
+import { Navbar } from '~/components/common/navbar';
+import { BaseLayout } from '~/layouts/base_layout';
 
-const DefaultLayout = ({ children }: PropsWithChildren) => (
+export const DefaultLayout = ({ children }: React.PropsWithChildren) => (
 	<BaseLayout>
-		<Layout>{children}</Layout>
-	</BaseLayout>
-);
-
-export default DefaultLayout;
-
-const LAYOUT_WIDTH = '1500px';
-const Layout = ({ children }: PropsWithChildren) => (
-	<>
-		{/* Top navbar */}
-		<FloatingNavbar width={LAYOUT_WIDTH} />
-
-		{/* Page content */}
-		<Box
-			style={{
-				paddingInline: 'var(--mantine-spacing-lg)',
-				flex: 1,
-			}}
+		<div
+			className="bg-gray-50 dark:bg-gray-900 h-screen overflow-hidden"
+			data-page-transition
 		>
-			<Box
-				style={{
-					height: '100%',
-					maxWidth: '100%',
-					width: LAYOUT_WIDTH,
-					marginInline: 'auto',
-					marginBlock: rem(30),
-				}}
-			>
-				{children}
-			</Box>
-		</Box>
-
-		{/* Footer */}
-		<Footer />
-	</>
+			<div className="h-full max-w-[1920px] mx-auto p-4 flex flex-col gap-6">
+				<Navbar />
+				<div className="flex-1 min-h-0 flex flex-col">{children}</div>
+				<Footer />
+			</div>
+		</div>
+	</BaseLayout>
 );
