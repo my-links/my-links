@@ -34,6 +34,7 @@ function FormLayout({
 	const { t } = useTranslation('common');
 	return (
 		<Container
+			data-page-transition
 			style={{
 				minHeight: '100%',
 				display: 'flex',
