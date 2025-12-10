@@ -1,4 +1,4 @@
-import KEYS from '#core/constants/keys';
+import KEYS from '#constants/keys';
 import { useHotkeys } from '@mantine/hooks';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
