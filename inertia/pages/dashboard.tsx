@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-import { route } from '@izzyjs/route/client';
 import {
 	Box,
 	Button,
@@ -20,12 +19,14 @@ import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useDisplayPreferences } from '~/hooks/use_display_preferences';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { appendCollectionId } from '~/lib/navigation';
+import { useRouteHelper } from '~/lib/route_helper';
 import { Visibility } from '~/types/app';
 
 export default function Dashboard() {
 	const { t } = useTranslation();
 	const { displayPreferences } = useDisplayPreferences();
 	const activeCollection = useActiveCollection();
+	const { route } = useRouteHelper();
 
 	const isMobile = useIsMobile();
 	const isFavorite = !activeCollection?.id;

@@ -1,7 +1,7 @@
 import { ApiRouteName } from '#shared/types/index';
 import { Link } from '@inertiajs/react';
-import { useTuyau } from '@tuyau/inertia/react';
 import { CSSProperties } from 'react';
+import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 
 interface InternalLinkProps {
 	children: React.ReactNode;
@@ -24,12 +24,11 @@ export const InternalLinkUnstyled = ({
 	className,
 	params,
 }: InternalLinkProps) => {
-	const tuyau = useTuyau();
-
-	if ((!route && !href) || !tuyau) {
-		throw new Error('InternalLink: route, href or tuyau is missing');
+	if (!route && !href) {
+		throw new Error('InternalLink: route or href is required');
 	}
 
+	const tuyau = useTuyauRequired();
 	const url = route ? tuyau.$route(route, params).path : href;
 	if (!url) {
 		throw new Error('InternalLink: url not found');
