@@ -1,6 +1,5 @@
 import { Center, Group, rem, Table, Text, UnstyledButton } from '@mantine/core';
 import { PropsWithChildren } from 'react';
-import { TbChevronDown, TbChevronUp, TbSelector } from 'react-icons/tb';
 import classes from './users_table.module.css';
 
 interface ThProps extends PropsWithChildren {
@@ -10,7 +9,11 @@ interface ThProps extends PropsWithChildren {
 }
 
 export function Th({ children, reversed, sorted, onSort }: ThProps) {
-	const Icon = sorted ? (reversed ? TbChevronUp : TbChevronDown) : TbSelector;
+	const iconClass = sorted
+		? reversed
+			? 'i-tabler-chevron-up'
+			: 'i-tabler-chevron-down'
+		: 'i-tabler-selector';
 	return (
 		<Table.Th className={classes.th}>
 			<UnstyledButton onClick={onSort} className={classes.control}>
@@ -19,7 +22,10 @@ export function Th({ children, reversed, sorted, onSort }: ThProps) {
 						{children}
 					</Text>
 					<Center className={classes.icon}>
-						<Icon style={{ width: rem(16), height: rem(16) }} />
+						<div
+							className={iconClass}
+							style={{ width: rem(16), height: rem(16) }}
+						/>
 					</Center>
 				</Group>
 			</UnstyledButton>

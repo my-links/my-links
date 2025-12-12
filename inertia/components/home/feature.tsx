@@ -1,27 +1,23 @@
 import { Text, ThemeIcon, rem } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { AiFillFolderOpen } from 'react-icons/ai';
-import { FaUser } from 'react-icons/fa';
-import { IoIosLink, IoIosSearch, IoIosShareAlt } from 'react-icons/io';
-import { IoExtensionPuzzleOutline } from 'react-icons/io5';
 import { featureList } from '~/components/home/feature_list';
 
 type FeatureName = (typeof featureList)[number];
 
-function getIcon(name: FeatureName) {
+function getIconClass(name: FeatureName): string {
 	switch (name) {
 		case 'collection':
-			return AiFillFolderOpen;
+			return 'i-ant-design-folder-open-filled';
 		case 'link':
-			return IoIosLink;
+			return 'i-ion-link';
 		case 'search':
-			return IoIosSearch;
+			return 'i-ion-search';
 		case 'extension':
-			return IoExtensionPuzzleOutline;
+			return 'i-ion-extension-puzzle-outline';
 		case 'share':
-			return IoIosShareAlt;
+			return 'i-ion-share-alt';
 		case 'contribute':
-			return FaUser;
+			return 'i-fa6-solid-user';
 	}
 }
 
@@ -31,11 +27,14 @@ interface FeatureProps {
 
 export function Feature({ name: featureName }: FeatureProps) {
 	const { t } = useTranslation('about');
-	const Icon = getIcon(featureName);
+	const iconClass = getIconClass(featureName);
 	return (
 		<div>
 			<ThemeIcon variant="light" size={40} radius={40}>
-				<Icon style={{ width: rem(18), height: rem(18) }} />
+				<div
+					className={iconClass}
+					style={{ width: rem(18), height: rem(18) }}
+				/>
 			</ThemeIcon>
 			<Text mt="sm" mb={7}>
 				{t(`${featureName}.title`)}

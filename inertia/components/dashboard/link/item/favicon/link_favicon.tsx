@@ -1,6 +1,5 @@
 import { Center, Loader } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
-import { TfiWorld } from 'react-icons/tfi';
 import styles from './link_favicon.module.css';
 
 const IMG_LOAD_TIMEOUT = 7_500;
@@ -47,7 +46,10 @@ export default function LinkFavicon({ url, size = 32 }: LinkFaviconProps) {
 					decoding="async"
 				/>
 			) : (
-				<TfiWorld size={size} />
+				<div
+					className="i-themify-world"
+					style={{ width: `${size}px`, height: `${size}px` }}
+				/>
 			)}
 			{isLoading && (
 				<Center
