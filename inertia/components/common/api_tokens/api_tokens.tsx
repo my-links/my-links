@@ -9,7 +9,6 @@ import {
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useTranslation } from 'react-i18next';
-import { TbPlus, TbTrash } from 'react-icons/tb';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { ApiToken } from '~/types/app';
@@ -95,7 +94,10 @@ export function ApiTokens() {
 				variant="subtle"
 				onClick={() => handleRevokeToken(token.identifier)}
 			>
-				<TbTrash size={16} />
+				<div
+					className="i-tabler-trash"
+					style={{ width: '16px', height: '16px' }}
+				/>
 			</ActionIcon>,
 		],
 	});
@@ -107,7 +109,12 @@ export function ApiTokens() {
 			<Group justify="space-between" mb="md">
 				<Text fw={500}>{t('api-tokens.title')}</Text>
 				<Button
-					leftSection={<TbPlus size={16} />}
+					leftSection={
+						<div
+							className="i-tabler-plus"
+							style={{ width: '16px', height: '16px' }}
+						/>
+					}
 					onClick={handleCreateTokenModal}
 					size="sm"
 					variant="light"

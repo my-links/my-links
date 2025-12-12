@@ -15,7 +15,8 @@ export default class SimplePaginatorDto<
 	T extends AppBaseModel,
 	TDto extends CommonModelDto<T>,
 	TModel = any,
-> implements SimplePaginatorDtoContract<TDto> {
+> implements SimplePaginatorDtoContract<TDto>
+{
 	declare data: TDto[];
 	declare meta: SimplePaginatorDtoMetaContract;
 

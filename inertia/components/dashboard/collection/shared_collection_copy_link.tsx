@@ -1,6 +1,5 @@
 import { Badge, CopyButton } from '@mantine/core';
 import { t } from 'i18next';
-import { TbCopy } from 'react-icons/tb';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useAppUrl } from '~/hooks/use_app_url';
 
@@ -24,7 +23,12 @@ export function SharedCollectionCopyLink() {
 					style={{ cursor: 'pointer' }}
 				>
 					{copied ? t('success-copy') : t('visibility.public')}
-					{!copied && <TbCopy style={{ marginLeft: 4 }} />}
+					{!copied && (
+						<span
+							className="i-tabler-copy inline-block"
+							style={{ marginLeft: 4 }}
+						/>
+					)}
 				</Badge>
 			)}
 		</CopyButton>

@@ -12,10 +12,6 @@ import {
 } from '@mantine/core';
 import { openSpotlight } from '@mantine/spotlight';
 import { useTranslation } from 'react-i18next';
-import { AiOutlineFolderAdd } from 'react-icons/ai';
-import { IoIosSearch } from 'react-icons/io';
-import { IoAdd, IoShieldHalfSharp } from 'react-icons/io5';
-import { PiGearLight } from 'react-icons/pi';
 import { UserCard } from '~/components/common/user_card';
 import { FavoriteList } from '~/components/dashboard/favorite/favorite_list';
 import { SearchSpotlight } from '~/components/search/search';
@@ -96,14 +92,24 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 					component={Link}
 					href={tuyau.$route('admin.dashboard').path}
 					label={t('admin')}
-					leftSection={<IoShieldHalfSharp size="1.5rem" />}
+					leftSection={
+						<div
+							className="i-ion-shield-half"
+							style={{ width: '1.5rem', height: '1.5rem' }}
+						/>
+					}
 					color="var(--mantine-color-red-5)"
 				/>
 			)}
 			<NavLink
 				{...common}
 				label={t('settings')}
-				leftSection={<PiGearLight size="1.5rem" />}
+				leftSection={
+					<div
+						className="i-phosphor-gear-light"
+						style={{ width: '1.5rem', height: '1.5rem' }}
+					/>
+				}
 				color="var(--mantine-color-text)"
 				disabled
 			/>
@@ -112,7 +118,12 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				<NavLink
 					{...common}
 					label={t('search')}
-					leftSection={<IoIosSearch size="1.5rem" />}
+					leftSection={
+						<div
+							className="i-ion-search"
+							style={{ width: '1.5rem', height: '1.5rem' }}
+						/>
+					}
 					onClick={() => openSpotlight()}
 					rightSection={<Kbd size="xs">S</Kbd>}
 				/>
@@ -127,7 +138,12 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				component={Link}
 				href={tuyau.$route('link.create-form').path}
 				label={t('link.create')}
-				leftSection={<IoAdd size="1.5rem" />}
+				leftSection={
+					<div
+						className="i-ion-add"
+						style={{ width: '1.5rem', height: '1.5rem' }}
+					/>
+				}
 				rightSection={<Kbd size="xs">C</Kbd>}
 			/>
 			<NavLink
@@ -135,7 +151,12 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				component={Link}
 				href={tuyau.$route('collection.create-form').path}
 				label={t('collection.create')}
-				leftSection={<AiOutlineFolderAdd size="1.5rem" />}
+				leftSection={
+					<div
+						className="i-ant-design-folder-add-outlined"
+						style={{ width: '1.5rem', height: '1.5rem' }}
+					/>
+				}
 				rightSection={<Kbd size="xs">L</Kbd>}
 			/>
 			<AppShell.Section grow component={ScrollArea}>
