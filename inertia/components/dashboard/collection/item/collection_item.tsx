@@ -2,7 +2,6 @@ import { CollectionWithLinks } from '#shared/types/dto';
 import { Link } from '@inertiajs/react';
 import { Text } from '@mantine/core';
 import { useEffect, useRef } from 'react';
-import { AiFillFolderOpen, AiOutlineFolder } from 'react-icons/ai';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
@@ -17,7 +16,9 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 	const activeCollection = useActiveCollection();
 	const tuyau = useTuyauRequired();
 	const isActiveCollection = collection.id === activeCollection?.id;
-	const FolderIcon = isActiveCollection ? AiFillFolderOpen : AiOutlineFolder;
+	const folderIconClass = isActiveCollection
+		? 'i-ant-design-folder-open-filled'
+		: 'i-ant-design-folder-outlined';
 
 	useEffect(() => {
 		if (collection.id === activeCollection?.id) {
@@ -34,7 +35,7 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 			ref={itemRef}
 			title={collection.name}
 		>
-			<FolderIcon className={classes.linkIcon} />
+			<div className={`${folderIconClass} ${classes.linkIcon}`} />
 			<Text
 				lineClamp={1}
 				style={{ wordBreak: 'break-all', whiteSpace: 'pre-line' }}

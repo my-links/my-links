@@ -3,8 +3,6 @@ import { rem } from '@mantine/core';
 import { Spotlight, SpotlightActionData } from '@mantine/spotlight';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AiOutlineFolder } from 'react-icons/ai';
-import { TbSearch } from 'react-icons/tb';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
@@ -79,7 +77,10 @@ export function SearchSpotlight({
 		onClick: () => handleResultSubmit(result),
 		leftSection:
 			result.type === 'collection' ? (
-				<AiOutlineFolder style={{ width: rem(24), height: rem(24) }} />
+				<div
+					className="i-ant-design-folder-outlined"
+					style={{ width: rem(24), height: rem(24) }}
+				/>
 			) : (
 				<LinkFavicon url={result.url} size={24} />
 			),
@@ -97,7 +98,12 @@ export function SearchSpotlight({
 			nothingFound={spotlightPromptText}
 			highlightQuery
 			searchProps={{
-				leftSection: <TbSearch style={{ width: rem(20), height: rem(20) }} />,
+				leftSection: (
+					<div
+						className="i-tabler-search"
+						style={{ width: rem(20), height: rem(20) }}
+					/>
+				),
 				placeholder: t('search'),
 			}}
 			onQueryChange={(query) => setSearchTerm(query)}

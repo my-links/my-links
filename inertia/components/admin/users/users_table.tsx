@@ -11,7 +11,6 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TbSearch } from 'react-icons/tb';
 import { Th } from '~/components/admin/users/th';
 import { sortData } from '~/components/admin/users/utils';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
@@ -96,7 +95,12 @@ export function UsersTable({
 			<TextInput
 				placeholder={`Search by any field (${users.length} users)`}
 				mb="md"
-				leftSection={<TbSearch style={{ width: rem(16), height: rem(16) }} />}
+				leftSection={
+					<div
+						className="i-tabler-search"
+						style={{ width: rem(16), height: rem(16) }}
+					/>
+				}
 				value={search}
 				onChange={handleSearchChange}
 			/>

@@ -10,10 +10,6 @@ import {
 	Text,
 } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { GoPencil } from 'react-icons/go';
-import { IoIosAddCircleOutline } from 'react-icons/io';
-import { IoTrashOutline } from 'react-icons/io5';
 import { ShareCollection } from '~/components/share/share_collection';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
@@ -65,7 +61,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 					<Menu withinPortal shadow="md" width={225}>
 						<Menu.Target>
 							<ActionIcon variant="subtle" color="var(--mantine-color-text)">
-								<BsThreeDotsVertical />
+								<div className="i-bootstrap-three-dots-vertical" />
 							</ActionIcon>
 						</Menu.Target>
 						<Menu.Dropdown>
@@ -75,7 +71,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 									tuyau.$route('link.create-form').path,
 									activeCollection?.id
 								)}
-								leftSection={<IoIosAddCircleOutline />}
+								leftSection={<div className="i-ion-add-circle-outline" />}
 								color="blue"
 							>
 								{t('link.create')}
@@ -86,7 +82,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 									tuyau.$route('collection.edit-form').path,
 									activeCollection?.id
 								)}
-								leftSection={<GoPencil />}
+								leftSection={<div className="i-octicon-pencil" />}
 								color="blue"
 							>
 								{t('collection.edit')}
@@ -97,7 +93,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 									tuyau.$route('collection.delete-form').path,
 									activeCollection?.id
 								)}
-								leftSection={<IoTrashOutline />}
+								leftSection={<div className="i-ion-trash-outline" />}
 								color="red"
 							>
 								{t('collection.delete')}

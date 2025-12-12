@@ -1,6 +1,5 @@
 import { Link } from '#shared/types/dto';
 import { Card, Flex, Group, Text } from '@mantine/core';
-import { AiFillStar } from 'react-icons/ai';
 import { ExternalLinkStyled } from '~/components/common/external_link_styled';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
 import LinkControls from '~/components/dashboard/link/item/link_controls';
@@ -21,7 +20,13 @@ export function LinkItem({ link, hideMenu: hideMenu = false }: LinkItemProps) {
 					<LinkFavicon url={url} />
 					<Flex style={{ width: '100%' }} direction="column">
 						<Text lineClamp={1} c="blue">
-							{name} {showFavoriteIcon && <AiFillStar color="gold" />}
+							{name}{' '}
+							{showFavoriteIcon && (
+								<span
+									className="i-ant-design-star-filled inline-block"
+									style={{ color: 'gold' }}
+								/>
+							)}
 						</Text>
 						<LinkItemURL url={url} />
 					</Flex>

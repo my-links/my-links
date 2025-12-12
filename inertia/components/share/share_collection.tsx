@@ -1,6 +1,5 @@
 import { ActionIcon, Anchor, CopyButton, Popover, Text } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
-import { TbShare3 } from 'react-icons/tb';
 import { Fragment } from 'react/jsx-runtime';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { generateShareUrl } from '~/lib/navigation';
@@ -22,7 +21,7 @@ export function ShareCollection() {
 		<Popover position="bottom" withArrow shadow="md">
 			<Popover.Target>
 				<ActionIcon variant="subtle" color="var(--mantine-color-text)">
-					<TbShare3 />
+					<div className="i-tabler-share-3" />
 				</ActionIcon>
 			</Popover.Target>
 			<Popover.Dropdown p="xs">

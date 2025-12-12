@@ -1,7 +1,6 @@
 import { Button, Drawer, Portal, rem, Text } from '@mantine/core';
 import { useDisclosure, useHeadroom } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
-import { TbFolder } from 'react-icons/tb';
 import { CollectionFavoriteItem } from '~/components/dashboard/collection/item/collection_favorite_item';
 import { useCollections } from '~/hooks/collections/use_collections';
 import { CollectionItem } from './item/collection_item';
@@ -39,7 +38,10 @@ export function MobileCollectionList() {
 						transform: 'translateX(-50%)',
 					}}
 				>
-					<TbFolder size={18} />
+					<div
+						className="i-tabler-folder"
+						style={{ width: '18px', height: '18px' }}
+					/>
 					<Text ml={4}>
 						{t('collection.collections', { count: collections.length })}
 					</Text>

@@ -3,11 +3,6 @@ import { Link as InertiaLink, router } from '@inertiajs/react';
 import { ActionIcon, Menu } from '@mantine/core';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import { FaRegEye } from 'react-icons/fa';
-import { GoPencil } from 'react-icons/go';
-import { IoTrashOutline } from 'react-icons/io5';
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
@@ -43,7 +38,7 @@ export default function LinkControls({
 					color="var(--mantine-color-text)"
 					onClick={handleStopPropagation}
 				>
-					<BsThreeDotsVertical />
+					<div className="i-bootstrap-three-dots-vertical" />
 				</ActionIcon>
 			</Menu.Target>
 			<Menu.Dropdown>
@@ -54,7 +49,7 @@ export default function LinkControls({
 							tuyau.$route('dashboard').path,
 							link.collectionId
 						)}
-						leftSection={<FaRegEye />}
+						leftSection={<div className="i-fa6-regular-eye" />}
 						color="blue"
 					>
 						{t('go-to-collection')}
@@ -65,7 +60,13 @@ export default function LinkControls({
 						onClick={() =>
 							onFavorite(tuyau, link.id, !link.favorite, onFavoriteCallback)
 						}
-						leftSection={link.favorite ? <MdFavorite /> : <MdFavoriteBorder />}
+						leftSection={
+							<div
+								className={
+									link.favorite ? 'i-mdi-favorite' : 'i-mdi-favorite-border'
+								}
+							/>
+						}
 						color="var(--mantine-color-yellow-7)"
 					>
 						{link.favorite ? t('remove-favorite') : t('add-favorite')}
@@ -74,7 +75,7 @@ export default function LinkControls({
 				<Menu.Item
 					component={InertiaLink}
 					href={appendLinkId(tuyau.$route('link.edit-form').path, link.id)}
-					leftSection={<GoPencil />}
+					leftSection={<div className="i-octicon-pencil" />}
 					color="blue"
 				>
 					{t('link.edit')}
@@ -82,7 +83,7 @@ export default function LinkControls({
 				<Menu.Item
 					component={InertiaLink}
 					href={appendLinkId(tuyau.$route('link.delete-form').path, link.id)}
-					leftSection={<IoTrashOutline />}
+					leftSection={<div className="i-ion-trash-outline" />}
 					color="red"
 				>
 					{t('link.delete')}
