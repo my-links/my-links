@@ -1,7 +1,6 @@
 import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { forwardRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TbChevronRight } from 'react-icons/tb';
 import { useAuth } from '~/hooks/use_auth';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 
@@ -34,7 +33,12 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 					</Text>
 				</div>
 
-				{icon || <TbChevronRight size="1rem" />}
+				{icon || (
+					<div
+						className="i-tabler-chevron-right"
+						style={{ width: '1rem', height: '1rem' }}
+					/>
+				)}
 			</Group>
 		</UnstyledButton>
 	)

@@ -1,5 +1,4 @@
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
-import { TbMoonStars, TbSun } from 'react-icons/tb';
 import { makeRequest } from '~/lib/request';
 
 export function ThemeSwitcher() {
@@ -19,7 +18,11 @@ export function ThemeSwitcher() {
 			onClick={handleThemeChange}
 			size="lg"
 		>
-			{colorScheme === 'dark' ? <TbSun /> : <TbMoonStars />}
+			{colorScheme === 'dark' ? (
+				<div className="i-tabler-sun" />
+			) : (
+				<div className="i-tabler-moon-stars" />
+			)}
 		</ActionIcon>
 	);
 }

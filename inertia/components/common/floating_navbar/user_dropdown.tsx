@@ -2,7 +2,6 @@ import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import cx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { TbChevronDown, TbLogout, TbSettings, TbShield } from 'react-icons/tb';
 import { InternalLinkUnstyled } from '~/components/common/links/internal_link_unstyled';
 import { useAuth } from '~/hooks/use_auth';
 import classes from './user_dropdown.module.css';
@@ -39,7 +38,10 @@ export function UserDropdown() {
 						<Text fw={500} size="sm" lh={1} mr={3}>
 							{auth.user?.fullname}
 						</Text>
-						<TbChevronDown size={12} />
+						<div
+							className="i-tabler-chevron-down"
+							style={{ width: '12px', height: '12px' }}
+						/>
 					</Group>
 				</UnstyledButton>
 			</Menu.Target>
@@ -48,7 +50,12 @@ export function UserDropdown() {
 					<>
 						<Menu.Label>{t('common:admin')}</Menu.Label>
 						<Menu.Item
-							leftSection={<TbShield size={16} />}
+							leftSection={
+								<div
+									className="i-tabler-shield"
+									style={{ width: '16px', height: '16px' }}
+								/>
+							}
 							component={InternalLinkUnstyled}
 							href="/admin"
 							color="red"
@@ -60,14 +67,24 @@ export function UserDropdown() {
 
 				<Menu.Label>{t('common:user')}</Menu.Label>
 				<Menu.Item
-					leftSection={<TbSettings size={16} />}
+					leftSection={
+						<div
+							className="i-tabler-settings"
+							style={{ width: '16px', height: '16px' }}
+						/>
+					}
 					component={InternalLinkUnstyled}
 					href="/user/settings"
 				>
 					{t('common:settings')}
 				</Menu.Item>
 				<Menu.Item
-					leftSection={<TbLogout size={16} />}
+					leftSection={
+						<div
+							className="i-tabler-logout"
+							style={{ width: '16px', height: '16px' }}
+						/>
+					}
 					component={InternalLinkUnstyled}
 					href="/auth/logout"
 				>
