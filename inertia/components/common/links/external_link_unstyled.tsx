@@ -1,8 +1,7 @@
 import { Anchor, CSSProperties } from '@mantine/core';
 import { AnchorHTMLAttributes, ReactNode } from 'react';
 
-interface ExternalLinkUnstyledProps
-	extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface ExternalLinkUnstyledProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
 	children: ReactNode;
 	style?: CSSProperties;
 	title?: string;
