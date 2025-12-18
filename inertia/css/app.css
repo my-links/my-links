@@ -13,6 +13,11 @@
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
+	overflow-x: hidden;
+}
+
+body {
+	overflow-x: hidden;
 }
 
 /* For light mode */
@@ -39,4 +44,42 @@
 .page-transition-enter {
 	animation: pageFadeIn 250ms ease forwards;
 	will-change: opacity, filter;
+}
+
+/* Custom Scrollbar */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+*::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: rgba(156, 163, 175, 0.5);
+	border-radius: 10px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(156, 163, 175, 0.7);
+}
+
+:root[data-mantine-color-scheme='dark'] * {
+	scrollbar-color: rgba(107, 114, 128, 0.5) transparent;
+}
+
+:root[data-mantine-color-scheme='dark'] *::-webkit-scrollbar-thumb {
+	background-color: rgba(107, 114, 128, 0.5);
+}
+
+:root[data-mantine-color-scheme='dark'] *::-webkit-scrollbar-thumb:hover {
+	background-color: rgba(107, 114, 128, 0.7);
 }

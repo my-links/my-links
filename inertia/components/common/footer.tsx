@@ -1,4 +1,5 @@
 import { AUTHOR_GITHUB_URL, AUTHOR_NAME } from '#config/project';
+import PATHS from '#constants/paths';
 import { Link } from '@inertiajs/react';
 
 export const Footer = () => (
@@ -24,20 +25,10 @@ export const Footer = () => (
 					<i className="i-mdi-heart-pulse h-6 min-w-6 block" />
 					Statut
 				</Link>
-				<a
-					href="/jobs-queue"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors"
-				>
-					<i className="i-mdi-view-dashboard h-6 min-w-6 block" />
-					Job queue
-				</a>
 			</div>
 			<div className="flex items-center gap-3">
-				{/* Ici tu pourrais rajouter ThemeSwitcher et LocaleSwitcher si tu veux */}
 				<a
-					href="https://github.com/izzysoft/recond"
+					href={PATHS.REPO_GITHUB}
 					target="_blank"
 					rel="noopener noreferrer"
 					className="text-gray-500 dark:text-gray-400 hover:text-blue-500 transition-colors"
