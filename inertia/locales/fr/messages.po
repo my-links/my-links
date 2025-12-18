@@ -150,7 +150,7 @@ msgstr "Admin"
 #~ msgid "Allowed use description"
 #~ msgstr "Description de l'utilisation autorisée"
 
-#: inertia/pages/home.tsx:158
+#: inertia/pages/home.tsx:152
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "Un gestionnaire de marque-pages open-source, auto-hébergé, qui vous permet de gérer vos liens favoris dans une interface intuitive"
 
@@ -167,7 +167,7 @@ msgstr "Jetons API"
 msgid "Are you sure you want to revoke this token?"
 msgstr "Êtes-vous sûr de vouloir révoquer ce jeton ?"
 
-#: inertia/pages/home.tsx:185
+#: inertia/pages/home.tsx:179
 msgid "Built for users who value privacy, control, and simplicity"
 msgstr "Conçu pour les utilisateurs qui valorisent la confidentialité, le contrôle et la simplicité"
 
@@ -210,7 +210,7 @@ msgstr "annuler"
 
 #: inertia/pages/terms.tsx:179
 msgid "Changes to the Terms"
-msgstr ""
+msgstr "Modifications des conditions"
 
 #: inertia/components/share/share_collection.tsx:28
 msgid "Click to copy"
@@ -297,6 +297,11 @@ msgstr "Créer une collection"
 msgid "common:collection.create"
 msgstr "Créer une collection"
 
+#. js-lingui-explicit-id
+#: inertia/pages/links/create.tsx:43
+msgid "common:link.create"
+msgstr "Créer un lien"
+
 #: inertia/components/dashboard/dashboard_header.tsx:78
 #: inertia/components/dashboard/dashboard_navbar.tsx:137
 #: inertia/components/dashboard/link/no_link/no_link.tsx:41
@@ -304,16 +309,11 @@ msgstr "Créer une collection"
 msgid "Create a link"
 msgstr "Créer un lien"
 
-#. js-lingui-explicit-id
-#: inertia/pages/links/create.tsx:43
-msgid "common:link.create"
-msgstr "Créer un lien"
-
 #: inertia/components/common/api_tokens/create_token_modal.tsx:30
 msgid "Create a new API token to access the API"
 msgstr "Créez un nouveau jeton API pour accéder à l'API"
 
-#: inertia/pages/home.tsx:251
+#: inertia/pages/home.tsx:245
 msgid "Create Account"
 msgstr "Créer un compte"
 
@@ -403,14 +403,14 @@ msgstr "Supprimer un lien"
 msgid "common:form.description"
 msgstr "Description"
 
-#: inertia/components/dashboard/dashboard_header.tsx:89
-#: inertia/pages/dashboard.tsx:74
-msgid "Edit a collection"
-msgstr "Modifier une collection"
-
 #. js-lingui-explicit-id
 #: inertia/pages/collections/edit.tsx:47
 msgid "common:collection.edit"
+msgstr "Modifier une collection"
+
+#: inertia/components/dashboard/dashboard_header.tsx:89
+#: inertia/pages/dashboard.tsx:74
+msgid "Edit a collection"
 msgstr "Modifier une collection"
 
 #. js-lingui-explicit-id
@@ -427,7 +427,7 @@ msgstr "Modifier un lien"
 msgid "api-tokens.name-placeholder"
 msgstr "Nom du jeton"
 
-#: inertia/pages/home.tsx:221
+#: inertia/pages/home.tsx:215
 msgid "Everything you need to organize and manage your bookmarks effectively"
 msgstr "Tout ce dont vous avez besoin pour organiser et gérer vos marque-pages efficacement"
 
@@ -464,7 +464,7 @@ msgstr "Conformité RGPD"
 #~ msgid "GDPR description"
 #~ msgstr "Description du RGPD"
 
-#: inertia/pages/home.tsx:168
+#: inertia/pages/home.tsx:162
 msgid "Get Started"
 msgstr "Commencer"
 
@@ -478,7 +478,7 @@ msgstr "Aller à la collection"
 msgid "about:contribute.text"
 msgstr "Aidez à améliorer le projet en contribuant"
 
-#: inertia/pages/home.tsx:241
+#: inertia/pages/home.tsx:235
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Rejoignez la communauté et commencez à organiser vos liens dès aujourd'hui. C'est gratuit, open-source et respecte votre vie privée."
 
@@ -520,6 +520,7 @@ msgstr "chargement"
 msgid "Logout"
 msgstr "Déconnexion"
 
+#: inertia/components/common/footer.tsx:16
 #: inertia/components/common/footer/footer.tsx:21
 msgid "Made by"
 msgstr "Créé par"
@@ -528,7 +529,7 @@ msgstr "Créé par"
 msgid "Manage users"
 msgstr "Gérer les utilisateurs"
 
-#: inertia/pages/home.tsx:155
+#: inertia/pages/home.tsx:149
 msgid "Manage your links in the best possible way"
 msgstr "Gérez vos liens de la meilleure façon possible"
 
@@ -604,7 +605,7 @@ msgstr "Données personnelles"
 #~ msgid "personal_data.collect.description"
 #~ msgstr ""
 
-#: inertia/pages/home.tsx:218
+#: inertia/pages/home.tsx:212
 msgid "Powerful Features"
 msgstr "Fonctionnalités puissantes"
 
@@ -618,6 +619,7 @@ msgstr "Préférences"
 msgid "Preferences description"
 msgstr "Description des préférences"
 
+#: inertia/components/common/footer.tsx:52
 #: inertia/components/common/footer/footer.tsx:37
 msgid "Privacy"
 msgstr "Confidentialité"
@@ -655,7 +657,7 @@ msgstr "Public"
 msgid "about:search.text"
 msgstr "Trouvez rapidement ce que vous cherchez"
 
-#: inertia/pages/home.tsx:238
+#: inertia/pages/home.tsx:232
 msgid "Ready to Get Started?"
 msgstr "Prêt à commencer ?"
 
@@ -736,13 +738,17 @@ msgstr "Partager"
 msgid "about:share.text"
 msgstr "Partagez vos collections avec d'autres"
 
-#: inertia/pages/home.tsx:257
+#: inertia/pages/home.tsx:251
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: inertia/pages/home.tsx:174
+#: inertia/pages/home.tsx:168
 msgid "Sign Up"
 msgstr "S'inscrire"
+
+#: inertia/components/common/footer.tsx:32
+msgid "Status"
+msgstr "Statut"
 
 #: inertia/pages/home.tsx:136
 msgid "Take full control by hosting MyLinks on your own infrastructure. Your data, your rules, your server."
@@ -752,6 +758,7 @@ msgstr "Prenez le contrôle total en hébergeant MyLinks sur votre propre infras
 msgid "Termination"
 msgstr "Résiliation"
 
+#: inertia/components/common/footer.tsx:61
 #: inertia/components/common/footer/footer.tsx:40
 msgid "Terms"
 msgstr "Conditions"
@@ -880,7 +887,7 @@ msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-s
 #~ msgid "Welcome to our Terms of Service"
 #~ msgstr "Bienvenue dans nos conditions d'utilisation"
 
-#: inertia/pages/home.tsx:182
+#: inertia/pages/home.tsx:176
 msgid "Why Choose MyLinks?"
 msgstr "Pourquoi choisir MyLinks ?"
 

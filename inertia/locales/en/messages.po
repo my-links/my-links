@@ -150,7 +150,7 @@ msgstr "Admin"
 #~ msgid "Allowed use description"
 #~ msgstr "Allowed use description"
 
-#: inertia/pages/home.tsx:158
+#: inertia/pages/home.tsx:152
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 
@@ -167,7 +167,7 @@ msgstr "API Tokens"
 msgid "Are you sure you want to revoke this token?"
 msgstr "Are you sure you want to revoke this token?"
 
-#: inertia/pages/home.tsx:185
+#: inertia/pages/home.tsx:179
 msgid "Built for users who value privacy, control, and simplicity"
 msgstr "Built for users who value privacy, control, and simplicity"
 
@@ -297,6 +297,11 @@ msgstr "Create a collection"
 msgid "common:collection.create"
 msgstr "Create a collection"
 
+#. js-lingui-explicit-id
+#: inertia/pages/links/create.tsx:43
+msgid "common:link.create"
+msgstr "Create a link"
+
 #: inertia/components/dashboard/dashboard_header.tsx:78
 #: inertia/components/dashboard/dashboard_navbar.tsx:137
 #: inertia/components/dashboard/link/no_link/no_link.tsx:41
@@ -304,16 +309,11 @@ msgstr "Create a collection"
 msgid "Create a link"
 msgstr "Create a link"
 
-#. js-lingui-explicit-id
-#: inertia/pages/links/create.tsx:43
-msgid "common:link.create"
-msgstr "Create a link"
-
 #: inertia/components/common/api_tokens/create_token_modal.tsx:30
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
-#: inertia/pages/home.tsx:251
+#: inertia/pages/home.tsx:245
 msgid "Create Account"
 msgstr "Create Account"
 
@@ -407,14 +407,14 @@ msgstr "Description"
 #~ msgid "Description"
 #~ msgstr "Description"
 
-#: inertia/components/dashboard/dashboard_header.tsx:89
-#: inertia/pages/dashboard.tsx:74
-msgid "Edit a collection"
-msgstr "Edit a collection"
-
 #. js-lingui-explicit-id
 #: inertia/pages/collections/edit.tsx:47
 msgid "common:collection.edit"
+msgstr "Edit a collection"
+
+#: inertia/components/dashboard/dashboard_header.tsx:89
+#: inertia/pages/dashboard.tsx:74
+msgid "Edit a collection"
 msgstr "Edit a collection"
 
 #. js-lingui-explicit-id
@@ -431,7 +431,7 @@ msgstr "Edit a link"
 msgid "api-tokens.name-placeholder"
 msgstr "Enter token name"
 
-#: inertia/pages/home.tsx:221
+#: inertia/pages/home.tsx:215
 msgid "Everything you need to organize and manage your bookmarks effectively"
 msgstr "Everything you need to organize and manage your bookmarks effectively"
 
@@ -468,7 +468,7 @@ msgstr "GDPR Compliance"
 #~ msgid "GDPR description"
 #~ msgstr "GDPR description"
 
-#: inertia/pages/home.tsx:168
+#: inertia/pages/home.tsx:162
 msgid "Get Started"
 msgstr "Get Started"
 
@@ -482,7 +482,7 @@ msgstr "Go to collection"
 msgid "about:contribute.text"
 msgstr "Help improve the project by contributing"
 
-#: inertia/pages/home.tsx:241
+#: inertia/pages/home.tsx:235
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 
@@ -524,6 +524,7 @@ msgstr "Loading..."
 msgid "Logout"
 msgstr "Logout"
 
+#: inertia/components/common/footer.tsx:16
 #: inertia/components/common/footer/footer.tsx:21
 msgid "Made by"
 msgstr "Made by"
@@ -532,7 +533,7 @@ msgstr "Made by"
 msgid "Manage users"
 msgstr "Manage users"
 
-#: inertia/pages/home.tsx:155
+#: inertia/pages/home.tsx:149
 msgid "Manage your links in the best possible way"
 msgstr "Manage your links in the best possible way"
 
@@ -608,7 +609,7 @@ msgstr "Personal Data"
 #~ msgid "personal_data.collect.description"
 #~ msgstr "personal_data.collect.description"
 
-#: inertia/pages/home.tsx:218
+#: inertia/pages/home.tsx:212
 msgid "Powerful Features"
 msgstr "Powerful Features"
 
@@ -622,6 +623,7 @@ msgstr "Preferences"
 msgid "Preferences description"
 msgstr "Preferences description"
 
+#: inertia/components/common/footer.tsx:52
 #: inertia/components/common/footer/footer.tsx:37
 msgid "Privacy"
 msgstr "Privacy"
@@ -659,7 +661,7 @@ msgstr "Public"
 msgid "about:search.text"
 msgstr "Quickly find what you're looking for"
 
-#: inertia/pages/home.tsx:238
+#: inertia/pages/home.tsx:232
 msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
 
@@ -740,13 +742,17 @@ msgstr "Share"
 msgid "about:share.text"
 msgstr "Share your collections with others"
 
-#: inertia/pages/home.tsx:257
+#: inertia/pages/home.tsx:251
 msgid "Sign In"
 msgstr "Sign In"
 
-#: inertia/pages/home.tsx:174
+#: inertia/pages/home.tsx:168
 msgid "Sign Up"
 msgstr "Sign Up"
+
+#: inertia/components/common/footer.tsx:32
+msgid "Status"
+msgstr "Status"
 
 #: inertia/pages/home.tsx:136
 msgid "Take full control by hosting MyLinks on your own infrastructure. Your data, your rules, your server."
@@ -756,6 +762,7 @@ msgstr "Take full control by hosting MyLinks on your own infrastructure. Your da
 msgid "Termination"
 msgstr "Termination"
 
+#: inertia/components/common/footer.tsx:61
 #: inertia/components/common/footer/footer.tsx:40
 msgid "Terms"
 msgstr "Terms"
@@ -884,7 +891,7 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 #~ msgid "Welcome to our Terms of Service"
 #~ msgstr "Welcome to our Terms of Service"
 
-#: inertia/pages/home.tsx:182
+#: inertia/pages/home.tsx:176
 msgid "Why Choose MyLinks?"
 msgstr "Why Choose MyLinks?"
 
