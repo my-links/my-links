@@ -1,6 +1,6 @@
 import { ActionIcon, Anchor, CopyButton, Popover, Text } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react/jsx-runtime';
+import { Trans } from '@lingui/react/macro';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { generateShareUrl } from '~/lib/navigation';
 import { Visibility } from '~/types/app';
@@ -8,7 +8,6 @@ import { Visibility } from '~/types/app';
 const COPY_SUCCESS_TIMEOUT = 2_000;
 
 export function ShareCollection() {
-	const { t } = useTranslation('common');
 	const activeCollection = useActiveCollection();
 	if (
 		activeCollection?.visibility !== Visibility.PUBLIC ||
@@ -25,13 +24,17 @@ export function ShareCollection() {
 				</ActionIcon>
 			</Popover.Target>
 			<Popover.Dropdown p="xs">
-				<Text c="dimmed">{t('click-to-copy')}</Text>
+				<Text c="dimmed">
+					<Trans>Click to copy</Trans>
+				</Text>
 				<CopyButton value={sharedUrl} timeout={COPY_SUCCESS_TIMEOUT}>
 					{({ copied, copy }) =>
 						!copied ? (
 							<Anchor onClick={copy}>{sharedUrl}</Anchor>
 						) : (
-							<Text c="green">{t('success-copy')}</Text>
+							<Text c="green">
+								<Trans>Copied!</Trans>
+							</Text>
 						)
 					}
 				</CopyButton>

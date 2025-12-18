@@ -1,4 +1,4 @@
-import i18n from '~/i18n';
+import { i18n } from '@lingui/core';
 
 export async function makeRequest({
 	method = 'GET',

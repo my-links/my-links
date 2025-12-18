@@ -1,7 +1,7 @@
 import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import cx from 'clsx';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
 import { InternalLinkUnstyled } from '~/components/common/links/internal_link_unstyled';
 import { useAuth } from '~/hooks/use_auth';
 import classes from './user_dropdown.module.css';
@@ -10,7 +10,6 @@ export function UserDropdown() {
 	const auth = useAuth();
 	const [userMenuOpened, { open: openUserMenu, close: closeUserMenu }] =
 		useDisclosure(false);
-	const { t } = useTranslation();
 
 	return (
 		<Menu
@@ -48,7 +47,9 @@ export function UserDropdown() {
 			<Menu.Dropdown>
 				{auth.user?.isAdmin && (
 					<>
-						<Menu.Label>{t('common:admin')}</Menu.Label>
+						<Menu.Label>
+							<Trans>Admin</Trans>
+						</Menu.Label>
 						<Menu.Item
 							leftSection={
 								<div
@@ -60,12 +61,14 @@ export function UserDropdown() {
 							href="/admin"
 							color="red"
 						>
-							{t('common:manage-users')}
+							<Trans>Manage users</Trans>
 						</Menu.Item>
 					</>
 				)}
 
-				<Menu.Label>{t('common:user')}</Menu.Label>
+				<Menu.Label>
+					<Trans>User</Trans>
+				</Menu.Label>
 				<Menu.Item
 					leftSection={
 						<div
@@ -76,7 +79,7 @@ export function UserDropdown() {
 					component={InternalLinkUnstyled}
 					href="/user/settings"
 				>
-					{t('common:settings')}
+					<Trans>Settings</Trans>
 				</Menu.Item>
 				<Menu.Item
 					leftSection={
@@ -88,7 +91,7 @@ export function UserDropdown() {
 					component={InternalLinkUnstyled}
 					href="/auth/logout"
 				>
-					{t('common:logout')}
+					<Trans>Logout</Trans>
 				</Menu.Item>
 			</Menu.Dropdown>
 		</Menu>

@@ -11,7 +11,7 @@ import {
 	Text,
 } from '@mantine/core';
 import { openSpotlight } from '@mantine/spotlight';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
 import { UserCard } from '~/components/common/user_card';
 import { FavoriteList } from '~/components/dashboard/favorite/favorite_list';
 import { SearchSpotlight } from '~/components/search/search';
@@ -27,7 +27,6 @@ interface DashboardNavbarProps {
 	toggle: () => void;
 }
 export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
-	const { t } = useTranslation('common');
 	const { isAuthenticated, user } = useAuth();
 	const tuyau = useTuyauRequired();
 
@@ -91,7 +90,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 					{...common}
 					component={Link}
 					href={tuyau.$route('admin.dashboard').path}
-					label={t('admin')}
+					label={<Trans>Admin</Trans>}
 					leftSection={
 						<div
 							className="i-ion-shield-half"
@@ -103,7 +102,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 			)}
 			<NavLink
 				{...common}
-				label={t('settings')}
+				label={<Trans>Settings</Trans>}
 				leftSection={
 					<div
 						className="i-phosphor-gear-light"
@@ -114,10 +113,9 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				disabled
 			/>
 			<>
-				{/* Search button */}
 				<NavLink
 					{...common}
-					label={t('search')}
+					label={<Trans>Search</Trans>}
 					leftSection={
 						<div
 							className="i-ion-search"
@@ -127,7 +125,6 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 					onClick={() => openSpotlight()}
 					rightSection={<Kbd size="xs">S</Kbd>}
 				/>
-				{/* Search spotlight / modal */}
 				<SearchSpotlight
 					openCallback={onSpotlightOpen}
 					closeCallback={onSpotlightClose}
@@ -137,7 +134,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				{...common}
 				component={Link}
 				href={tuyau.$route('link.create-form').path}
-				label={t('link.create')}
+				label={<Trans>Create a link</Trans>}
 				leftSection={
 					<div
 						className="i-ion-add"
@@ -150,7 +147,7 @@ export function DashboardNavbar({ isOpen, toggle }: DashboardNavbarProps) {
 				{...common}
 				component={Link}
 				href={tuyau.$route('collection.create-form').path}
-				label={t('collection.create')}
+				label={<Trans>Create a collection</Trans>}
 				leftSection={
 					<div
 						className="i-ant-design-folder-add-outlined"

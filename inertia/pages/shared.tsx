@@ -1,6 +1,6 @@
 import { SharedCollection } from '#shared/types/dto';
+import { Trans as TransComponent } from '@lingui/react';
 import { Flex, Text } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
 import { LinkList } from '~/components/dashboard/link/list/link_list';
 
 interface SharedPageProps {
@@ -8,7 +8,6 @@ interface SharedPageProps {
 }
 
 export default function SharedPage({ activeCollection }: SharedPageProps) {
-	const { t } = useTranslation('common');
 	return (
 		<>
 			<Flex direction="column">
@@ -17,17 +16,16 @@ export default function SharedPage({ activeCollection }: SharedPageProps) {
 					{activeCollection.description}
 				</Text>
 				<Flex justify="flex-end">
-					<Text
-						size="sm"
-						c="dimmed"
-						mt="md"
-						mb="lg"
-						dangerouslySetInnerHTML={{
-							__html: t('collection.managed-by', {
-								name: activeCollection.author.fullname,
-							}),
-						}}
-					/>
+					<Text size="sm" c="dimmed" mt="md" mb="lg">
+						<TransComponent
+							id="common:collection.managed-by"
+							message="Collection managed by <b>{{name}}</b>"
+							values={{ name: activeCollection.author.fullname }}
+							components={{
+								b: <b />,
+							}}
+						/>
+					</Text>
 				</Flex>
 				<LinkList hideMenu />
 			</Flex>

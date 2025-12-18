@@ -8,7 +8,8 @@ import {
 	Text,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
+import { Trans as TransComponent } from '@lingui/react';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { ApiToken } from '~/types/app';
@@ -22,14 +23,15 @@ const useGetCreatedToken = () => {
 };
 
 export function ApiTokens() {
-	const { t } = useTranslation();
 	const { tokens, createToken, revokeToken } = useApiTokens();
 
 	const newlyCreatedToken = useGetCreatedToken();
 
 	const handleCreateTokenModal = () => {
 		modals.open({
-			title: t('api-tokens.create-new'),
+			title: (
+				<TransComponent id="api-tokens.create-new" message="Create new token" />
+			),
 			children: (
 				<CreateTokenModal
 					onCreate={(name) => createToken(name)}
@@ -46,13 +48,17 @@ export function ApiTokens() {
 		modals.openConfirmModal({
 			title: (
 				<>
-					{t('api-tokens.revoke')} "<strong>{token.name}</strong>"
+					<Trans>Revoke</Trans> "<strong>{token.name}</strong>"
 				</>
 			),
-			children: <Text size="sm">{t('api-tokens.confirm-revoke')}</Text>,
+			children: (
+				<Text size="sm">
+					<Trans>Are you sure you want to revoke this token?</Trans>
+				</Text>
+			),
 			labels: {
-				confirm: t('api-tokens.revoke'),
-				cancel: t('cancel'),
+				confirm: <TransComponent id="api-tokens.revoke" message="Revoke" />,
+				cancel: <TransComponent id="cancel" message="Cancel" />,
 			},
 			confirmProps: { color: 'red' },
 			onConfirm: () => revokeToken(tokenId),
@@ -63,7 +69,7 @@ export function ApiTokens() {
 		newlyCreatedToken?.identifier === token.identifier && (
 			<>
 				<Text c="green" size="sm">
-					{t('api-tokens.new-token')}{' '}
+					<Trans>New token created</Trans>{' '}
 					{newlyCreatedToken.token && (
 						<CopyButton value={newlyCreatedToken.token}>
 							{({ copied, copy }) => (
@@ -73,7 +79,7 @@ export function ApiTokens() {
 									size="xs"
 									variant="light"
 								>
-									{copied ? t('copied') : t('copy')}
+									{copied ? <Trans>Copied</Trans> : <Trans>Copy</Trans>}
 								</Button>
 							)}
 						</CopyButton>
@@ -107,7 +113,9 @@ export function ApiTokens() {
 	return (
 		<Card withBorder>
 			<Group justify="space-between" mb="md">
-				<Text fw={500}>{t('api-tokens.title')}</Text>
+				<Text fw={500}>
+					<Trans>API Tokens</Trans>
+				</Text>
 				<Button
 					leftSection={
 						<div
@@ -119,13 +127,13 @@ export function ApiTokens() {
 					size="sm"
 					variant="light"
 				>
-					{t('api-tokens.create')}
+					<Trans>Create token</Trans>
 				</Button>
 			</Group>
 
 			{tokens.length === 0 && (
 				<Text c="dimmed" ta="center" py="xl">
-					{t('api-tokens.no-tokens')}
+					<Trans>No tokens created yet</Trans>
 				</Text>
 			)}
 
