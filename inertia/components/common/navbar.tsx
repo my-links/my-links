@@ -10,58 +10,31 @@ import { withAuth } from '~/hooks/use_auth';
 
 const LINKS = [
 	{
-		label: 'Dashboard',
-		href: '/dashboard',
-		icon: 'i-mdi-view-dashboard',
-		external: false,
-	},
-	{
 		label: 'Github',
 		href: PROJECT_REPO_GITHUB_URL,
 		icon: 'i-mdi-github',
-		external: true,
 	},
 	{
 		label: 'Extension',
 		href: PROJECT_EXTENSION_URL,
 		icon: 'i-mdi-extension',
-		external: true,
 	},
 ] as const;
 
-const NavbarLink = ({ link }: { link: (typeof LINKS)[number] }) => {
-	const Icon = (
+const NavbarLink = ({ link }: { link: (typeof LINKS)[number] }) => (
+	<a
+		href={link.href}
+		target="_blank"
+		rel="noopener noreferrer"
+		className="text-gray-900 dark:text-white flex items-center gap-2"
+		key={link.href}
+	>
 		<i
 			className={`${link.icon} text-gray-500 dark:text-gray-400 h-6 min-w-6 block`}
 		/>
-	);
-
-	if (link.external) {
-		return (
-			<a
-				href={link.href}
-				target="_blank"
-				rel="noopener noreferrer"
-				className="text-gray-900 dark:text-white flex items-center gap-2"
-				key={link.href}
-			>
-				{Icon}
-				{link.label}
-			</a>
-		);
-	}
-
-	return (
-		<Link
-			href={link.href}
-			className="text-gray-900 dark:text-white flex items-center gap-2"
-			key={link.href}
-		>
-			{Icon}
-			{link.label}
-		</Link>
-	);
-};
+		{link.label}
+	</a>
+);
 
 export const Navbar = withAuth(({ auth }: { auth: UserAuth }) => (
 	<nav className="h-[64px] bg-white dark:bg-gray-800 max-w-[1920px] flex justify-between items-center py-2 px-6 rounded-md">
