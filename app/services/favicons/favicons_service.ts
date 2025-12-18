@@ -1,12 +1,14 @@
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
+import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { Favicon } from '#types/favicons/favicon_type';
 import logger from '@adonisjs/core/services/logger';
 import { parse } from 'node-html-parser';
 
 export class FaviconService {
-	private userAgent =
+	private readonly userAgent =
 		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0';
-	private relList = [
+	private readonly relList = [
 		'icon',
 		'shortcut icon',
 		'apple-touch-icon',
@@ -15,22 +17,51 @@ export class FaviconService {
 		'mask-icon',
 		'fluid-icon',
 	];
+	private readonly requestTimeout = 10000;
+	private readonly urlValidator: UrlValidatorService;
+
+	constructor() {
+		this.urlValidator = new UrlValidatorService();
+	}
 
 	async getFavicon(url: string): Promise<Favicon> {
+		const normalizedUrl = this.normalizeUrl(url);
+
+		if (!this.urlValidator.isUrlAllowed(normalizedUrl)) {
+			throw new UrlBlockedException(`URL is blocked: ${normalizedUrl}`);
+		}
+
 		try {
-			return await this.fetchFavicon(this.buildFaviconUrl(url, '/favicon.ico'));
-		} catch {
-			logger.debug(`Unable to retrieve favicon from ${url}/favicon.ico`);
+			return await this.fetchFavicon(
+				this.buildFaviconUrl(normalizedUrl, '/favicon.ico')
+			);
+		} catch (error) {
+			logger.debug(
+				`Unable to retrieve favicon from ${normalizedUrl}/favicon.ico`,
+				error
+			);
 		}
 
-		const documentText = await this.fetchDocumentText(url);
-		const faviconPath = this.extractFaviconPath(documentText);
+		try {
+			const documentText = await this.fetchDocumentText(normalizedUrl);
+			const faviconPath = this.extractFaviconPath(documentText);
 
-		if (!faviconPath) {
-			throw new FaviconNotFoundException(`No favicon path found in ${url}`);
+			if (!faviconPath) {
+				throw new FaviconNotFoundException(
+					`No favicon path found in ${normalizedUrl}`
+				);
+			}
+
+			return await this.fetchFaviconFromPath(normalizedUrl, faviconPath);
+		} catch (error) {
+			if (error instanceof FaviconNotFoundException) {
+				throw error;
+			}
+			logger.debug(`Failed to fetch document from ${normalizedUrl}`, error);
+			throw new FaviconNotFoundException(
+				`Unable to retrieve favicon from ${normalizedUrl}`
+			);
 		}
-
-		return await this.fetchFaviconFromPath(url, faviconPath);
 	}
 
 	private async fetchFavicon(url: string): Promise<Favicon> {
@@ -63,10 +94,19 @@ export class FaviconService {
 
 	private extractFaviconPath(html: string): string | undefined {
 		const document = parse(html);
-		const link = document
-			.getElementsByTagName('link')
-			.find((element) => this.relList.includes(element.getAttribute('rel')!));
-		return link?.getAttribute('href');
+		const links = document.getElementsByTagName('link');
+
+		for (const link of links) {
+			const rel = link.getAttribute('rel')?.toLowerCase();
+			if (rel && this.relList.includes(rel)) {
+				const href = link.getAttribute('href');
+				if (href) {
+					return href;
+				}
+			}
+		}
+
+		return undefined;
 	}
 
 	private async fetchFaviconFromPath(
@@ -118,7 +158,35 @@ export class FaviconService {
 	}
 
 	private async fetchWithUserAgent(url: string): Promise<Response> {
-		const headers = new Headers({ 'User-Agent': this.userAgent });
-		return fetch(url, { headers });
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), this.requestTimeout);
+
+		try {
+			const headers = new Headers({ 'User-Agent': this.userAgent });
+			const response = await fetch(url, {
+				headers,
+				signal: controller.signal,
+				redirect: 'follow',
+			});
+			clearTimeout(timeoutId);
+			return response;
+		} catch (error) {
+			clearTimeout(timeoutId);
+			if (error instanceof Error && error.name === 'AbortError') {
+				throw new FaviconNotFoundException(`Request timeout for ${url}`);
+			}
+			throw error;
+		}
+	}
+
+	private normalizeUrl(url: string): string {
+		try {
+			const parsed = new URL(url);
+			parsed.search = '';
+			parsed.hash = '';
+			return parsed.toString().replace(/\/$/, '');
+		} catch {
+			return url;
+		}
 	}
 }
