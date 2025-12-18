@@ -1,7 +1,7 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import {
 	FormCollection,
 	FormCollectionData,
@@ -15,7 +15,6 @@ interface EditCollectionPageProps {
 export default function EditCollectionPage({
 	collection,
 }: EditCollectionPageProps) {
-	const { t } = useTranslation('common');
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			name: collection.name,
@@ -44,13 +43,19 @@ export default function EditCollectionPage({
 
 	return (
 		<FormCollection
-			title={t('collection.edit')}
-			textSubmitButton={t('form.update')}
+			title={
+				<TransComponent
+					id="common:collection.edit"
+					message="Edit a collection"
+				/>
+			}
+			textSubmitButton={
+				<TransComponent id="common:form.update" message="Update" />
+			}
 			canSubmit={canSubmit}
 			data={data}
 			setData={setData}
 			handleSubmit={handleSubmit}
-			// TODO: fix this, type mistmatch (Record<string, string[]> sent by the backend, but useForm expects a Record<string, string>)
 			errors={errors as any}
 		/>
 	);

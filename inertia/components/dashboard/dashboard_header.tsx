@@ -9,11 +9,11 @@ import {
 	Menu,
 	Text,
 } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
 import { ShareCollection } from '~/components/share/share_collection';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
+import { Trans } from '@lingui/react/macro';
 import { Visibility } from '~/types/app';
 
 interface DashboardHeaderProps {
@@ -27,7 +27,6 @@ interface DashboardHeaderProps {
 	};
 }
 export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
-	const { t } = useTranslation('common');
 	const activeCollection = useActiveCollection();
 	const tuyau = useTuyauRequired();
 
@@ -45,7 +44,9 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 						<Text lineClamp={1}>
 							{activeCollection?.name}{' '}
 							{activeCollection?.visibility === Visibility.PUBLIC && (
-								<Badge variant="light">{t('visibility.public')}</Badge>
+								<Badge variant="light">
+									<Trans>Public</Trans>
+								</Badge>
 							)}
 						</Text>
 						{activeCollection?.description && (
@@ -74,7 +75,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 								leftSection={<div className="i-ion-add-circle-outline" />}
 								color="blue"
 							>
-								{t('link.create')}
+								<Trans>Create a link</Trans>
 							</Menu.Item>
 							<Menu.Item
 								component={Link}
@@ -85,7 +86,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 								leftSection={<div className="i-octicon-pencil" />}
 								color="blue"
 							>
-								{t('collection.edit')}
+								<Trans>Edit a collection</Trans>
 							</Menu.Item>
 							<Menu.Item
 								component={Link}
@@ -96,7 +97,7 @@ export function DashboardHeader({ navbar, aside }: DashboardHeaderProps) {
 								leftSection={<div className="i-ion-trash-outline" />}
 								color="red"
 							>
-								{t('collection.delete')}
+								<Trans>Delete a collection</Trans>
 							</Menu.Item>
 						</Menu.Dropdown>
 					</Menu>

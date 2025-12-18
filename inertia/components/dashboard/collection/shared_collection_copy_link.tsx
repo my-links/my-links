@@ -1,5 +1,5 @@
 import { Badge, CopyButton } from '@mantine/core';
-import { t } from 'i18next';
+import { Trans } from '@lingui/react/macro';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useAppUrl } from '~/hooks/use_app_url';
 
@@ -22,7 +22,7 @@ export function SharedCollectionCopyLink() {
 					onClick={copy}
 					style={{ cursor: 'pointer' }}
 				>
-					{copied ? t('success-copy') : t('visibility.public')}
+					{copied ? <Trans>Copied!</Trans> : <Trans>Public</Trans>}
 					{!copied && (
 						<span
 							className="i-tabler-copy inline-block"

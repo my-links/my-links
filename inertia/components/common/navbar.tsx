@@ -4,6 +4,7 @@ import {
 } from '#config/project';
 import { UserAuth } from '#shared/types/dto';
 import { Link } from '@inertiajs/react';
+import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { ThemeToggle } from '~/components/common/theme_toggle';
 import { withAuth } from '~/hooks/use_auth';
 
@@ -109,6 +110,7 @@ export const Navbar = withAuth(({ auth }: { auth: UserAuth }) => (
 					</Link>
 				</>
 			)}
+			<LocaleSwitcher />
 			<ThemeToggle />
 		</div>
 	</nav>

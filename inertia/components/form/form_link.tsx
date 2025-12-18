@@ -1,7 +1,7 @@
 import { Collection } from '#shared/types/dto';
 import { Checkbox, Select, TextInput } from '@mantine/core';
 import { FormEvent } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import BackToDashboard from '~/components/common/navigation/back_to_dashboard';
 import useSearchParam from '~/hooks/use_search_param';
 import { FormLayout, FormLayoutProps } from '~/layouts/form_layout';
@@ -33,7 +33,6 @@ export function FormLink({
 	handleSubmit,
 	...props
 }: FormLinkProps) {
-	const { t } = useTranslation('common');
 	const collectionId =
 		Number(useSearchParam('collectionId')) ?? collections?.[0].id;
 
@@ -46,8 +45,8 @@ export function FormLink({
 		<FormLayout handleSubmit={onSubmit} collectionId={collectionId} {...props}>
 			<BackToDashboard disabled={props.disableHomeLink}>
 				<TextInput
-					label={t('form.name')}
-					placeholder={t('form.name')}
+					label={<TransComponent id="common:form.name" message="Name" />}
+					placeholder={<TransComponent id="common:form.name" message="Name" />}
 					onChange={({ target }) => setData('name', target.value)}
 					value={data.name}
 					readOnly={disableInputs}
@@ -57,8 +56,8 @@ export function FormLink({
 					required
 				/>
 				<TextInput
-					label={t('form.url')}
-					placeholder={t('form.url')}
+					label={<TransComponent id="common:form.url" message="URL" />}
+					placeholder={<TransComponent id="common:form.url" message="URL" />}
 					onChange={({ target }) => setData('url', target.value)}
 					value={data.url ?? undefined}
 					readOnly={disableInputs}
@@ -67,8 +66,18 @@ export function FormLink({
 					required
 				/>
 				<TextInput
-					label={t('form.description')}
-					placeholder={t('form.description')}
+					label={
+						<TransComponent
+							id="common:form.description"
+							message="Description"
+						/>
+					}
+					placeholder={
+						<TransComponent
+							id="common:form.description"
+							message="Description"
+						/>
+					}
 					onChange={({ target }) => setData('description', target.value)}
 					value={data.description ?? undefined}
 					readOnly={disableInputs}
@@ -76,8 +85,18 @@ export function FormLink({
 					mt="md"
 				/>
 				<Select
-					label={t('collection.collections')}
-					placeholder={t('collection.collections')}
+					label={
+						<TransComponent
+							id="common:collection.collections"
+							message="Collections"
+						/>
+					}
+					placeholder={
+						<TransComponent
+							id="common:collection.collections"
+							message="Collections"
+						/>
+					}
 					data={collections.map(({ id, name }) => ({
 						label: name,
 						value: id.toString(),
@@ -90,11 +109,11 @@ export function FormLink({
 					required
 				/>
 				<Checkbox
-					label={t('favorite')}
+					label={<TransComponent id="common:favorite" message="Favorite" />}
 					onChange={({ target }) => setData('favorite', target.checked)}
 					checked={data.favorite}
 					error={errors?.favorite}
-					disabled={disableInputs} // readonly not working
+					disabled={disableInputs}
 					mt="md"
 				/>
 			</BackToDashboard>

@@ -23,7 +23,7 @@ export const getRoute = (
 		throw new Error(`Route ${routeName} not found`);
 	}
 
-	let path = routeInfo.path;
+	let path: string = routeInfo.path;
 	if (options?.params && routeInfo.params.length > 0) {
 		routeInfo.params.forEach((paramName) => {
 			const paramValue = options.params?.[paramName];
@@ -33,7 +33,7 @@ export const getRoute = (
 		});
 	}
 
-	let url = path;
+	let url: string = path;
 	if (options?.qs) {
 		const searchParams = new URLSearchParams();
 		Object.entries(options.qs).forEach(([key, value]) => {

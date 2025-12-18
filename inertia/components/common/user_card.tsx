@@ -1,6 +1,6 @@
 import { Avatar, Group, Menu, Text, UnstyledButton } from '@mantine/core';
 import { forwardRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
 import { useAuth } from '~/hooks/use_auth';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 
@@ -45,7 +45,6 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
 );
 
 export function UserCard() {
-	const { t } = useTranslation('common');
 	const { user, isAuthenticated } = useAuth();
 	const tuyau = useTuyauRequired();
 
@@ -58,7 +57,7 @@ export function UserCard() {
 				</Menu.Target>
 				<Menu.Dropdown>
 					<Menu.Item component="a" href={tuyau.$route('auth.logout').path}>
-						{t('logout')}
+						<Trans>Logout</Trans>
 					</Menu.Item>
 				</Menu.Dropdown>
 			</Menu>

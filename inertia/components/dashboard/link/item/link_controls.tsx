@@ -2,7 +2,7 @@ import { Link } from '#shared/types/dto';
 import { Link as InertiaLink, router } from '@inertiajs/react';
 import { ActionIcon, Menu } from '@mantine/core';
 import { MouseEvent } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId, appendLinkId } from '~/lib/navigation';
@@ -15,7 +15,6 @@ export default function LinkControls({
 	link,
 	showGoToCollection = false,
 }: LinksControlsProps) {
-	const { t } = useTranslation('common');
 	const tuyau = useTuyauRequired();
 
 	const onFavoriteCallback = () => {
@@ -52,7 +51,7 @@ export default function LinkControls({
 						leftSection={<div className="i-fa6-regular-eye" />}
 						color="blue"
 					>
-						{t('go-to-collection')}
+						<Trans>Go to collection</Trans>
 					</Menu.Item>
 				)}
 				{'favorite' in link && (
@@ -69,7 +68,11 @@ export default function LinkControls({
 						}
 						color="var(--mantine-color-yellow-7)"
 					>
-						{link.favorite ? t('remove-favorite') : t('add-favorite')}
+						{link.favorite ? (
+							<Trans>Remove from favorites</Trans>
+						) : (
+							<Trans>Add to favorites</Trans>
+						)}
 					</Menu.Item>
 				)}
 				<Menu.Item
@@ -78,7 +81,7 @@ export default function LinkControls({
 					leftSection={<div className="i-octicon-pencil" />}
 					color="blue"
 				>
-					{t('link.edit')}
+					<Trans>Edit a link</Trans>
 				</Menu.Item>
 				<Menu.Item
 					component={InertiaLink}
@@ -86,7 +89,7 @@ export default function LinkControls({
 					leftSection={<div className="i-ion-trash-outline" />}
 					color="red"
 				>
-					{t('link.delete')}
+					<Trans>Delete a link</Trans>
 				</Menu.Item>
 			</Menu.Dropdown>
 		</Menu>

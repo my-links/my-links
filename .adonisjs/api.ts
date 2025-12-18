@@ -7,10 +7,42 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types';
 import type { InferInput } from '@vinejs/vine/types';
 
+type FaviconGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/favicons/favicons_controller.ts').default['render'],
+		false
+	>;
+};
+type SharedIdGetHead = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/shared_collections/shared_collection.ts'))['getSharedCollectionValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/shared_collections/shared_collections_controller.ts').default['render'],
+		true
+	>;
+};
+type UserSettingsGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user_settings/show_user_settings_controller.ts').default['render'],
+		false
+	>;
+};
 type AdminGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/controllers/admin/admin_controller.ts').default['index'],
+		import('../app/controllers/admin/admin_controller.ts').default['render'],
+		false
+	>;
+};
+type ApiV1CollectionsGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/collections/get_collections_controller.ts').default['render'],
 		false
 	>;
 };
@@ -25,24 +57,6 @@ type ApiV1CollectionsPost = {
 		true
 	>;
 };
-type ApiV1CollectionsIdDelete = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/collections/delete_collection_validator.ts'))['deleteCollectionValidator']
-		>
-	>;
-	response: MakeTuyauResponse<
-		import('../app/controllers/api/collections/delete_collection_controller.ts').default['execute'],
-		true
-	>;
-};
-type ApiV1CollectionsGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/api/collections/get_collections_controller.ts').default['show'],
-		false
-	>;
-};
 type ApiV1CollectionsIdPut = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -54,6 +68,17 @@ type ApiV1CollectionsIdPut = {
 		true
 	>;
 };
+type ApiV1CollectionsIdDelete = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/collections/delete_collection_validator.ts'))['deleteCollectionValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/collections/delete_collection_controller.ts').default['execute'],
+		true
+	>;
+};
 type ApiV1LinksPost = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -62,6 +87,17 @@ type ApiV1LinksPost = {
 	>;
 	response: MakeTuyauResponse<
 		import('../app/controllers/api/links/create_link_controller.ts').default['execute'],
+		true
+	>;
+};
+type ApiV1LinksIdPut = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/links/update_link_validator.ts'))['updateLinkValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/links/update_link_controller.ts').default['execute'],
 		true
 	>;
 };
@@ -83,21 +119,10 @@ type ApiV1LinksFavoritesGetHead = {
 		false
 	>;
 };
-type ApiV1LinksIdPut = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/links/update_link_validator.ts'))['updateLinkValidator']
-		>
-	>;
-	response: MakeTuyauResponse<
-		import('../app/controllers/api/links/update_link_controller.ts').default['execute'],
-		true
-	>;
-};
 type ApiV1TokensCheckGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/controllers/api/tokens/api_token_controller.ts').default['index'],
+		import('../app/controllers/api/tokens/api_token_controller.ts').default['render'],
 		false
 	>;
 };
@@ -176,13 +201,6 @@ type CollectionsIdDelete = {
 		true
 	>;
 };
-type FaviconGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/favicons/favicons_controller.ts').default['index'],
-		false
-	>;
-};
 type LinksCreateGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
@@ -251,15 +269,30 @@ type LinksIdDelete = {
 type SearchGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/controllers/search/search_controller.ts').default['search'],
+		import('../app/controllers/search/search_controller.ts').default['render'],
 		false
 	>;
 };
-type SharedIdGetHead = {
-	request: unknown;
+type UserThemePost = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/user/update_theme_validator.ts'))['updateThemeValidator']
+		>
+	>;
 	response: MakeTuyauResponse<
-		import('../app/controllers/shared_collections/shared_collections_controller.ts').default['index'],
-		false
+		import('../app/controllers/user/theme_controller.ts').default['render'],
+		true
+	>;
+};
+type UserDisplaypreferencesPost = {
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/user/update_display_preferences.ts'))['updateDisplayPreferencesValidator']
+		>
+	>;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user/display_preferences_controller.ts').default['update'],
+		true
 	>;
 };
 type UserApitokensPost = {
@@ -284,36 +317,42 @@ type UserApitokensIdDelete = {
 		true
 	>;
 };
-type UserDisplaypreferencesPost = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/user/update_display_preferences.ts'))['updateDisplayPreferencesValidator']
-		>
-	>;
-	response: MakeTuyauResponse<
-		import('../app/controllers/user/display_preferences_controller.ts').default['update'],
-		true
-	>;
-};
-type UserThemePost = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/user/update_theme_validator.ts'))['updateThemeValidator']
-		>
-	>;
-	response: MakeTuyauResponse<
-		import('../app/controllers/user/theme_controller.ts').default['index'],
-		true
-	>;
-};
-type UserSettingsGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/user_settings/show_user_settings_controller.ts').default['render'],
-		false
-	>;
-};
 export interface ApiDefinition {
+	favicon: {
+		$url: {};
+		$get: FaviconGetHead;
+		$head: FaviconGetHead;
+	};
+	shared: {
+		':id': {
+			$url: {};
+			$get: SharedIdGetHead;
+			$head: SharedIdGetHead;
+		};
+	};
+	user: {
+		settings: {
+			$url: {};
+			$get: UserSettingsGetHead;
+			$head: UserSettingsGetHead;
+		};
+		theme: {
+			$url: {};
+			$post: UserThemePost;
+		};
+		'display-preferences': {
+			$url: {};
+			$post: UserDisplaypreferencesPost;
+		};
+		'api-tokens': {
+			$url: {};
+			$post: UserApitokensPost;
+			':tokenId': {
+				$url: {};
+				$delete: UserApitokensIdDelete;
+			};
+		};
+	};
 	admin: {
 		$url: {};
 		$get: AdminGetHead;
@@ -323,22 +362,22 @@ export interface ApiDefinition {
 		v1: {
 			collections: {
 				$url: {};
+				$get: ApiV1CollectionsGetHead;
+				$head: ApiV1CollectionsGetHead;
 				$post: ApiV1CollectionsPost;
 				':id': {
 					$url: {};
-					$delete: ApiV1CollectionsIdDelete;
 					$put: ApiV1CollectionsIdPut;
+					$delete: ApiV1CollectionsIdDelete;
 				};
-				$get: ApiV1CollectionsGetHead;
-				$head: ApiV1CollectionsGetHead;
 			};
 			links: {
 				$url: {};
 				$post: ApiV1LinksPost;
 				':id': {
 					$url: {};
-					$delete: ApiV1LinksIdDelete;
 					$put: ApiV1LinksIdPut;
+					$delete: ApiV1LinksIdDelete;
 				};
 				favorites: {
 					$url: {};
@@ -396,11 +435,6 @@ export interface ApiDefinition {
 			$head: CollectionsDeleteGetHead;
 		};
 	};
-	favicon: {
-		$url: {};
-		$get: FaviconGetHead;
-		$head: FaviconGetHead;
-	};
 	links: {
 		create: {
 			$url: {};
@@ -434,44 +468,63 @@ export interface ApiDefinition {
 		$get: SearchGetHead;
 		$head: SearchGetHead;
 	};
-	shared: {
-		':id': {
-			$url: {};
-			$get: SharedIdGetHead;
-			$head: SharedIdGetHead;
-		};
-	};
-	user: {
-		'api-tokens': {
-			$url: {};
-			$post: UserApitokensPost;
-			':tokenId': {
-				$url: {};
-				$delete: UserApitokensIdDelete;
-			};
-		};
-		'display-preferences': {
-			$url: {};
-			$post: UserDisplaypreferencesPost;
-		};
-		theme: {
-			$url: {};
-			$post: UserThemePost;
-		};
-		settings: {
-			$url: {};
-			$get: UserSettingsGetHead;
-			$head: UserSettingsGetHead;
-		};
-	};
 }
 const routes = [
+	{
+		params: [],
+		name: 'favicon',
+		path: '/favicon',
+		method: ['GET', 'HEAD'],
+		types: {} as FaviconGetHead,
+	},
+	{
+		params: [],
+		name: 'home',
+		path: '/',
+		method: ['GET', 'HEAD'],
+		types: {} as unknown,
+	},
+	{
+		params: [],
+		name: 'terms',
+		path: '/terms',
+		method: ['GET', 'HEAD'],
+		types: {} as unknown,
+	},
+	{
+		params: [],
+		name: 'privacy',
+		path: '/privacy',
+		method: ['GET', 'HEAD'],
+		types: {} as unknown,
+	},
+	{
+		params: ['id'],
+		name: 'shared',
+		path: '/shared/:id',
+		method: ['GET', 'HEAD'],
+		types: {} as SharedIdGetHead,
+	},
+	{
+		params: [],
+		name: 'user.settings',
+		path: '/user/settings',
+		method: ['GET', 'HEAD'],
+		types: {} as UserSettingsGetHead,
+	},
 	{
 		params: [],
 		name: 'admin.dashboard',
 		path: '/admin',
 		method: ['GET', 'HEAD'],
 		types: {} as AdminGetHead,
+	},
+	{
+		params: [],
+		name: 'api-collections.index',
+		path: '/api/v1/collections',
+		method: ['GET', 'HEAD'],
+		types: {} as ApiV1CollectionsGetHead,
 	},
 	{
 		params: [],
@@ -482,6 +535,13 @@ const routes = [
 	},
 	{
 		params: ['id'],
+		name: 'api-collections.update',
+		path: '/api/v1/collections/:id',
+		method: ['PUT'],
+		types: {} as ApiV1CollectionsIdPut,
+	},
+	{
+		params: ['id'],
 		name: 'api-collections.delete',
 		path: '/api/v1/collections/:id',
 		method: ['DELETE'],
@@ -489,24 +549,17 @@ const routes = [
 	},
 	{
 		params: [],
-		name: 'api-collections.index',
-		path: '/api/v1/collections',
-		method: ['GET', 'HEAD'],
-		types: {} as ApiV1CollectionsGetHead,
-	},
-	{
-		params: ['id'],
-		name: 'api-collections.update',
-		path: '/api/v1/collections/:id',
-		method: ['PUT'],
-		types: {} as ApiV1CollectionsIdPut,
-	},
-	{
-		params: [],
 		name: 'api-links.create',
 		path: '/api/v1/links',
 		method: ['POST'],
 		types: {} as ApiV1LinksPost,
+	},
+	{
+		params: ['id'],
+		name: 'api-links.update',
+		path: '/api/v1/links/:id',
+		method: ['PUT'],
+		types: {} as ApiV1LinksIdPut,
 	},
 	{
 		params: ['id'],
@@ -521,13 +574,6 @@ const routes = [
 		path: '/api/v1/links/favorites',
 		method: ['GET', 'HEAD'],
 		types: {} as ApiV1LinksFavoritesGetHead,
-	},
-	{
-		params: ['id'],
-		name: 'api-links.update',
-		path: '/api/v1/links/:id',
-		method: ['PUT'],
-		types: {} as ApiV1LinksIdPut,
 	},
 	{
 		params: [],
@@ -608,34 +654,6 @@ const routes = [
 	},
 	{
 		params: [],
-		name: 'favicon',
-		path: '/favicon',
-		method: ['GET', 'HEAD'],
-		types: {} as FaviconGetHead,
-	},
-	{
-		params: [],
-		name: 'home',
-		path: '/',
-		method: ['GET', 'HEAD'],
-		types: {} as unknown,
-	},
-	{
-		params: [],
-		name: 'terms',
-		path: '/terms',
-		method: ['GET', 'HEAD'],
-		types: {} as unknown,
-	},
-	{
-		params: [],
-		name: 'privacy',
-		path: '/privacy',
-		method: ['GET', 'HEAD'],
-		types: {} as unknown,
-	},
-	{
-		params: [],
 		name: 'link.create-form',
 		path: '/links/create',
 		method: ['GET', 'HEAD'],
@@ -691,11 +709,18 @@ const routes = [
 		types: {} as SearchGetHead,
 	},
 	{
-		params: ['id'],
-		name: 'shared',
-		path: '/shared/:id',
-		method: ['GET', 'HEAD'],
-		types: {} as SharedIdGetHead,
+		params: [],
+		name: 'user.theme',
+		path: '/user/theme',
+		method: ['POST'],
+		types: {} as UserThemePost,
+	},
+	{
+		params: [],
+		name: 'user.update-display-preferences',
+		path: '/user/display-preferences',
+		method: ['POST'],
+		types: {} as UserDisplaypreferencesPost,
 	},
 	{
 		params: [],
@@ -710,27 +735,6 @@ const routes = [
 		path: '/user/api-tokens/:tokenId',
 		method: ['DELETE'],
 		types: {} as UserApitokensIdDelete,
-	},
-	{
-		params: [],
-		name: 'user.update-display-preferences',
-		path: '/user/display-preferences',
-		method: ['POST'],
-		types: {} as UserDisplaypreferencesPost,
-	},
-	{
-		params: [],
-		name: 'user.theme',
-		path: '/user/theme',
-		method: ['POST'],
-		types: {} as UserThemePost,
-	},
-	{
-		params: [],
-		name: 'user.settings',
-		path: '/user/settings',
-		method: ['GET', 'HEAD'],
-		types: {} as UserSettingsGetHead,
 	},
 ] as const;
 export const api = {

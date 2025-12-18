@@ -1,45 +1,105 @@
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
 import SmallContentLayout from '~/layouts/small_content';
 
 function PrivacyPage() {
-	const { t } = useTranslation('privacy');
+	const date = '19/11/2023';
 	return (
-		<>
-			<h1>{t('title')}</h1>
-			<p>{t('edited_at', { date: '19/11/2023' })}</p>
-			<p>{t('welcome')}</p>
+		<div className="max-w-none">
+			<h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+				<Trans>Privacy Policy of MyLinks</Trans>
+			</h1>
+			<p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+				<Trans>Last updated: {date}</Trans>
+			</p>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-8">
+				<Trans>
+					Welcome to MyLinks, a free and open-source bookmark manager focused on
+					privacy and self-hosting. This privacy policy aims to inform you about
+					how we collect, use, and protect your data.
+				</Trans>
+			</p>
 
-			<h2>{t('collect.title')}</h2>
-			<h3>{t('collect.cookie.title')}</h3>
-			<p>{t('collect.cookie.description')}</p>
+			<h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">
+				<Trans>1. Data Collection</Trans>
+			</h2>
+			<h3 className="text-xl font-medium mt-6 mb-3 text-gray-800 dark:text-gray-200">
+				<Trans>1.1 Cookies</Trans>
+			</h3>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
+				<Trans>
+					Cookies used on MyLinks are essential to ensure the proper functioning
+					of the site. By continuing to use our service, you consent to the use
+					of these cookies.
+				</Trans>
+			</p>
 
-			<h3>{t('collect.user.title')}</h3>
-			<p>{t('collect.user.description')}</p>
-			<ul>
-				{(
-					t('collect.user.fields', {
-						returnObjects: true,
-					}) as Array<string>
-				).map((field) => (
-					<li key={field}>{field}</li>
-				))}
+			<h3 className="text-xl font-medium mt-6 mb-3 text-gray-800 dark:text-gray-200">
+				<Trans>1.2 User Data</Trans>
+			</h3>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
+				<Trans>
+					To create personalized collections and links and associate them with
+					their author, we collect the following information:
+				</Trans>
+			</p>
+			<ul className="list-disc list-inside space-y-2 mb-6 ml-4 text-gray-700 dark:text-gray-300">
+				{['Google ID', 'Lastname', 'Firstname', 'Email', 'Avatar'].map(
+					(field) => (
+						<li key={field} className="text-base">
+							<Trans>{field}</Trans>
+						</li>
+					)
+				)}
 			</ul>
 
-			<h2>{t('data_use.title')}</h2>
-			<p>{t('data_use.description')}</p>
+			<h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">
+				<Trans>2. Data Use</Trans>
+			</h2>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+				<Trans>
+					The collected data is neither resold nor used for purposes other than
+					initially intended, namely the management of collections and links
+					created by the user.
+				</Trans>
+			</p>
 
-			<h2>{t('data_storage.title')}</h2>
-			<p>{t('data_storage.description')}</p>
+			<h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">
+				<Trans>3. Data Storage</Trans>
+			</h2>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-4">
+				<Trans>Data is stored securely to protect your privacy.</Trans>
+			</p>
 
-			<h3>{t('data_storage.data_retention.title')}</h3>
-			<p>{t('data_storage.data_retention.description')}</p>
+			<h3 className="text-xl font-medium mt-6 mb-3 text-gray-800 dark:text-gray-200">
+				<Trans>3.1 Data Retention Period</Trans>
+			</h3>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+				<Trans>
+					Functional data is retained until the user requests deletion. Once
+					this request is made, the data will be permanently deleted.
+				</Trans>
+			</p>
 
-			<h2>{t('user_rights.title')}</h2>
-			<p>{t('user_rights.description')}</p>
+			<h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">
+				<Trans>4. User Rights</Trans>
+			</h2>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+				<Trans>
+					The user has the right to retrieve all their data at any time and/or
+					request the complete deletion of their data.
+				</Trans>
+			</p>
 
-			<h2>{t('gdpr.title')}</h2>
-			<p>{t('gdpr.description')}</p>
-		</>
+			<h2 className="text-2xl font-semibold mt-8 mb-4 text-gray-900 dark:text-gray-100">
+				<Trans>5. GDPR Compliance</Trans>
+			</h2>
+			<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+				<Trans>
+					MyLinks complies with the General Data Protection Regulation (GDPR) of
+					the European Union.
+				</Trans>
+			</p>
+		</div>
 	);
 }
 

@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import {
 	FormCollection,
 	FormCollectionData,
@@ -15,7 +15,6 @@ interface CreateCollectionPageProps {
 export default function CreateCollectionPage({
 	disableHomeLink,
 }: CreateCollectionPageProps) {
-	const { t } = useTranslation('common');
 	const { data, setData, submit, processing } = useForm<FormCollectionData>({
 		name: '',
 		description: '',
@@ -35,8 +34,15 @@ export default function CreateCollectionPage({
 
 	return (
 		<FormCollection
-			title={t('collection.create')}
-			textSubmitButton={t('form.create')}
+			title={
+				<TransComponent
+					id="common:collection.create"
+					message="Create a collection"
+				/>
+			}
+			textSubmitButton={
+				<TransComponent id="common:form.create" message="Create" />
+			}
 			canSubmit={!isFormDisabled}
 			disableHomeLink={disableHomeLink}
 			data={data}

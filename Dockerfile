@@ -23,22 +23,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
 ADD . .
 
-ENV PORT=3333
-ENV HOST=localhost
-ENV LOG_LEVEL=info
-ENV APP_KEY=sLoJth45JD1vcS8n92Y2JUd8w3OL4HQb
-ENV NODE_ENV=production
-ENV SESSION_DRIVER=cookie
-ENV DB_HOST=127.0.0.1
-ENV DB_PORT=5432
-ENV DB_USER=db_user
-ENV DB_PASSWORD=db_password
-ENV DB_DATABASE=db_db
-ENV APP_URL=http://localhost:3333
-ENV GOOGLE_CLIENT_ID=client_id
-ENV GOOGLE_CLIENT_SECRET=client_secret
-
-RUN node ace izzy:routes
+RUN pnpm run compile
 RUN node ace build
 
 # Production stage
@@ -53,6 +38,8 @@ ENV PORT=$PORT
 WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app
+COPY --from=build /app/.adonisjs /app/.adonisjs
+COPY --from=build /app/package.json /app/package.json
 
 # Expose port
 EXPOSE $PORT

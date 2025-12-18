@@ -6,6 +6,7 @@ import {
 import { getDirname } from '@adonisjs/core/helpers';
 import inertia from '@adonisjs/inertia/client';
 import adonisjs from '@adonisjs/vite/client';
+import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react';
 import UnoCSS from 'unocss/vite';
 import { defineConfig } from 'vite';
@@ -13,7 +14,18 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
 	plugins: [
+		react({
+			babel: {
+				plugins: ['@lingui/babel-plugin-lingui-macro'],
+			},
+		}),
+		lingui(),
 		UnoCSS(),
+		inertia({ ssr: { enabled: true, entrypoint: 'inertia/app/ssr.tsx' } }),
+		adonisjs({
+			entrypoints: [`${getDirname(import.meta.url)}/inertia/app/app.tsx`],
+			reload: ['resources/views/**/*.edge'],
+		}),
 		VitePWA({
 			registerType: 'autoUpdate',
 			injectRegister: false,
@@ -103,12 +115,6 @@ export default defineConfig({
 					},
 				],
 			},
-		}),
-		inertia({ ssr: { enabled: true, entrypoint: 'inertia/app/ssr.tsx' } }),
-		react(),
-		adonisjs({
-			entrypoints: [`${getDirname(import.meta.url)}/inertia/app/app.tsx`],
-			reload: ['resources/views/**/*.edge'],
 		}),
 	],
 

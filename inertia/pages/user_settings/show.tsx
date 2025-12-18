@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import { ApiTokens } from '~/components/common/api_tokens/api_tokens';
 import {
 	FloatingTab,
@@ -8,15 +8,14 @@ import { UserPreferences } from '~/components/common/user_preferences/user_prefe
 import SmallContentLayout from '~/layouts/small_content';
 
 function UserSettingsShow() {
-	const { t } = useTranslation();
 	const tabs: FloatingTab[] = [
 		{
-			label: t('preferences'),
+			label: <TransComponent id="preferences" message="Preferences" />,
 			value: 'preferences',
 			content: <UserPreferences />,
 		},
 		{
-			label: t('api-tokens.title'),
+			label: <TransComponent id="api-tokens.title" message="API Tokens" />,
 			value: 'api-tokens',
 			content: <ApiTokens />,
 		},

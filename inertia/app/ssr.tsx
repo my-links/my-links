@@ -1,8 +1,14 @@
+import { DEFAULT_LOCALE } from '#shared/consts/i18n';
+import { Locale } from '#shared/types/i18n';
 import { createInertiaApp } from '@inertiajs/react';
 import ReactDOMServer from 'react-dom/server';
+import { dynamicActivate } from '~/i18n';
 import { DefaultLayout } from '~/layouts/default_layout';
 
-export default function render(page: any) {
+export default async function render(page: any) {
+	const locale: Locale = page.props?.locale ?? DEFAULT_LOCALE;
+	await dynamicActivate(locale);
+
 	return createInertiaApp({
 		page,
 		render: ReactDOMServer.renderToString,

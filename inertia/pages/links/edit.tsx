@@ -1,7 +1,7 @@
 import { Collection, LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import { FormLink } from '~/components/form/form_link';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
@@ -12,7 +12,6 @@ interface EditLinkPageProps {
 }
 
 export default function EditLinkPage({ collections, link }: EditLinkPageProps) {
-	const { t } = useTranslation('common');
 	const { data, setData, submit, processing } = useForm({
 		name: link.name,
 		description: link.description,
@@ -52,8 +51,10 @@ export default function EditLinkPage({ collections, link }: EditLinkPageProps) {
 
 	return (
 		<FormLink
-			title={t('link.edit')}
-			textSubmitButton={t('form.update')}
+			title={<TransComponent id="common:link.edit" message="Edit a link" />}
+			textSubmitButton={
+				<TransComponent id="common:form.update" message="Update" />
+			}
 			canSubmit={canSubmit}
 			data={data}
 			setData={setData}

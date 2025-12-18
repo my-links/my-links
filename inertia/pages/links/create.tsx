@@ -1,7 +1,7 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import { FormLink } from '~/components/form/form_link';
 import useSearchParam from '~/hooks/use_search_param';
 import { isValidHttpUrl } from '~/lib/navigation';
@@ -12,7 +12,6 @@ interface CreateLinkPageProps {
 }
 
 export default function CreateLinkPage({ collections }: CreateLinkPageProps) {
-	const { t } = useTranslation('common');
 	const collectionId =
 		Number(useSearchParam('collectionId')) ?? collections[0].id;
 	const { data, setData, submit, processing } = useForm({
@@ -41,8 +40,10 @@ export default function CreateLinkPage({ collections }: CreateLinkPageProps) {
 
 	return (
 		<FormLink
-			title={t('link.create')}
-			textSubmitButton={t('form.create')}
+			title={<TransComponent id="common:link.create" message="Create a link" />}
+			textSubmitButton={
+				<TransComponent id="common:form.create" message="Create" />
+			}
 			canSubmit={canSubmit}
 			data={data}
 			setData={setData}

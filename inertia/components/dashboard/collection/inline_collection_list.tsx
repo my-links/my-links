@@ -1,13 +1,12 @@
 import { router } from '@inertiajs/react';
 import { Chip, Group, Text } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
 import { useActiveCollection } from '~/hooks/collections/use_active_collection';
 import { useCollections } from '~/hooks/collections/use_collections';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
 
 export function InlineCollectionList() {
-	const { t } = useTranslation();
 	const collections = useCollections();
 	const activeCollection = useActiveCollection();
 	const tuyau = useTuyauRequired();
@@ -24,7 +23,7 @@ export function InlineCollectionList() {
 
 	const fields = [
 		{
-			label: t('common:favorite'),
+			label: <Trans>Favorite</Trans>,
 			value: 'favorite',
 		},
 		...collections.map((c) => ({

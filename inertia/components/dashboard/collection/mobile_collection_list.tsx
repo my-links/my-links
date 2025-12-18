@@ -1,12 +1,12 @@
 import { Button, Drawer, Portal, rem, Text } from '@mantine/core';
 import { useDisclosure, useHeadroom } from '@mantine/hooks';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
+import { Trans as TransComponent } from '@lingui/react';
 import { CollectionFavoriteItem } from '~/components/dashboard/collection/item/collection_favorite_item';
 import { useCollections } from '~/hooks/collections/use_collections';
 import { CollectionItem } from './item/collection_item';
 
 export function MobileCollectionList() {
-	const { t } = useTranslation();
 	const [opened, handler] = useDisclosure();
 	const collections = useCollections();
 	const pinned = useHeadroom({ fixedAt: 0 });
@@ -16,7 +16,13 @@ export function MobileCollectionList() {
 			<Drawer
 				opened={opened}
 				onClose={handler.close}
-				title={t('collection.collections', { count: collections.length })}
+				title={
+					<TransComponent
+						id="common:collection.collections"
+						message="Collections"
+						values={{ count: collections.length }}
+					/>
+				}
 			>
 				<CollectionFavoriteItem />
 				{collections.map((collection) => (
@@ -43,7 +49,11 @@ export function MobileCollectionList() {
 						style={{ width: '18px', height: '18px' }}
 					/>
 					<Text ml={4}>
-						{t('collection.collections', { count: collections.length })}
+						<TransComponent
+							id="common:collection.collections"
+							message="Collections"
+							values={{ count: collections.length }}
+						/>
 					</Text>
 				</Button>
 			</Portal>

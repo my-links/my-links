@@ -2,7 +2,7 @@ import { router } from '@inertiajs/react';
 import { rem } from '@mantine/core';
 import { Spotlight, SpotlightActionData } from '@mantine/spotlight';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
@@ -18,7 +18,6 @@ export function SearchSpotlight({
 	openCallback,
 	closeCallback,
 }: SearchSpotlightProps) {
-	const { t } = useTranslation('common');
 	const tuyau = useTuyauRequired();
 
 	const [searchTerm, setSearchTerm] = useState<string>('');
@@ -86,11 +85,13 @@ export function SearchSpotlight({
 			),
 	}));
 
-	const spotlightPromptText = loading
-		? t('loading')
-		: searchTerm.trim() === ''
-			? t('search')
-			: t('no-results');
+	const spotlightPromptText = loading ? (
+		<TransComponent id="loading" message="Loading..." />
+	) : searchTerm.trim() === '' ? (
+		<TransComponent id="search" message="Search" />
+	) : (
+		<TransComponent id="no-results" message="No results" />
+	);
 
 	return (
 		<Spotlight
@@ -104,7 +105,7 @@ export function SearchSpotlight({
 						style={{ width: rem(20), height: rem(20) }}
 					/>
 				),
-				placeholder: t('search'),
+				placeholder: <TransComponent id="search" message="Search" />,
 			}}
 			onQueryChange={(query) => setSearchTerm(query)}
 			onSpotlightOpen={openCallback}

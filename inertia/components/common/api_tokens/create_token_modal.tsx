@@ -1,6 +1,7 @@
 import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans } from '@lingui/react/macro';
+import { Trans as TransComponent } from '@lingui/react';
 
 interface CreateTokenModalProps {
 	onCreate: (name: string) => Promise<void>;
@@ -8,7 +9,6 @@ interface CreateTokenModalProps {
 }
 
 export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
-	const { t } = useTranslation();
 	const [tokenName, setTokenName] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -27,25 +27,30 @@ export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
 	return (
 		<Stack>
 			<Text size="sm" c="dimmed">
-				{t('api-tokens.create-description')}
+				<Trans>Create a new API token to access the API</Trans>
 			</Text>
 			<TextInput
-				label={t('api-tokens.name')}
-				placeholder={t('api-tokens.name-placeholder')}
+				label={<TransComponent id="api-tokens.name" message="Token name" />}
+				placeholder={
+					<TransComponent
+						id="api-tokens.name-placeholder"
+						message="Enter token name"
+					/>
+				}
 				value={tokenName}
 				onChange={(e) => setTokenName(e.target.value)}
 				required
 			/>
 			<Group justify="flex-end">
 				<Button variant="subtle" onClick={onClose}>
-					{t('cancel')}
+					<Trans>Cancel</Trans>
 				</Button>
 				<Button
 					onClick={handleCreate}
 					disabled={!tokenName.trim() || isLoading}
 					loading={isLoading}
 				>
-					{t('api-tokens.create')}
+					<Trans>Create token</Trans>
 				</Button>
 			</Group>
 		</Stack>

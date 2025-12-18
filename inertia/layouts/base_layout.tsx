@@ -1,5 +1,11 @@
 import { api } from '#adonis/api';
 import { PRIMARY_COLOR } from '#config/project';
+import { DEFAULT_LOCALE } from '#shared/consts/i18n';
+import { Locale } from '#shared/types/i18n';
+import { PageProps } from '@adonisjs/inertia/types';
+import { usePage } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
 import {
 	ColorSchemeScript,
 	createTheme,
@@ -11,13 +17,12 @@ import { ModalsProvider } from '@mantine/modals';
 import '@mantine/spotlight/styles.css';
 import { createTuyau } from '@tuyau/client';
 import { TuyauProvider } from '@tuyau/inertia/react';
-import dayjs from 'dayjs';
-import { ReactNode } from 'react';
-import { useTranslation } from 'react-i18next';
+import { ReactNode, useEffect, useMemo } from 'react';
 import 'virtual:uno.css';
 import '~/css/app.css';
 import { useAppUrl } from '~/hooks/use_app_url';
 import { usePageTransition } from '~/hooks/use_page_transition';
+import { dynamicActivate } from '~/i18n';
 
 const customTheme = createTheme({
 	colors: {
@@ -71,9 +76,8 @@ const customTheme = createTheme({
 });
 
 export function BaseLayout({ children }: { children: ReactNode }) {
-	const { i18n } = useTranslation();
 	const appUrl = useAppUrl();
-	dayjs.locale(i18n.language);
+	const { props } = usePage<PageProps & { locale: Locale }>();
 
 	usePageTransition({
 		querySelector: '[data-page-transition]',
@@ -84,12 +88,24 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 		baseUrl: appUrl,
 	});
 
+	const locale = useMemo(() => {
+		return (props.locale as Locale) ?? DEFAULT_LOCALE;
+	}, [props.locale]);
+
+	useEffect(() => {
+		if (i18n.locale !== locale) {
+			dynamicActivate(locale);
+		}
+	}, [locale]);
+
 	return (
-		<TuyauProvider client={tuyauClient}>
-			<ColorSchemeScript />
-			<MantineProvider theme={customTheme}>
-				<ModalsProvider>{children}</ModalsProvider>
-			</MantineProvider>
-		</TuyauProvider>
+		<I18nProvider i18n={i18n}>
+			<TuyauProvider client={tuyauClient}>
+				<ColorSchemeScript />
+				<MantineProvider theme={customTheme}>
+					<ModalsProvider>{children}</ModalsProvider>
+				</MantineProvider>
+			</TuyauProvider>
+		</I18nProvider>
 	);
 }
