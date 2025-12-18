@@ -1,6 +1,6 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import {
 	FormCollection,
 	FormCollectionData,
@@ -14,7 +14,6 @@ interface DeleteCollectionPageProps {
 export default function DeleteCollectionPage({
 	collection,
 }: DeleteCollectionPageProps) {
-	const { t } = useTranslation('common');
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			name: collection.name,
@@ -33,8 +32,15 @@ export default function DeleteCollectionPage({
 
 	return (
 		<FormCollection
-			title={t('collection.delete')}
-			textSubmitButton={t('form.delete')}
+			title={
+				<TransComponent
+					id="common:collection.delete"
+					message="Delete a collection"
+				/>
+			}
+			textSubmitButton={
+				<TransComponent id="common:form.delete" message="Delete" />
+			}
 			canSubmit={!processing}
 			data={data}
 			setData={setData}

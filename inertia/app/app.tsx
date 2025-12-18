@@ -1,3 +1,5 @@
+import { DEFAULT_LOCALE } from '#shared/consts/i18n';
+import { Locale } from '#shared/types/i18n';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 import { createInertiaApp } from '@inertiajs/react';
 import { isSSREnableForPage } from 'config-ssr';
@@ -5,7 +7,7 @@ import 'dayjs/locale/en';
 import 'dayjs/locale/fr';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { DefaultLayout } from '~/layouts/default_layout';
-import '../i18n/index';
+import { dynamicActivate } from '../i18n/index';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';
 
@@ -29,10 +31,16 @@ createInertiaApp({
 		return currentPage;
 	},
 
-	setup({ el, App, props }) {
+	async setup({ el, App, props }) {
 		const componentName = props.initialPage.component;
 		const isSSREnabled = isSSREnableForPage(componentName);
 		console.debug(`Page "${componentName}" SSR enabled: ${isSSREnabled}`);
+
+		const locale: Locale =
+			(props.initialPage.props?.locale as Locale) ?? DEFAULT_LOCALE;
+
+		await dynamicActivate(locale);
+
 		if (isSSREnabled) {
 			hydrateRoot(el, <App {...props} />);
 		} else {
