@@ -15,4 +15,3 @@ export const NAVBAR_LINKS = [
 		icon: 'i-mdi-extension',
 	},
 ] as const;
-

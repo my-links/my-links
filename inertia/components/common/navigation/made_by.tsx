@@ -20,4 +20,3 @@ export const MadeBy = ({ onClick, className = '' }: MadeByProps) => (
 		</a>
 	</span>
 );
-
