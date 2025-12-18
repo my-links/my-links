@@ -1,5 +1,4 @@
 import PATHS from '#constants/paths';
-import { Link } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import packageJson from '../../../../package.json';
 
@@ -29,4 +28,3 @@ export const FOOTER_LINKS = [
 		internal: true,
 	},
 ] as const;
-
