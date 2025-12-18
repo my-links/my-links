@@ -1,9 +1,9 @@
 import { Head, Link } from '@inertiajs/react';
+import { i18n } from '@lingui/core';
+import { Trans } from '@lingui/react/macro';
 import { Anchor, Button, Container, Group, rem, Title } from '@mantine/core';
 import { FormEvent, PropsWithChildren } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
-import i18n from '~/i18n';
 import { BaseLayout } from '~/layouts/base_layout';
 
 export interface FormLayoutProps extends PropsWithChildren {
@@ -23,12 +23,11 @@ function FormLayout({
 
 	canSubmit,
 	handleSubmit,
-	textSubmitButton = i18n.t('common:form.confirm'),
+	textSubmitButton = i18n._('common:form.confirm'),
 
 	disableHomeLink = false,
 	submitBtnDanger = false,
 }: FormLayoutProps) {
-	const { t } = useTranslation('common');
 	const tuyau = useTuyauRequired();
 
 	return (
@@ -73,7 +72,7 @@ function FormLayout({
 								href={tuyau.$route('dashboard').path}
 								disabled={disableHomeLink}
 							>
-								{t('back-home')}
+								<Trans>← Back to home</Trans>
 							</Anchor>
 						)}
 						<Button

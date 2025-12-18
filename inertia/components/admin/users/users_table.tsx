@@ -10,11 +10,11 @@ import {
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { ChangeEvent, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Th } from '~/components/admin/users/th';
 import { sortData } from '~/components/admin/users/utils';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { DATE_FORMAT } from '~/constants';
+import { Trans } from '@lingui/react/macro';
 
 dayjs.extend(relativeTime);
 
@@ -34,8 +34,6 @@ export function UsersTable({
 	totalCollections,
 	totalLinks,
 }: UsersTableProps) {
-	const { t } = useTranslation();
-
 	const [search, setSearch] = useState<string>('');
 	const [sortBy, setSortBy] = useState<Columns | null>(DEFAULT_SORT_BY);
 	const [reverseSortDirection, setReverseSortDirection] = useState(
@@ -117,42 +115,42 @@ export function UsersTable({
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('fullname')}
 						>
-							{t('common:name')}
+							<Trans>Name</Trans>
 						</Th>
 						<Th
 							sorted={sortBy === 'isAdmin'}
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('isAdmin')}
 						>
-							{t('admin:role')}
+							<Trans>Role</Trans>
 						</Th>
 						<Th
 							sorted={sortBy === 'collectionsCount'}
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('collectionsCount')}
 						>
-							{t('common:collection.collections')} ({totalCollections})
+							<Trans>Collections</Trans> ({totalCollections})
 						</Th>
 						<Th
 							sorted={sortBy === 'linksCount'}
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('linksCount')}
 						>
-							{t('common:link.links')} ({totalLinks})
+							<Trans>Links</Trans> ({totalLinks})
 						</Th>
 						<Th
 							sorted={sortBy === 'createdAt'}
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('createdAt')}
 						>
-							{t('admin:created_at')}
+							<Trans>Created at</Trans>
 						</Th>
 						<Th
 							sorted={sortBy === 'lastSeenAt'}
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('lastSeenAt')}
 						>
-							{t('admin:last_seen_at')}
+							<Trans>Last seen at</Trans>
 						</Th>
 					</Table.Tr>
 				</Table.Tbody>

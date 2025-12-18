@@ -1,6 +1,6 @@
 import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { useTranslation } from 'react-i18next';
+import { Trans as TransComponent } from '@lingui/react';
 import { FormLink } from '~/components/form/form_link';
 import { useRouteHelper } from '~/lib/route_helper';
 
@@ -9,7 +9,6 @@ interface DeleteLinkPageProps {
 }
 
 export default function DeleteLinkPage({ link }: DeleteLinkPageProps) {
-	const { t } = useTranslation('common');
 	const { data, setData, submit, processing } = useForm({
 		name: link.name,
 		description: link.description,
@@ -29,8 +28,10 @@ export default function DeleteLinkPage({ link }: DeleteLinkPageProps) {
 
 	return (
 		<FormLink
-			title={t('link.delete')}
-			textSubmitButton={t('form.delete')}
+			title={<TransComponent id="common:link.delete" message="Delete a link" />}
+			textSubmitButton={
+				<TransComponent id="common:form.delete" message="Delete" />
+			}
 			canSubmit={!processing}
 			data={data}
 			setData={setData}

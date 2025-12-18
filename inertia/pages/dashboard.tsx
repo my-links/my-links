@@ -9,7 +9,6 @@ import {
 	Text,
 	Tooltip,
 } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
 import { CollectionList } from '~/components/dashboard/collection/collection_list';
 import { InlineCollectionList } from '~/components/dashboard/collection/inline_collection_list';
 import { MobileCollectionList } from '~/components/dashboard/collection/mobile_collection_list';
@@ -20,10 +19,11 @@ import { useDisplayPreferences } from '~/hooks/use_display_preferences';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { appendCollectionId } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
+import { Trans } from '@lingui/react/macro';
+import { Trans as TransComponent } from '@lingui/react';
 import { Visibility } from '~/types/app';
 
 export default function Dashboard() {
-	const { t } = useTranslation();
 	const { displayPreferences } = useDisplayPreferences();
 	const activeCollection = useActiveCollection();
 	const { route } = useRouteHelper();
@@ -33,9 +33,11 @@ export default function Dashboard() {
 	return (
 		<Stack w="100%">
 			<Group justify="space-between">
-				<Tooltip label={t('coming-soon')}>
+				<Tooltip
+					label={<TransComponent id="coming-soon" message="Coming soon" />}
+				>
 					<Input
-						placeholder={t('search')}
+						placeholder={<TransComponent id="search" message="Search" />}
 						w={isMobile ? '100%' : '350px'}
 						disabled
 					/>
@@ -57,7 +59,7 @@ export default function Dashboard() {
 						)}
 						size="xs"
 					>
-						{t('collection.create')}
+						<Trans>Create a collection</Trans>
 					</Button>
 					{!isFavorite && (
 						<Button
@@ -69,7 +71,7 @@ export default function Dashboard() {
 							)}
 							size="xs"
 						>
-							{t('collection.edit')}
+							<Trans>Edit a collection</Trans>
 						</Button>
 					)}
 
@@ -84,7 +86,7 @@ export default function Dashboard() {
 							)}
 							size="xs"
 						>
-							{t('link.create')}
+							<Trans>Create a link</Trans>
 						</Button>
 					</>
 				</Group>
