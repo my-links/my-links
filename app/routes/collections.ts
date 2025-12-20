@@ -1,8 +1,6 @@
 import { middleware } from '#start/kernel';
 import router from '@adonisjs/core/services/router';
 
-const ShowCollectionsController = () =>
-	import('#controllers/collections/show_collections_controller');
 const CreateCollectionController = () =>
 	import('#controllers/collections/create_collection_controller');
 const UpdateCollectionController = () =>
@@ -12,10 +10,6 @@ const DeleteCollectionController = () =>
 
 router
 	.group(() => {
-		router
-			.get('/dashboard', [ShowCollectionsController, 'render'])
-			.as('dashboard');
-
 		router
 			.group(() => {
 				router
