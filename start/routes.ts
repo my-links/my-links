@@ -4,6 +4,7 @@ import '#routes/api_links';
 import '#routes/api_tokens';
 import '#routes/auth';
 import '#routes/collections';
+import '#routes/dashboard';
 import '#routes/favicons';
 import '#routes/home';
 import '#routes/legal';
