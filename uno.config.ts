@@ -31,5 +31,14 @@ export default defineConfig({
 		'text-purple-800',
 		'dark:bg-purple-900',
 		'dark:text-purple-200',
+		'scrollbar-gutter-stable',
+	],
+	rules: [
+		[
+			'scrollbar-gutter-stable',
+			{
+				'scrollbar-gutter': 'stable',
+			},
+		],
 	],
 });
