@@ -83,10 +83,10 @@ export function getCurrentPathAndSearch(): string {
 	return `${window.location.pathname}${window.location.search}`;
 }
 
-export function getPathAndSearchFromRaw(rawUrl: string): string {
+export function getUrlPathname(rawUrl: string): string {
 	try {
 		const url = new URL(rawUrl, window.location.origin);
-		return `${url.pathname}${url.search}`;
+		return url.pathname;
 	} catch {
 		return rawUrl;
 	}

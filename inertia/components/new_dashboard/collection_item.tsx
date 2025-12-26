@@ -44,11 +44,12 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 			<div
 				className={clsx(
 					'w-5 h-5 flex-shrink-0',
-					isActive ? 'i-ant-design-folder-open-filled' : 'i-ant-design-folder-outlined'
+					isActive
+						? 'i-ant-design-folder-open-filled'
+						: 'i-ant-design-folder-outlined'
 				)}
 			/>
 			<span className="truncate flex-1">{collection.name}</span>
 		</Link>
 	);
 }
-
