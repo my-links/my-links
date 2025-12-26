@@ -39,6 +39,13 @@ type AdminGetHead = {
 		false
 	>;
 };
+type AdminStatusGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/admin/status_controller.ts').default['render'],
+		false
+	>;
+};
 type ApiV1CollectionsGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
@@ -140,13 +147,6 @@ type AuthLogoutGetHead = {
 		false
 	>;
 };
-type DashboardGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/collections/show_collections_controller.ts').default['render'],
-		false
-	>;
-};
 type CollectionsCreateGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
@@ -199,6 +199,13 @@ type CollectionsIdDelete = {
 	response: MakeTuyauResponse<
 		import('../app/controllers/collections/delete_collection_controller.ts').default['execute'],
 		true
+	>;
+};
+type DashboardGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/dashboard_controller.ts').default['render'],
+		false
 	>;
 };
 type LinksCreateGetHead = {
@@ -357,6 +364,11 @@ export interface ApiDefinition {
 		$url: {};
 		$get: AdminGetHead;
 		$head: AdminGetHead;
+		status: {
+			$url: {};
+			$get: AdminStatusGetHead;
+			$head: AdminStatusGetHead;
+		};
 	};
 	api: {
 		v1: {
@@ -406,11 +418,6 @@ export interface ApiDefinition {
 			$head: AuthLogoutGetHead;
 		};
 	};
-	dashboard: {
-		$url: {};
-		$get: DashboardGetHead;
-		$head: DashboardGetHead;
-	};
 	collections: {
 		create: {
 			$url: {};
@@ -434,6 +441,11 @@ export interface ApiDefinition {
 			$get: CollectionsDeleteGetHead;
 			$head: CollectionsDeleteGetHead;
 		};
+	};
+	dashboard: {
+		$url: {};
+		$get: DashboardGetHead;
+		$head: DashboardGetHead;
 	};
 	links: {
 		create: {
@@ -521,6 +533,13 @@ const routes = [
 	},
 	{
 		params: [],
+		name: 'admin.status',
+		path: '/admin/status',
+		method: ['GET', 'HEAD'],
+		types: {} as AdminStatusGetHead,
+	},
+	{
+		params: [],
 		name: 'api-collections.index',
 		path: '/api/v1/collections',
 		method: ['GET', 'HEAD'],
@@ -605,13 +624,6 @@ const routes = [
 	},
 	{
 		params: [],
-		name: 'dashboard',
-		path: '/dashboard',
-		method: ['GET', 'HEAD'],
-		types: {} as DashboardGetHead,
-	},
-	{
-		params: [],
 		name: 'collection.create-form',
 		path: '/collections/create',
 		method: ['GET', 'HEAD'],
@@ -651,6 +663,13 @@ const routes = [
 		path: '/collections/:id',
 		method: ['DELETE'],
 		types: {} as CollectionsIdDelete,
+	},
+	{
+		params: [],
+		name: 'dashboard',
+		path: '/dashboard',
+		method: ['GET', 'HEAD'],
+		types: {} as DashboardGetHead,
 	},
 	{
 		params: [],
