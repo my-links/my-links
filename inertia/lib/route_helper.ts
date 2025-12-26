@@ -35,10 +35,14 @@ export const useRouteHelper = () => {
 			url = `${url}?${searchParams.toString()}`;
 		}
 
+		const method = Array.isArray(routeInfo.method)
+			? routeInfo.method[0]
+			: routeInfo.method;
+
 		return {
 			url,
 			path: routeInfo.path,
-			method: routeInfo.method,
+			method: typeof method === 'string' ? method.toLowerCase() : method,
 			params: options?.params,
 			qs: options?.qs,
 		};

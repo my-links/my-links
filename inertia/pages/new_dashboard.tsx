@@ -1,15 +1,20 @@
 import { CollectionWithLinks, Link as LinkType } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Trans as TransComponent } from '@lingui/react';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { CollectionList } from '~/components/new_dashboard/collection_list';
 import { LinkList } from '~/components/new_dashboard/link_list';
 import { ResizableSidebar } from '~/components/new_dashboard/resizable_sidebar';
+import { CreateCollectionModal } from '~/components/new_dashboard/modals/create_collection_modal';
+import { EditCollectionModal } from '~/components/new_dashboard/modals/edit_collection_modal';
+import { DeleteCollectionModal } from '~/components/new_dashboard/modals/delete_collection_modal';
+import { CreateLinkModal } from '~/components/new_dashboard/modals/create_link_modal';
+import { Modal } from '~/components/common/modal';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
-import { appendCollectionId } from '~/lib/navigation';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import { Visibility } from '~/types/app';
 
@@ -29,6 +34,11 @@ export default function NewDashboard() {
 
 	const activeCollection = props.activeCollection;
 	const isFavorite = !activeCollection?.id;
+
+	const [createCollectionOpen, setCreateCollectionOpen] = useState(false);
+	const [editCollectionOpen, setEditCollectionOpen] = useState(false);
+	const [deleteCollectionOpen, setDeleteCollectionOpen] = useState(false);
+	const [createLinkOpen, setCreateLinkOpen] = useState(false);
 
 	const layoutOptions: Array<{
 		value: typeof layout;
@@ -100,39 +110,38 @@ export default function NewDashboard() {
 								</>
 							)}
 
-							<Link
-								href={appendCollectionId(
-									tuyau.$route('collection.create-form').path,
-									activeCollection?.id
-								)}
+							<button
+								onClick={() => setCreateCollectionOpen(true)}
 								className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
 							>
 								<Trans>Create collection</Trans>
-							</Link>
+							</button>
 
 							{!isFavorite && (
-								<Link
-									href={appendCollectionId(
-										tuyau.$route('collection.edit-form').path,
-										activeCollection?.id
-									)}
-									className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
-								>
-									<Trans>Edit collection</Trans>
-								</Link>
+								<>
+									<button
+										onClick={() => setEditCollectionOpen(true)}
+										className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+									>
+										<Trans>Edit collection</Trans>
+									</button>
+									<button
+										onClick={() => setDeleteCollectionOpen(true)}
+										className="px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+									>
+										<Trans>Delete collection</Trans>
+									</button>
+								</>
 							)}
 
 							<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
 
-							<Link
-								href={appendCollectionId(
-									tuyau.$route('link.create-form').path,
-									activeCollection?.id
-								)}
+							<button
+								onClick={() => setCreateLinkOpen(true)}
 								className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
 							>
 								<Trans>Create link</Trans>
-							</Link>
+							</button>
 						</div>
 					</div>
 
@@ -195,6 +204,69 @@ export default function NewDashboard() {
 					<LinkList />
 				</div>
 			</div>
+
+			<Modal
+				isOpen={createCollectionOpen}
+				onClose={() => setCreateCollectionOpen(false)}
+				title={
+					<TransComponent
+						id="common:collection.create"
+						message="Create a collection"
+					/>
+				}
+			>
+				<CreateCollectionModal onClose={() => setCreateCollectionOpen(false)} />
+			</Modal>
+
+			{activeCollection && (
+				<>
+					<Modal
+						isOpen={editCollectionOpen}
+						onClose={() => setEditCollectionOpen(false)}
+						title={
+							<TransComponent
+								id="common:collection.edit"
+								message="Edit a collection"
+							/>
+						}
+					>
+						<EditCollectionModal
+							collection={activeCollection}
+							onClose={() => setEditCollectionOpen(false)}
+						/>
+					</Modal>
+
+					<Modal
+						isOpen={deleteCollectionOpen}
+						onClose={() => setDeleteCollectionOpen(false)}
+						title={
+							<TransComponent
+								id="common:collection.delete"
+								message="Delete a collection"
+							/>
+						}
+					>
+						<DeleteCollectionModal
+							collection={activeCollection}
+							onClose={() => setDeleteCollectionOpen(false)}
+						/>
+					</Modal>
+				</>
+			)}
+
+			<Modal
+				isOpen={createLinkOpen}
+				onClose={() => setCreateLinkOpen(false)}
+				title={
+					<TransComponent id="common:link.create" message="Create a link" />
+				}
+			>
+				<CreateLinkModal
+					collections={props.collections}
+					defaultCollectionId={activeCollection?.id}
+					onClose={() => setCreateLinkOpen(false)}
+				/>
+			</Modal>
 		</div>
 	);
 }

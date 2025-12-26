@@ -71,4 +71,3 @@ export function ResizableSidebar({ children }: ResizableSidebarProps) {
 		</div>
 	);
 }
-
