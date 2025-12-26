@@ -1,23 +1,69 @@
-import { Link } from '#shared/types/dto';
-import { Link as InertiaLink, router } from '@inertiajs/react';
+import {
+	Link,
+	LinkWithCollection,
+	CollectionWithLinks,
+} from '#shared/types/dto';
+import { usePage, router, Link as InertiaLink } from '@inertiajs/react';
+import { PageProps } from '@adonisjs/inertia/types';
 import { Trans } from '@lingui/react/macro';
+import { Trans as TransComponent } from '@lingui/react';
 import clsx from 'clsx';
 import { MouseEvent, useState } from 'react';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { onFavorite } from '~/lib/favorite';
-import { appendCollectionId, appendLinkId } from '~/lib/navigation';
+import { appendCollectionId } from '~/lib/navigation';
+import { EditLinkModal } from './modals/edit_link_modal';
+import { DeleteLinkModal } from './modals/delete_link_modal';
+import { Modal } from '~/components/common/modal';
 
 interface LinkControlsProps {
 	link: Link;
 	showGoToCollection?: boolean;
 }
 
+interface PagePropsWithCollections extends PageProps {
+	collections: CollectionWithLinks[];
+	activeCollection?: CollectionWithLinks | null;
+}
+
 export function LinkControls({
 	link,
 	showGoToCollection = false,
 }: LinkControlsProps) {
+	const { props } = usePage<PagePropsWithCollections>();
 	const tuyau = useTuyauRequired();
 	const [isOpen, setIsOpen] = useState(false);
+	const [editLinkOpen, setEditLinkOpen] = useState(false);
+	const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
+
+	const getLinkWithCollection = (): LinkWithCollection | null => {
+		const collection = props.collections.find(
+			(c) => c.id === link.collectionId
+		);
+		if (!collection) return null;
+		return {
+			...link,
+			collection: {
+				id: collection.id,
+				name: collection.name,
+				description: collection.description,
+				visibility: collection.visibility,
+				authorId: collection.authorId,
+				createdAt: collection.createdAt,
+				updatedAt: collection.updatedAt,
+			},
+		};
+	};
+
+	const handleEditLink = () => {
+		setIsOpen(false);
+		setEditLinkOpen(true);
+	};
+
+	const handleDeleteLink = () => {
+		setIsOpen(false);
+		setDeleteLinkOpen(true);
+	};
 
 	const onFavoriteCallback = () => {
 		const routeInfo = tuyau.$route('link.toggle-favorite', {
@@ -92,28 +138,62 @@ export function LinkControls({
 								)}
 							</button>
 						)}
-						<InertiaLink
-							href={appendLinkId(tuyau.$route('link.edit-form').path, link.id)}
-							className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-							onClick={() => setIsOpen(false)}
+						<button
+							onClick={handleEditLink}
+							className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
 						>
 							<div className="i-octicon-pencil w-4 h-4" />
 							<Trans>Edit a link</Trans>
-						</InertiaLink>
-						<InertiaLink
-							href={appendLinkId(
-								tuyau.$route('link.delete-form').path,
-								link.id
-							)}
-							className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-							onClick={() => setIsOpen(false)}
+						</button>
+						<button
+							onClick={handleDeleteLink}
+							className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
 						>
 							<div className="i-ion-trash-outline w-4 h-4" />
 							<Trans>Delete a link</Trans>
-						</InertiaLink>
+						</button>
 					</div>
 				</>
 			)}
+
+			{(() => {
+				const linkWithCollection = getLinkWithCollection();
+				if (!linkWithCollection) return null;
+
+				return (
+					<>
+						<Modal
+							isOpen={editLinkOpen}
+							onClose={() => setEditLinkOpen(false)}
+							title={
+								<TransComponent id="common:link.edit" message="Edit a link" />
+							}
+						>
+							<EditLinkModal
+								collections={props.collections}
+								link={linkWithCollection}
+								onClose={() => setEditLinkOpen(false)}
+							/>
+						</Modal>
+
+						<Modal
+							isOpen={deleteLinkOpen}
+							onClose={() => setDeleteLinkOpen(false)}
+							title={
+								<TransComponent
+									id="common:link.delete"
+									message="Delete a link"
+								/>
+							}
+						>
+							<DeleteLinkModal
+								link={linkWithCollection}
+								onClose={() => setDeleteLinkOpen(false)}
+							/>
+						</Modal>
+					</>
+				);
+			})()}
 		</div>
 	);
 }

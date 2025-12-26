@@ -61,4 +61,3 @@ export function LinkFavicon({ url, size = 32 }: LinkFaviconProps) {
 		</div>
 	);
 }
-
