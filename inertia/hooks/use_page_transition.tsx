@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import {
 	getCurrentPathAndSearch,
-	getPathAndSearchFromRaw,
+	getUrlPathname,
 	restartCssAnimation,
 } from '~/lib/navigation';
 import { InertiaSuccessEvent } from '~/types/inertia';
@@ -27,7 +27,7 @@ export const usePageTransition = ({
 			const { detail } = event as InertiaSuccessEvent;
 			const nextUrlRaw = detail?.page?.url ?? getCurrentPathAndSearch();
 
-			const next = getPathAndSearchFromRaw(nextUrlRaw);
+			const next = getUrlPathname(nextUrlRaw);
 			const prev = previousUrlRef.current;
 			if (next === prev) return;
 
