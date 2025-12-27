@@ -1,13 +1,12 @@
 import { Collection, LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { useMemo } from 'react';
 import { Trans } from '@lingui/react/macro';
-import { Trans as TransComponent } from '@lingui/react';
+import clsx from 'clsx';
+import { useMemo } from 'react';
 import { FormLinkData } from '~/components/form/form_link';
 import { FormLinkContent } from '~/components/new_dashboard/forms/form_link_content';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
-import clsx from 'clsx';
 
 interface EditLinkModalProps {
 	collections: Collection[];
@@ -93,10 +92,10 @@ export function EditLinkModal({
 					{processing ? (
 						<span className="flex items-center gap-2">
 							<span className="i-svg-spinners-3-dots-fade w-4 h-4" />
-							<TransComponent id="common:form.update" message="Update" />
+							<Trans>Update</Trans>
 						</span>
 					) : (
-						<TransComponent id="common:form.update" message="Update" />
+						<Trans>Update</Trans>
 					)}
 				</button>
 			</div>

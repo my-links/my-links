@@ -1,6 +1,5 @@
 import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { FormLinkData } from '~/components/form/form_link';
 import { FormLinkContent } from '~/components/new_dashboard/forms/form_link_content';
@@ -68,10 +67,10 @@ export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
 					{processing ? (
 						<span className="flex items-center gap-2">
 							<span className="i-svg-spinners-3-dots-fade w-4 h-4" />
-							<TransComponent id="common:form.delete" message="Delete" />
+							<Trans>Delete</Trans>
 						</span>
 					) : (
-						<TransComponent id="common:form.delete" message="Delete" />
+						<Trans>Delete</Trans>
 					)}
 				</button>
 			</div>
