@@ -1,8 +1,8 @@
 import User from '#models/user';
+import type { ApiRouteName } from '#shared/types/index';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import db from '@adonisjs/lucid/services/db';
-import type { ApiRouteName } from '#shared/types/index';
 
 export default class AuthController {
 	private redirectTo: ApiRouteName = 'auth';

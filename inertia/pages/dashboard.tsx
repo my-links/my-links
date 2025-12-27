@@ -17,14 +17,14 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import { Visibility } from '~/types/app';
 
-interface NewDashboardProps extends PageProps {
+interface DashboardProps extends PageProps {
 	collections: CollectionWithLinks[];
 	favoriteLinks: LinkType[];
 	activeCollection?: CollectionWithLinks | null;
 }
 
-export default function NewDashboard() {
-	const { props } = usePage<NewDashboardProps>();
+export default function Dashboard() {
+	const { props } = usePage<DashboardProps>();
 	const { layout, setLayout, sidebarOpen, toggleSidebar } =
 		useDashboardLayoutStore();
 	const isMobile = useIsMobile();

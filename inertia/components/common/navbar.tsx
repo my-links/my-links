@@ -84,6 +84,15 @@ export function Navbar() {
 								<i className="i-mdi-view-dashboard h-5 min-w-5 block" />
 								Dashboard
 							</Link>
+							{auth.isAdmin && (
+								<Link
+									href="/admin"
+									className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium"
+								>
+									<i className="i-mdi-shield-account h-5 min-w-5 block" />
+									Admin
+								</Link>
+							)}
 							<div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
 							<div className="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
 								<span className="text-sm text-gray-600 dark:text-gray-400">
@@ -165,6 +174,16 @@ export function Navbar() {
 										<i className="i-mdi-view-dashboard h-5 min-w-5 block" />
 										Dashboard
 									</Link>
+									{auth.isAdmin && (
+										<Link
+											href="/admin"
+											className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium w-full"
+											onClick={closeMobileMenu}
+										>
+											<i className="i-mdi-shield-account h-5 min-w-5 block" />
+											Admin
+										</Link>
+									)}
 									<div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
 										<span className="text-sm text-gray-600 dark:text-gray-400">
 											Bonjour,

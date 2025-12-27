@@ -3,8 +3,6 @@ import { Locale } from '#shared/types/i18n';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 import { createInertiaApp } from '@inertiajs/react';
 import { isSSREnableForPage } from 'config-ssr';
-import 'dayjs/locale/en';
-import 'dayjs/locale/fr';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { DefaultLayout } from '~/layouts/default_layout';
 import { dynamicActivate } from '../i18n/index';

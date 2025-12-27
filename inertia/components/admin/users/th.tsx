@@ -1,6 +1,4 @@
-import { Center, Group, rem, Table, Text, UnstyledButton } from '@mantine/core';
 import { PropsWithChildren } from 'react';
-import classes from './users_table.module.css';
 
 interface ThProps extends PropsWithChildren {
 	reversed: boolean;
@@ -15,20 +13,20 @@ export function Th({ children, reversed, sorted, onSort }: ThProps) {
 			: 'i-tabler-chevron-down'
 		: 'i-tabler-selector';
 	return (
-		<Table.Th className={classes.th}>
-			<UnstyledButton onClick={onSort} className={classes.control}>
-				<Group justify="space-between">
-					<Text fw={500} fz="sm">
-						{children}
-					</Text>
-					<Center className={classes.icon}>
-						<div
-							className={iconClass}
-							style={{ width: rem(16), height: rem(16) }}
-						/>
-					</Center>
-				</Group>
-			</UnstyledButton>
-		</Table.Th>
+		<th className="p-0">
+			<button
+				onClick={onSort}
+				className="w-full flex items-center justify-between gap-2 px-6 py-4 hover:bg-gray-100 dark:hover:bg-gray-800/50 transition-colors text-left group"
+			>
+				<span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300">
+					{children}
+				</span>
+				<div className="w-4 h-4 flex items-center justify-center flex-shrink-0">
+					<i
+						className={`${iconClass} w-4 h-4 block text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors ${sorted ? 'text-blue-600 dark:text-blue-400' : ''}`}
+					/>
+				</div>
+			</button>
+		</th>
 	);
 }

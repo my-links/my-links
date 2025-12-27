@@ -3,9 +3,7 @@ import User from '#models/user';
 
 export class UserWithCountersDto extends CommonModelDto<User> {
 	declare id: number;
-	declare email: string;
 	declare fullname: string;
-	declare avatarUrl: string;
 	declare isAdmin: boolean;
 	declare linksCount: number;
 	declare collectionsCount: number;
@@ -18,9 +16,7 @@ export class UserWithCountersDto extends CommonModelDto<User> {
 		super(user);
 
 		this.id = user.id;
-		this.email = user.email;
 		this.fullname = user.fullname;
-		this.avatarUrl = user.avatarUrl;
 		this.isAdmin = user.isAdmin;
 		this.linksCount = Number(user.$extras.totalLinks);
 		this.collectionsCount = Number(user.$extras.totalCollections);
@@ -31,9 +27,7 @@ export class UserWithCountersDto extends CommonModelDto<User> {
 
 	serialize(): {
 		id: number;
-		email: string;
 		fullname: string;
-		avatarUrl: string;
 		isAdmin: boolean;
 		linksCount: number;
 		collectionsCount: number;
@@ -44,9 +38,7 @@ export class UserWithCountersDto extends CommonModelDto<User> {
 		return {
 			...super.serialize(),
 			id: this.id,
-			email: this.email,
 			fullname: this.fullname,
-			avatarUrl: this.avatarUrl,
 			isAdmin: this.isAdmin,
 			linksCount: this.linksCount,
 			collectionsCount: this.collectionsCount,
