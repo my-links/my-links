@@ -1,6 +1,7 @@
 import { Link } from '#shared/types/dto';
 import clsx from 'clsx';
-import { LinkControls } from './link_controls';
+import { useRef } from 'react';
+import { LinkControls, LinkControlsRef } from './link_controls';
 import { LinkFavicon } from './link_favicon';
 
 interface LinkItemProps {
@@ -16,6 +17,7 @@ export function LinkItem({
 }: LinkItemProps) {
 	const { name, url, description } = link;
 	const showFavoriteIcon = !hideMenu && 'favorite' in link && link.favorite;
+	const linkControlsRef = useRef<LinkControlsRef>(null);
 
 	const handleClick = (e: React.MouseEvent) => {
 		if (
@@ -24,6 +26,13 @@ export function LinkItem({
 		) {
 			e.preventDefault();
 			e.stopPropagation();
+		}
+	};
+
+	const handleContextMenu = (e: React.MouseEvent) => {
+		if (!hideMenu) {
+			e.preventDefault();
+			linkControlsRef.current?.openContextMenu(e.clientX, e.clientY);
 		}
 	};
 
@@ -36,6 +45,7 @@ export function LinkItem({
 			target="_blank"
 			rel="noreferrer"
 			onClick={handleClick}
+			onContextMenu={handleContextMenu}
 			className={clsx(
 				'block rounded-lg border',
 				'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm',
@@ -69,7 +79,7 @@ export function LinkItem({
 				</div>
 				{!hideMenu && (
 					<div data-link-controls className="self-start">
-						<LinkControls link={link} />
+						<LinkControls ref={linkControlsRef} link={link} />
 					</div>
 				)}
 			</div>
