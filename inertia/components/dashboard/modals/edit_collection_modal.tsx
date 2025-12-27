@@ -3,8 +3,8 @@ import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
+import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
 import { FormCollectionData } from '~/components/form/form_collection';
-import { FormCollectionContent } from '~/components/new_dashboard/forms/form_collection_content';
 import { useRouteHelper } from '~/lib/route_helper';
 
 interface EditCollectionModalProps {
