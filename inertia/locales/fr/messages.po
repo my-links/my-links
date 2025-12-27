@@ -23,51 +23,6 @@ msgstr "Une erreur est survenue"
 msgid "common:form.confirm"
 msgstr "Confirmer"
 
-#. js-lingui-explicit-id
-#: inertia/components/common/api_tokens/create_token_modal.tsx:34
-#~ msgid "Enter token name"
-#~ msgstr "Entrer le nom du token"
-
-#. js-lingui-explicit-id
-#: inertia/pages/terms.tsx:61
-#~ msgid "terms:personal_data.collect.description"
-#~ msgstr "Lisez notre <a>politique de confidentialité</a> pour plus d'informations"
-
-#. js-lingui-explicit-id
-#: inertia/components/common/api_tokens/api_tokens.tsx:61
-#~ msgid "cancel"
-#~ msgstr "annuler"
-
-#. js-lingui-explicit-id
-#: inertia/components/common/api_tokens/api_tokens.tsx:33
-#~ msgid "api-tokens.create-new"
-#~ msgstr "Créer un nouveau jeton"
-
-#. js-lingui-explicit-id
-#: inertia/components/common/api_tokens/create_token_modal.tsx:35
-#~ msgid "api-tokens.name-placeholder"
-#~ msgstr "Nom du jeton"
-
-#. js-lingui-explicit-id
-#: inertia/components/common/api_tokens/api_tokens.tsx:60
-#~ msgid "api-tokens.revoke"
-#~ msgstr "Révoquer"
-
-#. js-lingui-explicit-id
-#: inertia/components/common/api_tokens/create_token_modal.tsx:33
-#~ msgid "api-tokens.name"
-#~ msgstr "Nom"
-
-#. js-lingui-explicit-id
-#: inertia/pages/dashboard.tsx:37
-#~ msgid "coming-soon"
-#~ msgstr "Bientôt disponible"
-
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/link/no_link/no_link.tsx:26
-#~ msgid "home:no-link"
-#~ msgstr "Aucun lien dans la collection <strong>{{name}}</strong>"
-
 #: inertia/pages/privacy.tsx:71
 msgid "{field}"
 msgstr "{field}"
@@ -76,14 +31,6 @@ msgstr "{field}"
 msgid "← Back to home"
 msgstr "← Retour à l'accueil"
 
-#: inertia/pages/terms.tsx:25
-#~ msgid "1. Acceptance of Terms"
-#~ msgstr "1. Acceptation des conditions"
-
-#: inertia/pages/privacy.tsx:23
-#~ msgid "1. Data Collection"
-#~ msgstr "1. Collecte de données"
-
 #: inertia/pages/privacy.tsx:41
 msgid "1.1 Cookies"
 msgstr "1.1 Cookies"
@@ -91,14 +38,6 @@ msgstr "1.1 Cookies"
 #: inertia/pages/privacy.tsx:54
 msgid "1.2 User Data"
 msgstr "1.2 Données utilisateur"
-
-#: inertia/pages/privacy.tsx:56
-#~ msgid "2. Data Use"
-#~ msgstr "2. Utilisation des données"
-
-#: inertia/pages/terms.tsx:35
-#~ msgid "2. Use of the Service"
-#~ msgstr "2. Utilisation du service"
 
 #: inertia/pages/terms.tsx:62
 msgid "2.1 User Account"
@@ -112,14 +51,6 @@ msgstr "2.2 Utilisation autorisée"
 msgid "2.3 User Content"
 msgstr "2.3 Contenu utilisateur"
 
-#: inertia/pages/privacy.tsx:67
-#~ msgid "3. Data Storage"
-#~ msgstr "3. Stockage des données"
-
-#: inertia/pages/terms.tsx:70
-#~ msgid "3. Personal Data"
-#~ msgstr "3. Données personnelles"
-
 #: inertia/pages/terms.tsx:112
 msgid "3.1 Collection and Use"
 msgstr "3.1 Collecte et utilisation"
@@ -132,14 +63,6 @@ msgstr "3.1 Période de conservation des données"
 msgid "3.2 Account Deletion"
 msgstr "3.2 Suppression de compte"
 
-#: inertia/pages/terms.tsx:94
-#~ msgid "4. Responsibilities and Warranties"
-#~ msgstr "4. Responsabilités et garanties"
-
-#: inertia/pages/privacy.tsx:84
-#~ msgid "4. User Rights"
-#~ msgstr "4. Droits de l'utilisateur"
-
 #: inertia/pages/terms.tsx:149
 msgid "4.1 Responsibility"
 msgstr "4.1 Responsabilité"
@@ -148,29 +71,9 @@ msgstr "4.1 Responsabilité"
 msgid "4.2 Warranties"
 msgstr "4.2 Garanties"
 
-#: inertia/pages/terms.tsx:117
-#~ msgid "5. Changes to the Terms"
-#~ msgstr "5. Modifications des conditions"
-
-#: inertia/pages/privacy.tsx:94
-#~ msgid "5. GDPR Compliance"
-#~ msgstr "5. Conformité RGPD"
-
-#: inertia/pages/terms.tsx:128
-#~ msgid "6. Termination"
-#~ msgstr "6. Résiliation"
-
 #: inertia/pages/terms.tsx:37
 msgid "Acceptance of Terms"
 msgstr "Acceptation des conditions"
-
-#: inertia/pages/terms.tsx:34
-#~ msgid "Account"
-#~ msgstr "Compte"
-
-#: inertia/pages/terms.tsx:37
-#~ msgid "Account description"
-#~ msgstr "Description du compte"
 
 #: inertia/components/dashboard/link_controls.tsx:164
 msgid "Add to favorites"
@@ -181,20 +84,12 @@ msgstr "Ajouter aux favoris"
 msgid "Admin"
 msgstr "Admin"
 
-#: inertia/pages/terms.tsx:41
-#~ msgid "Allowed Use"
-#~ msgstr "Utilisation autorisée"
-
-#: inertia/pages/terms.tsx:44
-#~ msgid "Allowed use description"
-#~ msgstr "Description de l'utilisation autorisée"
-
 #: inertia/pages/home.tsx:152
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "Un gestionnaire de marque-pages open-source, auto-hébergé, qui vous permet de gérer vos liens favoris dans une interface intuitive"
 
 #. js-lingui-explicit-id
-#: inertia/pages/user_settings/show.tsx:18
+#: inertia/pages/user_settings/show.tsx:12
 msgid "api-tokens.title"
 msgstr "Jetons API"
 
@@ -230,10 +125,6 @@ msgstr "En accédant à MyLinks et en utilisant nos services, vous acceptez de v
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence mondiale, non exclusive, transférable et gratuite d'utiliser, reproduire, distribuer et afficher ce contenu."
 
-#: inertia/pages/terms.tsx:27
-#~ msgid "By using our service, you agree to these terms"
-#~ msgstr "En utilisant notre service, vous acceptez ces conditions"
-
 #: inertia/components/common/api_tokens/api_tokens.tsx:58
 #: inertia/components/common/api_tokens/create_token_modal.tsx:41
 #: inertia/components/dashboard/modals/create_collection_modal.tsx:49
@@ -245,18 +136,6 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 msgid "Cancel"
 msgstr "Annuler"
 
-#: inertia/pages/terms.tsx:102
-#~ msgid "Cancellation"
-#~ msgstr "Annulation"
-
-#: inertia/pages/terms.tsx:105
-#~ msgid "Cancellation description"
-#~ msgstr "Description de l'annulation"
-
-#: inertia/pages/terms.tsx:95
-#~ msgid "Changes to Terms"
-#~ msgstr "Modifications des conditions"
-
 #: inertia/pages/terms.tsx:179
 msgid "Changes to the Terms"
 msgstr "Modifications des conditions"
@@ -264,10 +143,6 @@ msgstr "Modifications des conditions"
 #: inertia/components/share/share_collection.tsx:28
 msgid "Click to copy"
 msgstr "Cliquer pour copier"
-
-#: inertia/components/common/user_preferences/user_preferences.tsx:22
-msgid "Collection list display"
-msgstr "Affichage de la liste des collections"
 
 #. js-lingui-explicit-id
 #: inertia/pages/shared.tsx:20
@@ -297,14 +172,6 @@ msgstr "Collections"
 #: inertia/pages/home.tsx:45
 msgid "about:contribute.title"
 msgstr "Contribuer"
-
-#: inertia/pages/privacy.tsx:25
-#~ msgid "Cookie description"
-#~ msgstr "Description des cookies"
-
-#: inertia/pages/privacy.tsx:22
-#~ msgid "Cookies"
-#~ msgstr "Cookies"
 
 #: inertia/pages/privacy.tsx:44
 msgid "Cookies used on MyLinks are essential to ensure the proper functioning of the site. By continuing to use our service, you consent to the use of these cookies."
@@ -341,24 +208,15 @@ msgstr "Créer"
 
 #. js-lingui-explicit-id
 #: inertia/pages/collections/create.tsx:38
-#: inertia/pages/dashboard.tsx:212
+#: inertia/pages/dashboard.tsx:210
 msgid "common:collection.create"
 msgstr "Créer une collection"
 
-#: inertia/pages/dashboard.tsx:62
-#~ msgid "Create a collection"
-#~ msgstr "Créer une collection"
-
 #. js-lingui-explicit-id
-#: inertia/pages/dashboard.tsx:261
+#: inertia/pages/dashboard.tsx:259
 #: inertia/pages/links/create.tsx:43
 msgid "common:link.create"
 msgstr "Créer un lien"
-
-#: inertia/components/dashboard/link/no_link/no_link.tsx:41
-#: inertia/pages/dashboard.tsx:89
-#~ msgid "Create a link"
-#~ msgstr "Créer un lien"
 
 #: inertia/components/common/api_tokens/create_token_modal.tsx:30
 msgid "Create a new API token to access the API"
@@ -368,11 +226,11 @@ msgstr "Créez un nouveau jeton API pour accéder à l'API"
 msgid "Create Account"
 msgstr "Créer un compte"
 
-#: inertia/pages/dashboard.tsx:117
+#: inertia/pages/dashboard.tsx:115
 msgid "Create collection"
 msgstr "Créer une collection"
 
-#: inertia/pages/dashboard.tsx:143
+#: inertia/pages/dashboard.tsx:141
 msgid "Create link"
 msgstr "Créer un lien"
 
@@ -401,37 +259,13 @@ msgstr "Collecte de données"
 msgid "Data is stored securely to protect your privacy."
 msgstr "Les données sont stockées de manière sécurisée pour protéger votre vie privée."
 
-#: inertia/pages/privacy.tsx:55
-#~ msgid "Data Retention"
-#~ msgstr "Conservation des données"
-
-#: inertia/pages/privacy.tsx:58
-#~ msgid "Data retention description"
-#~ msgstr "Description de la conservation des données"
-
 #: inertia/pages/privacy.tsx:109
 msgid "Data Storage"
 msgstr "Stockage des données"
 
-#: inertia/pages/privacy.tsx:51
-#~ msgid "Data storage description"
-#~ msgstr "Description du stockage des données"
-
-#: inertia/pages/terms.tsx:71
-#~ msgid "Data Suppression"
-#~ msgstr "Suppression des données"
-
-#: inertia/pages/terms.tsx:74
-#~ msgid "Data suppression description"
-#~ msgstr "Description de la suppression des données"
-
 #: inertia/pages/privacy.tsx:87
 msgid "Data Use"
 msgstr "Utilisation des données"
-
-#: inertia/pages/privacy.tsx:44
-#~ msgid "Data use description"
-#~ msgstr "Description de l'utilisation des données"
 
 #. js-lingui-explicit-id
 #: inertia/pages/collections/delete.tsx:42
@@ -449,13 +283,9 @@ msgstr "Supprimer"
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/collection_controls.tsx:103
 #: inertia/pages/collections/delete.tsx:36
-#: inertia/pages/dashboard.tsx:243
+#: inertia/pages/dashboard.tsx:241
 msgid "common:collection.delete"
 msgstr "Supprimer une collection"
-
-#: inertia/components/dashboard/dashboard_header.tsx:100
-#~ msgid "Delete a collection"
-#~ msgstr "Supprimer une collection"
 
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/link_controls.tsx:203
@@ -468,7 +298,7 @@ msgid "Delete a link"
 msgstr "Supprimer un lien"
 
 #: inertia/components/dashboard/collection_controls.tsx:79
-#: inertia/pages/dashboard.tsx:132
+#: inertia/pages/dashboard.tsx:130
 msgid "Delete collection"
 msgstr "Supprimer une collection"
 
@@ -486,13 +316,9 @@ msgstr "Description"
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/collection_controls.tsx:87
 #: inertia/pages/collections/edit.tsx:47
-#: inertia/pages/dashboard.tsx:227
+#: inertia/pages/dashboard.tsx:225
 msgid "common:collection.edit"
 msgstr "Modifier une collection"
-
-#: inertia/pages/dashboard.tsx:74
-#~ msgid "Edit a collection"
-#~ msgstr "Modifier une collection"
 
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/link_controls.tsx:189
@@ -505,7 +331,7 @@ msgid "Edit a link"
 msgstr "Modifier un lien"
 
 #: inertia/components/dashboard/collection_controls.tsx:72
-#: inertia/pages/dashboard.tsx:126
+#: inertia/pages/dashboard.tsx:124
 msgid "Edit collection"
 msgstr "Modifier une collection"
 
@@ -533,7 +359,7 @@ msgstr "Favoris"
 msgid "Favorite"
 msgstr "Favoris"
 
-#: inertia/pages/dashboard.tsx:162
+#: inertia/pages/dashboard.tsx:160
 msgid "Favorite Links"
 msgstr "Liens favoris"
 
@@ -541,17 +367,9 @@ msgstr "Liens favoris"
 msgid "Functional data is retained until the user requests deletion. Once this request is made, the data will be permanently deleted."
 msgstr "Les données fonctionnelles sont conservées jusqu'à ce que l'utilisateur demande leur suppression. Une fois cette demande effectuée, les données seront définitivement supprimées."
 
-#: inertia/pages/privacy.tsx:69
-#~ msgid "GDPR"
-#~ msgstr "RGPD"
-
 #: inertia/pages/privacy.tsx:158
 msgid "GDPR Compliance"
 msgstr "Conformité RGPD"
-
-#: inertia/pages/privacy.tsx:72
-#~ msgid "GDPR description"
-#~ msgstr "Description du RGPD"
 
 #: inertia/pages/home.tsx:162
 msgid "Get Started"
@@ -571,11 +389,6 @@ msgstr "Aidez à améliorer le projet en contribuant"
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Rejoignez la communauté et commencez à organiser vos liens dès aujourd'hui. C'est gratuit, open-source et respecte votre vie privée."
 
-#: inertia/pages/privacy.tsx:12
-#: inertia/pages/terms.tsx:17
-#~ msgid "Last edited: {date}"
-#~ msgstr "Dernière modification : {date}"
-
 #: inertia/components/admin/users/users_table.tsx:153
 msgid "Last seen at"
 msgstr "Dernière connexion le"
@@ -585,15 +398,11 @@ msgstr "Dernière connexion le"
 msgid "Last updated: {date}"
 msgstr "Dernière mise à jour : {date}"
 
-#: inertia/pages/dashboard.tsx:174
+#: inertia/pages/dashboard.tsx:172
 msgid "link"
 msgstr "lien"
 
-#: inertia/components/common/user_preferences/user_preferences.tsx:26
-msgid "Link list display"
-msgstr "Affichage de la liste des liens"
-
-#: inertia/pages/dashboard.tsx:176
+#: inertia/pages/dashboard.tsx:174
 msgid "links"
 msgstr "liens"
 
@@ -668,10 +477,6 @@ msgstr "Nom"
 msgid "New token created"
 msgstr "Nouveau jeton créé"
 
-#: inertia/components/dashboard/link/no_link/no_link.tsx:22
-#~ msgid "No favorite links yet"
-#~ msgstr "Aucun lien favori pour le moment"
-
 #: inertia/components/dashboard/link_list.tsx:29
 msgid "No links yet"
 msgstr "Aucun lien pour le moment"
@@ -699,23 +504,9 @@ msgstr "Organisez vos liens en collections"
 msgid "Personal Data"
 msgstr "Données personnelles"
 
-#: inertia/pages/terms.tsx:76
-#~ msgid "personal_data.collect.description"
-#~ msgstr "Description de la collecte des données personnelles"
-
 #: inertia/pages/home.tsx:212
 msgid "Powerful Features"
 msgstr "Fonctionnalités puissantes"
-
-#. js-lingui-explicit-id
-#: inertia/components/common/user_preferences/user_preferences.tsx:13
-#: inertia/pages/user_settings/show.tsx:13
-msgid "preferences"
-msgstr "Préférences"
-
-#: inertia/components/common/user_preferences/user_preferences.tsx:17
-msgid "Preferences description"
-msgstr "Description des préférences"
 
 #: inertia/components/common/navigation/footer_links.tsx:23
 msgid "Privacy"
@@ -724,10 +515,6 @@ msgstr "Confidentialité"
 #: inertia/pages/home.tsx:123
 msgid "Privacy First"
 msgstr "Confidentialité d'abord"
-
-#: inertia/pages/privacy.tsx:9
-#~ msgid "Privacy Policy"
-#~ msgstr "Politique de confidentialité"
 
 #: inertia/pages/privacy.tsx:10
 msgid "Privacy Policy of MyLinks"
@@ -744,10 +531,6 @@ msgstr "Privé"
 #: inertia/components/form/form_collection.tsx:91
 msgid "common:visibility.public"
 msgstr "Public"
-
-#: inertia/components/dashboard/collection/shared_collection_copy_link.tsx:25
-#~ msgid "Public"
-#~ msgstr "Public"
 
 #. js-lingui-explicit-id
 #: inertia/components/home/feature.tsx:55
@@ -766,18 +549,6 @@ msgstr "Retirer des favoris"
 #: inertia/pages/terms.tsx:143
 msgid "Responsibilities and Warranties"
 msgstr "Responsabilités et garanties"
-
-#: inertia/pages/terms.tsx:81
-#~ msgid "Responsibility"
-#~ msgstr "Responsabilité"
-
-#: inertia/pages/terms.tsx:78
-#~ msgid "Responsibility and Warranty"
-#~ msgstr "Responsabilité et garantie"
-
-#: inertia/pages/terms.tsx:84
-#~ msgid "Responsibility description"
-#~ msgstr "Description de la responsabilité"
 
 #: inertia/components/common/api_tokens/api_tokens.tsx:48
 #: inertia/components/common/api_tokens/api_tokens.tsx:57
@@ -805,10 +576,6 @@ msgstr "Recherche"
 #: inertia/components/search/search.tsx:108
 msgid "search"
 msgstr "rechercher"
-
-#: inertia/components/dashboard/dashboard_navbar.tsx:118
-#~ msgid "Search"
-#~ msgstr "Rechercher"
 
 #: inertia/pages/home.tsx:134
 msgid "Self-Hosted"
@@ -857,14 +624,6 @@ msgstr "Conditions"
 #: inertia/pages/terms.tsx:11
 msgid "Terms and Conditions of Use for MyLinks"
 msgstr "Conditions générales d'utilisation de MyLinks"
-
-#: inertia/pages/terms.tsx:98
-#~ msgid "Terms changes description"
-#~ msgstr "Description des modifications des conditions"
-
-#: inertia/pages/terms.tsx:14
-#~ msgid "Terms of Service"
-#~ msgstr "Conditions d'utilisation"
 
 #: inertia/pages/privacy.tsx:93
 msgid "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
@@ -915,10 +674,6 @@ msgstr "Mettre à jour"
 msgid "common:form.url"
 msgstr "URL"
 
-#: inertia/pages/terms.tsx:31
-#~ msgid "Use of Service"
-#~ msgstr "Utilisation du service"
-
 #: inertia/pages/terms.tsx:56
 msgid "Use of the Service"
 msgstr "Utilisation du service"
@@ -934,42 +689,14 @@ msgstr "Utilisez notre extension de navigateur pour un accès rapide"
 msgid "User"
 msgstr "Utilisateur"
 
-#: inertia/pages/terms.tsx:48
-#~ msgid "User Content"
-#~ msgstr "Contenu utilisateur"
-
-#: inertia/pages/terms.tsx:51
-#~ msgid "User content description"
-#~ msgstr "Description du contenu utilisateur"
-
-#: inertia/pages/privacy.tsx:29
-#~ msgid "User Data"
-#~ msgstr "Données utilisateur"
-
-#: inertia/pages/privacy.tsx:32
-#~ msgid "User data description"
-#~ msgstr "Description des données utilisateur"
-
 #: inertia/pages/privacy.tsx:137
 msgid "User Rights"
 msgstr "Droits de l'utilisateur"
-
-#: inertia/pages/privacy.tsx:65
-#~ msgid "User rights description"
-#~ msgstr "Description des droits de l'utilisateur"
 
 #: inertia/components/dashboard/forms/form_collection_content.tsx:86
 #: inertia/components/form/form_collection.tsx:75
 msgid "Visibility"
 msgstr "Visibilité"
-
-#: inertia/pages/terms.tsx:88
-#~ msgid "Warranty"
-#~ msgstr "Garantie"
-
-#: inertia/pages/terms.tsx:91
-#~ msgid "Warranty description"
-#~ msgstr "Description de la garantie"
 
 #: inertia/pages/terms.tsx:22
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. By using this service, you agree to the terms and conditions of use outlined below. Please read them carefully."
@@ -978,14 +705,6 @@ msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-s
 #: inertia/pages/privacy.tsx:21
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-source axé sur la confidentialité et l'auto-hébergement. Cette politique de confidentialité vise à vous informer sur la manière dont nous collectons, utilisons et protégeons vos données."
-
-#: inertia/pages/privacy.tsx:15
-#~ msgid "Welcome to our Privacy Policy"
-#~ msgstr "Bienvenue dans notre politique de confidentialité"
-
-#: inertia/pages/terms.tsx:20
-#~ msgid "Welcome to our Terms of Service"
-#~ msgstr "Bienvenue dans nos conditions d'utilisation"
 
 #: inertia/pages/home.tsx:176
 msgid "Why Choose MyLinks?"
@@ -1002,7 +721,3 @@ msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables
 #: inertia/pages/home.tsx:125
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Vos données vous appartiennent. Nous privilégions votre vie privée et ne partageons ni ne vendons jamais vos informations à des tiers."
-
-#: inertia/components/dashboard/favorite/favorite_list.tsx:13
-#~ msgid "Your favorites will appear here"
-#~ msgstr "Vos favoris apparaîtront ici"

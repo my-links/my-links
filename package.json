@@ -16,7 +16,7 @@
 		"release": "release-it",
 		"generate-icons": "pwa-assets-generator",
 		"tuyau": "node ace tuyau:generate",
-		"extract": "lingui extract",
+		"extract": "lingui extract --clean",
 		"compile": "lingui compile --typescript"
 	},
 	"imports": {
