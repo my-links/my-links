@@ -75,9 +75,12 @@ msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
 #: inertia/components/common/floating_navbar/user_dropdown.tsx:51
-#: inertia/components/common/user_badge_role.tsx:14
 msgid "Admin"
 msgstr "Admin"
+
+#: inertia/pages/admin/dashboard.tsx:20
+msgid "Admin Dashboard"
+msgstr "Tableau de bord administrateur"
 
 #: inertia/pages/home.tsx:152
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
@@ -135,6 +138,10 @@ msgstr "Annuler"
 msgid "Changes to the Terms"
 msgstr "Modifications des conditions"
 
+#: inertia/components/admin/users/users_table.tsx:115
+msgid "Clear"
+msgstr "Effacer"
+
 #: inertia/components/share/share_collection.tsx:28
 msgid "Click to copy"
 msgstr "Cliquer pour copier"
@@ -157,7 +164,7 @@ msgstr "Collections"
 msgid "common:collection.collections"
 msgstr "Collections ({{count}})"
 
-#: inertia/components/admin/users/users_table.tsx:132
+#: inertia/components/admin/users/users_table.tsx:142
 #: inertia/components/dashboard/collection_list.tsx:19
 msgid "Collections"
 msgstr "Collections"
@@ -246,7 +253,7 @@ msgstr "Créer un jeton"
 msgid "Create your first link to get started"
 msgstr "Créez votre premier lien pour commencer"
 
-#: inertia/components/admin/users/users_table.tsx:146
+#: inertia/components/admin/users/users_table.tsx:156
 msgid "Created at"
 msgstr "Créé le"
 
@@ -301,11 +308,6 @@ msgstr "Supprimer un lien"
 msgid "Delete collection"
 msgstr "Supprimer une collection"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:57
-#: inertia/components/dashboard/forms/form_collection_content.tsx:63
-msgid "Description"
-msgstr "Description"
-
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/forms/form_link_content.tsx:86
 #: inertia/components/form/form_collection.tsx:56
@@ -313,6 +315,11 @@ msgstr "Description"
 #: inertia/components/form/form_link.tsx:70
 #: inertia/components/form/form_link.tsx:76
 msgid "common:form.description"
+msgstr "Description"
+
+#: inertia/components/dashboard/forms/form_collection_content.tsx:57
+#: inertia/components/dashboard/forms/form_collection_content.tsx:63
+msgid "Description"
 msgstr "Description"
 
 #. js-lingui-explicit-id
@@ -391,7 +398,7 @@ msgstr "Aidez à améliorer le projet en contribuant"
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Rejoignez la communauté et commencez à organiser vos liens dès aujourd'hui. C'est gratuit, open-source et respecte votre vie privée."
 
-#: inertia/components/admin/users/users_table.tsx:153
+#: inertia/components/admin/users/users_table.tsx:163
 msgid "Last seen at"
 msgstr "Dernière connexion le"
 
@@ -414,7 +421,7 @@ msgstr "liens"
 msgid "about:link.title"
 msgstr "Liens"
 
-#: inertia/components/admin/users/users_table.tsx:139
+#: inertia/components/admin/users/users_table.tsx:149
 msgid "Links"
 msgstr "Liens"
 
@@ -469,7 +476,7 @@ msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès a
 msgid "common:form.name"
 msgstr "Nom"
 
-#: inertia/components/admin/users/users_table.tsx:118
+#: inertia/components/admin/users/users_table.tsx:128
 #: inertia/components/dashboard/forms/form_collection_content.tsx:26
 #: inertia/components/dashboard/forms/form_collection_content.tsx:33
 msgid "Name"
@@ -491,6 +498,10 @@ msgstr "aucun résultat"
 #: inertia/components/common/api_tokens/api_tokens.tsx:133
 msgid "No tokens created yet"
 msgstr "Aucun jeton créé pour le moment"
+
+#: inertia/components/admin/users/users_table.tsx:176
+msgid "Nothing found"
+msgstr "Aucun résultat"
 
 #: inertia/pages/home.tsx:112
 msgid "Open Source"
@@ -522,22 +533,22 @@ msgstr "Confidentialité d'abord"
 msgid "Privacy Policy of MyLinks"
 msgstr "Politique de confidentialité de MyLinks"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:101
-msgid "Private"
-msgstr "Privé"
-
 #. js-lingui-explicit-id
 #: inertia/components/form/form_collection.tsx:82
 msgid "common:visibility.private"
 msgstr "Privé"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:117
-msgid "Public"
-msgstr "Public"
+#: inertia/components/dashboard/forms/form_collection_content.tsx:101
+msgid "Private"
+msgstr "Privé"
 
 #. js-lingui-explicit-id
 #: inertia/components/form/form_collection.tsx:91
 msgid "common:visibility.public"
+msgstr "Public"
+
+#: inertia/components/dashboard/forms/form_collection_content.tsx:117
+msgid "Public"
 msgstr "Public"
 
 #. js-lingui-explicit-id
@@ -563,7 +574,7 @@ msgstr "Responsabilités et garanties"
 msgid "Revoke"
 msgstr "Révoquer"
 
-#: inertia/components/admin/users/users_table.tsx:125
+#: inertia/components/admin/users/users_table.tsx:135
 msgid "Role"
 msgstr "Rôle"
 
@@ -662,6 +673,22 @@ msgstr "Pour créer des collections et des liens personnalisés et les associer 
 msgid "Token name"
 msgstr "Nom du jeton"
 
+#: inertia/pages/admin/dashboard.tsx:45
+msgid "Total Collections"
+msgstr "Total des collections"
+
+#: inertia/pages/admin/dashboard.tsx:61
+msgid "Total Links"
+msgstr "Total des liens"
+
+#: inertia/pages/admin/dashboard.tsx:29
+msgid "Total Users"
+msgstr "Total des utilisateurs"
+
+#: inertia/components/admin/users/users_table.tsx:179
+msgid "Try adjusting your search criteria"
+msgstr "Essayez d'ajuster vos critères de recherche"
+
 #. js-lingui-explicit-id
 #: inertia/pages/collections/edit.tsx:53
 #: inertia/pages/links/edit.tsx:56
@@ -693,7 +720,6 @@ msgid "about:extension.text"
 msgstr "Utilisez notre extension de navigateur pour un accès rapide"
 
 #: inertia/components/common/floating_navbar/user_dropdown.tsx:70
-#: inertia/components/common/user_badge_role.tsx:18
 msgid "User"
 msgstr "Utilisateur"
 
