@@ -163,7 +163,7 @@ msgstr "Acceptance of Terms"
 #~ msgstr "Account description"
 
 #: inertia/components/dashboard/link/item/link_controls.tsx:74
-#: inertia/components/new_dashboard/link_controls.tsx:137
+#: inertia/components/new_dashboard/link_controls.tsx:151
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -323,6 +323,10 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
+#: inertia/components/new_dashboard/link_controls.tsx:164
+msgid "Copy link"
+msgstr "Copy link"
+
 #. js-lingui-explicit-id
 #: inertia/pages/collections/create.tsx:44
 #: inertia/pages/links/create.tsx:45
@@ -346,15 +350,15 @@ msgstr "Create a collection"
 msgid "common:collection.create"
 msgstr "Create a collection"
 
-#: inertia/components/dashboard/link/no_link/no_link.tsx:41
-#: inertia/pages/dashboard.tsx:89
-msgid "Create a link"
-msgstr "Create a link"
-
 #. js-lingui-explicit-id
 #: inertia/pages/links/create.tsx:43
 #: inertia/pages/new_dashboard.tsx:261
 msgid "common:link.create"
+msgstr "Create a link"
+
+#: inertia/components/dashboard/link/no_link/no_link.tsx:41
+#: inertia/pages/dashboard.tsx:89
+msgid "Create a link"
 msgstr "Create a link"
 
 #: inertia/components/common/api_tokens/create_token_modal.tsx:30
@@ -454,13 +458,13 @@ msgstr "Delete a collection"
 #~ msgstr "Delete a collection"
 
 #. js-lingui-explicit-id
-#: inertia/components/new_dashboard/link_controls.tsx:183
+#: inertia/components/new_dashboard/link_controls.tsx:216
 #: inertia/pages/links/delete.tsx:31
 msgid "common:link.delete"
 msgstr "Delete a link"
 
 #: inertia/components/dashboard/link/item/link_controls.tsx:92
-#: inertia/components/new_dashboard/link_controls.tsx:153
+#: inertia/components/new_dashboard/link_controls.tsx:186
 msgid "Delete a link"
 msgstr "Delete a link"
 
@@ -483,24 +487,24 @@ msgstr "Description"
 #~ msgid "Description"
 #~ msgstr "Description"
 
-#: inertia/pages/dashboard.tsx:74
-msgid "Edit a collection"
-msgstr "Edit a collection"
-
 #. js-lingui-explicit-id
 #: inertia/pages/collections/edit.tsx:47
 #: inertia/pages/new_dashboard.tsx:227
 msgid "common:collection.edit"
 msgstr "Edit a collection"
 
+#: inertia/pages/dashboard.tsx:74
+msgid "Edit a collection"
+msgstr "Edit a collection"
+
 #. js-lingui-explicit-id
-#: inertia/components/new_dashboard/link_controls.tsx:169
+#: inertia/components/new_dashboard/link_controls.tsx:202
 #: inertia/pages/links/edit.tsx:54
 msgid "common:link.edit"
 msgstr "Edit a link"
 
 #: inertia/components/dashboard/link/item/link_controls.tsx:84
-#: inertia/components/new_dashboard/link_controls.tsx:146
+#: inertia/components/new_dashboard/link_controls.tsx:175
 msgid "Edit a link"
 msgstr "Edit a link"
 
@@ -560,7 +564,7 @@ msgid "Get Started"
 msgstr "Get Started"
 
 #: inertia/components/dashboard/link/item/link_controls.tsx:54
-#: inertia/components/new_dashboard/link_controls.tsx:112
+#: inertia/components/new_dashboard/link_controls.tsx:124
 msgid "Go to collection"
 msgstr "Go to collection"
 
@@ -768,7 +772,7 @@ msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
 
 #: inertia/components/dashboard/link/item/link_controls.tsx:72
-#: inertia/components/new_dashboard/link_controls.tsx:135
+#: inertia/components/new_dashboard/link_controls.tsx:149
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
