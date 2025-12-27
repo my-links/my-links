@@ -106,7 +106,10 @@ export function LinkControls({
 									link.collectionId
 								)}
 								className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-								onClick={() => setIsOpen(false)}
+								onClick={(e) => {
+									e.stopPropagation();
+									setIsOpen(false);
+								}}
 							>
 								<div className="i-fa6-regular-eye w-4 h-4" />
 								<Trans>Go to collection</Trans>
@@ -114,7 +117,9 @@ export function LinkControls({
 						)}
 						{'favorite' in link && (
 							<button
-								onClick={() => {
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
 									onFavorite(
 										tuyau,
 										link.id,
@@ -139,14 +144,22 @@ export function LinkControls({
 							</button>
 						)}
 						<button
-							onClick={handleEditLink}
+							onClick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								handleEditLink();
+							}}
 							className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
 						>
 							<div className="i-octicon-pencil w-4 h-4" />
 							<Trans>Edit a link</Trans>
 						</button>
 						<button
-							onClick={handleDeleteLink}
+							onClick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								handleDeleteLink();
+							}}
 							className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
 						>
 							<div className="i-ion-trash-outline w-4 h-4" />
