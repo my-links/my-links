@@ -1,4 +1,3 @@
-import { UserAuth } from '#shared/types/dto';
 import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
@@ -7,9 +6,10 @@ import { IconLink } from '~/components/common/navigation/icon_link';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
 import { ThemeToggle } from '~/components/common/theme_toggle';
-import { withAuth } from '~/hooks/use_auth';
+import { useAuth } from '~/hooks/use_auth';
 
-const Navbar = withAuth(({ auth }: { auth: UserAuth }) => {
+export function Navbar() {
+	const auth = useAuth();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const toggleMobileMenu = () => {
@@ -238,6 +238,4 @@ const Navbar = withAuth(({ auth }: { auth: UserAuth }) => {
 			</div>
 		</nav>
 	);
-});
-
-export { Navbar };
+}

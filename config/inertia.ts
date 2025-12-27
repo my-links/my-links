@@ -45,7 +45,7 @@ const inertiaConfig = defineConfig({
 	sharedData: {
 		errors: (ctx) => ctx.session?.flashMessages.get('errors'),
 		token: (ctx) => ctx.session?.flashMessages.get('token'),
-		auth: async (ctx) =>
+		auth: (ctx) =>
 			ctx.inertia.always(async () => {
 				await ctx.auth?.check();
 				return new UserAuthDto(ctx.auth?.user).serialize();
