@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ReactNode, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ModalProps {
 	isOpen: boolean;
@@ -71,7 +72,7 @@ export function Modal({
 		xl: 'max-w-4xl',
 	};
 
-	return (
+	const modalContent = (
 		<div
 			className={clsx(
 				'fixed inset-0 z-50 flex items-center justify-center p-4',
@@ -119,4 +120,6 @@ export function Modal({
 			</div>
 		</div>
 	);
+
+	return createPortal(modalContent, document.body);
 }
