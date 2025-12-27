@@ -1,5 +1,4 @@
-import { i18n } from '@lingui/core';
-import { Trans as TransComponent } from '@lingui/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { FormCollectionData } from '~/components/form/form_collection';
@@ -24,14 +23,14 @@ export const FormCollectionContent = ({
 				htmlFor="name"
 				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 			>
-				{i18n._('common:form.name')}
+				{t`Name`}
 			</label>
 			<input
 				type="text"
 				id="name"
 				value={data.name}
 				onChange={(e) => setData('name', e.target.value)}
-				placeholder={i18n._('common:form.name')}
+				placeholder={t`Name`}
 				className={clsx(
 					'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
 					errors?.name
@@ -55,13 +54,13 @@ export const FormCollectionContent = ({
 				htmlFor="description"
 				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 			>
-				{i18n._('common:form.description')}
+				{t`Description`}
 			</label>
 			<textarea
 				id="description"
 				value={data.description ?? ''}
 				onChange={(e) => setData('description', e.target.value)}
-				placeholder={i18n._('common:form.description')}
+				placeholder={t`Description`}
 				rows={3}
 				className={clsx(
 					'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none',
@@ -99,7 +98,7 @@ export const FormCollectionContent = ({
 						disabled={disableInputs}
 					/>
 					<span className="text-sm text-gray-700 dark:text-gray-300">
-						<TransComponent id="common:visibility.private" message="Private" />
+						<Trans>Private</Trans>
 					</span>
 				</label>
 				<label className="flex items-center gap-2 cursor-pointer">
@@ -115,7 +114,7 @@ export const FormCollectionContent = ({
 						disabled={disableInputs}
 					/>
 					<span className="text-sm text-gray-700 dark:text-gray-300">
-						<TransComponent id="common:visibility.public" message="Public" />
+						<Trans>Public</Trans>
 					</span>
 				</label>
 			</div>

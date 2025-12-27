@@ -18,11 +18,6 @@ msgstr ""
 msgid "common:generic-error"
 msgstr "Une erreur est survenue"
 
-#. js-lingui-explicit-id
-#: inertia/layouts/form_layout.tsx:26
-msgid "common:form.confirm"
-msgstr "Confirmer"
-
 #: inertia/pages/privacy.tsx:71
 msgid "{field}"
 msgstr "{field}"
@@ -167,6 +162,10 @@ msgstr "Collections ({{count}})"
 msgid "Collections"
 msgstr "Collections"
 
+#: inertia/layouts/form_layout.tsx:26
+msgid "Confirm"
+msgstr "Confirmer"
+
 #. js-lingui-explicit-id
 #: inertia/components/home/feature.tsx:37
 #: inertia/pages/home.tsx:45
@@ -302,9 +301,12 @@ msgstr "Supprimer un lien"
 msgid "Delete collection"
 msgstr "Supprimer une collection"
 
+#: inertia/components/dashboard/forms/form_collection_content.tsx:57
+#: inertia/components/dashboard/forms/form_collection_content.tsx:63
+msgid "Description"
+msgstr "Description"
+
 #. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_collection_content.tsx:58
-#: inertia/components/dashboard/forms/form_collection_content.tsx:64
 #: inertia/components/dashboard/forms/form_link_content.tsx:86
 #: inertia/components/form/form_collection.tsx:56
 #: inertia/components/form/form_collection.tsx:62
@@ -459,8 +461,6 @@ msgid "MyLinks reserves the right to terminate or suspend your access to the ser
 msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès au service, avec ou sans préavis, en cas de violation de ces Conditions générales d'utilisation."
 
 #. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_collection_content.tsx:27
-#: inertia/components/dashboard/forms/form_collection_content.tsx:34
 #: inertia/components/dashboard/forms/form_link_content.tsx:27
 #: inertia/components/form/form_collection.tsx:44
 #: inertia/components/form/form_collection.tsx:45
@@ -470,6 +470,8 @@ msgid "common:form.name"
 msgstr "Nom"
 
 #: inertia/components/admin/users/users_table.tsx:118
+#: inertia/components/dashboard/forms/form_collection_content.tsx:26
+#: inertia/components/dashboard/forms/form_collection_content.tsx:33
 msgid "Name"
 msgstr "Nom"
 
@@ -520,14 +522,20 @@ msgstr "Confidentialité d'abord"
 msgid "Privacy Policy of MyLinks"
 msgstr "Politique de confidentialité de MyLinks"
 
+#: inertia/components/dashboard/forms/form_collection_content.tsx:101
+msgid "Private"
+msgstr "Privé"
+
 #. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_collection_content.tsx:102
 #: inertia/components/form/form_collection.tsx:82
 msgid "common:visibility.private"
 msgstr "Privé"
 
+#: inertia/components/dashboard/forms/form_collection_content.tsx:117
+msgid "Public"
+msgstr "Public"
+
 #. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_collection_content.tsx:118
 #: inertia/components/form/form_collection.tsx:91
 msgid "common:visibility.public"
 msgstr "Public"
@@ -633,7 +641,7 @@ msgstr "Les données collectées ne sont ni revendues ni utilisées à des fins 
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "La collecte et l'utilisation des données personnelles sont régies par notre Politique de confidentialité. Veuillez vous y référer pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données."
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:124
+#: inertia/components/dashboard/forms/form_collection_content.tsx:123
 #: inertia/components/form/form_collection.tsx:106
 msgid "The content will be visible to everyone"
 msgstr "Le contenu sera visible par tous"
@@ -693,7 +701,7 @@ msgstr "Utilisateur"
 msgid "User Rights"
 msgstr "Droits de l'utilisateur"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:86
+#: inertia/components/dashboard/forms/form_collection_content.tsx:85
 #: inertia/components/form/form_collection.tsx:75
 msgid "Visibility"
 msgstr "Visibilité"
