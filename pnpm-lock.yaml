@@ -80,9 +80,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      dayjs:
-        specifier: ^1.11.19
-        version: 1.11.19
       edge.js:
         specifier: ^6.4.0
         version: 6.4.0

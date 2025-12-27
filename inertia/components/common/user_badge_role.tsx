@@ -1,23 +1,17 @@
 import { UserWithCounters } from '#shared/types/dto';
-import { Badge } from '@mantine/core';
-import { Trans } from '@lingui/react/macro';
 
 interface UserBadgeRoleProps {
 	user: UserWithCounters;
 }
 
-export function UserBadgeRole({ user }: UserBadgeRoleProps) {
-	return (
-		<>
-			{user.isAdmin ? (
-				<Badge variant="light" color="red">
-					<Trans>Admin</Trans>
-				</Badge>
-			) : (
-				<Badge variant="light" color="green">
-					<Trans>User</Trans>
-				</Badge>
-			)}
-		</>
-	);
-}
+export const UserBadgeRole = ({ user }: UserBadgeRoleProps) => (
+	<span
+		className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+			user.isAdmin
+				? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'
+				: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+		}`}
+	>
+		{user.isAdmin ? 'Admin' : 'User'}
+	</span>
+);
