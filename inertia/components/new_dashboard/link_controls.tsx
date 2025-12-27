@@ -1,20 +1,20 @@
 import {
+	CollectionWithLinks,
 	Link,
 	LinkWithCollection,
-	CollectionWithLinks,
 } from '#shared/types/dto';
-import { usePage, router, Link as InertiaLink } from '@inertiajs/react';
 import { PageProps } from '@adonisjs/inertia/types';
-import { Trans } from '@lingui/react/macro';
+import { Link as InertiaLink, router, usePage } from '@inertiajs/react';
 import { Trans as TransComponent } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { MouseEvent, useState } from 'react';
+import { Modal } from '~/components/common/modal';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { onFavorite } from '~/lib/favorite';
 import { appendCollectionId } from '~/lib/navigation';
-import { EditLinkModal } from './modals/edit_link_modal';
 import { DeleteLinkModal } from './modals/delete_link_modal';
-import { Modal } from '~/components/common/modal';
+import { EditLinkModal } from './modals/edit_link_modal';
 
 interface LinkControlsProps {
 	link: Link;
@@ -63,6 +63,15 @@ export function LinkControls({
 	const handleDeleteLink = () => {
 		setIsOpen(false);
 		setDeleteLinkOpen(true);
+	};
+
+	const handleCopyLink = async () => {
+		try {
+			await navigator.clipboard.writeText(link.url);
+			setIsOpen(false);
+		} catch (err) {
+			console.error('Failed to copy link:', err);
+		}
 	};
 
 	const onFavoriteCallback = () => {
@@ -143,6 +152,17 @@ export function LinkControls({
 								)}
 							</button>
 						)}
+						<button
+							onClick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								handleCopyLink();
+							}}
+							className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+						>
+							<div className="i-mdi-content-copy w-4 h-4" />
+							<Trans>Copy link</Trans>
+						</button>
 						<button
 							onClick={(e) => {
 								e.preventDefault();
