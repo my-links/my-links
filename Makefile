@@ -2,6 +2,15 @@ tuyau:
 	@node ace tuyau:generate
 	@pnpm run format
 
+extract:
+	@pnpm run extract
+
+compile:
+	@pnpm run compile
+
+format:
+	@pnpm run format
+
 dev:
 	@docker compose down
 	@docker compose -f dev.compose.yml pull
