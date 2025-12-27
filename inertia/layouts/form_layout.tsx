@@ -1,5 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import { i18n } from '@lingui/core';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Anchor, Button, Container, Group, rem, Title } from '@mantine/core';
 import { FormEvent, PropsWithChildren } from 'react';
@@ -23,7 +23,7 @@ function FormLayout({
 
 	canSubmit,
 	handleSubmit,
-	textSubmitButton = i18n._('common:form.confirm'),
+	textSubmitButton = t`Confirm`,
 
 	disableHomeLink = false,
 	submitBtnDanger = false,
