@@ -1,7 +1,6 @@
+import { Trans, useLingui } from '@lingui/react/macro';
 import { Button, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useState } from 'react';
-import { Trans } from '@lingui/react/macro';
-import { Trans as TransComponent } from '@lingui/react';
 
 interface CreateTokenModalProps {
 	onCreate: (name: string) => Promise<void>;
@@ -9,6 +8,7 @@ interface CreateTokenModalProps {
 }
 
 export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
+	const { t } = useLingui();
 	const [tokenName, setTokenName] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -30,13 +30,8 @@ export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
 				<Trans>Create a new API token to access the API</Trans>
 			</Text>
 			<TextInput
-				label={<TransComponent id="api-tokens.name" message="Token name" />}
-				placeholder={
-					<TransComponent
-						id="api-tokens.name-placeholder"
-						message="Enter token name"
-					/>
-				}
+				label={<Trans>Token name</Trans>}
+				placeholder={t({ message: 'Enter token name' })}
 				value={tokenName}
 				onChange={(e) => setTokenName(e.target.value)}
 				required

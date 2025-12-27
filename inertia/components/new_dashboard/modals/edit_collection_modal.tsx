@@ -1,6 +1,5 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
-import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
@@ -76,10 +75,10 @@ export function EditCollectionModal({
 					{processing ? (
 						<span className="flex items-center gap-2">
 							<span className="i-svg-spinners-3-dots-fade w-4 h-4" />
-							<TransComponent id="common:form.update" message="Update" />
+							<Trans>Update</Trans>
 						</span>
 					) : (
-						<TransComponent id="common:form.update" message="Update" />
+						<Trans>Update</Trans>
 					)}
 				</button>
 			</div>

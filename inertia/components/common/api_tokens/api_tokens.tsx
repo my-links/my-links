@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { Trans } from '@lingui/react/macro';
 import {
 	ActionIcon,
 	Button,
@@ -8,8 +9,6 @@ import {
 	Text,
 } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { Trans } from '@lingui/react/macro';
-import { Trans as TransComponent } from '@lingui/react';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { ApiToken } from '~/types/app';
@@ -29,9 +28,7 @@ export function ApiTokens() {
 
 	const handleCreateTokenModal = () => {
 		modals.open({
-			title: (
-				<TransComponent id="api-tokens.create-new" message="Create new token" />
-			),
+			title: <Trans>Create new token</Trans>,
 			children: (
 				<CreateTokenModal
 					onCreate={(name) => createToken(name)}
@@ -57,8 +54,8 @@ export function ApiTokens() {
 				</Text>
 			),
 			labels: {
-				confirm: <TransComponent id="api-tokens.revoke" message="Revoke" />,
-				cancel: <TransComponent id="cancel" message="Cancel" />,
+				confirm: <Trans>Revoke</Trans>,
+				cancel: <Trans>Cancel</Trans>,
 			},
 			confirmProps: { color: 'red' },
 			onConfirm: () => revokeToken(tokenId),
