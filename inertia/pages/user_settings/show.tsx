@@ -4,16 +4,10 @@ import {
 	FloatingTab,
 	FloatingTabs,
 } from '~/components/common/floating_tabs/floating_tabs';
-import { UserPreferences } from '~/components/common/user_preferences/user_preferences';
 import SmallContentLayout from '~/layouts/small_content';
 
 function UserSettingsShow() {
 	const tabs: FloatingTab[] = [
-		{
-			label: <TransComponent id="preferences" message="Preferences" />,
-			value: 'preferences',
-			content: <UserPreferences />,
-		},
 		{
 			label: <TransComponent id="api-tokens.title" message="API Tokens" />,
 			value: 'api-tokens',

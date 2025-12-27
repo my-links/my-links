@@ -7,13 +7,6 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types';
 import type { InferInput } from '@vinejs/vine/types';
 
-type FaviconGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/favicons/favicons_controller.ts').default['render'],
-		false
-	>;
-};
 type SharedIdGetHead = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -25,10 +18,31 @@ type SharedIdGetHead = {
 		true
 	>;
 };
+type FaviconGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/favicons/favicons_controller.ts').default['render'],
+		false
+	>;
+};
 type UserSettingsGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
 		import('../app/controllers/user_settings/show_user_settings_controller.ts').default['render'],
+		false
+	>;
+};
+type AuthCallbackGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/auth/auth_controller.ts').default['callbackAuth'],
+		false
+	>;
+};
+type AuthLogoutGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/auth/auth_controller.ts').default['logout'],
 		false
 	>;
 };
@@ -130,20 +144,6 @@ type ApiV1TokensCheckGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
 		import('../app/controllers/api/tokens/api_token_controller.ts').default['render'],
-		false
-	>;
-};
-type AuthCallbackGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/auth/auth_controller.ts').default['callbackAuth'],
-		false
-	>;
-};
-type AuthLogoutGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/auth/auth_controller.ts').default['logout'],
 		false
 	>;
 };
@@ -291,17 +291,6 @@ type UserThemePost = {
 		true
 	>;
 };
-type UserDisplaypreferencesPost = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/user/update_display_preferences.ts'))['updateDisplayPreferencesValidator']
-		>
-	>;
-	response: MakeTuyauResponse<
-		import('../app/controllers/user/display_preferences_controller.ts').default['update'],
-		true
-	>;
-};
 type UserApitokensPost = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -325,17 +314,17 @@ type UserApitokensIdDelete = {
 	>;
 };
 export interface ApiDefinition {
-	favicon: {
-		$url: {};
-		$get: FaviconGetHead;
-		$head: FaviconGetHead;
-	};
 	shared: {
 		':id': {
 			$url: {};
 			$get: SharedIdGetHead;
 			$head: SharedIdGetHead;
 		};
+	};
+	favicon: {
+		$url: {};
+		$get: FaviconGetHead;
+		$head: FaviconGetHead;
 	};
 	user: {
 		settings: {
@@ -347,10 +336,6 @@ export interface ApiDefinition {
 			$url: {};
 			$post: UserThemePost;
 		};
-		'display-preferences': {
-			$url: {};
-			$post: UserDisplaypreferencesPost;
-		};
 		'api-tokens': {
 			$url: {};
 			$post: UserApitokensPost;
@@ -358,6 +343,18 @@ export interface ApiDefinition {
 				$url: {};
 				$delete: UserApitokensIdDelete;
 			};
+		};
+	};
+	auth: {
+		callback: {
+			$url: {};
+			$get: AuthCallbackGetHead;
+			$head: AuthCallbackGetHead;
+		};
+		logout: {
+			$url: {};
+			$get: AuthLogoutGetHead;
+			$head: AuthLogoutGetHead;
 		};
 	};
 	admin: {
@@ -404,18 +401,6 @@ export interface ApiDefinition {
 					$head: ApiV1TokensCheckGetHead;
 				};
 			};
-		};
-	};
-	auth: {
-		callback: {
-			$url: {};
-			$get: AuthCallbackGetHead;
-			$head: AuthCallbackGetHead;
-		};
-		logout: {
-			$url: {};
-			$get: AuthLogoutGetHead;
-			$head: AuthLogoutGetHead;
 		};
 	};
 	collections: {
@@ -484,13 +469,6 @@ export interface ApiDefinition {
 const routes = [
 	{
 		params: [],
-		name: 'favicon',
-		path: '/favicon',
-		method: ['GET', 'HEAD'],
-		types: {} as FaviconGetHead,
-	},
-	{
-		params: [],
 		name: 'home',
 		path: '/',
 		method: ['GET', 'HEAD'],
@@ -519,10 +497,38 @@ const routes = [
 	},
 	{
 		params: [],
+		name: 'favicon',
+		path: '/favicon',
+		method: ['GET', 'HEAD'],
+		types: {} as FaviconGetHead,
+	},
+	{
+		params: [],
 		name: 'user.settings',
 		path: '/user/settings',
 		method: ['GET', 'HEAD'],
 		types: {} as UserSettingsGetHead,
+	},
+	{
+		params: [],
+		name: 'auth',
+		path: '/auth/google',
+		method: ['GET', 'HEAD'],
+		types: {} as unknown,
+	},
+	{
+		params: [],
+		name: 'auth.callback',
+		path: '/auth/callback',
+		method: ['GET', 'HEAD'],
+		types: {} as AuthCallbackGetHead,
+	},
+	{
+		params: [],
+		name: 'auth.logout',
+		path: '/auth/logout',
+		method: ['GET', 'HEAD'],
+		types: {} as AuthLogoutGetHead,
 	},
 	{
 		params: [],
@@ -600,27 +606,6 @@ const routes = [
 		path: '/api/v1/tokens/check',
 		method: ['GET', 'HEAD'],
 		types: {} as ApiV1TokensCheckGetHead,
-	},
-	{
-		params: [],
-		name: 'auth',
-		path: '/auth/google',
-		method: ['GET', 'HEAD'],
-		types: {} as unknown,
-	},
-	{
-		params: [],
-		name: 'auth.callback',
-		path: '/auth/callback',
-		method: ['GET', 'HEAD'],
-		types: {} as AuthCallbackGetHead,
-	},
-	{
-		params: [],
-		name: 'auth.logout',
-		path: '/auth/logout',
-		method: ['GET', 'HEAD'],
-		types: {} as AuthLogoutGetHead,
 	},
 	{
 		params: [],
@@ -733,13 +718,6 @@ const routes = [
 		path: '/user/theme',
 		method: ['POST'],
 		types: {} as UserThemePost,
-	},
-	{
-		params: [],
-		name: 'user.update-display-preferences',
-		path: '/user/display-preferences',
-		method: ['POST'],
-		types: {} as UserDisplaypreferencesPost,
 	},
 	{
 		params: [],
