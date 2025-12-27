@@ -20,9 +20,10 @@ import { TuyauProvider } from '@tuyau/inertia/react';
 import { ReactNode, useEffect, useMemo } from 'react';
 import 'virtual:uno.css';
 import '~/css/app.css';
-import { useAppUrl } from '~/hooks/use_app_url';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { dynamicActivate } from '~/i18n';
+
+const appUrl = import.meta.env.VITE_APP_URL;
 
 const customTheme = createTheme({
 	colors: {
@@ -76,7 +77,6 @@ const customTheme = createTheme({
 });
 
 export function BaseLayout({ children }: { children: ReactNode }) {
-	const appUrl = useAppUrl();
 	const { props } = usePage<PageProps & { locale: Locale }>();
 
 	usePageTransition({
