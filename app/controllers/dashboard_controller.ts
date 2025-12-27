@@ -28,7 +28,7 @@ export default class DashboardController {
 			return response.redirectToNamedRoute('dashboard');
 		}
 
-		return inertia.render('new_dashboard', {
+		return inertia.render('dashboard', {
 			collections: CollectionWithLinksDto.fromArray(collections),
 			favoriteLinks: LinkDto.fromArray(favoriteLinks),
 			activeCollection: activeCollection

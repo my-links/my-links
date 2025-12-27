@@ -1,48 +1,60 @@
-import { Collection } from '#shared/types/dto';
+import { Collection, LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
+import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
 import { FormLinkData } from '~/components/form/form_link';
-import { FormLinkContent } from '~/components/new_dashboard/forms/form_link_content';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
 
-interface CreateLinkModalProps {
+interface EditLinkModalProps {
 	collections: Collection[];
-	defaultCollectionId?: Collection['id'];
+	link: LinkWithCollection;
 	onClose: () => void;
 }
 
-export function CreateLinkModal({
+export function EditLinkModal({
 	collections,
-	defaultCollectionId,
+	link,
 	onClose,
-}: CreateLinkModalProps) {
-	const collectionId = defaultCollectionId ?? collections[0]?.id;
+}: EditLinkModalProps) {
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
-		name: '',
-		description: '',
-		url: '',
-		favorite: false,
-		collectionId: collectionId!,
+		name: link.name,
+		description: link.description,
+		url: link.url,
+		favorite: link.favorite,
+		collectionId: link.collectionId,
 	});
 
-	const canSubmit = useMemo<boolean>(
-		() =>
-			data.name !== '' &&
-			isValidHttpUrl(data.url) &&
+	const canSubmit = useMemo<boolean>(() => {
+		const trimmedName = data.name.trim();
+		const trimmedDescription = data.description?.trim();
+		const trimmedUrl = data.url.trim();
+
+		const isFormEdited =
+			trimmedName !== link.name ||
+			trimmedUrl !== link.url ||
+			trimmedDescription !== link.description ||
+			data.favorite !== link.favorite ||
+			data.collectionId !== link.collectionId;
+
+		const isFormValid =
+			trimmedName !== '' &&
+			isValidHttpUrl(trimmedUrl) &&
 			data.favorite !== null &&
-			data.collectionId !== null &&
-			!processing,
-		[data, processing]
-	);
+			data.collectionId !== null;
+
+		return isFormEdited && isFormValid && !processing;
+	}, [data, link, processing]);
 
 	const { route } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('link.create');
+		const { method, url } = route('link.edit', {
+			params: { id: link.id.toString() },
+		});
 		submit(method as any, url, {
 			onSuccess: () => {
 				onClose();
@@ -80,10 +92,10 @@ export function CreateLinkModal({
 					{processing ? (
 						<span className="flex items-center gap-2">
 							<span className="i-svg-spinners-3-dots-fade w-4 h-4" />
-							<Trans>Create</Trans>
+							<Trans>Update</Trans>
 						</span>
 					) : (
-						<Trans>Create</Trans>
+						<Trans>Update</Trans>
 					)}
 				</button>
 			</div>

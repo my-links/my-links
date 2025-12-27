@@ -58,6 +58,16 @@ msgstr "common:form.confirm"
 #~ msgid "api-tokens.name"
 #~ msgstr "Token name"
 
+#. js-lingui-explicit-id
+#: inertia/pages/dashboard.tsx:37
+#~ msgid "coming-soon"
+#~ msgstr "Coming soon"
+
+#. js-lingui-explicit-id
+#: inertia/components/dashboard/link/no_link/no_link.tsx:26
+#~ msgid "home:no-link"
+#~ msgstr "No links in collection {name}"
+
 #: inertia/pages/privacy.tsx:71
 msgid "{field}"
 msgstr "{field}"
@@ -162,8 +172,7 @@ msgstr "Acceptance of Terms"
 #~ msgid "Account description"
 #~ msgstr "Account description"
 
-#: inertia/components/dashboard/link/item/link_controls.tsx:74
-#: inertia/components/new_dashboard/link_controls.tsx:151
+#: inertia/components/dashboard/link_controls.tsx:164
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -193,11 +202,11 @@ msgstr "API Tokens"
 msgid "API Tokens"
 msgstr "API Tokens"
 
-#: inertia/components/new_dashboard/modals/delete_collection_modal.tsx:41
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:41
 msgid "Are you sure you want to delete this collection?"
 msgstr "Are you sure you want to delete this collection?"
 
-#: inertia/components/new_dashboard/modals/delete_link_modal.tsx:39
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:39
 msgid "Are you sure you want to delete this link?"
 msgstr "Are you sure you want to delete this link?"
 
@@ -227,12 +236,12 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 
 #: inertia/components/common/api_tokens/api_tokens.tsx:58
 #: inertia/components/common/api_tokens/create_token_modal.tsx:41
-#: inertia/components/new_dashboard/modals/create_collection_modal.tsx:49
-#: inertia/components/new_dashboard/modals/create_link_modal.tsx:68
-#: inertia/components/new_dashboard/modals/delete_collection_modal.tsx:57
-#: inertia/components/new_dashboard/modals/delete_link_modal.tsx:56
-#: inertia/components/new_dashboard/modals/edit_collection_modal.tsx:63
-#: inertia/components/new_dashboard/modals/edit_link_modal.tsx:80
+#: inertia/components/dashboard/modals/create_collection_modal.tsx:49
+#: inertia/components/dashboard/modals/create_link_modal.tsx:68
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:57
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:56
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:63
+#: inertia/components/dashboard/modals/edit_link_modal.tsx:80
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -271,26 +280,17 @@ msgstr "Collection managed by <b>{{name}}</b>"
 msgid "about:collection.title"
 msgstr "Collections"
 
-#: inertia/components/admin/users/users_table.tsx:132
-#: inertia/components/dashboard/collection/collection_list.tsx:17
-#: inertia/components/dashboard/collection/list/collection_list.tsx:14
-#: inertia/components/new_dashboard/collection_list.tsx:19
-msgid "Collections"
-msgstr "Collections"
-
 #. js-lingui-explicit-id
-#: inertia/components/dashboard/collection/mobile_collection_list.tsx:20
-#: inertia/components/dashboard/collection/mobile_collection_list.tsx:52
+#: inertia/components/dashboard/forms/form_link_content.tsx:116
 #: inertia/components/form/form_link.tsx:89
 #: inertia/components/form/form_link.tsx:95
-#: inertia/components/new_dashboard/forms/form_link_content.tsx:116
 msgid "common:collection.collections"
 msgstr "Collections"
 
-#. js-lingui-explicit-id
-#: inertia/pages/dashboard.tsx:37
-msgid "coming-soon"
-msgstr "Coming soon"
+#: inertia/components/admin/users/users_table.tsx:132
+#: inertia/components/dashboard/collection_list.tsx:19
+msgid "Collections"
+msgstr "Collections"
 
 #. js-lingui-explicit-id
 #: inertia/components/home/feature.tsx:37
@@ -314,7 +314,6 @@ msgstr "Cookies used on MyLinks are essential to ensure the proper functioning o
 msgid "Copied"
 msgstr "Copied"
 
-#: inertia/components/dashboard/collection/shared_collection_copy_link.tsx:25
 #: inertia/components/share/share_collection.tsx:36
 msgid "Copied!"
 msgstr "Copied!"
@@ -323,7 +322,7 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/new_dashboard/link_controls.tsx:164
+#: inertia/components/dashboard/link_controls.tsx:169
 msgid "Copy link"
 msgstr "Copy link"
 
@@ -333,33 +332,33 @@ msgstr "Copy link"
 msgid "common:form.create"
 msgstr "Create"
 
-#: inertia/components/new_dashboard/modals/create_collection_modal.tsx:64
-#: inertia/components/new_dashboard/modals/create_collection_modal.tsx:67
-#: inertia/components/new_dashboard/modals/create_link_modal.tsx:83
-#: inertia/components/new_dashboard/modals/create_link_modal.tsx:86
+#: inertia/components/dashboard/modals/create_collection_modal.tsx:64
+#: inertia/components/dashboard/modals/create_collection_modal.tsx:67
+#: inertia/components/dashboard/modals/create_link_modal.tsx:83
+#: inertia/components/dashboard/modals/create_link_modal.tsx:86
 msgid "Create"
 msgstr "Create"
 
-#: inertia/pages/dashboard.tsx:62
-msgid "Create a collection"
-msgstr "Create a collection"
-
 #. js-lingui-explicit-id
 #: inertia/pages/collections/create.tsx:38
-#: inertia/pages/new_dashboard.tsx:212
+#: inertia/pages/dashboard.tsx:212
 msgid "common:collection.create"
 msgstr "Create a collection"
 
+#: inertia/pages/dashboard.tsx:62
+#~ msgid "Create a collection"
+#~ msgstr "Create a collection"
+
 #. js-lingui-explicit-id
+#: inertia/pages/dashboard.tsx:261
 #: inertia/pages/links/create.tsx:43
-#: inertia/pages/new_dashboard.tsx:261
 msgid "common:link.create"
 msgstr "Create a link"
 
 #: inertia/components/dashboard/link/no_link/no_link.tsx:41
 #: inertia/pages/dashboard.tsx:89
-msgid "Create a link"
-msgstr "Create a link"
+#~ msgid "Create a link"
+#~ msgstr "Create a link"
 
 #: inertia/components/common/api_tokens/create_token_modal.tsx:30
 msgid "Create a new API token to access the API"
@@ -369,11 +368,11 @@ msgstr "Create a new API token to access the API"
 msgid "Create Account"
 msgstr "Create Account"
 
-#: inertia/pages/new_dashboard.tsx:117
+#: inertia/pages/dashboard.tsx:117
 msgid "Create collection"
 msgstr "Create collection"
 
-#: inertia/pages/new_dashboard.tsx:143
+#: inertia/pages/dashboard.tsx:143
 msgid "Create link"
 msgstr "Create link"
 
@@ -386,7 +385,7 @@ msgstr "Create new token"
 msgid "Create token"
 msgstr "Create token"
 
-#: inertia/components/new_dashboard/link_list.tsx:32
+#: inertia/components/dashboard/link_list.tsx:32
 msgid "Create your first link to get started"
 msgstr "Create your first link to get started"
 
@@ -440,16 +439,17 @@ msgstr "Data Use"
 msgid "common:form.delete"
 msgstr "Delete"
 
-#: inertia/components/new_dashboard/modals/delete_collection_modal.tsx:71
-#: inertia/components/new_dashboard/modals/delete_collection_modal.tsx:74
-#: inertia/components/new_dashboard/modals/delete_link_modal.tsx:70
-#: inertia/components/new_dashboard/modals/delete_link_modal.tsx:73
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:71
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:74
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:70
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:73
 msgid "Delete"
 msgstr "Delete"
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/collection_controls.tsx:103
 #: inertia/pages/collections/delete.tsx:36
-#: inertia/pages/new_dashboard.tsx:243
+#: inertia/pages/dashboard.tsx:243
 msgid "common:collection.delete"
 msgstr "Delete a collection"
 
@@ -458,28 +458,28 @@ msgstr "Delete a collection"
 #~ msgstr "Delete a collection"
 
 #. js-lingui-explicit-id
-#: inertia/components/new_dashboard/link_controls.tsx:216
+#: inertia/components/dashboard/link_controls.tsx:203
 #: inertia/pages/links/delete.tsx:31
 msgid "common:link.delete"
 msgstr "Delete a link"
 
-#: inertia/components/dashboard/link/item/link_controls.tsx:92
-#: inertia/components/new_dashboard/link_controls.tsx:186
+#: inertia/components/dashboard/link_controls.tsx:179
 msgid "Delete a link"
 msgstr "Delete a link"
 
-#: inertia/pages/new_dashboard.tsx:132
+#: inertia/components/dashboard/collection_controls.tsx:79
+#: inertia/pages/dashboard.tsx:132
 msgid "Delete collection"
 msgstr "Delete collection"
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/forms/form_collection_content.tsx:58
+#: inertia/components/dashboard/forms/form_collection_content.tsx:64
+#: inertia/components/dashboard/forms/form_link_content.tsx:86
 #: inertia/components/form/form_collection.tsx:56
 #: inertia/components/form/form_collection.tsx:62
 #: inertia/components/form/form_link.tsx:70
 #: inertia/components/form/form_link.tsx:76
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:58
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:64
-#: inertia/components/new_dashboard/forms/form_link_content.tsx:86
 msgid "common:form.description"
 msgstr "Description"
 
@@ -488,27 +488,28 @@ msgstr "Description"
 #~ msgstr "Description"
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/collection_controls.tsx:87
 #: inertia/pages/collections/edit.tsx:47
-#: inertia/pages/new_dashboard.tsx:227
+#: inertia/pages/dashboard.tsx:227
 msgid "common:collection.edit"
 msgstr "Edit a collection"
 
 #: inertia/pages/dashboard.tsx:74
-msgid "Edit a collection"
-msgstr "Edit a collection"
+#~ msgid "Edit a collection"
+#~ msgstr "Edit a collection"
 
 #. js-lingui-explicit-id
-#: inertia/components/new_dashboard/link_controls.tsx:202
+#: inertia/components/dashboard/link_controls.tsx:189
 #: inertia/pages/links/edit.tsx:54
 msgid "common:link.edit"
 msgstr "Edit a link"
 
-#: inertia/components/dashboard/link/item/link_controls.tsx:84
-#: inertia/components/new_dashboard/link_controls.tsx:175
+#: inertia/components/dashboard/link_controls.tsx:172
 msgid "Edit a link"
 msgstr "Edit a link"
 
-#: inertia/pages/new_dashboard.tsx:126
+#: inertia/components/dashboard/collection_controls.tsx:72
+#: inertia/pages/dashboard.tsx:126
 msgid "Edit collection"
 msgstr "Edit collection"
 
@@ -526,20 +527,17 @@ msgstr "Everything you need to organize and manage your bookmarks effectively"
 msgid "about:extension.title"
 msgstr "Extension"
 
-#: inertia/components/dashboard/collection/inline_collection_list.tsx:26
-#: inertia/components/dashboard/collection/item/collection_favorite_item.tsx:26
-#: inertia/components/dashboard/favorite/favorite_list.tsx:22
-#: inertia/components/new_dashboard/collection_favorite_item.tsx:38
-msgid "Favorite"
-msgstr "Favorite"
-
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/forms/form_link_content.tsx:171
 #: inertia/components/form/form_link.tsx:112
-#: inertia/components/new_dashboard/forms/form_link_content.tsx:171
 msgid "common:favorite"
 msgstr "Favorite"
 
-#: inertia/pages/new_dashboard.tsx:162
+#: inertia/components/dashboard/collection_favorite_item.tsx:38
+msgid "Favorite"
+msgstr "Favorite"
+
+#: inertia/pages/dashboard.tsx:162
 msgid "Favorite Links"
 msgstr "Favorite Links"
 
@@ -563,8 +561,7 @@ msgstr "GDPR Compliance"
 msgid "Get Started"
 msgstr "Get Started"
 
-#: inertia/components/dashboard/link/item/link_controls.tsx:54
-#: inertia/components/new_dashboard/link_controls.tsx:124
+#: inertia/components/dashboard/link_controls.tsx:153
 msgid "Go to collection"
 msgstr "Go to collection"
 
@@ -592,7 +589,7 @@ msgstr "Last seen at"
 msgid "Last updated: {date}"
 msgstr "Last updated: {date}"
 
-#: inertia/pages/new_dashboard.tsx:174
+#: inertia/pages/dashboard.tsx:174
 msgid "link"
 msgstr "link"
 
@@ -600,7 +597,7 @@ msgstr "link"
 msgid "Link list display"
 msgstr "Link list display"
 
-#: inertia/pages/new_dashboard.tsx:176
+#: inertia/pages/dashboard.tsx:176
 msgid "links"
 msgstr "links"
 
@@ -657,13 +654,13 @@ msgid "MyLinks reserves the right to terminate or suspend your access to the ser
 msgstr "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/forms/form_collection_content.tsx:27
+#: inertia/components/dashboard/forms/form_collection_content.tsx:34
+#: inertia/components/dashboard/forms/form_link_content.tsx:27
 #: inertia/components/form/form_collection.tsx:44
 #: inertia/components/form/form_collection.tsx:45
 #: inertia/components/form/form_link.tsx:48
 #: inertia/components/form/form_link.tsx:49
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:27
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:34
-#: inertia/components/new_dashboard/forms/form_link_content.tsx:27
 msgid "common:form.name"
 msgstr "Name"
 
@@ -676,15 +673,10 @@ msgid "New token created"
 msgstr "New token created"
 
 #: inertia/components/dashboard/link/no_link/no_link.tsx:22
-msgid "No favorite links yet"
-msgstr "No favorite links yet"
+#~ msgid "No favorite links yet"
+#~ msgstr "No favorite links yet"
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/link/no_link/no_link.tsx:26
-msgid "home:no-link"
-msgstr "No links in collection {name}"
-
-#: inertia/components/new_dashboard/link_list.tsx:29
+#: inertia/components/dashboard/link_list.tsx:29
 msgid "No links yet"
 msgstr "No links yet"
 
@@ -746,20 +738,20 @@ msgid "Privacy Policy of MyLinks"
 msgstr "Privacy Policy of MyLinks"
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/forms/form_collection_content.tsx:102
 #: inertia/components/form/form_collection.tsx:82
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:102
 msgid "common:visibility.private"
 msgstr "Private"
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/forms/form_collection_content.tsx:118
 #: inertia/components/form/form_collection.tsx:91
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:118
 msgid "common:visibility.public"
 msgstr "Public"
 
 #: inertia/components/dashboard/collection/shared_collection_copy_link.tsx:25
-msgid "Public"
-msgstr "Public"
+#~ msgid "Public"
+#~ msgstr "Public"
 
 #. js-lingui-explicit-id
 #: inertia/components/home/feature.tsx:55
@@ -771,8 +763,7 @@ msgstr "Quickly find what you're looking for"
 msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
 
-#: inertia/components/dashboard/link/item/link_controls.tsx:72
-#: inertia/components/new_dashboard/link_controls.tsx:149
+#: inertia/components/dashboard/link_controls.tsx:162
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
@@ -808,16 +799,15 @@ msgid "about:link.text"
 msgstr "Save and manage your favorite links"
 
 #. js-lingui-explicit-id
-#: inertia/components/search/search.tsx:91
-#: inertia/components/search/search.tsx:108
-#: inertia/pages/dashboard.tsx:40
-msgid "search"
-msgstr "Search"
-
-#. js-lingui-explicit-id
 #: inertia/components/home/feature.tsx:31
 #: inertia/pages/home.tsx:39
 msgid "about:search.title"
+msgstr "Search"
+
+#. js-lingui-explicit-id
+#: inertia/components/search/search.tsx:91
+#: inertia/components/search/search.tsx:108
+msgid "search"
 msgstr "Search"
 
 #: inertia/components/dashboard/dashboard_navbar.tsx:118
@@ -888,8 +878,8 @@ msgstr "The collected data is neither resold nor used for purposes other than in
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 
+#: inertia/components/dashboard/forms/form_collection_content.tsx:124
 #: inertia/components/form/form_collection.tsx:106
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:124
 msgid "The content will be visible to everyone"
 msgstr "The content will be visible to everyone"
 
@@ -915,17 +905,17 @@ msgstr "Token name"
 msgid "common:form.update"
 msgstr "Update"
 
-#: inertia/components/new_dashboard/modals/edit_collection_modal.tsx:78
-#: inertia/components/new_dashboard/modals/edit_collection_modal.tsx:81
-#: inertia/components/new_dashboard/modals/edit_link_modal.tsx:95
-#: inertia/components/new_dashboard/modals/edit_link_modal.tsx:98
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:78
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:81
+#: inertia/components/dashboard/modals/edit_link_modal.tsx:95
+#: inertia/components/dashboard/modals/edit_link_modal.tsx:98
 msgid "Update"
 msgstr "Update"
 
 #. js-lingui-explicit-id
+#: inertia/components/dashboard/forms/form_link_content.tsx:57
 #: inertia/components/form/form_link.tsx:59
 #: inertia/components/form/form_link.tsx:60
-#: inertia/components/new_dashboard/forms/form_link_content.tsx:57
 msgid "common:form.url"
 msgstr "URL"
 
@@ -972,8 +962,8 @@ msgstr "User Rights"
 #~ msgid "User rights description"
 #~ msgstr "User rights description"
 
+#: inertia/components/dashboard/forms/form_collection_content.tsx:86
 #: inertia/components/form/form_collection.tsx:75
-#: inertia/components/new_dashboard/forms/form_collection_content.tsx:86
 msgid "Visibility"
 msgstr "Visibility"
 
@@ -1018,5 +1008,5 @@ msgid "Your data belongs to you. We prioritize your privacy and never share or s
 msgstr "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 
 #: inertia/components/dashboard/favorite/favorite_list.tsx:13
-msgid "Your favorites will appear here"
-msgstr "Your favorites will appear here"
+#~ msgid "Your favorites will appear here"
+#~ msgstr "Your favorites will appear here"

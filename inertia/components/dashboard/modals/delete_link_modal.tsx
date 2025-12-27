@@ -1,32 +1,30 @@
-import { Collection } from '#shared/types/dto';
+import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { FormCollectionData } from '~/components/form/form_collection';
-import { FormCollectionContent } from '~/components/new_dashboard/forms/form_collection_content';
+import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
+import { FormLinkData } from '~/components/form/form_link';
 import { useRouteHelper } from '~/lib/route_helper';
 
-interface DeleteCollectionModalProps {
-	collection: Collection;
+interface DeleteLinkModalProps {
+	link: LinkWithCollection;
 	onClose: () => void;
 }
 
-export function DeleteCollectionModal({
-	collection,
-	onClose,
-}: DeleteCollectionModalProps) {
-	const { data, setData, submit, processing, errors } =
-		useForm<FormCollectionData>({
-			name: collection.name,
-			description: collection.description,
-			visibility: collection.visibility,
-		});
+export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
+	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
+		name: link.name,
+		description: link.description,
+		url: link.url,
+		favorite: link.favorite,
+		collectionId: link.collectionId,
+	});
 
 	const { route } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('collection.delete', {
-			params: { id: collection.id.toString() },
+		const { method, url } = route('link.delete', {
+			params: { id: link.id.toString() },
 		});
 		submit(method as any, url, {
 			onSuccess: () => {
@@ -38,13 +36,14 @@ export function DeleteCollectionModal({
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4">
 			<p className="text-sm text-red-600 dark:text-red-400">
-				<Trans>Are you sure you want to delete this collection?</Trans>
+				<Trans>Are you sure you want to delete this link?</Trans>
 			</p>
 
-			<FormCollectionContent
+			<FormLinkContent
 				data={data}
 				setData={setData}
 				errors={errors}
+				collections={[link.collection]}
 				disableInputs
 			/>
 

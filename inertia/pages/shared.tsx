@@ -1,7 +1,7 @@
 import { SharedCollection } from '#shared/types/dto';
 import { Trans as TransComponent } from '@lingui/react';
 import { Flex, Text } from '@mantine/core';
-import { LinkList } from '~/components/dashboard/link/list/link_list';
+import { LinkList } from '~/components/dashboard/link_list';
 
 interface SharedPageProps {
 	activeCollection: SharedCollection;
@@ -27,7 +27,7 @@ export default function SharedPage({ activeCollection }: SharedPageProps) {
 						/>
 					</Text>
 				</Flex>
-				<LinkList hideMenu />
+				<LinkList />
 			</Flex>
 		</>
 	);
