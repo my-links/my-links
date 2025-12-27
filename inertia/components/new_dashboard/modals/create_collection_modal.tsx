@@ -1,5 +1,4 @@
 import { useForm } from '@inertiajs/react';
-import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
@@ -62,10 +61,10 @@ export function CreateCollectionModal({ onClose }: CreateCollectionModalProps) {
 					{processing ? (
 						<span className="flex items-center gap-2">
 							<span className="i-svg-spinners-3-dots-fade w-4 h-4" />
-							<TransComponent id="common:form.create" message="Create" />
+							<Trans>Create</Trans>
 						</span>
 					) : (
-						<TransComponent id="common:form.create" message="Create" />
+						<Trans>Create</Trans>
 					)}
 				</button>
 			</div>
