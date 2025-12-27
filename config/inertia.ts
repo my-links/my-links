@@ -1,5 +1,4 @@
 import { isSSREnableForPage } from '#config/ssr';
-import { DEFAULT_USER_THEME, KEY_USER_THEME } from '#constants/user/theme';
 import { UserAuthDto } from '#dtos/user_auth';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '#shared/consts/i18n';
 import env from '#start/env';
@@ -42,20 +41,10 @@ function resolveServerLocale(ctx: HttpContext): string {
 }
 
 const inertiaConfig = defineConfig({
-	/**
-	 * Path to the Edge view that will be used as the root view for Inertia responses
-	 */
 	rootView: 'inertia_layout',
-
-	/**
-	 * Data that should be shared with all rendered pages
-	 */
 	sharedData: {
 		errors: (ctx) => ctx.session?.flashMessages.get('errors'),
 		token: (ctx) => ctx.session?.flashMessages.get('token'),
-		user: (ctx) => ({
-			theme: ctx.session?.get(KEY_USER_THEME, DEFAULT_USER_THEME),
-		}),
 		auth: async (ctx) =>
 			ctx.inertia.always(async () => {
 				await ctx.auth?.check();
@@ -64,10 +53,6 @@ const inertiaConfig = defineConfig({
 		appUrl: env.get('APP_URL'),
 		locale: (ctx) => resolveServerLocale(ctx),
 	},
-
-	/**
-	 * Options for the server-side rendering
-	 */
 	ssr: {
 		enabled: true,
 		entrypoint: 'inertia/app/ssr.tsx',
