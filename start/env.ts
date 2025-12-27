@@ -30,7 +30,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring app url
   |----------------------------------------------------------
   */
-	APP_URL: Env.schema.string({ format: 'url', tld: false }), // Remove TLD to allow localhost
+	VITE_APP_URL: Env.schema.string({ format: 'url', tld: false }), // Remove TLD to allow localhost
 
 	/*
   |----------------------------------------------------------
