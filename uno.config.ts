@@ -9,10 +9,10 @@ export default defineConfig({
 		}),
 		presetIcons({
 			cdn: 'https://esm.sh/',
-		}),
+		}) as any,
 		presetWebFonts({
 			provider: 'bunny',
-		}),
+		}) as any,
 	],
 	safelist: [
 		'bg-yellow-100',
