@@ -1,8 +1,8 @@
 import { router } from '@inertiajs/react';
+import { Trans as TransComponent } from '@lingui/react';
 import { rem } from '@mantine/core';
 import { Spotlight, SpotlightActionData } from '@mantine/spotlight';
 import { useEffect, useState } from 'react';
-import { Trans as TransComponent } from '@lingui/react';
 import LinkFavicon from '~/components/dashboard/link/item/favicon/link_favicon';
 import { useTuyauRequired } from '~/hooks/use_tuyau_required';
 import { appendCollectionId } from '~/lib/navigation';
@@ -60,7 +60,7 @@ export function SearchSpotlight({
 	const handleResultSubmit = (result: SearchResult) => {
 		if (result.type === 'collection') {
 			return router.visit(
-				appendCollectionId(tuyau.$route('dashboard').path, result.id)
+				appendCollectionId(tuyau.$route('collection.show').path, result.id)
 			);
 		}
 

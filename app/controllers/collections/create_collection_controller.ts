@@ -7,21 +7,13 @@ import { type HttpContext } from '@adonisjs/core/http';
 export default class CreateCollectionController {
 	constructor(private collectionService: CollectionService) {}
 
-	async render({ inertia }: HttpContext) {
-		const collections =
-			await this.collectionService.getCollectionsForAuthenticatedUser();
-		return inertia.render('collections/create', {
-			disableHomeLink: collections.length === 0,
-		});
-	}
-
-	async execute({ request }: HttpContext) {
+	async execute({ request, response }: HttpContext) {
 		const payload = await request.validateUsing(createCollectionValidator);
-		const collection = await this.collectionService.createCollection({
+		await this.collectionService.createCollection({
 			name: payload.name,
 			description: payload.description,
 			visibility: payload.visibility,
 		});
-		return this.collectionService.redirectToCollectionId(collection.id);
+		return response.redirect().back();
 	}
 }

@@ -3,6 +3,8 @@ import router from '@adonisjs/core/services/router';
 
 const CreateCollectionController = () =>
 	import('#controllers/collections/create_collection_controller');
+const ShowCollectionController = () =>
+	import('#controllers/collections/show_collection_controller');
 const UpdateCollectionController = () =>
 	import('#controllers/collections/update_collection_controller');
 const DeleteCollectionController = () =>
@@ -13,22 +15,17 @@ router
 		router
 			.group(() => {
 				router
-					.get('/create', [CreateCollectionController, 'render'])
-					.as('collection.create-form');
-				router
 					.post('/', [CreateCollectionController, 'execute'])
 					.as('collection.create');
 
 				router
-					.get('/edit', [UpdateCollectionController, 'render'])
-					.as('collection.edit-form');
+					.get('/:id', [ShowCollectionController, 'render'])
+					.as('collection.show');
+
 				router
 					.put('/:id', [UpdateCollectionController, 'execute'])
 					.as('collection.edit');
 
-				router
-					.get('/delete', [DeleteCollectionController, 'render'])
-					.as('collection.delete-form');
 				router
 					.delete('/:id', [DeleteCollectionController, 'execute'])
 					.as('collection.delete');
