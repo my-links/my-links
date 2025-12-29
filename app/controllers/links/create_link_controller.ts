@@ -1,4 +1,3 @@
-import { CollectionDto } from '#dtos/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { LinkService } from '#services/links/link_service';
 import { createLinkValidator } from '#validators/links/create_link_validator';
@@ -11,14 +10,6 @@ export default class CreateLinkController {
 		private linkService: LinkService,
 		private collectionsService: CollectionService
 	) {}
-
-	async render({ inertia }: HttpContext) {
-		const collections =
-			await this.collectionsService.getCollectionsForAuthenticatedUser();
-		return inertia.render('links/create', {
-			collections: CollectionDto.fromArray(collections),
-		});
-	}
 
 	async execute({ request }: HttpContext) {
 		const { collectionId, ...payload } =

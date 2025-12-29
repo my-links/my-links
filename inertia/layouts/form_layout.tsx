@@ -69,7 +69,7 @@ function FormLayout({
 						{!disableHomeLink && (
 							<Anchor
 								component={Link}
-								href={tuyau.$route('dashboard').path}
+								href={tuyau.$route('collection.show').path}
 								disabled={disableHomeLink}
 							>
 								<Trans>← Back to home</Trans>

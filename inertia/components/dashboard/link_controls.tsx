@@ -140,7 +140,7 @@ export const LinkControls = forwardRef<LinkControlsRef, LinkControlsProps>(
 					{showGoToCollection && (
 						<InertiaLink
 							href={appendCollectionId(
-								tuyau.$route('dashboard').path,
+								tuyau.$route('collection.show').path,
 								link.collectionId
 							)}
 							className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"

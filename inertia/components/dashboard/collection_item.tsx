@@ -1,10 +1,8 @@
 import { Collection } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
-import { Link, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
+import { Link } from '@tuyau/inertia/react';
 import clsx from 'clsx';
-import { useEffect, useRef } from 'react';
-import { useTuyauRequired } from '~/hooks/use_tuyau_required';
-import { appendCollectionId } from '~/lib/navigation';
 import { CollectionControls } from './collection_controls';
 
 interface CollectionItemProps {
@@ -16,17 +14,9 @@ interface PagePropsWithActiveCollection extends PageProps {
 }
 
 export function CollectionItem({ collection }: CollectionItemProps) {
-	const itemRef = useRef<HTMLAnchorElement>(null);
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
-	const tuyau = useTuyauRequired();
 	const isActive = collection.id === activeCollection?.id;
-
-	useEffect(() => {
-		if (isActive) {
-			itemRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-		}
-	}, [isActive]);
 
 	const handleContextMenu = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -42,8 +32,8 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 
 	return (
 		<Link
-			ref={itemRef}
-			href={appendCollectionId(tuyau.$route('dashboard').path, collection.id)}
+			route="collection.show"
+			params={{ id: collection.id }}
 			className={clsx(
 				'flex items-center gap-3 px-4 py-2 rounded-lg transition-colors group',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
