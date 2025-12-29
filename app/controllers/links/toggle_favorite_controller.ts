@@ -4,16 +4,15 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
-export default class ToggleFavoriteController {
+export default class ToggleLinkFavoriteController {
 	constructor(private linkService: LinkService) {}
 
-	async toggleFavorite({ request, response }: HttpContext) {
-		const { params, favorite } = await request.validateUsing(
-			updateLinkFavoriteStatusValidator
-		);
-
-		await this.linkService.updateFavorite(params.id, favorite);
-
-		return response.json({ status: 'ok' });
+	async execute({ request, response }: HttpContext) {
+		const {
+			params: { id: linkId },
+			favorite,
+		} = await request.validateUsing(updateLinkFavoriteStatusValidator);
+		await this.linkService.updateFavorite(linkId, favorite);
+		return response.redirect().back();
 	}
 }

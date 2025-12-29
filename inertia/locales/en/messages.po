@@ -199,12 +199,6 @@ msgstr "Copy"
 msgid "Copy link"
 msgstr "Copy link"
 
-#. js-lingui-explicit-id
-#: inertia/pages/collections/create.tsx:44
-#: inertia/pages/links/create.tsx:45
-msgid "common:form.create"
-msgstr "Create"
-
 #: inertia/components/dashboard/modals/create_collection_modal.tsx:64
 #: inertia/components/dashboard/modals/create_collection_modal.tsx:67
 #: inertia/components/dashboard/modals/create_link_modal.tsx:83
@@ -213,14 +207,12 @@ msgid "Create"
 msgstr "Create"
 
 #. js-lingui-explicit-id
-#: inertia/pages/collections/create.tsx:38
 #: inertia/pages/dashboard.tsx:210
 msgid "common:collection.create"
 msgstr "Create a collection"
 
 #. js-lingui-explicit-id
 #: inertia/pages/dashboard.tsx:259
-#: inertia/pages/links/create.tsx:43
 msgid "common:link.create"
 msgstr "Create a link"
 
@@ -273,12 +265,6 @@ msgstr "Data Storage"
 msgid "Data Use"
 msgstr "Data Use"
 
-#. js-lingui-explicit-id
-#: inertia/pages/collections/delete.tsx:42
-#: inertia/pages/links/delete.tsx:33
-msgid "common:form.delete"
-msgstr "Delete"
-
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:71
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:74
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:70
@@ -288,19 +274,17 @@ msgstr "Delete"
 
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/collection_controls.tsx:103
-#: inertia/pages/collections/delete.tsx:36
 #: inertia/pages/dashboard.tsx:241
 msgid "common:collection.delete"
 msgstr "Delete a collection"
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/link_controls.tsx:203
-#: inertia/pages/links/delete.tsx:31
-msgid "common:link.delete"
-msgstr "Delete a link"
-
 #: inertia/components/dashboard/link_controls.tsx:179
 msgid "Delete a link"
+msgstr "Delete a link"
+
+#. js-lingui-explicit-id
+#: inertia/components/dashboard/link_controls.tsx:203
+msgid "common:link.delete"
 msgstr "Delete a link"
 
 #: inertia/components/dashboard/collection_controls.tsx:79
@@ -324,19 +308,17 @@ msgstr "Description"
 
 #. js-lingui-explicit-id
 #: inertia/components/dashboard/collection_controls.tsx:87
-#: inertia/pages/collections/edit.tsx:47
 #: inertia/pages/dashboard.tsx:225
 msgid "common:collection.edit"
 msgstr "Edit a collection"
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/link_controls.tsx:189
-#: inertia/pages/links/edit.tsx:54
-msgid "common:link.edit"
-msgstr "Edit a link"
-
 #: inertia/components/dashboard/link_controls.tsx:172
 msgid "Edit a link"
+msgstr "Edit a link"
+
+#. js-lingui-explicit-id
+#: inertia/components/dashboard/link_controls.tsx:189
+msgid "common:link.edit"
 msgstr "Edit a link"
 
 #: inertia/components/dashboard/collection_controls.tsx:72
@@ -364,7 +346,7 @@ msgstr "Extension"
 msgid "common:favorite"
 msgstr "Favorite"
 
-#: inertia/components/dashboard/collection_favorite_item.tsx:38
+#: inertia/components/dashboard/collection_favorite_item.tsx:36
 msgid "Favorite"
 msgstr "Favorite"
 
@@ -688,12 +670,6 @@ msgstr "Total Users"
 #: inertia/components/admin/users/users_table.tsx:179
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
-
-#. js-lingui-explicit-id
-#: inertia/pages/collections/edit.tsx:53
-#: inertia/pages/links/edit.tsx:56
-msgid "common:form.update"
-msgstr "Update"
 
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:78
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:81

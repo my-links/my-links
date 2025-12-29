@@ -1,4 +1,3 @@
-import { LinkWithCollectionDto } from '#dtos/link_with_collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { LinkService } from '#services/links/link_service';
 import { deleteLinkValidator } from '#validators/links/delete_link_validator';
@@ -12,19 +11,6 @@ export default class DeleteLinkController {
 		protected collectionsService: CollectionService,
 		protected linkService: LinkService
 	) {}
-
-	async render({ auth, inertia, request }: HttpContext) {
-		const linkId = request.qs()?.linkId;
-		if (!linkId) {
-			return this.collectionsService.redirectToDashboard();
-		}
-
-		const link = await this.linkService.getLinkById(linkId, auth.user!.id);
-		await link.load('collection');
-		return inertia.render('links/delete', {
-			link: new LinkWithCollectionDto(link).serialize(),
-		});
-	}
 
 	async execute({ request, auth }: HttpContext) {
 		const { params } = await request.validateUsing(deleteLinkValidator);

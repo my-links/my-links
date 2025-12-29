@@ -7,11 +7,10 @@ import db from '@adonisjs/lucid/services/db';
 export default class AuthController {
 	private redirectTo: ApiRouteName = 'auth';
 
-	login({ inertia }: HttpContext) {
-		return inertia.render('login');
+	async google({ ally, inertia }: HttpContext) {
+		const redirectUrl = await ally.use('google').redirectUrl();
+		return inertia.location(redirectUrl);
 	}
-
-	google = ({ ally }: HttpContext) => ally.use('google').redirect();
 
 	async callbackAuth({ ally, auth, response, session }: HttpContext) {
 		const google = ally.use('google');
@@ -60,14 +59,14 @@ export default class AuthController {
 		session.flash('flash', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
 
-		response.redirectToNamedRoute('dashboard');
+		response.redirectToNamedRoute('favorites.show');
 	}
 
 	async logout({ auth, response, session }: HttpContext) {
 		await auth.use('web').logout();
 		session.flash('flash', 'Successfully disconnected');
 		logger.info(`[${auth.user?.email}] disconnected successfully`);
-		response.redirect('/');
+		response.redirectToNamedRoute('home');
 	}
 
 	async getAllUsersWithTotalRelations() {

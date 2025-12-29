@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link } from '@tuyau/inertia/react';
 import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { FOOTER_LINKS } from '~/components/common/navigation/footer_links';
@@ -50,7 +50,7 @@ export function Navbar() {
 			<div className="h-[64px] flex justify-between items-center py-2 px-4 md:px-6">
 				<div className="flex items-center gap-4 md:gap-6">
 					<Link
-						href="/"
+						route="home"
 						className="flex-shrink-0 text-2xl text-gray-900 dark:text-white hover:opacity-80 transition-opacity"
 						onClick={closeMobileMenu}
 					>
@@ -78,7 +78,7 @@ export function Navbar() {
 					{auth.isAuthenticated ? (
 						<>
 							<Link
-								href="/dashboard"
+								route="favorites.show"
 								className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium"
 							>
 								<i className="i-mdi-view-dashboard h-5 min-w-5 block" />
@@ -86,7 +86,7 @@ export function Navbar() {
 							</Link>
 							{auth.isAdmin && (
 								<Link
-									href="/admin"
+									route="admin.dashboard"
 									className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium"
 								>
 									<i className="i-mdi-shield-account h-5 min-w-5 block" />
@@ -102,7 +102,7 @@ export function Navbar() {
 									{auth.user?.fullname}
 								</span>
 								<Link
-									href="/auth/logout"
+									route="auth.logout"
 									className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
 									title="Déconnexion"
 								>
@@ -112,14 +112,14 @@ export function Navbar() {
 						</>
 					) : (
 						<>
-							<a
-								href="/auth/google"
+							<Link
+								route="auth"
 								className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium"
 							>
 								Login
-							</a>
+							</Link>
 							<Link
-								href="/auth/register"
+								route="auth"
 								className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-md shadow-blue-500/30"
 							>
 								Register
@@ -167,7 +167,7 @@ export function Navbar() {
 							{auth.isAuthenticated ? (
 								<>
 									<Link
-										href="/dashboard"
+										route="favorites.show"
 										className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium w-full"
 										onClick={closeMobileMenu}
 									>
@@ -176,7 +176,7 @@ export function Navbar() {
 									</Link>
 									{auth.isAdmin && (
 										<Link
-											href="/admin"
+											route="admin.dashboard"
 											className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium w-full"
 											onClick={closeMobileMenu}
 										>
@@ -192,7 +192,7 @@ export function Navbar() {
 											{auth.user?.fullname}
 										</span>
 										<Link
-											href="/auth/logout"
+											route="auth.logout"
 											className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
 											title="Déconnexion"
 											onClick={closeMobileMenu}
@@ -203,15 +203,15 @@ export function Navbar() {
 								</>
 							) : (
 								<>
-									<a
-										href="/auth/google"
+									<Link
+										route="auth"
 										className="block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium text-center"
 										onClick={closeMobileMenu}
 									>
 										Login
-									</a>
+									</Link>
 									<Link
-										href="/auth/register"
+										route="auth"
 										className="block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-md shadow-blue-500/30 text-center"
 										onClick={closeMobileMenu}
 									>

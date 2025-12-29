@@ -1,9 +1,8 @@
-import { Link } from '@inertiajs/react';
-import { usePage } from '@inertiajs/react';
-import { PageProps } from '@adonisjs/inertia/types';
 import { Collection } from '#shared/types/dto';
-import { useTuyauRequired } from '~/hooks/use_tuyau_required';
+import { PageProps } from '@adonisjs/inertia/types';
+import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Link } from '@tuyau/inertia/react';
 import clsx from 'clsx';
 
 interface PagePropsWithActiveCollection extends PageProps {
@@ -13,12 +12,11 @@ interface PagePropsWithActiveCollection extends PageProps {
 export function CollectionFavoriteItem() {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
-	const tuyau = useTuyauRequired();
 	const isActive = !activeCollection?.id;
 
 	return (
 		<Link
-			href={tuyau.$route('dashboard').path}
+			route="favorites.show"
 			className={clsx(
 				'flex items-center gap-3 px-4 py-2 rounded-lg transition-colors',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',

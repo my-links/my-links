@@ -1,16 +1,20 @@
 import { LinkDto } from '#dtos/link';
 import { LinkService } from '#services/links/link_service';
-import { createLinkValidator } from '#validators/links/create_link_validator';
+import { baseLinkValidator } from '#validators/links/base_link_validator';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
+import vine from '@vinejs/vine';
 
 @inject()
 export default class CreateLinkController {
+	private validator = vine.create(baseLinkValidator.getProperties());
+
 	constructor(private linkService: LinkService) {}
 
 	async execute({ request, response }: HttpContext) {
-		const { collectionId, ...payload } =
-			await request.validateUsing(createLinkValidator);
+		const { collectionId, ...payload } = await request.validateUsing(
+			this.validator
+		);
 
 		const link = await this.linkService.createLink({
 			...payload,

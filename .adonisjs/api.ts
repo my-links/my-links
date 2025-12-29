@@ -32,6 +32,13 @@ type UserSettingsGetHead = {
 		false
 	>;
 };
+type AuthGoogleGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/auth/auth_controller.ts').default['google'],
+		false
+	>;
+};
 type AuthCallbackGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
@@ -101,14 +108,10 @@ type ApiV1CollectionsIdDelete = {
 	>;
 };
 type ApiV1LinksPost = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/links/create_link_validator.ts'))['createLinkValidator']
-		>
-	>;
+	request: unknown;
 	response: MakeTuyauResponse<
 		import('../app/controllers/api/links/create_link_controller.ts').default['execute'],
-		true
+		false
 	>;
 };
 type ApiV1LinksIdPut = {
@@ -147,13 +150,6 @@ type ApiV1TokensCheckGetHead = {
 		false
 	>;
 };
-type CollectionsCreateGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/collections/create_collection_controller.ts').default['render'],
-		false
-	>;
-};
 type CollectionsPost = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -165,10 +161,10 @@ type CollectionsPost = {
 		true
 	>;
 };
-type CollectionsEditGetHead = {
+type CollectionsIdGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/controllers/collections/update_collection_controller.ts').default['render'],
+		import('../app/controllers/collections/show_collection_controller.ts').default['render'],
 		false
 	>;
 };
@@ -183,13 +179,6 @@ type CollectionsIdPut = {
 		true
 	>;
 };
-type CollectionsDeleteGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/collections/delete_collection_controller.ts').default['render'],
-		false
-	>;
-};
 type CollectionsIdDelete = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -201,17 +190,10 @@ type CollectionsIdDelete = {
 		true
 	>;
 };
-type DashboardGetHead = {
+type FavoritesGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/controllers/dashboard_controller.ts').default['render'],
-		false
-	>;
-};
-type LinksCreateGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/links/create_link_controller.ts').default['render'],
+		import('../app/controllers/favorites/show_favorites_controller.ts').default['render'],
 		false
 	>;
 };
@@ -224,13 +206,6 @@ type LinksPost = {
 	response: MakeTuyauResponse<
 		import('../app/controllers/links/create_link_controller.ts').default['execute'],
 		true
-	>;
-};
-type LinksEditGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/links/update_link_controller.ts').default['render'],
-		false
 	>;
 };
 type LinksIdPut = {
@@ -251,15 +226,8 @@ type LinksIdFavoritePut = {
 		>
 	>;
 	response: MakeTuyauResponse<
-		import('../app/controllers/links/toggle_favorite_controller.ts').default['toggleFavorite'],
+		import('../app/controllers/links/toggle_favorite_controller.ts').default['execute'],
 		true
-	>;
-};
-type LinksDeleteGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/links/delete_link_controller.ts').default['render'],
-		false
 	>;
 };
 type LinksIdDelete = {
@@ -278,17 +246,6 @@ type SearchGetHead = {
 	response: MakeTuyauResponse<
 		import('../app/controllers/search/search_controller.ts').default['render'],
 		false
-	>;
-};
-type UserThemePost = {
-	request: MakeTuyauRequest<
-		InferInput<
-			(typeof import('../app/validators/user/update_theme_validator.ts'))['updateThemeValidator']
-		>
-	>;
-	response: MakeTuyauResponse<
-		import('../app/controllers/user/theme_controller.ts').default['render'],
-		true
 	>;
 };
 type UserApitokensPost = {
@@ -332,10 +289,6 @@ export interface ApiDefinition {
 			$get: UserSettingsGetHead;
 			$head: UserSettingsGetHead;
 		};
-		theme: {
-			$url: {};
-			$post: UserThemePost;
-		};
 		'api-tokens': {
 			$url: {};
 			$post: UserApitokensPost;
@@ -346,6 +299,11 @@ export interface ApiDefinition {
 		};
 	};
 	auth: {
+		google: {
+			$url: {};
+			$get: AuthGoogleGetHead;
+			$head: AuthGoogleGetHead;
+		};
 		callback: {
 			$url: {};
 			$get: AuthCallbackGetHead;
@@ -404,47 +362,24 @@ export interface ApiDefinition {
 		};
 	};
 	collections: {
-		create: {
-			$url: {};
-			$get: CollectionsCreateGetHead;
-			$head: CollectionsCreateGetHead;
-		};
 		$url: {};
 		$post: CollectionsPost;
-		edit: {
-			$url: {};
-			$get: CollectionsEditGetHead;
-			$head: CollectionsEditGetHead;
-		};
 		':id': {
 			$url: {};
+			$get: CollectionsIdGetHead;
+			$head: CollectionsIdGetHead;
 			$put: CollectionsIdPut;
 			$delete: CollectionsIdDelete;
 		};
-		delete: {
-			$url: {};
-			$get: CollectionsDeleteGetHead;
-			$head: CollectionsDeleteGetHead;
-		};
 	};
-	dashboard: {
+	favorites: {
 		$url: {};
-		$get: DashboardGetHead;
-		$head: DashboardGetHead;
+		$get: FavoritesGetHead;
+		$head: FavoritesGetHead;
 	};
 	links: {
-		create: {
-			$url: {};
-			$get: LinksCreateGetHead;
-			$head: LinksCreateGetHead;
-		};
 		$url: {};
 		$post: LinksPost;
-		edit: {
-			$url: {};
-			$get: LinksEditGetHead;
-			$head: LinksEditGetHead;
-		};
 		':id': {
 			$url: {};
 			$put: LinksIdPut;
@@ -453,11 +388,6 @@ export interface ApiDefinition {
 				$put: LinksIdFavoritePut;
 			};
 			$delete: LinksIdDelete;
-		};
-		delete: {
-			$url: {};
-			$get: LinksDeleteGetHead;
-			$head: LinksDeleteGetHead;
 		};
 	};
 	search: {
@@ -514,7 +444,7 @@ const routes = [
 		name: 'auth',
 		path: '/auth/google',
 		method: ['GET', 'HEAD'],
-		types: {} as unknown,
+		types: {} as AuthGoogleGetHead,
 	},
 	{
 		params: [],
@@ -609,24 +539,17 @@ const routes = [
 	},
 	{
 		params: [],
-		name: 'collection.create-form',
-		path: '/collections/create',
-		method: ['GET', 'HEAD'],
-		types: {} as CollectionsCreateGetHead,
-	},
-	{
-		params: [],
 		name: 'collection.create',
 		path: '/collections',
 		method: ['POST'],
 		types: {} as CollectionsPost,
 	},
 	{
-		params: [],
-		name: 'collection.edit-form',
-		path: '/collections/edit',
+		params: ['id'],
+		name: 'collection.show',
+		path: '/collections/:id',
 		method: ['GET', 'HEAD'],
-		types: {} as CollectionsEditGetHead,
+		types: {} as CollectionsIdGetHead,
 	},
 	{
 		params: ['id'],
@@ -634,13 +557,6 @@ const routes = [
 		path: '/collections/:id',
 		method: ['PUT'],
 		types: {} as CollectionsIdPut,
-	},
-	{
-		params: [],
-		name: 'collection.delete-form',
-		path: '/collections/delete',
-		method: ['GET', 'HEAD'],
-		types: {} as CollectionsDeleteGetHead,
 	},
 	{
 		params: ['id'],
@@ -651,17 +567,10 @@ const routes = [
 	},
 	{
 		params: [],
-		name: 'dashboard',
-		path: '/dashboard',
+		name: 'favorites.show',
+		path: '/favorites',
 		method: ['GET', 'HEAD'],
-		types: {} as DashboardGetHead,
-	},
-	{
-		params: [],
-		name: 'link.create-form',
-		path: '/links/create',
-		method: ['GET', 'HEAD'],
-		types: {} as LinksCreateGetHead,
+		types: {} as FavoritesGetHead,
 	},
 	{
 		params: [],
@@ -669,13 +578,6 @@ const routes = [
 		path: '/links',
 		method: ['POST'],
 		types: {} as LinksPost,
-	},
-	{
-		params: [],
-		name: 'link.edit-form',
-		path: '/links/edit',
-		method: ['GET', 'HEAD'],
-		types: {} as LinksEditGetHead,
 	},
 	{
 		params: ['id'],
@@ -692,13 +594,6 @@ const routes = [
 		types: {} as LinksIdFavoritePut,
 	},
 	{
-		params: [],
-		name: 'link.delete-form',
-		path: '/links/delete',
-		method: ['GET', 'HEAD'],
-		types: {} as LinksDeleteGetHead,
-	},
-	{
 		params: ['id'],
 		name: 'link.delete',
 		path: '/links/:id',
@@ -711,13 +606,6 @@ const routes = [
 		path: '/search',
 		method: ['GET', 'HEAD'],
 		types: {} as SearchGetHead,
-	},
-	{
-		params: [],
-		name: 'user.theme',
-		path: '/user/theme',
-		method: ['POST'],
-		types: {} as UserThemePost,
 	},
 	{
 		params: [],
