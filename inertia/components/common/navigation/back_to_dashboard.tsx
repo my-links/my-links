@@ -20,7 +20,7 @@ export default function BackToDashboard({
 		'ESCAPE_KEY',
 		() =>
 			router.visit(
-				appendCollectionId(tuyau.$route('dashboard').path, collectionId)
+				appendCollectionId(tuyau.$route('collection.show').path, collectionId)
 			),
 		{ disableGlobalCheck: true, enabled: !disabled }
 	);

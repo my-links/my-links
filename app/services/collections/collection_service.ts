@@ -21,6 +21,23 @@ export class CollectionService {
 			.firstOrFail();
 	}
 
+	async getCollectionByIdWithLinks(id: Collection['id']) {
+		const context = this.getAuthContext();
+		return await Collection.query()
+			.where('id', id)
+			.andWhere('author_id', context.auth.user!.id)
+			.preload('links', (q) => q.orderBy('favorite', 'desc'))
+			.firstOrFail();
+	}
+
+	async getFirstCollection() {
+		const context = this.getAuthContext();
+		return await Collection.query()
+			.where('author_id', context.auth.user!.id)
+			.orderBy('created_at', 'asc')
+			.firstOrFail();
+	}
+
 	async getCollectionsForAuthenticatedUser() {
 		const context = this.getAuthContext();
 		return await Collection.query()
@@ -84,7 +101,7 @@ export class CollectionService {
 			collectionIdValidator
 		);
 		if (!collectionId && collectionIdRequired) {
-			this.redirectToDashboard();
+			this.redirectToCollections();
 			return null;
 		}
 		return collectionId;
@@ -92,13 +109,13 @@ export class CollectionService {
 
 	redirectToCollectionId(collectionId: Collection['id']) {
 		const ctx = HttpContext.getOrFail();
-		return ctx.response.redirectToNamedRoute('dashboard', {
-			qs: { collectionId },
+		return ctx.response.redirect().toRoute('collection.show', {
+			id: collectionId,
 		});
 	}
 
-	redirectToDashboard() {
+	redirectToCollections() {
 		const ctx = HttpContext.getOrFail();
-		return ctx.response.redirectToNamedRoute('dashboard');
+		return ctx.response.redirect().toRoute('collection.show');
 	}
 }

@@ -15,7 +15,7 @@ import '#routes/api_tokens';
 
 // App routes
 import '#routes/collections';
-import '#routes/dashboard';
+import '#routes/favorites';
 import '#routes/links';
 import '#routes/search';
 import '#routes/shared_collections';
