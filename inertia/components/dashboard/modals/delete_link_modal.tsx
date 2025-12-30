@@ -2,8 +2,8 @@ import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
-import { FormLinkData } from '~/components/form/form_link';
 import { useRouteHelper } from '~/lib/route_helper';
+import { FormLinkData } from '~/types/link_form';
 
 interface DeleteLinkModalProps {
 	link: LinkWithCollection;
