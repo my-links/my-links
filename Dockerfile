@@ -23,6 +23,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
 ADD . .
 
+ARG VITE_APP_URL
+ENV VITE_APP_URL=$VITE_APP_URL
+
 RUN pnpm run compile
 RUN node ace build
 
@@ -34,6 +37,7 @@ ENV LOG_LEVEL=debug
 ENV CACHE_VIEWS=false
 ENV SESSION_DRIVER=cookie
 ENV PORT=$PORT
+ENV VITE_APP_URL=$VITE_APP_URL
 
 WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
