@@ -1,5 +1,5 @@
-import { Footer } from '~/components/common/footer';
-import { Navbar } from '~/components/common/navbar';
+import { Footer } from '~/components/common/navigation/footer';
+import { Navbar } from '~/components/common/navigation/navbar';
 import { BaseLayout } from '~/layouts/base_layout';
 
 export const DefaultLayout = ({ children }: React.PropsWithChildren) => (

@@ -1,7 +1,7 @@
 import { Collection } from '#shared/types/dto';
 import { Trans as TransComponent } from '@lingui/react';
 import clsx from 'clsx';
-import { FormLinkData } from '~/components/form/form_link';
+import { FormLinkData } from '~/types/link_form';
 
 interface FormLinkContentProps {
 	data: FormLinkData;
