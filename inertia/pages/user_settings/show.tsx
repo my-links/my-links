@@ -1,5 +1,5 @@
-import { Trans as TransComponent } from '@lingui/react';
-import { ApiTokens } from '~/components/common/api_tokens/api_tokens';
+import { t } from '@lingui/core/macro';
+import { ApiTokens } from '~/components/api_tokens/api_tokens';
 import {
 	FloatingTab,
 	FloatingTabs,
@@ -9,7 +9,7 @@ import SmallContentLayout from '~/layouts/small_content';
 function UserSettingsShow() {
 	const tabs: FloatingTab[] = [
 		{
-			label: <TransComponent id="api-tokens.title" message="API Tokens" />,
+			label: t`API Tokens`,
 			value: 'api-tokens',
 			content: <ApiTokens />,
 		},

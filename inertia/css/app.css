@@ -1,33 +1,56 @@
-:root {
-	--ml-bg-light: rgb(240, 238, 246);
-	--ml-bg-dark: rgb(34, 40, 49);
-}
-
 /* Fix nprogress position */
 #nprogress {
 	position: relative;
 	z-index: 9999999;
 }
-
-#app {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	overflow-x: hidden;
+* {
+	scroll-behavior: smooth;
+	scrollbar-width: 7px;
+	scrollbar-color: rgb(203 213 225 / 0.5) transparent;
 }
 
+html,
 body {
-	overflow-x: hidden;
+	height: 100%;
+	width: 100%;
 }
 
-/* For light mode */
-:root[data-mantine-color-scheme='light'] {
-	--mantine-color-body: var(--ml-bg-light) !important;
+*::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
 }
 
-/* For dark mode */
-:root[data-mantine-color-scheme='dark'] {
-	--mantine-color-body: var(--ml-bg-dark) !important;
+*::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: rgb(203 213 225 / 0.5);
+	border-radius: 4px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+	transition: background-color 0.2s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+	background-color: rgb(148 163 184 / 0.7);
+}
+
+.dark * {
+	scrollbar-color: rgb(71 85 105 / 0.5) transparent;
+}
+
+.dark *::-webkit-scrollbar-thumb {
+	background-color: rgb(71 85 105 / 0.5);
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+	background-color: rgb(100 116 139 / 0.7);
+}
+
+.page-transition-enter {
+	animation: pageFadeIn 250ms ease forwards;
+	will-change: opacity, filter;
 }
 
 @keyframes pageFadeIn {
@@ -39,47 +62,4 @@ body {
 		opacity: 1;
 		filter: blur(0);
 	}
-}
-
-.page-transition-enter {
-	animation: pageFadeIn 250ms ease forwards;
-	will-change: opacity, filter;
-}
-
-/* Custom Scrollbar */
-* {
-	scrollbar-width: thin;
-	scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
-}
-
-*::-webkit-scrollbar {
-	width: 8px;
-	height: 8px;
-}
-
-*::-webkit-scrollbar-track {
-	background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-	background-color: rgba(156, 163, 175, 0.5);
-	border-radius: 10px;
-	border: 2px solid transparent;
-	background-clip: padding-box;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-	background-color: rgba(156, 163, 175, 0.7);
-}
-
-:root[data-mantine-color-scheme='dark'] * {
-	scrollbar-color: rgba(107, 114, 128, 0.5) transparent;
-}
-
-:root[data-mantine-color-scheme='dark'] *::-webkit-scrollbar-thumb {
-	background-color: rgba(107, 114, 128, 0.5);
-}
-
-:root[data-mantine-color-scheme='dark'] *::-webkit-scrollbar-thumb:hover {
-	background-color: rgba(107, 114, 128, 0.7);
 }

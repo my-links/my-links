@@ -1,8 +1,8 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
-import { FormCollectionData } from '~/components/form/form_collection';
 import { Visibility } from '~/types/app';
+import { FormCollectionData } from '~/types/collection_form';
 
 interface FormCollectionContentProps {
 	data: FormCollectionData;

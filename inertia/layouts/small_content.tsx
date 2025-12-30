@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
-import { Footer } from '~/components/common/footer';
-import { Navbar } from '~/components/common/navbar';
+import { Footer } from '~/components/common/navigation/footer';
+import { Navbar } from '~/components/common/navigation/navbar';
 import { BaseLayout } from './base_layout';
 
 const SmallContentLayout = ({ children }: PropsWithChildren) => (

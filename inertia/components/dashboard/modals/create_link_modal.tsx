@@ -4,9 +4,9 @@ import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
-import { FormLinkData } from '~/components/form/form_link';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
+import { FormLinkData } from '~/types/link_form';
 
 interface CreateLinkModalProps {
 	collections: Collection[];
