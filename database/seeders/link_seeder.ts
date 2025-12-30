@@ -1,11 +1,9 @@
-import Collection from '#models/collection';
 import { getUserIds } from '#database/seeders/collection_seeder';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import User from '#models/user';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import { faker } from '@faker-js/faker';
-
-const ID_OFFSET = 100;
 
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
@@ -14,12 +12,9 @@ export default class extends BaseSeeder {
 		const users = await getUserIds();
 
 		const links = await Promise.all(
-			faker.helpers.multiple(
-				async (_, index) => createRandomLink(users, ID_OFFSET + index),
-				{
-					count: 500,
-				}
-			)
+			faker.helpers.multiple(async () => createRandomLink(users), {
+				count: 500,
+			})
 		);
 		await Link.createMany(links.filter((a) => typeof a !== 'undefined') as any);
 	}
@@ -30,7 +25,7 @@ async function getCollectionIds(authorId: User['id']) {
 	return collection.map(({ id }) => id);
 }
 
-async function createRandomLink(userIds: User['id'][], id: number) {
+async function createRandomLink(userIds: User['id'][]) {
 	const authorId = faker.helpers.arrayElements(userIds, 1).at(0)!;
 	const collections = await getCollectionIds(authorId);
 
@@ -40,7 +35,6 @@ async function createRandomLink(userIds: User['id'][], id: number) {
 	}
 
 	return {
-		id,
 		name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
 		description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
 		url: faker.internet.url(),
