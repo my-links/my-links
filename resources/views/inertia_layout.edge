@@ -19,20 +19,6 @@
   />
   <title inertia>MyLinks</title>
 
-	@if(nodeEnv === 'production')
-  <link
-    rel='manifest'
-    href='/assets/manifest.webmanifest'
-  />
-	<script defer>
-    if('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/assets/sw.js', { scope: '/' })
-      })
-    }
-  </script>
-	@endif
-
 	<script>
     (function() {
       const savedTheme = localStorage.getItem('theme');
