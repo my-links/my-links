@@ -20,6 +20,8 @@ services:
     restart: always
     build:
       context: .
+      args:
+        - VITE_APP_URL=${VITE_APP_URL}
     environment:
       - DB_HOST=postgres
       - HOST=0.0.0.0
