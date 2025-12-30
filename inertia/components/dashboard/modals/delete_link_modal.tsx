@@ -19,14 +19,14 @@ export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
 		collectionId: link.collectionId,
 	});
 
-	const { route } = useRouteHelper();
+	const { url: getUrl } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('link.delete', {
+		const deleteUrl = getUrl('link.delete', {
 			params: { id: link.id.toString() },
 		});
-		submit(method as any, url, {
+		submit('delete', deleteUrl, {
 			onSuccess: () => {
 				onClose();
 			},

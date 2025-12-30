@@ -24,12 +24,12 @@ export function CreateCollectionModal({ onClose }: CreateCollectionModalProps) {
 		[processing, data]
 	);
 
-	const { route } = useRouteHelper();
+	const { url: getUrl } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('collection.create');
-		submit(method as any, url, {
+		const createUrl = getUrl('collection.create');
+		submit('post', createUrl, {
 			onSuccess: () => {
 				onClose();
 			},

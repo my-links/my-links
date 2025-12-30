@@ -4,8 +4,8 @@ import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
-import { FormCollectionData } from '~/components/form/form_collection';
 import { useRouteHelper } from '~/lib/route_helper';
+import { FormCollectionData } from '~/types/collection_form';
 
 interface EditCollectionModalProps {
 	collection: Collection;
@@ -16,7 +16,7 @@ export function EditCollectionModal({
 	collection,
 	onClose,
 }: EditCollectionModalProps) {
-	const { data, setData, submit, processing, errors } =
+	const { data, setData, put, processing, errors } =
 		useForm<FormCollectionData>({
 			name: collection.name,
 			description: collection.description,
@@ -34,16 +34,14 @@ export function EditCollectionModal({
 		return isFormEdited && isFormValid && !processing;
 	}, [data, collection, processing]);
 
-	const { route } = useRouteHelper();
+	const { url } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('collection.edit', {
-			params: {
-				id: collection.id.toString(),
-			},
+		const editUrl = url('collection.edit', {
+			params: { id: collection.id.toString() },
 		});
-		submit(method as any, url, {
+		put(editUrl, {
 			onSuccess: () => {
 				onClose();
 			},
