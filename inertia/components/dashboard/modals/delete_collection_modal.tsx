@@ -21,14 +21,14 @@ export function DeleteCollectionModal({
 			visibility: collection.visibility,
 		});
 
-	const { route } = useRouteHelper();
+	const { url: getUrl } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('collection.delete', {
+		const deleteUrl = getUrl('collection.delete', {
 			params: { id: collection.id.toString() },
 		});
-		submit(method as any, url, {
+		submit('delete', deleteUrl, {
 			onSuccess: () => {
 				onClose();
 			},

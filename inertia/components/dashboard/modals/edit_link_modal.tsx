@@ -48,14 +48,14 @@ export function EditLinkModal({
 		return isFormEdited && isFormValid && !processing;
 	}, [data, link, processing]);
 
-	const { route } = useRouteHelper();
+	const { url: getUrl } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('link.edit', {
+		const editUrl = getUrl('link.edit', {
 			params: { id: link.id.toString() },
 		});
-		submit(method as any, url, {
+		submit('put', editUrl, {
 			onSuccess: () => {
 				onClose();
 			},

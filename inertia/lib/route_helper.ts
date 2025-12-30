@@ -48,5 +48,9 @@ export const useRouteHelper = () => {
 		};
 	};
 
-	return { route };
+	const url = (routeName: ApiRouteName, options?: RouteOptions) => {
+		return tuyau?.$url(routeName, { params: options?.params });
+	};
+
+	return { route, url };
 };

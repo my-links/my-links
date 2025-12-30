@@ -38,12 +38,12 @@ export function CreateLinkModal({
 		[data, processing]
 	);
 
-	const { route } = useRouteHelper();
+	const { url: getUrl } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const { method, url } = route('link.create');
-		submit(method as any, url, {
+		const createUrl = getUrl('link.create');
+		submit('post', createUrl, {
 			onSuccess: () => {
 				onClose();
 			},
