@@ -1,30 +1,28 @@
-import { Collection, LinkWithCollection } from '#shared/types/dto';
+import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
 import { FormLinkData } from '~/types/link_form';
 
 interface EditLinkModalProps {
-	collections: Collection[];
 	link: LinkWithCollection;
 	onClose: () => void;
 }
 
-export function EditLinkModal({
-	collections,
-	link,
-	onClose,
-}: EditLinkModalProps) {
+export function EditLinkModal({ link, onClose }: EditLinkModalProps) {
+	const { activeCollection, allCollections } = useDashboardProps();
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: link.name,
 		description: link.description,
 		url: link.url,
 		favorite: link.favorite,
-		collectionId: link.collectionId,
+		collectionId:
+			link.collectionId ?? activeCollection?.id ?? allCollections[0]?.id,
 	});
 
 	const canSubmit = useMemo<boolean>(() => {
@@ -68,7 +66,7 @@ export function EditLinkModal({
 				data={data}
 				setData={setData}
 				errors={errors}
-				collections={collections}
+				collections={allCollections}
 			/>
 
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">

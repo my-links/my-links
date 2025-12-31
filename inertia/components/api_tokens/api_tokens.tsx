@@ -1,10 +1,9 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { useState } from 'react';
 import { CopyButton } from '~/components/common/copy_button';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
-import { useModals } from '~/hooks/use_modals';
+import { useModalStore } from '~/stores/modal_store';
 import { ApiToken } from '~/types/app';
 import { CreateTokenModal } from './create_token_modal';
 
@@ -17,17 +16,19 @@ const useGetCreatedToken = () => {
 
 export function ApiTokens() {
 	const { tokens, createToken, revokeToken } = useApiTokens();
-	const modals = useModals();
+	const openModal = useModalStore((state) => state.open);
+	const openConfirmModal = useModalStore((state) => state.openConfirm);
+	const closeAll = useModalStore((state) => state.closeAll);
 
 	const newlyCreatedToken = useGetCreatedToken();
 
 	const handleCreateTokenModal = () => {
-		modals.open({
+		openModal({
 			title: <Trans>Create new token</Trans>,
 			children: (
 				<CreateTokenModal
 					onCreate={(name) => createToken(name)}
-					onClose={() => modals.closeAll()}
+					onClose={closeAll}
 				/>
 			),
 		});
@@ -37,7 +38,7 @@ export function ApiTokens() {
 		const token = tokens.find((t) => t.identifier === tokenId);
 		if (!token) return;
 
-		modals.openConfirmModal({
+		openConfirmModal({
 			title: (
 				<>
 					<Trans>Revoke</Trans> "<strong>{token.name}</strong>"
@@ -101,30 +102,27 @@ export function ApiTokens() {
 	const rows = tokens.map(generateRow);
 
 	return (
-		<>
-			<modals.Modals />
-			<div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
-				<div className="flex items-center justify-between mb-4">
-					<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-						<Trans>API Tokens</Trans>
-					</h2>
-					<button
-						onClick={handleCreateTokenModal}
-						className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
-					>
-						<div className="i-tabler-plus w-4 h-4" />
-						<Trans>Create token</Trans>
-					</button>
-				</div>
-
-				{tokens.length === 0 && (
-					<p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
-						<Trans>No tokens created yet</Trans>
-					</p>
-				)}
-
-				{tokens.length > 0 && <SimpleTable data={rows} />}
+		<div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+			<div className="flex items-center justify-between mb-4">
+				<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+					<Trans>API Tokens</Trans>
+				</h2>
+				<button
+					onClick={handleCreateTokenModal}
+					className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+				>
+					<div className="i-tabler-plus w-4 h-4" />
+					<Trans>Create token</Trans>
+				</button>
 			</div>
-		</>
+
+			{tokens.length === 0 && (
+				<p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+					<Trans>No tokens created yet</Trans>
+				</p>
+			)}
+
+			{tokens.length > 0 && <SimpleTable data={rows} />}
+		</div>
 	);
 }

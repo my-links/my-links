@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { ReactNode, useState } from 'react';
 import { Modal } from './modal';
 
@@ -13,15 +14,21 @@ interface ConfirmModalProps {
 	loading?: boolean;
 }
 
+const CONFIRM_COLOR_CLASSES = {
+	red: 'bg-red-600 hover:bg-red-700',
+	blue: 'bg-blue-600 hover:bg-blue-700',
+	green: 'bg-green-600 hover:bg-green-700',
+} as const;
+
 export function ConfirmModal({
 	isOpen,
 	onClose,
 	onConfirm,
 	title,
 	children,
-	confirmLabel = 'Confirm',
-	cancelLabel = 'Cancel',
-	confirmColor = 'blue',
+	confirmLabel: propConfirmLabel,
+	cancelLabel: propCancelLabel,
+	confirmColor: propConfirmColor,
 	loading = false,
 }: ConfirmModalProps) {
 	const [isConfirming, setIsConfirming] = useState(false);
@@ -35,12 +42,11 @@ export function ConfirmModal({
 		}
 	};
 
-	const colorClasses = {
-		red: 'bg-red-600 hover:bg-red-700',
-		blue: 'bg-blue-600 hover:bg-blue-700',
-		green: 'bg-green-600 hover:bg-green-700',
-	};
+	const isDisabled = loading || isConfirming;
 
+	const confirmLabel = propConfirmLabel ?? t`Confirm`;
+	const cancelLabel = propCancelLabel ?? t`Cancel`;
+	const confirmColor = propConfirmColor ?? 'blue';
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
 			<div className="space-y-4">
@@ -53,7 +59,7 @@ export function ConfirmModal({
 					<button
 						type="button"
 						onClick={onClose}
-						disabled={loading || isConfirming}
+						disabled={isDisabled}
 						className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						{cancelLabel}
@@ -61,10 +67,10 @@ export function ConfirmModal({
 					<button
 						type="button"
 						onClick={handleConfirm}
-						disabled={loading || isConfirming}
-						className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${colorClasses[confirmColor]}`}
+						disabled={isDisabled}
+						className={`px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${CONFIRM_COLOR_CLASSES[confirmColor]}`}
 					>
-						{loading || isConfirming ? (
+						{isDisabled ? (
 							<span className="flex items-center gap-2">
 								<span className="i-svg-spinners-3-dots-fade w-4 h-4" />
 								{confirmLabel}
