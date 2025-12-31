@@ -5,7 +5,7 @@ import logger from '@adonisjs/core/services/logger';
 import db from '@adonisjs/lucid/services/db';
 
 export default class AuthController {
-	private redirectTo: ApiRouteName = 'auth';
+	private redirectTo: ApiRouteName = 'home';
 
 	async google({ ally, inertia }: HttpContext) {
 		const redirectUrl = await ally.use('google').redirectUrl();
@@ -59,7 +59,7 @@ export default class AuthController {
 		session.flash('flash', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
 
-		response.redirectToNamedRoute('favorites.show');
+		response.redirectToNamedRoute('collection.favorites');
 	}
 
 	async logout({ auth, response, session }: HttpContext) {

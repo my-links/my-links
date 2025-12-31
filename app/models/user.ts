@@ -3,8 +3,8 @@ import Collection from '#models/collection';
 import Link from '#models/link';
 import type { GoogleToken } from '@adonisjs/ally/types';
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens';
-import { column, computed, hasMany } from '@adonisjs/lucid/orm';
-import type { HasMany } from '@adonisjs/lucid/types/relations';
+import { column, computed, hasMany, manyToMany } from '@adonisjs/lucid/orm';
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations';
 import { DateTime } from 'luxon';
 
 export default class User extends AppBaseModel {
@@ -41,6 +41,19 @@ export default class User extends AppBaseModel {
 		foreignKey: 'authorId',
 	})
 	declare links: HasMany<typeof Link>;
+
+	@manyToMany(() => Collection, {
+		pivotTable: 'collection_followers',
+		localKey: 'id',
+		relatedKey: 'id',
+		pivotForeignKey: 'user_id',
+		pivotRelatedForeignKey: 'collection_id',
+		pivotTimestamps: {
+			createdAt: 'created_at',
+			updatedAt: false,
+		},
+	})
+	declare followedCollections: ManyToMany<typeof Collection>;
 
 	@computed()
 	get fullname() {
