@@ -106,7 +106,7 @@ export default function Dashboard({
 				<CreateCollectionModal onClose={() => setCreateCollectionOpen(false)} />
 			</Modal>
 
-			{activeCollection && (
+			{activeCollection && activeCollection.isOwner !== false && (
 				<>
 					<Modal
 						isOpen={editCollectionOpen}
@@ -142,19 +142,21 @@ export default function Dashboard({
 				</>
 			)}
 
-			<Modal
-				isOpen={createLinkOpen}
-				onClose={() => setCreateLinkOpen(false)}
-				title={
-					<TransComponent id="common:link.create" message="Create a link" />
-				}
-			>
-				<CreateLinkModal
-					collections={allCollections}
-					defaultCollectionId={activeCollection?.id}
+			{activeCollection?.isOwner !== false && (
+				<Modal
+					isOpen={createLinkOpen}
 					onClose={() => setCreateLinkOpen(false)}
-				/>
-			</Modal>
+					title={
+						<TransComponent id="common:link.create" message="Create a link" />
+					}
+				>
+					<CreateLinkModal
+						collections={allCollections}
+						defaultCollectionId={activeCollection?.id}
+						onClose={() => setCreateLinkOpen(false)}
+					/>
+				</Modal>
+			)}
 		</div>
 	);
 }

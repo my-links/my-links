@@ -27,22 +27,28 @@ export default class ShowCollectionController {
 			followedCollections,
 			myPublicCollections,
 			myPrivateCollections,
-			activeCollection,
+			accessibleCollectionResult,
 		] = await Promise.all([
 			this.collectionService.getFollowedCollections(userId),
 			this.collectionService.getMyPublicCollections(userId),
 			this.collectionService.getMyPrivateCollections(userId),
-			this.collectionService.getCollectionByIdWithLinks(collectionId),
+			this.collectionService.getAccessibleCollectionByIdWithLinks(
+				collectionId,
+				userId
+			),
 		]);
+
+		const activeCollectionDto = new CollectionWithLinksDto(
+			accessibleCollectionResult.collection
+		);
+		activeCollectionDto.isOwner = accessibleCollectionResult.isOwner;
 
 		return inertia.render('dashboard', {
 			followedCollections: CollectionDto.fromArray(followedCollections),
 			myPublicCollections: CollectionDto.fromArray(myPublicCollections),
 			myPrivateCollections: CollectionDto.fromArray(myPrivateCollections),
 			favoriteLinks: null,
-			activeCollection: new CollectionWithLinksDto(
-				activeCollection
-			).serialize(),
+			activeCollection: activeCollectionDto.serialize(),
 		});
 	}
 }
