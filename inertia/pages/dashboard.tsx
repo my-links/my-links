@@ -1,21 +1,21 @@
 import { Collection, CollectionWithLinks, Link } from '#shared/types/dto';
-import { PageProps } from '@adonisjs/inertia/types';
-import { Trans as TransComponent } from '@lingui/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { useState } from 'react';
-import { Modal } from '~/components/common/modal';
 import { CollectionList } from '~/components/dashboard/collections/collection_list';
-import { CollectionViewContent } from '~/components/dashboard/views/collection_view_content';
 import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
-import { FavoritesViewContent } from '~/components/dashboard/views/favorites_view_content';
 import { CreateCollectionModal } from '~/components/dashboard/modals/create_collection_modal';
 import { CreateLinkModal } from '~/components/dashboard/modals/create_link_modal';
 import { DeleteCollectionModal } from '~/components/dashboard/modals/delete_collection_modal';
 import { EditCollectionModal } from '~/components/dashboard/modals/edit_collection_modal';
 import { ResizableSidebar } from '~/components/dashboard/sidebar/resizable_sidebar';
+import { CollectionViewContent } from '~/components/dashboard/views/collection_view_content';
+import { FavoritesViewContent } from '~/components/dashboard/views/favorites_view_content';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard_layout_store';
+import { useModalStore } from '~/stores/modal_store';
 
-interface DashboardProps extends PageProps {
+export interface DashboardProps {
 	followedCollections: Collection[];
 	myPublicCollections: Collection[];
 	myPrivateCollections: Collection[];
@@ -23,29 +23,50 @@ interface DashboardProps extends PageProps {
 	favoriteLinks?: Link[];
 }
 
-export default function Dashboard({
-	followedCollections = [] as Collection[],
-	myPublicCollections = [] as Collection[],
-	myPrivateCollections = [] as Collection[],
-	activeCollection = null,
-	favoriteLinks = [] as Link[],
-}: DashboardProps) {
+export default function Dashboard() {
+	const { activeCollection, favoriteLinks } = useDashboardProps();
+
 	const { sidebarOpen, toggleSidebar } = useDashboardStore();
 	const [searchQuery, setSearchQuery] = useState('');
 
+	const openModal = useModalStore((state) => state.open);
+	const closeAll = useModalStore((state) => state.closeAll);
+
 	const isFavorite = !activeCollection?.id;
-	const allCollections = [
-		...followedCollections,
-		...myPublicCollections,
-		...myPrivateCollections,
-	];
 
-	const [createCollectionOpen, setCreateCollectionOpen] = useState(false);
-	const [editCollectionOpen, setEditCollectionOpen] = useState(false);
-	const [deleteCollectionOpen, setDeleteCollectionOpen] = useState(false);
-	const [createLinkOpen, setCreateLinkOpen] = useState(false);
+	const hasActiveContent =
+		!!activeCollection || (favoriteLinks?.length ?? 0) > 0;
 
-	const hasActiveContent = !!activeCollection || favoriteLinks.length > 0;
+	const handleCreateCollection = () => {
+		openModal({
+			title: t`Create a collection`,
+			children: <CreateCollectionModal onClose={closeAll} />,
+		});
+	};
+
+	const handleEditCollection = () => {
+		if (!activeCollection || activeCollection.isOwner === false) return;
+		openModal({
+			title: t`Edit a collection`,
+			children: <EditCollectionModal onClose={closeAll} />,
+		});
+	};
+
+	const handleDeleteCollection = () => {
+		if (!activeCollection || activeCollection.isOwner === false) return;
+		openModal({
+			title: t`Delete a collection`,
+			children: <DeleteCollectionModal onClose={closeAll} />,
+		});
+	};
+
+	const handleCreateLink = () => {
+		if (activeCollection?.isOwner === false) return;
+		openModal({
+			title: t`Create a link`,
+			children: <CreateLinkModal onClose={closeAll} />,
+		});
+	};
 
 	return (
 		<div className="flex h-full w-full">
@@ -59,13 +80,12 @@ export default function Dashboard({
 
 			<div className="flex-1 flex flex-col min-w-0">
 				<DashboardHeader
-					activeCollection={activeCollection}
 					isFavorite={isFavorite}
 					onToggleSidebar={toggleSidebar}
-					onCreateCollection={() => setCreateCollectionOpen(true)}
-					onEditCollection={() => setEditCollectionOpen(true)}
-					onDeleteCollection={() => setDeleteCollectionOpen(true)}
-					onCreateLink={() => setCreateLinkOpen(true)}
+					onCreateCollection={handleCreateCollection}
+					onEditCollection={handleEditCollection}
+					onDeleteCollection={handleDeleteCollection}
+					onCreateLink={handleCreateLink}
 					searchQuery={searchQuery}
 					onSearchChange={setSearchQuery}
 				/>
@@ -74,9 +94,9 @@ export default function Dashboard({
 					{hasActiveContent ? (
 						<>
 							{activeCollection ? (
-								<CollectionViewContent collection={activeCollection} />
+								<CollectionViewContent />
 							) : (
-								<FavoritesViewContent favoriteLinks={favoriteLinks} />
+								<FavoritesViewContent />
 							)}
 						</>
 					) : (
@@ -92,71 +112,6 @@ export default function Dashboard({
 					)}
 				</div>
 			</div>
-
-			<Modal
-				isOpen={createCollectionOpen}
-				onClose={() => setCreateCollectionOpen(false)}
-				title={
-					<TransComponent
-						id="common:collection.create"
-						message="Create a collection"
-					/>
-				}
-			>
-				<CreateCollectionModal onClose={() => setCreateCollectionOpen(false)} />
-			</Modal>
-
-			{activeCollection && activeCollection.isOwner !== false && (
-				<>
-					<Modal
-						isOpen={editCollectionOpen}
-						onClose={() => setEditCollectionOpen(false)}
-						title={
-							<TransComponent
-								id="common:collection.edit"
-								message="Edit a collection"
-							/>
-						}
-					>
-						<EditCollectionModal
-							collection={activeCollection}
-							onClose={() => setEditCollectionOpen(false)}
-						/>
-					</Modal>
-
-					<Modal
-						isOpen={deleteCollectionOpen}
-						onClose={() => setDeleteCollectionOpen(false)}
-						title={
-							<TransComponent
-								id="common:collection.delete"
-								message="Delete a collection"
-							/>
-						}
-					>
-						<DeleteCollectionModal
-							collection={activeCollection}
-							onClose={() => setDeleteCollectionOpen(false)}
-						/>
-					</Modal>
-				</>
-			)}
-
-			{activeCollection?.isOwner !== false && (
-				<Modal
-					isOpen={createLinkOpen}
-					onClose={() => setCreateLinkOpen(false)}
-					title={
-						<TransComponent id="common:link.create" message="Create a link" />
-					}
-				>
-					<CreateLinkModal
-						collections={allCollections}
-						defaultCollectionId={activeCollection?.id}
-						onClose={() => setCreateLinkOpen(false)}
-					/>
-				</Modal>
-			)}
 		</div>
 	);
 }

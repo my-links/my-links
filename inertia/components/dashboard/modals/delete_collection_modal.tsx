@@ -1,24 +1,22 @@
-import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
-import { FormCollectionData } from '~/components/form/form_collection';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useRouteHelper } from '~/lib/route_helper';
+import { Visibility } from '~/types/app';
+import { FormCollectionData } from '~/types/collection_form';
 
 interface DeleteCollectionModalProps {
-	collection: Collection;
 	onClose: () => void;
 }
 
-export function DeleteCollectionModal({
-	collection,
-	onClose,
-}: DeleteCollectionModalProps) {
+export function DeleteCollectionModal({ onClose }: DeleteCollectionModalProps) {
+	const { activeCollection } = useDashboardProps();
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
-			name: collection.name,
-			description: collection.description,
-			visibility: collection.visibility,
+			name: activeCollection?.name ?? '',
+			description: activeCollection?.description ?? '',
+			visibility: activeCollection?.visibility ?? Visibility.PRIVATE,
 		});
 
 	const { url: getUrl } = useRouteHelper();
@@ -26,7 +24,7 @@ export function DeleteCollectionModal({
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const deleteUrl = getUrl('collection.delete', {
-			params: { id: collection.id.toString() },
+			params: { id: activeCollection?.id.toString() ?? '' },
 		});
 		submit('delete', deleteUrl, {
 			onSuccess: () => {

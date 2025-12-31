@@ -8,6 +8,7 @@ import { TuyauProvider } from '@tuyau/inertia/react';
 import { ReactNode, useEffect, useMemo } from 'react';
 import 'virtual:uno.css';
 import '~/css/app.css';
+import { ModalProvider } from '~/components/common/modal_provider';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { dynamicActivate } from '~/i18n';
 import { tuyauClient } from '~/lib/tuyau';
@@ -32,7 +33,10 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 
 	return (
 		<I18nProvider i18n={i18n}>
-			<TuyauProvider client={tuyauClient}>{children}</TuyauProvider>
+			<TuyauProvider client={tuyauClient}>
+				<ModalProvider />
+				{children}
+			</TuyauProvider>
 		</I18nProvider>
 	);
 }

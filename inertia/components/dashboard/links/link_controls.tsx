@@ -8,18 +8,12 @@ import { router, usePage } from '@inertiajs/react';
 import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Link as InertiaLink } from '@tuyau/inertia/react';
-import {
-	MouseEvent,
-	useCallback,
-	useImperativeHandle,
-	useMemo,
-	useState,
-} from 'react';
+import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
-import { Modal } from '~/components/common/modal';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { useRouteHelper } from '~/lib/route_helper';
+import { useModalStore } from '~/stores/modal_store';
 import { DeleteLinkModal } from '../modals/delete_link_modal';
 import { EditLinkModal } from '../modals/edit_link_modal';
 
@@ -40,11 +34,10 @@ export function LinkControls({
 	link,
 	ref,
 }: LinkControlsProps & { ref: React.RefObject<LinkControlsRef | null> }) {
-	const [editLinkOpen, setEditLinkOpen] = useState(false);
-	const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
-
 	const { activeCollection, collections } =
 		usePage<PagePropsWithCollections>().props;
+	const openModal = useModalStore((state) => state.open);
+	const closeAll = useModalStore((state) => state.closeAll);
 
 	const isOwner = activeCollection?.isOwner !== false;
 
@@ -72,12 +65,28 @@ export function LinkControls({
 
 	const handleEditLink = () => {
 		closeMenu();
-		setEditLinkOpen(true);
+		if (!linkWithCollection) return;
+		openModal({
+			title: <TransComponent id="common:link.edit" message="Edit a link" />,
+			children: (
+				<EditLinkModal
+					collections={collections}
+					link={linkWithCollection}
+					onClose={closeAll}
+				/>
+			),
+		});
 	};
 
 	const handleDeleteLink = () => {
 		closeMenu();
-		setDeleteLinkOpen(true);
+		if (!linkWithCollection) return;
+		openModal({
+			title: <TransComponent id="common:link.delete" message="Delete a link" />,
+			children: (
+				<DeleteLinkModal link={linkWithCollection} onClose={closeAll} />
+			),
+		});
 	};
 
 	const handleCopyLink = async () => {
@@ -177,37 +186,6 @@ export function LinkControls({
 					</>
 				)}
 			</ContextMenu>
-
-			{linkWithCollection && (
-				<>
-					<Modal
-						isOpen={editLinkOpen}
-						onClose={() => setEditLinkOpen(false)}
-						title={
-							<TransComponent id="common:link.edit" message="Edit a link" />
-						}
-					>
-						<EditLinkModal
-							collections={collections}
-							link={linkWithCollection}
-							onClose={() => setEditLinkOpen(false)}
-						/>
-					</Modal>
-
-					<Modal
-						isOpen={deleteLinkOpen}
-						onClose={() => setDeleteLinkOpen(false)}
-						title={
-							<TransComponent id="common:link.delete" message="Delete a link" />
-						}
-					>
-						<DeleteLinkModal
-							link={linkWithCollection}
-							onClose={() => setDeleteLinkOpen(false)}
-						/>
-					</Modal>
-				</>
-			)}
 		</div>
 	);
 }
