@@ -31,6 +31,31 @@ export class CollectionService {
 			.firstOrFail();
 	}
 
+	async getAccessibleCollectionByIdWithLinks(
+		id: Collection['id'],
+		userId: User['id']
+	) {
+		const collection = await Collection.query()
+			.where('id', id)
+			.where((query) => {
+				query.where('author_id', userId).orWhere((subQuery) => {
+					subQuery
+						.where('visibility', Visibility.PUBLIC)
+						.whereHas('followers', (followerQuery) => {
+							followerQuery.where('users.id', userId);
+						});
+				});
+			})
+			.preload('links', (q) => q.orderBy('favorite', 'desc'))
+			.preload('author')
+			.firstOrFail();
+
+		return {
+			collection,
+			isOwner: collection.authorId === userId,
+		};
+	}
+
 	async getFirstCollection() {
 		const context = this.getAuthContext();
 		return await Collection.query()

@@ -46,6 +46,8 @@ export function LinkControls({
 	const { activeCollection, collections } =
 		usePage<PagePropsWithCollections>().props;
 
+	const isOwner = activeCollection?.isOwner !== false;
+
 	const { url } = useRouteHelper();
 
 	const {
@@ -160,16 +162,20 @@ export function LinkControls({
 				<ContextMenuItem icon="i-mdi-content-copy" onClick={handleCopyLink}>
 					<Trans>Copy link</Trans>
 				</ContextMenuItem>
-				<ContextMenuItem icon="i-octicon-pencil" onClick={handleEditLink}>
-					<Trans>Edit a link</Trans>
-				</ContextMenuItem>
-				<ContextMenuItem
-					icon="i-ion-trash-outline"
-					onClick={handleDeleteLink}
-					variant="danger"
-				>
-					<Trans>Delete a link</Trans>
-				</ContextMenuItem>
+				{isOwner && (
+					<>
+						<ContextMenuItem icon="i-octicon-pencil" onClick={handleEditLink}>
+							<Trans>Edit a link</Trans>
+						</ContextMenuItem>
+						<ContextMenuItem
+							icon="i-ion-trash-outline"
+							onClick={handleDeleteLink}
+							variant="danger"
+						>
+							<Trans>Delete a link</Trans>
+						</ContextMenuItem>
+					</>
+				)}
 			</ContextMenu>
 
 			{linkWithCollection && (
