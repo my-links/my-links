@@ -53,12 +53,7 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 				)}
 			/>
 			<span className="truncate flex-1">{collection.name}</span>
-			<div
-				data-collection-controls
-				className="opacity-0 group-hover:opacity-100 transition-opacity"
-			>
-				<CollectionControls collection={collection} />
-			</div>
+			<CollectionControls collection={collection} />
 		</Link>
 	);
 }

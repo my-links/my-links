@@ -6,8 +6,8 @@ import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 import { Modal } from '~/components/common/modal';
 import { useContextMenu } from '~/hooks/use_context_menu';
-import { DeleteCollectionModal } from './modals/delete_collection_modal';
-import { EditCollectionModal } from './modals/edit_collection_modal';
+import { DeleteCollectionModal } from '../modals/delete_collection_modal';
+import { EditCollectionModal } from '../modals/edit_collection_modal';
 
 interface CollectionControlsProps {
 	collection: Collection;
@@ -52,10 +52,10 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 			<button
 				onClick={(e) => {
 					handleStopPropagation(e);
-					toggleMenu();
+					toggleMenu(e);
 				}}
 				onContextMenu={handleContextMenu}
-				className="p-1 rounded text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+				className="p-1 rounded text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors opacity-0 group-hover:opacity-100 transition-opacity"
 				aria-label="Menu"
 			>
 				<div className="i-mdi-dots-vertical w-5 h-5" />
@@ -66,7 +66,6 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 				shouldRender={shouldRender}
 				menuPosition={menuPosition}
 				menuContentRef={menuContentRef}
-				onBackdropClick={closeMenu}
 			>
 				<ContextMenuItem icon="i-octicon-pencil" onClick={handleEditCollection}>
 					<Trans>Edit collection</Trans>

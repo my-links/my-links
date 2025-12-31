@@ -1,5 +1,6 @@
 import { Visibility } from '#enums/collections/visibility';
 import Collection from '#models/collection';
+import User from '#models/user';
 import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { HttpContext } from '@adonisjs/core/http';
 import db from '@adonisjs/lucid/services/db';
@@ -64,10 +65,25 @@ export class CollectionService {
 		payload: UpdateCollectionPayload
 	) {
 		const context = this.getAuthContext();
-		return await Collection.query()
+		const collection = await Collection.query()
+			.where('id', id)
+			.andWhere('author_id', context.auth.user!.id)
+			.firstOrFail();
+
+		await Collection.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
 			.update(payload);
+
+		// If collection becomes private, remove all followers
+		if (
+			collection.visibility === Visibility.PUBLIC &&
+			payload.visibility === Visibility.PRIVATE
+		) {
+			await this.removeAllFollowers(id);
+		}
+
+		return collection;
 	}
 
 	deleteCollection(id: Collection['id']) {
@@ -87,6 +103,67 @@ export class CollectionService {
 			.firstOrFail();
 	}
 
+	async followCollection(collectionId: Collection['id'], userId: User['id']) {
+		const collection = await Collection.query()
+			.where('id', collectionId)
+			.andWhere('visibility', Visibility.PUBLIC)
+			.firstOrFail();
+
+		const user = await User.findOrFail(userId);
+
+		await collection.related('followers').attach([user.id]);
+	}
+
+	async unfollowCollection(collectionId: Collection['id'], userId: User['id']) {
+		const collection = await Collection.findOrFail(collectionId);
+		const user = await User.findOrFail(userId);
+
+		await collection.related('followers').detach([user.id]);
+	}
+
+	async getFollowedCollections(userId: User['id']) {
+		return await Collection.query()
+			.whereHas('followers', (query) => {
+				query.where('users.id', userId);
+			})
+			.andWhere('visibility', Visibility.PUBLIC)
+			.preload('author')
+			.orderBy('created_at', 'desc');
+	}
+
+	async getMyPublicCollections(userId: User['id']) {
+		return await Collection.query()
+			.where('author_id', userId)
+			.andWhere('visibility', Visibility.PUBLIC)
+			.orderBy('created_at', 'desc');
+	}
+
+	async getMyPrivateCollections(userId: User['id']) {
+		return await Collection.query()
+			.where('author_id', userId)
+			.andWhere('visibility', Visibility.PRIVATE)
+			.orderBy('created_at', 'desc');
+	}
+
+	async isFollowingCollection(
+		collectionId: Collection['id'],
+		userId: User['id']
+	): Promise<boolean> {
+		const result = await db
+			.from('collection_followers')
+			.where('collection_id', collectionId)
+			.where('user_id', userId)
+			.first();
+		return !!result;
+	}
+
+	private async removeAllFollowers(collectionId: Collection['id']) {
+		await db
+			.from('collection_followers')
+			.where('collection_id', collectionId)
+			.delete();
+	}
+
 	private getAuthContext() {
 		const context = HttpContext.getOrFail();
 		if (!context.auth.user || !context.auth.user.id) {
@@ -101,7 +178,7 @@ export class CollectionService {
 			collectionIdValidator
 		);
 		if (!collectionId && collectionIdRequired) {
-			this.redirectToCollections();
+			this.redirectToFavoriteLinks();
 			return null;
 		}
 		return collectionId;
@@ -114,8 +191,8 @@ export class CollectionService {
 		});
 	}
 
-	redirectToCollections() {
+	redirectToFavoriteLinks() {
 		const ctx = HttpContext.getOrFail();
-		return ctx.response.redirect().toRoute('collection.show');
+		return ctx.response.redirect().toRoute('collection.favorites');
 	}
 }

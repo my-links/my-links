@@ -64,12 +64,28 @@ export function useContextMenu({ onClose }: UseContextMenuOptions = {}) {
 		onClose?.();
 	};
 
-	const toggleMenu = () => {
+	const toggleMenu = (event?: React.MouseEvent<HTMLElement>) => {
 		if (isOpen) {
 			closeMenu();
 		} else {
-			setMenuPosition(null);
-			setIsOpen(true);
+			if (event) {
+				const rect = (
+					event.currentTarget as HTMLElement
+				).getBoundingClientRect();
+				openMenu({
+					x: rect.right,
+					y: rect.bottom,
+				});
+			} else if (menuRef.current) {
+				const rect = menuRef.current.getBoundingClientRect();
+				openMenu({
+					x: rect.right,
+					y: rect.bottom,
+				});
+			} else {
+				setMenuPosition(null);
+				setIsOpen(true);
+			}
 		}
 	};
 
