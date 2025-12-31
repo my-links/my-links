@@ -1,12 +1,11 @@
-import { CollectionWithLinks } from '#shared/types/dto';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Tooltip } from '~/components/common/tooltip';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useRouteHelper } from '~/lib/route_helper';
 import { Visibility } from '~/types/app';
 
 interface DashboardHeaderProps {
-	activeCollection: CollectionWithLinks | null;
 	isFavorite: boolean;
 	onToggleSidebar: () => void;
 	onCreateCollection: () => void;
@@ -18,7 +17,6 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({
-	activeCollection,
 	isFavorite,
 	onToggleSidebar,
 	onCreateCollection,
@@ -28,6 +26,7 @@ export function DashboardHeader({
 	searchQuery,
 	onSearchChange,
 }: DashboardHeaderProps) {
+	const { activeCollection } = useDashboardProps();
 	const collectionDescription =
 		activeCollection && activeCollection.description
 			? activeCollection.description

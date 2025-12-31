@@ -1,45 +1,43 @@
-import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useRouteHelper } from '~/lib/route_helper';
+import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 
 interface EditCollectionModalProps {
-	collection: Collection;
 	onClose: () => void;
 }
 
-export function EditCollectionModal({
-	collection,
-	onClose,
-}: EditCollectionModalProps) {
+export function EditCollectionModal({ onClose }: EditCollectionModalProps) {
+	const { activeCollection } = useDashboardProps();
 	const { data, setData, put, processing, errors } =
 		useForm<FormCollectionData>({
-			name: collection.name,
-			description: collection.description,
-			visibility: collection.visibility,
+			name: activeCollection?.name ?? '',
+			description: activeCollection?.description ?? '',
+			visibility: activeCollection?.visibility ?? Visibility.PRIVATE,
 		});
 
 	const canSubmit = useMemo<boolean>(() => {
 		const trimmedName = data.name.trim();
 		const trimmedDescription = data.description?.trim();
 		const isFormEdited =
-			trimmedName !== collection.name ||
-			trimmedDescription !== collection.description ||
-			data.visibility !== collection.visibility;
+			trimmedName !== activeCollection?.name ||
+			trimmedDescription !== activeCollection?.description ||
+			data.visibility !== activeCollection?.visibility;
 		const isFormValid = trimmedName !== '';
 		return isFormEdited && isFormValid && !processing;
-	}, [data, collection, processing]);
+	}, [data, activeCollection, processing]);
 
 	const { url } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const editUrl = url('collection.edit', {
-			params: { id: collection.id.toString() },
+			params: { id: activeCollection?.id.toString() ?? '' },
 		});
 		put(editUrl, {
 			onSuccess: () => {

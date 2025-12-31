@@ -3,11 +3,11 @@ import { PageProps } from '@adonisjs/inertia/types';
 import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { usePage } from '@inertiajs/react';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
-import { Modal } from '~/components/common/modal';
 import { useContextMenu } from '~/hooks/use_context_menu';
+import { useModalStore } from '~/stores/modal_store';
 import { DeleteCollectionModal } from '../modals/delete_collection_modal';
 import { EditCollectionModal } from '../modals/edit_collection_modal';
 
@@ -26,8 +26,8 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		!activeCollection ||
 		activeCollection.id !== collection.id ||
 		activeCollection.isOwner !== false;
-	const [editCollectionOpen, setEditCollectionOpen] = useState(false);
-	const [deleteCollectionOpen, setDeleteCollectionOpen] = useState(false);
+	const openModal = useModalStore((state) => state.open);
+	const closeAll = useModalStore((state) => state.closeAll);
 
 	const {
 		menuPosition,
@@ -42,12 +42,32 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 
 	const handleEditCollection = () => {
 		closeMenu();
-		setEditCollectionOpen(true);
+		openModal({
+			title: (
+				<TransComponent
+					id="common:collection.edit"
+					message="Edit a collection"
+				/>
+			),
+			children: (
+				<EditCollectionModal collection={collection} onClose={closeAll} />
+			),
+		});
 	};
 
 	const handleDeleteCollection = () => {
 		closeMenu();
-		setDeleteCollectionOpen(true);
+		openModal({
+			title: (
+				<TransComponent
+					id="common:collection.delete"
+					message="Delete a collection"
+				/>
+			),
+			children: (
+				<DeleteCollectionModal collection={collection} onClose={closeAll} />
+			),
+		});
 	};
 
 	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) => {
@@ -94,38 +114,6 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 					<Trans>Delete collection</Trans>
 				</ContextMenuItem>
 			</ContextMenu>
-
-			<Modal
-				isOpen={editCollectionOpen}
-				onClose={() => setEditCollectionOpen(false)}
-				title={
-					<TransComponent
-						id="common:collection.edit"
-						message="Edit a collection"
-					/>
-				}
-			>
-				<EditCollectionModal
-					collection={collection}
-					onClose={() => setEditCollectionOpen(false)}
-				/>
-			</Modal>
-
-			<Modal
-				isOpen={deleteCollectionOpen}
-				onClose={() => setDeleteCollectionOpen(false)}
-				title={
-					<TransComponent
-						id="common:collection.delete"
-						message="Delete a collection"
-					/>
-				}
-			>
-				<DeleteCollectionModal
-					collection={collection}
-					onClose={() => setDeleteCollectionOpen(false)}
-				/>
-			</Modal>
 		</div>
 	);
 }
