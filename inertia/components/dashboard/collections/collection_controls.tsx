@@ -1,6 +1,8 @@
-import { Collection } from '#shared/types/dto';
+import { Collection, CollectionWithLinks } from '#shared/types/dto';
+import { PageProps } from '@adonisjs/inertia/types';
 import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
+import { usePage } from '@inertiajs/react';
 import { MouseEvent, useState } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
@@ -13,7 +15,17 @@ interface CollectionControlsProps {
 	collection: Collection;
 }
 
+interface PagePropsWithActiveCollection extends PageProps {
+	activeCollection?: CollectionWithLinks | null;
+}
+
 export function CollectionControls({ collection }: CollectionControlsProps) {
+	const { props } = usePage<PagePropsWithActiveCollection>();
+	const activeCollection = props.activeCollection;
+	const isOwner =
+		!activeCollection ||
+		activeCollection.id !== collection.id ||
+		activeCollection.isOwner !== false;
 	const [editCollectionOpen, setEditCollectionOpen] = useState(false);
 	const [deleteCollectionOpen, setDeleteCollectionOpen] = useState(false);
 
@@ -42,6 +54,10 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		event.preventDefault();
 		event.stopPropagation();
 	};
+
+	if (!isOwner) {
+		return null;
+	}
 
 	return (
 		<div
