@@ -1,8 +1,9 @@
 import { CommonModelDto } from '#dtos/common_model';
 import { LinkDto } from '#dtos/link';
+import { UserDto } from '#dtos/user';
 import { Visibility } from '#enums/collections/visibility';
 import Collection from '#models/collection';
-import { Link } from '#shared/types/dto';
+import { Link, User } from '#shared/types/dto';
 
 export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 	declare id: number;
@@ -10,6 +11,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 	declare description: string | null;
 	declare visibility: Visibility;
 	declare authorId: number;
+	declare author?: UserDto;
 	declare links: LinkDto[];
 	declare createdAt: string | null;
 	declare updatedAt: string | null;
@@ -24,6 +26,9 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 		this.visibility = collection.visibility;
 		this.authorId = collection.authorId;
 		this.links = LinkDto.fromArray(collection.links);
+		this.author = collection.author
+			? new UserDto(collection.author)
+			: undefined;
 		this.createdAt = collection.createdAt?.toISO();
 		this.updatedAt = collection.updatedAt?.toISO();
 	}
@@ -34,6 +39,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 		description: string | null;
 		visibility: Visibility;
 		authorId: number;
+		author?: User;
 		links: Link[];
 		createdAt: string | null;
 		updatedAt: string | null;
@@ -45,6 +51,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 			description: this.description,
 			visibility: this.visibility,
 			authorId: this.authorId,
+			author: this.author?.serialize(),
 			links: this.links.map((link) => link.serialize()),
 			createdAt: this.createdAt,
 			updatedAt: this.updatedAt,

@@ -1,25 +1,17 @@
-import { CollectionWithLinks, Link } from '#shared/types/dto';
-import { PageProps } from '@adonisjs/inertia/types';
-import { usePage } from '@inertiajs/react';
+import { Link } from '#shared/types/dto';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
-import { LinkItem } from './link_item';
+import { useLayoutStore } from '~/stores/layout_store';
+import { LinkItem } from '../dashboard/links/link_item';
 
-interface PagePropsWithLinks extends PageProps {
-	favoriteLinks: Link[];
-	activeCollection?: CollectionWithLinks | null;
+interface SharedLinkListProps {
+	links: Link[];
 }
 
-export function LinkList() {
-	const { props } = usePage<PagePropsWithLinks>();
-	const { layout } = useDashboardLayoutStore();
+export function SharedLinkList({ links }: SharedLinkListProps) {
+	const { layout } = useLayoutStore('shared');
 	const isMobile = useIsMobile();
-	const activeCollection = props.activeCollection;
-	const favoriteLinks = props.favoriteLinks || [];
-
-	const links = activeCollection?.links || favoriteLinks;
 
 	if (links.length === 0) {
 		return (
@@ -27,9 +19,6 @@ export function LinkList() {
 				<div className="i-ant-design-link-outlined w-16 h-16 text-gray-400 dark:text-gray-600 mb-4" />
 				<p className="text-gray-500 dark:text-gray-400 mb-2">
 					<Trans>No links yet</Trans>
-				</p>
-				<p className="text-sm text-gray-400 dark:text-gray-500">
-					<Trans>Create your first link to get started</Trans>
 				</p>
 			</div>
 		);

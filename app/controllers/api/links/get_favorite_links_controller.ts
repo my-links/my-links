@@ -8,7 +8,7 @@ export default class GetFavoriteLinksController {
 	constructor(private linkService: LinkService) {}
 
 	public async execute({ response }: HttpContext) {
-		const links = await this.linkService.getFavoriteLinksForAuthenticatedUser();
+		const links = await this.linkService.getMyFavoriteLinks();
 		return response.json(LinkDto.fromArray(links));
 	}
 }

@@ -8,15 +8,25 @@ import type { HttpContext } from '@adonisjs/core/http';
 export default class SharedCollectionsController {
 	constructor(private collectionService: CollectionService) {}
 
-	async render({ request, inertia }: HttpContext) {
+	async render({ request, inertia, auth }: HttpContext) {
 		const { params } = await request.validateUsing(
 			getSharedCollectionValidator
 		);
 
 		const activeCollection =
 			await this.collectionService.getPublicCollectionById(params.id);
+
+		let isFollowing = false;
+		if (auth.user) {
+			isFollowing = await this.collectionService.isFollowingCollection(
+				params.id,
+				auth.user.id
+			);
+		}
+
 		return inertia.render('shared', {
 			activeCollection: new SharedCollectionDto(activeCollection).serialize(),
+			isFollowing,
 		});
 	}
 }

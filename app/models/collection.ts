@@ -2,8 +2,12 @@ import { Visibility } from '#enums/collections/visibility';
 import AppBaseModel from '#models/app_base_model';
 import Link from '#models/link';
 import User from '#models/user';
-import { belongsTo, column, hasMany } from '@adonisjs/lucid/orm';
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations';
+import { belongsTo, column, hasMany, manyToMany } from '@adonisjs/lucid/orm';
+import type {
+	BelongsTo,
+	HasMany,
+	ManyToMany,
+} from '@adonisjs/lucid/types/relations';
 
 export default class Collection extends AppBaseModel {
 	@column()
@@ -23,4 +27,17 @@ export default class Collection extends AppBaseModel {
 
 	@hasMany(() => Link)
 	declare links: HasMany<typeof Link>;
+
+	@manyToMany(() => User, {
+		pivotTable: 'collection_followers',
+		localKey: 'id',
+		relatedKey: 'id',
+		pivotForeignKey: 'collection_id',
+		pivotRelatedForeignKey: 'user_id',
+		pivotTimestamps: {
+			createdAt: 'created_at',
+			updatedAt: false,
+		},
+	})
+	declare followers: ManyToMany<typeof User>;
 }

@@ -50,7 +50,7 @@ export class LinkService {
 			.update({ favorite });
 	}
 
-	async getFavoriteLinksForAuthenticatedUser() {
+	async getMyFavoriteLinks() {
 		const context = this.getAuthContext();
 		return await Link.query()
 			.where('author_id', context.auth.user!.id)
