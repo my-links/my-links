@@ -1,25 +1,20 @@
-import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useMemo } from 'react';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useRouteHelper } from '~/lib/route_helper';
 import { FormLinkData } from '~/types/link_form';
 
 interface CreateLinkModalProps {
-	collections: Collection[];
-	defaultCollectionId?: Collection['id'];
 	onClose: () => void;
 }
 
-export function CreateLinkModal({
-	collections,
-	defaultCollectionId,
-	onClose,
-}: CreateLinkModalProps) {
-	const collectionId = defaultCollectionId ?? collections[0]?.id;
+export function CreateLinkModal({ onClose }: CreateLinkModalProps) {
+	const { activeCollection, allCollections } = useDashboardProps();
+	const collectionId = activeCollection?.id ?? allCollections[0]?.id;
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: '',
 		description: '',
@@ -56,7 +51,7 @@ export function CreateLinkModal({
 				data={data}
 				setData={setData}
 				errors={errors}
-				collections={collections}
+				collections={allCollections}
 			/>
 
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
