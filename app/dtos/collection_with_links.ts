@@ -15,6 +15,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 	declare links: LinkDto[];
 	declare createdAt: string | null;
 	declare updatedAt: string | null;
+	declare isOwner?: boolean;
 
 	constructor(collection?: Collection) {
 		if (!collection) return;
@@ -43,6 +44,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 		links: Link[];
 		createdAt: string | null;
 		updatedAt: string | null;
+		isOwner?: boolean;
 	} {
 		return {
 			...super.serialize(),
@@ -55,6 +57,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 			links: this.links.map((link) => link.serialize()),
 			createdAt: this.createdAt,
 			updatedAt: this.updatedAt,
+			isOwner: this.isOwner,
 		};
 	}
 }

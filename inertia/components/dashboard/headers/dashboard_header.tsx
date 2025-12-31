@@ -1,4 +1,5 @@
 import { CollectionWithLinks } from '#shared/types/dto';
+import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Tooltip } from '~/components/common/tooltip';
 import { useRouteHelper } from '~/lib/route_helper';
@@ -32,7 +33,7 @@ export function DashboardHeader({
 			? activeCollection.description
 			: undefined;
 
-	const { url: getUrl } = useRouteHelper();
+	const { url: getUrl, route } = useRouteHelper();
 
 	const handleShareCollection = async () => {
 		if (!activeCollection?.id) return;
@@ -40,6 +41,22 @@ export function DashboardHeader({
 			params: { id: activeCollection.id },
 		});
 		await navigator.clipboard.writeText(url);
+	};
+
+	const handleUnfollow = () => {
+		if (!activeCollection?.id) return;
+		const unfollowUrl = route('collection.unfollow', {
+			params: { id: activeCollection.id },
+		}).url;
+		router.post(
+			unfollowUrl,
+			{},
+			{
+				onSuccess: () => {
+					router.reload();
+				},
+			}
+		);
 	};
 
 	return (
@@ -93,7 +110,7 @@ export function DashboardHeader({
 						<Trans>Create collection</Trans>
 					</button>
 
-					{!isFavorite && (
+					{!isFavorite && activeCollection?.isOwner !== false && (
 						<>
 							<button
 								onClick={onEditCollection}
@@ -110,14 +127,31 @@ export function DashboardHeader({
 						</>
 					)}
 
-					<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
+					{activeCollection?.isOwner !== false && (
+						<>
+							<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
 
-					<button
-						onClick={onCreateLink}
-						className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-					>
-						<Trans>Create link</Trans>
-					</button>
+							<button
+								onClick={onCreateLink}
+								className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+							>
+								<Trans>Create link</Trans>
+							</button>
+						</>
+					)}
+
+					{!isFavorite && activeCollection?.isOwner === false && (
+						<>
+							<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
+
+							<button
+								onClick={handleUnfollow}
+								className="px-4 py-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg transition-colors"
+							>
+								<Trans>Unfollow</Trans>
+							</button>
+						</>
+					)}
 				</div>
 			</div>
 
