@@ -17,6 +17,7 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 
 	usePageTransition({
 		querySelector: '[data-page-transition]',
+		ignorePatterns: [/^\/collections\/(favorites|\d+)$/],
 	});
 
 	const locale = useMemo(() => {
