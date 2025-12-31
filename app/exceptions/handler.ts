@@ -44,7 +44,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 		}
 
 		if (error instanceof errors.E_ROW_NOT_FOUND) {
-			return ctx.response.redirectToNamedRoute('favorites.show');
+			return ctx.response.redirectToNamedRoute('collection.favorites');
 		}
 		return super.handle(error, ctx);
 	}

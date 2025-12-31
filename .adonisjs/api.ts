@@ -161,6 +161,13 @@ type CollectionsPost = {
 		true
 	>;
 };
+type CollectionsFavoritesGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/favorites/show_favorites_controller.ts').default['render'],
+		false
+	>;
+};
 type CollectionsIdGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
@@ -190,10 +197,17 @@ type CollectionsIdDelete = {
 		true
 	>;
 };
-type FavoritesGetHead = {
+type CollectionsIdFollowPost = {
 	request: unknown;
 	response: MakeTuyauResponse<
-		import('../app/controllers/favorites/show_favorites_controller.ts').default['render'],
+		import('../app/controllers/collections/follow_collection_controller.ts').default['execute'],
+		false
+	>;
+};
+type CollectionsIdUnfollowPost = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/collections/unfollow_collection_controller.ts').default['execute'],
 		false
 	>;
 };
@@ -364,18 +378,26 @@ export interface ApiDefinition {
 	collections: {
 		$url: {};
 		$post: CollectionsPost;
+		favorites: {
+			$url: {};
+			$get: CollectionsFavoritesGetHead;
+			$head: CollectionsFavoritesGetHead;
+		};
 		':id': {
 			$url: {};
 			$get: CollectionsIdGetHead;
 			$head: CollectionsIdGetHead;
 			$put: CollectionsIdPut;
 			$delete: CollectionsIdDelete;
+			follow: {
+				$url: {};
+				$post: CollectionsIdFollowPost;
+			};
+			unfollow: {
+				$url: {};
+				$post: CollectionsIdUnfollowPost;
+			};
 		};
-	};
-	favorites: {
-		$url: {};
-		$get: FavoritesGetHead;
-		$head: FavoritesGetHead;
 	};
 	links: {
 		$url: {};
@@ -545,6 +567,13 @@ const routes = [
 		types: {} as CollectionsPost,
 	},
 	{
+		params: [],
+		name: 'collection.favorites',
+		path: '/collections/favorites',
+		method: ['GET', 'HEAD'],
+		types: {} as CollectionsFavoritesGetHead,
+	},
+	{
 		params: ['id'],
 		name: 'collection.show',
 		path: '/collections/:id',
@@ -566,11 +595,18 @@ const routes = [
 		types: {} as CollectionsIdDelete,
 	},
 	{
-		params: [],
-		name: 'favorites.show',
-		path: '/favorites',
-		method: ['GET', 'HEAD'],
-		types: {} as FavoritesGetHead,
+		params: ['id'],
+		name: 'collection.follow',
+		path: '/collections/:id/follow',
+		method: ['POST'],
+		types: {} as CollectionsIdFollowPost,
+	},
+	{
+		params: ['id'],
+		name: 'collection.unfollow',
+		path: '/collections/:id/unfollow',
+		method: ['POST'],
+		types: {} as CollectionsIdUnfollowPost,
 	},
 	{
 		params: [],

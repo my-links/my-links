@@ -4,18 +4,24 @@ import {
 	LinkWithCollection,
 } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
-import { useForm, usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Link as InertiaLink } from '@tuyau/inertia/react';
-import { MouseEvent, useImperativeHandle, useMemo, useState } from 'react';
+import {
+	MouseEvent,
+	useCallback,
+	useImperativeHandle,
+	useMemo,
+	useState,
+} from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 import { Modal } from '~/components/common/modal';
 import { useContextMenu } from '~/hooks/use_context_menu';
-import { useTuyauRequired } from '~/hooks/use_tuyau_required';
-import { DeleteLinkModal } from './modals/delete_link_modal';
-import { EditLinkModal } from './modals/edit_link_modal';
+import { useRouteHelper } from '~/lib/route_helper';
+import { DeleteLinkModal } from '../modals/delete_link_modal';
+import { EditLinkModal } from '../modals/edit_link_modal';
 
 export interface LinkControlsRef {
 	openContextMenu: (x: number, y: number) => void;
@@ -34,16 +40,13 @@ export function LinkControls({
 	link,
 	ref,
 }: LinkControlsProps & { ref: React.RefObject<LinkControlsRef | null> }) {
-	const tuyau = useTuyauRequired();
 	const [editLinkOpen, setEditLinkOpen] = useState(false);
 	const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
 
 	const { activeCollection, collections } =
 		usePage<PagePropsWithCollections>().props;
 
-	const favoriteForm = useForm<{ favorite: boolean }>({
-		favorite: !link.favorite,
-	});
+	const { url } = useRouteHelper();
 
 	const {
 		menuPosition,
@@ -84,18 +87,14 @@ export function LinkControls({
 		}
 	};
 
-	const handleFavorite = () => {
-		favoriteForm.put(
-			tuyau.$route('link.toggle-favorite', {
-				id: link.id.toString(),
-			}).path,
-			{
-				onSuccess: () => {
-					closeMenu();
-				},
-			}
-		);
-	};
+	const handleFavorite = useCallback(() => {
+		const toggleFavoriteUrl = url('link.toggle-favorite', {
+			params: { id: link.id.toString() },
+		});
+		router.put(toggleFavoriteUrl, {
+			favorite: !link.favorite,
+		});
+	}, [link.id]);
 
 	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -117,7 +116,7 @@ export function LinkControls({
 			<button
 				onClick={(e) => {
 					handleStopPropagation(e);
-					toggleMenu();
+					toggleMenu(e);
 				}}
 				onContextMenu={handleContextMenu}
 				className="p-1 rounded text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -131,9 +130,8 @@ export function LinkControls({
 				shouldRender={shouldRender}
 				menuPosition={menuPosition}
 				menuContentRef={menuContentRef}
-				onBackdropClick={closeMenu}
 			>
-				{activeCollection && (
+				{!activeCollection && (
 					<InertiaLink
 						route="collection.show"
 						params={{ id: link.collectionId }}

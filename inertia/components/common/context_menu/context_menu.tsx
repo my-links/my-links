@@ -12,51 +12,44 @@ interface ContextMenuProps {
 	shouldRender: boolean;
 	menuPosition: MenuPosition | null;
 	menuContentRef: RefObject<HTMLDivElement | null>;
-	onBackdropClick: () => void;
 	children: ReactNode;
+	onBackdropClick?: () => void;
 }
 
-const MENU_BASE_CLASSES =
-	'w-48 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 z-999 py-1 transition-opacity duration-200';
-
-export function ContextMenu({
+export const ContextMenu = ({
 	isVisible,
 	shouldRender,
 	menuPosition,
 	menuContentRef,
-	onBackdropClick,
 	children,
-}: ContextMenuProps) {
-	if (!shouldRender) return null;
-
-	const menuContent = (
+	onBackdropClick,
+}: ContextMenuProps) =>
+	shouldRender &&
+	menuPosition &&
+	createPortal(
 		<>
-			<div className="fixed inset-0 z-10" onClick={onBackdropClick} />
+			{onBackdropClick && (
+				<div
+					className="fixed inset-0 z-[998]"
+					onClick={onBackdropClick}
+					aria-hidden="true"
+				/>
+			)}
 			<div
 				ref={menuContentRef}
 				className={clsx(
-					MENU_BASE_CLASSES,
-					isVisible ? 'opacity-100' : 'opacity-0',
-					menuPosition ? 'fixed' : 'absolute right-0 top-full mt-1'
+					'w-48 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 z-[999] py-1 transition-opacity duration-200',
+					isVisible ? 'opacity-100' : 'opacity-0'
 				)}
-				style={
-					menuPosition
-						? {
-								left: `${menuPosition.x}px`,
-								top: `${menuPosition.y}px`,
-							}
-						: undefined
-				}
+				style={{
+					position: 'fixed',
+					left: `${menuPosition.x}px`,
+					top: `${menuPosition.y}px`,
+				}}
 				onClick={(e) => e.stopPropagation()}
 			>
 				{children}
 			</div>
-		</>
+		</>,
+		document.body
 	);
-
-	if (menuPosition) {
-		return createPortal(menuContent, document.body);
-	}
-
-	return menuContent;
-}

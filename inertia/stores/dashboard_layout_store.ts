@@ -1,16 +1,11 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-export type DashboardLayout = 'list' | 'grid' | 'masonry' | 'compact';
-
 const SIDEBAR_MIN_WIDTH = 200;
 const SIDEBAR_MAX_WIDTH = 500;
 const SIDEBAR_DEFAULT_WIDTH = 256;
-const DEFAULT_LAYOUT = 'list';
 
 interface DashboardLayoutStore {
-	layout: DashboardLayout;
-	setLayout: (layout: DashboardLayout) => void;
 	sidebarOpen: boolean;
 	setSidebarOpen: (open: boolean) => void;
 	toggleSidebar: () => void;
@@ -23,8 +18,6 @@ const STORAGE_KEY = 'dashboard-layout-preferences';
 export const useDashboardLayoutStore = create<DashboardLayoutStore>()(
 	persist(
 		(set) => ({
-			layout: DEFAULT_LAYOUT,
-			setLayout: (layout) => set({ layout }),
 			sidebarOpen: true,
 			setSidebarOpen: (open) => set({ sidebarOpen: open }),
 			toggleSidebar: () =>

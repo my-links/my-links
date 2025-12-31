@@ -1,10 +1,6 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import {
-	useDashboardLayoutStore,
-	SIDEBAR_MIN_WIDTH,
-	SIDEBAR_MAX_WIDTH,
-} from '~/stores/dashboard_layout_store';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 interface ResizableSidebarProps {
 	children: ReactNode;
