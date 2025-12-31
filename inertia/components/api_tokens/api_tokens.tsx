@@ -1,16 +1,10 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import {
-	ActionIcon,
-	Button,
-	Card,
-	CopyButton,
-	Group,
-	Text,
-} from '@mantine/core';
-import { modals } from '@mantine/modals';
+import { useState } from 'react';
+import { CopyButton } from '~/components/common/copy_button';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
+import { useModals } from '~/hooks/use_modals';
 import { ApiToken } from '~/types/app';
 import { CreateTokenModal } from './create_token_modal';
 
@@ -23,6 +17,7 @@ const useGetCreatedToken = () => {
 
 export function ApiTokens() {
 	const { tokens, createToken, revokeToken } = useApiTokens();
+	const modals = useModals();
 
 	const newlyCreatedToken = useGetCreatedToken();
 
@@ -49,40 +44,40 @@ export function ApiTokens() {
 				</>
 			),
 			children: (
-				<Text size="sm">
+				<p className="text-sm text-gray-600 dark:text-gray-300">
 					<Trans>Are you sure you want to revoke this token?</Trans>
-				</Text>
+				</p>
 			),
-			labels: {
-				confirm: <Trans>Revoke</Trans>,
-				cancel: <Trans>Cancel</Trans>,
-			},
-			confirmProps: { color: 'red' },
+			confirmLabel: <Trans>Revoke</Trans>,
+			cancelLabel: <Trans>Cancel</Trans>,
+			confirmColor: 'red',
 			onConfirm: () => revokeToken(tokenId),
 		});
 	};
 
 	const generateTokenRow = (token: ApiToken) =>
 		newlyCreatedToken?.identifier === token.identifier && (
-			<>
-				<Text c="green" size="sm">
-					<Trans>New token created</Trans>{' '}
-					{newlyCreatedToken.token && (
-						<CopyButton value={newlyCreatedToken.token}>
-							{({ copied, copy }) => (
-								<Button
-									color={copied ? 'teal' : 'blue'}
-									onClick={copy}
-									size="xs"
-									variant="light"
-								>
-									{copied ? <Trans>Copied</Trans> : <Trans>Copy</Trans>}
-								</Button>
-							)}
-						</CopyButton>
-					)}
-				</Text>
-			</>
+			<div className="flex items-center gap-2">
+				<span className="text-sm text-green-600 dark:text-green-400">
+					<Trans>New token created</Trans>
+				</span>
+				{newlyCreatedToken.token && (
+					<CopyButton value={newlyCreatedToken.token}>
+						{({ copied, copy }) => (
+							<button
+								onClick={copy}
+								className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+									copied
+										? 'bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300'
+										: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
+								}`}
+							>
+								{copied ? <Trans>Copied</Trans> : <Trans>Copy</Trans>}
+							</button>
+						)}
+					</CopyButton>
+				)}
+			</div>
 		);
 
 	const generateRow = (token: ApiToken) => ({
@@ -92,49 +87,44 @@ export function ApiTokens() {
 		expiresAt: token.expiresAt,
 		lastUsedAt: token.lastUsedAt,
 		actions: [
-			<ActionIcon
-				color="red"
-				variant="subtle"
+			<button
+				key="delete"
 				onClick={() => handleRevokeToken(token.identifier)}
+				className="p-1 rounded text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+				aria-label="Revoke token"
 			>
-				<div
-					className="i-tabler-trash"
-					style={{ width: '16px', height: '16px' }}
-				/>
-			</ActionIcon>,
+				<div className="i-tabler-trash w-4 h-4" />
+			</button>,
 		],
 	});
 
 	const rows = tokens.map(generateRow);
 
 	return (
-		<Card withBorder>
-			<Group justify="space-between" mb="md">
-				<Text fw={500}>
-					<Trans>API Tokens</Trans>
-				</Text>
-				<Button
-					leftSection={
-						<div
-							className="i-tabler-plus"
-							style={{ width: '16px', height: '16px' }}
-						/>
-					}
-					onClick={handleCreateTokenModal}
-					size="sm"
-					variant="light"
-				>
-					<Trans>Create token</Trans>
-				</Button>
-			</Group>
+		<>
+			<modals.Modals />
+			<div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+				<div className="flex items-center justify-between mb-4">
+					<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+						<Trans>API Tokens</Trans>
+					</h2>
+					<button
+						onClick={handleCreateTokenModal}
+						className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+					>
+						<div className="i-tabler-plus w-4 h-4" />
+						<Trans>Create token</Trans>
+					</button>
+				</div>
 
-			{tokens.length === 0 && (
-				<Text c="dimmed" ta="center" py="xl">
-					<Trans>No tokens created yet</Trans>
-				</Text>
-			)}
+				{tokens.length === 0 && (
+					<p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+						<Trans>No tokens created yet</Trans>
+					</p>
+				)}
 
-			{tokens.length > 0 && <SimpleTable data={rows} />}
-		</Card>
+				{tokens.length > 0 && <SimpleTable data={rows} />}
+			</div>
+		</>
 	);
 }

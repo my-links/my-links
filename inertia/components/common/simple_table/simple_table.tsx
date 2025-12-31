@@ -1,7 +1,4 @@
-import { ScrollArea, Table, Text } from '@mantine/core';
-import cx from 'clsx';
 import { useState } from 'react';
-import classes from './simple_table.module.css';
 
 export type SimpleTableData = {
 	key: string;
@@ -18,39 +15,55 @@ export function SimpleTable({ data }: SimpleTableProps) {
 
 	const columns = data.length > 0 ? Object.keys(data[0]) : [];
 
+	const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+		const target = e.currentTarget;
+		setScrolled(target.scrollTop > 0);
+	};
+
 	const rows = data.map((row) => {
 		return (
-			<Table.Tr key={row.key}>
+			<tr
+				key={row.key}
+				className="border-b border-gray-200 dark:border-gray-700"
+			>
 				{columns.map((column) => (
-					<Table.Td key={column}>
+					<td key={column} className="px-4 py-3 text-sm">
 						{row[column] ?? (
-							<Text c="dimmed" size="sm">
-								N/A
-							</Text>
+							<span className="text-gray-400 dark:text-gray-500">N/A</span>
 						)}
-					</Table.Td>
+					</td>
 				))}
-			</Table.Tr>
+			</tr>
 		);
 	});
 
 	return (
-		<ScrollArea
-			h={300}
-			onScrollPositionChange={({ y }) => setScrolled(y !== 0)}
+		<div
+			className="overflow-auto"
+			style={{ maxHeight: '300px' }}
+			onScroll={handleScroll}
 		>
-			<Table miw={700}>
-				<Table.Thead
-					className={cx(classes.header, { [classes.scrolled]: scrolled })}
+			<table className="min-w-[700px] w-full">
+				<thead
+					className={`sticky top-0 bg-white dark:bg-gray-800 transition-shadow ${
+						scrolled ? 'shadow-sm' : ''
+					}`}
 				>
-					<Table.Tr>
+					<tr className="border-b border-gray-200 dark:border-gray-700">
 						{columns.map((column) => (
-							<Table.Th key={column}>{column}</Table.Th>
+							<th
+								key={column}
+								className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+							>
+								{column}
+							</th>
 						))}
-					</Table.Tr>
-				</Table.Thead>
-				<Table.Tbody>{rows}</Table.Tbody>
-			</Table>
-		</ScrollArea>
+					</tr>
+				</thead>
+				<tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+					{rows}
+				</tbody>
+			</table>
+		</div>
 	);
 }
