@@ -1,5 +1,7 @@
 import { CollectionWithLinks } from '#shared/types/dto';
 import { Trans } from '@lingui/react/macro';
+import { Tooltip } from '~/components/common/tooltip';
+import { useRouteHelper } from '~/lib/route_helper';
 import { Visibility } from '~/types/app';
 
 interface DashboardHeaderProps {
@@ -30,6 +32,16 @@ export function DashboardHeader({
 			? activeCollection.description
 			: undefined;
 
+	const { url: getUrl } = useRouteHelper();
+
+	const handleShareCollection = async () => {
+		if (!activeCollection?.id) return;
+		const url = getUrl('shared', {
+			params: { id: activeCollection.id },
+		});
+		await navigator.clipboard.writeText(url);
+	};
+
 	return (
 		<header className="border-b border-gray-200/50 dark:border-gray-700/50 px-6 pb-4">
 			<div className="flex items-center justify-between gap-4">
@@ -57,12 +69,19 @@ export function DashboardHeader({
 				<div className="flex items-center gap-2 flex-shrink-0">
 					{activeCollection?.visibility === Visibility.PUBLIC && (
 						<>
-							<button
-								className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
-								title="Share collection"
+							<Tooltip
+								content={<Trans>Click to copy link</Trans>}
+								temporaryContent={<Trans>Copied!</Trans>}
+								showOnClick
+								position="bottom"
 							>
-								<div className="i-ant-design-share-alt-outlined w-5 h-5" />
-							</button>
+								<button
+									className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+									onClick={handleShareCollection}
+								>
+									<div className="i-ant-design-share-alt-outlined w-5 h-5" />
+								</button>
+							</Tooltip>
 							<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
 						</>
 					)}
