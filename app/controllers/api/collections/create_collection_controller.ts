@@ -14,6 +14,7 @@ export default class CreateCollectionController {
 			name: payload.name,
 			description: payload.description,
 			visibility: payload.visibility,
+			icon: payload.icon ?? null,
 		});
 		return response.json({
 			message: 'Collection created successfully',

@@ -14,7 +14,10 @@ export function CollectionViewContent() {
 		<>
 			<div className="mb-6 flex items-center justify-between">
 				<div>
-					<h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+					<h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+						{activeCollection?.icon && (
+							<span className="text-2xl">{activeCollection.icon}</span>
+						)}
 						{activeCollection?.name}
 					</h1>
 					<div className="mt-1 flex items-center gap-2">

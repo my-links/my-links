@@ -20,6 +20,9 @@ export default class Collection extends AppBaseModel {
 	declare visibility: Visibility;
 
 	@column()
+	declare icon: string | null;
+
+	@column()
 	declare authorId: number;
 
 	@belongsTo(() => User, { foreignKey: 'authorId' })
