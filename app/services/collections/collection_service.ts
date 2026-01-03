@@ -9,6 +9,7 @@ type CreateCollectionPayload = {
 	name: string;
 	description: string | null;
 	visibility: Visibility;
+	icon: string | null;
 };
 
 type UpdateCollectionPayload = CreateCollectionPayload;

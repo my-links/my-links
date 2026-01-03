@@ -8,6 +8,7 @@ export class CollectionDto extends CommonModelDto<Collection> {
 	declare description: string | null;
 	declare visibility: Visibility;
 	declare authorId: number;
+	declare icon: string | null;
 	declare createdAt: string | null;
 	declare updatedAt: string | null;
 
@@ -20,6 +21,7 @@ export class CollectionDto extends CommonModelDto<Collection> {
 		this.description = collection.description;
 		this.visibility = collection.visibility;
 		this.authorId = collection.authorId;
+		this.icon = collection.icon;
 		this.createdAt = collection.createdAt?.toISO();
 		this.updatedAt = collection.updatedAt?.toISO();
 	}
@@ -30,6 +32,7 @@ export class CollectionDto extends CommonModelDto<Collection> {
 		description: string | null;
 		visibility: Visibility;
 		authorId: number;
+		icon: string | null;
 		createdAt: string | null;
 		updatedAt: string | null;
 	} {
@@ -40,6 +43,7 @@ export class CollectionDto extends CommonModelDto<Collection> {
 			description: this.description,
 			visibility: this.visibility,
 			authorId: this.authorId,
+			icon: this.icon,
 			createdAt: this.createdAt,
 			updatedAt: this.updatedAt,
 		};

@@ -97,6 +97,8 @@
 		"bentocache": "^1.5.1",
 		"clsx": "^2.1.1",
 		"edge.js": "^6.4.0",
+		"emoji-picker-react": "^4.16.1",
+		"emoji-regex": "^10.6.0",
 		"knex": "^3.1.0",
 		"luxon": "^3.7.2",
 		"node-html-parser": "^7.0.1",

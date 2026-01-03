@@ -19,6 +19,7 @@ export function EditCollectionModal({ onClose }: EditCollectionModalProps) {
 			name: activeCollection?.name ?? '',
 			description: activeCollection?.description ?? '',
 			visibility: activeCollection?.visibility ?? Visibility.PRIVATE,
+			icon: activeCollection?.icon ?? null,
 		});
 
 	const canSubmit = useMemo<boolean>(() => {
@@ -27,7 +28,8 @@ export function EditCollectionModal({ onClose }: EditCollectionModalProps) {
 		const isFormEdited =
 			trimmedName !== activeCollection?.name ||
 			trimmedDescription !== activeCollection?.description ||
-			data.visibility !== activeCollection?.visibility;
+			data.visibility !== activeCollection?.visibility ||
+			data.icon !== (activeCollection?.icon ?? null);
 		const isFormValid = trimmedName !== '';
 		return isFormEdited && isFormValid && !processing;
 	}, [data, activeCollection, processing]);

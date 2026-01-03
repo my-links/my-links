@@ -44,14 +44,20 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 			onContextMenu={handleContextMenu}
 			title={collection.name}
 		>
-			<div
-				className={clsx(
-					'w-5 h-5 flex-shrink-0',
-					isActive
-						? 'i-ant-design-folder-open-filled'
-						: 'i-ant-design-folder-outlined'
-				)}
-			/>
+			{collection.icon ? (
+				<span className="text-lg flex-shrink-0 w-5 h-5 flex items-center justify-center">
+					{collection.icon}
+				</span>
+			) : (
+				<div
+					className={clsx(
+						'w-5 h-5 flex-shrink-0',
+						isActive
+							? 'i-ant-design-folder-open-filled'
+							: 'i-ant-design-folder-outlined'
+					)}
+				/>
+			)}
 			<span className="truncate flex-1">{collection.name}</span>
 			<CollectionControls collection={collection} />
 		</Link>

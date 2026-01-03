@@ -13,6 +13,7 @@ export class SharedCollectionDto extends CommonModelDto<Collection> {
 	declare links: LinkDto[];
 	declare authorId: number;
 	declare author: UserDto;
+	declare icon: string | null;
 	declare createdAt: string | null;
 	declare updatedAt: string | null;
 
@@ -24,6 +25,7 @@ export class SharedCollectionDto extends CommonModelDto<Collection> {
 		this.name = collection.name;
 		this.description = collection.description;
 		this.visibility = collection.visibility;
+		this.icon = collection.icon;
 		this.links = LinkDto.fromArray(collection.links);
 		this.authorId = collection.authorId;
 		this.author = new UserDto(collection.author);
@@ -39,6 +41,7 @@ export class SharedCollectionDto extends CommonModelDto<Collection> {
 		links: Link[];
 		authorId: number;
 		author: User;
+		icon: string | null;
 		createdAt: string | null;
 		updatedAt: string | null;
 	} {
@@ -51,6 +54,7 @@ export class SharedCollectionDto extends CommonModelDto<Collection> {
 			links: this.links.map((link) => link.serialize()),
 			authorId: this.authorId,
 			author: this.author.serialize(),
+			icon: this.icon,
 			createdAt: this.createdAt,
 			updatedAt: this.updatedAt,
 		};
