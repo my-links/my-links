@@ -17,6 +17,7 @@ export function CreateCollectionModal({ onClose }: CreateCollectionModalProps) {
 			name: '',
 			description: '',
 			visibility: Visibility.PRIVATE,
+			icon: null,
 		});
 
 	const isFormDisabled = useMemo(
