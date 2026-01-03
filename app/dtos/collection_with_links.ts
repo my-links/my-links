@@ -13,6 +13,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 	declare authorId: number;
 	declare author?: UserDto;
 	declare links: LinkDto[];
+	declare icon: string | null;
 	declare createdAt: string | null;
 	declare updatedAt: string | null;
 	declare isOwner?: boolean;
@@ -26,6 +27,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 		this.description = collection.description;
 		this.visibility = collection.visibility;
 		this.authorId = collection.authorId;
+		this.icon = collection.icon;
 		this.links = LinkDto.fromArray(collection.links);
 		this.author = collection.author
 			? new UserDto(collection.author)
@@ -42,6 +44,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 		authorId: number;
 		author?: User;
 		links: Link[];
+		icon: string | null;
 		createdAt: string | null;
 		updatedAt: string | null;
 		isOwner?: boolean;
@@ -55,6 +58,7 @@ export class CollectionWithLinksDto extends CommonModelDto<Collection> {
 			authorId: this.authorId,
 			author: this.author?.serialize(),
 			links: this.links.map((link) => link.serialize()),
+			icon: this.icon,
 			createdAt: this.createdAt,
 			updatedAt: this.updatedAt,
 			isOwner: this.isOwner,

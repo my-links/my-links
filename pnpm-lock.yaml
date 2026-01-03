@@ -71,6 +71,12 @@ importers:
       edge.js:
         specifier: ^6.4.0
         version: 6.4.0
+      emoji-picker-react:
+        specifier: ^4.16.1
+        version: 4.16.1(react@19.2.3)
+      emoji-regex:
+        specifier: ^10.6.0
+        version: 10.6.0
       knex:
         specifier: ^3.1.0
         version: 3.1.0(pg@8.16.3)
@@ -2582,6 +2588,12 @@ packages:
     resolution: {integrity: sha512-KxdRyyFcS85pH3dnU8Y5yFUm2YJdaHwcBZWrfG8o89ZY9a13/f9itbN+YG3ELbBo9Pg5zvIozstmuV8bX13q6g==}
     engines: {node: '>=14.16'}
 
+  emoji-picker-react@4.16.1:
+    resolution: {integrity: sha512-MrPX0tOCfRL3uYI4of/2GRZ7S6qS7YlacKiF78uFH84/C62vcuHE2DZyv5b4ZJMk0e06es1jjB4e31Bb+YSM8w==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
 
@@ -2845,6 +2857,9 @@ packages:
   find-up@5.0.0:
     resolution: {integrity: sha512-78/PXT1wlLLDgTzDs7sjq9hzz0vXD+zn+7wypEe4fXQxCmdmqfGsEPQxmiCSQI3ajFV91bVSsvNtrJRiW6nGng==}
     engines: {node: '>=10'}
+
+  flairup@1.0.0:
+    resolution: {integrity: sha512-IKlE+pNvL2R+kVL1kEhUYqRxVqeFnjiIvHWDMLFXNaqyUdFXQM2wte44EfMYJNHkW16X991t2Zg8apKkhv7OBA==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -7098,6 +7113,11 @@ snapshots:
 
   emittery@1.2.0: {}
 
+  emoji-picker-react@4.16.1(react@19.2.3):
+    dependencies:
+      flairup: 1.0.0
+      react: 19.2.3
+
   emoji-regex@10.6.0: {}
 
   emoji-regex@8.0.0: {}
@@ -7435,6 +7455,8 @@ snapshots:
     dependencies:
       locate-path: 6.0.0
       path-exists: 4.0.0
+
+  flairup@1.0.0: {}
 
   flat-cache@4.0.1:
     dependencies:
