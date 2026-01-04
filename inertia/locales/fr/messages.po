@@ -73,6 +73,10 @@ msgstr "Tableau de bord administrateur"
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "Un gestionnaire de marque-pages open-source, auto-hébergé, qui vous permet de gérer vos liens favoris dans une interface intuitive"
 
+#: inertia/pages/errors/server_error.tsx:13
+msgid "An unexpected error occurred."
+msgstr "Une erreur inattendue est survenue."
+
 #: inertia/components/api_tokens/api_tokens.tsx:108
 #: inertia/pages/user_settings/show.tsx:12
 msgid "API Tokens"
@@ -444,6 +448,10 @@ msgstr "Ou créez une nouvelle collection pour commencer"
 msgid "Organize your links into collections"
 msgstr "Organisez vos liens dans des collections"
 
+#: inertia/pages/errors/not_found.tsx:6
+msgid "Page not found"
+msgstr "Page non trouvée"
+
 #: inertia/pages/terms.tsx:106
 msgid "Personal Data"
 msgstr "Données personnelles"
@@ -517,6 +525,10 @@ msgstr "Sélectionnez une collection pour voir ses liens"
 msgid "Self-Hosted"
 msgstr "Auto-hébergé"
 
+#: inertia/pages/errors/server_error.tsx:12
+msgid "Server Error"
+msgstr "Erreur serveur"
+
 #: inertia/pages/home.tsx:43
 msgid "Share"
 msgstr "Partager"
@@ -568,6 +580,10 @@ msgstr "Le contenu sera visible par tous"
 #: inertia/pages/privacy.tsx:143
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout moment et/ou de demander la suppression complète de ses données."
+
+#: inertia/pages/errors/not_found.tsx:7
+msgid "This page does not exist."
+msgstr "Cette page n'existe pas."
 
 #: inertia/pages/terms.tsx:65
 msgid "To access certain features of MyLinks, you will need to create a user account. You are responsible for the confidentiality of your account and credentials."
