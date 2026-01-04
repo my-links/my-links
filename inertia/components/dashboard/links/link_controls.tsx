@@ -5,7 +5,6 @@ import {
 } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
 import { router, usePage } from '@inertiajs/react';
-import { Trans as TransComponent } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Link as InertiaLink } from '@tuyau/inertia/react';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
@@ -34,8 +33,7 @@ export function LinkControls({
 	link,
 	ref,
 }: LinkControlsProps & { ref: React.RefObject<LinkControlsRef | null> }) {
-	const { activeCollection, collections } =
-		usePage<PagePropsWithCollections>().props;
+	const { activeCollection } = usePage<PagePropsWithCollections>().props;
 	const openModal = useModalStore((state) => state.open);
 	const closeAll = useModalStore((state) => state.closeAll);
 
@@ -67,14 +65,8 @@ export function LinkControls({
 		closeMenu();
 		if (!linkWithCollection) return;
 		openModal({
-			title: <TransComponent id="common:link.edit" message="Edit a link" />,
-			children: (
-				<EditLinkModal
-					collections={collections}
-					link={linkWithCollection}
-					onClose={closeAll}
-				/>
-			),
+			title: <Trans>Edit a link</Trans>,
+			children: <EditLinkModal link={linkWithCollection} onClose={closeAll} />,
 		});
 	};
 
@@ -82,7 +74,7 @@ export function LinkControls({
 		closeMenu();
 		if (!linkWithCollection) return;
 		openModal({
-			title: <TransComponent id="common:link.delete" message="Delete a link" />,
+			title: <Trans>Delete a link</Trans>,
 			children: (
 				<DeleteLinkModal link={linkWithCollection} onClose={closeAll} />
 			),
