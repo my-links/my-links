@@ -32,79 +32,56 @@ function getIconClass(name: FeatureName): string {
 function getFeatureTitle(name: FeatureName) {
 	switch (name) {
 		case 'collection':
-			return <Trans id="about:collection.title">Collections</Trans>;
+			return <Trans>Collections</Trans>;
 		case 'link':
-			return <Trans id="about:link.title">Links</Trans>;
+			return <Trans>Links</Trans>;
 		case 'search':
-			return <Trans id="about:search.title">Search</Trans>;
+			return <Trans>Search</Trans>;
 		case 'extension':
-			return <Trans id="about:extension.title">Extension</Trans>;
+			return <Trans>Extension</Trans>;
 		case 'share':
-			return <Trans id="about:share.title">Share</Trans>;
+			return <Trans>Share</Trans>;
 		case 'contribute':
-			return <Trans id="about:contribute.title">Contribute</Trans>;
+			return <Trans>Contribute</Trans>;
 	}
 }
 
 function getFeatureText(name: FeatureName) {
 	switch (name) {
 		case 'collection':
-			return (
-				<Trans id="about:collection.text">
-					Organize your links into collections
-				</Trans>
-			);
+			return <Trans>Organize your links into collections</Trans>;
 		case 'link':
-			return (
-				<Trans id="about:link.text">Save and manage your favorite links</Trans>
-			);
+			return <Trans>Save and manage your favorite links</Trans>;
 		case 'search':
-			return (
-				<Trans id="about:search.text">
-					Quickly find what you're looking for
-				</Trans>
-			);
+			return <Trans>Quickly find what you're looking for</Trans>;
 		case 'extension':
-			return (
-				<Trans id="about:extension.text">
-					Use our browser extension for quick access
-				</Trans>
-			);
+			return <Trans>Use our browser extension for quick access</Trans>;
 		case 'share':
-			return (
-				<Trans id="about:share.text">Share your collections with others</Trans>
-			);
+			return <Trans>Share your collections with others</Trans>;
 		case 'contribute':
-			return (
-				<Trans id="about:contribute.text">
-					Help improve the project by contributing
-				</Trans>
-			);
+			return <Trans>Help improve the project by contributing</Trans>;
 	}
 }
 
-function Feature({ name: featureName }: { name: FeatureName }) {
-	const iconClass = getIconClass(featureName);
-	return (
-		<div className="group relative bg-white dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
-			<div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-			<div className="relative">
-				<div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/20">
-					<div
-						className={iconClass}
-						style={{ width: '24px', height: '24px', color: 'white' }}
-					/>
-				</div>
-				<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-					{getFeatureTitle(featureName)}
-				</h3>
-				<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-					{getFeatureText(featureName)}
-				</p>
+const Feature = ({ name: featureName }: { name: FeatureName }) => (
+	<div className="group relative bg-white dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1">
+		<div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-900/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+		<div className="relative">
+			<div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg shadow-blue-500/20">
+				<div
+					className={getIconClass(featureName)}
+					style={{ width: '24px', height: '24px', color: 'white' }}
+				/>
 			</div>
+			<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+				{getFeatureTitle(featureName)}
+			</h3>
+			<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+				{getFeatureText(featureName)}
+			</p>
 		</div>
-	);
-}
+	</div>
+);
 
 const values = [
 	{

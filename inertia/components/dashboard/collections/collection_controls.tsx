@@ -1,8 +1,7 @@
 import { Collection, CollectionWithLinks } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
-import { Trans as TransComponent } from '@lingui/react';
-import { Trans } from '@lingui/react/macro';
 import { usePage } from '@inertiajs/react';
+import { Trans } from '@lingui/react/macro';
 import { MouseEvent } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
@@ -43,30 +42,16 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 	const handleEditCollection = () => {
 		closeMenu();
 		openModal({
-			title: (
-				<TransComponent
-					id="common:collection.edit"
-					message="Edit a collection"
-				/>
-			),
-			children: (
-				<EditCollectionModal collection={collection} onClose={closeAll} />
-			),
+			title: <Trans>Edit a collection</Trans>,
+			children: <EditCollectionModal onClose={closeAll} />,
 		});
 	};
 
 	const handleDeleteCollection = () => {
 		closeMenu();
 		openModal({
-			title: (
-				<TransComponent
-					id="common:collection.delete"
-					message="Delete a collection"
-				/>
-			),
-			children: (
-				<DeleteCollectionModal collection={collection} onClose={closeAll} />
-			),
+			title: <Trans>Delete a collection</Trans>,
+			children: <DeleteCollectionModal onClose={closeAll} />,
 		});
 	};
 

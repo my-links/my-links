@@ -1,5 +1,5 @@
 import { Collection } from '#shared/types/dto';
-import { Trans as TransComponent } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { FormLinkData } from '~/types/link_form';
 
@@ -24,7 +24,7 @@ export const FormLinkContent = ({
 				htmlFor="name"
 				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 			>
-				<TransComponent id="common:form.name" message="Name" />
+				<Trans>Name</Trans>
 			</label>
 			<input
 				type="text"
@@ -54,7 +54,7 @@ export const FormLinkContent = ({
 				htmlFor="url"
 				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 			>
-				<TransComponent id="common:form.url" message="URL" />
+				<Trans>URL</Trans>
 			</label>
 			<input
 				type="url"
@@ -83,7 +83,7 @@ export const FormLinkContent = ({
 				htmlFor="description"
 				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 			>
-				<TransComponent id="common:form.description" message="Description" />
+				<Trans>Description</Trans>
 			</label>
 			<textarea
 				id="description"
@@ -113,10 +113,7 @@ export const FormLinkContent = ({
 				htmlFor="collectionId"
 				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 			>
-				<TransComponent
-					id="common:collection.collections"
-					message="Collections"
-				/>
+				<Trans>Collections ({collections.length})</Trans>
 			</label>
 			<select
 				id="collectionId"
@@ -168,7 +165,7 @@ export const FormLinkContent = ({
 					!disableInputs && 'cursor-pointer'
 				)}
 			>
-				<TransComponent id="common:favorite" message="Favorite" />
+				<Trans>Favorite</Trans>
 			</label>
 			{errors?.favorite && (
 				<p className="text-sm text-red-600 dark:text-red-400">

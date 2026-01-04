@@ -61,7 +61,7 @@ msgstr "4.2 Warranties"
 msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
-#: inertia/components/dashboard/links/link_controls.tsx:167
+#: inertia/components/dashboard/links/link_controls.tsx:159
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -69,7 +69,7 @@ msgstr "Add to favorites"
 msgid "Admin Dashboard"
 msgstr "Admin Dashboard"
 
-#: inertia/pages/home.tsx:152
+#: inertia/pages/home.tsx:129
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 
@@ -90,11 +90,11 @@ msgstr "Are you sure you want to delete this link?"
 msgid "Are you sure you want to revoke this token?"
 msgstr "Are you sure you want to revoke this token?"
 
-#: inertia/pages/home.tsx:179
+#: inertia/pages/home.tsx:156
 msgid "Built for users who value privacy, control, and simplicity"
 msgstr "Built for users who value privacy, control, and simplicity"
 
-#: inertia/pages/home.tsx:114
+#: inertia/pages/home.tsx:91
 msgid "Built with transparency and community in mind. View the source code, contribute, and trust in our open development process."
 msgstr "Built with transparency and community in mind. View the source code, contribute, and trust in our open development process."
 
@@ -135,27 +135,22 @@ msgstr "Click to copy link"
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection managed by <0>{0}</0>"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:35
-msgid "about:collection.title"
-msgstr "Collections"
-
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_link_content.tsx:116
-msgid "common:collection.collections"
-msgstr "Collections"
-
 #: inertia/components/admin/users/users_table.tsx:142
+#: inertia/pages/home.tsx:35
 msgid "Collections"
 msgstr "Collections"
+
+#. placeholder {0}: collections.length
+#: inertia/components/dashboard/forms/form_link_content.tsx:116
+msgid "Collections ({0})"
+msgstr "Collections ({0})"
 
 #: inertia/components/common/confirm_modal.tsx:47
 msgid "Confirm"
 msgstr "Confirm"
 
-#. js-lingui-explicit-id
 #: inertia/pages/home.tsx:45
-msgid "about:contribute.title"
+msgid "Contribute"
 msgstr "Contribute"
 
 #: inertia/pages/privacy.tsx:44
@@ -174,7 +169,7 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/dashboard/links/link_controls.tsx:172
+#: inertia/components/dashboard/links/link_controls.tsx:164
 msgid "Copy link"
 msgstr "Copy link"
 
@@ -197,7 +192,7 @@ msgstr "Create a link"
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
-#: inertia/pages/home.tsx:245
+#: inertia/pages/home.tsx:222
 msgid "Create Account"
 msgstr "Create Account"
 
@@ -259,58 +254,38 @@ msgstr "Data Use"
 msgid "Delete"
 msgstr "Delete"
 
+#: inertia/components/dashboard/collections/collection_controls.tsx:53
 #: inertia/pages/dashboard.tsx:59
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/collections/collection_controls.tsx:62
-msgid "common:collection.delete"
-msgstr "Delete a collection"
-
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/links/link_controls.tsx:85
-msgid "common:link.delete"
-msgstr "Delete a link"
-
-#: inertia/components/dashboard/links/link_controls.tsx:184
+#: inertia/components/dashboard/links/link_controls.tsx:77
+#: inertia/components/dashboard/links/link_controls.tsx:176
 msgid "Delete a link"
 msgstr "Delete a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:114
+#: inertia/components/dashboard/collections/collection_controls.tsx:99
 #: inertia/components/dashboard/headers/dashboard_header.tsx:124
 msgid "Delete collection"
 msgstr "Delete collection"
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_link_content.tsx:86
-msgid "common:form.description"
-msgstr "Description"
-
 #: inertia/components/dashboard/forms/form_collection_content.tsx:87
 #: inertia/components/dashboard/forms/form_collection_content.tsx:93
+#: inertia/components/dashboard/forms/form_link_content.tsx:86
 msgid "Description"
 msgstr "Description"
 
+#: inertia/components/dashboard/collections/collection_controls.tsx:45
 #: inertia/pages/dashboard.tsx:51
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/collections/collection_controls.tsx:47
-msgid "common:collection.edit"
-msgstr "Edit a collection"
-
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/links/link_controls.tsx:70
-msgid "common:link.edit"
-msgstr "Edit a link"
-
-#: inertia/components/dashboard/links/link_controls.tsx:177
+#: inertia/components/dashboard/links/link_controls.tsx:68
+#: inertia/components/dashboard/links/link_controls.tsx:169
 msgid "Edit a link"
 msgstr "Edit a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:107
+#: inertia/components/dashboard/collections/collection_controls.tsx:92
 #: inertia/components/dashboard/headers/dashboard_header.tsx:118
 msgid "Edit collection"
 msgstr "Edit collection"
@@ -319,22 +294,17 @@ msgstr "Edit collection"
 msgid "Enter token name"
 msgstr "Enter token name"
 
-#: inertia/pages/home.tsx:215
+#: inertia/pages/home.tsx:192
 msgid "Everything you need to organize and manage your bookmarks effectively"
 msgstr "Everything you need to organize and manage your bookmarks effectively"
 
-#. js-lingui-explicit-id
 #: inertia/pages/home.tsx:41
-msgid "about:extension.title"
+msgid "Extension"
 msgstr "Extension"
 
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:36
+#: inertia/components/dashboard/forms/form_link_content.tsx:168
 msgid "Favorite"
-msgstr "Favorite"
-
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_link_content.tsx:171
-msgid "common:favorite"
 msgstr "Favorite"
 
 #: inertia/components/dashboard/views/favorites_view_content.tsx:17
@@ -358,24 +328,23 @@ msgstr "Functional data is retained until the user requests deletion. Once this 
 msgid "GDPR Compliance"
 msgstr "GDPR Compliance"
 
-#: inertia/pages/home.tsx:162
+#: inertia/pages/home.tsx:139
 msgid "Get Started"
 msgstr "Get Started"
 
-#: inertia/components/dashboard/links/link_controls.tsx:156
+#: inertia/components/dashboard/links/link_controls.tsx:148
 msgid "Go to collection"
 msgstr "Go to collection"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:79
-msgid "about:contribute.text"
+#: inertia/pages/home.tsx:62
+msgid "Help improve the project by contributing"
 msgstr "Help improve the project by contributing"
 
 #: inertia/components/dashboard/forms/form_collection_content.tsx:31
 msgid "Icon"
 msgstr "Icon"
 
-#: inertia/pages/home.tsx:235
+#: inertia/pages/home.tsx:212
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 
@@ -398,12 +367,8 @@ msgstr "link"
 msgid "links"
 msgstr "links"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:37
-msgid "about:link.title"
-msgstr "Links"
-
 #: inertia/components/admin/users/users_table.tsx:149
+#: inertia/pages/home.tsx:37
 msgid "Links"
 msgstr "Links"
 
@@ -411,7 +376,7 @@ msgstr "Links"
 msgid "Made by"
 msgstr "Made by"
 
-#: inertia/pages/home.tsx:149
+#: inertia/pages/home.tsx:126
 msgid "Manage your links in the best possible way"
 msgstr "Manage your links in the best possible way"
 
@@ -443,14 +408,10 @@ msgstr "MyLinks reserves the right to modify these Terms and Conditions of Use a
 msgid "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 msgstr "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 
-#. js-lingui-explicit-id
-#: inertia/components/dashboard/forms/form_link_content.tsx:27
-msgid "common:form.name"
-msgstr "Name"
-
 #: inertia/components/admin/users/users_table.tsx:128
 #: inertia/components/dashboard/forms/form_collection_content.tsx:56
 #: inertia/components/dashboard/forms/form_collection_content.tsx:63
+#: inertia/components/dashboard/forms/form_link_content.tsx:27
 msgid "Name"
 msgstr "Name"
 
@@ -471,7 +432,7 @@ msgstr "No tokens created yet"
 msgid "Nothing found"
 msgstr "Nothing found"
 
-#: inertia/pages/home.tsx:112
+#: inertia/pages/home.tsx:89
 msgid "Open Source"
 msgstr "Open Source"
 
@@ -479,16 +440,15 @@ msgstr "Open Source"
 msgid "Or create a new collection to get started"
 msgstr "Or create a new collection to get started"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:53
-msgid "about:collection.text"
+#: inertia/pages/home.tsx:52
+msgid "Organize your links into collections"
 msgstr "Organize your links into collections"
 
 #: inertia/pages/terms.tsx:106
 msgid "Personal Data"
 msgstr "Personal Data"
 
-#: inertia/pages/home.tsx:212
+#: inertia/pages/home.tsx:189
 msgid "Powerful Features"
 msgstr "Powerful Features"
 
@@ -496,7 +456,7 @@ msgstr "Powerful Features"
 msgid "Privacy"
 msgstr "Privacy"
 
-#: inertia/pages/home.tsx:123
+#: inertia/pages/home.tsx:100
 msgid "Privacy First"
 msgstr "Privacy First"
 
@@ -512,12 +472,11 @@ msgstr "Private"
 msgid "Public"
 msgstr "Public"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:63
-msgid "about:search.text"
+#: inertia/pages/home.tsx:56
+msgid "Quickly find what you're looking for"
 msgstr "Quickly find what you're looking for"
 
-#: inertia/pages/home.tsx:232
+#: inertia/pages/home.tsx:209
 msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
 
@@ -525,7 +484,7 @@ msgstr "Ready to Get Started?"
 msgid "Remove"
 msgstr "Remove"
 
-#: inertia/components/dashboard/links/link_controls.tsx:165
+#: inertia/components/dashboard/links/link_controls.tsx:157
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
@@ -542,39 +501,35 @@ msgstr "Revoke"
 msgid "Role"
 msgstr "Role"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:59
-msgid "about:link.text"
+#: inertia/pages/home.tsx:54
+msgid "Save and manage your favorite links"
 msgstr "Save and manage your favorite links"
 
-#. js-lingui-explicit-id
 #: inertia/pages/home.tsx:39
-msgid "about:search.title"
+msgid "Search"
 msgstr "Search"
 
 #: inertia/pages/dashboard.tsx:122
 msgid "Select a collection to view its links"
 msgstr "Select a collection to view its links"
 
-#: inertia/pages/home.tsx:134
+#: inertia/pages/home.tsx:111
 msgid "Self-Hosted"
 msgstr "Self-Hosted"
 
-#. js-lingui-explicit-id
 #: inertia/pages/home.tsx:43
-msgid "about:share.title"
+msgid "Share"
 msgstr "Share"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:75
-msgid "about:share.text"
+#: inertia/pages/home.tsx:60
+msgid "Share your collections with others"
 msgstr "Share your collections with others"
 
-#: inertia/pages/home.tsx:251
+#: inertia/pages/home.tsx:228
 msgid "Sign In"
 msgstr "Sign In"
 
-#: inertia/pages/home.tsx:168
+#: inertia/pages/home.tsx:145
 msgid "Sign Up"
 msgstr "Sign Up"
 
@@ -582,7 +537,7 @@ msgstr "Sign Up"
 msgid "Status"
 msgstr "Status"
 
-#: inertia/pages/home.tsx:136
+#: inertia/pages/home.tsx:113
 msgid "Take full control by hosting MyLinks on your own infrastructure. Your data, your rules, your server."
 msgstr "Take full control by hosting MyLinks on your own infrastructure. Your data, your rules, your server."
 
@@ -654,18 +609,16 @@ msgstr "Unfollow"
 msgid "Update"
 msgstr "Update"
 
-#. js-lingui-explicit-id
 #: inertia/components/dashboard/forms/form_link_content.tsx:57
-msgid "common:form.url"
+msgid "URL"
 msgstr "URL"
 
 #: inertia/pages/terms.tsx:56
 msgid "Use of the Service"
 msgstr "Use of the Service"
 
-#. js-lingui-explicit-id
-#: inertia/pages/home.tsx:69
-msgid "about:extension.text"
+#: inertia/pages/home.tsx:58
+msgid "Use our browser extension for quick access"
 msgstr "Use our browser extension for quick access"
 
 #: inertia/pages/privacy.tsx:137
@@ -684,7 +637,7 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 
-#: inertia/pages/home.tsx:176
+#: inertia/pages/home.tsx:153
 msgid "Why Choose MyLinks?"
 msgstr "Why Choose MyLinks?"
 
@@ -696,6 +649,6 @@ msgstr "You can request the deletion of your account at any time in accordance w
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 
-#: inertia/pages/home.tsx:125
+#: inertia/pages/home.tsx:102
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
