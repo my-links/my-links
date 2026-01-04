@@ -1,11 +1,18 @@
-export default function ServerError(props: { error: any }) {
-	return (
-		<>
-			<div className="container">
-				<div className="title">Server Error</div>
+import { Trans } from '@lingui/react/macro';
+import { ErrorPage } from '~/components/errors/error_page';
 
-				<span>{props.error.message}</span>
-			</div>
-		</>
-	);
+interface ServerErrorProps {
+	error: {
+		message: string;
+	};
 }
+
+const ServerError = ({ error }: ServerErrorProps) => (
+	<ErrorPage
+		title={<Trans>Server Error</Trans>}
+		message={error.message || <Trans>An unexpected error occurred.</Trans>}
+		statusCode={500}
+	/>
+);
+
+export default ServerError;

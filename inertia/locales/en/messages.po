@@ -73,6 +73,10 @@ msgstr "Admin Dashboard"
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 
+#: inertia/pages/errors/server_error.tsx:13
+msgid "An unexpected error occurred."
+msgstr "An unexpected error occurred."
+
 #: inertia/components/api_tokens/api_tokens.tsx:108
 #: inertia/pages/user_settings/show.tsx:12
 msgid "API Tokens"
@@ -444,6 +448,10 @@ msgstr "Or create a new collection to get started"
 msgid "Organize your links into collections"
 msgstr "Organize your links into collections"
 
+#: inertia/pages/errors/not_found.tsx:6
+msgid "Page not found"
+msgstr "Page not found"
+
 #: inertia/pages/terms.tsx:106
 msgid "Personal Data"
 msgstr "Personal Data"
@@ -517,6 +525,10 @@ msgstr "Select a collection to view its links"
 msgid "Self-Hosted"
 msgstr "Self-Hosted"
 
+#: inertia/pages/errors/server_error.tsx:12
+msgid "Server Error"
+msgstr "Server Error"
+
 #: inertia/pages/home.tsx:43
 msgid "Share"
 msgstr "Share"
@@ -568,6 +580,10 @@ msgstr "The content will be visible to everyone"
 #: inertia/pages/privacy.tsx:143
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
+
+#: inertia/pages/errors/not_found.tsx:7
+msgid "This page does not exist."
+msgstr "This page does not exist."
 
 #: inertia/pages/terms.tsx:65
 msgid "To access certain features of MyLinks, you will need to create a user account. You are responsible for the confidentiality of your account and credentials."

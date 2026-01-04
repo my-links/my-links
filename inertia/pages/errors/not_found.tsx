@@ -1,11 +1,12 @@
-export default function NotFound() {
-	return (
-		<>
-			<div className="container">
-				<div className="title">Page not found</div>
+import { Trans } from '@lingui/react/macro';
+import { ErrorPage } from '~/components/errors/error_page';
 
-				<span>This page does not exist.</span>
-			</div>
-		</>
-	);
-}
+const NotFound = () => (
+	<ErrorPage
+		title={<Trans>Page not found</Trans>}
+		message={<Trans>This page does not exist.</Trans>}
+		statusCode={404}
+	/>
+);
+
+export default NotFound;
