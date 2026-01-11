@@ -92,6 +92,9 @@ export default function Dashboard() {
 	}, [activeCollection, favoriteLinks]);
 
 	useShortcut('OPEN_SEARCH_KEY', handleOpenSearch);
+	useShortcut('ESCAPE_KEY', closeAll);
+	useShortcut('OPEN_CREATE_COLLECTION_KEY', handleCreateCollection);
+	useShortcut('OPEN_CREATE_LINK_KEY', handleCreateLink);
 
 	return (
 		<>
