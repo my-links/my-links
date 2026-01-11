@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import { BurgerButton } from '~/components/dashboard/headers/dashboard_header';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 interface ResizableSidebarProps {
@@ -7,8 +9,10 @@ interface ResizableSidebarProps {
 }
 
 export function ResizableSidebar({ children }: ResizableSidebarProps) {
-	const { sidebarWidth, setSidebarWidth } = useDashboardLayoutStore();
+	const { sidebarWidth, setSidebarWidth, toggleSidebar } =
+		useDashboardLayoutStore();
 	const [isResizing, setIsResizing] = useState(false);
+	const isMobile = useIsMobile();
 	const sidebarRef = useRef<HTMLDivElement>(null);
 	const startXRef = useRef<number>(0);
 	const startWidthRef = useRef<number>(0);
@@ -51,16 +55,24 @@ export function ResizableSidebar({ children }: ResizableSidebarProps) {
 	return (
 		<div
 			ref={sidebarRef}
-			className="relative flex-shrink-0 flex flex-col"
-			style={{ width: `${sidebarWidth}px` }}
+			className={clsx(
+				'relative flex-shrink-0 flex flex-col',
+				'md:relative',
+				'fixed inset-0 md:inset-auto z-50 md:z-auto'
+			)}
+			style={{ width: isMobile ? '100%' : `${sidebarWidth}px` }}
 		>
 			{children}
+			<div className="block md:hidden flex-shrink-0 absolute right-2 top-2">
+				<BurgerButton onToggleSidebar={toggleSidebar} />
+			</div>
 			<div
 				onMouseDown={handleMouseDown}
 				className={clsx(
 					'absolute top-0 right-0 w-1 h-full cursor-col-resize',
 					'hover:bg-blue-500/50 transition-colors',
-					isResizing && 'bg-blue-500'
+					isResizing && 'bg-blue-500',
+					'hidden md:block'
 				)}
 				style={{ touchAction: 'none' }}
 			/>
