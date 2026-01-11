@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 
 export const useIsMobile = () => {
 	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
-		const mediaQuery = window.matchMedia('(max-width: 768px)');
+		const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
 		setIsMobile(mediaQuery.matches);
 
 		const handleChange = (e: MediaQueryListEvent) => {
