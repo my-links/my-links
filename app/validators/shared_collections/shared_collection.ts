@@ -1,7 +1,7 @@
 import { params } from '#validators/params_object';
 import vine from '@vinejs/vine';
 
-export const getSharedCollectionValidator = vine.compile(
+export const getSharedCollectionValidator = vine.create(
 	vine.object({
 		params,
 	})

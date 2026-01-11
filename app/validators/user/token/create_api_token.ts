@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine';
 
-export const createApiTokenValidator = vine.compile(
+export const createApiTokenValidator = vine.create(
 	vine.object({
 		name: vine.string().trim().minLength(1).maxLength(255),
 		expiresAt: vine.date().optional(),

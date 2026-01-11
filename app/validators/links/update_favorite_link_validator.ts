@@ -1,7 +1,7 @@
 import { params } from '#validators/params_object';
 import vine from '@vinejs/vine';
 
-export const updateLinkFavoriteStatusValidator = vine.compile(
+export const updateLinkFavoriteStatusValidator = vine.create(
 	vine.object({
 		favorite: vine.boolean(),
 
