@@ -1,5 +1,5 @@
+import { KEYS } from '#constants/keys';
 import { useEffect } from 'react';
-import KEYS from '#constants/keys';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
 type ShortcutOptions = {

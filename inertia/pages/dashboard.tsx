@@ -2,17 +2,19 @@ import { Collection, CollectionWithLinks, Link } from '#shared/types/dto';
 import { Head } from '@inertiajs/react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { CollectionList } from '~/components/dashboard/collections/collection_list';
 import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
 import { CreateCollectionModal } from '~/components/dashboard/modals/create_collection_modal';
 import { CreateLinkModal } from '~/components/dashboard/modals/create_link_modal';
 import { DeleteCollectionModal } from '~/components/dashboard/modals/delete_collection_modal';
 import { EditCollectionModal } from '~/components/dashboard/modals/edit_collection_modal';
+import { SearchModal } from '~/components/dashboard/modals/search_modal';
 import { ResizableSidebar } from '~/components/dashboard/sidebar/resizable_sidebar';
 import { CollectionViewContent } from '~/components/dashboard/views/collection_view_content';
 import { FavoritesViewContent } from '~/components/dashboard/views/favorites_view_content';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import useShortcut from '~/hooks/use_shortcut';
 import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard_layout_store';
 import { useModalStore } from '~/stores/modal_store';
 
@@ -28,7 +30,6 @@ export default function Dashboard() {
 	const { activeCollection, favoriteLinks } = useDashboardProps();
 
 	const { sidebarOpen, toggleSidebar } = useDashboardStore();
-	const [searchQuery, setSearchQuery] = useState('');
 
 	const openModal = useModalStore((state) => state.open);
 	const closeAll = useModalStore((state) => state.closeAll);
@@ -69,6 +70,14 @@ export default function Dashboard() {
 		});
 	};
 
+	const handleOpenSearch = () => {
+		openModal({
+			title: t`Search`,
+			size: 'lg',
+			children: <SearchModal onClose={closeAll} />,
+		});
+	};
+
 	const pageTitle = useMemo(() => {
 		if (activeCollection) {
 			const icon = activeCollection.icon ? `${activeCollection.icon} ` : '';
@@ -81,6 +90,8 @@ export default function Dashboard() {
 
 		return t`Dashboard`;
 	}, [activeCollection, favoriteLinks]);
+
+	useShortcut('OPEN_SEARCH_KEY', handleOpenSearch);
 
 	return (
 		<>
@@ -102,8 +113,7 @@ export default function Dashboard() {
 						onEditCollection={handleEditCollection}
 						onDeleteCollection={handleDeleteCollection}
 						onCreateLink={handleCreateLink}
-						searchQuery={searchQuery}
-						onSearchChange={setSearchQuery}
+						onOpenSearch={handleOpenSearch}
 					/>
 
 					<div className="flex-1 overflow-y-auto p-6 scrollbar-gutter-stable">

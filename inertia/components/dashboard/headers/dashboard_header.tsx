@@ -2,6 +2,7 @@ import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { Tooltip } from '~/components/common/tooltip';
+import { SearchButton } from '~/components/dashboard/search/search_button';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useRouteHelper } from '~/lib/route_helper';
@@ -15,8 +16,7 @@ interface DashboardHeaderProps {
 	onEditCollection: () => void;
 	onDeleteCollection: () => void;
 	onCreateLink: () => void;
-	searchQuery: string;
-	onSearchChange: (query: string) => void;
+	onOpenSearch: () => void;
 }
 
 export const BurgerButton = ({
@@ -40,8 +40,7 @@ export function DashboardHeader({
 	onEditCollection,
 	onDeleteCollection,
 	onCreateLink,
-	searchQuery,
-	onSearchChange,
+	onOpenSearch,
 }: DashboardHeaderProps) {
 	const { activeCollection } = useDashboardProps();
 	const { sidebarOpen } = useDashboardLayoutStore();
@@ -88,16 +87,7 @@ export function DashboardHeader({
 				<div className="flex items-center gap-4 flex-1 min-w-0">
 					<BurgerButton onToggleSidebar={onToggleSidebar} />
 
-					<div className="flex-1 max-w-md">
-						<input
-							type="text"
-							placeholder="Search..."
-							value={searchQuery}
-							onChange={(e) => onSearchChange(e.target.value)}
-							className="w-full px-4 py-2 border border-gray-300/50 dark:border-gray-600/50 rounded-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-							disabled
-						/>
-					</div>
+					<SearchButton onClick={onOpenSearch} />
 				</div>
 
 				<div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
