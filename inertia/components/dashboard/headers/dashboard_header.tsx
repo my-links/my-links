@@ -1,8 +1,11 @@
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import clsx from 'clsx';
 import { Tooltip } from '~/components/common/tooltip';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useRouteHelper } from '~/lib/route_helper';
+import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import { Visibility } from '~/types/app';
 
 interface DashboardHeaderProps {
@@ -16,6 +19,20 @@ interface DashboardHeaderProps {
 	onSearchChange: (query: string) => void;
 }
 
+export const BurgerButton = ({
+	onToggleSidebar,
+}: {
+	onToggleSidebar: () => void;
+}) => (
+	<button
+		onClick={onToggleSidebar}
+		className="cursor-pointer p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors flex-shrink-0 border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
+		aria-label="Toggle sidebar"
+	>
+		<div className="i-ant-design-menu-outlined w-5 h-5" />
+	</button>
+);
+
 export function DashboardHeader({
 	isFavorite,
 	onToggleSidebar,
@@ -27,6 +44,8 @@ export function DashboardHeader({
 	onSearchChange,
 }: DashboardHeaderProps) {
 	const { activeCollection } = useDashboardProps();
+	const { sidebarOpen } = useDashboardLayoutStore();
+	const isMobile = useIsMobile();
 	const collectionDescription =
 		activeCollection && activeCollection.description
 			? activeCollection.description
@@ -59,16 +78,15 @@ export function DashboardHeader({
 	};
 
 	return (
-		<header className="border-b border-gray-200/50 dark:border-gray-700/50 px-6 pb-4">
-			<div className="flex items-center justify-between gap-4">
+		<header
+			className={clsx(
+				'border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
+				!sidebarOpen || isMobile ? 'pl-0' : 'pl-4'
+			)}
+		>
+			<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 				<div className="flex items-center gap-4 flex-1 min-w-0">
-					<button
-						onClick={onToggleSidebar}
-						className="cursor-pointer p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors flex-shrink-0"
-						aria-label="Toggle sidebar"
-					>
-						<div className="i-ant-design-menu-outlined w-5 h-5" />
-					</button>
+					<BurgerButton onToggleSidebar={onToggleSidebar} />
 
 					<div className="flex-1 max-w-md">
 						<input
@@ -82,7 +100,7 @@ export function DashboardHeader({
 					</div>
 				</div>
 
-				<div className="flex items-center gap-2 flex-shrink-0">
+				<div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
 					{activeCollection?.visibility === Visibility.PUBLIC && (
 						<>
 							<Tooltip
@@ -92,7 +110,7 @@ export function DashboardHeader({
 								position="bottom"
 							>
 								<button
-									className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+									className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
 									onClick={handleShareCollection}
 								>
 									<div className="i-ant-design-share-alt-outlined w-5 h-5" />
@@ -104,7 +122,7 @@ export function DashboardHeader({
 
 					<button
 						onClick={onCreateCollection}
-						className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+						className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
 					>
 						<Trans>Create collection</Trans>
 					</button>
@@ -113,13 +131,13 @@ export function DashboardHeader({
 						<>
 							<button
 								onClick={onEditCollection}
-								className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+								className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
 							>
 								<Trans>Edit collection</Trans>
 							</button>
 							<button
 								onClick={onDeleteCollection}
-								className="px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+								className="cursor-pointer px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-red-300/50 dark:border-red-600/50 sm:border-0"
 							>
 								<Trans>Delete collection</Trans>
 							</button>
@@ -132,7 +150,7 @@ export function DashboardHeader({
 
 							<button
 								onClick={onCreateLink}
-								className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+								className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
 							>
 								<Trans>Create link</Trans>
 							</button>
@@ -145,7 +163,7 @@ export function DashboardHeader({
 
 							<button
 								onClick={handleUnfollow}
-								className="px-4 py-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg transition-colors"
+								className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg transition-colors"
 							>
 								<Trans>Unfollow</Trans>
 							</button>
