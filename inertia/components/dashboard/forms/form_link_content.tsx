@@ -1,4 +1,5 @@
 import { Collection } from '#shared/types/dto';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { FormLinkData } from '~/types/link_form';
@@ -41,6 +42,7 @@ export const FormLinkContent = ({
 				autoFocus
 				required
 				readOnly={disableInputs}
+				placeholder={t`Name`}
 			/>
 			{errors?.name && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -70,6 +72,7 @@ export const FormLinkContent = ({
 				)}
 				required
 				readOnly={disableInputs}
+				placeholder={t`URL`}
 			/>
 			{errors?.link && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -98,6 +101,7 @@ export const FormLinkContent = ({
 					disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
 				)}
 				readOnly={disableInputs}
+				placeholder={t`Description`}
 			/>
 			{errors?.description && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
