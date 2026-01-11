@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 
 const SIDEBAR_MIN_WIDTH = 200;
 const SIDEBAR_MAX_WIDTH = 500;
@@ -15,10 +16,15 @@ interface DashboardLayoutStore {
 
 const STORAGE_KEY = 'dashboard-layout-preferences';
 
+const getDefaultSidebarOpen = (): boolean => {
+	if (typeof window === 'undefined') return true;
+	return window.innerWidth > MOBILE_BREAKPOINT;
+};
+
 export const useDashboardLayoutStore = create<DashboardLayoutStore>()(
 	persist(
 		(set) => ({
-			sidebarOpen: true,
+			sidebarOpen: getDefaultSidebarOpen(),
 			setSidebarOpen: (open) => set({ sidebarOpen: open }),
 			toggleSidebar: () =>
 				set((state) => ({ sidebarOpen: !state.sidebarOpen })),
@@ -34,6 +40,22 @@ export const useDashboardLayoutStore = create<DashboardLayoutStore>()(
 		{
 			name: STORAGE_KEY,
 			storage: createJSONStorage(() => localStorage),
+			merge: (persistedState, currentState) => {
+				if (
+					!persistedState ||
+					typeof persistedState !== 'object' ||
+					!('sidebarOpen' in persistedState)
+				) {
+					return {
+						...currentState,
+						sidebarOpen: getDefaultSidebarOpen(),
+					};
+				}
+				return {
+					...currentState,
+					...(persistedState as Partial<DashboardLayoutStore>),
+				};
+			},
 		}
 	)
 );
