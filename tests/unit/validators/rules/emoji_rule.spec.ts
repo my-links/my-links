@@ -4,7 +4,7 @@ import vine from '@vinejs/vine';
 
 test.group('Emoji Rule Validation', () => {
 	test('should accept valid simple emojis', async ({ assert }) => {
-		const schema = vine.compile(
+		const schema = vine.create(
 			vine.object({
 				icon: vine.string().use(emojiRule()),
 			})
@@ -19,7 +19,7 @@ test.group('Emoji Rule Validation', () => {
 	});
 
 	test('should reject random strings', async ({ assert }) => {
-		const schema = vine.compile(
+		const schema = vine.create(
 			vine.object({
 				icon: vine.string().use(emojiRule()),
 			})

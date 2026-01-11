@@ -2,7 +2,7 @@ import { Visibility } from '#enums/collections/visibility';
 import { emojiRule } from '#validators/rules/emoji_rule';
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
-export const createCollectionValidator = vine.compile(
+export const createCollectionValidator = vine.create(
 	vine.object({
 		name: vine.string().trim().minLength(1).maxLength(254),
 		description: vine.string().trim().maxLength(254).nullable(),
