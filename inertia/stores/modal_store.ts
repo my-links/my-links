@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { create } from 'zustand';
+import { useGlobalHotkeysStore } from './global_hotkeys_store';
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
 export type ConfirmModalColor = 'red' | 'blue' | 'green';
@@ -46,7 +47,10 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 
 	open: (config) => {
 		const id = generateId();
-		set((state) => ({
+		const state = get();
+		const wasEmpty = state.modals.length === 0;
+
+		set({
 			modals: [
 				...state.modals,
 				{
@@ -55,13 +59,21 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 					type: 'standard' as const,
 				},
 			],
-		}));
+		});
+
+		if (wasEmpty) {
+			useGlobalHotkeysStore.getState().setGlobalHotkeysEnabled(false);
+		}
+
 		return id;
 	},
 
 	openConfirm: (config) => {
 		const id = generateId();
-		set((state) => ({
+		const state = get();
+		const wasEmpty = state.modals.length === 0;
+
+		set({
 			modals: [
 				...state.modals,
 				{
@@ -70,7 +82,12 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 					type: 'confirm' as const,
 				},
 			],
-		}));
+		});
+
+		if (wasEmpty) {
+			useGlobalHotkeysStore.getState().setGlobalHotkeysEnabled(false);
+		}
+
 		return id;
 	},
 
@@ -78,16 +95,25 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 		const modal = get().modals.find((m) => m.id === id);
 		if (!modal) return;
 
-		set((state) => ({
-			closingIds: new Set(state.closingIds).add(id),
+		const state = get();
+		const willBeEmpty = state.modals.length === 1;
+
+		set((_state) => ({
+			closingIds: new Set(_state.closingIds).add(id),
 		}));
 
 		setTimeout(() => {
-			set((state) => {
-				const updatedClosingIds = new Set(state.closingIds);
+			set((_state) => {
+				const updatedClosingIds = new Set(_state.closingIds);
 				updatedClosingIds.delete(id);
+				const newModals = _state.modals.filter((m) => m.id !== id);
+
+				if (willBeEmpty && newModals.length === 0) {
+					useGlobalHotkeysStore.getState().setGlobalHotkeysEnabled(true);
+				}
+
 				return {
-					modals: state.modals.filter((m) => m.id !== id),
+					modals: newModals,
 					closingIds: updatedClosingIds,
 				};
 			});
@@ -103,6 +129,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 
 		setTimeout(() => {
 			set({ modals: [], closingIds: new Set() });
+			useGlobalHotkeysStore.getState().setGlobalHotkeysEnabled(true);
 		}, ANIMATION_DURATION_MS);
 	},
 
