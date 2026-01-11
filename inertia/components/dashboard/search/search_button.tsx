@@ -1,4 +1,5 @@
 import { Trans } from '@lingui/react/macro';
+import { Kbd } from '~/components/common/kbd';
 
 interface SearchButtonProps {
 	onClick: () => void;
@@ -14,8 +15,6 @@ export const SearchButton = ({ onClick }: SearchButtonProps) => (
 		<span className="flex-1 truncate">
 			<Trans>Search...</Trans>
 		</span>
-		<kbd className="hidden sm:inline-flex items-center px-2 py-0.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded">
-			Ctrl+K
-		</kbd>
+		<Kbd className="hidden sm:inline-flex">Ctrl+K</Kbd>
 	</button>
 );
