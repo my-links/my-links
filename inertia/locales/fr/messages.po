@@ -69,6 +69,10 @@ msgstr "Ajouter aux favoris"
 msgid "Admin Dashboard"
 msgstr "Tableau de bord administrateur"
 
+#: inertia/components/dashboard/modals/search_modal.tsx:176
+msgid "All"
+msgstr "Tous"
+
 #: inertia/pages/home.tsx:129
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "Un gestionnaire de marque-pages open-source, auto-hébergé, qui vous permet de gérer vos liens favoris dans une interface intuitive"
@@ -130,7 +134,7 @@ msgstr "Modifications des conditions"
 msgid "Clear"
 msgstr "Effacer"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:89
+#: inertia/components/dashboard/headers/dashboard_header.tsx:97
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
 
@@ -140,12 +144,14 @@ msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection gérée par <0>{0}</0>"
 
 #: inertia/components/admin/users/users_table.tsx:142
+#: inertia/components/dashboard/modals/search_modal.tsx:200
+#: inertia/components/dashboard/modals/search_modal.tsx:270
 #: inertia/pages/home.tsx:35
 msgid "Collections"
 msgstr "Collections"
 
 #. placeholder {0}: collections.length
-#: inertia/components/dashboard/forms/form_link_content.tsx:116
+#: inertia/components/dashboard/forms/form_link_content.tsx:120
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
 
@@ -165,7 +171,7 @@ msgstr "Les cookies utilisés sur MyLinks sont essentiels pour assurer le bon fo
 msgid "Copied"
 msgstr "Copié"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:90
+#: inertia/components/dashboard/headers/dashboard_header.tsx:98
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -184,11 +190,11 @@ msgstr "Copier le lien"
 msgid "Create"
 msgstr "Créer"
 
-#: inertia/pages/dashboard.tsx:43
+#: inertia/pages/dashboard.tsx:44
 msgid "Create a collection"
 msgstr "Créer une collection"
 
-#: inertia/pages/dashboard.tsx:67
+#: inertia/pages/dashboard.tsx:68
 msgid "Create a link"
 msgstr "Créer un lien"
 
@@ -200,11 +206,11 @@ msgstr "Créez un nouveau jeton API pour accéder à l'API"
 msgid "Create Account"
 msgstr "Créer un compte"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:109
+#: inertia/components/dashboard/headers/dashboard_header.tsx:117
 msgid "Create collection"
 msgstr "Créer une collection"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:137
+#: inertia/components/dashboard/headers/dashboard_header.tsx:145
 msgid "Create link"
 msgstr "Créer un lien"
 
@@ -231,7 +237,7 @@ msgstr "Créé le"
 msgid "Created by <0>{0}</0>"
 msgstr "Créé par <0>{0}</0>"
 
-#: inertia/pages/dashboard.tsx:82
+#: inertia/pages/dashboard.tsx:91
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
@@ -259,7 +265,7 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:53
-#: inertia/pages/dashboard.tsx:59
+#: inertia/pages/dashboard.tsx:60
 msgid "Delete a collection"
 msgstr "Supprimer une collection"
 
@@ -269,18 +275,19 @@ msgid "Delete a link"
 msgstr "Supprimer un lien"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:99
-#: inertia/components/dashboard/headers/dashboard_header.tsx:124
+#: inertia/components/dashboard/headers/dashboard_header.tsx:132
 msgid "Delete collection"
 msgstr "Supprimer une collection"
 
 #: inertia/components/dashboard/forms/form_collection_content.tsx:87
 #: inertia/components/dashboard/forms/form_collection_content.tsx:93
-#: inertia/components/dashboard/forms/form_link_content.tsx:86
+#: inertia/components/dashboard/forms/form_link_content.tsx:89
+#: inertia/components/dashboard/forms/form_link_content.tsx:104
 msgid "Description"
 msgstr "Description"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:45
-#: inertia/pages/dashboard.tsx:51
+#: inertia/pages/dashboard.tsx:52
 msgid "Edit a collection"
 msgstr "Modifier une collection"
 
@@ -290,7 +297,7 @@ msgid "Edit a link"
 msgstr "Modifier un lien"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:92
-#: inertia/components/dashboard/headers/dashboard_header.tsx:118
+#: inertia/components/dashboard/headers/dashboard_header.tsx:126
 msgid "Edit collection"
 msgstr "Modifier une collection"
 
@@ -307,12 +314,12 @@ msgid "Extension"
 msgstr "Extension"
 
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:36
-#: inertia/components/dashboard/forms/form_link_content.tsx:168
+#: inertia/components/dashboard/forms/form_link_content.tsx:172
 msgid "Favorite"
 msgstr "Favoris"
 
 #: inertia/components/dashboard/views/favorites_view_content.tsx:17
-#: inertia/pages/dashboard.tsx:79
+#: inertia/pages/dashboard.tsx:88
 msgid "Favorites"
 msgstr "Favoris"
 
@@ -372,6 +379,8 @@ msgid "links"
 msgstr "liens"
 
 #: inertia/components/admin/users/users_table.tsx:149
+#: inertia/components/dashboard/modals/search_modal.tsx:188
+#: inertia/components/dashboard/modals/search_modal.tsx:224
 #: inertia/pages/home.tsx:37
 msgid "Links"
 msgstr "Liens"
@@ -415,7 +424,8 @@ msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès a
 #: inertia/components/admin/users/users_table.tsx:128
 #: inertia/components/dashboard/forms/form_collection_content.tsx:56
 #: inertia/components/dashboard/forms/form_collection_content.tsx:63
-#: inertia/components/dashboard/forms/form_link_content.tsx:27
+#: inertia/components/dashboard/forms/form_link_content.tsx:28
+#: inertia/components/dashboard/forms/form_link_content.tsx:45
 msgid "Name"
 msgstr "Nom"
 
@@ -427,6 +437,10 @@ msgstr "Nouveau jeton créé"
 #: inertia/components/shared/link_list.tsx:21
 msgid "No links yet"
 msgstr "Aucun lien pour le moment"
+
+#: inertia/components/dashboard/modals/search_modal.tsx:216
+msgid "No results found"
+msgstr "Aucun résultat trouvé"
 
 #: inertia/components/api_tokens/api_tokens.tsx:121
 msgid "No tokens created yet"
@@ -440,7 +454,7 @@ msgstr "Aucun résultat"
 msgid "Open Source"
 msgstr "Open Source"
 
-#: inertia/pages/dashboard.tsx:125
+#: inertia/pages/dashboard.tsx:135
 msgid "Or create a new collection to get started"
 msgstr "Ou créez une nouvelle collection pour commencer"
 
@@ -513,11 +527,16 @@ msgstr "Rôle"
 msgid "Save and manage your favorite links"
 msgstr "Enregistrez et gérez vos liens favoris"
 
+#: inertia/pages/dashboard.tsx:75
 #: inertia/pages/home.tsx:39
 msgid "Search"
 msgstr "Rechercher"
 
-#: inertia/pages/dashboard.tsx:122
+#: inertia/components/dashboard/search/search_button.tsx:16
+msgid "Search..."
+msgstr "Rechercher..."
+
+#: inertia/pages/dashboard.tsx:132
 msgid "Select a collection to view its links"
 msgstr "Sélectionnez une collection pour voir ses liens"
 
@@ -544,6 +563,10 @@ msgstr "Se connecter"
 #: inertia/pages/home.tsx:145
 msgid "Sign Up"
 msgstr "S'inscrire"
+
+#: inertia/components/dashboard/modals/search_modal.tsx:212
+msgid "Start typing to search..."
+msgstr "Commencez à taper pour rechercher..."
 
 #: inertia/components/common/navigation/footer_links.tsx:9
 msgid "Status"
@@ -613,7 +636,7 @@ msgstr "Total des utilisateurs"
 msgid "Try adjusting your search criteria"
 msgstr "Essayez d'ajuster vos critères de recherche"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:150
+#: inertia/components/dashboard/headers/dashboard_header.tsx:158
 #: inertia/pages/shared.tsx:82
 msgid "Unfollow"
 msgstr "Ne plus suivre"
@@ -625,7 +648,8 @@ msgstr "Ne plus suivre"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: inertia/components/dashboard/forms/form_link_content.tsx:57
+#: inertia/components/dashboard/forms/form_link_content.tsx:59
+#: inertia/components/dashboard/forms/form_link_content.tsx:75
 msgid "URL"
 msgstr "URL"
 
