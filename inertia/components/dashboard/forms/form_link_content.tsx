@@ -46,7 +46,7 @@ export const FormLinkContent = ({
 			/>
 			{errors?.name && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{Array.isArray(errors.name) ? errors.name[0] : errors.name}
+					{errors.name}
 				</p>
 			)}
 		</div>
@@ -59,7 +59,7 @@ export const FormLinkContent = ({
 				<Trans>URL</Trans>
 			</label>
 			<input
-				type="url"
+				type="text"
 				id="url"
 				value={data.url}
 				onChange={(e) => setData('url', e.target.value)}
@@ -74,9 +74,9 @@ export const FormLinkContent = ({
 				readOnly={disableInputs}
 				placeholder={t`URL`}
 			/>
-			{errors?.link && (
+			{errors?.url && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{Array.isArray(errors.link) ? errors.link[0] : errors.link}
+					{errors.url}
 				</p>
 			)}
 		</div>
@@ -105,9 +105,7 @@ export const FormLinkContent = ({
 			/>
 			{errors?.description && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{Array.isArray(errors.description)
-						? errors.description[0]
-						: errors.description}
+					{errors.description}
 				</p>
 			)}
 		</div>
@@ -146,9 +144,7 @@ export const FormLinkContent = ({
 			</select>
 			{errors?.collectionId && (
 				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{Array.isArray(errors.collectionId)
-						? errors.collectionId[0]
-						: errors.collectionId}
+					{errors.collectionId}
 				</p>
 			)}
 		</div>
@@ -173,9 +169,7 @@ export const FormLinkContent = ({
 			</label>
 			{errors?.favorite && (
 				<p className="text-sm text-red-600 dark:text-red-400">
-					{Array.isArray(errors.favorite)
-						? errors.favorite[0]
-						: errors.favorite}
+					{errors.favorite}
 				</p>
 			)}
 		</div>
