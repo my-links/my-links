@@ -1456,9 +1456,6 @@ packages:
   '@poppinss/utils@7.0.0-next.6':
     resolution: {integrity: sha512-1OQDbCKmFROvWpmzvkQV/mCzBXSwhED8SJfJ0HiYKiLNEqYM8Kpa4EK0AfmXGQc+DdIj6eqib/vT8i5tJ2fatw==}
 
-  '@poppinss/utils@7.0.0-next.4':
-    resolution: {integrity: sha512-rUuxnSpcJzUmGHw02x1bKKXkB+j84Lo/qKB42F8YYGoKN62jJ67FvSogxjgJqJYpIBpl7qoU4yb4aFc6ubsdjw==}
-
   '@poppinss/validator-lite@2.1.2':
     resolution: {integrity: sha512-UhSG1ouT6r67VbEFHK/8ax3EMZYHioew9PqGmEZjV41G15aPZi6cyhXtBVvF9xqkHMflA5V680k7bQzV0kfD5w==}
 
@@ -6034,14 +6031,6 @@ snapshots:
       '@poppinss/types': 1.2.1
       flattie: 1.1.1
 
-  '@poppinss/utils@7.0.0-next.4':
-    dependencies:
-      '@poppinss/exception': 1.2.3
-      '@poppinss/object-builder': 1.1.0
-      '@poppinss/string': 1.7.1
-      '@poppinss/types': 1.2.1
-      flattie: 1.1.1
-
   '@poppinss/validator-lite@2.1.2': {}
 
   '@quansync/fs@1.0.0':
@@ -7919,13 +7908,6 @@ snapshots:
     dependencies:
       axios: 1.13.2
       lodash-es: 4.17.22
-    transitivePeerDependencies:
-      - debug
-
-  laravel-precognition@1.0.0:
-    dependencies:
-      axios: 1.13.2
-      lodash-es: 4.17.21
     transitivePeerDependencies:
       - debug
 
