@@ -5,7 +5,7 @@ const allyConfig = defineConfig({
 	google: services.google({
 		clientId: env.get('GOOGLE_CLIENT_ID'),
 		clientSecret: env.get('GOOGLE_CLIENT_SECRET'),
-		callbackUrl: env.get('VITE_APP_URL') + '/auth/callback',
+		callbackUrl: env.get('APP_URL') + '/auth/callback',
 		prompt: 'select_account',
 		display: 'page',
 		scopes: ['userinfo.email', 'userinfo.profile'],

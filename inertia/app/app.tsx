@@ -1,3 +1,4 @@
+import { PRIMARY_COLOR, PROJECT_NAME } from '#config/project';
 import { DEFAULT_LOCALE } from '#shared/consts/i18n';
 import { Locale } from '#shared/types/i18n';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
@@ -7,12 +8,10 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import { DefaultLayout } from '~/layouts/default_layout';
 import { dynamicActivate } from '../i18n/index';
 
-const appName = import.meta.env.VITE_APP_NAME || 'MyLinks';
-
 createInertiaApp({
-	progress: { color: '#5474B4' },
+	progress: { color: PRIMARY_COLOR },
 
-	title: (title) => `${appName}${title && ` - ${title}`}`,
+	title: (title) => `${title && `${title} - `}${PROJECT_NAME}`,
 
 	resolve: async (name) => {
 		const currentPage: any = await resolvePageComponent(
