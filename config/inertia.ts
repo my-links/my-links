@@ -1,6 +1,7 @@
 import { isSSREnableForPage } from '#config/ssr';
 import { UserAuthDto } from '#dtos/user_auth';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '#shared/consts/i18n';
+import env from '#start/env';
 import { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
@@ -50,6 +51,7 @@ const inertiaConfig = defineConfig({
 				return new UserAuthDto(ctx.auth?.user).serialize();
 			}),
 		locale: (ctx) => resolveServerLocale(ctx),
+		appUrl: () => env.get('APP_URL'),
 	},
 	ssr: {
 		enabled: true,

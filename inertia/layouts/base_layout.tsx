@@ -7,14 +7,14 @@ import { I18nProvider } from '@lingui/react';
 import { TuyauProvider } from '@tuyau/inertia/react';
 import { ReactNode, useEffect, useMemo } from 'react';
 import 'virtual:uno.css';
-import '~/css/app.css';
 import { ModalProvider } from '~/components/common/modal_provider';
+import '~/css/app.css';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { dynamicActivate } from '~/i18n';
-import { tuyauClient } from '~/lib/tuyau';
+import { createTuyauClient } from '~/lib/tuyau';
 
 export function BaseLayout({ children }: { children: ReactNode }) {
-	const { props } = usePage<PageProps & { locale: Locale }>();
+	const { props } = usePage<PageProps & { locale: Locale; appUrl: string }>();
 
 	usePageTransition({
 		querySelector: '[data-page-transition]',
@@ -24,6 +24,11 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 	const locale = useMemo(() => {
 		return (props.locale as Locale) ?? DEFAULT_LOCALE;
 	}, [props.locale]);
+
+	const tuyauClient = useMemo(
+		() => createTuyauClient(props.appUrl),
+		[props.appUrl]
+	);
 
 	useEffect(() => {
 		if (i18n.locale !== locale) {

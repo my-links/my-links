@@ -188,7 +188,7 @@ cp .env.example .env
 - `HOST`: IP address or hostname (e.g., `0.0.0.0` or `localhost`)
 - `LOG_LEVEL`: Log level (e.g., `info`, `debug`)
 - `SESSION_DRIVER`: Session driver (`cookie` or `memory`)
-- `VITE_APP_URL`: Application URL (e.g., `http://localhost:3333`)
+- `APP_URL`: Application URL (e.g., `http://localhost:3333`)
 - `DB_HOST`: PostgreSQL server address
 - `DB_PORT`: PostgreSQL port (default `5432`)
 - `DB_USER`: PostgreSQL user
