@@ -1,4 +1,3 @@
-import { defaultTableFields } from '#database/default_table_fields';
 import { BaseSchema } from '@adonisjs/lucid/schema';
 
 export default class CreateCollectionFollowersTable extends BaseSchema {
