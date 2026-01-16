@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { Link } from '@tuyau/inertia/react';
 import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
@@ -6,6 +7,7 @@ import { IconLink } from '~/components/common/navigation/icon_link';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
 import { ThemeToggle } from '~/components/common/theme_toggle';
+import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 import { useAuth } from '~/hooks/use_auth';
 
 export function Navbar() {
@@ -24,10 +26,9 @@ export function Navbar() {
 		if (typeof window === 'undefined') return;
 
 		let observer: ResizeObserver | null = null;
-		const NAV_BREAKPOINT = 768; // Tailwind 'md' breakpoint
 
 		const checkAndCloseMenu = () => {
-			if (window.innerWidth >= NAV_BREAKPOINT) {
+			if (window.innerWidth >= MOBILE_BREAKPOINT) {
 				closeMobileMenu();
 			}
 		};
@@ -102,9 +103,17 @@ export function Navbar() {
 									{auth.user?.fullname}
 								</span>
 								<Link
+									route="user.settings"
+									className="p-1.5 rounded-md hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-colors"
+									title={t`Settings`}
+									onClick={closeMobileMenu}
+								>
+									<i className="i-mdi-cog text-gray-600 dark:text-gray-400 h-5 min-w-5 block" />
+								</Link>
+								<Link
 									route="auth.logout"
 									className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-									title="Déconnexion"
+									title={t`Logout`}
 								>
 									<i className="i-mdi-logout text-red-600 dark:text-red-400 h-5 min-w-5 block" />
 								</Link>
@@ -192,9 +201,17 @@ export function Navbar() {
 											{auth.user?.fullname}
 										</span>
 										<Link
+											route="user.settings"
+											className="p-1.5 rounded-md hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-colors"
+											title={t`Settings`}
+											onClick={closeMobileMenu}
+										>
+											<i className="i-mdi-cog text-gray-600 dark:text-gray-400 h-5 min-w-5 block" />
+										</Link>
+										<Link
 											route="auth.logout"
 											className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-											title="Déconnexion"
+											title={t`Logout`}
 											onClick={closeMobileMenu}
 										>
 											<i className="i-mdi-logout text-red-600 dark:text-red-400 h-5 min-w-5 block" />

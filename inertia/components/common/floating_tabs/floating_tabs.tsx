@@ -88,7 +88,7 @@ export function FloatingTabs({ tabs, keepMounted = false }: FloatingTabsProps) {
 											tab.indicator?.color || 'rgb(59, 130, 246)',
 									}}
 								>
-									{tab.indicator.content}
+									{tab.indicator?.content}
 								</span>
 							)}
 							<button
