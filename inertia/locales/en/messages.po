@@ -82,7 +82,6 @@ msgid "An unexpected error occurred."
 msgstr "An unexpected error occurred."
 
 #: inertia/components/api_tokens/api_tokens.tsx:108
-#: inertia/pages/user_settings/show.tsx:12
 msgid "API Tokens"
 msgstr "API Tokens"
 
@@ -387,6 +386,11 @@ msgstr "links"
 msgid "Links"
 msgstr "Links"
 
+#: inertia/components/common/navigation/navbar.tsx:116
+#: inertia/components/common/navigation/navbar.tsx:214
+msgid "Logout"
+msgstr "Logout"
+
 #: inertia/components/common/navigation/made_by.tsx:11
 msgid "Made by"
 msgstr "Made by"
@@ -549,6 +553,11 @@ msgstr "Self-Hosted"
 #: inertia/pages/errors/server_error.tsx:12
 msgid "Server Error"
 msgstr "Server Error"
+
+#: inertia/components/common/navigation/navbar.tsx:108
+#: inertia/components/common/navigation/navbar.tsx:206
+msgid "Settings"
+msgstr "Settings"
 
 #: inertia/pages/home.tsx:43
 msgid "Share"
