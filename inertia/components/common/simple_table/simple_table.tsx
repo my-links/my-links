@@ -27,7 +27,10 @@ export function SimpleTable({ data }: SimpleTableProps) {
 				className="border-b border-gray-200 dark:border-gray-700"
 			>
 				{columns.map((column) => (
-					<td key={column} className="px-4 py-3 text-sm">
+					<td
+						key={column}
+						className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100"
+					>
 						{row[column] ?? (
 							<span className="text-gray-400 dark:text-gray-500">N/A</span>
 						)}
