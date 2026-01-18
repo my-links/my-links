@@ -7,8 +7,6 @@ const UpdateLinkController = () =>
 	import('#controllers/api/links/update_link_controller');
 const DeleteLinkController = () =>
 	import('#controllers/api/links/delete_link_controller');
-const GetFavoriteLinksController = () =>
-	import('#controllers/api/links/get_favorite_links_controller');
 
 router
 	.group(() => {
@@ -21,13 +19,4 @@ router
 			.as('api-links.delete');
 	})
 	.prefix('/api/v1/links')
-	.middleware([middleware.auth({ guards: ['api'] })]);
-
-router
-	.group(() => {
-		router
-			.get('', [GetFavoriteLinksController, 'execute'])
-			.as('api-links.get-favorite-links');
-	})
-	.prefix('/api/v1/links/favorites')
 	.middleware([middleware.auth({ guards: ['api'] })]);

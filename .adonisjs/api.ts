@@ -107,6 +107,13 @@ type ApiV1CollectionsIdDelete = {
 		true
 	>;
 };
+type ApiV1LinksFavoritesGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/links/get_favorite_links_controller.ts').default['render'],
+		false
+	>;
+};
 type ApiV1LinksPost = {
 	request: unknown;
 	response: MakeTuyauResponse<
@@ -134,13 +141,6 @@ type ApiV1LinksIdDelete = {
 	response: MakeTuyauResponse<
 		import('../app/controllers/api/links/delete_link_controller.ts').default['execute'],
 		true
-	>;
-};
-type ApiV1LinksFavoritesGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/api/links/get_favorite_links_controller.ts').default['execute'],
-		false
 	>;
 };
 type ApiV1TokensCheckGetHead = {
@@ -256,10 +256,14 @@ type LinksIdDelete = {
 	>;
 };
 type SearchGetHead = {
-	request: unknown;
+	request: MakeTuyauRequest<
+		InferInput<
+			(typeof import('../app/validators/search/search_validator.ts'))['searchValidator']
+		>
+	>;
 	response: MakeTuyauResponse<
 		import('../app/controllers/search/search_controller.ts').default['render'],
-		false
+		true
 	>;
 };
 type UserApitokensPost = {
@@ -353,17 +357,17 @@ export interface ApiDefinition {
 				};
 			};
 			links: {
+				favorites: {
+					$url: {};
+					$get: ApiV1LinksFavoritesGetHead;
+					$head: ApiV1LinksFavoritesGetHead;
+				};
 				$url: {};
 				$post: ApiV1LinksPost;
 				':id': {
 					$url: {};
 					$put: ApiV1LinksIdPut;
 					$delete: ApiV1LinksIdDelete;
-				};
-				favorites: {
-					$url: {};
-					$get: ApiV1LinksFavoritesGetHead;
-					$head: ApiV1LinksFavoritesGetHead;
 				};
 			};
 			tokens: {
@@ -526,6 +530,13 @@ const routes = [
 	},
 	{
 		params: [],
+		name: 'api-favorites.index',
+		path: '/api/v1/links/favorites',
+		method: ['GET', 'HEAD'],
+		types: {} as ApiV1LinksFavoritesGetHead,
+	},
+	{
+		params: [],
 		name: 'api-links.create',
 		path: '/api/v1/links',
 		method: ['POST'],
@@ -544,13 +555,6 @@ const routes = [
 		path: '/api/v1/links/:id',
 		method: ['DELETE'],
 		types: {} as ApiV1LinksIdDelete,
-	},
-	{
-		params: [],
-		name: 'api-links.get-favorite-links',
-		path: '/api/v1/links/favorites',
-		method: ['GET', 'HEAD'],
-		types: {} as ApiV1LinksFavoritesGetHead,
 	},
 	{
 		params: [],

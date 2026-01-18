@@ -9,9 +9,10 @@ import '#routes/auth';
 import '#routes/admin';
 
 // API routes
-import '#routes/api_collections';
-import '#routes/api_links';
-import '#routes/api_tokens';
+import '#routes/api/api_collections';
+import '#routes/api/api_favorites';
+import '#routes/api/api_links';
+import '#routes/api/api_tokens';
 
 // App routes
 import '#routes/collections';
