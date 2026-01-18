@@ -1,5 +1,6 @@
 import Link from '#models/link';
 import { HttpContext } from '@adonisjs/core/http';
+import db from '@adonisjs/lucid/services/db';
 
 type CreateLinkPayload = {
 	name: string;
@@ -64,5 +65,9 @@ export class LinkService {
 			throw new Error('User not authenticated');
 		}
 		return context;
+	}
+	async getTotalLinksCount() {
+		const totalCount = await db.from('links').count('* as total');
+		return Number(totalCount[0].total);
 	}
 }

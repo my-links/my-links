@@ -11,12 +11,11 @@ export default class DeleteLinkController {
 		protected linkService: LinkService
 	) {}
 
-	async execute({ request, auth }: HttpContext) {
+	async execute({ request, response }: HttpContext) {
 		const { params } = await request.validateUsing(deleteLinkValidator);
-
-		const link = await this.linkService.getLinkById(params.id, auth.user!.id);
 		await this.linkService.deleteLink(params.id);
-
-		return this.collectionsService.redirectToCollectionId(link.collectionId);
+		return response.json({
+			message: 'Link deleted successfully',
+		});
 	}
 }
