@@ -9,6 +9,11 @@ const LOCALE_LABELS: Record<Locale, string> = {
 	fr: 'FR',
 } as const;
 
+const LOCALE_FLAG_CLASSES: Record<Locale, string> = {
+	en: 'i-twemoji:flag-united-kingdom',
+	fr: 'i-twemoji:flag-france',
+} as const;
+
 export function LocaleSwitcher() {
 	const { i18n } = useLingui();
 
@@ -24,14 +29,14 @@ export function LocaleSwitcher() {
 					key={locale}
 					onClick={() => handleLocaleChange(locale)}
 					className={cx(
-						'px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 cursor-pointer',
+						'px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer flex items-center justify-center',
 						i18n.locale === locale
-							? 'bg-white dark:bg-gray-600 text-gray-900 dark:text-white shadow-sm'
-							: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+							? 'bg-white dark:bg-gray-600 shadow-sm'
+							: 'opacity-60 hover:opacity-100'
 					)}
 					aria-label={`Switch to ${LOCALE_LABELS[locale]}`}
 				>
-					{LOCALE_LABELS[locale]}
+					<div className={`${LOCALE_FLAG_CLASSES[locale]} w-5 h-5`} />
 				</button>
 			))}
 		</div>
