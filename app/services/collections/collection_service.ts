@@ -157,11 +157,18 @@ export class CollectionService {
 		return !!result;
 	}
 
-	private async removeAllFollowers(collectionId: Collection['id']) {
+	async removeAllFollowers(collectionId: Collection['id']) {
 		await db
 			.from('collection_followers')
 			.where('collection_id', collectionId)
 			.delete();
+	}
+
+	redirectToCollectionId(collectionId: Collection['id']) {
+		const context = this.getAuthContext();
+		return context.response.redirect().toRoute('collection.show', {
+			id: collectionId,
+		});
 	}
 
 	private getAuthContext() {
@@ -170,12 +177,5 @@ export class CollectionService {
 			throw new Error('User not authenticated');
 		}
 		return context;
-	}
-
-	redirectToCollectionId(collectionId: Collection['id']) {
-		const ctx = HttpContext.getOrFail();
-		return ctx.response.redirect().toRoute('collection.show', {
-			id: collectionId,
-		});
 	}
 }
