@@ -72,6 +72,7 @@ export function SearchModal({ onClose }: SearchModalProps) {
 		}
 	};
 
+	// Debouncer
 	useEffect(() => {
 		if (debounceTimerRef.current) {
 			clearTimeout(debounceTimerRef.current);
@@ -109,20 +110,32 @@ export function SearchModal({ onClose }: SearchModalProps) {
 		[onClose]
 	);
 
-	useShortcut('ARROW_DOWN', () => {
-		setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev));
-	});
+	// Shortcuts to navigate the results
+	const commonShortcutOptions = {
+		disableGlobalCheck: true,
+		enabled: results.length > 0,
+	};
 
-	useShortcut('ARROW_UP', () => {
-		setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1));
-	});
+	useShortcut(
+		'ARROW_DOWN',
+		() =>
+			setSelectedIndex((prev) => (prev < results.length - 1 ? prev + 1 : prev)),
+		commonShortcutOptions
+	);
 
-	useShortcut('ENTER_KEY', () => {
-		if (results[selectedIndex]) {
-			handleResultClick(results[selectedIndex]);
-		}
-	});
+	useShortcut(
+		'ARROW_UP',
+		() => setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1)),
+		commonShortcutOptions
+	);
 
+	useShortcut(
+		'ENTER_KEY',
+		() => results[selectedIndex] && handleResultClick(results[selectedIndex]),
+		commonShortcutOptions
+	);
+
+	// Scroll the selected result into view
 	useEffect(() => {
 		if (selectedIndex >= 0 && resultsRef.current) {
 			const selectedElement = resultsRef.current.querySelector(
