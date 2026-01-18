@@ -20,10 +20,8 @@ export default class UnfollowCollectionController {
 			params: { id: collectionId },
 		} = await request.validateUsing(this.collectionIdValidator);
 
-		await this.collectionService.unfollowCollection(
-			collectionId,
-			auth.user!.id
-		);
+		const userId = auth.getUserOrFail().id;
+		await this.collectionService.unfollowCollection(collectionId, userId);
 		return response.redirect().back();
 	}
 }
