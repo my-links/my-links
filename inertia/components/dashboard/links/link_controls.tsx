@@ -1,16 +1,12 @@
-import {
-	CollectionWithLinks,
-	Link,
-	LinkWithCollection,
-} from '#shared/types/dto';
-import { PageProps } from '@adonisjs/inertia/types';
-import { router, usePage } from '@inertiajs/react';
+import { Link, LinkWithCollection } from '#shared/types/dto';
+import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Link as InertiaLink } from '@tuyau/inertia/react';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 import { useContextMenu } from '~/hooks/use_context_menu';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useRouteHelper } from '~/lib/route_helper';
 import { useModalStore } from '~/stores/modal_store';
 import { DeleteLinkModal } from '../modals/delete_link_modal';
@@ -18,11 +14,6 @@ import { EditLinkModal } from '../modals/edit_link_modal';
 
 export interface LinkControlsRef {
 	openContextMenu: (x: number, y: number) => void;
-}
-
-interface PagePropsWithCollections extends PageProps {
-	activeCollection?: CollectionWithLinks | null;
-	collections: CollectionWithLinks[];
 }
 
 interface LinkControlsProps {
@@ -33,10 +24,11 @@ export function LinkControls({
 	link,
 	ref,
 }: LinkControlsProps & { ref: React.RefObject<LinkControlsRef | null> }) {
-	const { activeCollection } = usePage<PagePropsWithCollections>().props;
+	const { activeCollection, myCollections } = useDashboardProps();
 	const openModal = useModalStore((state) => state.open);
 	const closeAll = useModalStore((state) => state.closeAll);
 
+	console.log(myCollections);
 	const isOwner = activeCollection?.isOwner !== false;
 
 	const { url } = useRouteHelper();
@@ -54,12 +46,22 @@ export function LinkControls({
 	} = useContextMenu();
 
 	const linkWithCollection: LinkWithCollection | null = useMemo(() => {
-		if (!activeCollection) return null;
+		if (!activeCollection) {
+			const collection = myCollections.find((c) => c.id === link.collectionId);
+			if (collection) {
+				return {
+					...link,
+					collection,
+				} satisfies LinkWithCollection;
+			}
+			return null;
+		}
+
 		return {
 			...link,
 			collection: activeCollection,
 		} satisfies LinkWithCollection;
-	}, [link, activeCollection]);
+	}, [link, activeCollection, myCollections]);
 
 	const handleEditLink = () => {
 		closeMenu();

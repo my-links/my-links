@@ -21,10 +21,16 @@ export const useDashboardProps = () => {
 		[followedCollections, myPublicCollections, myPrivateCollections]
 	);
 
+	const myCollections = useMemo(
+		() => [...myPublicCollections, ...myPrivateCollections],
+		[myPublicCollections, myPrivateCollections]
+	);
+
 	return {
 		followedCollections,
 		myPublicCollections,
 		myPrivateCollections,
+		myCollections,
 		allCollections,
 		activeCollection,
 		favoriteLinks,
