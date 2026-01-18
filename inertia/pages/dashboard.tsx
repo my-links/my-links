@@ -27,7 +27,8 @@ export interface DashboardProps {
 }
 
 export default function Dashboard() {
-	const { activeCollection, favoriteLinks } = useDashboardProps();
+	const { activeCollection, favoriteLinks, myCollections } =
+		useDashboardProps();
 
 	const { sidebarOpen, toggleSidebar } = useDashboardStore();
 
@@ -39,10 +40,10 @@ export default function Dashboard() {
 	const hasActiveContent =
 		!!activeCollection || (favoriteLinks?.length ?? 0) > 0;
 
-	const handleCreateCollection = () => {
+	const handleCreateCollection = (message?: string) => {
 		openModal({
 			title: t`Create a collection`,
-			children: <CreateCollectionModal onClose={closeAll} />,
+			children: <CreateCollectionModal onClose={closeAll} message={message} />,
 		});
 	};
 
@@ -64,6 +65,10 @@ export default function Dashboard() {
 
 	const handleCreateLink = () => {
 		if (activeCollection?.isOwner === false) return;
+		if (myCollections.length === 0) {
+			handleCreateCollection(t`Create a collection to get started`);
+			return;
+		}
 		openModal({
 			title: t`Create a link`,
 			children: <CreateLinkModal onClose={closeAll} />,
