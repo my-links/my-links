@@ -9,9 +9,13 @@ import { FormCollectionData } from '~/types/collection_form';
 
 interface CreateCollectionModalProps {
 	onClose: () => void;
+	message?: string;
 }
 
-export function CreateCollectionModal({ onClose }: CreateCollectionModalProps) {
+export function CreateCollectionModal({
+	onClose,
+	message,
+}: CreateCollectionModalProps) {
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			name: '',
@@ -39,6 +43,11 @@ export function CreateCollectionModal({ onClose }: CreateCollectionModalProps) {
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4">
+			{message && (
+				<div className="text-sm text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+					{message}
+				</div>
+			)}
 			<FormCollectionContent data={data} setData={setData} errors={errors} />
 
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
