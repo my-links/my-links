@@ -7,7 +7,7 @@ import { HttpContext } from '@adonisjs/core/http';
 export default class GetFavoriteLinksController {
 	constructor(private linkService: LinkService) {}
 
-	public async execute({ response }: HttpContext) {
+	public async render({ response }: HttpContext) {
 		const links = await this.linkService.getMyFavoriteLinks();
 		return response.json(LinkDto.fromArray(links));
 	}
