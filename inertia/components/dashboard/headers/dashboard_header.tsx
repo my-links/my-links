@@ -114,7 +114,7 @@ export function DashboardHeader({
 						)}
 
 						<button
-							onClick={onCreateCollection}
+							onClick={() => onCreateCollection()}
 							className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
 						>
 							<Trans>
