@@ -29,7 +29,7 @@ export class CollectionService {
 						});
 				});
 			})
-			.preload('links', (q) => q.orderBy('favorite', 'desc'))
+			.preload('links', (q) => q.orderBy('created_at', 'desc'))
 			.preload('author')
 			.firstOrFail();
 
@@ -91,6 +91,7 @@ export class CollectionService {
 		return Collection.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
+			.orderBy('created_at', 'desc')
 			.delete();
 	}
 
@@ -98,9 +99,46 @@ export class CollectionService {
 		return Collection.query()
 			.where('id', id)
 			.andWhere('visibility', Visibility.PUBLIC)
-			.preload('links')
+			.preload('links', (q) => q.orderBy('created_at', 'desc'))
 			.preload('author')
+			.orderBy('created_at', 'desc')
 			.firstOrFail();
+	}
+
+	async getMyPublicCollections(userId: User['id']) {
+		return await Collection.query()
+			.where('author_id', userId)
+			.andWhere('visibility', Visibility.PUBLIC)
+			.orderBy('created_at', 'desc');
+	}
+
+	async getMyPrivateCollections(userId: User['id']) {
+		return await Collection.query()
+			.where('author_id', userId)
+			.andWhere('visibility', Visibility.PRIVATE)
+			.orderBy('created_at', 'desc');
+	}
+
+	async getFollowedCollections(userId: User['id']) {
+		return await Collection.query()
+			.whereHas('followers', (query) => {
+				query.where('users.id', userId);
+			})
+			.andWhere('visibility', Visibility.PUBLIC)
+			.preload('author')
+			.orderBy('created_at', 'desc');
+	}
+
+	async isFollowingCollection(
+		collectionId: Collection['id'],
+		userId: User['id']
+	): Promise<boolean> {
+		const result = await db
+			.from('collection_followers')
+			.where('collection_id', collectionId)
+			.where('user_id', userId)
+			.first();
+		return !!result;
 	}
 
 	async followCollection(collectionId: Collection['id'], userId: User['id']) {
@@ -119,42 +157,6 @@ export class CollectionService {
 		const user = await User.findOrFail(userId);
 
 		await collection.related('followers').detach([user.id]);
-	}
-
-	async getFollowedCollections(userId: User['id']) {
-		return await Collection.query()
-			.whereHas('followers', (query) => {
-				query.where('users.id', userId);
-			})
-			.andWhere('visibility', Visibility.PUBLIC)
-			.preload('author')
-			.orderBy('created_at', 'desc');
-	}
-
-	async getMyPublicCollections(userId: User['id']) {
-		return await Collection.query()
-			.where('author_id', userId)
-			.andWhere('visibility', Visibility.PUBLIC)
-			.orderBy('created_at', 'desc');
-	}
-
-	async getMyPrivateCollections(userId: User['id']) {
-		return await Collection.query()
-			.where('author_id', userId)
-			.andWhere('visibility', Visibility.PRIVATE)
-			.orderBy('created_at', 'desc');
-	}
-
-	async isFollowingCollection(
-		collectionId: Collection['id'],
-		userId: User['id']
-	): Promise<boolean> {
-		const result = await db
-			.from('collection_followers')
-			.where('collection_id', collectionId)
-			.where('user_id', userId)
-			.first();
-		return !!result;
 	}
 
 	async removeAllFollowers(collectionId: Collection['id']) {
