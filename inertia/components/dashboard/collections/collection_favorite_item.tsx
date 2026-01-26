@@ -18,7 +18,7 @@ export function CollectionFavoriteItem() {
 		<Link
 			route="collection.favorites"
 			className={clsx(
-				'flex items-center gap-3 px-4 py-2 rounded-lg transition-colors',
+				'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
 				isActive &&
