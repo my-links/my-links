@@ -14,6 +14,7 @@ import { ResizableSidebar } from '~/components/dashboard/sidebar/resizable_sideb
 import { CollectionViewContent } from '~/components/dashboard/views/collection_view_content';
 import { FavoritesViewContent } from '~/components/dashboard/views/favorites_view_content';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import useShortcut from '~/hooks/use_shortcut';
 import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard_layout_store';
 import { useModalStore } from '~/stores/modal_store';
@@ -30,6 +31,7 @@ export default function Dashboard() {
 	const { activeCollection, favoriteLinks, myCollections } =
 		useDashboardProps();
 
+	const isMobile = useIsMobile();
 	const { sidebarOpen, toggleSidebar } = useDashboardStore();
 
 	const openModal = useModalStore((state) => state.open);
@@ -96,10 +98,12 @@ export default function Dashboard() {
 		return t`Dashboard`;
 	}, [activeCollection, favoriteLinks]);
 
-	useShortcut('OPEN_SEARCH_KEY', handleOpenSearch);
-	useShortcut('ESCAPE_KEY', closeAll);
-	useShortcut('OPEN_CREATE_COLLECTION_KEY', handleCreateCollection);
-	useShortcut('OPEN_CREATE_LINK_KEY', handleCreateLink);
+	useShortcut('OPEN_SEARCH_KEY', handleOpenSearch, { enabled: !isMobile });
+	useShortcut('ESCAPE_KEY', closeAll, { enabled: !isMobile });
+	useShortcut('OPEN_CREATE_COLLECTION_KEY', handleCreateCollection, {
+		enabled: !isMobile,
+	});
+	useShortcut('OPEN_CREATE_LINK_KEY', handleCreateLink, { enabled: !isMobile });
 
 	return (
 		<>
