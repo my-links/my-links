@@ -2,6 +2,8 @@ import { KEYS } from '#constants/keys';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
+import { Button } from '~/components/common/button';
+import { IconButton } from '~/components/common/icon_button';
 import { Kbd } from '~/components/common/kbd';
 import { Tooltip } from '~/components/common/tooltip';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
@@ -21,20 +23,6 @@ export interface DashboardHeaderProps {
 	onCreateLink: () => void;
 	onOpenSearch: () => void;
 }
-
-export const BurgerButton = ({
-	onToggleSidebar,
-}: {
-	onToggleSidebar: () => void;
-}) => (
-	<button
-		onClick={onToggleSidebar}
-		className="cursor-pointer p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors flex-shrink-0 border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
-		aria-label="Toggle sidebar"
-	>
-		<div className="i-ant-design-menu-outlined w-5 h-5" />
-	</button>
-);
 
 export function DashboardHeader({
 	isFavorite,
@@ -89,7 +77,12 @@ export function DashboardHeader({
 			>
 				<div className="flex flex-col justify-between gap-4">
 					<div className="flex items-center gap-4 flex-1">
-						<BurgerButton onToggleSidebar={onToggleSidebar} />
+						<IconButton
+							icon="i-ant-design-menu-outlined"
+							onClick={onToggleSidebar}
+							aria-label="Toggle sidebar"
+							variant="outline"
+						/>
 
 						<SearchButton onClick={onOpenSearch} />
 
@@ -119,64 +112,62 @@ export function DashboardHeader({
 											showOnClick
 											position="bottom"
 										>
-											<button
-												className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+											<IconButton
+												icon="i-ant-design-share-alt-outlined"
 												onClick={handleShareCollection}
-											>
-												<div className="i-ant-design-share-alt-outlined w-5 h-5" />
-											</button>
+												aria-label="Share collection"
+												variant="outline"
+												size="md"
+											/>
 										</Tooltip>
 										<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
 									</>
 								)}
 
-								<button
+								<Button
+									variant="outline"
+									size="sm"
 									onClick={() => onCreateCollection()}
-									className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
 								>
 									<Trans>
 										Create collection{' '}
 										{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
 									</Trans>
-								</button>
+								</Button>
 
 								{!isFavorite && activeCollection?.isOwner !== false && (
 									<>
-										<button
+										<Button
+											variant="ghost"
+											size="sm"
 											onClick={onEditCollection}
-											className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
 										>
 											<Trans>Edit collection</Trans>
-										</button>
-										<button
+										</Button>
+										<Button
+											variant="danger-ghost"
+											size="sm"
 											onClick={onDeleteCollection}
-											className="cursor-pointer px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
 										>
 											<Trans>Delete collection</Trans>
-										</button>
+										</Button>
 									</>
 								)}
 							</div>
 
 							<div className="flex items-center gap-2 flex-wrap">
 								{activeCollection?.isOwner !== false && (
-									<button
-										onClick={onCreateLink}
-										className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-									>
+									<Button variant="primary" size="sm" onClick={onCreateLink}>
 										<Trans>
 											Create link{' '}
 											{!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
 										</Trans>
-									</button>
+									</Button>
 								)}
 								{!isFavorite && activeCollection?.isOwner === false && (
-									<button
-										onClick={handleUnfollow}
-										className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg transition-colors"
-									>
+									<Button variant="danger" onClick={handleUnfollow}>
 										<Trans>Unfollow</Trans>
-									</button>
+									</Button>
 								)}
 							</div>
 						</div>

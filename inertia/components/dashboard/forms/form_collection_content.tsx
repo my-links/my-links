@@ -1,6 +1,9 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import clsx from 'clsx';
+import { Button } from '~/components/common/button';
+import { FormField } from '~/components/common/form_field';
+import { Input } from '~/components/common/input';
+import { Textarea } from '~/components/common/textarea';
 import { EmojiPicker } from '~/components/common/emoji_picker';
 import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
@@ -37,78 +40,49 @@ export const FormCollectionContent = ({
 						disabled={disableInputs}
 					/>
 					{data.icon && !disableInputs && (
-						<button
+						<Button
+							variant="secondary"
+							size="sm"
 							type="button"
 							onClick={handleRemoveIcon}
-							className="cursor-pointer px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
 						>
 							<Trans>Remove</Trans>
-						</button>
+						</Button>
 					)}
 				</div>
 			</div>
 
-			<div>
-				<label
-					htmlFor="name"
-					className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-				>
-					{t`Name`}
-				</label>
-				<input
+			<FormField label={t`Name`} htmlFor="name" error={errors?.name} required>
+				<Input
 					type="text"
 					id="name"
 					value={data.name}
 					onChange={(e) => setData('name', e.target.value)}
 					placeholder={t`Name`}
-					className={clsx(
-						'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-						errors?.name
-							? 'border-red-500 dark:border-red-500'
-							: 'border-gray-300 dark:border-gray-600',
-						disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
-					)}
+					error={errors?.name}
+					disabled={disableInputs}
+					readOnly={disableInputs}
 					autoFocus
 					required
-					readOnly={disableInputs}
 				/>
-				{errors?.name && (
-					<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-						{Array.isArray(errors.name) ? errors.name[0] : errors.name}
-					</p>
-				)}
-			</div>
+			</FormField>
 
-			<div>
-				<label
-					htmlFor="description"
-					className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-				>
-					{t`Description`}
-				</label>
-				<textarea
+			<FormField
+				label={t`Description`}
+				htmlFor="description"
+				error={errors?.description}
+			>
+				<Textarea
 					id="description"
 					value={data.description ?? ''}
 					onChange={(e) => setData('description', e.target.value)}
 					placeholder={t`Description`}
 					rows={3}
-					className={clsx(
-						'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none',
-						errors?.description
-							? 'border-red-500 dark:border-red-500'
-							: 'border-gray-300 dark:border-gray-600',
-						disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
-					)}
+					error={errors?.description}
+					disabled={disableInputs}
 					readOnly={disableInputs}
 				/>
-				{errors?.description && (
-					<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-						{Array.isArray(errors.description)
-							? errors.description[0]
-							: errors.description}
-					</p>
-				)}
-			</div>
+			</FormField>
 
 			<div>
 				<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">

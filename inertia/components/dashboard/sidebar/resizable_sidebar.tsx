@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { BurgerButton } from '~/components/dashboard/headers/dashboard_header';
+import { IconButton } from '~/components/common/icon_button';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
@@ -64,7 +64,12 @@ export function ResizableSidebar({ children }: ResizableSidebarProps) {
 		>
 			{children}
 			<div className="block md:hidden flex-shrink-0 absolute right-2 top-2">
-				<BurgerButton onToggleSidebar={toggleSidebar} />
+				<IconButton
+					icon="i-ant-design-menu-outlined"
+					onClick={toggleSidebar}
+					aria-label="Toggle sidebar"
+					variant="outline"
+				/>
 			</div>
 			<div
 				onMouseDown={handleMouseDown}

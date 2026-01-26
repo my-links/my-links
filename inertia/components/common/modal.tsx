@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { ReactNode, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { IconButton } from './icon_button';
 
 interface ModalProps {
 	isOpen: boolean;
@@ -8,6 +9,7 @@ interface ModalProps {
 	title?: ReactNode;
 	children: ReactNode;
 	size?: 'sm' | 'md' | 'lg' | 'xl';
+	className?: string;
 }
 
 const ANIMATION_DURATION_MS = 200;
@@ -24,6 +26,7 @@ export function Modal({
 	title,
 	children,
 	size = 'md',
+	className,
 }: ModalProps) {
 	const [isClosing, setIsClosing] = useState(false);
 	const [shouldRender, setShouldRender] = useState(false);
@@ -85,7 +88,7 @@ export function Modal({
 	return createPortal(
 		<div
 			className={clsx(
-				'fixed inset-0 z-50 flex items-center justify-center p-4',
+				'fixed inset-0 z-50 h-fit flex justify-center p-4 mt-32',
 				'transition-opacity duration-200',
 				isVisible ? 'opacity-100' : 'opacity-0'
 			)}
@@ -117,16 +120,18 @@ export function Modal({
 						<h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
 							{title}
 						</h2>
-						<button
+						<IconButton
+							icon="i-mdi-close"
 							onClick={onClose}
-							className="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
 							aria-label="Close"
-						>
-							<div className="i-mdi-close w-5 h-5" />
-						</button>
+							variant="ghost"
+							className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+						/>
 					</div>
 				)}
-				<div className="flex-1 overflow-y-auto px-6 py-4">{children}</div>
+				<div className={clsx('flex-1 overflow-y-auto px-6 py-4', className)}>
+					{children}
+				</div>
 			</div>
 		</div>,
 		document.body

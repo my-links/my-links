@@ -2,6 +2,10 @@ import { Collection } from '#shared/types/dto';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
+import { FormField } from '~/components/common/form_field';
+import { Input } from '~/components/common/input';
+import { Select } from '~/components/common/select';
+import { Textarea } from '~/components/common/textarea';
 import { FormLinkData } from '~/types/link_form';
 
 interface FormLinkContentProps {
@@ -20,104 +24,69 @@ export const FormLinkContent = ({
 	disableInputs = false,
 }: FormLinkContentProps) => (
 	<div className="space-y-4">
-		<div>
-			<label
-				htmlFor="name"
-				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-			>
-				<Trans>Name</Trans>
-			</label>
-			<input
+		<FormField
+			label={<Trans>Name</Trans>}
+			htmlFor="name"
+			error={errors?.name}
+			required
+		>
+			<Input
 				type="text"
 				id="name"
 				value={data.name}
 				onChange={(e) => setData('name', e.target.value)}
-				className={clsx(
-					'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-					errors?.name
-						? 'border-red-500 dark:border-red-500'
-						: 'border-gray-300 dark:border-gray-600',
-					disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
-				)}
+				placeholder={t`Name`}
+				error={errors?.name}
+				disabled={disableInputs}
+				readOnly={disableInputs}
 				autoFocus
 				required
-				readOnly={disableInputs}
-				placeholder={t`Name`}
 			/>
-			{errors?.name && (
-				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{errors.name}
-				</p>
-			)}
-		</div>
+		</FormField>
 
-		<div>
-			<label
-				htmlFor="url"
-				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-			>
-				<Trans>URL</Trans>
-			</label>
-			<input
+		<FormField
+			label={<Trans>URL</Trans>}
+			htmlFor="url"
+			error={errors?.url}
+			required
+		>
+			<Input
 				type="text"
 				id="url"
 				value={data.url}
 				onChange={(e) => setData('url', e.target.value)}
-				className={clsx(
-					'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-					errors?.link
-						? 'border-red-500 dark:border-red-500'
-						: 'border-gray-300 dark:border-gray-600',
-					disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
-				)}
-				required
-				readOnly={disableInputs}
 				placeholder={t`URL`}
+				error={errors?.url || errors?.link}
+				disabled={disableInputs}
+				readOnly={disableInputs}
+				required
 			/>
-			{errors?.url && (
-				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{errors.url}
-				</p>
-			)}
-		</div>
+		</FormField>
 
-		<div>
-			<label
-				htmlFor="description"
-				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-			>
-				<Trans>Description</Trans>
-			</label>
-			<textarea
+		<FormField
+			label={<Trans>Description</Trans>}
+			htmlFor="description"
+			error={errors?.description}
+		>
+			<Textarea
 				id="description"
 				value={data.description ?? ''}
 				onChange={(e) => setData('description', e.target.value)}
-				rows={3}
-				className={clsx(
-					'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none',
-					errors?.description
-						? 'border-red-500 dark:border-red-500'
-						: 'border-gray-300 dark:border-gray-600',
-					disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
-				)}
-				readOnly={disableInputs}
 				placeholder={t`Description`}
+				rows={3}
+				error={errors?.description}
+				disabled={disableInputs}
+				readOnly={disableInputs}
 			/>
-			{errors?.description && (
-				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{errors.description}
-				</p>
-			)}
-		</div>
+		</FormField>
 
-		<div>
-			<label
-				htmlFor="collectionId"
-				className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-			>
-				<Trans>Collections ({collections.length})</Trans>
-			</label>
-			<select
+		<FormField
+			label={<Trans>Collections ({collections.length})</Trans>}
+			htmlFor="collectionId"
+			error={errors?.collectionId}
+			required
+		>
+			<Select
 				id="collectionId"
 				value={data.collectionId?.toString()}
 				onChange={(e) =>
@@ -126,28 +95,17 @@ export const FormLinkContent = ({
 						e.target.value ? Number(e.target.value) : null
 					)
 				}
-				className={clsx(
-					'w-full px-4 py-2 border rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
-					errors?.collectionId
-						? 'border-red-500 dark:border-red-500'
-						: 'border-gray-300 dark:border-gray-600',
-					disableInputs && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed'
-				)}
-				required
+				error={errors?.collectionId}
 				disabled={disableInputs}
+				required
 			>
 				{collections.map((collection) => (
 					<option key={collection.id} value={collection.id}>
 						{collection.name}
 					</option>
 				))}
-			</select>
-			{errors?.collectionId && (
-				<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-					{errors.collectionId}
-				</p>
-			)}
-		</div>
+			</Select>
+		</FormField>
 
 		<div className="flex items-center gap-2">
 			<input

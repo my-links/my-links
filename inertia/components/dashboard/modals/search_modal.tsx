@@ -1,7 +1,8 @@
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '~/components/common/button';
+import { Input } from '~/components/common/input';
 import { SearchCollectionResults } from '~/components/dashboard/search/search_collection_results';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
 import useShortcut from '~/hooks/use_shortcut';
@@ -154,56 +155,56 @@ export function SearchModal({ onClose }: SearchModalProps) {
 		<div className="space-y-4">
 			<div className="space-y-3">
 				<div className="relative">
-					<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+					<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
 						<div className="i-ion-search w-5 h-5 text-gray-400" />
 					</div>
-					<input
+					<Input
 						value={searchTerm}
 						type="text"
 						onChange={(e) => setSearchTerm(e.target.value)}
 						placeholder="Search..."
 						autoFocus
-						className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+						className="pl-10"
 					/>
 				</div>
 
 				<div className="flex items-center gap-2">
-					<button
-						type="button"
+					<Button
+						variant={searchType === 'both' ? 'primary' : 'secondary'}
+						size="sm"
 						onClick={() => setSearchType('both')}
-						className={clsx(
-							'px-3 py-1.5 text-sm font-medium rounded-lg transition-colors',
-							searchType === 'both'
-								? 'bg-blue-600 text-white'
-								: 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-						)}
+						className={
+							searchType !== 'both'
+								? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+								: ''
+						}
 					>
 						<Trans>All</Trans>
-					</button>
-					<button
-						type="button"
+					</Button>
+					<Button
+						variant={searchType === 'link' ? 'primary' : 'secondary'}
+						size="sm"
 						onClick={() => setSearchType('link')}
-						className={clsx(
-							'px-3 py-1.5 text-sm font-medium rounded-lg transition-colors',
-							searchType === 'link'
-								? 'bg-blue-600 text-white'
-								: 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-						)}
+						className={
+							searchType !== 'link'
+								? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+								: ''
+						}
 					>
 						<Trans>Links</Trans>
-					</button>
-					<button
-						type="button"
+					</Button>
+					<Button
+						variant={searchType === 'collection' ? 'primary' : 'secondary'}
+						size="sm"
 						onClick={() => setSearchType('collection')}
-						className={clsx(
-							'px-3 py-1.5 text-sm font-medium rounded-lg transition-colors',
-							searchType === 'collection'
-								? 'bg-blue-600 text-white'
-								: 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-						)}
+						className={
+							searchType !== 'collection'
+								? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+								: ''
+						}
 					>
 						<Trans>Collections</Trans>
-					</button>
+					</Button>
 				</div>
 			</div>
 
