@@ -3,9 +3,9 @@ import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { MouseEvent } from 'react';
-import { IconButton } from '~/components/common/icon_button';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
+import { IconButton } from '~/components/common/icon_button';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { useModalStore } from '~/stores/modal_store';
 import { DeleteCollectionModal } from '../modals/delete_collection_modal';
@@ -73,6 +73,7 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		>
 			<IconButton
 				icon="i-mdi-dots-vertical"
+				size="sm"
 				onClick={(e) => {
 					handleStopPropagation(e);
 					toggleMenu(e);
