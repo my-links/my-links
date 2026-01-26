@@ -11,6 +11,7 @@ import '#routes/admin';
 // API routes
 import '#routes/api/api_collections';
 import '#routes/api/api_favorites';
+import '#routes/api/api_health';
 import '#routes/api/api_links';
 import '#routes/api/api_tokens';
 
