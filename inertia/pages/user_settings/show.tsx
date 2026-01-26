@@ -1,11 +1,15 @@
 import { Head } from '@inertiajs/react';
 import { t } from '@lingui/core/macro';
 import { ApiTokens } from '~/components/api_tokens/api_tokens';
+import { ExportImport } from '~/components/user_settings/export_import';
 
 const UserSettingsShow = () => (
 	<>
 		<Head title={t`Settings`} />
-		<ApiTokens />
+		<div className="space-y-6">
+			<ApiTokens />
+			<ExportImport />
+		</div>
 	</>
 );
 

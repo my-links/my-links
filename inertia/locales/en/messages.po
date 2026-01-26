@@ -61,7 +61,7 @@ msgstr "4.2 Warranties"
 msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
-#: inertia/components/dashboard/links/link_controls.tsx:161
+#: inertia/components/dashboard/links/link_controls.tsx:160
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -69,7 +69,7 @@ msgstr "Add to favorites"
 msgid "Admin Dashboard"
 msgstr "Admin Dashboard"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:181
+#: inertia/components/dashboard/modals/search_modal.tsx:182
 msgid "All"
 msgstr "All"
 
@@ -81,19 +81,19 @@ msgstr "An open-source, self-hosted bookmark manager that lets you manage your f
 msgid "An unexpected error occurred."
 msgstr "An unexpected error occurred."
 
-#: inertia/components/api_tokens/api_tokens.tsx:108
+#: inertia/components/api_tokens/api_tokens.tsx:112
 msgid "API Tokens"
 msgstr "API Tokens"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:39
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:40
 msgid "Are you sure you want to delete this collection?"
 msgstr "Are you sure you want to delete this collection?"
 
-#: inertia/components/dashboard/modals/delete_link_modal.tsx:39
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:40
 msgid "Are you sure you want to delete this link?"
 msgstr "Are you sure you want to delete this link?"
 
-#: inertia/components/api_tokens/api_tokens.tsx:49
+#: inertia/components/api_tokens/api_tokens.tsx:51
 msgid "Are you sure you want to revoke this token?"
 msgstr "Are you sure you want to revoke this token?"
 
@@ -113,15 +113,15 @@ msgstr "By accessing MyLinks and using our services, you agree to comply with th
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 
-#: inertia/components/api_tokens/api_tokens.tsx:53
-#: inertia/components/api_tokens/create_token_modal.tsx:51
-#: inertia/components/common/confirm_modal.tsx:48
-#: inertia/components/dashboard/modals/create_collection_modal.tsx:59
-#: inertia/components/dashboard/modals/create_link_modal.tsx:63
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:55
-#: inertia/components/dashboard/modals/delete_link_modal.tsx:56
-#: inertia/components/dashboard/modals/edit_collection_modal.tsx:61
-#: inertia/components/dashboard/modals/edit_link_modal.tsx:78
+#: inertia/components/api_tokens/api_tokens.tsx:55
+#: inertia/components/api_tokens/create_token_modal.tsx:50
+#: inertia/components/common/confirm_modal.tsx:43
+#: inertia/components/dashboard/modals/create_collection_modal.tsx:55
+#: inertia/components/dashboard/modals/create_link_modal.tsx:59
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:52
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:53
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:57
+#: inertia/components/dashboard/modals/edit_link_modal.tsx:74
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -133,7 +133,7 @@ msgstr "Changes to the Terms"
 msgid "Clear"
 msgstr "Clear"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:120
+#: inertia/components/dashboard/headers/dashboard_header.tsx:110
 msgid "Click to copy link"
 msgstr "Click to copy link"
 
@@ -143,18 +143,19 @@ msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection managed by <0>{0}</0>"
 
 #: inertia/components/admin/users/users_table.tsx:142
-#: inertia/components/dashboard/modals/search_modal.tsx:205
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:70
+#: inertia/components/dashboard/modals/search_modal.tsx:206
 #: inertia/components/dashboard/search/search_collection_results.tsx:24
 #: inertia/pages/home.tsx:35
 msgid "Collections"
 msgstr "Collections"
 
 #. placeholder {0}: collections.length
-#: inertia/components/dashboard/forms/form_link_content.tsx:118
+#: inertia/components/dashboard/forms/form_link_content.tsx:84
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
 
-#: inertia/components/common/confirm_modal.tsx:47
+#: inertia/components/common/confirm_modal.tsx:42
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -166,26 +167,24 @@ msgstr "Contribute"
 msgid "Cookies used on MyLinks are essential to ensure the proper functioning of the site. By continuing to use our service, you consent to the use of these cookies."
 msgstr "Cookies used on MyLinks are essential to ensure the proper functioning of the site. By continuing to use our service, you consent to the use of these cookies."
 
-#: inertia/components/api_tokens/api_tokens.tsx:76
+#: inertia/components/api_tokens/api_tokens.tsx:80
 msgid "Copied"
 msgstr "Copied"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:121
+#: inertia/components/dashboard/headers/dashboard_header.tsx:111
 msgid "Copied!"
 msgstr "Copied!"
 
-#: inertia/components/api_tokens/api_tokens.tsx:76
+#: inertia/components/api_tokens/api_tokens.tsx:80
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/dashboard/links/link_controls.tsx:166
+#: inertia/components/dashboard/links/link_controls.tsx:165
 msgid "Copy link"
 msgstr "Copy link"
 
-#: inertia/components/dashboard/modals/create_collection_modal.tsx:74
-#: inertia/components/dashboard/modals/create_collection_modal.tsx:77
-#: inertia/components/dashboard/modals/create_link_modal.tsx:78
-#: inertia/components/dashboard/modals/create_link_modal.tsx:81
+#: inertia/components/dashboard/modals/create_collection_modal.tsx:58
+#: inertia/components/dashboard/modals/create_link_modal.tsx:62
 msgid "Create"
 msgstr "Create"
 
@@ -201,7 +200,7 @@ msgstr "Create a collection to get started"
 msgid "Create a link"
 msgstr "Create a link"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:29
+#: inertia/components/api_tokens/create_token_modal.tsx:32
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
@@ -210,24 +209,23 @@ msgid "Create Account"
 msgstr "Create Account"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
-#: inertia/components/dashboard/headers/dashboard_header.tsx:140
-#: inertia/components/dashboard/headers/dashboard_header.tsx:232
+#: inertia/components/dashboard/headers/dashboard_header.tsx:132
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:89
 msgid "Create collection {0}"
 msgstr "Create collection {0}"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
-#: inertia/components/dashboard/headers/dashboard_header.tsx:170
-#: inertia/components/dashboard/headers/dashboard_header.tsx:211
+#: inertia/components/dashboard/headers/dashboard_header.tsx:161
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:61
 msgid "Create link {0}"
 msgstr "Create link {0}"
 
-#: inertia/components/api_tokens/api_tokens.tsx:27
+#: inertia/components/api_tokens/api_tokens.tsx:29
 msgid "Create new token"
 msgstr "Create new token"
 
-#: inertia/components/api_tokens/api_tokens.tsx:115
-#: inertia/components/api_tokens/create_token_modal.tsx:66
-#: inertia/components/api_tokens/create_token_modal.tsx:69
+#: inertia/components/api_tokens/api_tokens.tsx:121
+#: inertia/components/api_tokens/create_token_modal.tsx:58
 msgid "Create token"
 msgstr "Create token"
 
@@ -252,6 +250,10 @@ msgstr "Dashboard"
 msgid "Data Collection"
 msgstr "Data Collection"
 
+#: inertia/components/user_settings/export_import.tsx:125
+msgid "Data imported successfully!"
+msgstr "Data imported successfully!"
+
 #: inertia/pages/privacy.tsx:114
 msgid "Data is stored securely to protect your privacy."
 msgstr "Data is stored securely to protect your privacy."
@@ -264,53 +266,55 @@ msgstr "Data Storage"
 msgid "Data Use"
 msgstr "Data Use"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:69
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:72
-#: inertia/components/dashboard/modals/delete_link_modal.tsx:70
-#: inertia/components/dashboard/modals/delete_link_modal.tsx:73
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:60
+#: inertia/components/dashboard/modals/delete_link_modal.tsx:61
 msgid "Delete"
 msgstr "Delete"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:53
+#: inertia/components/dashboard/collections/collection_controls.tsx:54
 #: inertia/pages/dashboard.tsx:63
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:79
-#: inertia/components/dashboard/links/link_controls.tsx:178
+#: inertia/components/dashboard/links/link_controls.tsx:80
+#: inertia/components/dashboard/links/link_controls.tsx:177
 msgid "Delete a link"
 msgstr "Delete a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:99
-#: inertia/components/dashboard/headers/dashboard_header.tsx:158
-#: inertia/components/dashboard/headers/dashboard_header.tsx:250
+#: inertia/components/dashboard/collections/collection_controls.tsx:100
+#: inertia/components/dashboard/headers/dashboard_header.tsx:152
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:108
 msgid "Delete collection"
 msgstr "Delete collection"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:87
-#: inertia/components/dashboard/forms/form_collection_content.tsx:93
-#: inertia/components/dashboard/forms/form_link_content.tsx:89
-#: inertia/components/dashboard/forms/form_link_content.tsx:104
+#: inertia/components/dashboard/forms/form_collection_content.tsx:71
+#: inertia/components/dashboard/forms/form_collection_content.tsx:79
+#: inertia/components/dashboard/forms/form_link_content.tsx:67
+#: inertia/components/dashboard/forms/form_link_content.tsx:75
 msgid "Description"
 msgstr "Description"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:45
+#: inertia/components/user_settings/export_import.tsx:91
+msgid "Download JSON"
+msgstr "Download JSON"
+
+#: inertia/components/dashboard/collections/collection_controls.tsx:46
 #: inertia/pages/dashboard.tsx:55
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:70
-#: inertia/components/dashboard/links/link_controls.tsx:171
+#: inertia/components/dashboard/links/link_controls.tsx:71
+#: inertia/components/dashboard/links/link_controls.tsx:170
 msgid "Edit a link"
 msgstr "Edit a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:92
-#: inertia/components/dashboard/headers/dashboard_header.tsx:152
-#: inertia/components/dashboard/headers/dashboard_header.tsx:244
+#: inertia/components/dashboard/collections/collection_controls.tsx:93
+#: inertia/components/dashboard/headers/dashboard_header.tsx:145
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:101
 msgid "Edit collection"
 msgstr "Edit collection"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:38
+#: inertia/components/api_tokens/create_token_modal.tsx:42
 msgid "Enter token name"
 msgstr "Enter token name"
 
@@ -318,12 +322,24 @@ msgstr "Enter token name"
 msgid "Everything you need to organize and manage your bookmarks effectively"
 msgstr "Everything you need to organize and manage your bookmarks effectively"
 
+#: inertia/components/user_settings/export_import.tsx:82
+msgid "Export"
+msgstr "Export"
+
+#: inertia/components/user_settings/export_import.tsx:69
+msgid "Export / Import"
+msgstr "Export / Import"
+
+#: inertia/components/user_settings/export_import.tsx:72
+msgid "Export all your collections and links, or import them from a JSON file"
+msgstr "Export all your collections and links, or import them from a JSON file"
+
 #: inertia/pages/home.tsx:41
 msgid "Extension"
 msgstr "Extension"
 
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:36
-#: inertia/components/dashboard/forms/form_link_content.tsx:168
+#: inertia/components/dashboard/forms/form_link_content.tsx:126
 msgid "Favorite"
 msgstr "Favorite"
 
@@ -352,7 +368,7 @@ msgstr "GDPR Compliance"
 msgid "Get Started"
 msgstr "Get Started"
 
-#: inertia/components/dashboard/links/link_controls.tsx:150
+#: inertia/components/dashboard/links/link_controls.tsx:149
 msgid "Go to collection"
 msgstr "Go to collection"
 
@@ -360,9 +376,14 @@ msgstr "Go to collection"
 msgid "Help improve the project by contributing"
 msgstr "Help improve the project by contributing"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:31
+#: inertia/components/dashboard/forms/form_collection_content.tsx:34
 msgid "Icon"
 msgstr "Icon"
+
+#: inertia/components/user_settings/export_import.tsx:97
+#: inertia/components/user_settings/export_import.tsx:138
+msgid "Import"
+msgstr "Import"
 
 #: inertia/pages/home.tsx:212
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
@@ -388,7 +409,8 @@ msgid "links"
 msgstr "links"
 
 #: inertia/components/admin/users/users_table.tsx:149
-#: inertia/components/dashboard/modals/search_modal.tsx:193
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:54
+#: inertia/components/dashboard/modals/search_modal.tsx:194
 #: inertia/components/dashboard/search/search_link_results.tsx:22
 #: inertia/pages/home.tsx:37
 msgid "Links"
@@ -436,14 +458,14 @@ msgid "MyLinks reserves the right to terminate or suspend your access to the ser
 msgstr "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 
 #: inertia/components/admin/users/users_table.tsx:128
-#: inertia/components/dashboard/forms/form_collection_content.tsx:56
-#: inertia/components/dashboard/forms/form_collection_content.tsx:63
+#: inertia/components/dashboard/forms/form_collection_content.tsx:55
+#: inertia/components/dashboard/forms/form_collection_content.tsx:61
 #: inertia/components/dashboard/forms/form_link_content.tsx:28
-#: inertia/components/dashboard/forms/form_link_content.tsx:45
+#: inertia/components/dashboard/forms/form_link_content.tsx:38
 msgid "Name"
 msgstr "Name"
 
-#: inertia/components/api_tokens/api_tokens.tsx:63
+#: inertia/components/api_tokens/api_tokens.tsx:65
 msgid "New token created"
 msgstr "New token created"
 
@@ -452,11 +474,11 @@ msgstr "New token created"
 msgid "No links yet"
 msgstr "No links yet"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:221
+#: inertia/components/dashboard/modals/search_modal.tsx:222
 msgid "No results found"
 msgstr "No results found"
 
-#: inertia/components/api_tokens/api_tokens.tsx:121
+#: inertia/components/api_tokens/api_tokens.tsx:127
 msgid "No tokens created yet"
 msgstr "No tokens created yet"
 
@@ -500,15 +522,15 @@ msgstr "Privacy First"
 msgid "Privacy Policy of MyLinks"
 msgstr "Privacy Policy of MyLinks"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:131
+#: inertia/components/dashboard/forms/form_collection_content.tsx:105
 msgid "Private"
 msgstr "Private"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:147
+#: inertia/components/dashboard/forms/form_collection_content.tsx:121
 msgid "Public"
 msgstr "Public"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:202
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:48
 msgid "Quick Actions"
 msgstr "Quick Actions"
 
@@ -520,11 +542,11 @@ msgstr "Quickly find what you're looking for"
 msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:45
+#: inertia/components/dashboard/forms/form_collection_content.tsx:49
 msgid "Remove"
 msgstr "Remove"
 
-#: inertia/components/dashboard/links/link_controls.tsx:159
+#: inertia/components/dashboard/links/link_controls.tsx:158
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
@@ -532,8 +554,8 @@ msgstr "Remove from favorites"
 msgid "Responsibilities and Warranties"
 msgstr "Responsibilities and Warranties"
 
-#: inertia/components/api_tokens/api_tokens.tsx:44
-#: inertia/components/api_tokens/api_tokens.tsx:52
+#: inertia/components/api_tokens/api_tokens.tsx:46
+#: inertia/components/api_tokens/api_tokens.tsx:54
 msgid "Revoke"
 msgstr "Revoke"
 
@@ -558,6 +580,10 @@ msgstr "Search..."
 msgid "Select a collection to view its links"
 msgstr "Select a collection to view its links"
 
+#: inertia/components/user_settings/export_import.tsx:105
+msgid "Select JSON file"
+msgstr "Select JSON file"
+
 #: inertia/pages/home.tsx:111
 msgid "Self-Hosted"
 msgstr "Self-Hosted"
@@ -568,7 +594,7 @@ msgstr "Server Error"
 
 #: inertia/components/common/navigation/navbar.tsx:108
 #: inertia/components/common/navigation/navbar.tsx:206
-#: inertia/pages/user_settings/show.tsx:7
+#: inertia/pages/user_settings/show.tsx:8
 msgid "Settings"
 msgstr "Settings"
 
@@ -576,7 +602,7 @@ msgstr "Settings"
 msgid "Share"
 msgstr "Share"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:224
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:79
 msgid "Share collection"
 msgstr "Share collection"
 
@@ -592,7 +618,7 @@ msgstr "Sign In"
 msgid "Sign Up"
 msgstr "Sign Up"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:217
+#: inertia/components/dashboard/modals/search_modal.tsx:218
 msgid "Start typing to search..."
 msgstr "Start typing to search..."
 
@@ -624,7 +650,7 @@ msgstr "The collected data is neither resold nor used for purposes other than in
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:153
+#: inertia/components/dashboard/forms/form_collection_content.tsx:127
 msgid "The content will be visible to everyone"
 msgstr "The content will be visible to everyone"
 
@@ -644,7 +670,7 @@ msgstr "To access certain features of MyLinks, you will need to create a user ac
 msgid "To create personalized collections and links and associate them with their author, we collect the following information:"
 msgstr "To create personalized collections and links and associate them with their author, we collect the following information:"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:33
+#: inertia/components/api_tokens/create_token_modal.tsx:35
 msgid "Token name"
 msgstr "Token name"
 
@@ -664,21 +690,19 @@ msgstr "Total Users"
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:181
-#: inertia/components/dashboard/headers/dashboard_header.tsx:260
+#: inertia/components/dashboard/headers/dashboard_header.tsx:169
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:118
 #: inertia/pages/shared.tsx:82
 msgid "Unfollow"
 msgstr "Unfollow"
 
-#: inertia/components/dashboard/modals/edit_collection_modal.tsx:76
-#: inertia/components/dashboard/modals/edit_collection_modal.tsx:79
-#: inertia/components/dashboard/modals/edit_link_modal.tsx:93
-#: inertia/components/dashboard/modals/edit_link_modal.tsx:96
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:60
+#: inertia/components/dashboard/modals/edit_link_modal.tsx:77
 msgid "Update"
 msgstr "Update"
 
-#: inertia/components/dashboard/forms/form_link_content.tsx:59
-#: inertia/components/dashboard/forms/form_link_content.tsx:75
+#: inertia/components/dashboard/forms/form_link_content.tsx:48
+#: inertia/components/dashboard/forms/form_link_content.tsx:58
 msgid "URL"
 msgstr "URL"
 
@@ -694,7 +718,7 @@ msgstr "Use our browser extension for quick access"
 msgid "User Rights"
 msgstr "User Rights"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:115
+#: inertia/components/dashboard/forms/form_collection_content.tsx:89
 msgid "Visibility"
 msgstr "Visibility"
 
