@@ -3,6 +3,7 @@ import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Link as InertiaLink } from '@tuyau/inertia/react';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
+import { IconButton } from '~/components/common/icon_button';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 import { useContextMenu } from '~/hooks/use_context_menu';
@@ -118,17 +119,15 @@ export function LinkControls({
 			ref={menuRef}
 			onClick={(e) => e.stopPropagation()}
 		>
-			<button
+			<IconButton
+				icon="i-mdi-dots-vertical"
 				onClick={(e) => {
 					handleStopPropagation(e);
 					toggleMenu(e);
 				}}
 				onContextMenu={handleContextMenu}
-				className="p-1 rounded text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
 				aria-label="Menu"
-			>
-				<div className="i-mdi-dots-vertical w-5 h-5" />
-			</button>
+			/>
 
 			<ContextMenu
 				isVisible={isVisible}

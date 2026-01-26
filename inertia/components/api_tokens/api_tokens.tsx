@@ -1,6 +1,8 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '~/components/common/button';
 import { CopyButton } from '~/components/common/copy_button';
+import { IconButton } from '~/components/common/icon_button';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { useModalStore } from '~/stores/modal_store';
@@ -65,16 +67,18 @@ export function ApiTokens() {
 				{newlyCreatedToken.token && (
 					<CopyButton value={newlyCreatedToken.token}>
 						{({ copied, copy }) => (
-							<button
+							<Button
+								size="sm"
+								variant={copied ? 'secondary' : 'primary'}
 								onClick={copy}
-								className={`px-2 py-1 text-xs font-medium rounded transition-colors ${
+								className={
 									copied
-										? 'bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300'
+										? 'bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-800'
 										: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
-								}`}
+								}
 							>
 								{copied ? <Trans>Copied</Trans> : <Trans>Copy</Trans>}
-							</button>
+							</Button>
 						)}
 					</CopyButton>
 				)}
@@ -88,14 +92,14 @@ export function ApiTokens() {
 		expiresAt: token.expiresAt,
 		lastUsedAt: token.lastUsedAt,
 		actions: [
-			<button
+			<IconButton
 				key="delete"
+				icon="i-tabler-trash"
 				onClick={() => handleRevokeToken(token.identifier)}
-				className="p-1 rounded text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
 				aria-label="Revoke token"
-			>
-				<div className="i-tabler-trash w-4 h-4" />
-			</button>,
+				variant="danger"
+				size="sm"
+			/>,
 		],
 	});
 
@@ -107,13 +111,15 @@ export function ApiTokens() {
 				<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
 					<Trans>API Tokens</Trans>
 				</h2>
-				<button
+				<Button
+					variant="secondary"
+					size="sm"
 					onClick={handleCreateTokenModal}
-					className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+					className="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30"
 				>
 					<div className="i-tabler-plus w-4 h-4" />
 					<Trans>Create token</Trans>
-				</button>
+				</Button>
 			</div>
 
 			{tokens.length === 0 && (
