@@ -7,6 +7,13 @@
 import type { MakeTuyauRequest, MakeTuyauResponse } from '@tuyau/utils/types';
 import type { InferInput } from '@vinejs/vine/types';
 
+type ApiV1HealthGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/api/health/health_controller.ts').default['render'],
+		false
+	>;
+};
 type SharedIdGetHead = {
 	request: MakeTuyauRequest<
 		InferInput<
@@ -22,13 +29,6 @@ type FaviconGetHead = {
 	request: unknown;
 	response: MakeTuyauResponse<
 		import('../app/controllers/favicons/favicons_controller.ts').default['render'],
-		false
-	>;
-};
-type UserSettingsGetHead = {
-	request: unknown;
-	response: MakeTuyauResponse<
-		import('../app/controllers/user_settings/show_user_settings_controller.ts').default['render'],
 		false
 	>;
 };
@@ -288,63 +288,35 @@ type UserApitokensIdDelete = {
 		true
 	>;
 };
+type UserSettingsGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user_settings/show_user_settings_controller.ts').default['render'],
+		false
+	>;
+};
+type UserSettingsExportGetHead = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user_settings/export_user_data_controller.ts').default['execute'],
+		false
+	>;
+};
+type UserSettingsImportPost = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user_settings/import_user_data_controller.ts').default['execute'],
+		false
+	>;
+};
 export interface ApiDefinition {
-	shared: {
-		':id': {
-			$url: {};
-			$get: SharedIdGetHead;
-			$head: SharedIdGetHead;
-		};
-	};
-	favicon: {
-		$url: {};
-		$get: FaviconGetHead;
-		$head: FaviconGetHead;
-	};
-	user: {
-		settings: {
-			$url: {};
-			$get: UserSettingsGetHead;
-			$head: UserSettingsGetHead;
-		};
-		'api-tokens': {
-			$url: {};
-			$post: UserApitokensPost;
-			':tokenId': {
-				$url: {};
-				$delete: UserApitokensIdDelete;
-			};
-		};
-	};
-	auth: {
-		google: {
-			$url: {};
-			$get: AuthGoogleGetHead;
-			$head: AuthGoogleGetHead;
-		};
-		callback: {
-			$url: {};
-			$get: AuthCallbackGetHead;
-			$head: AuthCallbackGetHead;
-		};
-		logout: {
-			$url: {};
-			$get: AuthLogoutGetHead;
-			$head: AuthLogoutGetHead;
-		};
-	};
-	admin: {
-		$url: {};
-		$get: AdminGetHead;
-		$head: AdminGetHead;
-		status: {
-			$url: {};
-			$get: AdminStatusGetHead;
-			$head: AdminStatusGetHead;
-		};
-	};
 	api: {
 		v1: {
+			health: {
+				$url: {};
+				$get: ApiV1HealthGetHead;
+				$head: ApiV1HealthGetHead;
+			};
 			collections: {
 				$url: {};
 				$get: ApiV1CollectionsGetHead;
@@ -377,6 +349,45 @@ export interface ApiDefinition {
 					$head: ApiV1TokensCheckGetHead;
 				};
 			};
+		};
+	};
+	shared: {
+		':id': {
+			$url: {};
+			$get: SharedIdGetHead;
+			$head: SharedIdGetHead;
+		};
+	};
+	favicon: {
+		$url: {};
+		$get: FaviconGetHead;
+		$head: FaviconGetHead;
+	};
+	auth: {
+		google: {
+			$url: {};
+			$get: AuthGoogleGetHead;
+			$head: AuthGoogleGetHead;
+		};
+		callback: {
+			$url: {};
+			$get: AuthCallbackGetHead;
+			$head: AuthCallbackGetHead;
+		};
+		logout: {
+			$url: {};
+			$get: AuthLogoutGetHead;
+			$head: AuthLogoutGetHead;
+		};
+	};
+	admin: {
+		$url: {};
+		$get: AdminGetHead;
+		$head: AdminGetHead;
+		status: {
+			$url: {};
+			$get: AdminStatusGetHead;
+			$head: AdminStatusGetHead;
 		};
 	};
 	collections: {
@@ -421,6 +432,30 @@ export interface ApiDefinition {
 		$get: SearchGetHead;
 		$head: SearchGetHead;
 	};
+	user: {
+		'api-tokens': {
+			$url: {};
+			$post: UserApitokensPost;
+			':tokenId': {
+				$url: {};
+				$delete: UserApitokensIdDelete;
+			};
+		};
+		settings: {
+			$url: {};
+			$get: UserSettingsGetHead;
+			$head: UserSettingsGetHead;
+			export: {
+				$url: {};
+				$get: UserSettingsExportGetHead;
+				$head: UserSettingsExportGetHead;
+			};
+			import: {
+				$url: {};
+				$post: UserSettingsImportPost;
+			};
+		};
+	};
 }
 const routes = [
 	{
@@ -445,6 +480,13 @@ const routes = [
 		types: {} as unknown,
 	},
 	{
+		params: [],
+		name: 'api-health.index',
+		path: '/api/v1/health',
+		method: ['GET', 'HEAD'],
+		types: {} as ApiV1HealthGetHead,
+	},
+	{
 		params: ['id'],
 		name: 'shared',
 		path: '/shared/:id',
@@ -457,13 +499,6 @@ const routes = [
 		path: '/favicon',
 		method: ['GET', 'HEAD'],
 		types: {} as FaviconGetHead,
-	},
-	{
-		params: [],
-		name: 'user.settings',
-		path: '/user/settings',
-		method: ['GET', 'HEAD'],
-		types: {} as UserSettingsGetHead,
 	},
 	{
 		params: [],
@@ -660,6 +695,27 @@ const routes = [
 		path: '/user/api-tokens/:tokenId',
 		method: ['DELETE'],
 		types: {} as UserApitokensIdDelete,
+	},
+	{
+		params: [],
+		name: 'user.settings',
+		path: '/user/settings',
+		method: ['GET', 'HEAD'],
+		types: {} as UserSettingsGetHead,
+	},
+	{
+		params: [],
+		name: 'user.settings.export',
+		path: '/user/settings/export',
+		method: ['GET', 'HEAD'],
+		types: {} as UserSettingsExportGetHead,
+	},
+	{
+		params: [],
+		name: 'user.settings.import',
+		path: '/user/settings/import',
+		method: ['POST'],
+		types: {} as UserSettingsImportPost,
 	},
 ] as const;
 export const api = {
