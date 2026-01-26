@@ -8,9 +8,13 @@ import logger from '@adonisjs/core/services/logger';
 
 export default class StatusController {
 	async render({ inertia }: HttpContext) {
+		const [isHealthy, checks] = await Promise.all([
+			this.isHealthy(),
+			this.checks(),
+		]);
 		return inertia.render('status', {
-			isHealthy: await this.isHealthy(),
-			checks: await this.checks(),
+			isHealthy,
+			checks,
 		});
 	}
 
