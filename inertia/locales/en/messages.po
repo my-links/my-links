@@ -133,7 +133,7 @@ msgstr "Changes to the Terms"
 msgid "Clear"
 msgstr "Clear"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:100
+#: inertia/components/dashboard/headers/dashboard_header.tsx:120
 msgid "Click to copy link"
 msgstr "Click to copy link"
 
@@ -170,7 +170,7 @@ msgstr "Cookies used on MyLinks are essential to ensure the proper functioning o
 msgid "Copied"
 msgstr "Copied"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:101
+#: inertia/components/dashboard/headers/dashboard_header.tsx:121
 msgid "Copied!"
 msgstr "Copied!"
 
@@ -189,15 +189,15 @@ msgstr "Copy link"
 msgid "Create"
 msgstr "Create"
 
-#: inertia/pages/dashboard.tsx:45
+#: inertia/pages/dashboard.tsx:47
 msgid "Create a collection"
 msgstr "Create a collection"
 
-#: inertia/pages/dashboard.tsx:69
+#: inertia/pages/dashboard.tsx:71
 msgid "Create a collection to get started"
 msgstr "Create a collection to get started"
 
-#: inertia/pages/dashboard.tsx:73
+#: inertia/pages/dashboard.tsx:75
 msgid "Create a link"
 msgstr "Create a link"
 
@@ -209,15 +209,17 @@ msgstr "Create a new API token to access the API"
 msgid "Create Account"
 msgstr "Create Account"
 
-#. placeholder {0}: KEYS.OPEN_CREATE_COLLECTION_KEY
-#: inertia/components/dashboard/headers/dashboard_header.tsx:120
-msgid "Create collection <0>{0}</0>"
-msgstr "Create collection <0>{0}</0>"
+#. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
+#: inertia/components/dashboard/headers/dashboard_header.tsx:140
+#: inertia/components/dashboard/headers/dashboard_header.tsx:232
+msgid "Create collection {0}"
+msgstr "Create collection {0}"
 
-#. placeholder {0}: KEYS.OPEN_CREATE_LINK_KEY
-#: inertia/components/dashboard/headers/dashboard_header.tsx:149
-msgid "Create link <0>{0}</0>"
-msgstr "Create link <0>{0}</0>"
+#. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
+#: inertia/components/dashboard/headers/dashboard_header.tsx:170
+#: inertia/components/dashboard/headers/dashboard_header.tsx:211
+msgid "Create link {0}"
+msgstr "Create link {0}"
 
 #: inertia/components/api_tokens/api_tokens.tsx:27
 msgid "Create new token"
@@ -242,7 +244,7 @@ msgstr "Created at"
 msgid "Created by <0>{0}</0>"
 msgstr "Created by <0>{0}</0>"
 
-#: inertia/pages/dashboard.tsx:96
+#: inertia/pages/dashboard.tsx:98
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -270,7 +272,7 @@ msgid "Delete"
 msgstr "Delete"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:53
-#: inertia/pages/dashboard.tsx:61
+#: inertia/pages/dashboard.tsx:63
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
@@ -280,7 +282,8 @@ msgid "Delete a link"
 msgstr "Delete a link"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:99
-#: inertia/components/dashboard/headers/dashboard_header.tsx:137
+#: inertia/components/dashboard/headers/dashboard_header.tsx:158
+#: inertia/components/dashboard/headers/dashboard_header.tsx:250
 msgid "Delete collection"
 msgstr "Delete collection"
 
@@ -292,7 +295,7 @@ msgid "Description"
 msgstr "Description"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:45
-#: inertia/pages/dashboard.tsx:53
+#: inertia/pages/dashboard.tsx:55
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
@@ -302,7 +305,8 @@ msgid "Edit a link"
 msgstr "Edit a link"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:92
-#: inertia/components/dashboard/headers/dashboard_header.tsx:131
+#: inertia/components/dashboard/headers/dashboard_header.tsx:152
+#: inertia/components/dashboard/headers/dashboard_header.tsx:244
 msgid "Edit collection"
 msgstr "Edit collection"
 
@@ -324,7 +328,7 @@ msgid "Favorite"
 msgstr "Favorite"
 
 #: inertia/components/dashboard/views/favorites_view_content.tsx:17
-#: inertia/pages/dashboard.tsx:93
+#: inertia/pages/dashboard.tsx:95
 msgid "Favorites"
 msgstr "Favorites"
 
@@ -464,7 +468,7 @@ msgstr "Nothing found"
 msgid "Open Source"
 msgstr "Open Source"
 
-#: inertia/pages/dashboard.tsx:143
+#: inertia/pages/dashboard.tsx:147
 msgid "Or create a new collection to get started"
 msgstr "Or create a new collection to get started"
 
@@ -504,6 +508,10 @@ msgstr "Private"
 msgid "Public"
 msgstr "Public"
 
+#: inertia/components/dashboard/headers/dashboard_header.tsx:202
+msgid "Quick Actions"
+msgstr "Quick Actions"
+
 #: inertia/pages/home.tsx:56
 msgid "Quickly find what you're looking for"
 msgstr "Quickly find what you're looking for"
@@ -537,7 +545,7 @@ msgstr "Role"
 msgid "Save and manage your favorite links"
 msgstr "Save and manage your favorite links"
 
-#: inertia/pages/dashboard.tsx:80
+#: inertia/pages/dashboard.tsx:82
 #: inertia/pages/home.tsx:39
 msgid "Search"
 msgstr "Search"
@@ -546,7 +554,7 @@ msgstr "Search"
 msgid "Search..."
 msgstr "Search..."
 
-#: inertia/pages/dashboard.tsx:140
+#: inertia/pages/dashboard.tsx:144
 msgid "Select a collection to view its links"
 msgstr "Select a collection to view its links"
 
@@ -567,6 +575,10 @@ msgstr "Settings"
 #: inertia/pages/home.tsx:43
 msgid "Share"
 msgstr "Share"
+
+#: inertia/components/dashboard/headers/dashboard_header.tsx:224
+msgid "Share collection"
+msgstr "Share collection"
 
 #: inertia/pages/home.tsx:60
 msgid "Share your collections with others"
@@ -652,7 +664,8 @@ msgstr "Total Users"
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:159
+#: inertia/components/dashboard/headers/dashboard_header.tsx:181
+#: inertia/components/dashboard/headers/dashboard_header.tsx:260
 #: inertia/pages/shared.tsx:82
 msgid "Unfollow"
 msgstr "Unfollow"

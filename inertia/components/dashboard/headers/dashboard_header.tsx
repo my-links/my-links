@@ -4,6 +4,7 @@ import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { Kbd } from '~/components/common/kbd';
 import { Tooltip } from '~/components/common/tooltip';
+import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
 import { SearchButton } from '~/components/dashboard/search/search_button';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
@@ -11,7 +12,7 @@ import { useRouteHelper } from '~/lib/route_helper';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import { Visibility } from '~/types/app';
 
-interface DashboardHeaderProps {
+export interface DashboardHeaderProps {
 	isFavorite: boolean;
 	onToggleSidebar: () => void;
 	onCreateCollection: () => void;
@@ -79,97 +80,117 @@ export function DashboardHeader({
 	};
 
 	return (
-		<header
-			className={clsx(
-				'border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
-				!sidebarOpen || isMobile ? 'pl-0' : 'pl-4'
-			)}
-		>
-			<div className="flex flex-col justify-between gap-4">
-				<div className="flex items-center gap-4 flex-1">
-					<BurgerButton onToggleSidebar={onToggleSidebar} />
+		<>
+			<header
+				className={clsx(
+					'border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
+					!sidebarOpen || isMobile ? 'pl-0' : 'pl-4'
+				)}
+			>
+				<div className="flex flex-col justify-between gap-4">
+					<div className="flex items-center gap-4 flex-1">
+						<BurgerButton onToggleSidebar={onToggleSidebar} />
 
-					<SearchButton onClick={onOpenSearch} />
-				</div>
+						<SearchButton onClick={onOpenSearch} />
 
-				<div className="w-full flex items-center justify-between gap-2 flex-wrap">
-					<div className="flex items-center gap-2 flex-wrap">
-						{activeCollection?.visibility === Visibility.PUBLIC && (
-							<>
-								<Tooltip
-									content={<Trans>Click to copy link</Trans>}
-									temporaryContent={<Trans>Copied!</Trans>}
-									showOnClick
-									position="bottom"
+						{isMobile && (
+							<DashboardQuickAction
+								onCreateLink={onCreateLink}
+								onHandleShareCollection={handleShareCollection}
+								onCreateCollection={onCreateCollection}
+								isFavorite={isFavorite}
+								onEditCollection={onEditCollection}
+								onDeleteCollection={onDeleteCollection}
+								onHandleUnfollow={handleUnfollow}
+								onToggleSidebar={onToggleSidebar}
+								onOpenSearch={onOpenSearch}
+							/>
+						)}
+					</div>
+
+					{!isMobile && (
+						<div className="w-full flex items-center justify-between gap-2 flex-wrap">
+							<div className="flex items-center gap-2 flex-wrap">
+								{activeCollection?.visibility === Visibility.PUBLIC && (
+									<>
+										<Tooltip
+											content={<Trans>Click to copy link</Trans>}
+											temporaryContent={<Trans>Copied!</Trans>}
+											showOnClick
+											position="bottom"
+										>
+											<button
+												className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+												onClick={handleShareCollection}
+											>
+												<div className="i-ant-design-share-alt-outlined w-5 h-5" />
+											</button>
+										</Tooltip>
+										<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
+									</>
+								)}
+
+								<button
+									onClick={() => onCreateCollection()}
+									className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
 								>
+									<Trans>
+										Create collection{' '}
+										{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
+									</Trans>
+								</button>
+
+								{!isFavorite && activeCollection?.isOwner !== false && (
+									<>
+										<button
+											onClick={onEditCollection}
+											className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+										>
+											<Trans>Edit collection</Trans>
+										</button>
+										<button
+											onClick={onDeleteCollection}
+											className="cursor-pointer px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
+										>
+											<Trans>Delete collection</Trans>
+										</button>
+									</>
+								)}
+							</div>
+
+							<div className="flex items-center gap-2 flex-wrap">
+								{activeCollection?.isOwner !== false && (
 									<button
-										className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors"
-										onClick={handleShareCollection}
+										onClick={onCreateLink}
+										className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
 									>
-										<div className="i-ant-design-share-alt-outlined w-5 h-5" />
+										<Trans>
+											Create link{' '}
+											{!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
+										</Trans>
 									</button>
-								</Tooltip>
-								<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
-							</>
-						)}
-
-						<button
-							onClick={() => onCreateCollection()}
-							className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
-						>
-							<Trans>
-								Create collection <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
-							</Trans>
-						</button>
-
-						{!isFavorite && activeCollection?.isOwner !== false && (
-							<>
-								<button
-									onClick={onEditCollection}
-									className="cursor-pointer px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-gray-300/50 dark:border-gray-600/50 sm:border-0"
-								>
-									<Trans>Edit collection</Trans>
-								</button>
-								<button
-									onClick={onDeleteCollection}
-									className="cursor-pointer px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-white/50 dark:hover:bg-gray-800/50 rounded-lg transition-colors border border-red-300/50 dark:border-red-600/50 sm:border-0"
-								>
-									<Trans>Delete collection</Trans>
-								</button>
-							</>
-						)}
-					</div>
-
-					<div className="flex items-center gap-2 flex-wrap">
-						{activeCollection?.isOwner !== false && (
-							<button
-								onClick={onCreateLink}
-								className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-							>
-								<Trans>
-									Create link <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
-								</Trans>
-							</button>
-						)}
-						{!isFavorite && activeCollection?.isOwner === false && (
-							<button
-								onClick={handleUnfollow}
-								className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg transition-colors"
-							>
-								<Trans>Unfollow</Trans>
-							</button>
-						)}
-					</div>
+								)}
+								{!isFavorite && activeCollection?.isOwner === false && (
+									<button
+										onClick={handleUnfollow}
+										className="cursor-pointer px-4 py-2 text-sm font-medium text-white bg-red-700 hover:bg-red-800 rounded-lg transition-colors"
+									>
+										<Trans>Unfollow</Trans>
+									</button>
+								)}
+							</div>
+						</div>
+					)}
 				</div>
-			</div>
 
-			{collectionDescription && (
-				<div className="mt-4">
-					<p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-line break-words">
-						{collectionDescription}
-					</p>
-				</div>
-			)}
-		</header>
+				{collectionDescription && (
+					<div className="mt-4">
+						<p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-line break-words">
+							{collectionDescription}
+						</p>
+					</div>
+				)}
+			</header>
+		</>
 	);
 }
