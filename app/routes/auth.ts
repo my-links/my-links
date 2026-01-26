@@ -1,3 +1,4 @@
+import { getRoute } from '#lib/route_helper';
 import { middleware } from '#start/kernel';
 import router from '@adonisjs/core/services/router';
 
@@ -12,11 +13,12 @@ router
 			.get('/callback', [AuthController, 'callbackAuth'])
 			.as('auth.callback');
 	})
+	.use(middleware.guest({ redirectTo: getRoute('collection.favorites').path }))
 	.prefix(ROUTES_PREFIX);
 
 router
 	.group(() => {
 		router.get('/logout', [AuthController, 'logout']).as('auth.logout');
 	})
-	.middleware([middleware.auth()])
+	.use(middleware.auth())
 	.prefix(ROUTES_PREFIX);
