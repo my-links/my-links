@@ -29,7 +29,7 @@ export class CollectionService {
 						});
 				});
 			})
-			.preload('links', (q) => q.orderBy('created_at', 'desc'))
+			.preload('links', (q) => q.orderBy('name', 'asc'))
 			.preload('author')
 			.firstOrFail();
 
@@ -43,7 +43,7 @@ export class CollectionService {
 		const context = this.getAuthContext();
 		return await Collection.query()
 			.where('author_id', context.auth.user!.id)
-			.orderBy('created_at', 'desc')
+			.orderBy('name', 'asc')
 			.preload('links', (q) => q.orderBy('favorite', 'desc'));
 	}
 
@@ -91,7 +91,7 @@ export class CollectionService {
 		return Collection.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
-			.orderBy('created_at', 'desc')
+			.orderBy('name', 'asc')
 			.delete();
 	}
 
@@ -99,9 +99,9 @@ export class CollectionService {
 		return Collection.query()
 			.where('id', id)
 			.andWhere('visibility', Visibility.PUBLIC)
-			.preload('links', (q) => q.orderBy('created_at', 'desc'))
+			.preload('links', (q) => q.orderBy('name', 'asc'))
 			.preload('author')
-			.orderBy('created_at', 'desc')
+			.orderBy('name', 'asc')
 			.firstOrFail();
 	}
 
@@ -109,14 +109,14 @@ export class CollectionService {
 		return await Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PUBLIC)
-			.orderBy('created_at', 'desc');
+			.orderBy('name', 'asc');
 	}
 
 	async getMyPrivateCollections(userId: User['id']) {
 		return await Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PRIVATE)
-			.orderBy('created_at', 'desc');
+			.orderBy('name', 'asc');
 	}
 
 	async getFollowedCollections(userId: User['id']) {
@@ -126,7 +126,7 @@ export class CollectionService {
 			})
 			.andWhere('visibility', Visibility.PUBLIC)
 			.preload('author')
-			.orderBy('created_at', 'desc');
+			.orderBy('name', 'asc');
 	}
 
 	async isFollowingCollection(
