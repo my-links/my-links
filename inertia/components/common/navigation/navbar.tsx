@@ -1,4 +1,5 @@
 import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import { Link } from '@tuyau/inertia/react';
 import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
@@ -97,7 +98,7 @@ export function Navbar() {
 							<div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
 							<div className="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
 								<span className="text-sm text-gray-600 dark:text-gray-400">
-									Bonjour,
+									<Trans>Hello</Trans>,
 								</span>
 								<span className="text-sm font-medium text-gray-900 dark:text-white">
 									{auth.user?.fullname}

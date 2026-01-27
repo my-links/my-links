@@ -388,6 +388,10 @@ msgstr "Get Started"
 msgid "Go to collection"
 msgstr "Go to collection"
 
+#: inertia/components/common/navigation/navbar.tsx:101
+msgid "Hello"
+msgstr "Hello"
+
 #: inertia/pages/home.tsx:62
 msgid "Help improve the project by contributing"
 msgstr "Help improve the project by contributing"
@@ -432,8 +436,8 @@ msgstr "links"
 msgid "Links"
 msgstr "Links"
 
-#: inertia/components/common/navigation/navbar.tsx:116
-#: inertia/components/common/navigation/navbar.tsx:214
+#: inertia/components/common/navigation/navbar.tsx:117
+#: inertia/components/common/navigation/navbar.tsx:215
 msgid "Logout"
 msgstr "Logout"
 
@@ -612,8 +616,8 @@ msgstr "Self-Hosted"
 msgid "Server Error"
 msgstr "Server Error"
 
-#: inertia/components/common/navigation/navbar.tsx:108
-#: inertia/components/common/navigation/navbar.tsx:206
+#: inertia/components/common/navigation/navbar.tsx:109
+#: inertia/components/common/navigation/navbar.tsx:207
 #: inertia/pages/user_settings/show.tsx:9
 msgid "Settings"
 msgstr "Settings"
