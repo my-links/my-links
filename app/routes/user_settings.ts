@@ -7,6 +7,8 @@ const ExportUserDataController = () =>
 	import('#controllers/user_settings/export_user_data_controller');
 const ImportUserDataController = () =>
 	import('#controllers/user_settings/import_user_data_controller');
+const DeleteUserAccountController = () =>
+	import('#controllers/user_settings/delete_user_account_controller');
 
 router
 	.group(() => {
@@ -21,5 +23,12 @@ router
 		router
 			.post('/user/settings/import', [ImportUserDataController, 'execute'])
 			.as('user.settings.import');
+
+		router
+			.delete('/user/settings/account', [
+				DeleteUserAccountController,
+				'execute',
+			])
+			.as('user.settings.delete');
 	})
 	.use(middleware.auth());
