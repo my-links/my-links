@@ -138,7 +138,7 @@ msgstr "Annuler"
 msgid "Changes to the Terms"
 msgstr "Modifications des conditions"
 
-#: inertia/components/admin/users/users_table.tsx:115
+#: inertia/components/admin/users/users_table.tsx:117
 msgid "Clear"
 msgstr "Effacer"
 
@@ -151,7 +151,7 @@ msgstr "Cliquer pour copier le lien"
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection gérée par <0>{0}</0>"
 
-#: inertia/components/admin/users/users_table.tsx:142
+#: inertia/components/admin/users/users_table.tsx:144
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:70
 #: inertia/components/dashboard/modals/search_modal.tsx:206
 #: inertia/components/dashboard/search/search_collection_results.tsx:24
@@ -242,7 +242,7 @@ msgstr "Créer un jeton"
 msgid "Create your first link to get started"
 msgstr "Créez votre premier lien pour commencer"
 
-#: inertia/components/admin/users/users_table.tsx:156
+#: inertia/components/admin/users/users_table.tsx:158
 msgid "Created at"
 msgstr "Créé le"
 
@@ -405,7 +405,7 @@ msgstr "Importer"
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Rejoignez la communauté et commencez à organiser vos liens dès aujourd'hui. C'est gratuit, open-source et respecte votre vie privée."
 
-#: inertia/components/admin/users/users_table.tsx:163
+#: inertia/components/admin/users/users_table.tsx:165
 msgid "Last seen at"
 msgstr "Dernière connexion le"
 
@@ -424,7 +424,7 @@ msgstr "lien"
 msgid "links"
 msgstr "liens"
 
-#: inertia/components/admin/users/users_table.tsx:149
+#: inertia/components/admin/users/users_table.tsx:151
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:54
 #: inertia/components/dashboard/modals/search_modal.tsx:194
 #: inertia/components/dashboard/search/search_link_results.tsx:22
@@ -473,7 +473,7 @@ msgstr "MyLinks se réserve le droit de modifier ces Conditions générales d'ut
 msgid "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès au service, avec ou sans préavis, en cas de violation de ces Conditions générales d'utilisation."
 
-#: inertia/components/admin/users/users_table.tsx:128
+#: inertia/components/admin/users/users_table.tsx:130
 #: inertia/components/dashboard/forms/form_collection_content.tsx:55
 #: inertia/components/dashboard/forms/form_collection_content.tsx:61
 #: inertia/components/dashboard/forms/form_link_content.tsx:28
@@ -498,7 +498,7 @@ msgstr "Aucun résultat trouvé"
 msgid "No tokens created yet"
 msgstr "Aucun jeton créé pour le moment"
 
-#: inertia/components/admin/users/users_table.tsx:176
+#: inertia/components/admin/users/users_table.tsx:178
 msgid "Nothing found"
 msgstr "Aucun résultat"
 
@@ -579,7 +579,7 @@ msgstr "Responsabilités et garanties"
 msgid "Revoke"
 msgstr "Révoquer"
 
-#: inertia/components/admin/users/users_table.tsx:135
+#: inertia/components/admin/users/users_table.tsx:137
 msgid "Role"
 msgstr "Rôle"
 
@@ -706,7 +706,7 @@ msgstr "Total des liens"
 msgid "Total Users"
 msgstr "Total des utilisateurs"
 
-#: inertia/components/admin/users/users_table.tsx:179
+#: inertia/components/admin/users/users_table.tsx:181
 msgid "Try adjusting your search criteria"
 msgstr "Essayez d'ajuster vos critères de recherche"
 

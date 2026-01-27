@@ -3,7 +3,9 @@ import { Trans } from '@lingui/react/macro';
 import { ChangeEvent, useState } from 'react';
 import { Th } from '~/components/admin/users/th';
 import { sortData } from '~/components/admin/users/utils';
+import { ClientOnly } from '~/components/common/client_only';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
+import { formatDate } from '~/lib/format';
 
 export type Columns = keyof UserWithCounters;
 
@@ -76,10 +78,10 @@ export function UsersTable({ users }: UsersTableProps) {
 				</span>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-				{user.createdAt}
+				<ClientOnly>{formatDate(user.createdAt ?? '')}</ClientOnly>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-				{user.lastSeenAt}
+				<ClientOnly>{formatDate(user.lastSeenAt ?? '')}</ClientOnly>
 			</td>
 		</tr>
 	));
