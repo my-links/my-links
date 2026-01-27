@@ -309,6 +309,13 @@ type UserSettingsImportPost = {
 		false
 	>;
 };
+type UserSettingsAccountDelete = {
+	request: unknown;
+	response: MakeTuyauResponse<
+		import('../app/controllers/user_settings/delete_user_account_controller.ts').default['execute'],
+		false
+	>;
+};
 export interface ApiDefinition {
 	api: {
 		v1: {
@@ -453,6 +460,10 @@ export interface ApiDefinition {
 			import: {
 				$url: {};
 				$post: UserSettingsImportPost;
+			};
+			account: {
+				$url: {};
+				$delete: UserSettingsAccountDelete;
 			};
 		};
 	};
@@ -716,6 +727,13 @@ const routes = [
 		path: '/user/settings/import',
 		method: ['POST'],
 		types: {} as UserSettingsImportPost,
+	},
+	{
+		params: [],
+		name: 'user.settings.delete',
+		path: '/user/settings/account',
+		method: ['DELETE'],
+		types: {} as UserSettingsAccountDelete,
 	},
 ] as const;
 export const api = {

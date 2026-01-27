@@ -93,6 +93,10 @@ msgstr "Êtes-vous sûr de vouloir supprimer cette collection ?"
 msgid "Are you sure you want to delete this link?"
 msgstr "Êtes-vous sûr de vouloir supprimer ce lien ?"
 
+#: inertia/components/user_settings/delete_account.tsx:15
+msgid "Are you sure you want to delete your account? This action cannot be undone. All your collections, links, and data will be permanently deleted."
+msgstr "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut pas être annulée. Toutes vos collections, liens et données seront définitivement supprimées."
+
 #: inertia/components/api_tokens/api_tokens.tsx:51
 msgid "Are you sure you want to revoke this token?"
 msgstr "Êtes-vous sûr de vouloir révoquer ce jeton ?"
@@ -122,6 +126,7 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:53
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:57
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:74
+#: inertia/components/user_settings/delete_account.tsx:22
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -280,6 +285,13 @@ msgstr "Supprimer une collection"
 #: inertia/components/dashboard/links/link_controls.tsx:177
 msgid "Delete a link"
 msgstr "Supprimer un lien"
+
+#: inertia/components/user_settings/delete_account.tsx:13
+#: inertia/components/user_settings/delete_account.tsx:21
+#: inertia/components/user_settings/delete_account.tsx:35
+#: inertia/components/user_settings/delete_account.tsx:51
+msgid "Delete Account"
+msgstr "Supprimer le compte"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:100
 #: inertia/components/dashboard/headers/dashboard_header.tsx:152
@@ -486,6 +498,10 @@ msgstr "Aucun jeton créé pour le moment"
 msgid "Nothing found"
 msgstr "Aucun résultat"
 
+#: inertia/components/user_settings/delete_account.tsx:38
+msgid "Once you delete your account, there is no going back. Please be certain."
+msgstr "Une fois que vous avez supprimé votre compte, il n'y a pas de retour en arrière. Veuillez être certain."
+
 #: inertia/pages/home.tsx:89
 msgid "Open Source"
 msgstr "Open Source"
@@ -594,7 +610,7 @@ msgstr "Erreur serveur"
 
 #: inertia/components/common/navigation/navbar.tsx:108
 #: inertia/components/common/navigation/navbar.tsx:206
-#: inertia/pages/user_settings/show.tsx:8
+#: inertia/pages/user_settings/show.tsx:9
 msgid "Settings"
 msgstr "Paramètres"
 
