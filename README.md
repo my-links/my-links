@@ -1,4 +1,6 @@
-![](./docs//imgs/ml_dashboard_dark.png)
+![](./docs/imgs/screenshots/ml_dashboard_dark.png)
+
+> More screenshots are available in the [`docs/imgs/screenshots`](./docs/imgs/screenshots) directory.
 
 <div align="center">
   <h1>MyLinks</h1>

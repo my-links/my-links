@@ -1,4 +1,6 @@
-![](./imgs/ml_dashboard_dark.png)
+![](./imgs/screenshots/ml_dashboard_dark.png)
+
+> D'autres captures d'écran sont disponibles dans le dossier [`docs/imgs/screenshots`](./imgs/screenshots).
 
 <div align="center">
   <h1>MyLinks</h1>
