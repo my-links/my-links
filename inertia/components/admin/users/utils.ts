@@ -10,6 +10,43 @@ export function filterData(data: UserWithCounters[], search: string) {
 	);
 }
 
+/**
+ * Compare two values according to their type for sorting
+ */
+function compareValues(a: any, b: any, reversed: boolean): number {
+	// Handle null/undefined values
+	if (a === null && b === null) return 0;
+	if (a === null) return 1;
+	if (b === null) return -1;
+
+	// Numeric sorting for counters
+	if (typeof a === 'number' && typeof b === 'number') {
+		return reversed ? b - a : a - b;
+	}
+
+	// Boolean sorting
+	if (typeof a === 'boolean' && typeof b === 'boolean') {
+		if (a === b) return 0;
+		return reversed ? (b ? 1 : -1) : a ? 1 : -1;
+	}
+
+	// Date sorting (ISO strings)
+	if (typeof a === 'string' && typeof b === 'string') {
+		// Check if they are ISO dates
+		const dateA = new Date(a).getTime();
+		const dateB = new Date(b).getTime();
+		if (!Number.isNaN(dateA) && !Number.isNaN(dateB)) {
+			return reversed ? dateB - dateA : dateA - dateB;
+		}
+
+		// Otherwise, alphabetical sorting
+		return reversed ? b.localeCompare(a) : a.localeCompare(b);
+	}
+
+	// Fallback : generic comparison
+	return reversed ? (b > a ? 1 : -1) : a > b ? 1 : -1;
+}
+
 export function sortData(
 	data: UserWithCounters[],
 	payload: {
@@ -26,11 +63,9 @@ export function sortData(
 
 	return filterData(
 		[...data].sort((a, b) => {
-			if (!a[sortBy] || !b[sortBy]) return 0;
-			if (payload.reversed) {
-				return b[sortBy] > a[sortBy] ? 1 : -1;
-			}
-			return a[sortBy] > b[sortBy] ? 1 : -1;
+			const valueA = a[sortBy];
+			const valueB = b[sortBy];
+			return compareValues(valueA, valueB, payload.reversed);
 		}),
 		payload.search
 	);
