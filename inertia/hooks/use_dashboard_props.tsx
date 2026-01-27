@@ -5,11 +5,11 @@ import { DashboardProps } from '~/pages/dashboard';
 
 export const useDashboardProps = () => {
 	const {
-		followedCollections,
-		myPublicCollections,
-		myPrivateCollections,
-		activeCollection,
-		favoriteLinks,
+		followedCollections = [],
+		myPublicCollections = [],
+		myPrivateCollections = [],
+		activeCollection = null,
+		favoriteLinks = [],
 	} = usePage<PageProps & DashboardProps>().props;
 
 	const allCollections = useMemo(
