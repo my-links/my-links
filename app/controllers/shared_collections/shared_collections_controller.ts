@@ -13,10 +13,12 @@ export default class SharedCollectionsController {
 			getSharedCollectionValidator
 		);
 
-		const userId = auth.getUserOrFail().id;
+		const userId = auth.user?.id;
 		const [activeCollection, isFollowing] = await Promise.all([
 			this.collectionService.getPublicCollectionById(params.id),
-			this.collectionService.isFollowingCollection(params.id, userId),
+			userId
+				? this.collectionService.isFollowingCollection(params.id, userId)
+				: Promise.resolve(false),
 		]);
 
 		return inertia.render('shared', {
