@@ -61,9 +61,13 @@ msgstr "4.2 Warranties"
 msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
-#: inertia/components/dashboard/links/link_controls.tsx:160
+#: inertia/components/dashboard/links/link_controls.tsx:156
 msgid "Add to favorites"
 msgstr "Add to favorites"
+
+#: inertia/components/common/user_badge_role.tsx:16
+msgid "Admin"
+msgstr "Admin"
 
 #: inertia/pages/admin/dashboard.tsx:20
 msgid "Admin Dashboard"
@@ -85,7 +89,7 @@ msgstr "An unexpected error occurred."
 msgid "API Tokens"
 msgstr "API Tokens"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:40
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:47
 msgid "Are you sure you want to delete this collection?"
 msgstr "Are you sure you want to delete this collection?"
 
@@ -122,9 +126,9 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 #: inertia/components/common/confirm_modal.tsx:43
 #: inertia/components/dashboard/modals/create_collection_modal.tsx:55
 #: inertia/components/dashboard/modals/create_link_modal.tsx:59
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:52
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:59
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:53
-#: inertia/components/dashboard/modals/edit_collection_modal.tsx:57
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:63
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:74
 #: inertia/components/user_settings/delete_account.tsx:22
 msgid "Cancel"
@@ -184,7 +188,7 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/dashboard/links/link_controls.tsx:165
+#: inertia/components/dashboard/links/link_controls.tsx:161
 msgid "Copy link"
 msgstr "Copy link"
 
@@ -271,18 +275,18 @@ msgstr "Data Storage"
 msgid "Data Use"
 msgstr "Data Use"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:60
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:67
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:61
 msgid "Delete"
 msgstr "Delete"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:54
+#: inertia/components/dashboard/collections/collection_controls.tsx:64
 #: inertia/pages/dashboard.tsx:63
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:80
-#: inertia/components/dashboard/links/link_controls.tsx:177
+#: inertia/components/dashboard/links/link_controls.tsx:76
+#: inertia/components/dashboard/links/link_controls.tsx:173
 msgid "Delete a link"
 msgstr "Delete a link"
 
@@ -293,7 +297,7 @@ msgstr "Delete a link"
 msgid "Delete Account"
 msgstr "Delete Account"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:100
+#: inertia/components/dashboard/collections/collection_controls.tsx:118
 #: inertia/components/dashboard/headers/dashboard_header.tsx:152
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:108
 msgid "Delete collection"
@@ -310,17 +314,17 @@ msgstr "Description"
 msgid "Download JSON"
 msgstr "Download JSON"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:46
+#: inertia/components/dashboard/collections/collection_controls.tsx:54
 #: inertia/pages/dashboard.tsx:55
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:71
-#: inertia/components/dashboard/links/link_controls.tsx:170
+#: inertia/components/dashboard/links/link_controls.tsx:67
+#: inertia/components/dashboard/links/link_controls.tsx:166
 msgid "Edit a link"
 msgstr "Edit a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:93
+#: inertia/components/dashboard/collections/collection_controls.tsx:111
 #: inertia/components/dashboard/headers/dashboard_header.tsx:145
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:101
 msgid "Edit collection"
@@ -380,7 +384,7 @@ msgstr "GDPR Compliance"
 msgid "Get Started"
 msgstr "Get Started"
 
-#: inertia/components/dashboard/links/link_controls.tsx:149
+#: inertia/components/dashboard/links/link_controls.tsx:145
 msgid "Go to collection"
 msgstr "Go to collection"
 
@@ -562,7 +566,7 @@ msgstr "Ready to Get Started?"
 msgid "Remove"
 msgstr "Remove"
 
-#: inertia/components/dashboard/links/link_controls.tsx:158
+#: inertia/components/dashboard/links/link_controls.tsx:154
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
@@ -712,7 +716,7 @@ msgstr "Try adjusting your search criteria"
 msgid "Unfollow"
 msgstr "Unfollow"
 
-#: inertia/components/dashboard/modals/edit_collection_modal.tsx:60
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:66
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:77
 msgid "Update"
 msgstr "Update"
@@ -729,6 +733,10 @@ msgstr "Use of the Service"
 #: inertia/pages/home.tsx:58
 msgid "Use our browser extension for quick access"
 msgstr "Use our browser extension for quick access"
+
+#: inertia/components/common/user_badge_role.tsx:16
+msgid "User"
+msgstr "User"
 
 #: inertia/pages/privacy.tsx:137
 msgid "User Rights"
