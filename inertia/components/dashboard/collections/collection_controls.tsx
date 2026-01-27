@@ -2,7 +2,7 @@ import { Collection, CollectionWithLinks } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { MouseEvent } from 'react';
+import { forwardRef, MouseEvent, useImperativeHandle } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 import { IconButton } from '~/components/common/icon_button';
@@ -10,6 +10,10 @@ import { useContextMenu } from '~/hooks/use_context_menu';
 import { useModalStore } from '~/stores/modal_store';
 import { DeleteCollectionModal } from '../modals/delete_collection_modal';
 import { EditCollectionModal } from '../modals/edit_collection_modal';
+
+export interface CollectionControlsRef {
+	openContextMenu: (x: number, y: number) => void;
+}
 
 interface CollectionControlsProps {
 	collection: Collection;
@@ -19,7 +23,10 @@ interface PagePropsWithActiveCollection extends PageProps {
 	activeCollection?: CollectionWithLinks | null;
 }
 
-export function CollectionControls({ collection }: CollectionControlsProps) {
+export const CollectionControls = forwardRef<
+	CollectionControlsRef,
+	CollectionControlsProps
+>(({ collection }, ref) => {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
 	const isOwner =
@@ -35,6 +42,7 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		isVisible,
 		menuRef,
 		menuContentRef,
+		openMenu,
 		closeMenu,
 		toggleMenu,
 		handleContextMenu,
@@ -44,7 +52,9 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		closeMenu();
 		openModal({
 			title: <Trans>Edit a collection</Trans>,
-			children: <EditCollectionModal onClose={closeAll} />,
+			children: (
+				<EditCollectionModal collection={collection} onClose={closeAll} />
+			),
 		});
 	};
 
@@ -52,7 +62,9 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		closeMenu();
 		openModal({
 			title: <Trans>Delete a collection</Trans>,
-			children: <DeleteCollectionModal onClose={closeAll} />,
+			children: (
+				<DeleteCollectionModal collection={collection} onClose={closeAll} />
+			),
 		});
 	};
 
@@ -60,6 +72,12 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 		event.preventDefault();
 		event.stopPropagation();
 	};
+
+	useImperativeHandle(ref, () => ({
+		openContextMenu: (x: number, y: number) => {
+			openMenu({ x, y });
+		},
+	}));
 
 	if (!isOwner) {
 		return null;
@@ -102,4 +120,4 @@ export function CollectionControls({ collection }: CollectionControlsProps) {
 			</ContextMenu>
 		</div>
 	);
-}
+});

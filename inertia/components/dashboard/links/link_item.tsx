@@ -74,7 +74,14 @@ export function LinkItem({
 								<div className="i-ant-design-star-filled w-4 h-4 text-yellow-500 flex-shrink-0" />
 							)}
 						</div>
-						<LinkItemURL url={url} compact={isCompact} />
+						<p
+							className={clsx(
+								'text-gray-500 dark:text-gray-400 truncate',
+								isCompact ? 'text-xs' : 'text-sm'
+							)}
+						>
+							{url}
+						</p>
 					</div>
 				</div>
 				{!hideMenu && (
@@ -95,38 +102,4 @@ export function LinkItem({
 			)}
 		</a>
 	);
-}
-
-function LinkItemURL({
-	url,
-	compact,
-}: {
-	url: Link['url'];
-	compact?: boolean;
-}) {
-	try {
-		const { origin, pathname } = new URL(url);
-		return (
-			<p
-				className={clsx(
-					'text-gray-500 dark:text-gray-400 truncate',
-					compact ? 'text-xs' : 'text-sm'
-				)}
-			>
-				{origin}
-				{pathname !== '/' && pathname}
-			</p>
-		);
-	} catch {
-		return (
-			<p
-				className={clsx(
-					'text-gray-500 dark:text-gray-400 truncate',
-					compact ? 'text-xs' : 'text-sm'
-				)}
-			>
-				{url}
-			</p>
-		);
-	}
 }

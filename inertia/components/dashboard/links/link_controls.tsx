@@ -3,9 +3,9 @@ import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Link as InertiaLink } from '@tuyau/inertia/react';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
-import { IconButton } from '~/components/common/icon_button';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
+import { IconButton } from '~/components/common/icon_button';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useRouteHelper } from '~/lib/route_helper';
@@ -18,21 +18,17 @@ export interface LinkControlsRef {
 }
 
 interface LinkControlsProps {
+	ref: React.RefObject<LinkControlsRef | null>;
 	link: Link;
 }
 
-export function LinkControls({
-	link,
-	ref,
-}: LinkControlsProps & { ref: React.RefObject<LinkControlsRef | null> }) {
+export function LinkControls({ link, ref }: LinkControlsProps) {
 	const { activeCollection, myCollections } = useDashboardProps();
+	const { url } = useRouteHelper();
 	const openModal = useModalStore((state) => state.open);
 	const closeAll = useModalStore((state) => state.closeAll);
 
-	console.log(myCollections);
 	const isOwner = activeCollection?.isOwner !== false;
-
-	const { url } = useRouteHelper();
 
 	const {
 		menuPosition,

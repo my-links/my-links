@@ -3,7 +3,11 @@ import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { Link } from '@tuyau/inertia/react';
 import clsx from 'clsx';
-import { CollectionControls } from './collection_controls';
+import { useRef } from 'react';
+import {
+	CollectionControls,
+	CollectionControlsRef,
+} from './collection_controls';
 
 interface CollectionItemProps {
 	collection: Collection;
@@ -17,17 +21,11 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
 	const isActive = collection.id === activeCollection?.id;
+	const collectionControlsRef = useRef<CollectionControlsRef>(null);
 
 	const handleContextMenu = (e: React.MouseEvent) => {
 		e.preventDefault();
-		const container = e.currentTarget as HTMLElement;
-		const controlsElement = container.querySelector(
-			'[data-collection-controls]'
-		);
-		if (controlsElement) {
-			const button = controlsElement.querySelector('button');
-			button?.click();
-		}
+		collectionControlsRef.current?.openContextMenu(e.clientX, e.clientY);
 	};
 
 	return (
@@ -59,7 +57,7 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 				/>
 			)}
 			<span className="truncate flex-1">{collection.name}</span>
-			<CollectionControls collection={collection} />
+			<CollectionControls ref={collectionControlsRef} collection={collection} />
 		</Link>
 	);
 }
