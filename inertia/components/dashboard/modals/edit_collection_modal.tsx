@@ -1,3 +1,4 @@
+import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
@@ -10,36 +11,41 @@ import { FormCollectionData } from '~/types/collection_form';
 
 interface EditCollectionModalProps {
 	onClose: () => void;
+	collection?: Collection;
 }
 
-export function EditCollectionModal({ onClose }: EditCollectionModalProps) {
+export function EditCollectionModal({
+	onClose,
+	collection,
+}: EditCollectionModalProps) {
 	const { activeCollection } = useDashboardProps();
+	const targetCollection = collection ?? activeCollection;
 	const { data, setData, put, processing, errors } =
 		useForm<FormCollectionData>({
-			name: activeCollection?.name ?? '',
-			description: activeCollection?.description ?? '',
-			visibility: activeCollection?.visibility ?? Visibility.PRIVATE,
-			icon: activeCollection?.icon ?? null,
+			name: targetCollection?.name ?? '',
+			description: targetCollection?.description ?? '',
+			visibility: targetCollection?.visibility ?? Visibility.PRIVATE,
+			icon: targetCollection?.icon ?? null,
 		});
 
 	const canSubmit = useMemo<boolean>(() => {
 		const trimmedName = data.name.trim();
 		const trimmedDescription = data.description?.trim();
 		const isFormEdited =
-			trimmedName !== activeCollection?.name ||
-			trimmedDescription !== activeCollection?.description ||
-			data.visibility !== activeCollection?.visibility ||
-			data.icon !== (activeCollection?.icon ?? null);
+			trimmedName !== targetCollection?.name ||
+			trimmedDescription !== targetCollection?.description ||
+			data.visibility !== targetCollection?.visibility ||
+			data.icon !== (targetCollection?.icon ?? null);
 		const isFormValid = trimmedName !== '';
 		return isFormEdited && isFormValid && !processing;
-	}, [data, activeCollection, processing]);
+	}, [data, targetCollection, processing]);
 
 	const { url } = useRouteHelper();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const editUrl = url('collection.edit', {
-			params: { id: activeCollection?.id.toString() ?? '' },
+			params: { id: targetCollection?.id.toString() ?? '' },
 		});
 		put(editUrl, {
 			onSuccess: () => {
