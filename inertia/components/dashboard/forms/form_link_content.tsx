@@ -3,9 +3,8 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { FormField } from '~/components/common/form_field';
-import { Input } from '~/components/common/input';
+import { Input, Textarea } from '@minimalstuff/ui';
 import { Select } from '~/components/common/select';
-import { Textarea } from '~/components/common/textarea';
 import { FormLinkData } from '~/types/link_form';
 
 interface FormLinkContentProps {
@@ -36,7 +35,7 @@ export const FormLinkContent = ({
 				value={data.name}
 				onChange={(e) => setData('name', e.target.value)}
 				placeholder={t`Name`}
-				error={errors?.name}
+				error={Array.isArray(errors?.name) ? errors.name[0] : errors?.name}
 				disabled={disableInputs}
 				readOnly={disableInputs}
 				autoFocus
@@ -56,7 +55,12 @@ export const FormLinkContent = ({
 				value={data.url}
 				onChange={(e) => setData('url', e.target.value)}
 				placeholder={t`URL`}
-				error={errors?.url || errors?.link}
+				error={
+					Array.isArray(errors?.url)
+						? errors.url[0]
+						: errors?.url ||
+							(Array.isArray(errors?.link) ? errors.link[0] : errors?.link)
+				}
 				disabled={disableInputs}
 				readOnly={disableInputs}
 				required
@@ -74,7 +78,11 @@ export const FormLinkContent = ({
 				onChange={(e) => setData('description', e.target.value)}
 				placeholder={t`Description`}
 				rows={3}
-				error={errors?.description}
+				error={
+					Array.isArray(errors?.description)
+						? errors.description[0]
+						: errors?.description
+				}
 				disabled={disableInputs}
 				readOnly={disableInputs}
 			/>

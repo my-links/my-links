@@ -1,6 +1,6 @@
 import { router, useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { useModalStore } from '~/stores/modal_store';
 import { useRouteHelper } from '~/lib/route_helper';
 

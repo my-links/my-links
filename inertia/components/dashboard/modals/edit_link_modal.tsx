@@ -2,7 +2,7 @@ import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { isValidHttpUrl } from '~/lib/navigation';
@@ -73,7 +73,13 @@ export function EditLinkModal({ link, onClose }: EditLinkModalProps) {
 				<Button variant="secondary" type="button" onClick={onClose}>
 					<Trans>Cancel</Trans>
 				</Button>
-				<Button type="submit" loading={processing} disabled={!canSubmit}>
+				<Button type="submit" disabled={!canSubmit}>
+					{processing && (
+						<span
+							className="i-svg-spinners-3-dots-fade w-4 h-4"
+							aria-hidden="true"
+						/>
+					)}
 					<Trans>Update</Trans>
 				</Button>
 			</div>

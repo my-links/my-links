@@ -2,7 +2,7 @@ name: my-links
 services:
   postgres:
     container_name: postgres
-    image: postgres:16
+    image: postgres:18
     restart: always
     environment:
       - POSTGRES_DB=${DB_DATABASE}
@@ -11,7 +11,7 @@ services:
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready', '-U', '${DB_USER}']
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
+      - postgres-volume:/var/lib/postgresql
     ports:
       - '${DB_PORT}:5432'
 

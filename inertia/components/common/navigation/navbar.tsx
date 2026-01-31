@@ -7,7 +7,7 @@ import { FOOTER_LINKS } from '~/components/common/navigation/footer_links';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
-import { ThemeToggle } from '~/components/common/theme_toggle';
+import { ThemeToggle } from '@minimalstuff/ui';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 import { useAuth } from '~/hooks/use_auth';
 

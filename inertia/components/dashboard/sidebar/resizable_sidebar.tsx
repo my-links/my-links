@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { IconButton } from '~/components/common/icon_button';
+import { IconButton } from '@minimalstuff/ui';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 

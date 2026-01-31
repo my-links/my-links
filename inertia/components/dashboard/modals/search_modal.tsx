@@ -1,8 +1,7 @@
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from '~/components/common/button';
-import { Input } from '~/components/common/input';
+import { Button, Input } from '@minimalstuff/ui';
 import { SearchCollectionResults } from '~/components/dashboard/search/search_collection_results';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
 import useShortcut from '~/hooks/use_shortcut';

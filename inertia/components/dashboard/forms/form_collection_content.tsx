@@ -1,9 +1,8 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { FormField } from '~/components/common/form_field';
-import { Input } from '~/components/common/input';
-import { Textarea } from '~/components/common/textarea';
+import { Input, Textarea } from '@minimalstuff/ui';
 import { EmojiPicker } from '~/components/common/emoji_picker';
 import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
@@ -59,7 +58,7 @@ export const FormCollectionContent = ({
 					value={data.name}
 					onChange={(e) => setData('name', e.target.value)}
 					placeholder={t`Name`}
-					error={errors?.name}
+					error={Array.isArray(errors?.name) ? errors.name[0] : errors?.name}
 					disabled={disableInputs}
 					readOnly={disableInputs}
 					autoFocus
@@ -78,7 +77,11 @@ export const FormCollectionContent = ({
 					onChange={(e) => setData('description', e.target.value)}
 					placeholder={t`Description`}
 					rows={3}
-					error={errors?.description}
+					error={
+						Array.isArray(errors?.description)
+							? errors.description[0]
+							: errors?.description
+					}
 					disabled={disableInputs}
 					readOnly={disableInputs}
 				/>

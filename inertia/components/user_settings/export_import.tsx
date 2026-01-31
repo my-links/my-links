@@ -1,7 +1,7 @@
 import { router, useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useRef, useState } from 'react';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { useRouteHelper } from '~/lib/route_helper';
 
 export function ExportImport() {
@@ -130,10 +130,15 @@ export function ExportImport() {
 							type="submit"
 							variant="secondary"
 							size="sm"
-							loading={processing}
 							disabled={!data.file || processing}
 							className="text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
 						>
+							{processing && (
+								<span
+									className="i-svg-spinners-3-dots-fade w-4 h-4"
+									aria-hidden="true"
+								/>
+							)}
 							<div className="i-tabler-upload w-4 h-4" />
 							<Trans>Import</Trans>
 						</Button>
