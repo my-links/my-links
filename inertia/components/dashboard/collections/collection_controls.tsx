@@ -5,7 +5,7 @@ import { Trans } from '@lingui/react/macro';
 import { forwardRef, MouseEvent, useImperativeHandle } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
-import { IconButton } from '~/components/common/icon_button';
+import { IconButton } from '@minimalstuff/ui';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { useModalStore } from '~/stores/modal_store';
 import { DeleteCollectionModal } from '../modals/delete_collection_modal';

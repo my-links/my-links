@@ -1,11 +1,9 @@
 import { KEYS } from '#constants/keys';
 import { Visibility } from '#enums/collections/visibility';
 import { Trans } from '@lingui/react/macro';
+import { Button, IconButton, Modal } from '@minimalstuff/ui';
 import { useState } from 'react';
-import { Button } from '~/components/common/button';
-import { IconButton } from '~/components/common/icon_button';
 import { Kbd } from '~/components/common/kbd';
-import { Modal } from '~/components/common/modal';
 import { DashboardHeaderProps } from '~/components/dashboard/headers/dashboard_header';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
@@ -82,9 +80,8 @@ export function DashboardQuickAction({
 					)}
 
 					<Button
-						variant="primary"
+						variant="subtle"
 						onClick={() => handleQuickAction(onCreateCollection)}
-						className="text-left justify-between"
 					>
 						<Trans>
 							Create collection{' '}

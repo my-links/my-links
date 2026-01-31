@@ -88,6 +88,7 @@
 		"@inertiajs/react": "^2.3.11",
 		"@lingui/core": "^5.9.0",
 		"@lingui/react": "^5.9.0",
+		"@minimalstuff/ui": "^1.0.0",
 		"@swc/core": "^1.15.10",
 		"@tuyau/client": "^0.2.10",
 		"@tuyau/core": "^0.4.2",

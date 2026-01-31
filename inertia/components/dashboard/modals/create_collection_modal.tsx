@@ -1,7 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
 import { useRouteHelper } from '~/lib/route_helper';
 import { Visibility } from '~/types/app';
@@ -54,7 +54,13 @@ export function CreateCollectionModal({
 				<Button variant="secondary" type="button" onClick={onClose}>
 					<Trans>Cancel</Trans>
 				</Button>
-				<Button type="submit" loading={processing} disabled={isFormDisabled}>
+				<Button type="submit" disabled={isFormDisabled}>
+					{processing && (
+						<span
+							className="i-svg-spinners-3-dots-fade w-4 h-4"
+							aria-hidden="true"
+						/>
+					)}
 					<Trans>Create</Trans>
 				</Button>
 			</div>

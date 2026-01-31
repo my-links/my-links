@@ -4,6 +4,7 @@ import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
+import '@minimalstuff/ui/style.css';
 import { TuyauProvider } from '@tuyau/inertia/react';
 import { ReactNode, useEffect, useMemo } from 'react';
 import 'virtual:uno.css';

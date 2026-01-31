@@ -1,7 +1,7 @@
 import { Collection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useRouteHelper } from '~/lib/route_helper';
@@ -58,12 +58,13 @@ export function DeleteCollectionModal({
 				<Button variant="secondary" type="button" onClick={onClose}>
 					<Trans>Cancel</Trans>
 				</Button>
-				<Button
-					variant="danger"
-					type="submit"
-					loading={processing}
-					disabled={processing}
-				>
+				<Button variant="danger" type="submit" disabled={processing}>
+					{processing && (
+						<span
+							className="i-svg-spinners-3-dots-fade w-4 h-4"
+							aria-hidden="true"
+						/>
+					)}
 					<Trans>Delete</Trans>
 				</Button>
 			</div>

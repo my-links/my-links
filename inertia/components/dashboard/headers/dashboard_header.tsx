@@ -1,9 +1,8 @@
 import { KEYS } from '#constants/keys';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Button, IconButton } from '@minimalstuff/ui';
 import clsx from 'clsx';
-import { Button } from '~/components/common/button';
-import { IconButton } from '~/components/common/icon_button';
 import { Kbd } from '~/components/common/kbd';
 import { Tooltip } from '~/components/common/tooltip';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
@@ -125,7 +124,7 @@ export function DashboardHeader({
 								)}
 
 								<Button
-									variant="outline"
+									variant="subtle"
 									size="sm"
 									onClick={() => onCreateCollection()}
 								>
@@ -145,9 +144,10 @@ export function DashboardHeader({
 											<Trans>Edit collection</Trans>
 										</Button>
 										<Button
-											variant="danger-ghost"
+											variant="ghost"
 											size="sm"
 											onClick={onDeleteCollection}
+											className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
 										>
 											<Trans>Delete collection</Trans>
 										</Button>

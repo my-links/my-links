@@ -1,7 +1,6 @@
+import { Button, Modal } from '@minimalstuff/ui';
 import { t } from '@lingui/core/macro';
 import { ReactNode, useState } from 'react';
-import { Button } from './button';
-import { Modal } from './modal';
 
 interface ConfirmModalProps {
 	isOpen: boolean;
@@ -57,9 +56,14 @@ export function ConfirmModal({
 					<Button
 						variant={confirmColor === 'red' ? 'danger' : 'primary'}
 						onClick={handleConfirm}
-						loading={isDisabled}
 						disabled={isDisabled}
 					>
+						{isDisabled && (
+							<span
+								className="i-svg-spinners-3-dots-fade w-4 h-4"
+								aria-hidden="true"
+							/>
+						)}
 						{confirmLabel}
 					</Button>
 				</div>

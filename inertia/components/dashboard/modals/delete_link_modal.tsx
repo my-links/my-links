@@ -1,7 +1,7 @@
 import { LinkWithCollection } from '#shared/types/dto';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
 import { useRouteHelper } from '~/lib/route_helper';
 import { FormLinkData } from '~/types/link_form';
@@ -52,12 +52,13 @@ export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
 				<Button variant="secondary" type="button" onClick={onClose}>
 					<Trans>Cancel</Trans>
 				</Button>
-				<Button
-					variant="danger"
-					type="submit"
-					loading={processing}
-					disabled={processing}
-				>
+				<Button variant="danger" type="submit" disabled={processing}>
+					{processing && (
+						<span
+							className="i-svg-spinners-3-dots-fade w-4 h-4"
+							aria-hidden="true"
+						/>
+					)}
 					<Trans>Delete</Trans>
 				</Button>
 			</div>

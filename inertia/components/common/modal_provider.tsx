@@ -1,5 +1,5 @@
+import { Modal } from '@minimalstuff/ui';
 import { ConfirmModal } from '~/components/common/confirm_modal';
-import { Modal } from '~/components/common/modal';
 import { useModalStore } from '~/stores/modal_store';
 
 export function ModalProvider() {

@@ -1,8 +1,7 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
-import { Button } from '~/components/common/button';
+import { Button, Input } from '@minimalstuff/ui';
 import { FormField } from '~/components/common/form_field';
-import { Input } from '~/components/common/input';
 
 interface CreateTokenModalProps {
 	onCreate: (name: string) => Promise<void>;
@@ -52,9 +51,14 @@ export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
 				<Button
 					type="button"
 					onClick={handleCreate}
-					loading={isLoading}
 					disabled={!tokenName.trim() || isLoading}
 				>
+					{isLoading && (
+						<span
+							className="i-svg-spinners-3-dots-fade w-4 h-4"
+							aria-hidden="true"
+						/>
+					)}
 					<Trans>Create token</Trans>
 				</Button>
 			</div>

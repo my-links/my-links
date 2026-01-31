@@ -1,8 +1,8 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '~/components/common/button';
+import { Button } from '@minimalstuff/ui';
 import { CopyButton } from '~/components/common/copy_button';
-import { IconButton } from '~/components/common/icon_button';
+import { IconButton } from '@minimalstuff/ui';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { useModalStore } from '~/stores/modal_store';

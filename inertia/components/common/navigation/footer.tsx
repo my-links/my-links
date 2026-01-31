@@ -2,7 +2,7 @@ import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { FOOTER_LINKS } from '~/components/common/navigation/footer_links';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { MadeBy } from '~/components/common/navigation/made_by';
-import { ThemeToggle } from '~/components/common/theme_toggle';
+import { ThemeToggle } from '@minimalstuff/ui';
 import { useAuth } from '~/hooks/use_auth';
 
 export function Footer() {
