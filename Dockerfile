@@ -8,20 +8,20 @@ RUN corepack enable
 # All deps stage
 FROM base AS deps
 WORKDIR /app
-ADD package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --ignore-scripts
 
 # Production only deps stage
 FROM base AS production-deps
 WORKDIR /app
-ADD package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --ignore-scripts --prod
 
 # Build stage
 FROM base AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
-ADD . .
+COPY . .
 
 RUN pnpm run compile
 RUN node ace build
