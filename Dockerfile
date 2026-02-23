@@ -2,8 +2,7 @@
 
 FROM node:24.13-alpine3.22 AS base
 
-RUN apk --no-cache add curl
-RUN corepack enable
+RUN apk --no-cache add curl && corepack enable
 
 # All deps stage
 FROM base AS deps
@@ -45,4 +44,8 @@ COPY --from=build /app/package.json /app/package.json
 EXPOSE $PORT
 
 # Start app
-CMD node bin/console.js migration:run --force && node bin/server.js
+
+COPY scripts/entrypoint.sh /app/scripts/entrypoint.sh
+RUN chmod +x /app/scripts/entrypoint.sh
+
+CMD ["/app/scripts/entrypoint.sh"]
