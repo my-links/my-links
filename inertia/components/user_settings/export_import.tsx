@@ -1,7 +1,7 @@
 import { router, useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { useRef, useState } from 'react';
 import { Button } from '@minimalstuff/ui';
+import { useRef, useState } from 'react';
 import { useRouteHelper } from '~/lib/route_helper';
 
 export function ExportImport() {
@@ -81,12 +81,7 @@ export function ExportImport() {
 					<h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
 						<Trans>Export</Trans>
 					</h3>
-					<Button
-						variant="secondary"
-						size="sm"
-						onClick={handleExport}
-						className="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30"
-					>
+					<Button variant="secondary" size="sm" onClick={handleExport}>
 						<div className="i-tabler-download w-4 h-4" />
 						<Trans>Download JSON</Trans>
 					</Button>

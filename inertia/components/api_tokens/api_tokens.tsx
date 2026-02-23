@@ -1,8 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '@minimalstuff/ui';
+import { Button, IconButton } from '@minimalstuff/ui';
 import { CopyButton } from '~/components/common/copy_button';
-import { IconButton } from '@minimalstuff/ui';
 import { SimpleTable } from '~/components/common/simple_table/simple_table';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { useModalStore } from '~/stores/modal_store';
@@ -111,12 +110,7 @@ export function ApiTokens() {
 				<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
 					<Trans>API Tokens</Trans>
 				</h2>
-				<Button
-					variant="secondary"
-					size="sm"
-					onClick={handleCreateTokenModal}
-					className="text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/30"
-				>
+				<Button variant="secondary" size="sm" onClick={handleCreateTokenModal}>
 					<div className="i-tabler-plus w-4 h-4" />
 					<Trans>Create token</Trans>
 				</Button>
