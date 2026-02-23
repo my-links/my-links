@@ -1,3 +1,5 @@
+alias dw := docker-weight
+
 tuyau:
 	@node ace tuyau:generate
 	@pnpm run format
@@ -37,5 +39,4 @@ release:
 	@pnpm run release
 
 docker-weight:
-	@DOCKER_IMAGE_WEIGHT=$$(docker save axekin-axekin:latest | wc -c | awk '{printf "%.3f", $$1/1024/1024}'); \
-	echo "Docker image weight: $${DOCKER_IMAGE_WEIGHT} Mo"
+	@sh scripts/docker-weight.sh
