@@ -26,6 +26,7 @@ export default defineConfig({
 		alias: {
 			'~/': `${getDirname(import.meta.url)}/inertia/`,
 			'config-ssr': `${getDirname(import.meta.url)}/config/ssr.ts`,
+			'#adonis/api': `${getDirname(import.meta.url)}/.adonisjs/api.ts`,
 		},
 	},
 });

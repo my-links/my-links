@@ -1,0 +1,20 @@
+{
+	"name": "@mylinks/extension",
+	"version": "0.0.0",
+	"private": false,
+	"type": "module",
+	"license": "GPL-3.0-only",
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"typecheck": "tsc -p tsconfig.json --noEmit"
+	},
+	"imports": {
+		"#adonis/api": "../my-links/.adonisjs/api.ts"
+	},
+	"dependencies": {
+		"@tuyau/client": "^0.2.10"
+	},
+	"devDependencies": {
+		"typescript": "~5.9.3"
+	}
+}

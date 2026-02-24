@@ -20,4 +20,6 @@ compose*
 .gitignore
 
 # App specific
-database/seeders
+apps/**/node_modules
+apps/**/build
+apps/my-links/database/seeders

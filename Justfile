@@ -1,7 +1,7 @@
 alias dw := docker-weight
 
 tuyau:
-	@node ace tuyau:generate
+	@pnpm run tuyau
 	@pnpm run format
 
 extract:
@@ -17,7 +17,7 @@ dev:
 	@docker compose down
 	@docker compose -f dev.compose.yml pull
 	@docker compose -f dev.compose.yml up -d --wait --remove-orphans
-	@node ace migration:fresh
+	@cd apps/my-links && node ace migration:fresh
 	@pnpm run dev
 
 prod:
@@ -26,10 +26,10 @@ prod:
 	@docker compose up -d --build --wait --remove-orphans
 
 seed:
-	@node ace db:seed
+	@cd apps/my-links && node ace db:seed
 
 fresh:
-	@node ace migration:fresh
+	@cd apps/my-links && node ace migration:fresh
 
 down:
 	@-docker compose down
@@ -39,4 +39,4 @@ release:
 	@pnpm run release
 
 docker-weight:
-	@sh scripts/docker-weight.sh
+	@sh apps/my-links/scripts/docker-weight.sh

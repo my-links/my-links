@@ -7,23 +7,28 @@ RUN apk --no-cache add curl && corepack enable
 # All deps stage
 FROM base AS deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/my-links/package.json apps/my-links/package.json
+COPY apps/extension/package.json apps/extension/package.json
 RUN pnpm install --ignore-scripts
 
 # Production only deps stage
 FROM base AS production-deps
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/my-links/package.json apps/my-links/package.json
+COPY apps/extension/package.json apps/extension/package.json
 RUN pnpm install --ignore-scripts --prod
 
 # Build stage
 FROM base AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
+COPY --from=deps /app/apps/my-links/node_modules /app/apps/my-links/node_modules
 COPY . .
 
-RUN pnpm run compile
-RUN node ace build
+RUN pnpm --filter my-links run compile
+RUN pnpm --filter my-links run build
 
 # Production stage
 FROM base
@@ -36,16 +41,18 @@ ENV PORT=$PORT
 
 WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
-COPY --from=build /app/build /app
-COPY --from=build /app/.adonisjs /app/.adonisjs
-COPY --from=build /app/package.json /app/package.json
+COPY --from=production-deps /app/apps/my-links/node_modules /app/apps/my-links/node_modules
+COPY --from=build /app/apps/my-links/build /app/apps/my-links
+COPY --from=build /app/apps/my-links/.adonisjs /app/apps/my-links/.adonisjs
+COPY --from=build /app/apps/my-links/package.json /app/apps/my-links/package.json
 
 # Expose port
 EXPOSE $PORT
 
 # Start app
 
-COPY scripts/entrypoint.sh /app/scripts/entrypoint.sh
-RUN chmod +x /app/scripts/entrypoint.sh
+WORKDIR /app/apps/my-links
+COPY apps/my-links/scripts/entrypoint.sh /app/apps/my-links/scripts/entrypoint.sh
+RUN chmod +x /app/apps/my-links/scripts/entrypoint.sh
 
-CMD ["/app/scripts/entrypoint.sh"]
+CMD ["/app/apps/my-links/scripts/entrypoint.sh"]
