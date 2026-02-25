@@ -51,6 +51,7 @@
 		"@lingui/babel-plugin-lingui-macro": "^5.9.0",
 		"@lingui/cli": "^5.9.0",
 		"@lingui/vite-plugin": "^5.9.0",
+		"@mylinks/tooling-config": "workspace:*",
 		"@tuyau/utils": "^0.0.9",
 		"@types/luxon": "^3.7.1",
 		"@types/node": "^24.10.0",
@@ -112,16 +113,6 @@
 			"./app/controllers/**/*.ts",
 			"./app/middlewares/**/*.ts"
 		]
-	},
-	"prettier": {
-		"trailingComma": "es5",
-		"semi": true,
-		"singleQuote": true,
-		"useTabs": true,
-		"quoteProps": "as-needed",
-		"bracketSpacing": true,
-		"arrowParens": "always",
-		"printWidth": 80
 	},
 	"lint-staged": {
 		"*.js,*.ts,*.jsx,*.tsx": "eslint --cache --fix"
