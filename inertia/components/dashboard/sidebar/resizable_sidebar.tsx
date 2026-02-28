@@ -1,6 +1,6 @@
+import { IconButton } from '@minimalstuff/ui';
 import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { IconButton } from '@minimalstuff/ui';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
@@ -8,7 +8,9 @@ interface ResizableSidebarProps {
 	children: ReactNode;
 }
 
-export function ResizableSidebar({ children }: ResizableSidebarProps) {
+export function ResizableSidebar({
+	children,
+}: Readonly<ResizableSidebarProps>) {
 	const { sidebarWidth, setSidebarWidth, toggleSidebar } =
 		useDashboardLayoutStore();
 	const [isResizing, setIsResizing] = useState(false);
@@ -80,6 +82,7 @@ export function ResizableSidebar({ children }: ResizableSidebarProps) {
 					'hidden md:block'
 				)}
 				style={{ touchAction: 'none' }}
+				aria-hidden="true"
 			/>
 		</div>
 	);

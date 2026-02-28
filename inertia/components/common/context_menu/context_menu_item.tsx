@@ -16,7 +16,7 @@ export const ContextMenuItem = ({
 	onClick,
 	children,
 	variant = 'default',
-}: ContextMenuItemProps) => (
+}: Readonly<ContextMenuItemProps>) => (
 	<button
 		onClick={(e) => {
 			e.preventDefault();

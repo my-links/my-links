@@ -1,16 +1,16 @@
-import { KEYS } from '#constants/keys';
 import { useEffect } from 'react';
+import { KEYS } from '~/consts/keys';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
-type ShortcutOptions = {
+interface UseShortcutProps {
 	enabled?: boolean;
 	disableGlobalCheck?: boolean;
-};
+}
 
 export default function useShortcut(
 	key: keyof typeof KEYS,
 	cb: () => void,
-	{ enabled, disableGlobalCheck }: ShortcutOptions = {
+	{ enabled, disableGlobalCheck }: Readonly<UseShortcutProps> = {
 		enabled: true,
 		disableGlobalCheck: false,
 	}
@@ -36,8 +36,7 @@ export default function useShortcut(
 				(k) => !['ctrl', 'alt', 'shift', 'meta'].includes(k)
 			);
 
-			const mainKeyMatch =
-				mainKey && event.key.toLowerCase() === mainKey.toLowerCase();
+			const mainKeyMatch = event.key.toLowerCase() === mainKey?.toLowerCase();
 
 			const modifiersMatch =
 				(keys.includes('ctrl') ? ctrlPressed : !event.ctrlKey) &&

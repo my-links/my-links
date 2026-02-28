@@ -23,7 +23,7 @@ export const ContextMenu = ({
 	menuContentRef,
 	children,
 	onBackdropClick,
-}: ContextMenuProps) =>
+}: Readonly<ContextMenuProps>) =>
 	shouldRender &&
 	menuPosition &&
 	createPortal(
@@ -47,6 +47,7 @@ export const ContextMenu = ({
 					top: `${menuPosition.y}px`,
 				}}
 				onClick={(e) => e.stopPropagation()}
+				aria-hidden="true"
 			>
 				{children}
 			</div>

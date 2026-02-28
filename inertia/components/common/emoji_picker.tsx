@@ -15,7 +15,7 @@ export function EmojiPicker({
 	selectedEmoji,
 	setSelectedEmoji,
 	disabled = false,
-}: EmojiPickerProps) {
+}: Readonly<EmojiPickerProps>) {
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const emojiPickerRef = useRef<HTMLDivElement>(null);
 

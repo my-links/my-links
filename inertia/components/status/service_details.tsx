@@ -1,4 +1,4 @@
-import { StatusReportCheck } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Badge } from '~/components/common/badge';
 import { ThresholdDisplay } from '~/components/status/threshold_display';
 import {
@@ -10,10 +10,10 @@ import {
 } from '~/lib/health';
 
 interface ServiceDetailsProps {
-	checks: StatusReportCheck[];
+	checks: Data.StatusReportCheck[];
 }
 
-export const ServiceDetails = ({ checks }: ServiceDetailsProps) => (
+export const ServiceDetails = ({ checks }: Readonly<ServiceDetailsProps>) => (
 	<div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
 		<h2 className="text-xl text-gray-900 dark:text-white mb-6">Services</h2>
 		<div className="space-y-4">

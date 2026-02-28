@@ -1,3 +1,3 @@
-import { SUPPORTED_LOCALES } from '#shared/consts/i18n';
+import type { SUPPORTED_LOCALES } from '~/consts/i18n';
 
 export type Locale = (typeof SUPPORTED_LOCALES)[number];

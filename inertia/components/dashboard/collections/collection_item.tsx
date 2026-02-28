@@ -1,7 +1,7 @@
-import { Collection } from '#shared/types/dto';
+import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
 import { usePage } from '@inertiajs/react';
-import { Link } from '@tuyau/inertia/react';
 import clsx from 'clsx';
 import { useRef } from 'react';
 import {
@@ -10,14 +10,14 @@ import {
 } from './collection_controls';
 
 interface CollectionItemProps {
-	collection: Collection;
+	collection: Data.Collection;
 }
 
 interface PagePropsWithActiveCollection extends PageProps {
-	activeCollection?: Collection | null;
+	activeCollection?: Data.Collection | null;
 }
 
-export function CollectionItem({ collection }: CollectionItemProps) {
+export function CollectionItem({ collection }: Readonly<CollectionItemProps>) {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
 	const isActive = collection.id === activeCollection?.id;
@@ -31,7 +31,7 @@ export function CollectionItem({ collection }: CollectionItemProps) {
 	return (
 		<Link
 			route="collection.show"
-			params={{ id: collection.id }}
+			routeParams={{ id: collection.id }}
 			className={clsx(
 				'flex items-center gap-3 px-4 py-2 rounded-md transition-colors group',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',

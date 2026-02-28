@@ -1,10 +1,10 @@
-import { getRoute } from '#lib/route_helper';
 import type { Authenticators } from '@adonisjs/auth/types';
 import type { HttpContext } from '@adonisjs/core/http';
+import { urlFor } from '@adonisjs/core/services/url_builder';
 import type { NextFn } from '@adonisjs/core/types/http';
 
 export default class AuthMiddleware {
-	redirectTo = getRoute('auth').path;
+	redirectTo = urlFor('auth');
 
 	async handle(
 		ctx: HttpContext,

@@ -5,7 +5,7 @@ import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class DeleteCollectionController {
-	constructor(private collectionService: CollectionService) {}
+	constructor(protected readonly collectionService: CollectionService) {}
 
 	async execute({ request, response }: HttpContext) {
 		const { params } = await request.validateUsing(deleteCollectionValidator);

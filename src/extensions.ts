@@ -1,6 +1,6 @@
-import { Response } from '@adonisjs/core/http';
-import { getRoute } from '#lib/route_helper';
 import type { ApiRouteName } from '#shared/types/index';
+import { HttpResponse } from '@adonisjs/core/http';
+import { urlFor } from '@adonisjs/core/services/url_builder';
 
 type RouteOptions = {
 	params?: Record<string, string | number>;
@@ -8,7 +8,7 @@ type RouteOptions = {
 };
 
 declare module '@adonisjs/core/http' {
-	export interface Response {
+	export interface HttpResponse {
 		redirectToNamedRoute: (
 			routeName: ApiRouteName,
 			options?: RouteOptions
@@ -16,10 +16,10 @@ declare module '@adonisjs/core/http' {
 	}
 }
 
-Response.macro(
+HttpResponse.macro(
 	'redirectToNamedRoute',
-	function (this: Response, routeName, options) {
-		const routeInfo = getRoute(routeName, options);
-		this.redirect(routeInfo.url);
+	function (this: HttpResponse, routeName, options) {
+		const routeInfo = urlFor(routeName, { params: options?.params });
+		this.redirect(routeInfo);
 	}
 );

@@ -1,40 +1,29 @@
+import { Data } from '@generated/data';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Input } from '@minimalstuff/ui';
+import clsx from 'clsx';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { SearchCollectionResults } from '~/components/dashboard/search/search_collection_results';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
 import useShortcut from '~/hooks/use_shortcut';
 import { makeRequestWithCredentials } from '~/lib/request';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 
 type SearchResultType = 'link' | 'collection' | 'both';
-
-export interface SearchResult {
-	id: number;
-	type: 'link' | 'collection';
-	name: string;
-	url: string | null;
-	collectionId: number | null;
-	icon: string | null;
-	matchedPart: string | null;
-	rank: number | null;
-}
 
 interface SearchModalProps {
 	onClose: () => void;
 }
 
-export function SearchModal({ onClose }: SearchModalProps) {
+export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [searchType, setSearchType] = useState<SearchResultType>('both');
-	const [results, setResults] = useState<SearchResult[]>([]);
+	const [results, setResults] = useState<Data.SearchResult[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const resultsRef = useRef<HTMLDivElement>(null);
-
-	const { route } = useRouteHelper();
 
 	const performSearch = async () => {
 		if (searchTerm.trim().length === 0) {
@@ -46,12 +35,12 @@ export function SearchModal({ onClose }: SearchModalProps) {
 		setIsLoading(true);
 
 		try {
-			const searchUrl = route('search', {
+			const searchUrl = urlFor('search', {
 				qs: {
 					term: searchTerm.trim(),
 					type: searchType,
 				},
-			}).url;
+			});
 
 			const response = await makeRequestWithCredentials(searchUrl, {
 				method: 'GET',
@@ -99,7 +88,7 @@ export function SearchModal({ onClose }: SearchModalProps) {
 	const collectionResults = results.filter((r) => r.type === 'collection');
 
 	const handleResultClick = useCallback(
-		(result: SearchResult) => {
+		(result: Data.SearchResult) => {
 			if (result.type === 'link' && result.url) {
 				window.open(result.url, '_blank', 'noopener,noreferrer');
 			} else if (result.type === 'collection') {
@@ -172,11 +161,10 @@ export function SearchModal({ onClose }: SearchModalProps) {
 						variant={searchType === 'both' ? 'primary' : 'secondary'}
 						size="sm"
 						onClick={() => setSearchType('both')}
-						className={
-							searchType !== 'both'
-								? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-								: ''
-						}
+						className={clsx(
+							searchType !== 'both' &&
+								'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+						)}
 					>
 						<Trans>All</Trans>
 					</Button>
@@ -184,11 +172,10 @@ export function SearchModal({ onClose }: SearchModalProps) {
 						variant={searchType === 'link' ? 'primary' : 'secondary'}
 						size="sm"
 						onClick={() => setSearchType('link')}
-						className={
-							searchType !== 'link'
-								? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-								: ''
-						}
+						className={clsx(
+							searchType !== 'link' &&
+								'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+						)}
 					>
 						<Trans>Links</Trans>
 					</Button>
@@ -196,11 +183,10 @@ export function SearchModal({ onClose }: SearchModalProps) {
 						variant={searchType === 'collection' ? 'primary' : 'secondary'}
 						size="sm"
 						onClick={() => setSearchType('collection')}
-						className={
-							searchType !== 'collection'
-								? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-								: ''
-						}
+						className={clsx(
+							searchType !== 'collection' &&
+								'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+						)}
 					>
 						<Trans>Collections</Trans>
 					</Button>

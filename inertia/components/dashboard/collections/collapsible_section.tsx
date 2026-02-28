@@ -1,8 +1,10 @@
-import { CollectionWithLinks } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import clsx from 'clsx';
 import { ReactNode, useState } from 'react';
 import { CollectionFavoriteItem } from './collection_favorite_item';
 import { CollectionItem } from './collection_item';
+
+type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
 interface CollapsibleSectionProps {
 	title: ReactNode;
@@ -16,7 +18,7 @@ export function CollapsibleSection({
 	collections,
 	canCollapse = true,
 	alwaysShow = false,
-}: CollapsibleSectionProps) {
+}: Readonly<CollapsibleSectionProps>) {
 	const [isExpanded, setIsExpanded] = useState(true);
 
 	if (collections.length === 0 && !alwaysShow) {
@@ -24,7 +26,6 @@ export function CollapsibleSection({
 	}
 
 	const shouldShowCollapse = canCollapse;
-
 	return (
 		<div className="mb-2">
 			<button

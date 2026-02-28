@@ -12,11 +12,3 @@ export const useClientOnly = () => {
 
 	return hasMounted;
 };
-export const withClientOnly = <T extends object>(
-	Component: React.ComponentType<T>
-): React.ComponentType<T> => {
-	return (props: T) => {
-		const clientOnly = useClientOnly();
-		return clientOnly ? <Component {...props} /> : null;
-	};
-};

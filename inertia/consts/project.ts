@@ -1,5 +1,3 @@
-export const PRIMARY_COLOR = '#3f88c5';
-
 export const PROJECT_NAME = 'MyLinks';
 export const PROJECT_DESCRIPTION =
 	'Another bookmark manager that lets you manage and share your favorite links in an intuitive interface';

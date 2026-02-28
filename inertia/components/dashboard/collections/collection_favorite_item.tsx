@@ -1,12 +1,12 @@
-import { Collection } from '#shared/types/dto';
+import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Link } from '@tuyau/inertia/react';
 import clsx from 'clsx';
 
 interface PagePropsWithActiveCollection extends PageProps {
-	activeCollection?: Collection | null;
+	activeCollection?: Data.Collection.Variants['withLinks'] | null;
 }
 
 export function CollectionFavoriteItem() {

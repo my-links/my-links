@@ -12,8 +12,8 @@ export default class FaviconsController {
 	private defaultFavicon: Favicon | null = null;
 
 	constructor(
-		private faviconService: FaviconService,
-		private cacheService: CacheService
+		protected readonly faviconService: FaviconService,
+		protected readonly cacheService: CacheService
 	) {}
 
 	async render(ctx: HttpContext) {

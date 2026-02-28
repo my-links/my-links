@@ -1,5 +1,6 @@
-import PATHS from '#constants/paths';
 import { Trans } from '@lingui/react/macro';
+import { PROJECT_REPO_GITHUB_URL } from '~/consts/project';
+// TODO: Fix this import
 import packageJson from '../../../../package.json';
 
 export const FOOTER_LINKS = [
@@ -11,7 +12,7 @@ export const FOOTER_LINKS = [
 		admin: true,
 	},
 	{
-		href: PATHS.REPO_GITHUB,
+		href: PROJECT_REPO_GITHUB_URL,
 		icon: 'i-mdi-tag',
 		label: packageJson.version,
 		internal: false,

@@ -1,13 +1,12 @@
-import { CollectionDto } from '#dtos/collection';
-import { CollectionWithLinksDto } from '#dtos/collection_with_links';
 import { CollectionService } from '#services/collections/collection_service';
+import CollectionTransformer from '#transformers/collection';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 import vine from '@vinejs/vine';
 
 @inject()
 export default class ShowCollectionController {
-	private collectionIdValidator = vine.create(
+	private readonly collectionIdValidator = vine.create(
 		vine.object({
 			params: vine.object({
 				id: vine.number().positive(),
@@ -15,7 +14,7 @@ export default class ShowCollectionController {
 		})
 	);
 
-	constructor(private collectionService: CollectionService) {}
+	constructor(private readonly collectionService: CollectionService) {}
 
 	async render({ request, inertia, auth }: HttpContext) {
 		const {
@@ -38,17 +37,15 @@ export default class ShowCollectionController {
 			),
 		]);
 
-		const activeCollectionDto = new CollectionWithLinksDto(
-			accessibleCollectionResult.collection
-		);
-		activeCollectionDto.isOwner = accessibleCollectionResult.isOwner;
-
 		return inertia.render('dashboard', {
-			followedCollections: CollectionDto.fromArray(followedCollections),
-			myPublicCollections: CollectionDto.fromArray(myPublicCollections),
-			myPrivateCollections: CollectionDto.fromArray(myPrivateCollections),
+			followedCollections: CollectionTransformer.transform(followedCollections),
+			myPublicCollections: CollectionTransformer.transform(myPublicCollections),
+			myPrivateCollections:
+				CollectionTransformer.transform(myPrivateCollections),
 			favoriteLinks: null,
-			activeCollection: activeCollectionDto.serialize(),
+			activeCollection: CollectionTransformer.transform(
+				accessibleCollectionResult.collection
+			).useVariant('withLinks'),
 		});
 	}
 }

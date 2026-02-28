@@ -1,13 +1,13 @@
+import { Link } from '@adonisjs/inertia/react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Link } from '@tuyau/inertia/react';
+import { ThemeToggle } from '@minimalstuff/ui';
 import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { FOOTER_LINKS } from '~/components/common/navigation/footer_links';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
-import { ThemeToggle } from '@minimalstuff/ui';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 import { useAuth } from '~/hooks/use_auth';
 

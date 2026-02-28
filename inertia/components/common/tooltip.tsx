@@ -1,10 +1,10 @@
 import React, {
-	ReactNode,
-	useState,
-	useRef,
-	useEffect,
 	cloneElement,
 	isValidElement,
+	ReactNode,
+	useEffect,
+	useRef,
+	useState,
 } from 'react';
 
 type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
@@ -29,7 +29,7 @@ export function Tooltip({
 	temporaryDuration = 2000,
 	disabled = false,
 	onTemporaryShow,
-}: TooltipProps) {
+}: Readonly<TooltipProps>) {
 	const [isVisible, setIsVisible] = useState(false);
 	const [showTemporary, setShowTemporary] = useState(false);
 	const tooltipRef = useRef<HTMLDivElement>(null);

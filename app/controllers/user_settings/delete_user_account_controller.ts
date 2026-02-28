@@ -4,7 +4,7 @@ import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class DeleteUserAccountController {
-	constructor(private userService: UserService) {}
+	constructor(protected readonly userService: UserService) {}
 
 	async execute({ auth, response }: HttpContext) {
 		const user = await auth.authenticate();

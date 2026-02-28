@@ -5,7 +5,7 @@ interface ClientOnlyProps extends React.PropsWithChildren {
 	fallback?: React.ReactNode;
 }
 
-export function ClientOnly({ children, fallback }: ClientOnlyProps) {
+export function ClientOnly({ children, fallback }: Readonly<ClientOnlyProps>) {
 	const hasMounted = useClientOnly();
 
 	if (!hasMounted) {

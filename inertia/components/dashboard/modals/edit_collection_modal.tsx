@@ -1,23 +1,23 @@
-import { Collection } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { useMemo } from 'react';
 import { Button } from '@minimalstuff/ui';
+import { useMemo } from 'react';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 
 interface EditCollectionModalProps {
 	onClose: () => void;
-	collection?: Collection;
+	collection?: Data.Collection;
 }
 
 export function EditCollectionModal({
 	onClose,
 	collection,
-}: EditCollectionModalProps) {
+}: Readonly<EditCollectionModalProps>) {
 	const { activeCollection } = useDashboardProps();
 	const targetCollection = collection ?? activeCollection;
 	const { data, setData, put, processing, errors } =
@@ -40,12 +40,10 @@ export function EditCollectionModal({
 		return isFormEdited && isFormValid && !processing;
 	}, [data, targetCollection, processing]);
 
-	const { url } = useRouteHelper();
-
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const editUrl = url('collection.edit', {
-			params: { id: targetCollection?.id.toString() ?? '' },
+		const editUrl = urlFor('collection.edit', {
+			id: targetCollection?.id?.toString() ?? '',
 		});
 		put(editUrl, {
 			onSuccess: () => {

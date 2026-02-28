@@ -5,7 +5,7 @@ interface CopyButtonProps {
 	children: (props: { copied: boolean; copy: () => void }) => ReactNode;
 }
 
-export function CopyButton({ value, children }: CopyButtonProps) {
+export function CopyButton({ value, children }: Readonly<CopyButtonProps>) {
 	const [copied, setCopied] = useState(false);
 
 	const copy = async () => {

@@ -2,10 +2,9 @@ import { router, useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button } from '@minimalstuff/ui';
 import { useRef, useState } from 'react';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 
 export function ExportImport() {
-	const { url } = useRouteHelper();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [importError, setImportError] = useState<string | null>(null);
 	const [importSuccess, setImportSuccess] = useState(false);
@@ -17,7 +16,7 @@ export function ExportImport() {
 	});
 
 	const handleExport = () => {
-		const exportUrl = url('user.settings.export');
+		const exportUrl = urlFor('user.settings.export');
 		window.location.href = exportUrl;
 	};
 
@@ -38,7 +37,7 @@ export function ExportImport() {
 			return;
 		}
 
-		const importUrl = url('user.settings.import');
+		const importUrl = urlFor('user.settings.import');
 		const formData = new FormData();
 		formData.append('file', data.file);
 

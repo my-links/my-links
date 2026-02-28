@@ -1,6 +1,6 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 import { Button, Input } from '@minimalstuff/ui';
+import { useState } from 'react';
 import { FormField } from '~/components/common/form_field';
 
 interface CreateTokenModalProps {
@@ -8,7 +8,10 @@ interface CreateTokenModalProps {
 	onClose: () => void;
 }
 
-export function CreateTokenModal({ onCreate, onClose }: CreateTokenModalProps) {
+export function CreateTokenModal({
+	onCreate,
+	onClose,
+}: Readonly<CreateTokenModalProps>) {
 	const { t } = useLingui();
 	const [tokenName, setTokenName] = useState('');
 	const [isLoading, setIsLoading] = useState(false);

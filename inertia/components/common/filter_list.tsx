@@ -28,7 +28,7 @@ interface FilterListProps {
 	layoutStoreKey: string;
 }
 
-export function FilterList({ layoutStoreKey }: FilterListProps) {
+export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 	const { layout, setLayout } = useLayoutStore(layoutStoreKey);
 	return (
 		<div className="flex items-center gap-1 p-1 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/50">

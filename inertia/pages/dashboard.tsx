@@ -1,4 +1,4 @@
-import { Collection, CollectionWithLinks, Link } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Head } from '@inertiajs/react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
@@ -20,11 +20,11 @@ import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard
 import { useModalStore } from '~/stores/modal_store';
 
 export interface DashboardProps {
-	followedCollections: Collection[];
-	myPublicCollections: Collection[];
-	myPrivateCollections: Collection[];
-	activeCollection?: CollectionWithLinks | null;
-	favoriteLinks?: Link[];
+	followedCollections: Data.Collection[];
+	myPublicCollections: Data.Collection[];
+	myPrivateCollections: Data.Collection[];
+	activeCollection?: Data.Collection.Variants['withLinks'] | null;
+	favoriteLinks?: Data.Link[];
 }
 
 export default function Dashboard() {

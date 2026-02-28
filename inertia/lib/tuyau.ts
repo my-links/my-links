@@ -1,8 +1,9 @@
-import { api } from '#adonis/api';
-import { createTuyau } from '@tuyau/client';
+import { registry } from '@generated/registry';
+import { createTuyau } from '@tuyau/core/client';
 
-export const createTuyauClient = (baseUrl: string) =>
-	createTuyau({
-		api,
-		baseUrl,
-	});
+export const tuyauClient = createTuyau({
+	baseUrl: '/',
+	registry,
+});
+
+export const urlFor = tuyauClient.urlFor;

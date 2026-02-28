@@ -1,5 +1,5 @@
 import { router, usePage } from '@inertiajs/react';
-import { ApiToken } from '~/types/app';
+import type { ApiToken } from '~/types/app';
 
 export function useApiTokens() {
 	const {

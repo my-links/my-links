@@ -1,12 +1,12 @@
+import { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
-import { SearchResult } from '~/components/dashboard/modals/search_modal';
 import { SearchCollectionResult } from '~/components/dashboard/search/search_collection_result';
 
 interface SearchCollectionResultsProps {
-	collectionResults: SearchResult[];
+	collectionResults: Data.SearchResult[];
 	linkResultsLength: number;
 	selectedIndex: number;
-	handleResultClick: (result: SearchResult) => void;
+	handleResultClick: (result: Data.SearchResult) => void;
 	searchTerm: string;
 }
 
@@ -16,7 +16,7 @@ export const SearchCollectionResults = ({
 	selectedIndex,
 	handleResultClick,
 	searchTerm,
-}: SearchCollectionResultsProps) =>
+}: Readonly<SearchCollectionResultsProps>) =>
 	collectionResults.length > 0 && (
 		<div>
 			<h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
@@ -29,6 +29,7 @@ export const SearchCollectionResults = ({
 					const isSelected = selectedIndex === resultIndex;
 					return (
 						<SearchCollectionResult
+							key={`collection-${result.id}`}
 							result={result}
 							resultIndex={resultIndex}
 							isSelected={isSelected}

@@ -1,6 +1,6 @@
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '#shared/consts/i18n';
-import type { Locale } from '#shared/types/i18n';
 import { i18n } from '@lingui/core';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/consts/i18n';
+import type { Locale } from '~/types/i18n';
 
 /**
  * We do a dynamic import of just the catalog that we need

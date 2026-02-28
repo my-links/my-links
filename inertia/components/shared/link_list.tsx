@@ -1,4 +1,4 @@
-import { Link } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
 import { useIsMobile } from '~/hooks/use_is_mobile';
@@ -6,10 +6,10 @@ import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '../dashboard/links/link_item';
 
 interface SharedLinkListProps {
-	links: Link[];
+	links: Data.Link[];
 }
 
-export function SharedLinkList({ links }: SharedLinkListProps) {
+export function SharedLinkList({ links }: Readonly<SharedLinkListProps>) {
 	const { layout } = useLayoutStore('shared');
 	const isMobile = useIsMobile();
 

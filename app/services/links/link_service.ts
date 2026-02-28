@@ -2,7 +2,7 @@ import Link from '#models/link';
 import { HttpContext } from '@adonisjs/core/http';
 import db from '@adonisjs/lucid/services/db';
 
-type CreateLinkPayload = {
+type LinkPayload = {
 	name: string;
 	description?: string;
 	url: string;
@@ -10,10 +10,8 @@ type CreateLinkPayload = {
 	collectionId: number;
 };
 
-type UpdateLinkPayload = CreateLinkPayload;
-
 export class LinkService {
-	createLink(payload: CreateLinkPayload) {
+	createLink(payload: LinkPayload) {
 		const context = this.getAuthContext();
 		return Link.create({
 			...payload,
@@ -21,7 +19,7 @@ export class LinkService {
 		});
 	}
 
-	updateLink(id: number, payload: UpdateLinkPayload) {
+	updateLink(id: number, payload: LinkPayload) {
 		const context = this.getAuthContext();
 		return Link.query()
 			.where('id', id)

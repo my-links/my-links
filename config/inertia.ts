@@ -1,13 +1,10 @@
 import { isSSREnableForPage } from '#config/ssr';
-import { UserAuthDto } from '#dtos/user_auth';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '#shared/consts/i18n';
-import env from '#start/env';
-import { HttpContext } from '@adonisjs/core/http';
+import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
-import type { InferSharedProps } from '@adonisjs/inertia/types';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../inertia/consts/i18n.js';
 
-function resolveServerLocale(ctx: HttpContext): string {
+export function resolveServerLocale(ctx: HttpContext): string {
 	const plainCookie = ctx.request.plainCookie('locale', { encoded: false });
 	const cookie = ctx.request.cookie('locale');
 	const localeCookie = plainCookie ?? cookie;
@@ -42,20 +39,8 @@ function resolveServerLocale(ctx: HttpContext): string {
 
 const inertiaConfig = defineConfig({
 	rootView: 'inertia_layout',
-	sharedData: {
-		errors: (ctx) => ctx.session?.flashMessages.get('errors'),
-		token: (ctx) => ctx.session?.flashMessages.get('token'),
-		auth: (ctx) =>
-			ctx.inertia.always(async () => {
-				await ctx.auth?.check();
-				return new UserAuthDto(ctx.auth?.user).serialize();
-			}),
-		locale: (ctx) => resolveServerLocale(ctx),
-		appUrl: () => env.get('APP_URL'),
-	},
 	ssr: {
 		enabled: true,
-		entrypoint: 'inertia/app/ssr.tsx',
 		pages: (_, page) => {
 			const ssrEnabled = isSSREnableForPage(page);
 			logger.debug(`Page "${page}" SSR enabled: ${ssrEnabled}`);
@@ -65,7 +50,3 @@ const inertiaConfig = defineConfig({
 });
 
 export default inertiaConfig;
-
-declare module '@adonisjs/inertia/types' {
-	export interface SharedProps extends InferSharedProps<typeof inertiaConfig> {}
-}

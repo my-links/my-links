@@ -1,7 +1,7 @@
 import {
 	PROJECT_EXTENSION_URL,
 	PROJECT_REPO_GITHUB_URL,
-} from '#config/project';
+} from '~/consts/project';
 
 export const NAVBAR_LINKS = [
 	{

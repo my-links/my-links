@@ -1,5 +1,5 @@
+import { Link } from '@adonisjs/inertia/react';
 import { Trans } from '@lingui/react/macro';
-import { Link } from '@tuyau/inertia/react';
 
 const featureList = [
 	'collection',

@@ -6,7 +6,7 @@ import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class ApiTokenController {
-	constructor(private apiTokenService: ApiTokenService) {}
+	constructor(protected readonly apiTokenService: ApiTokenService) {}
 
 	async store({ request, response, auth, session }: HttpContext) {
 		const { name, expiresAt } = await request.validateUsing(
@@ -14,7 +14,7 @@ export default class ApiTokenController {
 		);
 		const token = await this.apiTokenService.createToken(auth.user!, {
 			name,
-			expiresAt,
+			expiresAt: expiresAt?.toJSDate(),
 		});
 		session.flash('token', {
 			...token.toJSON(),

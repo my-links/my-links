@@ -1,11 +1,10 @@
 import { router, useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button } from '@minimalstuff/ui';
+import { urlFor } from '~/lib/tuyau';
 import { useModalStore } from '~/stores/modal_store';
-import { useRouteHelper } from '~/lib/route_helper';
 
 export function DeleteAccount() {
-	const { url } = useRouteHelper();
 	const { processing } = useForm({});
 
 	const handleDeleteAccount = () => {
@@ -22,7 +21,7 @@ export function DeleteAccount() {
 			cancelLabel: <Trans>Cancel</Trans>,
 			confirmColor: 'red',
 			onConfirm: async () => {
-				const deleteUrl = url('user.settings.delete');
+				const deleteUrl = urlFor('user.settings.delete');
 				router.delete(deleteUrl);
 			},
 		});

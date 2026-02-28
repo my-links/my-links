@@ -1,4 +1,4 @@
-import { SharedCollection } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Head, router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useMemo } from 'react';
@@ -6,16 +6,17 @@ import { FilterList } from '~/components/common/filter_list';
 import { SharedLinkList } from '~/components/shared/link_list';
 import { useAuth } from '~/hooks/use_auth';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { InertiaProps } from '~/types/inertia';
 
-interface SharedPageProps {
-	activeCollection: SharedCollection;
+type SharedPageProps = InertiaProps<{
+	activeCollection: Data.Collection.Variants['withLinks'];
 	isFollowing?: boolean;
-}
+}>;
 
 export default function SharedPage({
 	activeCollection,
 	isFollowing,
-}: SharedPageProps) {
+}: Readonly<SharedPageProps>) {
 	const auth = useAuth();
 	const isMobile = useIsMobile();
 
@@ -96,14 +97,14 @@ export default function SharedPage({
 				<div className="flex items-center justify-between">
 					<p className="text-sm text-gray-500 dark:text-gray-400">
 						<Trans>
-							Collection managed by <b>{activeCollection.author.fullname}</b>
+							Collection managed by <b>{activeCollection.author?.fullname}</b>
 						</Trans>
 					</p>
 
 					{!isMobile && <FilterList layoutStoreKey="shared" />}
 				</div>
 
-				<SharedLinkList links={activeCollection.links} />
+				<SharedLinkList links={activeCollection.links ?? []} />
 			</div>
 		</>
 	);

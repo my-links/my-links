@@ -1,24 +1,22 @@
-import { getRoute } from '#lib/route_helper';
+import { controllers } from '#generated/controllers';
 import { middleware } from '#start/kernel';
 import router from '@adonisjs/core/services/router';
-
-const AuthController = () => import('#controllers/auth/auth_controller');
 
 const ROUTES_PREFIX = '/auth';
 
 router
 	.group(() => {
-		router.get('/google', [AuthController, 'google']).as('auth');
+		router.get('/google', [controllers.auth.Auth, 'google']).as('auth');
 		router
-			.get('/callback', [AuthController, 'callbackAuth'])
+			.get('/callback', [controllers.auth.Auth, 'callbackAuth'])
 			.as('auth.callback');
 	})
-	.use(middleware.guest({ redirectTo: getRoute('collection.favorites').path }))
+	.use(middleware.guest({ redirectTo: 'collection.favorites' }))
 	.prefix(ROUTES_PREFIX);
 
 router
 	.group(() => {
-		router.get('/logout', [AuthController, 'logout']).as('auth.logout');
+		router.get('/logout', [controllers.auth.Auth, 'logout']).as('auth.logout');
 	})
 	.use(middleware.auth())
 	.prefix(ROUTES_PREFIX);

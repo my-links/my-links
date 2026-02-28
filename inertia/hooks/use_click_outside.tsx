@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from 'react';
 
-interface UseClickOutsideOptions {
+interface UseClickOutsideProps {
 	ref: RefObject<HTMLElement | null>;
 	additionalRefs?: RefObject<HTMLElement | null>[];
 	onClickOutside: () => void;
@@ -12,7 +12,7 @@ export function useClickOutside({
 	additionalRefs = [],
 	onClickOutside,
 	enabled = true,
-}: UseClickOutsideOptions) {
+}: Readonly<UseClickOutsideProps>) {
 	useEffect(() => {
 		if (!enabled) return;
 

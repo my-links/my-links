@@ -1,17 +1,17 @@
-import { Collection } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
+import { Input, Textarea } from '@minimalstuff/ui';
 import clsx from 'clsx';
 import { FormField } from '~/components/common/form_field';
-import { Input, Textarea } from '@minimalstuff/ui';
 import { Select } from '~/components/common/select';
 import { FormLinkData } from '~/types/link_form';
 
 interface FormLinkContentProps {
 	data: FormLinkData;
-	setData: (name: string, value: any) => void;
+	setData: (name: string, value: string | null) => void;
 	errors?: Record<string, string | string[]>;
-	collections: Collection[];
+	collections: Data.Collection[];
 	disableInputs?: boolean;
 }
 
@@ -21,7 +21,7 @@ export const FormLinkContent = ({
 	errors,
 	collections,
 	disableInputs = false,
-}: FormLinkContentProps) => (
+}: Readonly<FormLinkContentProps>) => (
 	<div className="space-y-4">
 		<FormField
 			label={<Trans>Name</Trans>}

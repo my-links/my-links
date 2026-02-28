@@ -1,13 +1,13 @@
+import { Data } from '@generated/data';
 import clsx from 'clsx';
 import { Highlight } from '~/components/common/hightlight';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
-import { SearchResult } from '~/components/dashboard/modals/search_modal';
 
 interface SearchLinkResultProps {
-	result: SearchResult;
+	result: Data.SearchResult;
 	resultIndex: number;
 	isSelected: boolean;
-	handleResultClick: (result: SearchResult) => void;
+	handleResultClick: (result: Data.SearchResult) => void;
 	searchTerm: string;
 }
 
@@ -17,7 +17,7 @@ export const SearchLinkResult = ({
 	isSelected,
 	handleResultClick,
 	searchTerm,
-}: SearchLinkResultProps) => (
+}: Readonly<SearchLinkResultProps>) => (
 	<button
 		key={`link-${result.id}`}
 		type="button"

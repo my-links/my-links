@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { create } from 'zustand';
 import { useGlobalHotkeysStore } from './global_hotkeys_store';
 
@@ -9,21 +8,21 @@ const ANIMATION_DURATION_MS = 200;
 
 export interface BaseModalConfig {
 	id: string;
-	title?: ReactNode;
+	title?: React.ReactNode;
 	size?: ModalSize;
 }
 
 export interface StandardModalConfig extends BaseModalConfig {
 	type: 'standard';
-	children: ReactNode;
+	children: React.ReactNode;
 }
 
 export interface ConfirmModalConfig extends BaseModalConfig {
 	type: 'confirm';
-	children?: ReactNode;
+	children?: React.ReactNode;
 	onConfirm: () => void | Promise<void>;
-	confirmLabel?: ReactNode;
-	cancelLabel?: ReactNode;
+	confirmLabel?: React.ReactNode;
+	cancelLabel?: React.ReactNode;
 	confirmColor?: ConfirmModalColor;
 }
 
@@ -98,7 +97,7 @@ export const useModalStore = create<ModalStore>((set, get) => ({
 		const state = get();
 		const willBeEmpty = state.modals.length === 1;
 
-		set((_state) => ({
+		set((_state: ModalStore) => ({
 			closingIds: new Set(_state.closingIds).add(id),
 		}));
 

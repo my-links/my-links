@@ -1,4 +1,4 @@
-import { useTuyau } from '@tuyau/inertia/react';
+import { useTuyau } from '@adonisjs/inertia/react';
 
 export const useTuyauRequired = () => {
 	const tuyau = useTuyau();

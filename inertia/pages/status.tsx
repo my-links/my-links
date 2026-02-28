@@ -1,11 +1,11 @@
-import type { StatusReportCheck } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Head } from '@inertiajs/react';
 import { GlobalStatus } from '~/components/status/global_status';
 import { ServiceDetails } from '~/components/status/service_details';
 
 interface StatusProps {
 	isHealthy: boolean;
-	checks: StatusReportCheck[];
+	checks: Data.StatusReportCheck[];
 }
 
 const Status = ({ isHealthy, checks }: StatusProps) => (

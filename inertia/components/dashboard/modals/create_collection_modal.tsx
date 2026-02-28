@@ -1,9 +1,9 @@
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { useMemo } from 'react';
 import { Button } from '@minimalstuff/ui';
+import { useMemo } from 'react';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 
@@ -15,7 +15,7 @@ interface CreateCollectionModalProps {
 export function CreateCollectionModal({
 	onClose,
 	message,
-}: CreateCollectionModalProps) {
+}: Readonly<CreateCollectionModalProps>) {
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			name: '',
@@ -29,11 +29,9 @@ export function CreateCollectionModal({
 		[processing, data]
 	);
 
-	const { url: getUrl } = useRouteHelper();
-
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const createUrl = getUrl('collection.create');
+		const createUrl = urlFor('collection.create');
 		submit('post', createUrl, {
 			onSuccess: () => {
 				onClose();

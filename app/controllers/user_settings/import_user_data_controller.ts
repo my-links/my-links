@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 
 @inject()
 export default class ImportUserDataController {
-	constructor(private exportImportService: ExportImportService) {}
+	constructor(protected readonly exportImportService: ExportImportService) {}
 
 	async execute({ auth, request, response }: HttpContext) {
 		const user = auth.getUserOrFail();
@@ -15,7 +15,7 @@ export default class ImportUserDataController {
 			extnames: ['json'],
 		});
 
-		if (!file || !file.isValid) {
+		if (!file?.isValid) {
 			const errors = file?.errors?.[0]?.message ?? 'Invalid file';
 			throw new Error(errors);
 		}

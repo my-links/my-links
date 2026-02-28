@@ -1,5 +1,5 @@
-import { AUTHOR_GITHUB_URL, AUTHOR_NAME } from '#config/project';
 import { Trans } from '@lingui/react/macro';
+import { AUTHOR_GITHUB_URL, AUTHOR_NAME } from '~/consts/project';
 
 interface MadeByProps {
 	onClick?: () => void;

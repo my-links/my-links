@@ -1,8 +1,10 @@
-import { CollectionWithLinks } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { CollapsibleSection } from './collapsible_section';
+
+type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
 interface PagePropsWithCollections extends PageProps {
 	followedCollections: CollectionWithLinks[];

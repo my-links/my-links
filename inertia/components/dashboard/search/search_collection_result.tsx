@@ -1,12 +1,12 @@
+import { Data } from '@generated/data';
 import clsx from 'clsx';
 import { Highlight } from '~/components/common/hightlight';
-import { SearchResult } from '~/components/dashboard/modals/search_modal';
 
 interface SearchCollectionResultProps {
-	result: SearchResult;
+	result: Data.SearchResult;
 	resultIndex: number;
 	isSelected: boolean;
-	handleResultClick: (result: SearchResult) => void;
+	handleResultClick: (result: Data.SearchResult) => void;
 	searchTerm: string;
 }
 
@@ -16,7 +16,7 @@ export const SearchCollectionResult = ({
 	isSelected,
 	handleResultClick,
 	searchTerm,
-}: SearchCollectionResultProps) => (
+}: Readonly<SearchCollectionResultProps>) => (
 	<button
 		key={`collection-${result.id}`}
 		type="button"
