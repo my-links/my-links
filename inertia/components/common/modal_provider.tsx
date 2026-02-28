@@ -23,7 +23,7 @@ export function ModalProvider() {
 								await modal.onConfirm();
 								close(modal.id);
 							}}
-							title={modal.title!}
+							title={modal.title}
 							confirmLabel={modal.confirmLabel}
 							cancelLabel={modal.cancelLabel}
 							confirmColor={modal.confirmColor}

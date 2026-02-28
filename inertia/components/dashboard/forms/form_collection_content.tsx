@@ -1,15 +1,14 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Button } from '@minimalstuff/ui';
-import { FormField } from '~/components/common/form_field';
-import { Input, Textarea } from '@minimalstuff/ui';
+import { Button, Input, Textarea } from '@minimalstuff/ui';
 import { EmojiPicker } from '~/components/common/emoji_picker';
+import { FormField } from '~/components/common/form_field';
 import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 
 interface FormCollectionContentProps {
 	data: FormCollectionData;
-	setData: (name: string, value: any) => void;
+	setData: (name: string, value: string | null) => void;
 	errors?: Record<string, string | string[]>;
 	disableInputs?: boolean;
 }
@@ -19,7 +18,7 @@ export const FormCollectionContent = ({
 	setData,
 	errors,
 	disableInputs = false,
-}: FormCollectionContentProps) => {
+}: Readonly<FormCollectionContentProps>) => {
 	const handleEmojiClick = (emoji: string | null) => setData('icon', emoji);
 	const handleRemoveIcon = () => setData('icon', null);
 

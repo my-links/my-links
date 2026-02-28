@@ -1,20 +1,20 @@
-import { LinkWithCollection } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { useMemo } from 'react';
 import { Button } from '@minimalstuff/ui';
+import { useMemo } from 'react';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { isValidHttpUrl } from '~/lib/navigation';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 import { FormLinkData } from '~/types/link_form';
 
 interface EditLinkModalProps {
-	link: LinkWithCollection;
+	link: Data.Link.Variants['withCollection'];
 	onClose: () => void;
 }
 
-export function EditLinkModal({ link, onClose }: EditLinkModalProps) {
+export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 	const { activeCollection, allCollections } = useDashboardProps();
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: link.name,
@@ -46,12 +46,10 @@ export function EditLinkModal({ link, onClose }: EditLinkModalProps) {
 		return isFormEdited && isFormValid && !processing;
 	}, [data, link, processing]);
 
-	const { url: getUrl } = useRouteHelper();
-
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const editUrl = getUrl('link.edit', {
-			params: { id: link.id.toString() },
+		const editUrl = urlFor('link.edit', {
+			id: link.id.toString(),
 		});
 		submit('put', editUrl, {
 			onSuccess: () => {

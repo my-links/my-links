@@ -1,11 +1,11 @@
-import { UserWithCounters } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 interface UserBadgeRoleProps {
-	user: UserWithCounters;
+	user: Data.User.Variants['withCounters'];
 }
 
-export const UserBadgeRole = ({ user }: UserBadgeRoleProps) => (
+export const UserBadgeRole = ({ user }: Readonly<UserBadgeRoleProps>) => (
 	<span
 		className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
 			user.isAdmin

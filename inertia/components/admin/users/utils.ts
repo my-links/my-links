@@ -1,4 +1,6 @@
-import { UserWithCounters } from '#shared/types/dto';
+import type { Data } from '@generated/data';
+
+type UserWithCounters = Data.User.Variants['withCounters'];
 
 export function filterData(data: UserWithCounters[], search: string) {
 	const query = search.toLowerCase().trim();

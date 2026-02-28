@@ -1,11 +1,11 @@
 import User from '#models/user';
-import type { ApiRouteName } from '#shared/types/index';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
+import type { RoutesList } from '@adonisjs/core/types/http';
 import db from '@adonisjs/lucid/services/db';
 
 export default class AuthController {
-	private redirectTo: ApiRouteName = 'home';
+	private readonly redirectTo: keyof RoutesList['GET'] = 'home';
 
 	async google({ ally, inertia }: HttpContext) {
 		const redirectUrl = await ally.use('google').redirectUrl();

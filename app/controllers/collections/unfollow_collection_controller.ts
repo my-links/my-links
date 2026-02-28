@@ -5,7 +5,7 @@ import vine from '@vinejs/vine';
 
 @inject()
 export default class UnfollowCollectionController {
-	private collectionIdValidator = vine.create(
+	private readonly collectionIdValidator = vine.create(
 		vine.object({
 			params: vine.object({
 				id: vine.number().positive(),
@@ -13,7 +13,7 @@ export default class UnfollowCollectionController {
 		})
 	);
 
-	constructor(private collectionService: CollectionService) {}
+	constructor(protected readonly collectionService: CollectionService) {}
 
 	async execute({ request, response, auth }: HttpContext) {
 		const {

@@ -1,15 +1,18 @@
-import { Collection, CollectionWithLinks } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { IconButton } from '@minimalstuff/ui';
 import { forwardRef, MouseEvent, useImperativeHandle } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
-import { IconButton } from '@minimalstuff/ui';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { useModalStore } from '~/stores/modal_store';
 import { DeleteCollectionModal } from '../modals/delete_collection_modal';
 import { EditCollectionModal } from '../modals/edit_collection_modal';
+
+type Collection = Data.Collection;
+type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
 export interface CollectionControlsRef {
 	openContextMenu: (x: number, y: number) => void;

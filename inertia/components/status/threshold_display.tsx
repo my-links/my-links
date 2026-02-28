@@ -1,12 +1,12 @@
-import type { HealthCheckMeta } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { formatBytes, formatPercentage } from '~/lib/format';
 
 interface ThresholdDisplayProps {
-	meta: HealthCheckMeta;
+	meta: Data.StatusReportCheck['meta'];
 }
 
-export const ThresholdDisplay = ({ meta }: ThresholdDisplayProps) => {
-	if (meta.sizeInPercentage) {
+export const ThresholdDisplay = ({ meta }: Readonly<ThresholdDisplayProps>) => {
+	if (meta?.sizeInPercentage) {
 		const { used, warningThreshold, failureThreshold } = meta.sizeInPercentage;
 		return (
 			<div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
@@ -28,7 +28,7 @@ export const ThresholdDisplay = ({ meta }: ThresholdDisplayProps) => {
 		);
 	}
 
-	if (meta.memoryInBytes) {
+	if (meta?.memoryInBytes) {
 		const { used, warningThreshold, failureThreshold } = meta.memoryInBytes;
 		return (
 			<div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
@@ -50,7 +50,7 @@ export const ThresholdDisplay = ({ meta }: ThresholdDisplayProps) => {
 		);
 	}
 
-	if (meta.connectionsCount) {
+	if (meta?.connectionsCount) {
 		const { active, warningThreshold, failureThreshold } =
 			meta.connectionsCount;
 		return (

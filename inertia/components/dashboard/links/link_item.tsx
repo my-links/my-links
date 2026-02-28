@@ -1,11 +1,11 @@
-import { Link } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import clsx from 'clsx';
 import { useRef } from 'react';
 import { LinkControls, LinkControlsRef } from './link_controls';
 import { LinkFavicon } from './link_favicon';
 
 interface LinkItemProps {
-	link: Link;
+	link: Data.Link;
 	hideMenu?: boolean;
 	layout?: 'grid' | 'list' | 'compact' | 'masonry';
 }
@@ -14,7 +14,7 @@ export function LinkItem({
 	link,
 	hideMenu = false,
 	layout = 'grid',
-}: LinkItemProps) {
+}: Readonly<LinkItemProps>) {
 	const { name, url, description } = link;
 	const showFavoriteIcon = !hideMenu && 'favorite' in link && link.favorite;
 	const linkControlsRef = useRef<LinkControlsRef>(null);

@@ -1,12 +1,12 @@
-import { SharedCollectionDto } from '#dtos/shared_collection';
 import { CollectionService } from '#services/collections/collection_service';
+import CollectionTransformer from '#transformers/collection';
 import { getSharedCollectionValidator } from '#validators/shared_collections/shared_collection';
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class SharedCollectionsController {
-	constructor(private collectionService: CollectionService) {}
+	constructor(protected readonly collectionService: CollectionService) {}
 
 	async render({ request, inertia, auth }: HttpContext) {
 		const { params } = await request.validateUsing(
@@ -22,7 +22,10 @@ export default class SharedCollectionsController {
 		]);
 
 		return inertia.render('shared', {
-			activeCollection: new SharedCollectionDto(activeCollection).serialize(),
+			activeCollection:
+				CollectionTransformer.transform(activeCollection).useVariant(
+					'withLinks'
+				),
 			isFollowing,
 		});
 	}

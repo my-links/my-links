@@ -5,7 +5,7 @@ import { type HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class CreateCollectionController {
-	constructor(private collectionService: CollectionService) {}
+	constructor(protected readonly collectionService: CollectionService) {}
 
 	async execute({ request, response }: HttpContext) {
 		const payload = await request.validateUsing(createCollectionValidator);

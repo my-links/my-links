@@ -1,6 +1,6 @@
 import Collection from '#models/collection';
 import Link from '#models/link';
-import User from '#models/user';
+import type User from '#models/user';
 import db from '@adonisjs/lucid/services/db';
 
 type ExportData = {

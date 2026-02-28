@@ -1,5 +1,5 @@
-import { Button, Modal } from '@minimalstuff/ui';
 import { t } from '@lingui/core/macro';
+import { Button, Modal } from '@minimalstuff/ui';
 import { ReactNode, useState } from 'react';
 
 interface ConfirmModalProps {
@@ -24,7 +24,7 @@ export function ConfirmModal({
 	cancelLabel: propCancelLabel,
 	confirmColor: propConfirmColor,
 	loading = false,
-}: ConfirmModalProps) {
+}: Readonly<ConfirmModalProps>) {
 	const [isConfirming, setIsConfirming] = useState(false);
 
 	const handleConfirm = async () => {

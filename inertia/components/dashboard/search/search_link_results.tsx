@@ -1,11 +1,11 @@
+import { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
-import { SearchResult } from '~/components/dashboard/modals/search_modal';
 import { SearchLinkResult } from '~/components/dashboard/search/search_link_result';
 
 interface SearchLinkResultsProps {
-	linkResults: SearchResult[];
+	linkResults: Data.SearchResult[];
 	selectedIndex: number;
-	handleResultClick: (result: SearchResult) => void;
+	handleResultClick: (result: Data.SearchResult) => void;
 	searchTerm: string;
 }
 
@@ -14,7 +14,7 @@ export const SearchLinkResults = ({
 	selectedIndex,
 	handleResultClick,
 	searchTerm,
-}: SearchLinkResultsProps) =>
+}: Readonly<SearchLinkResultsProps>) =>
 	linkResults.length > 0 && (
 		<div>
 			<h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
@@ -24,6 +24,7 @@ export const SearchLinkResults = ({
 			<div className="space-y-2">
 				{linkResults.map((result, resultIndex) => (
 					<SearchLinkResult
+						key={`link-${result.id}`}
 						result={result}
 						resultIndex={resultIndex}
 						isSelected={selectedIndex === resultIndex}

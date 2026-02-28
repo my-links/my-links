@@ -4,14 +4,12 @@ import User from '#models/user';
 import { HttpContext } from '@adonisjs/core/http';
 import db from '@adonisjs/lucid/services/db';
 
-type CreateCollectionPayload = {
+type CollectionPayload = {
 	name: string;
 	description: string | null;
 	visibility: Visibility;
 	icon: string | null;
 };
-
-type UpdateCollectionPayload = CreateCollectionPayload;
 
 export class CollectionService {
 	async getAccessibleCollectionByIdWithLinks(
@@ -52,7 +50,7 @@ export class CollectionService {
 		return Number(totalCount[0].total);
 	}
 
-	createCollection(payload: CreateCollectionPayload) {
+	createCollection(payload: CollectionPayload) {
 		const context = this.getAuthContext();
 		return Collection.create({
 			...payload,
@@ -60,10 +58,7 @@ export class CollectionService {
 		});
 	}
 
-	async updateCollection(
-		id: Collection['id'],
-		payload: UpdateCollectionPayload
-	) {
+	async updateCollection(id: Collection['id'], payload: CollectionPayload) {
 		const context = this.getAuthContext();
 		const collection = await Collection.query()
 			.where('id', id)

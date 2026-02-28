@@ -6,7 +6,7 @@ interface ThProps extends PropsWithChildren {
 	onSort(): void;
 }
 
-export function Th({ children, reversed, sorted, onSort }: ThProps) {
+export function Th({ children, reversed, sorted, onSort }: Readonly<ThProps>) {
 	const iconClass = sorted
 		? reversed
 			? 'i-tabler-chevron-up'

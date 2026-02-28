@@ -14,7 +14,7 @@ export function FormField({
 	error,
 	children,
 	required,
-}: FormFieldProps) {
+}: Readonly<FormFieldProps>) {
 	const errorMessage = error ? (Array.isArray(error) ? error[0] : error) : null;
 
 	return (

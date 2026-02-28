@@ -1,15 +1,15 @@
-import { CollectionDto } from '#dtos/collection';
-import { LinkDto } from '#dtos/link';
 import { CollectionService } from '#services/collections/collection_service';
 import { LinkService } from '#services/links/link_service';
+import CollectionTransformer from '#transformers/collection';
+import LinkTransformer from '#transformers/link';
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class ShowFavoritesController {
 	constructor(
-		private collectionService: CollectionService,
-		private linkService: LinkService
+		protected readonly collectionService: CollectionService,
+		protected readonly linkService: LinkService
 	) {}
 
 	async render({ auth, inertia }: HttpContext) {
@@ -27,10 +27,11 @@ export default class ShowFavoritesController {
 		]);
 
 		return inertia.render('dashboard', {
-			followedCollections: CollectionDto.fromArray(followedCollections),
-			myPublicCollections: CollectionDto.fromArray(myPublicCollections),
-			myPrivateCollections: CollectionDto.fromArray(myPrivateCollections),
-			favoriteLinks: LinkDto.fromArray(favoriteLinks),
+			followedCollections: CollectionTransformer.transform(followedCollections),
+			myPublicCollections: CollectionTransformer.transform(myPublicCollections),
+			myPrivateCollections:
+				CollectionTransformer.transform(myPrivateCollections),
+			favoriteLinks: LinkTransformer.transform(favoriteLinks),
 			activeCollection: null,
 		});
 	}

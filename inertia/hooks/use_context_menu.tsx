@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useClickOutside } from './use_click_outside';
 import { useStateAnimation } from './use_state_animation';
 
-interface UseContextMenuOptions {
+interface UseContextMenuProps {
 	onClose?: () => void;
 }
 
@@ -39,7 +39,9 @@ function adjustPosition(
 	return { x: adjustedX, y: adjustedY };
 }
 
-export function useContextMenu({ onClose }: UseContextMenuOptions = {}) {
+export function useContextMenu({
+	onClose,
+}: Readonly<UseContextMenuProps> = {}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [menuPosition, setMenuPosition] = useState<MenuPosition | null>(null);
 	const [menuDimensions, setMenuDimensions] = useState({ width: 0, height: 0 });
@@ -67,25 +69,23 @@ export function useContextMenu({ onClose }: UseContextMenuOptions = {}) {
 	const toggleMenu = (event?: React.MouseEvent<HTMLElement>) => {
 		if (isOpen) {
 			closeMenu();
+		}
+
+		if (event) {
+			const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+			openMenu({
+				x: rect.right,
+				y: rect.bottom,
+			});
+		} else if (menuRef.current) {
+			const rect = menuRef.current.getBoundingClientRect();
+			openMenu({
+				x: rect.right,
+				y: rect.bottom,
+			});
 		} else {
-			if (event) {
-				const rect = (
-					event.currentTarget as HTMLElement
-				).getBoundingClientRect();
-				openMenu({
-					x: rect.right,
-					y: rect.bottom,
-				});
-			} else if (menuRef.current) {
-				const rect = menuRef.current.getBoundingClientRect();
-				openMenu({
-					x: rect.right,
-					y: rect.bottom,
-				});
-			} else {
-				setMenuPosition(null);
-				setIsOpen(true);
-			}
+			setMenuPosition(null);
+			setIsOpen(true);
 		}
 	};
 

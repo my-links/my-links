@@ -1,12 +1,12 @@
-import { KEYS } from '#constants/keys';
-import { Visibility } from '#enums/collections/visibility';
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton, Modal } from '@minimalstuff/ui';
 import { useState } from 'react';
 import { Kbd } from '~/components/common/kbd';
 import { DashboardHeaderProps } from '~/components/dashboard/headers/dashboard_header';
+import { KEYS } from '~/consts/keys';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { Visibility } from '~/types/app';
 
 interface DashboardQuickActionProps extends DashboardHeaderProps {
 	onHandleShareCollection: () => void;
@@ -21,7 +21,7 @@ export function DashboardQuickAction({
 	onEditCollection,
 	onDeleteCollection,
 	onHandleUnfollow,
-}: DashboardQuickActionProps) {
+}: Readonly<DashboardQuickActionProps>) {
 	const isMobile = useIsMobile();
 	const { activeCollection } = useDashboardProps();
 	const [isQuickActionsModalOpen, setIsQuickActionsModalOpen] = useState(false);

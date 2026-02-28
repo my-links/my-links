@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link } from '@adonisjs/inertia/react';
 import { ReactNode } from 'react';
 
 interface IconLinkProps {
@@ -22,7 +22,7 @@ export const IconLink = ({
 	onClick,
 	className = '',
 	fullWidth = false,
-}: IconLinkProps) => {
+}: Readonly<IconLinkProps>) => {
 	const combinedClassName = `${baseClassName} ${fullWidth ? 'w-full' : ''} ${className}`;
 
 	if (external) {

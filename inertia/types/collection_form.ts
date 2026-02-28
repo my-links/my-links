@@ -1,4 +1,4 @@
-import { Visibility } from '~/types/app';
+import type { Visibility } from '~/types/app';
 
 export type FormCollectionData = {
 	name: string;

@@ -1,4 +1,6 @@
-import type { HealthCheckStatus } from '#shared/types/dto';
+import type { Data } from '@generated/data';
+
+type HealthCheckStatus = Data.StatusReportCheck['status'];
 
 export function getHealthStatusVariant(
 	status: HealthCheckStatus

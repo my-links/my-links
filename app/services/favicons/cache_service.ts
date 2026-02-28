@@ -1,6 +1,6 @@
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 import { cache } from '#lib/cache';
-import { Favicon } from '#types/favicons/favicon_type';
+import type { Favicon } from '#types/favicons/favicon_type';
 
 export class CacheService {
 	private readonly cacheNs = cache.namespace('favicon');

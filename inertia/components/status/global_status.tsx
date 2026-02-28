@@ -5,7 +5,7 @@ interface GlobalStatusProps {
 	isHealthy: boolean;
 }
 
-export function GlobalStatus({ isHealthy }: GlobalStatusProps) {
+export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
 	const overallStatus = isHealthy
 		? ('healthy' as const)
 		: ('unhealthy' as const);

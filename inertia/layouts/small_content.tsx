@@ -1,9 +1,14 @@
-import { PropsWithChildren } from 'react';
 import { Footer } from '~/components/common/navigation/footer';
 import { Navbar } from '~/components/common/navigation/navbar';
 import { BaseLayout } from './base_layout';
 
-const SmallContentLayout = ({ children }: PropsWithChildren) => (
+interface SmallContentLayoutProps {
+	children: React.ReactNode;
+}
+
+const SmallContentLayout = ({
+	children,
+}: Readonly<SmallContentLayoutProps>) => (
 	<BaseLayout>
 		<div className="relative bg-gray-50 dark:bg-gray-900 h-screen overflow-hidden">
 			<div className="absolute inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-transparent dark:from-blue-950/20 pointer-events-none" />

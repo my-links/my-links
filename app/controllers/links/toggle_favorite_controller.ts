@@ -5,7 +5,7 @@ import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class ToggleLinkFavoriteController {
-	constructor(private linkService: LinkService) {}
+	constructor(protected readonly linkService: LinkService) {}
 
 	async execute({ request, response }: HttpContext) {
 		const {

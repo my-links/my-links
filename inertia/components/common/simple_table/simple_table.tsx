@@ -10,7 +10,7 @@ interface SimpleTableProps {
 	data: SimpleTableData[];
 }
 
-export function SimpleTable({ data }: SimpleTableProps) {
+export function SimpleTable({ data }: Readonly<SimpleTableProps>) {
 	const [scrolled, setScrolled] = useState(false);
 
 	const columns = data.length > 0 ? Object.keys(data[0]) : [];

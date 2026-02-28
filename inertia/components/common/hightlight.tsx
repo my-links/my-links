@@ -3,7 +3,7 @@ interface HighlightProps {
 	searchTerm: string;
 }
 
-export function Highlight({ text, searchTerm }: HighlightProps) {
+export function Highlight({ text, searchTerm }: Readonly<HighlightProps>) {
 	if (!searchTerm.trim()) {
 		return text;
 	}

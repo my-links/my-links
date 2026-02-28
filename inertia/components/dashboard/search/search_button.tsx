@@ -5,7 +5,7 @@ interface SearchButtonProps {
 	onClick: () => void;
 }
 
-export const SearchButton = ({ onClick }: SearchButtonProps) => (
+export const SearchButton = ({ onClick }: Readonly<SearchButtonProps>) => (
 	<button
 		type="button"
 		onClick={onClick}

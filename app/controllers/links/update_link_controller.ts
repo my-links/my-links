@@ -7,8 +7,8 @@ import { HttpContext } from '@adonisjs/core/http';
 @inject()
 export default class UpdateLinkController {
 	constructor(
-		private linkService: LinkService,
-		private collectionsService: CollectionService
+		protected readonly linkService: LinkService,
+		protected readonly collectionsService: CollectionService
 	) {}
 
 	async execute({ request }: HttpContext) {

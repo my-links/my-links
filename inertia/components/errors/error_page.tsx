@@ -1,4 +1,4 @@
-import { Link } from '@tuyau/inertia/react';
+import { Link } from '@adonisjs/inertia/react';
 
 interface ErrorPageProps {
 	title: React.ReactNode;
@@ -6,7 +6,11 @@ interface ErrorPageProps {
 	statusCode?: number;
 }
 
-export const ErrorPage = ({ title, message, statusCode }: ErrorPageProps) => (
+export const ErrorPage = ({
+	title,
+	message,
+	statusCode,
+}: Readonly<ErrorPageProps>) => (
 	<div className="flex items-center justify-center min-h-[60vh] px-4">
 		<div className="text-center max-w-md w-full">
 			{statusCode && (

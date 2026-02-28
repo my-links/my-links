@@ -1,7 +1,7 @@
 import { defineConfig } from '@adonisjs/auth';
 import { tokensGuard, tokensUserProvider } from '@adonisjs/auth/access_tokens';
 import { sessionGuard, sessionUserProvider } from '@adonisjs/auth/session';
-import { Authenticators, InferAuthEvents } from '@adonisjs/auth/types';
+import type { Authenticators, InferAuthEvents } from '@adonisjs/auth/types';
 
 const authConfig = defineConfig({
 	default: 'web',

@@ -1,13 +1,11 @@
+import { controllers } from '#generated/controllers';
 import { middleware } from '#start/kernel';
 import router from '@adonisjs/core/services/router';
-
-const GetFavoriteLinksController = () =>
-	import('#controllers/api/links/get_favorite_links_controller');
 
 router
 	.group(() => {
 		router
-			.get('', [GetFavoriteLinksController, 'render'])
+			.get('', [controllers.api.links.GetFavoriteLinks, 'render'])
 			.as('api-favorites.index');
 	})
 	.prefix('/api/v1/links/favorites')

@@ -25,9 +25,7 @@ const sessionConfig = defineConfig({
 		path: '/',
 		httpOnly: true,
 		secure: true,
-
-		// TODO: set this to lax and found a solution to keep auth when using extension
-		sameSite: 'none',
+		sameSite: 'lax',
 	},
 
 	/**

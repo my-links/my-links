@@ -1,17 +1,20 @@
-import { Link, LinkWithCollection } from '#shared/types/dto';
+import { Link as InertiaLink } from '@adonisjs/inertia/react';
+import type { Data } from '@generated/data';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Link as InertiaLink } from '@tuyau/inertia/react';
+import { IconButton } from '@minimalstuff/ui';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
-import { IconButton } from '@minimalstuff/ui';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 import { useModalStore } from '~/stores/modal_store';
 import { DeleteLinkModal } from '../modals/delete_link_modal';
 import { EditLinkModal } from '../modals/edit_link_modal';
+
+type Link = Data.Link;
+type LinkWithCollection = Data.Link.Variants['withCollection'];
 
 export interface LinkControlsRef {
 	openContextMenu: (x: number, y: number) => void;
@@ -22,9 +25,8 @@ interface LinkControlsProps {
 	link: Link;
 }
 
-export function LinkControls({ link, ref }: LinkControlsProps) {
+export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 	const { activeCollection, myCollections } = useDashboardProps();
-	const { url } = useRouteHelper();
 	const openModal = useModalStore((state) => state.open);
 	const closeAll = useModalStore((state) => state.closeAll);
 
@@ -90,13 +92,11 @@ export function LinkControls({ link, ref }: LinkControlsProps) {
 	};
 
 	const handleFavorite = useCallback(() => {
-		const toggleFavoriteUrl = url('link.toggle-favorite', {
-			params: { id: link.id.toString() },
+		const toggleFavoriteUrl = urlFor('link.toggle-favorite', {
+			id: link.id,
 		});
-		router.put(toggleFavoriteUrl, {
-			favorite: !link.favorite,
-		});
-	}, [link.id]);
+		router.put(toggleFavoriteUrl, { favorite: !link.favorite });
+	}, [link.id, link.favorite]);
 
 	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -114,6 +114,7 @@ export function LinkControls({ link, ref }: LinkControlsProps) {
 			className="relative"
 			ref={menuRef}
 			onClick={(e) => e.stopPropagation()}
+			aria-hidden="true"
 		>
 			<IconButton
 				icon="i-mdi-dots-vertical"
@@ -134,7 +135,7 @@ export function LinkControls({ link, ref }: LinkControlsProps) {
 				{!activeCollection && (
 					<InertiaLink
 						route="collection.show"
-						params={{ id: link.collectionId }}
+						routeParams={{ id: link.collectionId }}
 						className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
 						onClick={(e) => {
 							e.stopPropagation();

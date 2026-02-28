@@ -4,7 +4,7 @@ import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class ExportUserDataController {
-	constructor(private exportImportService: ExportImportService) {}
+	constructor(protected readonly exportImportService: ExportImportService) {}
 
 	async execute({ auth, response }: HttpContext) {
 		const user = auth.getUserOrFail();

@@ -1,4 +1,4 @@
-import { UserWithCounters } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { ChangeEvent, useState } from 'react';
 import { Th } from '~/components/admin/users/th';
@@ -6,6 +6,8 @@ import { sortData } from '~/components/admin/users/utils';
 import { ClientOnly } from '~/components/common/client_only';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { formatDate } from '~/lib/format';
+
+type UserWithCounters = Data.User.Variants['withCounters'];
 
 export type Columns = keyof UserWithCounters;
 
@@ -16,7 +18,7 @@ export interface UsersTableProps {
 	users: UserWithCounters[];
 }
 
-export function UsersTable({ users }: UsersTableProps) {
+export function UsersTable({ users }: Readonly<UsersTableProps>) {
 	const [search, setSearch] = useState<string>('');
 	const [sortBy, setSortBy] = useState<Columns | null>(DEFAULT_SORT_BY);
 	const [reverseSortDirection, setReverseSortDirection] = useState(
@@ -78,10 +80,10 @@ export function UsersTable({ users }: UsersTableProps) {
 				</span>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-				<ClientOnly>{formatDate(user.createdAt ?? '')}</ClientOnly>
+				<ClientOnly>{formatDate(user.createdAt?.value ?? '')}</ClientOnly>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-				<ClientOnly>{formatDate(user.lastSeenAt ?? '')}</ClientOnly>
+				<ClientOnly>{formatDate(user.lastSeenAt?.value ?? '')}</ClientOnly>
 			</td>
 		</tr>
 	));

@@ -1,51 +1,43 @@
+import { controllers } from '#generated/controllers';
 import { middleware } from '#start/kernel';
 import router from '@adonisjs/core/services/router';
-
-const CreateCollectionController = () =>
-	import('#controllers/collections/create_collection_controller');
-const ShowCollectionController = () =>
-	import('#controllers/collections/show_collection_controller');
-const UpdateCollectionController = () =>
-	import('#controllers/collections/update_collection_controller');
-const DeleteCollectionController = () =>
-	import('#controllers/collections/delete_collection_controller');
-const FollowCollectionController = () =>
-	import('#controllers/collections/follow_collection_controller');
-const UnfollowCollectionController = () =>
-	import('#controllers/collections/unfollow_collection_controller');
-const ShowFavoritesController = () =>
-	import('#controllers/favorites/show_favorites_controller');
 
 router
 	.group(() => {
 		router
 			.group(() => {
 				router
-					.post('/', [CreateCollectionController, 'execute'])
+					.post('/', [controllers.collections.CreateCollection, 'execute'])
 					.as('collection.create');
 
 				router
-					.get('/favorites', [ShowFavoritesController, 'render'])
+					.get('/favorites', [controllers.favorites.ShowFavorites, 'render'])
 					.as('collection.favorites');
 
 				router
-					.get('/:id', [ShowCollectionController, 'render'])
+					.get('/:id', [controllers.collections.ShowCollection, 'render'])
 					.as('collection.show');
 
 				router
-					.put('/:id', [UpdateCollectionController, 'execute'])
+					.put('/:id', [controllers.collections.UpdateCollection, 'execute'])
 					.as('collection.edit');
 
 				router
-					.delete('/:id', [DeleteCollectionController, 'execute'])
+					.delete('/:id', [controllers.collections.DeleteCollection, 'execute'])
 					.as('collection.delete');
 
 				router
-					.post('/:id/follow', [FollowCollectionController, 'execute'])
+					.post('/:id/follow', [
+						controllers.collections.FollowCollection,
+						'execute',
+					])
 					.as('collection.follow');
 
 				router
-					.post('/:id/unfollow', [UnfollowCollectionController, 'execute'])
+					.post('/:id/unfollow', [
+						controllers.collections.UnfollowCollection,
+						'execute',
+					])
 					.as('collection.unfollow');
 			})
 			.prefix('/collections');

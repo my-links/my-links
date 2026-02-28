@@ -7,7 +7,7 @@ interface LinkFaviconProps {
 	size?: number;
 }
 
-export function LinkFavicon({ url, size = 32 }: LinkFaviconProps) {
+export function LinkFavicon({ url, size = 32 }: Readonly<LinkFaviconProps>) {
 	const imgRef = useRef<HTMLImageElement>(null);
 	const [isFailed, setFailed] = useState<boolean>(false);
 	const [isLoading, setLoading] = useState<boolean>(true);

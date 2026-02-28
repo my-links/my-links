@@ -1,9 +1,9 @@
-import { CollectionWithLinks } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 
 export type FormLinkData = {
 	name: string;
 	description: string | null;
 	url: string;
 	favorite: boolean;
-	collectionId: CollectionWithLinks['id'];
+	collectionId: Data.Collection['id'];
 };

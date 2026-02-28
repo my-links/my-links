@@ -10,7 +10,7 @@ export const Badge = ({
 	children,
 	variant = 'primary',
 	size = 'sm',
-}: BadgeProps) => (
+}: Readonly<BadgeProps>) => (
 	<span
 		className={`inline-flex items-center gap-1 px-3 py-1 rounded-md text-${size} ${getVariantClass(variant)}`}
 	>

@@ -1,7 +1,5 @@
-import { defineConfig } from '@tuyau/core';
-
-const tuyauConfig = defineConfig({
+const tuyauConfig = {
 	codegen: {},
-});
+} as const;
 
 export default tuyauConfig;

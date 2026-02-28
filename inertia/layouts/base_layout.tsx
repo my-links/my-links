@@ -1,21 +1,25 @@
-import { DEFAULT_LOCALE } from '#shared/consts/i18n';
-import { Locale } from '#shared/types/i18n';
+import { TuyauProvider } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import '@minimalstuff/ui/style.css';
-import { TuyauProvider } from '@tuyau/inertia/react';
-import { ReactNode, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import 'virtual:uno.css';
 import { ModalProvider } from '~/components/common/modal_provider';
+import { DEFAULT_LOCALE } from '~/consts/i18n';
 import '~/css/app.css';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { dynamicActivate } from '~/i18n';
-import { createTuyauClient } from '~/lib/tuyau';
+import { tuyauClient } from '~/lib/tuyau';
+import type { Locale } from '~/types/i18n';
 
-export function BaseLayout({ children }: { children: ReactNode }) {
-	const { props } = usePage<PageProps & { locale: Locale; appUrl: string }>();
+interface BaseLayoutProps {
+	children: React.ReactNode;
+}
+
+export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
+	const { props } = usePage<PageProps & { locale: Locale }>();
 
 	usePageTransition({
 		querySelector: '[data-page-transition]',
@@ -23,13 +27,8 @@ export function BaseLayout({ children }: { children: ReactNode }) {
 	});
 
 	const locale = useMemo(() => {
-		return (props.locale as Locale) ?? DEFAULT_LOCALE;
+		return props.locale ?? DEFAULT_LOCALE;
 	}, [props.locale]);
-
-	const tuyauClient = useMemo(
-		() => createTuyauClient(props.appUrl),
-		[props.appUrl]
-	);
 
 	useEffect(() => {
 		if (i18n.locale !== locale) {

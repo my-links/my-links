@@ -7,7 +7,7 @@ interface ServerErrorProps {
 	};
 }
 
-const ServerError = ({ error }: ServerErrorProps) => (
+const ServerError = ({ error }: Readonly<ServerErrorProps>) => (
 	<ErrorPage
 		title={<Trans>Server Error</Trans>}
 		message={error.message || <Trans>An unexpected error occurred.</Trans>}

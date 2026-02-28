@@ -1,7 +1,7 @@
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import { Favicon } from '#types/favicons/favicon_type';
+import type { Favicon } from '#types/favicons/favicon_type';
 import logger from '@adonisjs/core/services/logger';
 import { parse } from 'node-html-parser';
 

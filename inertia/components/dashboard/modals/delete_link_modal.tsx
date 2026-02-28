@@ -1,17 +1,20 @@
-import { LinkWithCollection } from '#shared/types/dto';
+import type { Data } from '@generated/data';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button } from '@minimalstuff/ui';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
-import { useRouteHelper } from '~/lib/route_helper';
+import { urlFor } from '~/lib/tuyau';
 import { FormLinkData } from '~/types/link_form';
 
 interface DeleteLinkModalProps {
-	link: LinkWithCollection;
+	link: Data.Link.Variants['withCollection'];
 	onClose: () => void;
 }
 
-export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
+export function DeleteLinkModal({
+	link,
+	onClose,
+}: Readonly<DeleteLinkModalProps>) {
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: link.name,
 		description: link.description,
@@ -20,12 +23,10 @@ export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
 		collectionId: link.collectionId,
 	});
 
-	const { url: getUrl } = useRouteHelper();
-
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const deleteUrl = getUrl('link.delete', {
-			params: { id: link.id.toString() },
+		const deleteUrl = urlFor('link.delete', {
+			id: link.id.toString(),
 		});
 		submit('delete', deleteUrl, {
 			onSuccess: () => {
@@ -44,7 +45,7 @@ export function DeleteLinkModal({ link, onClose }: DeleteLinkModalProps) {
 				data={data}
 				setData={setData}
 				errors={errors}
-				collections={[link.collection]}
+				collections={[link.collection!]}
 				disableInputs
 			/>
 

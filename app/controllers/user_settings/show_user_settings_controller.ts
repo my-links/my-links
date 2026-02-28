@@ -4,7 +4,7 @@ import { HttpContext } from '@adonisjs/core/http';
 
 @inject()
 export default class ShowUserSettingsController {
-	constructor(private apiTokenService: ApiTokenService) {}
+	constructor(protected readonly apiTokenService: ApiTokenService) {}
 
 	public async render({ auth, inertia }: HttpContext) {
 		const user = await auth.authenticate();

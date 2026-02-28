@@ -1,31 +1,28 @@
-import { PRIMARY_COLOR, PROJECT_NAME } from '#config/project';
-import { DEFAULT_LOCALE } from '#shared/consts/i18n';
-import { Locale } from '#shared/types/i18n';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
+import { Data } from '@generated/data';
 import { createInertiaApp } from '@inertiajs/react';
 import { isSSREnableForPage } from 'config-ssr';
+import React from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
+import { DEFAULT_LOCALE } from '~/consts/i18n';
+import { PROJECT_NAME } from '~/consts/project';
 import { DefaultLayout } from '~/layouts/default_layout';
-import { dynamicActivate } from '../i18n/index';
+import type { Locale } from '~/types/i18n';
+import { dynamicActivate } from './i18n/index';
 
 createInertiaApp({
-	progress: { color: PRIMARY_COLOR },
+	progress: { color: 'var(--colors-blue-500)', delay: 50 },
 
 	title: (title) => `${title && `${title} - `}${PROJECT_NAME}`,
 
 	resolve: async (name) => {
-		const currentPage: any = await resolvePageComponent(
-			`../pages/${name}.tsx`,
-			import.meta.glob('../pages/**/*.tsx')
+		return resolvePageComponent(
+			`./pages/${name}.tsx`,
+			import.meta.glob('./pages/**/*.tsx'),
+			(page: React.ReactElement<Data.SharedProps>) => (
+				<DefaultLayout>{page}</DefaultLayout>
+			)
 		);
-
-		if (currentPage?.default) {
-			currentPage.default.layout =
-				currentPage.default.layout ||
-				((p: any) => <DefaultLayout children={p} />);
-		}
-
-		return currentPage;
 	},
 
 	async setup({ el, App, props }) {

@@ -13,7 +13,7 @@ export const Select = ({
 	className,
 	ref,
 	...props
-}: SelectProps) => (
+}: Readonly<SelectProps>) => (
 	<select
 		ref={ref}
 		disabled={disabled}
@@ -22,7 +22,7 @@ export const Select = ({
 			'text-gray-900 dark:text-gray-100',
 			'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
 			'transition-colors',
-			!!error
+			error
 				? 'border-red-500 dark:border-red-500'
 				: 'border-gray-300 dark:border-gray-600',
 			disabled && 'bg-gray-50 dark:bg-gray-900 cursor-not-allowed',

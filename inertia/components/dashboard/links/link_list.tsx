@@ -1,5 +1,5 @@
-import { CollectionWithLinks, Link } from '#shared/types/dto';
 import { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import clsx from 'clsx';
@@ -8,12 +8,12 @@ import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from './link_item';
 
 interface PagePropsWithLinks extends PageProps {
-	favoriteLinks: Link[];
-	activeCollection?: CollectionWithLinks | null;
+	favoriteLinks: Data.Link[];
+	activeCollection?: Data.Collection.Variants['withLinks'] | null;
 }
 
 interface LinkListProps {
-	links?: Link[];
+	links?: Data.Link[];
 }
 
 export function LinkList({ links: linksProp }: LinkListProps = {}) {

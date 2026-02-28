@@ -1,19 +1,15 @@
-import { UserWithCounters } from '#shared/types/dto';
-import { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { UsersTable } from '~/components/admin/users/users_table';
+import { InertiaProps } from '~/types/inertia';
 
-interface AdminDashboardProps extends PageProps {
-	users: UserWithCounters[];
+type PageProps = InertiaProps<{
+	users: Data.User.Variants['withCounters'][];
 	totalCollections: number;
 	totalLinks: number;
-}
+}>;
 
-const AdminDashboard = ({
-	users,
-	totalCollections,
-	totalLinks,
-}: AdminDashboardProps) => (
+const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
 	<div className="w-full h-full flex flex-col">
 		<div className="mb-6">
 			<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
