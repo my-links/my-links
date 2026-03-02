@@ -7,6 +7,8 @@ export const controllers = {
 	admin: {
 		Admin: () => import('#controllers/admin/admin_controller'),
 		Status: () => import('#controllers/admin/status_controller'),
+		BulkDeleteUsers: () =>
+			import('#controllers/admin/bulk_delete_users_controller'),
 	},
 	api: {
 		collections: {

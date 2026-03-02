@@ -15,6 +15,7 @@ export type ScannedRoutes = {
 		'auth.logout': { paramsTuple?: []; params?: {} };
 		'admin.dashboard': { paramsTuple?: []; params?: {} };
 		'admin.status': { paramsTuple?: []; params?: {} };
+		'admin.users.bulkDelete': { paramsTuple?: []; params?: {} };
 		'api-collections.index': { paramsTuple?: []; params?: {} };
 		'api-collections.create': { paramsTuple?: []; params?: {} };
 		'api-collections.update': {
@@ -125,6 +126,7 @@ export type ScannedRoutes = {
 		'user.settings.export': { paramsTuple?: []; params?: {} };
 	};
 	POST: {
+		'admin.users.bulkDelete': { paramsTuple?: []; params?: {} };
 		'api-collections.create': { paramsTuple?: []; params?: {} };
 		'api-links.create': { paramsTuple?: []; params?: {} };
 		'collection.create': { paramsTuple?: []; params?: {} };

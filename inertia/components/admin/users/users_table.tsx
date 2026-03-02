@@ -1,54 +1,86 @@
 import type { Data } from '@generated/data';
+import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 import { ChangeEvent, useState } from 'react';
 import { Th } from '~/components/admin/users/th';
-import { sortData } from '~/components/admin/users/utils';
 import { ClientOnly } from '~/components/common/client_only';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
+import { useUsersSelection } from '~/hooks/admin/use_users_selection';
+import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
 import { formatDate } from '~/lib/format';
+import { urlFor } from '~/lib/tuyau';
+import { useModalStore } from '~/stores/modal_store';
 
 type UserWithCounters = Data.User.Variants['withCounters'];
-
-export type Columns = keyof UserWithCounters;
-
-const DEFAULT_SORT_BY: Columns = 'lastSeenAt';
-const DEFAULT_SORT_DIRECTION = true;
 
 export interface UsersTableProps {
 	users: UserWithCounters[];
 }
 
 export function UsersTable({ users }: Readonly<UsersTableProps>) {
-	const [search, setSearch] = useState<string>('');
-	const [sortBy, setSortBy] = useState<Columns | null>(DEFAULT_SORT_BY);
-	const [reverseSortDirection, setReverseSortDirection] = useState(
-		DEFAULT_SORT_DIRECTION
-	);
-	const [sortedData, setSortedData] = useState(() =>
-		sortData(users, {
-			sortBy: sortBy,
-			reversed: reverseSortDirection,
-			search: '',
-		})
-	);
+	const {
+		search,
+		setSearch,
+		sortBy,
+		reverseSortDirection,
+		setSorting,
+		sortedData,
+	} = useUsersSorting(users);
+	const {
+		selectedUserIds,
+		selectedCount,
+		allVisibleSelected,
+		selectAllCheckboxRef,
+		visibleDeletableCount,
+		setUserSelected,
+		setAllVisibleSelected,
+		clearSelection,
+	} = useUsersSelection(users, sortedData);
 
-	const setSorting = (field: keyof UserWithCounters) => {
-		const reversed = field === sortBy ? !reverseSortDirection : false;
-		setReverseSortDirection(reversed);
-		setSortBy(field);
-		setSortedData(sortData(users, { sortBy: field, reversed, search }));
-	};
+	const [isDeleting, setIsDeleting] = useState(false);
+	const canDelete = selectedCount > 0 && !isDeleting;
 
-	const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.currentTarget;
-		setSearch(value);
-		setSortedData(
-			sortData(users, {
-				sortBy: sortBy,
-				reversed: reverseSortDirection,
-				search: value,
-			})
-		);
+	const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) =>
+		setSearch(event.currentTarget.value);
+
+	const handleClearSearch = () => setSearch('');
+
+	const handleDeleteSelected = () => {
+		if (selectedCount === 0) return;
+
+		const targetIds = Array.from(selectedUserIds);
+		const modalId = useModalStore.getState().openConfirm({
+			title: <Trans>Delete accounts</Trans>,
+			children: (
+				<Trans>
+					You are about to delete {targetIds.length} account(s). This action
+					cannot be undone. All related collections and links will be
+					permanently deleted.
+				</Trans>
+			),
+			confirmLabel: <Trans>Delete</Trans>,
+			cancelLabel: <Trans>Cancel</Trans>,
+			confirmColor: 'red',
+			onConfirm: async () => {
+				setIsDeleting(true);
+				const bulkDeleteUrl = urlFor('admin.users.bulkDelete');
+				router.post(
+					bulkDeleteUrl,
+					{ userIds: targetIds },
+					{
+						preserveScroll: true,
+						onSuccess: () => {
+							clearSelection();
+							useModalStore.getState().close(modalId);
+						},
+						onFinish: () => {
+							setIsDeleting(false);
+						},
+					}
+				);
+			},
+		});
 	};
 
 	const rows = sortedData.map((user) => (
@@ -56,6 +88,16 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			key={user.id}
 			className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors"
 		>
+			<td className="px-6 py-4">
+				<input
+					type="checkbox"
+					checked={selectedUserIds.has(user.id)}
+					disabled={user.isAdmin}
+					onChange={(e) => setUserSelected(user.id, e.target.checked)}
+					className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+					aria-label={`Select user ${user.fullname}`}
+				/>
+			</td>
 			<td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
 				<div className="flex items-center gap-3">
 					<div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xs font-semibold">
@@ -101,29 +143,49 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all"
 					/>
 				</div>
-				{search && (
-					<button
-						onClick={() => {
-							setSearch('');
-							setSortedData(
-								sortData(users, {
-									sortBy: sortBy,
-									reversed: reverseSortDirection,
-									search: '',
-								})
-							);
-						}}
-						className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+				<div className="flex items-center gap-3">
+					<Button
+						variant="danger"
+						size="sm"
+						disabled={!canDelete}
+						onClick={handleDeleteSelected}
 					>
-						<i className="i-mdi-close w-4 h-4" />
-						<Trans>Clear</Trans>
-					</button>
-				)}
+						{isDeleting && (
+							<span
+								className="i-svg-spinners-3-dots-fade w-4 h-4"
+								aria-hidden="true"
+							/>
+						)}
+						<Trans>Delete selected</Trans>
+						{selectedCount > 0 ? ` (${selectedCount})` : ''}
+					</Button>
+
+					{search && (
+						<button
+							onClick={handleClearSearch}
+							className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+						>
+							<i className="i-mdi-close w-4 h-4" />
+							<Trans>Clear</Trans>
+						</button>
+					)}
+				</div>
 			</div>
 			<div className="flex-1 overflow-auto rounded-lg border border-gray-200 dark:border-gray-700">
-				<table className="w-full min-w-[700px] border-collapse">
+				<table className="w-full min-w-[760px] border-collapse">
 					<thead className="bg-gray-50 dark:bg-gray-900/50 sticky top-0 z-10 border-b border-gray-200 dark:border-gray-700">
 						<tr>
+							<th className="px-6 py-4 w-12">
+								<input
+									ref={selectAllCheckboxRef}
+									type="checkbox"
+									checked={allVisibleSelected}
+									onChange={(e) => setAllVisibleSelected(e.target.checked)}
+									disabled={visibleDeletableCount === 0}
+									className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+									aria-label="Select all visible users"
+								/>
+							</th>
 							<Th
 								sorted={sortBy === 'fullname'}
 								reversed={reverseSortDirection}
@@ -173,7 +235,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 							rows
 						) : (
 							<tr>
-								<td colSpan={6} className="px-4 py-12 text-center">
+								<td colSpan={7} className="px-4 py-12 text-center">
 									<div className="flex flex-col items-center justify-center gap-2">
 										<i className="i-mdi-magnify w-12 h-12 text-gray-300 dark:text-gray-600" />
 										<p className="text-gray-500 dark:text-gray-400 font-medium">

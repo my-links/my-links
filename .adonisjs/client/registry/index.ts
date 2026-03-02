@@ -91,6 +91,16 @@ const routes = {
 		],
 		types: placeholder as Registry['admin.status']['types'],
 	},
+	'admin.users.bulkDelete': {
+		methods: ['POST'],
+		pattern: '/admin/users/bulk-delete',
+		tokens: [
+			{ old: '/admin/users/bulk-delete', type: 0, val: 'admin', end: '' },
+			{ old: '/admin/users/bulk-delete', type: 0, val: 'users', end: '' },
+			{ old: '/admin/users/bulk-delete', type: 0, val: 'bulk-delete', end: '' },
+		],
+		types: placeholder as Registry['admin.users.bulkDelete']['types'],
+	},
 	'api-collections.index': {
 		methods: ['GET', 'HEAD'],
 		pattern: '/api/v1/collections',

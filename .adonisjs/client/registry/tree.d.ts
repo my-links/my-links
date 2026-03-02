@@ -17,6 +17,9 @@ export interface ApiDefinition {
 	admin: {
 		dashboard: (typeof routes)['admin.dashboard'];
 		status: (typeof routes)['admin.status'];
+		users: {
+			bulkDelete: (typeof routes)['admin.users.bulkDelete'];
+		};
 	};
 	apiCollections: {
 		index: (typeof routes)['api-collections.index'];

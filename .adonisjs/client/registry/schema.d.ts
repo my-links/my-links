@@ -185,6 +185,31 @@ export interface Registry {
 			>;
 		};
 	};
+	'admin.users.bulkDelete': {
+		methods: ['POST'];
+		pattern: '/admin/users/bulk-delete';
+		types: {
+			body: ExtractBody<
+				InferInput<
+					typeof import('#validators/admin/bulk_delete_users_validator').bulkDeleteUsersValidator
+				>
+			>;
+			paramsTuple: [];
+			params: {};
+			query: ExtractQuery<
+				InferInput<
+					typeof import('#validators/admin/bulk_delete_users_validator').bulkDeleteUsersValidator
+				>
+			>;
+			response: ExtractResponse<
+				Awaited<
+					ReturnType<
+						import('#controllers/admin/bulk_delete_users_controller').default['execute']
+					>
+				>
+			>;
+		};
+	};
 	'api-collections.index': {
 		methods: ['GET', 'HEAD'];
 		pattern: '/api/v1/collections';
