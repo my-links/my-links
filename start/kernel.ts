@@ -13,12 +13,12 @@ server.errorHandler(() => import('#exceptions/handler'));
  * the request URL.
  */
 server.use([
-	() => import('#middlewares/container_bindings_middleware'),
+	() => import('#middleware/container_bindings_middleware'),
 	() => import('@adonisjs/static/static_middleware'),
-	() => import('#middlewares/log_request'),
+	() => import('#middleware/log_request'),
 	() => import('@adonisjs/cors/cors_middleware'),
 	() => import('@adonisjs/vite/vite_middleware'),
-	() => import('#middlewares/inertia_middleware'),
+	() => import('#middleware/inertia_middleware'),
 ]);
 
 /**
@@ -30,8 +30,8 @@ router.use([
 	() => import('@adonisjs/session/session_middleware'),
 	() => import('@adonisjs/shield/shield_middleware'),
 	() => import('@adonisjs/auth/initialize_auth_middleware'),
-	() => import('#middlewares/auth/silent_auth_middleware'),
-	() => import('#middlewares/user/update_user_last_seen_middleware'),
+	() => import('#middleware/auth/silent_auth_middleware'),
+	() => import('#middleware/user/update_user_last_seen_middleware'),
 ]);
 
 /**
@@ -39,7 +39,7 @@ router.use([
  * the routes or the routes group.
  */
 export const middleware = router.named({
-	admin: () => import('#middlewares/admin/is_admin_middleware'),
-	guest: () => import('#middlewares/auth/guest_middleware'),
-	auth: () => import('#middlewares/auth/auth_middleware'),
+	admin: () => import('#middleware/admin/is_admin_middleware'),
+	guest: () => import('#middleware/auth/guest_middleware'),
+	auth: () => import('#middleware/auth/auth_middleware'),
 });

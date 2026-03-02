@@ -28,7 +28,7 @@
 		"#services/*": "./app/services/*.js",
 		"#transformers/*": "./app/transformers/*.js",
 		"#validators/*": "./app/validators/*.js",
-		"#middlewares/*": "./app/middlewares/*.js",
+		"#middleware/*": "./app/middleware/*.js",
 		"#enums/*": "./app/enums/*.js",
 		"#types/*": "./app/types/*.js",
 		"#exceptions/*": "./app/exceptions/*.js",
@@ -112,7 +112,7 @@
 	"hotHook": {
 		"boundaries": [
 			"./app/controllers/**/*.ts",
-			"./app/middlewares/**/*.ts"
+			"./app/middleware/**/*.ts"
 		]
 	},
 	"prettier": {
