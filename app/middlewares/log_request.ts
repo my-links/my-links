@@ -1,4 +1,4 @@
-import { HttpContext } from '@adonisjs/core/http';
+import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 
 export default class LogRequest {

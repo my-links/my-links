@@ -3,6 +3,7 @@ import UserTransformer from '#transformers/user';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
+import packageJson from '../../package.json' with { type: 'json' };
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	async share(ctx: HttpContext) {
@@ -33,6 +34,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			token: session?.flashMessages.get('token'),
 			auth: ctx.inertia.always(userAuth),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
+			appVersion: packageJson.version,
 		};
 	}
 

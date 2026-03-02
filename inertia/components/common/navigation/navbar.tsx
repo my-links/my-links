@@ -4,7 +4,7 @@ import { Trans } from '@lingui/react/macro';
 import { ThemeToggle } from '@minimalstuff/ui';
 import { useEffect, useState } from 'react';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
-import { FOOTER_LINKS } from '~/components/common/navigation/footer_links';
+import { useFooterLinks } from '~/components/common/navigation/footer_links';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
@@ -13,6 +13,7 @@ import { useAuth } from '~/hooks/use_auth';
 
 export function Navbar() {
 	const auth = useAuth();
+	const footerLinks = useFooterLinks();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const toggleMobileMenu = () => {
@@ -239,7 +240,7 @@ export function Navbar() {
 							)}
 						</div>
 						<div className="pt-2 border-t border-gray-200 dark:border-gray-700 space-y-2">
-							{FOOTER_LINKS.map((link) => (
+							{footerLinks.map((link) => (
 								<IconLink
 									key={link.href}
 									href={link.href}
