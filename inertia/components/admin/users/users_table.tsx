@@ -122,10 +122,22 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 				</span>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-				<ClientOnly>{formatDate(user.createdAt?.value ?? '')}</ClientOnly>
+				<ClientOnly>
+					{user.createdAt ? (
+						formatDate(user.createdAt)
+					) : (
+						<div className="text-gray-400 dark:text-gray-500">-</div>
+					)}
+				</ClientOnly>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
-				<ClientOnly>{formatDate(user.lastSeenAt?.value ?? '')}</ClientOnly>
+				<ClientOnly>
+					{user.lastSeenAt ? (
+						formatDate(user.lastSeenAt)
+					) : (
+						<div className="text-gray-400 dark:text-gray-500">-</div>
+					)}
+				</ClientOnly>
 			</td>
 		</tr>
 	));
