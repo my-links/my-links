@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.2.1](https://github.com/my-links/my-links/compare/4.2.0...4.2.1) (2026-03-02)
+
+### Bug Fixes
+
+* fix users tranformers ([c0080b0](https://github.com/my-links/my-links/commit/c0080b0ef4ba8219c38a0a3f0405f11beb898ed4))
+
 ## [4.2.0](https://github.com/my-links/my-links/compare/4.1.3...4.2.0) (2026-03-02)
 
 ### Features
