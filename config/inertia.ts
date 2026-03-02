@@ -2,7 +2,7 @@ import { isSSREnableForPage } from '#config/ssr';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import { defineConfig } from '@adonisjs/inertia';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '../inertia/consts/i18n.js';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './i18n.js';
 
 export function resolveServerLocale(ctx: HttpContext): string {
 	const plainCookie = ctx.request.plainCookie('locale', { encoded: false });
