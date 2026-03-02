@@ -14,8 +14,8 @@ export default class LinkTransformer extends BaseTransformer<Link> {
 			collectionId: this.resource.collectionId,
 			authorId: this.resource.authorId,
 			author: UserTransformer.transform(this.whenLoaded(this.resource.author)),
-			createdAt: this.whenLoaded(this.resource.createdAt?.toString()),
-			updatedAt: this.whenLoaded(this.resource.updatedAt?.toString()),
+			createdAt: this.resource.createdAt?.toString(),
+			updatedAt: this.resource.updatedAt?.toString(),
 		};
 	}
 

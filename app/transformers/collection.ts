@@ -18,8 +18,8 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 			icon: this.resource.icon ?? null,
 			author: UserTransformer.transform(this.whenLoaded(this.resource.author)),
 			isOwner,
-			createdAt: this.whenLoaded(this.resource.createdAt?.toString()),
-			updatedAt: this.whenLoaded(this.resource.updatedAt?.toString()),
+			createdAt: this.resource.createdAt?.toString(),
+			updatedAt: this.resource.updatedAt?.toString(),
 		};
 	}
 
