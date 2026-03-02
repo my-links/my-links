@@ -1,6 +1,6 @@
-import type { ApiRouteName } from '#shared/types/index';
 import { HttpResponse } from '@adonisjs/core/http';
 import { urlFor } from '@adonisjs/core/services/url_builder';
+import type { RoutesList } from '@adonisjs/core/types/http';
 
 type RouteOptions = {
 	params?: Record<string, string | number>;
@@ -10,7 +10,7 @@ type RouteOptions = {
 declare module '@adonisjs/core/http' {
 	export interface HttpResponse {
 		redirectToNamedRoute: (
-			routeName: ApiRouteName,
+			routeName: keyof RoutesList['GET'],
 			options?: RouteOptions
 		) => void;
 	}
