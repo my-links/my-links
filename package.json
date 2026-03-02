@@ -37,7 +37,6 @@
 		"#providers/*": "./providers/*.js",
 		"#database/*": "./database/*.js",
 		"#tests/*": "./tests/*.js",
-		"#shared/*": "./shared/*.js",
 		"#start/*": "./start/*.js"
 	},
 	"devDependencies": {
