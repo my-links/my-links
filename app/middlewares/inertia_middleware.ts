@@ -6,16 +6,21 @@ import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	async share(ctx: HttpContext) {
-		const { session } = ctx as Partial<HttpContext>;
+		const { session } = ctx;
 		const isAuthenticated = await ctx.auth.check();
 		const user = ctx.auth.user;
 
-		const userAuth =
+		const serializedUser =
 			isAuthenticated && user
+				? await ctx.serialize(UserTransformer.transform(user))
+				: null;
+
+		const userAuth =
+			isAuthenticated && user && serializedUser
 				? {
 						isAuthenticated: true,
 						isAdmin: Boolean(user.isAdmin),
-						user: UserTransformer.transform(user),
+						user: serializedUser.data,
 					}
 				: {
 						isAuthenticated: false,
