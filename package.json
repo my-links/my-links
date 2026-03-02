@@ -53,6 +53,7 @@
 		"@lingui/cli": "^5.9.2",
 		"@lingui/vite-plugin": "^5.9.2",
 		"@poppinss/ts-exec": "^1.4.4",
+		"@release-it/conventional-changelog": "^10.0.5",
 		"@tuyau/utils": "^0.0.9",
 		"@types/luxon": "^3.7.1",
 		"@types/node": "^24.10.0",

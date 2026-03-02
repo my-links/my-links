@@ -1,17 +1,28 @@
 {
-  "hooks": {
-    "before:init": ["pnpm lint", "pnpm run typecheck"]
-  },
-  "git": {
-    "commitMessage": "chore: release v${version}",
-    "commit": true,
-    "tag": true,
-    "push": true
-  },
-  "github": {
-    "release": true
-  },
-  "npm": {
-    "publish": false
-  }
+	"$schema": "https://unpkg.com/release-it@19/schema/release-it.json",
+	"hooks": {
+		"before:init": ["pnpm run check", "pnpm run build"]
+	},
+	"git": {
+		"requireCleanWorkingDir": true,
+		"commitMessage": "chore: release v${version}",
+		"commit": true,
+		"tag": true,
+		"push": true
+	},
+	"github": {
+		"release": true,
+		"web": true
+	},
+	"npm": {
+		"publish": false
+	},
+	"plugins": {
+		"@release-it/conventional-changelog": {
+			"infile": "CHANGELOG.md",
+			"preset": {
+				"name": "conventionalcommits"
+			}
+		}
+	}
 }
