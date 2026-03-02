@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.2.0](https://github.com/my-links/my-links/compare/4.1.3...4.2.0) (2026-03-02)
+
+### Features
+
+* **admin:** add bulk delete users ([e548f60](https://github.com/my-links/my-links/commit/e548f609775668df7450854aacbab3a51f15f388))
+
+### Bug Fixes
+
+* **auth:** handle Inertia requests in Google authentication redirect ([6d3523b](https://github.com/my-links/my-links/commit/6d3523bbbcead1b6da7ebd2502dd35117cab80e3))
+* button styles in user settings page ([9ff1bf6](https://github.com/my-links/my-links/commit/9ff1bf69e4d2868dd4bf1c25dce899b29b2a7623))
+* fix lint issues ([7fde83d](https://github.com/my-links/my-links/commit/7fde83d800d3a8d4ad662a711bfde774d274ca63))
+* inertia middleware errors ([455f24d](https://github.com/my-links/my-links/commit/455f24de6ad956bec9a614e3a8e4d7b4818cb7f4))
+* missing translation in navbar ([e3c7eb7](https://github.com/my-links/my-links/commit/e3c7eb79f8e6121be1ace8b12c70ef2c64db7043))
+* repace ADD with COPY instruction ([7412c68](https://github.com/my-links/my-links/commit/7412c68d8feadf251ca2fe8847bd92c74c04e45d))
+* use entrypoint.sh script instead of inline command ([d2b0b1c](https://github.com/my-links/my-links/commit/d2b0b1c27272f3f15aaa2ca8d9b442498a3b8ce8))
+
 ## [4.1.3](https://github.com/my-links/my-links/compare/4.1.2...4.1.3) (2026-01-27)
 
 ### Bug Fixes
