@@ -4,17 +4,17 @@
  */
 
 /// <reference path="./manifest.d.ts" />
-import type InertiaMiddleware from '#middlewares/inertia_middleware';
-import type CollectionTransformer from '#transformers/collection';
-import type LinkTransformer from '#transformers/link';
-import type SearchResultTransformer from '#transformers/search_result';
-import type StatusReportCheckTransformer from '#transformers/status_report_check';
-import type UserTransformer from '#transformers/user';
 import type {
 	InferData,
 	InferVariants,
 } from '@adonisjs/core/types/transformers';
 import type { InferSharedProps } from '@adonisjs/inertia/types';
+import type CollectionTransformer from '#transformers/collection';
+import type LinkTransformer from '#transformers/link';
+import type SearchResultTransformer from '#transformers/search_result';
+import type StatusReportCheckTransformer from '#transformers/status_report_check';
+import type UserTransformer from '#transformers/user';
+import type InertiaMiddleware from '#middleware/inertia_middleware';
 
 export namespace Data {
 	export type Collection = InferData<CollectionTransformer>;
