@@ -7,15 +7,19 @@ import db from '@adonisjs/lucid/services/db';
 export default class AuthController {
 	private readonly redirectTo: keyof RoutesList['GET'] = 'home';
 
-	async google({ ally, inertia }: HttpContext) {
+	async google({ ally, inertia, request, response }: HttpContext) {
 		const redirectUrl = await ally.use('google').redirectUrl();
-		return inertia.location(redirectUrl);
+
+		if (request.header('x-inertia')) {
+			return inertia.location(redirectUrl);
+		}
+
+		return response.redirect().toPath(redirectUrl);
 	}
 
 	async callbackAuth({ ally, auth, response, session }: HttpContext) {
 		const google = ally.use('google');
 		if (google.accessDenied()) {
-			// TODO: translate error messages + show them in UI
 			session.flash('flash', 'Access was denied');
 			return response.redirectToNamedRoute(this.redirectTo);
 		}
