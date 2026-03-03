@@ -39,6 +39,7 @@ export type ScannedRoutes = {
     'search': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
+    'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
@@ -110,6 +111,7 @@ export type ScannedRoutes = {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
+    'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'user.settings.delete': { paramsTuple?: []; params?: {} }
   }
 }

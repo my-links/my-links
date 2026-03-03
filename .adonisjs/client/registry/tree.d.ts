@@ -59,6 +59,9 @@ export interface ApiDefinition {
       store: typeof routes['user.api-tokens.store']
       destroy: typeof routes['user.api-tokens.destroy']
     }
+    sessions: {
+      destroy: typeof routes['user.sessions.destroy']
+    }
     settings: typeof routes['user.settings'] & {
       export: typeof routes['user.settings.export']
       import: typeof routes['user.settings.import']

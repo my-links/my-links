@@ -5,6 +5,7 @@ import { Button } from '@minimalstuff/ui';
 import { ChangeEvent, useState } from 'react';
 import { Th } from '~/components/admin/users/th';
 import { ClientOnly } from '~/components/common/client_only';
+import { NaContent } from '~/components/common/na_content';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { useUsersSelection } from '~/hooks/admin/use_users_selection';
 import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
@@ -123,20 +124,12 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
 				<ClientOnly>
-					{user.createdAt ? (
-						formatDate(user.createdAt)
-					) : (
-						<div className="text-gray-400 dark:text-gray-500">-</div>
-					)}
+					{user.createdAt ? formatDate(user.createdAt) : <NaContent />}
 				</ClientOnly>
 			</td>
 			<td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
 				<ClientOnly>
-					{user.lastSeenAt ? (
-						formatDate(user.lastSeenAt)
-					) : (
-						<div className="text-gray-400 dark:text-gray-500">-</div>
-					)}
+					{user.lastSeenAt ? formatDate(user.lastSeenAt) : <NaContent />}
 				</ClientOnly>
 			</td>
 		</tr>

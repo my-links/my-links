@@ -1,4 +1,4 @@
-import env from '#start/env';
+import app from '@adonisjs/core/services/app';
 import { defineConfig, stores } from '@adonisjs/session';
 
 const sessionConfig = defineConfig({
@@ -24,7 +24,7 @@ const sessionConfig = defineConfig({
 	cookie: {
 		path: '/',
 		httpOnly: true,
-		secure: true,
+		secure: app.inProduction,
 		sameSite: 'lax',
 	},
 
@@ -33,7 +33,7 @@ const sessionConfig = defineConfig({
 	 * variable in order to infer the store name without any
 	 * errors.
 	 */
-	store: env.get('SESSION_DRIVER'),
+	store: 'database',
 
 	/**
 	 * List of configured stores. Refer documentation to see
@@ -41,6 +41,10 @@ const sessionConfig = defineConfig({
 	 */
 	stores: {
 		cookie: stores.cookie(),
+		database: stores.database({
+			connectionName: 'postgres',
+			tableName: 'user_sessions',
+		}),
 	},
 });
 

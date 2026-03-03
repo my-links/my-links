@@ -17,6 +17,18 @@ msgstr ""
 msgid "{field}"
 msgstr "{field}"
 
+#: inertia/lib/format.ts:35
+msgid "{value, plural, one {# day} other {# days}} ago"
+msgstr "{value, plural, one {# day} other {# days}} ago"
+
+#: inertia/lib/format.ts:30
+msgid "{value, plural, one {# hour} other {# hours}} ago"
+msgstr "{value, plural, one {# hour} other {# hours}} ago"
+
+#: inertia/lib/format.ts:24
+msgid "{value, plural, one {# minute} other {# minutes}} ago"
+msgstr "{value, plural, one {# minute} other {# minutes}} ago"
+
 #: inertia/pages/privacy.tsx:41
 msgid "1.1 Cookies"
 msgstr "1.1 Cookies"
@@ -61,6 +73,10 @@ msgstr "4.2 Warranties"
 msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
+#: inertia/components/user_settings/sessions.tsx:61
+msgid "Active sessions"
+msgstr "Active sessions"
+
 #: inertia/components/dashboard/links/link_controls.tsx:157
 msgid "Add to favorites"
 msgstr "Add to favorites"
@@ -85,7 +101,7 @@ msgstr "An open-source, self-hosted bookmark manager that lets you manage your f
 msgid "An unexpected error occurred."
 msgstr "An unexpected error occurred."
 
-#: inertia/components/api_tokens/api_tokens.tsx:111
+#: inertia/components/api_tokens/api_tokens.tsx:112
 msgid "API Tokens"
 msgstr "API Tokens"
 
@@ -105,6 +121,10 @@ msgstr "Are you sure you want to delete your account? This action cannot be undo
 msgid "Are you sure you want to revoke this token?"
 msgstr "Are you sure you want to revoke this token?"
 
+#: inertia/components/user_settings/sessions.tsx:24
+msgid "Are you sure you want to sign out this session?"
+msgstr "Are you sure you want to sign out this session?"
+
 #: inertia/pages/home.tsx:156
 msgid "Built for users who value privacy, control, and simplicity"
 msgstr "Built for users who value privacy, control, and simplicity"
@@ -121,7 +141,7 @@ msgstr "By accessing MyLinks and using our services, you agree to comply with th
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 
-#: inertia/components/admin/users/users_table.tsx:63
+#: inertia/components/admin/users/users_table.tsx:64
 #: inertia/components/api_tokens/api_tokens.tsx:54
 #: inertia/components/api_tokens/create_token_modal.tsx:52
 #: inertia/components/common/confirm_modal.tsx:42
@@ -132,6 +152,7 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:61
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:72
 #: inertia/components/user_settings/delete_account.tsx:21
+#: inertia/components/user_settings/sessions.tsx:28
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -139,7 +160,7 @@ msgstr "Cancel"
 msgid "Changes to the Terms"
 msgstr "Changes to the Terms"
 
-#: inertia/components/admin/users/users_table.tsx:169
+#: inertia/components/admin/users/users_table.tsx:174
 msgid "Clear"
 msgstr "Clear"
 
@@ -147,12 +168,11 @@ msgstr "Clear"
 msgid "Click to copy link"
 msgstr "Click to copy link"
 
-#. placeholder {0}: activeCollection.author?.fullname
 #: inertia/pages/shared.tsx:99
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection managed by <0>{0}</0>"
 
-#: inertia/components/admin/users/users_table.tsx:208
+#: inertia/components/admin/users/users_table.tsx:213
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:68
 #: inertia/components/dashboard/modals/search_modal.tsx:191
 #: inertia/components/dashboard/search/search_collection_results.tsx:24
@@ -160,7 +180,6 @@ msgstr "Collection managed by <0>{0}</0>"
 msgid "Collections"
 msgstr "Collections"
 
-#. placeholder {0}: collections.length
 #: inertia/components/dashboard/forms/form_link_content.tsx:92
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
@@ -218,13 +237,11 @@ msgstr "Create a new API token to access the API"
 msgid "Create Account"
 msgstr "Create Account"
 
-#. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_header.tsx:117
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:86
 msgid "Create collection {0}"
 msgstr "Create collection {0}"
 
-#. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_header.tsx:143
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:59
 msgid "Create link {0}"
@@ -234,7 +251,7 @@ msgstr "Create link {0}"
 msgid "Create new token"
 msgstr "Create new token"
 
-#: inertia/components/api_tokens/api_tokens.tsx:115
+#: inertia/components/api_tokens/api_tokens.tsx:116
 #: inertia/components/api_tokens/create_token_modal.tsx:65
 msgid "Create token"
 msgstr "Create token"
@@ -243,11 +260,10 @@ msgstr "Create token"
 msgid "Create your first link to get started"
 msgstr "Create your first link to get started"
 
-#: inertia/components/admin/users/users_table.tsx:222
+#: inertia/components/admin/users/users_table.tsx:227
 msgid "Created at"
 msgstr "Created at"
 
-#. placeholder {0}: activeCollection.author.fullname
 #: inertia/components/dashboard/views/collection_view_content.tsx:40
 msgid "Created by <0>{0}</0>"
 msgstr "Created by <0>{0}</0>"
@@ -276,7 +292,7 @@ msgstr "Data Storage"
 msgid "Data Use"
 msgstr "Data Use"
 
-#: inertia/components/admin/users/users_table.tsx:62
+#: inertia/components/admin/users/users_table.tsx:63
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:66
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:63
 msgid "Delete"
@@ -299,7 +315,7 @@ msgstr "Delete a link"
 msgid "Delete Account"
 msgstr "Delete Account"
 
-#: inertia/components/admin/users/users_table.tsx:54
+#: inertia/components/admin/users/users_table.tsx:55
 msgid "Delete accounts"
 msgstr "Delete accounts"
 
@@ -309,7 +325,7 @@ msgstr "Delete accounts"
 msgid "Delete collection"
 msgstr "Delete collection"
 
-#: inertia/components/admin/users/users_table.tsx:159
+#: inertia/components/admin/users/users_table.tsx:164
 msgid "Delete selected"
 msgstr "Delete selected"
 
@@ -398,7 +414,7 @@ msgstr "Get Started"
 msgid "Go to collection"
 msgstr "Go to collection"
 
-#: inertia/components/common/navigation/navbar.tsx:101
+#: inertia/components/common/navigation/navbar.tsx:102
 msgid "Hello"
 msgstr "Hello"
 
@@ -415,11 +431,31 @@ msgstr "Icon"
 msgid "Import"
 msgstr "Import"
 
+#: inertia/lib/format.ts:36
+msgid "In {value, plural, one {# day} other {# days}}"
+msgstr "In {value, plural, one {# day} other {# days}}"
+
+#: inertia/lib/format.ts:31
+msgid "In {value, plural, one {# hour} other {# hours}}"
+msgstr "In {value, plural, one {# hour} other {# hours}}"
+
+#: inertia/lib/format.ts:25
+msgid "In {value, plural, one {# minute} other {# minutes}}"
+msgstr "In {value, plural, one {# minute} other {# minutes}}"
+
+#: inertia/lib/format.ts:51
+msgid "In less than a minute"
+msgstr "In less than a minute"
+
 #: inertia/pages/home.tsx:212
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 
-#: inertia/components/admin/users/users_table.tsx:229
+#: inertia/lib/format.ts:51
+msgid "Just now"
+msgstr "Just now"
+
+#: inertia/components/admin/users/users_table.tsx:234
 msgid "Last seen at"
 msgstr "Last seen at"
 
@@ -438,7 +474,7 @@ msgstr "link"
 msgid "links"
 msgstr "links"
 
-#: inertia/components/admin/users/users_table.tsx:215
+#: inertia/components/admin/users/users_table.tsx:220
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:52
 #: inertia/components/dashboard/modals/search_modal.tsx:180
 #: inertia/components/dashboard/search/search_link_results.tsx:22
@@ -446,8 +482,8 @@ msgstr "links"
 msgid "Links"
 msgstr "Links"
 
-#: inertia/components/common/navigation/navbar.tsx:117
-#: inertia/components/common/navigation/navbar.tsx:215
+#: inertia/components/common/navigation/navbar.tsx:118
+#: inertia/components/common/navigation/navbar.tsx:216
 msgid "Logout"
 msgstr "Logout"
 
@@ -487,7 +523,7 @@ msgstr "MyLinks reserves the right to modify these Terms and Conditions of Use a
 msgid "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 msgstr "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 
-#: inertia/components/admin/users/users_table.tsx:194
+#: inertia/components/admin/users/users_table.tsx:199
 #: inertia/components/dashboard/forms/form_collection_content.tsx:53
 #: inertia/components/dashboard/forms/form_collection_content.tsx:59
 #: inertia/components/dashboard/forms/form_link_content.tsx:27
@@ -499,6 +535,10 @@ msgstr "Name"
 msgid "New token created"
 msgstr "New token created"
 
+#: inertia/components/user_settings/sessions.tsx:67
+msgid "No active sessions"
+msgstr "No active sessions"
+
 #: inertia/components/dashboard/links/link_list.tsx:33
 #: inertia/components/shared/link_list.tsx:21
 msgid "No links yet"
@@ -508,11 +548,11 @@ msgstr "No links yet"
 msgid "No results found"
 msgstr "No results found"
 
-#: inertia/components/api_tokens/api_tokens.tsx:121
+#: inertia/components/api_tokens/api_tokens.tsx:122
 msgid "No tokens created yet"
 msgstr "No tokens created yet"
 
-#: inertia/components/admin/users/users_table.tsx:242
+#: inertia/components/admin/users/users_table.tsx:247
 msgid "Nothing found"
 msgstr "Nothing found"
 
@@ -544,7 +584,7 @@ msgstr "Personal Data"
 msgid "Powerful Features"
 msgstr "Powerful Features"
 
-#: inertia/components/common/navigation/footer_links.tsx:24
+#: inertia/components/common/navigation/footer_links.tsx:34
 msgid "Privacy"
 msgstr "Privacy"
 
@@ -593,7 +633,7 @@ msgstr "Responsibilities and Warranties"
 msgid "Revoke"
 msgstr "Revoke"
 
-#: inertia/components/admin/users/users_table.tsx:201
+#: inertia/components/admin/users/users_table.tsx:206
 msgid "Role"
 msgstr "Role"
 
@@ -626,9 +666,9 @@ msgstr "Self-Hosted"
 msgid "Server Error"
 msgstr "Server Error"
 
-#: inertia/components/common/navigation/navbar.tsx:109
-#: inertia/components/common/navigation/navbar.tsx:207
-#: inertia/pages/user_settings/show.tsx:9
+#: inertia/components/common/navigation/navbar.tsx:110
+#: inertia/components/common/navigation/navbar.tsx:208
+#: inertia/pages/user_settings/show.tsx:10
 msgid "Settings"
 msgstr "Settings"
 
@@ -648,6 +688,14 @@ msgstr "Share your collections with others"
 msgid "Sign In"
 msgstr "Sign In"
 
+#: inertia/components/user_settings/sessions.tsx:27
+msgid "Sign out"
+msgstr "Sign out"
+
+#: inertia/components/user_settings/sessions.tsx:21
+msgid "Sign out session"
+msgstr "Sign out session"
+
 #: inertia/pages/home.tsx:145
 msgid "Sign Up"
 msgstr "Sign Up"
@@ -656,7 +704,7 @@ msgstr "Sign Up"
 msgid "Start typing to search..."
 msgstr "Start typing to search..."
 
-#: inertia/components/common/navigation/footer_links.tsx:10
+#: inertia/components/common/navigation/footer_links.tsx:20
 msgid "Status"
 msgstr "Status"
 
@@ -668,7 +716,7 @@ msgstr "Take full control by hosting MyLinks on your own infrastructure. Your da
 msgid "Termination"
 msgstr "Termination"
 
-#: inertia/components/common/navigation/footer_links.tsx:31
+#: inertia/components/common/navigation/footer_links.tsx:41
 msgid "Terms"
 msgstr "Terms"
 
@@ -720,7 +768,7 @@ msgstr "Total Links"
 msgid "Total Users"
 msgstr "Total Users"
 
-#: inertia/components/admin/users/users_table.tsx:245
+#: inertia/components/admin/users/users_table.tsx:250
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
 
@@ -772,8 +820,7 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 msgid "Why Choose MyLinks?"
 msgstr "Why Choose MyLinks?"
 
-#. placeholder {0}: targetIds.length
-#: inertia/components/admin/users/users_table.tsx:56
+#: inertia/components/admin/users/users_table.tsx:57
 msgid "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 msgstr "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 

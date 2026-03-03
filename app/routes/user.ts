@@ -13,3 +13,12 @@ router
 	})
 	.prefix('/user/api-tokens')
 	.middleware([middleware.auth()]);
+
+router
+	.group(() => {
+		router
+			.delete('/:sessionId', [controllers.user.DestroySession, 'execute'])
+			.as('user.sessions.destroy');
+	})
+	.prefix('/user/sessions')
+	.middleware([middleware.auth()]);

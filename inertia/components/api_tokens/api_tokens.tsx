@@ -86,6 +86,7 @@ export function ApiTokens() {
 
 	const generateRow = (token: ApiToken) => ({
 		key: token.identifier.toString(),
+		id: token.identifier.toString(),
 		name: token.name,
 		token: generateTokenRow(token) || undefined,
 		expiresAt: token.expiresAt,

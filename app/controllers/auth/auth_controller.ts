@@ -1,10 +1,15 @@
 import User from '#models/user';
+import { SessionService } from '#services/user/session_service';
+import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
 import type { RoutesList } from '@adonisjs/core/types/http';
 import db from '@adonisjs/lucid/services/db';
 
+@inject()
 export default class AuthController {
+	constructor(protected readonly sessionService: SessionService) {}
+
 	private readonly redirectTo: keyof RoutesList['GET'] = 'home';
 
 	async google({ ally, inertia, request, response }: HttpContext) {
@@ -60,14 +65,16 @@ export default class AuthController {
 		);
 
 		await auth.use('web').login(user);
+		this.sessionService.createAuthSession(user);
+
 		session.flash('flash', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
-
 		response.redirectToNamedRoute('collection.favorites');
 	}
 
 	async logout({ auth, response, session }: HttpContext) {
 		await auth.use('web').logout();
+		session.clear();
 		session.flash('flash', 'Successfully disconnected');
 		logger.info(`[${auth.user?.email}] disconnected successfully`);
 		response.redirectToNamedRoute('home');

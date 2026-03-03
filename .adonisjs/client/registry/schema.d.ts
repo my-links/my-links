@@ -392,6 +392,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['destroy']>>>
     }
   }
+  'user.sessions.destroy': {
+    methods: ["DELETE"]
+    pattern: '/user/sessions/:sessionId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user/session/delete_session').deleteSessionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { sessionId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/user/session/delete_session').deleteSessionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/destroy_session_controller').default['execute']>>>
+    }
+  }
   'user.settings': {
     methods: ["GET","HEAD"]
     pattern: '/user/settings'

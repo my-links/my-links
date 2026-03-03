@@ -1,3 +1,5 @@
+import { plural, t } from '@lingui/core/macro';
+
 export function formatBytes(bytes: number): string {
 	if (bytes === 0) return '0 B';
 	const k = 1024;
@@ -10,19 +12,46 @@ export function formatPercentage(value: number): string {
 	return `${value.toFixed(1)}%`;
 }
 
+type RelativeUnit = 'minute' | 'hour' | 'day';
+
+function formatRelative(
+	value: number,
+	unit: RelativeUnit,
+	isPast: boolean
+): string {
+	if (unit === 'minute') {
+		return isPast
+			? t`${plural(value, { one: '# minute', other: '# minutes' })} ago`
+			: t`In ${plural(value, { one: '# minute', other: '# minutes' })}`;
+	}
+
+	if (unit === 'hour') {
+		return isPast
+			? t`${plural(value, { one: '# hour', other: '# hours' })} ago`
+			: t`In ${plural(value, { one: '# hour', other: '# hours' })}`;
+	}
+
+	return isPast
+		? t`${plural(value, { one: '# day', other: '# days' })} ago`
+		: t`In ${plural(value, { one: '# day', other: '# days' })}`;
+}
+
 export function formatDate(date: string): string {
 	const d = new Date(date);
 	const now = new Date();
-	const diffMs = now.getTime() - d.getTime();
-	const diffSec = Math.floor(diffMs / 1000);
-	const diffMin = Math.floor(diffSec / 60);
-	const diffHour = Math.floor(diffMin / 60);
-	const diffDay = Math.floor(diffHour / 24);
+	const diffMs = d.getTime() - now.getTime();
+	const absMs = Math.abs(diffMs);
+	const isPast = diffMs <= 0;
 
-	if (diffSec < 60) return 'just now';
-	if (diffMin < 60) return `${diffMin} minute${diffMin === 1 ? '' : 's'} ago`;
-	if (diffHour < 24) return `${diffHour} hour${diffHour === 1 ? '' : 's'} ago`;
-	if (diffDay < 7) return `${diffDay} day${diffDay === 1 ? '' : 's'} ago`;
+	const seconds = Math.floor(absMs / 1000);
+	const minutes = Math.floor(seconds / 60);
+	const hours = Math.floor(minutes / 60);
+	const days = Math.floor(hours / 24);
+
+	if (seconds < 60) return isPast ? t`Just now` : t`In less than a minute`;
+	if (minutes < 60) return formatRelative(minutes, 'minute', isPast);
+	if (hours < 24) return formatRelative(hours, 'hour', isPast);
+	if (days < 7) return formatRelative(days, 'day', isPast);
 
 	return d.toLocaleDateString();
 }
