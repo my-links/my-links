@@ -1,1 +1,2 @@
 .adonisjs/
+database/schema.ts

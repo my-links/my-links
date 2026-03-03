@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NaContent } from '~/components/common/na_content';
 
 export type SimpleTableData = {
 	key: string;
@@ -20,25 +21,20 @@ export function SimpleTable({ data }: Readonly<SimpleTableProps>) {
 		setScrolled(target.scrollTop > 0);
 	};
 
-	const rows = data.map((row) => {
-		return (
-			<tr
-				key={row.key}
-				className="border-b border-gray-200 dark:border-gray-700"
-			>
-				{columns.map((column) => (
+	const rows = data.map((row) => (
+		<tr key={row.key} className="border-b border-gray-200 dark:border-gray-700">
+			{columns
+				.filter((column) => column !== 'key')
+				.map((column) => (
 					<td
 						key={column}
 						className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100"
 					>
-						{row[column] ?? (
-							<span className="text-gray-400 dark:text-gray-500">N/A</span>
-						)}
+						{row[column] ?? <NaContent />}
 					</td>
 				))}
-			</tr>
-		);
-	});
+		</tr>
+	));
 
 	return (
 		<div
@@ -53,14 +49,16 @@ export function SimpleTable({ data }: Readonly<SimpleTableProps>) {
 					}`}
 				>
 					<tr className="border-b border-gray-200 dark:border-gray-700">
-						{columns.map((column) => (
-							<th
-								key={column}
-								className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
-							>
-								{column}
-							</th>
-						))}
+						{columns
+							.filter((column) => column !== 'key')
+							.map((column) => (
+								<th
+									key={column}
+									className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+								>
+									{column}
+								</th>
+							))}
 					</tr>
 				</thead>
 				<tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">

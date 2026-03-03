@@ -3,7 +3,7 @@ import pluginLingui from 'eslint-plugin-lingui';
 
 export default configApp({
 	files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
-	ignores: ['.adonisjs/**/*'],
+	ignores: ['.adonisjs/**/*', 'database/schema.ts'],
 	plugins: {
 		lingui: pluginLingui,
 	},

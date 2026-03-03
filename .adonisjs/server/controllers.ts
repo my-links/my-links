@@ -67,5 +67,6 @@ export const controllers = {
   },
   user: {
     ApiToken: () => import('#controllers/user/api_token_controller'),
+    DestroySession: () => import('#controllers/user/destroy_session_controller'),
   },
 }

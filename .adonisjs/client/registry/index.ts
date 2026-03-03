@@ -216,6 +216,12 @@ const routes = {
     tokens: [{"old":"/user/api-tokens/:tokenId","type":0,"val":"user","end":""},{"old":"/user/api-tokens/:tokenId","type":0,"val":"api-tokens","end":""},{"old":"/user/api-tokens/:tokenId","type":1,"val":"tokenId","end":""}],
     types: placeholder as Registry['user.api-tokens.destroy']['types'],
   },
+  'user.sessions.destroy': {
+    methods: ["DELETE"],
+    pattern: '/user/sessions/:sessionId',
+    tokens: [{"old":"/user/sessions/:sessionId","type":0,"val":"user","end":""},{"old":"/user/sessions/:sessionId","type":0,"val":"sessions","end":""},{"old":"/user/sessions/:sessionId","type":1,"val":"sessionId","end":""}],
+    types: placeholder as Registry['user.sessions.destroy']['types'],
+  },
   'user.settings': {
     methods: ["GET","HEAD"],
     pattern: '/user/settings',
