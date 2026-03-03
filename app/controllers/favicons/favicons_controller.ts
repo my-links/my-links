@@ -1,6 +1,6 @@
 import { CacheService } from '#services/favicons/cache_service';
 import { FaviconService } from '#services/favicons/favicons_service';
-import { Favicon } from '#types/favicons/favicon_type';
+import { Favicon } from '#types/favicon_type';
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 import app from '@adonisjs/core/services/app';
