@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.2](https://github.com/my-links/my-links/compare/4.3.1...4.3.2) (2026-03-04)
+
+### Bug Fixes
+
+* update session cookie name to 'my-links-session' for a smoother migration ([9428eab](https://github.com/my-links/my-links/commit/9428eabdc7d352f2d9e9396f11e8e211157287a0))
+
 ## [4.3.1](https://github.com/my-links/my-links/compare/4.3.0...4.3.1) (2026-03-04)
 
 ### Bug Fixes
