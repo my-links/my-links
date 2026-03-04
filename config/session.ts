@@ -3,7 +3,7 @@ import { defineConfig, stores } from '@adonisjs/session';
 
 const sessionConfig = defineConfig({
 	enabled: true,
-	cookieName: 'adonis-session',
+	cookieName: 'my-links-session',
 
 	/**
 	 * When set to true, the session id cookie will be deleted
