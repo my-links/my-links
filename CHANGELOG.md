@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.1](https://github.com/my-links/my-links/compare/4.3.0...4.3.1) (2026-03-04)
+
+### Bug Fixes
+
+* add null chaining check in inertia middleware ([3abe0e7](https://github.com/my-links/my-links/commit/3abe0e7b4cbf401d82eda2d62f7f130349eab8c7))
+
 ## [4.3.0](https://github.com/my-links/my-links/compare/4.2.1...4.3.0) (2026-03-04)
 
 ### Features
