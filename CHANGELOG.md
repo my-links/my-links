@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.0](https://github.com/my-links/my-links/compare/4.2.1...4.3.0) (2026-03-04)
+
+### Features
+
+* create a data table component to replace the simple table component ([4a337e1](https://github.com/my-links/my-links/commit/4a337e1587c9d2e475956b8542b618c12bb04799))
+* give users the ability to manage their sessions ([e80ca82](https://github.com/my-links/my-links/commit/e80ca82bde51127e96595a2e144795c316a1a7b4))
+
 ## [4.2.1](https://github.com/my-links/my-links/compare/4.2.0...4.2.1) (2026-03-02)
 
 ### Bug Fixes
