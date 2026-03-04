@@ -8,8 +8,8 @@ import packageJson from '../../package.json' with { type: 'json' };
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	async share(ctx: HttpContext) {
 		const { session } = ctx;
-		const isAuthenticated = await ctx.auth.check();
-		const user = ctx.auth.user;
+		const isAuthenticated = await ctx.auth?.check();
+		const user = ctx.auth?.user;
 
 		const serializedUser =
 			isAuthenticated && user
