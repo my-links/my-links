@@ -1,5 +1,7 @@
 # Changelog
 
+## [4.3.3](https://github.com/my-links/my-links/compare/4.3.2...4.3.3) (2026-03-04)
+
 ## [4.3.2](https://github.com/my-links/my-links/compare/4.3.1...4.3.2) (2026-03-04)
 
 ### Bug Fixes
