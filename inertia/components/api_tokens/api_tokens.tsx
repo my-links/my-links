@@ -2,8 +2,10 @@ import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton } from '@minimalstuff/ui';
 import { CopyButton } from '~/components/common/copy_button';
-import { SimpleTable } from '~/components/common/simple_table/simple_table';
+import { DataTable } from '~/components/common/data_table/data_table';
+import { NaContent } from '~/components/common/na_content';
 import { useApiTokens } from '~/hooks/use_api_tokens';
+import { formatDate } from '~/lib/format';
 import { useModalStore } from '~/stores/modal_store';
 import { ApiToken } from '~/types/app';
 import { CreateTokenModal } from './create_token_modal';
@@ -84,27 +86,6 @@ export function ApiTokens() {
 			</div>
 		);
 
-	const generateRow = (token: ApiToken) => ({
-		key: token.identifier.toString(),
-		id: token.identifier.toString(),
-		name: token.name,
-		token: generateTokenRow(token) || undefined,
-		expiresAt: token.expiresAt,
-		lastUsedAt: token.lastUsedAt,
-		actions: [
-			<IconButton
-				key="delete"
-				icon="i-tabler-trash"
-				onClick={() => handleRevokeToken(token.identifier)}
-				aria-label="Revoke token"
-				variant="danger"
-				size="sm"
-			/>,
-		],
-	});
-
-	const rows = tokens.map(generateRow);
-
 	return (
 		<div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
 			<div className="flex items-center justify-between mb-4">
@@ -123,7 +104,73 @@ export function ApiTokens() {
 				</p>
 			)}
 
-			{tokens.length > 0 && <SimpleTable data={rows} />}
+			{tokens.length > 0 && (
+				<DataTable<ApiToken>
+					data={tokens}
+					getRowKey={(token) => String(token.identifier)}
+					containerStyle={{ maxHeight: 300 }}
+					minWidthClassName="min-w-[700px]"
+					tableClassName="w-full"
+					theadClassName="bg-white dark:bg-gray-800"
+					tbodyClassName="bg-white dark:bg-gray-800"
+					bordered={false}
+					headerCellClassName="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
+					columns={[
+						{
+							key: 'id',
+							header: <Trans>ID</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) => token.identifier,
+						},
+						{
+							key: 'name',
+							header: <Trans>Name</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) => token.name ?? <NaContent />,
+						},
+						{
+							key: 'token',
+							header: <Trans>Token</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) => generateTokenRow(token) ?? <NaContent />,
+						},
+						{
+							key: 'expiresAt',
+							header: <Trans>Expires at</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) =>
+								token.expiresAt ? formatDate(token.expiresAt) : <NaContent />,
+						},
+						{
+							key: 'lastUsedAt',
+							header: <Trans>Last used at</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) =>
+								token.lastUsedAt ? formatDate(token.lastUsedAt) : <NaContent />,
+						},
+						{
+							key: 'actions',
+							header: <Trans>Actions</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) => (
+								<IconButton
+									icon="i-tabler-trash"
+									onClick={() => handleRevokeToken(token.identifier)}
+									aria-label="Revoke token"
+									variant="danger"
+									size="sm"
+								/>
+							),
+						},
+					]}
+				/>
+			)}
 		</div>
 	);
 }
