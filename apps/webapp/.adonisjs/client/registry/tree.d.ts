@@ -5,9 +5,6 @@ export interface ApiDefinition {
   home: typeof routes['home']
   terms: typeof routes['terms']
   privacy: typeof routes['privacy']
-  apiHealth: {
-    index: typeof routes['api-health.index']
-  }
   shared: typeof routes['shared']
   favicon: typeof routes['favicon']
   auth: typeof routes['auth'] & {
@@ -29,6 +26,9 @@ export interface ApiDefinition {
   }
   apiFavorites: {
     index: typeof routes['api-favorites.index']
+  }
+  apiHealth: {
+    index: typeof routes['api-health.index']
   }
   apiLinks: {
     create: typeof routes['api-links.create']

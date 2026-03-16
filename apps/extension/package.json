@@ -1,15 +1,17 @@
 {
-  "name": "my-links-extension",
+  "name": "@mylinks/extension",
   "displayName": "My links extension",
   "version": "0.0.1",
   "description": "MyLinks extension",
   "author": "Sonny93",
   "scripts": {
-    "dev": "plasmo dev",
+    "dev": "plasmo dev --target=firefox-mv2",
     "build": "plasmo build",
     "package": "plasmo package"
   },
   "dependencies": {
+    "@mylinks/webapp": "workspace:*",
+    "@tuyau/core": "^1.2.1",
     "plasmo": "0.90.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"

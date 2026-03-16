@@ -7,7 +7,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
-    'api-health.index': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
@@ -21,6 +20,7 @@ export type ScannedRoutes = {
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
+    'api-health.index': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -49,7 +49,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
-    'api-health.index': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
@@ -59,6 +58,7 @@ export type ScannedRoutes = {
     'admin.status': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
+    'api-health.index': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -70,7 +70,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
-    'api-health.index': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
@@ -80,6 +79,7 @@ export type ScannedRoutes = {
     'admin.status': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
+    'api-health.index': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

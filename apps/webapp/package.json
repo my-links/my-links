@@ -1,5 +1,5 @@
 {
-	"name": "my-links",
+	"name": "@mylinks/webapp",
 	"version": "4.3.4",
 	"type": "module",
 	"license": "GPL-3.0-only",
@@ -38,6 +38,10 @@
 		"#database/*": "./database/*.js",
 		"#tests/*": "./tests/*.js",
 		"#start/*": "./start/*.js"
+	},
+	"exports": {
+		"./registry": "./.adonisjs/client/registry/index.ts",
+		"./data": "./.adonisjs/client/data.d.ts"
 	},
 	"devDependencies": {
 		"@adonisjs/assembler": "^8.0.1",

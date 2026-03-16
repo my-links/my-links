@@ -24,12 +24,6 @@ const routes = {
     tokens: [{"old":"/privacy","type":0,"val":"privacy","end":""}],
     types: placeholder as Registry['privacy']['types'],
   },
-  'api-health.index': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/health',
-    tokens: [{"old":"/api/v1/health","type":0,"val":"api","end":""},{"old":"/api/v1/health","type":0,"val":"v1","end":""},{"old":"/api/v1/health","type":0,"val":"health","end":""}],
-    types: placeholder as Registry['api-health.index']['types'],
-  },
   'shared': {
     methods: ["GET","HEAD"],
     pattern: '/shared/:id',
@@ -107,6 +101,12 @@ const routes = {
     pattern: '/api/v1/links/favorites',
     tokens: [{"old":"/api/v1/links/favorites","type":0,"val":"api","end":""},{"old":"/api/v1/links/favorites","type":0,"val":"v1","end":""},{"old":"/api/v1/links/favorites","type":0,"val":"links","end":""},{"old":"/api/v1/links/favorites","type":0,"val":"favorites","end":""}],
     types: placeholder as Registry['api-favorites.index']['types'],
+  },
+  'api-health.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/health',
+    tokens: [{"old":"/api/v1/health","type":0,"val":"api","end":""},{"old":"/api/v1/health","type":0,"val":"v1","end":""},{"old":"/api/v1/health","type":0,"val":"health","end":""}],
+    types: placeholder as Registry['api-health.index']['types'],
   },
   'api-links.create': {
     methods: ["POST"],

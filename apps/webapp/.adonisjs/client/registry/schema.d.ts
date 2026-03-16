@@ -43,18 +43,6 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'api-health.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/health'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
-    }
-  }
   'shared': {
     methods: ["GET","HEAD"]
     pattern: '/shared/:id'
@@ -209,6 +197,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
+    }
+  }
+  'api-health.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/health'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
     }
   }
   'api-links.create': {

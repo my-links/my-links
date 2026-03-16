@@ -1,19 +1,19 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules", "../webapp/build", "../webapp/node_modules"],
   "include": [
     ".plasmo/index.d.ts",
     "./**/*.ts",
-    "./**/*.tsx"
+    "./**/*.tsx",
+    "../webapp/**/*.ts",
+    "../webapp/.adonisjs/**/*.ts"
   ],
   "compilerOptions": {
     "paths": {
-      "~*": [
-        "./src/*"
-      ]
+      "~*": ["./src/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler"
   }
 }
