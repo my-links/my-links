@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.3.4](https://github.com/my-links/my-links/compare/4.3.3...4.3.4) (2026-03-16)
+
+### Bug Fixes
+
+* **search:** fix http 422 error and refactor the search modal component ([7abf663](https://github.com/my-links/my-links/commit/7abf663d204242c71595b83c26c9935b72164850))
+
 ## [4.3.3](https://github.com/my-links/my-links/compare/4.3.2...4.3.3) (2026-03-04)
 
 ## [4.3.2](https://github.com/my-links/my-links/compare/4.3.1...4.3.2) (2026-03-04)
