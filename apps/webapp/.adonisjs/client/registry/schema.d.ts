@@ -2,7 +2,7 @@
 /// <reference path="../manifest.d.ts" />
 
 import type { ExtractBody, ExtractErrorResponse, ExtractQuery, ExtractQueryForGet, ExtractResponse } from '@tuyau/core/types'
-import type { InferInput } from '@vinejs/vine/types'
+import type { InferInput, SimpleError } from '@vinejs/vine/types'
 
 export type ParamValue = string | number | bigint | boolean
 
@@ -64,7 +64,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/shared_collections/shared_collection').getSharedCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/shared_collections_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/shared_collections_controller').default['render']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/shared_collections_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'favicon': {
@@ -148,7 +148,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/admin/bulk_delete_users_validator').bulkDeleteUsersValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/bulk_delete_users_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/bulk_delete_users_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/bulk_delete_users_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-collections.index': {
@@ -172,7 +172,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-collections.update': {
@@ -184,7 +184,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-collections.delete': {
@@ -196,7 +196,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-favorites.index': {
@@ -232,7 +232,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-links.delete': {
@@ -244,7 +244,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-tokens.index': {
@@ -268,7 +268,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/create_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'collection.favorites': {
@@ -304,7 +304,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/update_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'collection.delete': {
@@ -316,7 +316,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/delete_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'collection.follow': {
@@ -352,7 +352,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/links/create_link_validator').createLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/create_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/create_link_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/create_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'link.edit': {
@@ -364,7 +364,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/update_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'link.toggle-favorite': {
@@ -376,7 +376,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/links/update_favorite_link_validator').updateLinkFavoriteStatusValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'link.delete': {
@@ -388,7 +388,7 @@ export interface Registry {
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'search': {
@@ -400,7 +400,7 @@ export interface Registry {
       params: {}
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.api-tokens.store': {
@@ -412,7 +412,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/user/token/create_api_token').createApiTokenValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['store']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.api-tokens.destroy': {
@@ -424,7 +424,7 @@ export interface Registry {
       params: { tokenId: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/user/token/delete_api_token').deleteApiTokenValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['destroy']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['destroy']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.sessions.destroy': {
@@ -436,7 +436,7 @@ export interface Registry {
       params: { sessionId: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/user/session/delete_session').deleteSessionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/destroy_session_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/destroy_session_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/destroy_session_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.settings': {
@@ -472,7 +472,7 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>> | { status: 422; response: { errors: { path: string; message: string }[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.settings.delete': {
