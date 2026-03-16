@@ -8,7 +8,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 export default class SearchController {
 	constructor(protected readonly searchService: SearchService) {}
 
-	async render({ request, auth }: HttpContext) {
+	async render({ request, auth, serialize }: HttpContext) {
 		const { term, type = 'both' } =
 			await request.validateUsing(searchValidator);
 
@@ -19,6 +19,6 @@ export default class SearchController {
 		});
 
 		const results = SearchResultTransformer.transform(rawResults);
-		return { results };
+		return serialize(results);
 	}
 }
