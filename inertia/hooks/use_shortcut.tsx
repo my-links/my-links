@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { KEYS } from '~/consts/keys';
 import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
-interface UseShortcutProps {
+export type UseShortcutProps = {
 	enabled?: boolean;
 	disableGlobalCheck?: boolean;
-}
+};
 
 export default function useShortcut(
 	key: keyof typeof KEYS,

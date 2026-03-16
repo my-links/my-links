@@ -2,13 +2,16 @@ import { Data } from '@generated/data';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
+import { Route } from '@tuyau/core/types';
 import clsx from 'clsx';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SearchCollectionResults } from '~/components/dashboard/search/search_collection_results';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
-import useShortcut from '~/hooks/use_shortcut';
-import { makeRequestWithCredentials } from '~/lib/request';
-import { urlFor } from '~/lib/tuyau';
+import useShortcut, { UseShortcutProps } from '~/hooks/use_shortcut';
+import { tuyauClient } from '~/lib/tuyau';
+
+const SEARCH_DEBOUNCE_DELAY = 300;
+const DEFAULT_INDEX = 0;
 
 type SearchResultType = 'link' | 'collection' | 'both';
 
@@ -22,46 +25,31 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 	const [results, setResults] = useState<Data.SearchResult[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
-	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const resultsRef = useRef<HTMLDivElement>(null);
+	const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	const performSearch = async () => {
-		if (searchTerm.trim().length === 0) {
-			setResults([]);
-			setSelectedIndex(-1);
-			return;
-		}
-
+	const performSearch = useCallback(async () => {
 		setIsLoading(true);
 
 		try {
-			const searchUrl = urlFor('search', {
-				qs: {
-					term: searchTerm.trim(),
+			const { data } = await tuyauClient.get('/search', {
+				query: {
+					term: searchTerm,
 					type: searchType,
 				},
 			});
-
-			const response = await makeRequestWithCredentials(searchUrl, {
-				method: 'GET',
-			});
-
-			if (response.ok) {
-				const data = await response.json();
-				setResults(data.results ?? []);
-			} else {
-				setResults([]);
-			}
-		} catch (error) {
+			setResults(Array.isArray(data) ? data : []);
+			setSelectedIndex(DEFAULT_INDEX);
+		} catch (e) {
+			const error = e as Route.Error<'search'>;
 			console.error('Search error:', error);
 			setResults([]);
+			setSelectedIndex(DEFAULT_INDEX);
 		} finally {
 			setIsLoading(false);
-			setSelectedIndex(-1);
 		}
-	};
+	}, [searchTerm, searchType]);
 
-	// Debouncer
 	useEffect(() => {
 		if (debounceTimerRef.current) {
 			clearTimeout(debounceTimerRef.current);
@@ -69,13 +57,13 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 		if (searchTerm.trim().length === 0) {
 			setResults([]);
-			setSelectedIndex(-1);
+			setSelectedIndex(DEFAULT_INDEX);
 			return;
 		}
 
 		debounceTimerRef.current = setTimeout(() => {
 			performSearch();
-		}, 300);
+		}, SEARCH_DEBOUNCE_DELAY);
 
 		return () => {
 			if (debounceTimerRef.current) {
@@ -84,8 +72,15 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 		};
 	}, [searchTerm, searchType]);
 
-	const linkResults = results.filter((r) => r.type === 'link');
-	const collectionResults = results.filter((r) => r.type === 'collection');
+	const linkResults = useMemo(
+		() => results.filter((r) => r.type === 'link'),
+		[results]
+	);
+
+	const collectionResults = useMemo(
+		() => results.filter((r) => r.type === 'collection'),
+		[results]
+	);
 
 	const handleResultClick = useCallback(
 		(result: Data.SearchResult) => {
@@ -99,11 +94,64 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 		[onClose]
 	);
 
+	const resultsContent = useMemo(() => {
+		if (isLoading) {
+			return (
+				<div className="flex items-center justify-center py-8">
+					<div className="i-svg-spinners-3-dots-fade w-6 h-6 text-gray-400" />
+				</div>
+			);
+		}
+
+		if (searchTerm.trim().length === 0) {
+			return (
+				<div className="text-center py-8 text-gray-500 dark:text-gray-400">
+					<Trans>Start typing to search...</Trans>
+				</div>
+			);
+		}
+
+		if (results.length === 0) {
+			return (
+				<div className="text-center py-8 text-gray-500 dark:text-gray-400">
+					<Trans>No results found</Trans>
+				</div>
+			);
+		}
+
+		return (
+			<>
+				<SearchLinkResults
+					linkResults={linkResults}
+					selectedIndex={selectedIndex}
+					handleResultClick={handleResultClick}
+					searchTerm={searchTerm}
+				/>
+
+				<SearchCollectionResults
+					collectionResults={collectionResults}
+					linkResultsLength={linkResults.length}
+					selectedIndex={selectedIndex}
+					handleResultClick={handleResultClick}
+					searchTerm={searchTerm}
+				/>
+			</>
+		);
+	}, [
+		collectionResults,
+		handleResultClick,
+		searchTerm,
+		isLoading,
+		linkResults,
+		results.length,
+		selectedIndex,
+	]);
+
 	// Shortcuts to navigate the results
 	const commonShortcutOptions = {
 		disableGlobalCheck: true,
 		enabled: results.length > 0,
-	};
+	} satisfies UseShortcutProps;
 
 	useShortcut(
 		'ARROW_DOWN',
@@ -114,7 +162,7 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 	useShortcut(
 		'ARROW_UP',
-		() => setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1)),
+		() => setSelectedIndex((prev) => (prev > 0 ? prev - 1 : DEFAULT_INDEX)),
 		commonShortcutOptions
 	);
 
@@ -194,36 +242,7 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 			</div>
 
 			<div ref={resultsRef} className="max-h-96 overflow-y-auto space-y-4">
-				{isLoading ? (
-					<div className="flex items-center justify-center py-8">
-						<div className="i-svg-spinners-3-dots-fade w-6 h-6 text-gray-400" />
-					</div>
-				) : searchTerm.trim().length === 0 ? (
-					<div className="text-center py-8 text-gray-500 dark:text-gray-400">
-						<Trans>Start typing to search...</Trans>
-					</div>
-				) : results.length === 0 ? (
-					<div className="text-center py-8 text-gray-500 dark:text-gray-400">
-						<Trans>No results found</Trans>
-					</div>
-				) : (
-					<>
-						<SearchLinkResults
-							linkResults={linkResults}
-							selectedIndex={selectedIndex}
-							handleResultClick={handleResultClick}
-							searchTerm={searchTerm}
-						/>
-
-						<SearchCollectionResults
-							collectionResults={collectionResults}
-							linkResultsLength={linkResults.length}
-							selectedIndex={selectedIndex}
-							handleResultClick={handleResultClick}
-							searchTerm={searchTerm}
-						/>
-					</>
-				)}
+				{resultsContent}
 			</div>
 		</div>
 	);
