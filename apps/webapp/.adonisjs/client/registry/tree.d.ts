@@ -68,4 +68,7 @@ export interface ApiDefinition {
       delete: typeof routes['user.settings.delete']
     }
   }
+  eventStream: typeof routes['event_stream']
+  subscribe: typeof routes['subscribe']
+  unsubscribe: typeof routes['unsubscribe']
 }

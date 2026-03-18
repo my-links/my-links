@@ -1,22 +1,16 @@
 import { registry } from "@mylinks/webapp/registry"
 import { createTuyau } from "@tuyau/core/client"
 
-const DEFAULT_URL = "http://localhost:3333"
+import { apiBearerToken, apiUrl } from "~lib/constants"
 
-const apiUrl = import.meta.env?.VITE_API_URL ?? DEFAULT_URL
+const jsonHeaders: Record<string, string> = { Accept: "application/json" }
+const token = apiBearerToken.trim()
+if (token) {
+  jsonHeaders.Authorization = `Bearer ${token}`
+}
 
 export const client = createTuyau({
   baseUrl: apiUrl,
   registry,
-  headers: { Accept: "application/json" },
-  hooks: {
-    beforeRequest: [
-      (request) => {
-        const token = localStorage.getItem("auth_token")
-        if (token) {
-          request.headers.set("Authorization", `Bearer ${token}`)
-        }
-      }
-    ]
-  }
+  headers: jsonHeaders
 })

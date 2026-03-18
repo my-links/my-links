@@ -1,8 +1,8 @@
 import { controllers } from '#generated/controllers';
-import { apiGroup } from '#routes/api/group';
+import { apiGroupAuth } from '#routes/groups/api_group';
 import router from '@adonisjs/core/services/router';
 
-apiGroup(() => {
+apiGroupAuth(() => {
 	router
 		.post('/links', [controllers.api.links.CreateLink, 'execute'])
 		.as('api-links.create');

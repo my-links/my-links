@@ -10,4 +10,5 @@
 /// <reference path="../../config/i18n.ts" />
 /// <reference path="../../config/logger.ts" />
 /// <reference path="../../config/ssr.ts" />
+/// <reference path="../../config/transmit.ts" />
 /// <reference path="../../config/tuyau.ts" />

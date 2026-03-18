@@ -6,10 +6,11 @@
   "author": "Sonny93",
   "scripts": {
     "dev": "plasmo dev --target=firefox-mv2",
-    "build": "plasmo build",
-    "package": "plasmo package"
+    "build": "plasmo build --target=firefox-mv2",
+    "package": "plasmo package --target=firefox-mv2"
   },
   "dependencies": {
+    "@adonisjs/transmit-client": "^1.1.0",
     "@mylinks/webapp": "workspace:*",
     "@tuyau/core": "^1.2.1",
     "plasmo": "0.90.5",
@@ -27,6 +28,7 @@
   },
   "manifest": {
     "host_permissions": [
+      "http://*/*",
       "https://*/*"
     ],
     "permissions": [

@@ -1,8 +1,8 @@
 import { controllers } from '#generated/controllers';
-import { apiGroup } from '#routes/api/group';
+import { apiGroupNoAuth } from '#routes/groups/api_group';
 import router from '@adonisjs/core/services/router';
 
-apiGroup(() => {
+apiGroupNoAuth(() => {
 	router
 		.get('/health', [controllers.api.health.Health, 'render'])
 		.as('api-health.index');

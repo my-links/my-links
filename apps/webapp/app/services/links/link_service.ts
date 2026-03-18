@@ -1,3 +1,4 @@
+import { events } from '#generated/events';
 import Link from '#models/link';
 import { HttpContext } from '@adonisjs/core/http';
 import db from '@adonisjs/lucid/services/db';
@@ -11,28 +12,42 @@ type LinkPayload = {
 };
 
 export class LinkService {
-	createLink(payload: LinkPayload) {
+	async createLink(payload: LinkPayload) {
 		const context = this.getAuthContext();
-		return Link.create({
+		const link = await Link.create({
 			...payload,
 			authorId: context.auth.user!.id,
 		});
+
+		events.LinkCreated.dispatch(link);
+
+		return link;
 	}
 
-	updateLink(id: number, payload: LinkPayload) {
+	async updateLink(id: number, payload: LinkPayload) {
 		const context = this.getAuthContext();
-		return Link.query()
+		const link = await Link.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
-			.update(payload);
+			.firstOrFail();
+
+		await link.merge(payload).save();
+		events.LinkUpdated.dispatch(link);
+
+		return link;
 	}
 
-	deleteLink(id: number) {
+	async deleteLink(id: number) {
 		const context = this.getAuthContext();
-		return Link.query()
+		const link = await Link.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
-			.delete();
+			.firstOrFail();
+
+		await link.delete();
+		events.LinkDeleted.dispatch(link.id);
+
+		return link;
 	}
 
 	async getLinkById(id: Link['id'], userId: Link['id']) {
@@ -42,11 +57,16 @@ export class LinkService {
 			.firstOrFail();
 	}
 
-	updateFavorite(id: number, favorite: boolean) {
-		return Link.query()
+	async updateFavorite(id: number, favorite: boolean) {
+		const link = await Link.query()
 			.where('id', id)
 			.andWhere('author_id', this.getAuthContext().auth.user!.id)
-			.update({ favorite });
+			.firstOrFail();
+
+		await link.merge({ favorite }).save();
+		events.LinkUpdated.dispatch(link);
+
+		return link;
 	}
 
 	async getMyFavoriteLinks() {
@@ -57,13 +77,12 @@ export class LinkService {
 			.orderBy('created_at');
 	}
 
-	getAuthContext() {
+	private getAuthContext() {
 		const context = HttpContext.getOrFail();
-		if (!context.auth.user || !context.auth.user.id) {
-			throw new Error('User not authenticated');
-		}
+		context.auth.getUserOrFail();
 		return context;
 	}
+
 	async getTotalLinksCount() {
 		const totalCount = await db.from('links').count('* as total');
 		return Number(totalCount[0].total);

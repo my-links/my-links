@@ -1,19 +1,20 @@
+import { transmitDefaultUserId } from "~lib/constants"
+import { getTransmitClient } from "~lib/transmit"
+import { subscribeUserTransmitChannels } from "~lib/transmit-subscriptions"
 import { client } from "~lib/tuyau"
 
-client
-  .get("/api/v1/health", {})
-  .then((response) => {
-    console.log("Search results health:", response)
-  })
-  .catch((error) => {
-    console.error("Error fetching health results:", error)
-  })
+void (async () => {
+  try {
+    const health = await client.get("/api/v1/health", {})
+    console.log("[health]", health)
+  } catch (e) {
+    console.error("[health]", e)
+  }
 
-client
-  .get("/", {})
-  .then((response) => {
-    console.log("Search results home:", response)
-  })
-  .catch((error) => {
-    console.error("Error fetching home results:", error)
-  })
+  const transmit = getTransmitClient()
+  if (transmit) {
+    subscribeUserTransmitChannels(transmit, transmitDefaultUserId)
+  } else {
+    console.warn("[transmit] skipped: set PLASMO_PUBLIC_API_TOKEN")
+  }
+})()

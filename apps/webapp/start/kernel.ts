@@ -39,7 +39,6 @@ router.use([
  * the routes or the routes group.
  */
 export const middleware = router.named({
-	cors: () => import('@adonisjs/cors/cors_middleware'),
 	admin: () => import('#middleware/admin/is_admin_middleware'),
 	guest: () => import('#middleware/auth/guest_middleware'),
 	auth: () => import('#middleware/auth/auth_middleware'),

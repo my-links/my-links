@@ -1,4 +1,5 @@
 import { Visibility } from '#enums/collections/visibility';
+import { events } from '#generated/events';
 import Collection from '#models/collection';
 import User from '#models/user';
 import { HttpContext } from '@adonisjs/core/http';
@@ -50,12 +51,16 @@ export class CollectionService {
 		return Number(totalCount[0].total);
 	}
 
-	createCollection(payload: CollectionPayload) {
+	async createCollection(payload: CollectionPayload) {
 		const context = this.getAuthContext();
-		return Collection.create({
+		const collection = await Collection.create({
 			...payload,
 			authorId: context.auth.user!.id,
 		});
+
+		events.CollectionCreated.dispatch(collection);
+
+		return collection;
 	}
 
 	async updateCollection(id: Collection['id'], payload: CollectionPayload) {
@@ -65,10 +70,7 @@ export class CollectionService {
 			.andWhere('author_id', context.auth.user!.id)
 			.firstOrFail();
 
-		await Collection.query()
-			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
-			.update(payload);
+		await collection.merge(payload).save();
 
 		// If collection becomes private, remove all followers
 		if (
@@ -78,16 +80,22 @@ export class CollectionService {
 			await this.removeAllFollowers(id);
 		}
 
+		events.CollectionUpdated.dispatch(collection);
 		return collection;
 	}
 
-	deleteCollection(id: Collection['id']) {
+	async deleteCollection(id: Collection['id']) {
 		const context = this.getAuthContext();
-		return Collection.query()
+		const collection = await Collection.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
 			.orderBy('name', 'asc')
-			.delete();
+			.firstOrFail();
+
+		await collection.delete();
+		events.CollectionDeleted.dispatch(id);
+
+		return collection;
 	}
 
 	getPublicCollectionById(id: Collection['id']) {
@@ -170,9 +178,7 @@ export class CollectionService {
 
 	private getAuthContext() {
 		const context = HttpContext.getOrFail();
-		if (!context.auth.user || !context.auth.user.id) {
-			throw new Error('User not authenticated');
-		}
+		context.auth.getUserOrFail();
 		return context;
 	}
 }

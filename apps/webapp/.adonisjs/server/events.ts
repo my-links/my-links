@@ -3,4 +3,18 @@
  * DO NOT EDIT manually
  */
 
-export const events = {}
+import CollectionCreated from '#events/collection_created'
+import CollectionDeleted from '#events/collection_deleted'
+import CollectionUpdated from '#events/collection_updated'
+import LinkCreated from '#events/link_created'
+import LinkDeleted from '#events/link_deleted'
+import LinkUpdated from '#events/link_updated'
+
+export const events = {
+  CollectionCreated: CollectionCreated,
+  CollectionDeleted: CollectionDeleted,
+  CollectionUpdated: CollectionUpdated,
+  LinkCreated: LinkCreated,
+  LinkDeleted: LinkDeleted,
+  LinkUpdated: LinkUpdated,
+}

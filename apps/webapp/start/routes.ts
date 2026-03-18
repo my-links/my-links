@@ -1,3 +1,12 @@
+import { middleware } from '#start/kernel';
+import transmit from '@adonisjs/transmit/services/main';
+
+transmit.registerRoutes((route) => {
+	if (route.getPattern().startsWith('/__transmit/')) {
+		route.middleware(middleware.auth({ guards: ['api'] }));
+	}
+});
+
 // Home and legal routes
 import '#routes/home';
 import '#routes/legal';

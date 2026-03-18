@@ -44,6 +44,9 @@ export type ScannedRoutes = {
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
     'user.settings.delete': { paramsTuple?: []; params?: {} }
+    'event_stream': { paramsTuple?: []; params?: {} }
+    'subscribe': { paramsTuple?: []; params?: {} }
+    'unsubscribe': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
@@ -65,6 +68,7 @@ export type ScannedRoutes = {
     'search': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
+    'event_stream': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -86,6 +90,7 @@ export type ScannedRoutes = {
     'search': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
+    'event_stream': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
@@ -97,6 +102,8 @@ export type ScannedRoutes = {
     'link.create': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
+    'subscribe': { paramsTuple?: []; params?: {} }
+    'unsubscribe': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
