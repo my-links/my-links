@@ -12,7 +12,17 @@ export default class AuthController {
 
 	private readonly redirectTo: keyof RoutesList['GET'] = 'home';
 
-	async google({ ally, inertia, request, response }: HttpContext) {
+	async google({ ally, inertia, request, response, session }: HttpContext) {
+		const returnTo = request.input('return_to');
+		if (
+			typeof returnTo === 'string' &&
+			/^\/extension\/connect\/?$/.test(returnTo)
+		) {
+			session.put('oauth_return_to', '/extension/connect');
+		} else {
+			session.forget('oauth_return_to');
+		}
+
 		const redirectUrl = await ally.use('google').redirectUrl();
 
 		if (request.header('x-inertia')) {
@@ -69,7 +79,11 @@ export default class AuthController {
 
 		session.flash('flash', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
-		response.redirectToNamedRoute('collection.favorites');
+		const returnTo = session.pull('oauth_return_to') as string | undefined;
+		if (returnTo === '/extension/connect') {
+			return response.redirect('/extension/connect');
+		}
+		return response.redirectToNamedRoute('collection.favorites');
 	}
 
 	async logout({ auth, response, session }: HttpContext) {

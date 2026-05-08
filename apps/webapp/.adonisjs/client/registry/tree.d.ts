@@ -7,6 +7,11 @@ export interface ApiDefinition {
   privacy: typeof routes['privacy']
   shared: typeof routes['shared']
   favicon: typeof routes['favicon']
+  extension: {
+    connect: typeof routes['extension.connect'] & {
+      execute: typeof routes['extension.connect.execute']
+    }
+  }
   auth: typeof routes['auth'] & {
     callback: typeof routes['auth.callback']
     logout: typeof routes['auth.logout']

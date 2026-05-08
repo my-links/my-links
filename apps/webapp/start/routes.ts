@@ -36,3 +36,5 @@ import '#routes/favicons';
 // User routes
 import '#routes/user';
 import '#routes/user_settings';
+
+import '#routes/extension';

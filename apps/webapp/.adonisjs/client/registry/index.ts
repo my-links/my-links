@@ -36,6 +36,18 @@ const routes = {
     tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
     types: placeholder as Registry['favicon']['types'],
   },
+  'extension.connect': {
+    methods: ["GET","HEAD"],
+    pattern: '/extension/connect',
+    tokens: [{"old":"/extension/connect","type":0,"val":"extension","end":""},{"old":"/extension/connect","type":0,"val":"connect","end":""}],
+    types: placeholder as Registry['extension.connect']['types'],
+  },
+  'extension.connect.execute': {
+    methods: ["POST"],
+    pattern: '/extension/connect',
+    tokens: [{"old":"/extension/connect","type":0,"val":"extension","end":""},{"old":"/extension/connect","type":0,"val":"connect","end":""}],
+    types: placeholder as Registry['extension.connect.execute']['types'],
+  },
   'auth': {
     methods: ["GET","HEAD"],
     pattern: '/auth/google',

@@ -9,6 +9,8 @@ export type ScannedRoutes = {
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
+    'extension.connect': { paramsTuple?: []; params?: {} }
+    'extension.connect.execute': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -54,6 +56,7 @@ export type ScannedRoutes = {
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
+    'extension.connect': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -76,6 +79,7 @@ export type ScannedRoutes = {
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
+    'extension.connect': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -93,6 +97,7 @@ export type ScannedRoutes = {
     'event_stream': { paramsTuple?: []; params?: {} }
   }
   POST: {
+    'extension.connect.execute': { paramsTuple?: []; params?: {} }
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }

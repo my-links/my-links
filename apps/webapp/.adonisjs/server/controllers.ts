@@ -40,6 +40,9 @@ export const controllers = {
     UnfollowCollection: () => import('#controllers/collections/unfollow_collection_controller'),
     UpdateCollection: () => import('#controllers/collections/update_collection_controller'),
   },
+  extension: {
+    Connect: () => import('#controllers/extension/connect_controller'),
+  },
   favicons: {
     Favicons: () => import('#controllers/favicons/favicons_controller'),
   },

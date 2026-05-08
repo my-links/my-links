@@ -67,6 +67,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
     }
   }
+  'extension.connect': {
+    methods: ["GET","HEAD"]
+    pattern: '/extension/connect'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/extension/connect_controller').default['prepare']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/extension/connect_controller').default['prepare']>>>
+    }
+  }
+  'extension.connect.execute': {
+    methods: ["POST"]
+    pattern: '/extension/connect'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/extension/connect_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/extension/connect_controller').default['execute']>>>
+    }
+  }
   'auth': {
     methods: ["GET","HEAD"]
     pattern: '/auth/google'
