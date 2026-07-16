@@ -1,42 +1,45 @@
+webapp_path := "apps/webapp"
+webapp_env_file := "apps/webapp/.env"
+
 alias dw := docker-weight
 
 tuyau:
-	@node ace tuyau:generate
+	@cd {{ webapp_path }} && node ace tuyau:generate
 	@pnpm run format
 
 extract:
-	@pnpm run extract
+	@cd {{ webapp_path }} && pnpm run extract
 
 compile:
-	@pnpm run compile
+	@cd {{ webapp_path }} && pnpm run compile
 
 format:
 	@pnpm run format
 
 dev:
-	@docker compose down
-	@docker compose -f dev.compose.yml pull
-	@docker compose -f dev.compose.yml up -d --wait --remove-orphans
-	@node ace migration:fresh
-	@pnpm run dev
+	@docker compose --env-file {{ webapp_env_file }} down
+	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} pull
+	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} up -d --wait --remove-orphans
+	@cd {{ webapp_path }} && node ace migration:fresh
+	@pnpm run dev:webapp
 
 prod:
-	@docker compose -f dev.compose.yml down
-	@docker compose pull
-	@docker compose up -d --build --wait --remove-orphans
+	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} down
+	@docker compose --env-file {{ webapp_env_file }} pull
+	@docker compose --env-file {{ webapp_env_file }} up -d --build --wait --remove-orphans
 
 seed:
-	@node ace db:seed
+	@cd {{ webapp_path }} && node ace db:seed
 
 fresh:
-	@node ace migration:fresh
+	@cd {{ webapp_path }} && node ace migration:fresh
 
 down:
-	@-docker compose down
-	@-docker compose -f dev.compose.yml down
+	@-docker compose --env-file {{ webapp_env_file }} down
+	@-docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} down
 
 release:
-	@pnpm run release
+	@pnpm run release:webapp
 
 docker-weight:
-	@sh scripts/docker-weight.sh
+	@sh {{ webapp_path }}/scripts/docker-weight.sh

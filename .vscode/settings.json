@@ -1,13 +1,7 @@
 {
-	"typescript.preferences.importModuleSpecifier": "non-relative",
-	/* Prefer tabs over spaces for accessibility */
+	"editor.tabSize": 2,
 	"editor.insertSpaces": false,
 	"editor.detectIndentation": false,
-	/* Explorer */
-	"explorer.fileNesting.enabled": true,
-	"explorer.fileNesting.patterns": {
-		"*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-		"package.json": "pnpm-lock.yaml, pnpm-workspace.yaml, tsconfig.json, eslint.config.js, .babelrc, vite.config.ts, .editorconfig, .prettierignore",
-		"Justfile": "*compose.yml, Dockerfile, .dockerignore"
-	}
+	"oxc.typeAware": true,
+	"editor.defaultFormatter": "oxc.oxc-vscode"
 }

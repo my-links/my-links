@@ -25,6 +25,7 @@ services:
     restart: always
     build:
       context: .
+      dockerfile: apps/webapp/Dockerfile
       args:
         - APP_URL=${APP_URL}
     environment:
@@ -32,7 +33,7 @@ services:
       - HOST=0.0.0.0
       - NODE_ENV=production
     env_file:
-      - .env
+      - apps/webapp/.env
     depends_on:
       postgres:
         condition: service_healthy

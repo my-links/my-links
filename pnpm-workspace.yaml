@@ -1,3 +1,24 @@
+packages:
+  - 'apps/*'
+
+# @adonisjs/inertia type-imports from 'vite' without declaring it as a
+# peerDependency, so pnpm falls back to a single shared hoisted 'vite'
+# across the whole workspace. Now that apps/extension pulls in a newer
+# vite via wxt, that shared fallback can resolve to the wrong major
+# version for apps/webapp (pinned to vite ^7). Declaring the peer here
+# forces pnpm to build a properly isolated instance per consumer.
+packageExtensions:
+  '@adonisjs/inertia':
+    peerDependencies:
+      vite: '*'
+  unocss:
+    peerDependencies:
+      vite: '*'
+
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  spawn-sync: true
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
