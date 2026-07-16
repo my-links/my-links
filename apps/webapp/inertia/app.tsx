@@ -1,5 +1,3 @@
-import React from 'react';
-import { Data } from '@generated/data';
 import { isSSREnableForPage } from 'config-ssr';
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
@@ -14,18 +12,22 @@ import { DefaultLayout } from '~/layouts/default_layout';
 void createInertiaApp({
 	progress: { color: 'var(--colors-blue-500)', delay: 50 },
 
-	title: (title) => `${title && `${title} - `}${PROJECT_NAME}`,
+	title: (title) => `${title && `${title} — `}${PROJECT_NAME}`,
 
+	// @ts-ignore
 	resolve: async (name) => {
-		return resolvePageComponent(
+		const page = await resolvePageComponent(
 			`./pages/${name}.tsx`,
-			import.meta.glob('./pages/**/*.tsx'),
-			(page: React.ReactElement<Data.SharedProps>) => (
-				<DefaultLayout>{page}</DefaultLayout>
-			)
+			import.meta.glob('./pages/**/*.tsx')
 		);
+		// @ts-ignore
+		page.default.layout ??= (children: React.ReactElement) => (
+			<DefaultLayout>{children}</DefaultLayout>
+		);
+		return page;
 	},
 
+	// @ts-ignore
 	setup({ el, App, props }) {
 		void (async () => {
 			const componentName = props.initialPage.component;
