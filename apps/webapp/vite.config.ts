@@ -1,22 +1,20 @@
 import UnoCSS from 'unocss/vite';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import inertia from '@adonisjs/inertia/vite';
+import react from '@vitejs/plugin-react-swc';
 import adonisjs from '@adonisjs/vite/client';
 import { lingui } from '@lingui/vite-plugin';
+import { linguiMacroSwcPlugin } from '@lingui/swc-plugin/options';
 
 export default defineConfig({
 	plugins: [
 		react({
-			babel: {
-				plugins: ['@lingui/babel-plugin-lingui-macro'],
-			},
+			plugins: [linguiMacroSwcPlugin()],
 		}),
 		lingui(),
 		UnoCSS(`${import.meta.dirname}/../../uno.config.ts`),
-		inertia({ ssr: { enabled: true, entrypoint: 'inertia/ssr.tsx' } }),
 		adonisjs({
-			entrypoints: [`${import.meta.dirname}/inertia/app.tsx`],
+			entrypoints: ['inertia/app.tsx'],
+			serverEntrypoints: ['inertia/ssr.tsx'],
 			reload: ['resources/views/**/*.edge'],
 		}),
 	],
