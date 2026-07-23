@@ -1,6 +1,23 @@
 import app from '@adonisjs/core/services/app';
 import { defineConfig, stores } from '@adonisjs/session';
 
+import env from '#start/env';
+
+const SESSION_STORES = ['cookie', 'database', 'memory'] as const;
+type SessionStore = (typeof SESSION_STORES)[number];
+
+function isSessionStore(value: string): value is SessionStore {
+	return (SESSION_STORES as readonly string[]).includes(value);
+}
+
+function resolveSessionStore(): SessionStore {
+	const value = env.get('SESSION_DRIVER', 'database');
+	if (!isSessionStore(value)) {
+		throw new Error(`Invalid SESSION_DRIVER value: "${value}"`);
+	}
+	return value;
+}
+
 const sessionConfig = defineConfig({
 	enabled: true,
 	cookieName: 'my-links-session',
@@ -29,15 +46,19 @@ const sessionConfig = defineConfig({
 	},
 
 	/**
-	 * The store to use. Make sure to validate the environment
-	 * variable in order to infer the store name without any
-	 * errors.
+	 * `SESSION_DRIVER=memory` in `.env.test` — Japa's session test client
+	 * always simulates sessions against the `memory` store, so the app's
+	 * own session middleware must resolve to that same store during tests
+	 * (a `database`-backed session written only to the test's in-memory
+	 * client is invisible to it, and `loginAs()` silently fails).
 	 */
-	store: 'database',
+	store: resolveSessionStore(),
 
 	/**
 	 * List of configured stores. Refer documentation to see
 	 * list of available stores and their config.
+	 * `memory` needs no configuration, so it isn't listed here — it's
+	 * available out of the box whenever `store: 'memory'` is selected.
 	 */
 	stores: {
 		cookie: stores.cookie(),
