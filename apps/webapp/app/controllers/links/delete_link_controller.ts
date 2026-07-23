@@ -15,7 +15,10 @@ export default class DeleteLinkController {
 	async execute({ request, auth }: HttpContext) {
 		const { params } = await request.validateUsing(deleteLinkValidator);
 
-		const link = await this.linkService.getLinkById(params.id, auth.user!.id);
+		const link = await this.linkService.getLinkById(
+			params.id,
+			auth.getUserOrFail().id
+		);
 		await this.linkService.deleteLink(params.id);
 
 		return this.collectionsService.redirectToCollectionId(link.collectionId);

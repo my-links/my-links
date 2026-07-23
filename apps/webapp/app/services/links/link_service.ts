@@ -1,21 +1,35 @@
+import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
 
 import Link from '#models/link';
+import { CollectionService } from '#services/collections/collection_service';
 
 type LinkPayload = {
 	name: string;
 	description?: string;
 	url: string;
 	favorite: boolean;
-	collectionId: number;
+	collectionId?: number;
 };
 
+@inject()
 export class LinkService {
-	createLink(payload: LinkPayload) {
+	constructor(protected readonly collectionService: CollectionService) {}
+
+	async createLink(payload: LinkPayload) {
 		const context = this.getAuthContext();
+		const collectionId =
+			payload.collectionId ??
+			(
+				await this.collectionService.getOrCreateDefaultCollection(
+					context.auth.user!.id
+				)
+			).id;
+
 		return Link.create({
 			...payload,
+			collectionId,
 			authorId: context.auth.user!.id,
 		});
 	}

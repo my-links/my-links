@@ -1,6 +1,3 @@
-import './style.css';
-import 'virtual:uno.css';
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 

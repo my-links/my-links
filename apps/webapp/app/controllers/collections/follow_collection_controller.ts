@@ -20,7 +20,10 @@ export default class FollowCollectionController {
 		const {
 			params: { id: collectionId },
 		} = await request.validateUsing(this.collectionIdValidator);
-		await this.collectionService.followCollection(collectionId, auth.user!.id);
+		await this.collectionService.followCollection(
+			collectionId,
+			auth.getUserOrFail().id
+		);
 		return response.redirect().back();
 	}
 }

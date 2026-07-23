@@ -35,6 +35,9 @@ export interface ApiDefinition {
     update: typeof routes['api-links.update']
     delete: typeof routes['api-links.delete']
   }
+  apiSearch: {
+    index: typeof routes['api-search.index']
+  }
   apiTokens: {
     index: typeof routes['api-tokens.index']
   }
@@ -54,6 +57,9 @@ export interface ApiDefinition {
     delete: typeof routes['link.delete']
   }
   search: typeof routes['search']
+  extension: {
+    authorize: typeof routes['extension.authorize']
+  }
   user: {
     apiTokens: {
       store: typeof routes['user.api-tokens.store']

@@ -9,17 +9,18 @@ import { searchValidator } from '#validators/search/search_validator';
 export default class SearchController {
 	constructor(protected readonly searchService: SearchService) {}
 
-	async render({ request, auth, serialize }: HttpContext) {
+	async render({ request, auth, response }: HttpContext) {
 		const { term, type = 'both' } =
 			await request.validateUsing(searchValidator);
 
 		const rawResults = await this.searchService.search({
 			term,
-			type: type,
-			userId: auth.getUserOrFail().id,
+			type,
+			userId: auth.user!.id,
 		});
 
-		const results = SearchResultTransformer.transform(rawResults);
-		return serialize(results);
+		return response.json({
+			results: SearchResultTransformer.transform(rawResults),
+		});
 	}
 }

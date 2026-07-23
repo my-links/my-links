@@ -10,12 +10,15 @@ import '#routes/api/api_collections';
 import '#routes/api/api_favorites';
 import '#routes/api/api_health';
 import '#routes/api/api_links';
+import '#routes/api/api_search';
 import '#routes/api/api_tokens';
 // App routes
 import '#routes/collections';
 import '#routes/links';
 import '#routes/search';
 import '#routes/shared_collections';
+// Extension routes
+import '#routes/extension';
 // Favicons routes
 import '#routes/favicons';
 // User routes

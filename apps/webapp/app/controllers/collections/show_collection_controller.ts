@@ -22,7 +22,7 @@ export default class ShowCollectionController {
 			params: { id: collectionId },
 		} = await request.validateUsing(this.collectionIdValidator);
 
-		const userId = auth.user!.id;
+		const userId = auth.getUserOrFail().id;
 		const [
 			followedCollections,
 			myPublicCollections,

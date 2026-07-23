@@ -4,6 +4,9 @@ import { HttpContext } from '@adonisjs/core/http';
 import User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
+import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
+
+const DEFAULT_COLLECTION_NAME = 'Inbox';
 
 type CollectionPayload = {
 	name: string;
@@ -86,13 +89,44 @@ export class CollectionService {
 		return collection;
 	}
 
-	deleteCollection(id: Collection['id']) {
+	async deleteCollection(id: Collection['id']) {
 		const context = this.getAuthContext();
+		const collection = await Collection.query()
+			.where('id', id)
+			.andWhere('author_id', context.auth.user!.id)
+			.firstOrFail();
+
+		if (collection.isDefault) {
+			throw new CannotDeleteDefaultCollectionException(
+				'The default collection cannot be deleted'
+			);
+		}
+
 		return Collection.query()
 			.where('id', id)
 			.andWhere('author_id', context.auth.user!.id)
 			.orderBy('name', 'asc')
 			.delete();
+	}
+
+	async getOrCreateDefaultCollection(userId: User['id']): Promise<Collection> {
+		const existingDefaultCollection = await Collection.query()
+			.where('author_id', userId)
+			.andWhere('is_default', true)
+			.first();
+
+		if (existingDefaultCollection) {
+			return existingDefaultCollection;
+		}
+
+		return await Collection.create({
+			name: DEFAULT_COLLECTION_NAME,
+			description: null,
+			visibility: Visibility.PRIVATE,
+			icon: null,
+			authorId: userId,
+			isDefault: true,
+		});
 	}
 
 	getPublicCollectionById(id: Collection['id']) {
