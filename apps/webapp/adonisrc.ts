@@ -19,6 +19,7 @@ export default defineConfig({
 		() => import('@tuyau/core/commands'),
 		() => import('@adonisjs/session/commands'),
 		() => import('@adonisjs/inertia/commands'),
+		() => import('@outloud/adonis-openapi/commands'),
 	],
 
 	/*
@@ -50,6 +51,7 @@ export default defineConfig({
 		() => import('@adonisjs/ally/ally_provider'),
 		() => import('#providers/api_provider'),
 		() => import('#providers/route_provider'),
+		() => import('@outloud/adonis-openapi/provider'),
 	],
 
 	/*
@@ -112,6 +114,10 @@ export default defineConfig({
 		},
 		{
 			pattern: 'public/**',
+			reloadServer: false,
+		},
+		{
+			pattern: '.adonisjs/openapi.json',
 			reloadServer: false,
 		},
 	],
