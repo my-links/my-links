@@ -1,6 +1,5 @@
-import './style.css';
-
 import { useEffect, useState } from 'react';
+import { Button, ThemeToggle } from '@minimalstuff/ui';
 
 import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
 
@@ -24,19 +23,26 @@ function App() {
 
 	if (!isConfigured) {
 		return (
-			<main className="sidepanel sidepanel-empty">
-				<p>MyLinks isn't connected yet.</p>
-				<button onClick={() => void browser.runtime.openOptionsPage()}>
+			<main className="min-h-screen flex flex-col gap-3 items-start p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+				<p className="text-sm">MyLinks isn't connected yet.</p>
+				<Button
+					color="primary"
+					size="sm"
+					onClick={() => void browser.runtime.openOptionsPage()}
+				>
 					Open settings
-				</button>
+				</Button>
 			</main>
 		);
 	}
 
 	return (
-		<main className="sidepanel">
-			<p>Connected to {instanceUrl}.</p>
-			<p className="sidepanel-note">
+		<main className="min-h-screen flex flex-col gap-2 p-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+			<div className="flex items-center justify-between">
+				<p className="text-sm">Connected to {instanceUrl}.</p>
+				<ThemeToggle size="sm" />
+			</div>
+			<p className="text-sm opacity-70">
 				Collections and links are coming in the next phase.
 			</p>
 		</main>
