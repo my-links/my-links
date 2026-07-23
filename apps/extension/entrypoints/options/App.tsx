@@ -1,6 +1,5 @@
-import './style.css';
-
 import { useEffect, useState } from 'react';
+import { Button, Input, ThemeToggle } from '@minimalstuff/ui';
 
 import { connectToInstance, disconnectFromInstance } from '@/lib/api/auth';
 import {
@@ -52,37 +51,55 @@ function App() {
 	};
 
 	const isConnecting = status.kind === 'connecting';
+	const isConnected = status.kind === 'connected';
 
 	return (
-		<main className="options">
-			<h1>MyLinks</h1>
+		<main className="min-h-screen flex justify-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+			<div className="w-full max-w-md flex flex-col gap-4 px-6 py-10">
+				<div className="flex items-center justify-between">
+					<h1 className="text-lg font-semibold">MyLinks</h1>
+					<ThemeToggle size="sm" />
+				</div>
 
-			<label htmlFor="instance-url">Instance URL</label>
-			<input
-				id="instance-url"
-				type="url"
-				value={instanceUrlInput}
-				onChange={(event) => setInstanceUrlInput(event.target.value)}
-				placeholder="https://mylinks.example.com"
-				disabled={isConnecting || status.kind === 'connected'}
-			/>
+				<Input
+					label="Instance URL"
+					type="url"
+					value={instanceUrlInput}
+					onChange={(event) => setInstanceUrlInput(event.target.value)}
+					placeholder="https://mylinks.example.com"
+					disabled={isConnecting || isConnected}
+				/>
 
-			{status.kind === 'connected' ? (
-				<>
-					<p className="status status-connected">
-						Connected to {status.instanceUrl}
+				{isConnected ? (
+					<>
+						<p className="text-sm text-green-700 dark:text-green-400">
+							Connected to {status.instanceUrl}
+						</p>
+						<Button
+							color="neutral"
+							variant="outline"
+							onClick={() => void handleDisconnect()}
+						>
+							Disconnect
+						</Button>
+					</>
+				) : (
+					<Button
+						color="primary"
+						loading={isConnecting}
+						disabled={isConnecting}
+						onClick={() => void handleConnect()}
+					>
+						{isConnecting ? 'Connecting…' : 'Connect'}
+					</Button>
+				)}
+
+				{status.kind === 'error' && (
+					<p className="text-sm text-red-700 dark:text-red-400">
+						{status.message}
 					</p>
-					<button onClick={() => void handleDisconnect()}>Disconnect</button>
-				</>
-			) : (
-				<button onClick={() => void handleConnect()} disabled={isConnecting}>
-					{isConnecting ? 'Connecting…' : 'Connect'}
-				</button>
-			)}
-
-			{status.kind === 'error' && (
-				<p className="status status-error">{status.message}</p>
-			)}
+				)}
+			</div>
 		</main>
 	);
 }
