@@ -18,35 +18,29 @@ export class LinkService {
 	constructor(protected readonly collectionService: CollectionService) {}
 
 	async createLink(payload: LinkPayload) {
-		const context = this.getAuthContext();
+		const userId = this.getAuthenticatedUserId();
 		const collectionId =
 			payload.collectionId ??
-			(
-				await this.collectionService.getOrCreateDefaultCollection(
-					context.auth.user!.id
-				)
-			).id;
+			(await this.collectionService.getOrCreateDefaultCollection(userId)).id;
 
 		return Link.create({
 			...payload,
 			collectionId,
-			authorId: context.auth.user!.id,
+			authorId: userId,
 		});
 	}
 
 	updateLink(id: number, payload: LinkPayload) {
-		const context = this.getAuthContext();
 		return Link.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
+			.andWhere('author_id', this.getAuthenticatedUserId())
 			.update(payload);
 	}
 
 	deleteLink(id: number) {
-		const context = this.getAuthContext();
 		return Link.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
+			.andWhere('author_id', this.getAuthenticatedUserId())
 			.delete();
 	}
 
@@ -60,25 +54,21 @@ export class LinkService {
 	updateFavorite(id: number, favorite: boolean) {
 		return Link.query()
 			.where('id', id)
-			.andWhere('author_id', this.getAuthContext().auth.user!.id)
+			.andWhere('author_id', this.getAuthenticatedUserId())
 			.update({ favorite });
 	}
 
 	async getMyFavoriteLinks() {
-		const context = this.getAuthContext();
 		return await Link.query()
-			.where('author_id', context.auth.user!.id)
+			.where('author_id', this.getAuthenticatedUserId())
 			.where('favorite', true)
 			.orderBy('created_at');
 	}
 
-	getAuthContext() {
-		const context = HttpContext.getOrFail();
-		if (!context.auth.user?.id) {
-			throw new Error('User not authenticated');
-		}
-		return context;
+	private getAuthenticatedUserId() {
+		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}
+
 	async getTotalLinksCount() {
 		const totalCount = await db.from('links').count('* as total');
 		return Number(totalCount[0].total);
