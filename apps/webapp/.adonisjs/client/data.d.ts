@@ -10,8 +10,8 @@ import type CollectionTransformer from '#transformers/collection'
 import type LinkTransformer from '#transformers/link'
 import type SearchResultTransformer from '#transformers/search_result'
 import type StatusReportCheckTransformer from '#transformers/status_report_check'
-import type UserTransformer from '#transformers/user'
 import type UserSessionTransformer from '#transformers/user_session_transformer'
+import type UserTransformer from '#transformers/user'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
@@ -31,13 +31,13 @@ export namespace Data {
   export namespace StatusReportCheck {
     export type Variants = InferVariants<StatusReportCheckTransformer>
   }
-  export type User = InferData<UserTransformer>
-  export namespace User {
-    export type Variants = InferVariants<UserTransformer>
-  }
   export type UserSession = InferData<UserSessionTransformer>
   export namespace UserSession {
     export type Variants = InferVariants<UserSessionTransformer>
+  }
+  export type User = InferData<UserTransformer>
+  export namespace User {
+    export type Variants = InferVariants<UserTransformer>
   }
   export type SharedProps = InferSharedProps<InertiaMiddleware>
 }

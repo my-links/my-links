@@ -14,7 +14,7 @@ export default class ShowFavoritesController {
 	) {}
 
 	async render({ auth, inertia }: HttpContext) {
-		const userId = auth.user!.id;
+		const userId = auth.getUserOrFail().id;
 		const [
 			followedCollections,
 			myPublicCollections,

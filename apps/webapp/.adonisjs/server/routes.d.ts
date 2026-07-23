@@ -24,6 +24,7 @@ export type ScannedRoutes = {
     'api-links.create': { paramsTuple?: []; params?: {} }
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-search.index': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
@@ -37,6 +38,7 @@ export type ScannedRoutes = {
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'search': { paramsTuple?: []; params?: {} }
+    'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
     'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
@@ -59,10 +61,12 @@ export type ScannedRoutes = {
     'admin.status': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
+    'api-search.index': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'search': { paramsTuple?: []; params?: {} }
+    'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
   }
@@ -80,10 +84,12 @@ export type ScannedRoutes = {
     'admin.status': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
+    'api-search.index': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'search': { paramsTuple?: []; params?: {} }
+    'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
   }

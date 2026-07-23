@@ -4,50 +4,10 @@
  */
 
 export const controllers = {
-  HealthChecks: () => import('#controllers/health_checks_controller'),
   admin: {
     Admin: () => import('#controllers/admin/admin_controller'),
     BulkDeleteUsers: () => import('#controllers/admin/bulk_delete_users_controller'),
     Status: () => import('#controllers/admin/status_controller'),
-  },
-  collections: {
-    CreateCollection: () => import('#controllers/collections/create_collection_controller'),
-    DeleteCollection: () => import('#controllers/collections/delete_collection_controller'),
-    FollowCollection: () => import('#controllers/collections/follow_collection_controller'),
-    ShowCollection: () => import('#controllers/collections/show_collection_controller'),
-    UnfollowCollection: () => import('#controllers/collections/unfollow_collection_controller'),
-    UpdateCollection: () => import('#controllers/collections/update_collection_controller'),
-  },
-  auth: {
-    Auth: () => import('#controllers/auth/auth_controller'),
-  },
-  favicons: {
-    Favicons: () => import('#controllers/favicons/favicons_controller'),
-  },
-  favorites: {
-    ShowFavorites: () => import('#controllers/favorites/show_favorites_controller'),
-  },
-  links: {
-    CreateLink: () => import('#controllers/links/create_link_controller'),
-    DeleteLink: () => import('#controllers/links/delete_link_controller'),
-    ToggleFavorite: () => import('#controllers/links/toggle_favorite_controller'),
-    UpdateLink: () => import('#controllers/links/update_link_controller'),
-  },
-  search: {
-    Search: () => import('#controllers/search/search_controller'),
-  },
-  sharedCollections: {
-    SharedCollections: () => import('#controllers/shared_collections/shared_collections_controller'),
-  },
-  user: {
-    ApiToken: () => import('#controllers/user/api_token_controller'),
-    DestroySession: () => import('#controllers/user/destroy_session_controller'),
-  },
-  userSettings: {
-    DeleteUserAccount: () => import('#controllers/user_settings/delete_user_account_controller'),
-    ExportUserData: () => import('#controllers/user_settings/export_user_data_controller'),
-    ImportUserData: () => import('#controllers/user_settings/import_user_data_controller'),
-    ShowUserSettings: () => import('#controllers/user_settings/show_user_settings_controller'),
   },
   api: {
     collections: {
@@ -65,8 +25,54 @@ export const controllers = {
       GetFavoriteLinks: () => import('#controllers/api/links/get_favorite_links_controller'),
       UpdateLink: () => import('#controllers/api/links/update_link_controller'),
     },
+    search: {
+      Search: () => import('#controllers/api/search/search_controller'),
+    },
     tokens: {
       ApiToken: () => import('#controllers/api/tokens/api_token_controller'),
     },
+  },
+  auth: {
+    Auth: () => import('#controllers/auth/auth_controller'),
+  },
+  collections: {
+    CreateCollection: () => import('#controllers/collections/create_collection_controller'),
+    DeleteCollection: () => import('#controllers/collections/delete_collection_controller'),
+    FollowCollection: () => import('#controllers/collections/follow_collection_controller'),
+    ShowCollection: () => import('#controllers/collections/show_collection_controller'),
+    UnfollowCollection: () => import('#controllers/collections/unfollow_collection_controller'),
+    UpdateCollection: () => import('#controllers/collections/update_collection_controller'),
+  },
+  extension: {
+    AuthorizeExtension: () => import('#controllers/extension/authorize_extension_controller'),
+  },
+  favicons: {
+    Favicons: () => import('#controllers/favicons/favicons_controller'),
+  },
+  favorites: {
+    ShowFavorites: () => import('#controllers/favorites/show_favorites_controller'),
+  },
+  HealthChecks: () => import('#controllers/health_checks_controller'),
+  links: {
+    CreateLink: () => import('#controllers/links/create_link_controller'),
+    DeleteLink: () => import('#controllers/links/delete_link_controller'),
+    ToggleFavorite: () => import('#controllers/links/toggle_favorite_controller'),
+    UpdateLink: () => import('#controllers/links/update_link_controller'),
+  },
+  search: {
+    Search: () => import('#controllers/search/search_controller'),
+  },
+  sharedCollections: {
+    SharedCollections: () => import('#controllers/shared_collections/shared_collections_controller'),
+  },
+  userSettings: {
+    DeleteUserAccount: () => import('#controllers/user_settings/delete_user_account_controller'),
+    ExportUserData: () => import('#controllers/user_settings/export_user_data_controller'),
+    ImportUserData: () => import('#controllers/user_settings/import_user_data_controller'),
+    ShowUserSettings: () => import('#controllers/user_settings/show_user_settings_controller'),
+  },
+  user: {
+    ApiToken: () => import('#controllers/user/api_token_controller'),
+    DestroySession: () => import('#controllers/user/destroy_session_controller'),
   },
 }

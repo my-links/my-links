@@ -24,6 +24,9 @@ export default class Collection extends AppBaseModel {
 	declare icon: string | null;
 
 	@column()
+	declare isDefault: boolean;
+
+	@column()
 	declare authorId: number;
 
 	@belongsTo(() => User, { foreignKey: 'authorId' })

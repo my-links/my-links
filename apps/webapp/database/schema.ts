@@ -44,7 +44,7 @@ export class CollectionFollowerSchema extends BaseModel {
 }
 
 export class CollectionSchema extends BaseModel {
-  static $columns = ['authorId', 'createdAt', 'description', 'icon', 'id', 'name', 'updatedAt', 'visibility'] as const
+  static $columns = ['authorId', 'createdAt', 'description', 'icon', 'id', 'isDefault', 'name', 'updatedAt', 'visibility'] as const
   $columns = CollectionSchema.$columns
   @column()
   declare authorId: number | null
@@ -56,6 +56,8 @@ export class CollectionSchema extends BaseModel {
   declare icon: string | null
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare isDefault: boolean
   @column()
   declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })

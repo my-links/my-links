@@ -70,7 +70,11 @@ export default class AuthController {
 
 		session.flash('flash', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
-		response.redirectToNamedRoute('collection.favorites');
+		// Falls back to the favorites page, but honors an intended URL stashed
+		// by AuthMiddleware (e.g. a GET to /extension/authorize?redirect_uri=...
+		// hit while logged out) so the extension auth handoff survives a login
+		// round-trip instead of stranding on the dashboard.
+		response.redirect().toIntendedRoute('collection.favorites');
 	}
 
 	async logout({ auth, response, session }: HttpContext) {

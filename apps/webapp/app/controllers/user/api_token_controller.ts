@@ -13,7 +13,7 @@ export default class ApiTokenController {
 		const { name, expiresAt } = await request.validateUsing(
 			createApiTokenValidator
 		);
-		const token = await this.apiTokenService.createToken(auth.user!, {
+		const token = await this.apiTokenService.createToken(auth.getUserOrFail(), {
 			name,
 			expiresAt: expiresAt?.toJSDate(),
 		});
@@ -30,7 +30,7 @@ export default class ApiTokenController {
 		const tokenId = params.tokenId;
 
 		const token = await this.apiTokenService.getTokenByValue(
-			auth.user!,
+			auth.getUserOrFail(),
 			tokenId
 		);
 		if (!token) {
@@ -38,7 +38,7 @@ export default class ApiTokenController {
 		}
 
 		await this.apiTokenService.revokeToken(
-			auth.user!,
+			auth.getUserOrFail(),
 			Number(token.identifier)
 		);
 		return response.redirect().withQs().back();

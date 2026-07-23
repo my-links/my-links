@@ -16,7 +16,7 @@ export default class SearchController {
 		const rawResults = await this.searchService.search({
 			term,
 			type: type,
-			userId: auth.user!.id,
+			userId: auth.getUserOrFail().id,
 		});
 
 		const results = SearchResultTransformer.transform(rawResults);

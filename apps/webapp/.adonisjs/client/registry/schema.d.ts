@@ -215,12 +215,12 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/api/v1/links'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/links/create_link_api_validator').createLinkApiValidator)>>
       paramsTuple: []
       params: {}
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/create_link_api_validator').createLinkApiValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-links.update': {
@@ -245,6 +245,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-search.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/search'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-tokens.index': {
@@ -401,6 +413,18 @@ export interface Registry {
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'extension.authorize': {
+    methods: ["GET","HEAD"]
+    pattern: '/extension/authorize'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/extension/authorize_extension_validator').authorizeExtensionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/extension/authorize_extension_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/extension/authorize_extension_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.api-tokens.store': {
