@@ -43,7 +43,8 @@ export const FormCollectionContent = ({
 					/>
 					{data.icon && !disableInputs && (
 						<Button
-							variant="secondary"
+							variant="outline"
+							color="neutral"
 							size="sm"
 							type="button"
 							onClick={handleRemoveIcon}

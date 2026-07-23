@@ -1,12 +1,11 @@
 import { router } from '@inertiajs/react';
-import { Button } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { ChangeEvent, useState } from 'react';
+import { Button, ConfirmModal } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import { formatDate } from '~/lib/format';
-import { useModalStore } from '~/stores/modal_store';
 import { NaContent } from '~/components/common/na_content';
 import { ClientOnly } from '~/components/common/client_only';
 import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
@@ -52,7 +51,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 		if (selectedCount === 0) return;
 
 		const targetIds = Array.from(selectedUserIds);
-		const modalId = useModalStore.getState().openConfirm({
+		void ConfirmModal.call({
 			title: <Trans>Delete accounts</Trans>,
 			children: (
 				<Trans>
@@ -74,7 +73,6 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						preserveScroll: true,
 						onSuccess: () => {
 							clearSelection();
-							useModalStore.getState().close(modalId);
 						},
 						onFinish: () => {
 							setIsDeleting(false);
@@ -100,7 +98,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 				</div>
 				<div className="flex items-center gap-3">
 					<Button
-						variant="danger"
+						color="danger"
 						size="sm"
 						disabled={!canDelete}
 						onClick={handleDeleteSelected}

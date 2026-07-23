@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
+import { Modal } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import useShortcut from '~/hooks/use_shortcut';
 import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useModalStore } from '~/stores/modal_store';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { SearchModal } from '~/components/dashboard/modals/search_modal';
 import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
@@ -35,34 +35,36 @@ export default function Dashboard() {
 	const isMobile = useIsMobile();
 	const { sidebarOpen, toggleSidebar } = useDashboardStore();
 
-	const openModal = useModalStore((state) => state.open);
-	const closeAll = useModalStore((state) => state.closeAll);
-
 	const isFavorite = !activeCollection?.id;
 
 	const hasActiveContent =
 		!!activeCollection || (favoriteLinks?.length ?? 0) > 0;
 
 	const handleCreateCollection = (message?: string) => {
-		openModal({
+		const call = Modal.call({
 			title: t`Create a collection`,
-			children: <CreateCollectionModal onClose={closeAll} message={message} />,
+			children: (
+				<CreateCollectionModal
+					message={message}
+					onClose={() => Modal.end(call)}
+				/>
+			),
 		});
 	};
 
 	const handleEditCollection = () => {
 		if (!activeCollection || activeCollection.isOwner === false) return;
-		openModal({
+		const call = Modal.call({
 			title: t`Edit a collection`,
-			children: <EditCollectionModal onClose={closeAll} />,
+			children: <EditCollectionModal onClose={() => Modal.end(call)} />,
 		});
 	};
 
 	const handleDeleteCollection = () => {
 		if (!activeCollection || activeCollection.isOwner === false) return;
-		openModal({
+		const call = Modal.call({
 			title: t`Delete a collection`,
-			children: <DeleteCollectionModal onClose={closeAll} />,
+			children: <DeleteCollectionModal onClose={() => Modal.end(call)} />,
 		});
 	};
 
@@ -72,17 +74,17 @@ export default function Dashboard() {
 			handleCreateCollection(t`Create a collection to get started`);
 			return;
 		}
-		openModal({
+		const call = Modal.call({
 			title: t`Create a link`,
-			children: <CreateLinkModal onClose={closeAll} />,
+			children: <CreateLinkModal onClose={() => Modal.end(call)} />,
 		});
 	};
 
 	const handleOpenSearch = () => {
-		openModal({
+		const call = Modal.call({
 			title: t`Search`,
 			size: 'lg',
-			children: <SearchModal onClose={closeAll} />,
+			children: <SearchModal onClose={() => Modal.end(call)} />,
 		});
 	};
 
@@ -100,7 +102,6 @@ export default function Dashboard() {
 	}, [activeCollection, favoriteLinks]);
 
 	useShortcut('OPEN_SEARCH_KEY', handleOpenSearch, { enabled: !isMobile });
-	useShortcut('ESCAPE_KEY', closeAll, { enabled: !isMobile });
 	useShortcut('OPEN_CREATE_COLLECTION_KEY', handleCreateCollection, {
 		enabled: !isMobile,
 	});

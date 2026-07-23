@@ -1,15 +1,14 @@
-import { Button } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
 import { router, useForm } from '@inertiajs/react';
+import { Button, ConfirmModal } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { useModalStore } from '~/stores/modal_store';
 
 export function DeleteAccount() {
 	const { processing } = useForm({});
 
 	const handleDeleteAccount = () => {
-		useModalStore.getState().openConfirm({
+		void ConfirmModal.call({
 			title: <Trans>Delete Account</Trans>,
 			children: (
 				<Trans>
@@ -43,7 +42,7 @@ export function DeleteAccount() {
 			</div>
 
 			<Button
-				variant="danger"
+				color="danger"
 				size="sm"
 				onClick={handleDeleteAccount}
 				disabled={processing}

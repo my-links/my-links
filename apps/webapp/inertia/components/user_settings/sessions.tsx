@@ -1,21 +1,19 @@
 import { Trans } from '@lingui/react/macro';
-import { IconButton } from '@minimalstuff/ui';
+import { ConfirmModal, IconButton } from '@minimalstuff/ui';
 
 import { formatDate } from '~/lib/format';
 import { useSessions } from '~/hooks/use_sessions';
-import { useModalStore } from '~/stores/modal_store';
 import { NaContent } from '~/components/common/na_content';
 import { DataTable } from '~/components/common/data_table/data_table';
 
 export function Sessions() {
 	const { sessions, revokeSession } = useSessions();
-	const openConfirmModal = useModalStore((state) => state.openConfirm);
 
 	const handleRevokeSession = (sessionId: string) => {
 		const session = sessions.find((s) => s.sessionId === sessionId);
 		if (!session) return;
 
-		openConfirmModal({
+		void ConfirmModal.call({
 			title: <Trans>Sign out session</Trans>,
 			children: (
 				<p className="text-sm text-gray-600 dark:text-gray-300">
@@ -98,7 +96,7 @@ export function Sessions() {
 									icon="i-tabler-logout-2"
 									onClick={() => handleRevokeSession(session.sessionId)}
 									aria-label="Sign out session"
-									variant="danger"
+									color="danger"
 									size="sm"
 								/>
 							),

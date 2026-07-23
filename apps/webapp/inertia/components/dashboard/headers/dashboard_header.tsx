@@ -138,7 +138,7 @@ export function DashboardHeader({
 
 						<div className="flex items-center gap-2 flex-wrap">
 							{activeCollection?.isOwner !== false && (
-								<Button variant="primary" size="sm" onClick={onCreateLink}>
+								<Button color="primary" size="sm" onClick={onCreateLink}>
 									<Trans>
 										Create link{' '}
 										{!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
@@ -146,7 +146,7 @@ export function DashboardHeader({
 								</Button>
 							)}
 							{!isFavorite && activeCollection?.isOwner === false && (
-								<Button variant="danger" onClick={handleUnfollow}>
+								<Button color="danger" onClick={handleUnfollow}>
 									<Trans>Unfollow</Trans>
 								</Button>
 							)}

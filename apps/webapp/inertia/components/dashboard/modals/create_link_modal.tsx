@@ -54,7 +54,12 @@ export function CreateLinkModal({ onClose }: Readonly<CreateLinkModalProps>) {
 			/>
 
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-				<Button variant="secondary" type="button" onClick={onClose}>
+				<Button
+					variant="outline"
+					color="neutral"
+					type="button"
+					onClick={onClose}
+				>
 					<Trans>Cancel</Trans>
 				</Button>
 				<Button type="submit" disabled={!canSubmit}>

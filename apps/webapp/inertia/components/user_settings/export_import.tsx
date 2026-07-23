@@ -81,7 +81,12 @@ export function ExportImport() {
 					<h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
 						<Trans>Export</Trans>
 					</h3>
-					<Button variant="secondary" size="sm" onClick={handleExport}>
+					<Button
+						variant="outline"
+						color="neutral"
+						size="sm"
+						onClick={handleExport}
+					>
 						<div className="i-tabler-download w-4 h-4" />
 						<Trans>Download JSON</Trans>
 					</Button>
@@ -123,7 +128,8 @@ export function ExportImport() {
 
 						<Button
 							type="submit"
-							variant="secondary"
+							variant="outline"
+							color="neutral"
 							size="sm"
 							disabled={!data.file || processing}
 							className="text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/30"
