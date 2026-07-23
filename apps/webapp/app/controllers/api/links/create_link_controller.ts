@@ -9,7 +9,7 @@ import { createLinkApiValidator } from '#validators/links/create_link_api_valida
 export default class CreateLinkController {
 	constructor(protected readonly linkService: LinkService) {}
 
-	async execute({ request, response }: HttpContext) {
+	async execute({ request, response, serialize }: HttpContext) {
 		const { collectionId, ...payload } = await request.validateUsing(
 			createLinkApiValidator
 		);
@@ -18,9 +18,12 @@ export default class CreateLinkController {
 			...payload,
 			collectionId,
 		});
+		const { data: serializedLink } = await serialize(
+			LinkTransformer.transform(link)
+		);
 		return response.json({
 			message: 'Link created successfully',
-			link: LinkTransformer.transform(link),
+			link: serializedLink,
 		});
 	}
 }

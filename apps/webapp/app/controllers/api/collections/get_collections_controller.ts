@@ -8,12 +8,11 @@ import { CollectionService } from '#services/collections/collection_service';
 export default class GetCollectionsController {
 	constructor(protected readonly collectionService: CollectionService) {}
 
-	async render({ response }: HttpContext) {
+	async render({ serialize }: HttpContext) {
 		const collections =
 			await this.collectionService.getCollectionsForAuthenticatedUser();
-		return response.json({
-			collections:
-				CollectionTransformer.transform(collections).useVariant('withLinks'),
-		});
+		return serialize(
+			CollectionTransformer.transform(collections).useVariant('withLinks')
+		);
 	}
 }

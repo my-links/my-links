@@ -23,14 +23,18 @@ export default class AuthorizeExtensionController {
 			);
 		}
 
-		const token = await this.apiTokenService.createToken(auth.user!, {
+		const token = await this.apiTokenService.createToken(auth.getUserOrFail(), {
 			name: TOKEN_NAME,
 		});
+		const tokenValue = token.value?.release();
+		if (!tokenValue) {
+			throw new Error('Token creation did not return a usable value');
+		}
 
 		const callbackUrl = new URL(redirectUri);
 		// Fragment, not query string: it never reaches the server on the
 		// redirect itself nor on any subsequent request, unlike a query param.
-		callbackUrl.hash = `token=${encodeURIComponent(token.value!.release())}`;
+		callbackUrl.hash = `token=${encodeURIComponent(tokenValue)}`;
 
 		return response.redirect().toPath(callbackUrl.toString());
 	}
