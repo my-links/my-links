@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { useGlobalHotkeysStore } from '@minimalstuff/ui';
 
 import { KEYS } from '~/consts/keys';
-import { useGlobalHotkeysStore } from '~/stores/global_hotkeys_store';
 
 export type UseShortcutProps = {
 	enabled?: boolean;

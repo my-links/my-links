@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton, Modal } from '@minimalstuff/ui';
 
@@ -14,7 +13,36 @@ interface DashboardQuickActionProps extends DashboardHeaderProps {
 	onHandleUnfollow: () => void;
 }
 
-export function DashboardQuickAction({
+export function DashboardQuickAction(
+	props: Readonly<DashboardQuickActionProps>
+) {
+	const handleOpen = () => {
+		const call = Modal.call({
+			title: <Trans>Quick Actions</Trans>,
+			size: 'sm',
+			className: 'flex flex-col gap-4',
+			children: (
+				<QuickActionsContent {...props} onClose={() => Modal.end(call)} />
+			),
+		});
+	};
+
+	return (
+		<IconButton
+			icon="i-ant-design-plus-circle-outlined"
+			onClick={handleOpen}
+			aria-label="Quick actions"
+			variant="ghost"
+			className="flex-shrink-0 border border-gray-300/50 dark:border-gray-600/50"
+		/>
+	);
+}
+
+interface QuickActionsContentProps extends DashboardQuickActionProps {
+	onClose: () => void;
+}
+
+function QuickActionsContent({
 	onCreateLink,
 	onHandleShareCollection,
 	onCreateCollection,
@@ -22,102 +50,86 @@ export function DashboardQuickAction({
 	onEditCollection,
 	onDeleteCollection,
 	onHandleUnfollow,
-}: Readonly<DashboardQuickActionProps>) {
+	onClose,
+}: Readonly<QuickActionsContentProps>) {
 	const isMobile = useIsMobile();
 	const { activeCollection } = useDashboardProps();
-	const [isQuickActionsModalOpen, setIsQuickActionsModalOpen] = useState(false);
 
 	const handleQuickAction = (action: () => void) => {
 		action();
-		setIsQuickActionsModalOpen(false);
+		onClose();
 	};
 
 	return (
 		<>
-			<IconButton
-				icon="i-ant-design-plus-circle-outlined"
-				onClick={() => setIsQuickActionsModalOpen(true)}
-				aria-label="Quick actions"
-				variant="ghost"
-				className="flex-shrink-0 border border-gray-300/50 dark:border-gray-600/50"
-			/>
-			<Modal
-				isOpen={isQuickActionsModalOpen}
-				onClose={() => setIsQuickActionsModalOpen(false)}
-				title={<Trans>Quick Actions</Trans>}
-				size="sm"
-				className="flex flex-col gap-4"
-			>
-				<div className="flex flex-col gap-2">
-					<p className="text-sm text-gray-500 dark:text-gray-400">
-						<Trans>Links</Trans>
-					</p>
-					{activeCollection?.isOwner !== false && (
-						<Button
-							variant="primary"
-							onClick={() => handleQuickAction(onCreateLink)}
-						>
-							<Trans>
-								Create link{' '}
-								{!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
-							</Trans>
-						</Button>
-					)}
-				</div>
-				<div className="flex flex-col gap-2">
-					<div className="text-sm text-gray-500 dark:text-gray-400">
-						<Trans>Collections</Trans>
-					</div>
-					{activeCollection?.visibility === Visibility.PUBLIC && (
-						<Button
-							variant="primary"
-							onClick={() => handleQuickAction(onHandleShareCollection)}
-						>
-							<div className="flex items-center gap-2">
-								<div className="i-ant-design-share-alt-outlined w-5 h-5" />
-								<Trans>Share collection</Trans>
-							</div>
-						</Button>
-					)}
-
+			<div className="flex flex-col gap-2">
+				<p className="text-sm text-gray-500 dark:text-gray-400">
+					<Trans>Links</Trans>
+				</p>
+				{activeCollection?.isOwner !== false && (
 					<Button
-						variant="subtle"
-						onClick={() => handleQuickAction(onCreateCollection)}
+						color="primary"
+						onClick={() => handleQuickAction(onCreateLink)}
 					>
 						<Trans>
-							Create collection{' '}
-							{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
+							Create link {!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
 						</Trans>
 					</Button>
-
-					{!isFavorite && activeCollection?.isOwner !== false && (
-						<>
-							<Button
-								variant="outline"
-								onClick={() => handleQuickAction(onEditCollection)}
-							>
-								<Trans>Edit collection</Trans>
-							</Button>
-							<Button
-								variant="danger"
-								onClick={() => handleQuickAction(onDeleteCollection)}
-								className="text-left"
-							>
-								<Trans>Delete collection</Trans>
-							</Button>
-						</>
-					)}
-
-					{!isFavorite && activeCollection?.isOwner === false && (
-						<Button
-							variant="primary"
-							onClick={() => handleQuickAction(onHandleUnfollow)}
-						>
-							<Trans>Unfollow</Trans>
-						</Button>
-					)}
+				)}
+			</div>
+			<div className="flex flex-col gap-2">
+				<div className="text-sm text-gray-500 dark:text-gray-400">
+					<Trans>Collections</Trans>
 				</div>
-			</Modal>
+				{activeCollection?.visibility === Visibility.PUBLIC && (
+					<Button
+						color="primary"
+						onClick={() => handleQuickAction(onHandleShareCollection)}
+					>
+						<div className="flex items-center gap-2">
+							<div className="i-ant-design-share-alt-outlined w-5 h-5" />
+							<Trans>Share collection</Trans>
+						</div>
+					</Button>
+				)}
+
+				<Button
+					variant="subtle"
+					onClick={() => handleQuickAction(onCreateCollection)}
+				>
+					<Trans>
+						Create collection{' '}
+						{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
+					</Trans>
+				</Button>
+
+				{!isFavorite && activeCollection?.isOwner !== false && (
+					<>
+						<Button
+							variant="outline"
+							onClick={() => handleQuickAction(onEditCollection)}
+						>
+							<Trans>Edit collection</Trans>
+						</Button>
+						<Button
+							color="danger"
+							onClick={() => handleQuickAction(onDeleteCollection)}
+							className="text-left"
+						>
+							<Trans>Delete collection</Trans>
+						</Button>
+					</>
+				)}
+
+				{!isFavorite && activeCollection?.isOwner === false && (
+					<Button
+						color="primary"
+						onClick={() => handleQuickAction(onHandleUnfollow)}
+					>
+						<Trans>Unfollow</Trans>
+					</Button>
+				)}
+			</div>
 		</>
 	);
 }

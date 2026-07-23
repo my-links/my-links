@@ -207,7 +207,8 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 				<div className="flex items-center gap-2">
 					<Button
-						variant={searchType === 'both' ? 'primary' : 'secondary'}
+						color={searchType === 'both' ? 'primary' : 'neutral'}
+						variant={searchType === 'both' ? 'solid' : 'outline'}
 						size="sm"
 						onClick={() => setSearchType('both')}
 						className={clsx(
@@ -218,7 +219,8 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 						<Trans>All</Trans>
 					</Button>
 					<Button
-						variant={searchType === 'link' ? 'primary' : 'secondary'}
+						color={searchType === 'link' ? 'primary' : 'neutral'}
+						variant={searchType === 'link' ? 'solid' : 'outline'}
 						size="sm"
 						onClick={() => setSearchType('link')}
 						className={clsx(
@@ -229,7 +231,8 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 						<Trans>Links</Trans>
 					</Button>
 					<Button
-						variant={searchType === 'collection' ? 'primary' : 'secondary'}
+						color={searchType === 'collection' ? 'primary' : 'neutral'}
+						variant={searchType === 'collection' ? 'solid' : 'outline'}
 						size="sm"
 						onClick={() => setSearchType('collection')}
 						className={clsx(

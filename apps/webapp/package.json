@@ -68,6 +68,7 @@
 		"pg": "^8.22.0",
 		"proxy-addr": "^2.0.7",
 		"react": "^19.2.7",
+		"react-call": "^2.0.2",
 		"react-dom": "^19.2.7",
 		"reflect-metadata": "^0.2.2",
 		"ua-parser-js": "^2.0.10",

@@ -1,10 +1,9 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button, IconButton } from '@minimalstuff/ui';
+import { Button, ConfirmModal, IconButton, Modal } from '@minimalstuff/ui';
 
 import { ApiToken } from '~/types/app';
 import { formatDate } from '~/lib/format';
-import { useModalStore } from '~/stores/modal_store';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { CreateTokenModal } from './create_token_modal';
 import { NaContent } from '~/components/common/na_content';
@@ -20,19 +19,16 @@ const useGetCreatedToken = () => {
 
 export function ApiTokens() {
 	const { tokens, createToken, revokeToken } = useApiTokens();
-	const openModal = useModalStore((state) => state.open);
-	const openConfirmModal = useModalStore((state) => state.openConfirm);
-	const closeAll = useModalStore((state) => state.closeAll);
 
 	const newlyCreatedToken = useGetCreatedToken();
 
 	const handleCreateTokenModal = () => {
-		openModal({
+		const call = Modal.call({
 			title: <Trans>Create new token</Trans>,
 			children: (
 				<CreateTokenModal
 					onCreate={(name) => createToken(name)}
-					onClose={closeAll}
+					onClose={() => Modal.end(call)}
 				/>
 			),
 		});
@@ -42,7 +38,7 @@ export function ApiTokens() {
 		const token = tokens.find((t) => t.identifier === tokenId);
 		if (!token) return;
 
-		openConfirmModal({
+		await ConfirmModal.call({
 			title: (
 				<>
 					<Trans>Revoke</Trans> "<strong>{token.name}</strong>"
@@ -71,7 +67,8 @@ export function ApiTokens() {
 						{({ copied, copy }) => (
 							<Button
 								size="sm"
-								variant={copied ? 'secondary' : 'primary'}
+								variant={copied ? 'outline' : 'solid'}
+								color={copied ? 'neutral' : 'primary'}
 								onClick={() => void copy()}
 								className={
 									copied
@@ -93,7 +90,12 @@ export function ApiTokens() {
 				<h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
 					<Trans>API Tokens</Trans>
 				</h2>
-				<Button variant="secondary" size="sm" onClick={handleCreateTokenModal}>
+				<Button
+					variant="outline"
+					color="neutral"
+					size="sm"
+					onClick={handleCreateTokenModal}
+				>
 					<div className="i-tabler-plus w-4 h-4" />
 					<Trans>Create token</Trans>
 				</Button>
@@ -164,7 +166,7 @@ export function ApiTokens() {
 									icon="i-tabler-trash"
 									onClick={() => void handleRevokeToken(token.identifier)}
 									aria-label="Revoke token"
-									variant="danger"
+									color="danger"
 									size="sm"
 								/>
 							),

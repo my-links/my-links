@@ -6,6 +6,7 @@ import { i18n } from '@lingui/core';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useMemo } from 'react';
 import { I18nProvider } from '@lingui/react';
+import { ModalProvider } from '@minimalstuff/ui';
 import { PageProps } from '@adonisjs/inertia/types';
 import { TuyauProvider } from '@adonisjs/inertia/react';
 
@@ -14,7 +15,6 @@ import { tuyauClient } from '~/lib/tuyau';
 import type { Locale } from '~/types/i18n';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { usePageTransition } from '~/hooks/use_page_transition';
-import { ModalProvider } from '~/components/common/modal_provider';
 
 interface BaseLayoutProps {
 	children: React.ReactNode;

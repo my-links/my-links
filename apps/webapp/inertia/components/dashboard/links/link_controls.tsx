@@ -1,12 +1,11 @@
 import { router } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
-import { IconButton } from '@minimalstuff/ui';
+import { IconButton, Modal } from '@minimalstuff/ui';
 import { Link as InertiaLink } from '@adonisjs/inertia/react';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
 
 import { urlFor } from '~/lib/tuyau';
-import { useModalStore } from '~/stores/modal_store';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { EditLinkModal } from '../modals/edit_link_modal';
 import { DeleteLinkModal } from '../modals/delete_link_modal';
@@ -28,8 +27,6 @@ interface LinkControlsProps {
 
 export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 	const { activeCollection, myCollections } = useDashboardProps();
-	const openModal = useModalStore((state) => state.open);
-	const closeAll = useModalStore((state) => state.closeAll);
 
 	const isOwner = activeCollection?.isOwner !== false;
 
@@ -66,19 +63,27 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 	const handleEditLink = () => {
 		closeMenu();
 		if (!linkWithCollection) return;
-		openModal({
+		const call = Modal.call({
 			title: <Trans>Edit a link</Trans>,
-			children: <EditLinkModal link={linkWithCollection} onClose={closeAll} />,
+			children: (
+				<EditLinkModal
+					link={linkWithCollection}
+					onClose={() => Modal.end(call)}
+				/>
+			),
 		});
 	};
 
 	const handleDeleteLink = () => {
 		closeMenu();
 		if (!linkWithCollection) return;
-		openModal({
+		const call = Modal.call({
 			title: <Trans>Delete a link</Trans>,
 			children: (
-				<DeleteLinkModal link={linkWithCollection} onClose={closeAll} />
+				<DeleteLinkModal
+					link={linkWithCollection}
+					onClose={() => Modal.end(call)}
+				/>
 			),
 		});
 	};
