@@ -9,7 +9,7 @@ import { createCollectionValidator } from '#validators/collections/create_collec
 export default class CreateCollectionController {
 	constructor(protected readonly collectionService: CollectionService) {}
 
-	async execute({ request, response }: HttpContext) {
+	async execute({ request, response, serialize }: HttpContext) {
 		const payload = await request.validateUsing(createCollectionValidator);
 		const collection = await this.collectionService.createCollection({
 			name: payload.name,
@@ -17,10 +17,12 @@ export default class CreateCollectionController {
 			visibility: payload.visibility,
 			icon: payload.icon ?? null,
 		});
+		const { data: serializedCollection } = await serialize(
+			CollectionTransformer.transform(collection).useVariant('withLinks')
+		);
 		return response.json({
 			message: 'Collection created successfully',
-			collection:
-				CollectionTransformer.transform(collection).useVariant('withLinks'),
+			collection: serializedCollection,
 		});
 	}
 }
