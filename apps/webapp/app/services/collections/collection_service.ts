@@ -46,7 +46,7 @@ export class CollectionService {
 	async getCollectionsForAuthenticatedUser() {
 		const context = this.getAuthContext();
 		return await Collection.query()
-			.where('author_id', context.auth.user!.id)
+			.where('author_id', context.auth.getUserOrFail().id)
 			.orderBy('name', 'asc')
 			.preload('links', (q) => {
 				q.orderBy('favorite', 'desc');
@@ -62,7 +62,7 @@ export class CollectionService {
 		const context = this.getAuthContext();
 		return Collection.create({
 			...payload,
-			authorId: context.auth.user!.id,
+			authorId: context.auth.getUserOrFail().id,
 		});
 	}
 
@@ -70,12 +70,12 @@ export class CollectionService {
 		const context = this.getAuthContext();
 		const collection = await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
+			.andWhere('author_id', context.auth.getUserOrFail().id)
 			.firstOrFail();
 
 		await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
+			.andWhere('author_id', context.auth.getUserOrFail().id)
 			.update(payload);
 
 		// If collection becomes private, remove all followers
@@ -93,7 +93,7 @@ export class CollectionService {
 		const context = this.getAuthContext();
 		const collection = await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
+			.andWhere('author_id', context.auth.getUserOrFail().id)
 			.firstOrFail();
 
 		if (collection.isDefault) {
@@ -104,7 +104,7 @@ export class CollectionService {
 
 		return Collection.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.user!.id)
+			.andWhere('author_id', context.auth.getUserOrFail().id)
 			.orderBy('name', 'asc')
 			.delete();
 	}
@@ -210,10 +210,6 @@ export class CollectionService {
 	}
 
 	private getAuthContext() {
-		const context = HttpContext.getOrFail();
-		if (!context.auth.user?.id) {
-			throw new Error('User not authenticated');
-		}
-		return context;
+		return HttpContext.getOrFail();
 	}
 }
