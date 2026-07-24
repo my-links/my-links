@@ -5,5 +5,7 @@ export const baseLinkValidator = vine.object({
 	description: vine.string().trim().maxLength(300).optional(),
 	url: vine.string().normalizeUrl({ defaultProtocol: 'https' }).trim(),
 	favorite: vine.boolean(),
-	collectionIds: vine.array(vine.number()).minLength(1),
+	// May be empty — the service falls back to the user's Inbox collection so
+	// a link is never left without a home (see LinkService.resolveCollectionIds).
+	collectionIds: vine.array(vine.number()),
 });

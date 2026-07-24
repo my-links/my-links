@@ -19,7 +19,7 @@ export default class CreateLinkController {
 			collectionIds,
 		});
 		const { data: serializedLink } = await serialize(
-			LinkTransformer.transform(link)
+			LinkTransformer.transform(link).useVariant('withCollections')
 		);
 		return response.json({
 			message: 'Link created successfully',

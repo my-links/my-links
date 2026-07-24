@@ -26,16 +26,10 @@ export function EditLinkModal({
 		collectionIds: link.collectionIds,
 	});
 
-	const isFormValid =
-		values.name.trim() !== '' &&
-		values.url.trim() !== '' &&
-		values.collectionIds.length > 0;
+	const isFormValid = values.name.trim() !== '' && values.url.trim() !== '';
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (values.collectionIds.length === 0) {
-			return;
-		}
 
 		updateLink.mutate(
 			{

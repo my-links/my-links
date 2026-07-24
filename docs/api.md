@@ -227,6 +227,7 @@ Create a new link in a collection.
 		"description": "Link description",
 		"url": "https://example.com",
 		"favorite": false,
+		"collectionIds": [1],
 		"authorId": 1,
 		"createdAt": "2024-01-01T00:00:00.000Z",
 		"updatedAt": "2024-01-01T00:00:00.000Z"
@@ -267,7 +268,7 @@ Update an existing link.
 - `description` (optional): Link description (max 300 characters)
 - `url` (required): Link URL (valid URL format)
 - `favorite` (required): Whether the link is marked as favorite (boolean)
-- `collectionIds` (required): IDs of the collections this link belongs to (at least one)
+- `collectionIds` (required): IDs of the collections this link belongs to (may be empty — falls back to the Inbox collection)
 
 **Response:**
 

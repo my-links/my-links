@@ -29,10 +29,7 @@ export function CreateLinkModal({
 		...initialValues,
 	});
 
-	const isFormValid =
-		values.name.trim() !== '' &&
-		values.url.trim() !== '' &&
-		values.collectionIds.length > 0;
+	const isFormValid = values.name.trim() !== '' && values.url.trim() !== '';
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

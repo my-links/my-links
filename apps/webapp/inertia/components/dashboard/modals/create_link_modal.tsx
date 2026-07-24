@@ -29,7 +29,6 @@ export function CreateLinkModal({ onClose }: Readonly<CreateLinkModalProps>) {
 			data.name !== '' &&
 			isValidHttpUrl(data.url) &&
 			data.favorite !== null &&
-			data.collectionIds.length > 0 &&
 			!processing,
 		[data, processing]
 	);

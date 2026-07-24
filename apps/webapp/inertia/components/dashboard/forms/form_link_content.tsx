@@ -111,7 +111,6 @@ export const FormLinkContent = ({
 					className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 				>
 					<Trans>Collections ({collections.length})</Trans>
-					<span className="text-red-500 ml-1">*</span>
 				</span>
 				<div
 					role="group"
@@ -145,6 +144,13 @@ export const FormLinkContent = ({
 						</div>
 					))}
 				</div>
+				{data.collectionIds.length === 0 && (
+					<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+						<Trans>
+							No collection selected — this link goes to your Inbox.
+						</Trans>
+					</p>
+				)}
 				{collectionsError && (
 					<p className="mt-1 text-sm text-red-600 dark:text-red-400">
 						{collectionsError}

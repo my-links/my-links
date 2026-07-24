@@ -52,8 +52,7 @@ export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 		const isFormValid =
 			trimmedName !== '' &&
 			isValidHttpUrl(trimmedUrl) &&
-			data.favorite !== null &&
-			data.collectionIds.length > 0;
+			data.favorite !== null;
 
 		return isFormEdited && isFormValid && !processing;
 	}, [data, link, processing]);
