@@ -4,7 +4,6 @@
 	"private": true,
 	"license": "GPL-3.0-only",
 	"type": "module",
-	"packageManager": "pnpm@11.0.9",
 	"scripts": {
 		"dev:webapp": "pnpm --filter @my-links/webapp dev",
 		"dev:extension": "pnpm --filter @my-links/extension dev",
@@ -40,5 +39,6 @@
 	},
 	"volta": {
 		"node": "24.14.0"
-	}
+	},
+	"packageManager": "pnpm@11.0.9"
 }
