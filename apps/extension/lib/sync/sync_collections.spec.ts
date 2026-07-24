@@ -1,11 +1,16 @@
 import { fakeBrowser } from 'wxt/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { fetchCollections } from '@/lib/api/collections';
 import { syncCollections } from '@/lib/sync/sync_collections';
-import { collectionsCacheStorage, syncBackoffStorage } from '@/lib/storage';
+import { fetchCollections, UnauthorizedApiError } from '@/lib/api/collections';
+import {
+	authInvalidStorage,
+	collectionsCacheStorage,
+	syncBackoffStorage,
+} from '@/lib/storage';
 
-vi.mock('@/lib/api/collections', () => ({
+vi.mock('@/lib/api/collections', async (importOriginal) => ({
+	...(await importOriginal<typeof import('@/lib/api/collections')>()),
 	fetchCollections: vi.fn(),
 }));
 
@@ -36,6 +41,34 @@ describe('syncCollections', () => {
 		const backoffState = await syncBackoffStorage.getValue();
 		expect(backoffState.consecutiveFailures).toBe(1);
 		expect(backoffState.nextAttemptAt).toBeGreaterThan(Date.now());
+	});
+
+	it('should flag the token as invalid when the fetch is rejected with 401', async () => {
+		mockedFetchCollections.mockRejectedValue(
+			new UnauthorizedApiError('token expired')
+		);
+
+		await syncCollections();
+
+		expect(await authInvalidStorage.getValue()).toBe(true);
+	});
+
+	it('should not flag the token as invalid on a plain network failure', async () => {
+		await authInvalidStorage.setValue(true);
+		mockedFetchCollections.mockRejectedValue(new Error('network down'));
+
+		await syncCollections();
+
+		expect(await authInvalidStorage.getValue()).toBe(false);
+	});
+
+	it('should clear the invalid-token flag once a sync succeeds', async () => {
+		await authInvalidStorage.setValue(true);
+		mockedFetchCollections.mockResolvedValue([]);
+
+		await syncCollections();
+
+		expect(await authInvalidStorage.getValue()).toBe(false);
 	});
 
 	it('should skip fetching while backing off', async () => {

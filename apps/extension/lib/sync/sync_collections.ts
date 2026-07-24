@@ -1,5 +1,9 @@
-import { fetchCollections } from '@/lib/api/collections';
-import { collectionsCacheStorage, syncBackoffStorage } from '@/lib/storage';
+import { fetchCollections, UnauthorizedApiError } from '@/lib/api/collections';
+import {
+	authInvalidStorage,
+	collectionsCacheStorage,
+	syncBackoffStorage,
+} from '@/lib/storage';
 import {
 	computeBackoffAfterFailure,
 	INITIAL_SYNC_BACKOFF_STATE,
@@ -37,11 +41,15 @@ export async function syncCollections(): Promise<void> {
 				fetchedAt: Date.now(),
 			});
 			await syncBackoffStorage.setValue(INITIAL_SYNC_BACKOFF_STATE);
+			await authInvalidStorage.setValue(false);
 		} catch (error) {
 			console.error('MyLinks background sync failed', error);
 			await syncBackoffStorage.setValue(
 				computeBackoffAfterFailure(backoffState, Date.now())
 			);
+			// Only claim the token is dead when the server explicitly said so
+			// (401) — a network blip must not masquerade as an auth failure.
+			await authInvalidStorage.setValue(error instanceof UnauthorizedApiError);
 		}
 	} finally {
 		isSyncing = false;
