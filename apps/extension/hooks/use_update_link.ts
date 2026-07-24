@@ -27,6 +27,10 @@ function toOptimisticLink(
 		url: input.url,
 		description: input.description ?? null,
 		favorite: input.favorite,
+		// Editing a link never touches its click history — keep whatever the
+		// last sync reported rather than resetting the counter on screen.
+		clicks: previous?.clicks ?? 0,
+		lastClickedAt: previous?.lastClickedAt ?? null,
 	};
 }
 

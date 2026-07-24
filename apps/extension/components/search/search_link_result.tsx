@@ -1,6 +1,7 @@
 import type { SearchResult } from '@/lib/api/types';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
 import { LinkFavicon } from '@/components/collections/link_favicon';
+import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
 
 interface SearchLinkResultProps {
 	result: SearchResult;
@@ -14,12 +15,13 @@ export function SearchLinkResult({ result }: Readonly<SearchLinkResultProps>) {
 	}
 
 	const faviconUrl = instanceUrl
-		? `${instanceUrl}/favicon?url=${encodeURIComponent(result.url)}`
+		? buildFaviconUrl(instanceUrl, result.url)
 		: null;
+	const href = instanceUrl ? buildVisitUrl(instanceUrl, result.id) : result.url;
 
 	return (
 		<a
-			href={result.url}
+			href={href}
 			target="_blank"
 			rel="noreferrer"
 			title={result.url}

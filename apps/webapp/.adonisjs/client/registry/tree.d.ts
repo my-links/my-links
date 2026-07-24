@@ -27,12 +27,6 @@ export interface ApiDefinition {
     follow: typeof routes['collection.follow']
     unfollow: typeof routes['collection.unfollow']
   }
-  link: {
-    create: typeof routes['link.create']
-    edit: typeof routes['link.edit']
-    toggleFavorite: typeof routes['link.toggle-favorite']
-    delete: typeof routes['link.delete']
-  }
   search: typeof routes['search']
   extension: {
     authorize: typeof routes['extension.authorize']
@@ -76,5 +70,12 @@ export interface ApiDefinition {
   }
   apiTokens: {
     index: typeof routes['api-tokens.index']
+  }
+  link: {
+    visit: typeof routes['link.visit']
+    create: typeof routes['link.create']
+    edit: typeof routes['link.edit']
+    toggleFavorite: typeof routes['link.toggle-favorite']
+    delete: typeof routes['link.delete']
   }
 }

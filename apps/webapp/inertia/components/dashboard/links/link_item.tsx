@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 
+import { urlFor } from '~/lib/tuyau';
 import { LinkFavicon } from './link_favicon';
 import { hasCollectionIds } from '~/lib/link';
 import { LinkControls, LinkControlsRef } from './link_controls';
@@ -45,9 +46,13 @@ export function LinkItem({
 	const isCompact = layout === 'compact';
 	const isList = layout === 'list';
 
+	// Opened through the server redirect rather than straight to `url`, so a
+	// click counts the same here as it does from the browser extension.
+	const visitUrl = urlFor('link.visit', { id: link.id });
+
 	return (
 		<a
-			href={url}
+			href={visitUrl}
 			target="_blank"
 			rel="noreferrer"
 			onClick={handleClick}

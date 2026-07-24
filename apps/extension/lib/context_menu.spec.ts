@@ -133,6 +133,8 @@ describe('handleContextMenuClick', () => {
 							url: 'https://example.com/page',
 							description: null,
 							favorite: false,
+							clicks: 0,
+							lastClickedAt: null,
 						},
 					],
 				},

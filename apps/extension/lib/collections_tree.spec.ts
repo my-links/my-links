@@ -23,6 +23,8 @@ function buildLink(overrides: Partial<LinkResource> = {}): LinkResource {
 		url: 'https://example.com',
 		description: null,
 		favorite: false,
+		clicks: 0,
+		lastClickedAt: null,
 		...overrides,
 	};
 }

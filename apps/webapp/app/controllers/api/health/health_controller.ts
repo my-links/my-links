@@ -22,6 +22,7 @@ const capabilities = {
 	extensionAuthHandoff: true,
 	apiSearch: true,
 	syncDelta: true,
+	clickTracking: true,
 } as const;
 
 export default class HealthController {

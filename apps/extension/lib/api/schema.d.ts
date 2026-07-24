@@ -469,11 +469,13 @@ export interface components {
 				isOwner: boolean;
 				links?: {
 					authorId: number;
+					clicks: number;
 					collectionIds: number[];
 					createdAt: string;
 					description: string | null;
 					favorite: boolean;
 					id: number;
+					lastClickedAt: string | null;
 					name: string;
 					updatedAt: string;
 					url: string;
@@ -508,11 +510,13 @@ export interface components {
 					updatedAt: string;
 				};
 				authorId: number;
+				clicks: number;
 				collectionIds: number[];
 				createdAt: string;
 				description: string | null;
 				favorite: boolean;
 				id: number;
+				lastClickedAt: string | null;
 				name: string;
 				updatedAt: string;
 				url: string;
@@ -544,11 +548,13 @@ export interface components {
 				isOwner: boolean;
 				links?: {
 					authorId: number;
+					clicks: number;
 					collectionIds: number[];
 					createdAt: string;
 					description: string | null;
 					favorite: boolean;
 					id: number;
+					lastClickedAt: string | null;
 					name: string;
 					updatedAt: string;
 					url: string;
@@ -569,11 +575,13 @@ export interface components {
 					updatedAt: string;
 				};
 				authorId: number;
+				clicks: number;
 				collectionIds: number[];
 				createdAt: string;
 				description: string | null;
 				favorite: boolean;
 				id: number;
+				lastClickedAt: string | null;
 				name: string;
 				updatedAt: string;
 				url: string;
@@ -582,6 +590,7 @@ export interface components {
 		HealthRenderResponse: {
 			capabilities: {
 				apiSearch: boolean;
+				clickTracking: boolean;
 				extensionAuthHandoff: boolean;
 				syncDelta: boolean;
 			};
@@ -635,11 +644,13 @@ export interface components {
 					updatedAt: string;
 				};
 				authorId: number;
+				clicks: number;
 				collectionIds: number[];
 				createdAt: string;
 				description: string | null;
 				favorite: boolean;
 				id: number;
+				lastClickedAt: string | null;
 				name: string;
 				updatedAt: string;
 				url: string;
