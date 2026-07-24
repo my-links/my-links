@@ -86,6 +86,11 @@ export function LinkFormFields({
 							disabled={isDisabled}
 						/>
 					))}
+					{values.collectionIds.length === 0 && (
+						<p className="text-xs text-gray-500 dark:text-gray-400">
+							No collection selected — this link goes to your Inbox.
+						</p>
+					)}
 				</fieldset>
 			)}
 			<Checkbox

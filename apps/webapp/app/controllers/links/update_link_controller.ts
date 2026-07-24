@@ -18,9 +18,9 @@ export default class UpdateLinkController {
 			...payload
 		} = await request.validateUsing(updateLinkValidator);
 
-		await this.linkService.updateLink(linkId, payload);
+		const link = await this.linkService.updateLink(linkId, payload);
 		return this.collectionsService.redirectToCollectionId(
-			payload.collectionIds[0]
+			link.collections[0].id
 		);
 	}
 }

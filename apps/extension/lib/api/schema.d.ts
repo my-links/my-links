@@ -470,6 +470,7 @@ export interface components {
 					updatedAt: string;
 				};
 				authorId: number;
+				collectionIds: number[];
 				createdAt: string;
 				description: string | null;
 				favorite: boolean;

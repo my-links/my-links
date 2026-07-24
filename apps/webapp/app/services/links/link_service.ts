@@ -25,23 +25,25 @@ export class LinkService {
 			userId
 		);
 
-		return db.transaction(async (transaction) => {
-			const link = await Link.create(
+		const link = await db.transaction(async (transaction) => {
+			const createdLink = await Link.create(
 				{ ...linkAttributes, authorId: userId },
 				{ client: transaction }
 			);
-			await link
+			await createdLink
 				.related('collections')
 				.attach(resolvedCollectionIds, transaction);
-			return link;
+			return createdLink;
 		});
+
+		return this.getLinkById(link.id, userId);
 	}
 
 	async updateLink(id: number, payload: LinkPayload) {
 		const userId = this.getAuthenticatedUserId();
 		const { collectionIds, ...linkAttributes } = payload;
 
-		return db.transaction(async (transaction) => {
+		await db.transaction(async (transaction) => {
 			const link = await Link.query({ client: transaction })
 				.where('id', id)
 				.andWhere('author_id', userId)
@@ -59,9 +61,9 @@ export class LinkService {
 					.related('collections')
 					.sync(resolvedCollectionIds, true, transaction);
 			}
-
-			return link;
 		});
+
+		return this.getLinkById(id, userId);
 	}
 
 	private async resolveCollectionIds(

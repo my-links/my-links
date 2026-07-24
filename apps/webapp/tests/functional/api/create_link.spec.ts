@@ -191,8 +191,9 @@ test.group('API update link — collection membership', (group) => {
 		);
 	});
 
-	test('should reject an update that would leave a link with no collections', async ({
+	test('should fall back to the Inbox collection when all collections are cleared on update', async ({
 		client,
+		assert,
 	}) => {
 		const user = await createUser();
 		const work = await createCollection(user, 'Work');
@@ -209,10 +210,6 @@ test.group('API update link — collection membership', (group) => {
 			.loginAs(user);
 		const linkId = createResponse.body().link.id;
 
-		// The UI never lets a user uncheck every collection, and the API
-		// validator (`collectionIds.minLength(1)`) enforces the same rule —
-		// the "last membership removed" case only happens via collection
-		// deletion, covered by the delete-collection orphan test below.
 		const updateResponse = await client
 			.put(`/api/v1/links/${linkId}`)
 			.json({
@@ -223,7 +220,17 @@ test.group('API update link — collection membership', (group) => {
 			})
 			.withGuard('api')
 			.loginAs(user);
-		updateResponse.assertStatus(422);
+		updateResponse.assertStatus(200);
+
+		const defaultCollection = await getDefaultCollection(user);
+		const link = await Link.query()
+			.where('id', linkId)
+			.preload('collections')
+			.firstOrFail();
+		assert.sameMembers(
+			link.collections.map((collection) => collection.id),
+			[defaultCollection.id]
+		);
 	});
 });
 
