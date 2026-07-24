@@ -11,19 +11,30 @@ import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
 
 interface EditLinkModalProps {
-	link: Data.Link.Variants['withCollection'];
+	link: Data.Link.Variants['withCollections'];
 	onClose: () => void;
+}
+
+function sameMembers(left: number[], right: number[]): boolean {
+	if (left.length !== right.length) return false;
+	const rightSet = new Set(right);
+	return left.every((id) => rightSet.has(id));
 }
 
 export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 	const { activeCollection, allCollections } = useDashboardProps();
+	const initialCollectionIds =
+		link.collectionIds.length > 0
+			? link.collectionIds
+			: [activeCollection?.id ?? allCollections[0]?.id].filter(
+					(id): id is number => id !== undefined
+				);
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: link.name,
 		description: link.description,
 		url: link.url,
 		favorite: link.favorite,
-		collectionId:
-			link.collectionId ?? activeCollection?.id ?? allCollections[0]?.id,
+		collectionIds: initialCollectionIds,
 	});
 
 	const canSubmit = useMemo<boolean>(() => {
@@ -36,13 +47,13 @@ export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 			trimmedUrl !== link.url ||
 			trimmedDescription !== link.description ||
 			data.favorite !== link.favorite ||
-			data.collectionId !== link.collectionId;
+			!sameMembers(data.collectionIds, link.collectionIds);
 
 		const isFormValid =
 			trimmedName !== '' &&
 			isValidHttpUrl(trimmedUrl) &&
 			data.favorite !== null &&
-			data.collectionId !== null;
+			data.collectionIds.length > 0;
 
 		return isFormEdited && isFormValid && !processing;
 	}, [data, link, processing]);
