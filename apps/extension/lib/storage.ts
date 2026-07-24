@@ -49,10 +49,22 @@ export const syncBackoffStorage = storage.defineItem<SyncBackoffState>(
 );
 
 /**
+ * True when the last sync attempt was rejected with a 401 — the stored token
+ * is dead (deleted/expired) and needs a reconnect, not just a retry. Kept
+ * separate from the backoff state so the UI can show a distinct "reconnect"
+ * prompt rather than a generic "stale" badge.
+ */
+export const authInvalidStorage = storage.defineItem<boolean>(
+	'local:authInvalid',
+	{ fallback: false }
+);
+
+/**
  * Switching instances or logging out must never leak data across origins:
  * the token is instance-specific, and any cached API data (TanStack Query
  * cache) is invalidated by the caller once this resolves.
  */
 export async function clearExtensionSession(): Promise<void> {
 	await apiTokenStorage.removeValue();
+	await authInvalidStorage.removeValue();
 }

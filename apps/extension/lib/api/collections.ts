@@ -9,6 +9,15 @@ export class CreateCollectionError extends Error {}
 export class UpdateCollectionError extends Error {}
 export class DeleteCollectionError extends Error {}
 
+/**
+ * The instance rejected the API token (deleted or expired) — distinct from a
+ * generic fetch failure so the sync layer can prompt for a reconnect instead
+ * of silently backing off as if the server were merely unreachable.
+ */
+export class UnauthorizedApiError extends Error {}
+
+const HTTP_UNAUTHORIZED = 401;
+
 export interface CollectionInput {
 	name: string;
 	description: string | null;
@@ -18,9 +27,18 @@ export interface CollectionInput {
 
 export async function fetchCollections(): Promise<CollectionWithLinks[]> {
 	const client = await createExtensionApiClient();
-	const { data: collectionsResponse, error } = await client.GET(
-		'/api/v1/collections'
-	);
+	const {
+		data: collectionsResponse,
+		error,
+		response,
+	} = await client.GET('/api/v1/collections');
+
+	// Checked before `error` because the OpenAPI spec declares no error
+	// responses, so TypeScript narrows `response` to `never` inside an
+	// `if (error)` block even though 401s happen at runtime.
+	if (response.status === HTTP_UNAUTHORIZED) {
+		throw new UnauthorizedApiError('The API token is invalid or expired.');
+	}
 
 	if (error) {
 		throw new FetchCollectionsError(

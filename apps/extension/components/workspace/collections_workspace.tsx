@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Button, ModalProvider, ThemeToggle } from '@minimalstuff/ui';
 
-import { StaleBadge } from '@/components/common/stale_badge';
 import { SearchPanel } from '@/components/search/search_panel';
 import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
+import { SyncStatusBadge } from '@/components/common/sync_status_badge';
 import { QuickAddButton } from '@/components/quick_add/quick_add_button';
 import { NewCollectionButton } from '@/components/collections/new_collection_button';
 
@@ -51,7 +51,7 @@ export function CollectionsWorkspace() {
 			<div className="flex items-center justify-between gap-2 p-4 pb-2">
 				<div className="flex min-w-0 items-center gap-2">
 					<p className="text-sm truncate">Connected to {instanceUrl}.</p>
-					<StaleBadge />
+					<SyncStatusBadge instanceUrl={instanceUrl} />
 				</div>
 				<div className="flex flex-shrink-0 items-center gap-1">
 					<QuickAddButton />
