@@ -15,7 +15,7 @@ export default defineConfig({
 		// user-supplied origins, so their host permission is requested at
 		// runtime (`browser.permissions.request`) instead of being listed
 		// here as a fixed `host_permissions` entry.
-		permissions: ['storage', 'identity'],
+		permissions: ['storage', 'identity', 'alarms'],
 		optional_host_permissions: ['*://*/*'],
 		// Empty object: the extension has an action (icon), but no popup —
 		// clicking it opens the side panel instead (see background.ts).
