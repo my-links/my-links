@@ -32,7 +32,8 @@ export default class ShowFavoritesController {
 			myPublicCollections: CollectionTransformer.transform(myPublicCollections),
 			myPrivateCollections:
 				CollectionTransformer.transform(myPrivateCollections),
-			favoriteLinks: LinkTransformer.transform(favoriteLinks),
+			favoriteLinks:
+				LinkTransformer.transform(favoriteLinks).useVariant('withCollections'),
 			activeCollection: null,
 		});
 	}

@@ -13,13 +13,13 @@ export default class CreateLinkController {
 	) {}
 
 	async execute({ request }: HttpContext) {
-		const { collectionId, ...payload } =
+		const { collectionIds, ...payload } =
 			await request.validateUsing(createLinkValidator);
 
 		await this.linkService.createLink({
 			...payload,
-			collectionId,
+			collectionIds,
 		});
-		return this.collectionsService.redirectToCollectionId(collectionId);
+		return this.collectionsService.redirectToCollectionId(collectionIds[0]);
 	}
 }

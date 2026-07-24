@@ -25,9 +25,32 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 	}
 
 	withLinks() {
+		const base = this.toObject();
+		const links = this.whenLoaded(this.resource.links);
+
+		// Only the owner may see which OTHER collections a link belongs to —
+		// followers/anonymous visitors of a shared collection get bare links.
+		return {
+			...base,
+			links: base.isOwner
+				? LinkTransformer.transform(links)?.useVariant('withCollections')
+				: LinkTransformer.transform(links),
+		};
+	}
+
+	/**
+	 * Same as `withLinks()`, but for call sites that only ever query the
+	 * authenticated user's own collections (e.g. `author_id` is part of the
+	 * query itself) — no owner/follower branch to resolve. Kept separate so
+	 * the OpenAPI generator can infer a concrete `collectionIds` type here,
+	 * which it can't do across `withLinks()`'s conditional variant.
+	 */
+	withOwnLinks() {
 		return {
 			...this.toObject(),
-			links: LinkTransformer.transform(this.whenLoaded(this.resource.links)),
+			links: LinkTransformer.transform(
+				this.whenLoaded(this.resource.links)
+			)?.useVariant('withCollections'),
 		};
 	}
 }
