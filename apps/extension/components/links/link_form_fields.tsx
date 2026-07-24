@@ -94,7 +94,7 @@ export function LinkFormFields({
 					))}
 					{values.collectionIds.length === 0 && (
 						<p className="text-xs text-gray-500 dark:text-gray-400">
-							No collection selected — this link goes to your Inbox.
+							No collection selected. This link goes to your Inbox.
 						</p>
 					)}
 				</fieldset>
