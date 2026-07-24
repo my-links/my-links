@@ -12,6 +12,11 @@ export default class extends BaseSchema {
       CREATE INDEX ON links USING gin(to_tsvector('french', name));
       CREATE INDEX ON collections USING gin(to_tsvector('french', name));
     `);
+		// `migration:fresh` drops tables but not functions, so a leftover
+		// `search_text` from a previous run can survive with a different
+		// signature (Phase 4 changed its return columns). Drop it first so this
+		// `CREATE OR REPLACE` can't fail with "cannot change return type".
+		this.schema.raw('DROP FUNCTION IF EXISTS search_text(text, integer);');
 		this.schema.raw(`
       CREATE OR REPLACE FUNCTION search_text(search_query TEXT, p_author_id INTEGER)
       RETURNS TABLE (
