@@ -2,6 +2,10 @@ import { storage } from 'wxt/utils/storage';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
 import {
+	EMPTY_BOOKMARK_MAPPING,
+	type BookmarkMapping,
+} from '@/lib/bookmarks/mapping';
+import {
 	INITIAL_SYNC_BACKOFF_STATE,
 	type SyncBackoffState,
 } from '@/lib/sync/backoff';
@@ -81,6 +85,17 @@ const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
 export const bookmarkMirrorStorage = storage.defineItem<BookmarkMirrorState>(
 	'local:bookmarkMirror',
 	{ fallback: DISABLED_BOOKMARK_MIRROR }
+);
+
+/**
+ * Which native bookmark node stands for which collection/link. Persisted
+ * because it is also the mirror's safety fence: only nodes recorded here may
+ * ever be deleted, so the takeover backup and anything the user filed by
+ * hand cannot be touched by a diff.
+ */
+export const bookmarkMappingStorage = storage.defineItem<BookmarkMapping>(
+	'local:bookmarkMapping',
+	{ fallback: EMPTY_BOOKMARK_MAPPING }
 );
 
 /**
