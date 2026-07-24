@@ -120,7 +120,7 @@ describe('diffBookmarkTree', () => {
 		);
 
 		expect(operations).toEqual([
-			{ kind: 'remove-bookmark', nodeId: 'b1', collectionId: 1, linkId: 10 },
+			{ kind: 'remove-bookmark', nodeId: 'b1', linkKey: '1:10' },
 		]);
 	});
 

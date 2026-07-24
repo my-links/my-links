@@ -16,9 +16,15 @@ import {
 	MAX_CONCURRENT_BOOKMARK_WRITES,
 } from '@/lib/bookmarks/apply';
 import {
+	collectFavoriteLinks,
+	diffPinnedFavorites,
+	resolveRankedFavorites,
+} from '@/lib/bookmarks/pinned';
+import {
 	bookmarkMappingStorage,
 	bookmarkMirrorStorage,
 	collectionsCacheStorage,
+	pinnedRankingStorage,
 } from '@/lib/storage';
 
 let isMirroring = false;
@@ -83,11 +89,21 @@ export async function syncBookmarks(): Promise<void> {
 			return;
 		}
 
-		const operations = diffBookmarkTree(
-			buildDesiredTree(collectionsCache.collections),
-			rootChildren,
-			mapping
+		const { bookmarks: pinnedFavorites, ranking } = resolveRankedFavorites(
+			collectFavoriteLinks(collectionsCache.collections),
+			await pinnedRankingStorage.getValue(),
+			Date.now()
 		);
+		await pinnedRankingStorage.setValue(ranking);
+
+		const operations = [
+			...diffBookmarkTree(
+				buildDesiredTree(collectionsCache.collections),
+				rootChildren,
+				mapping
+			),
+			...diffPinnedFavorites(pinnedFavorites, rootId, rootChildren, mapping),
+		];
 		if (operations.length === 0) {
 			return;
 		}

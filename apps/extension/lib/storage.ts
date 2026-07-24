@@ -2,6 +2,10 @@ import { storage } from 'wxt/utils/storage';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
 import {
+	EMPTY_PINNED_RANKING,
+	type PinnedRanking,
+} from '@/lib/bookmarks/pinned';
+import {
 	EMPTY_BOOKMARK_MAPPING,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
@@ -96,6 +100,16 @@ export const bookmarkMirrorStorage = storage.defineItem<BookmarkMirrorState>(
 export const bookmarkMappingStorage = storage.defineItem<BookmarkMapping>(
 	'local:bookmarkMapping',
 	{ fallback: EMPTY_BOOKMARK_MAPPING }
+);
+
+/**
+ * The order favourites are pinned in, and when it was last worked out.
+ * Persisted so the bar isn't reshuffled on every sync: the ranking is only
+ * recomputed daily, or when the set of favourites itself changes.
+ */
+export const pinnedRankingStorage = storage.defineItem<PinnedRanking>(
+	'local:pinnedRanking',
+	{ fallback: EMPTY_PINNED_RANKING }
 );
 
 /**
