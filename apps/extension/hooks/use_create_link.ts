@@ -30,6 +30,10 @@ function toOptimisticLink(
 		url: input.url,
 		description: input.description ?? null,
 		favorite: input.favorite,
+		// Click tracking is server-side only; a link nobody has opened yet
+		// starts at zero either way, so the optimistic record matches.
+		clicks: 0,
+		lastClickedAt: null,
 	};
 }
 

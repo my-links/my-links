@@ -1,4 +1,5 @@
 import type { SearchResult } from '@/lib/api/types';
+import { buildCollectionUrl } from '@/lib/instance_urls';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
 
 interface SearchCollectionResultProps {
@@ -10,7 +11,7 @@ export function SearchCollectionResult({
 }: Readonly<SearchCollectionResultProps>) {
 	const instanceUrl = useInstanceUrl();
 	const collectionUrl = instanceUrl
-		? `${instanceUrl}/collections/${result.id}`
+		? buildCollectionUrl(instanceUrl, result.id)
 		: null;
 
 	const icon = result.icon ? (

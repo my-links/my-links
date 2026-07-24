@@ -78,10 +78,12 @@ export class CollectionSchema extends BaseModel {
 }
 
 export class LinkSchema extends BaseModel {
-  static $columns = ['authorId', 'createdAt', 'description', 'favorite', 'id', 'name', 'updatedAt', 'url'] as const
+  static $columns = ['authorId', 'clicks', 'createdAt', 'description', 'favorite', 'id', 'lastClickedAt', 'name', 'updatedAt', 'url'] as const
   $columns = LinkSchema.$columns
   @column()
   declare authorId: number | null
+  @column()
+  declare clicks: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
@@ -90,6 +92,8 @@ export class LinkSchema extends BaseModel {
   declare favorite: boolean
   @column({ isPrimary: true })
   declare id: number
+  @column.dateTime()
+  declare lastClickedAt: DateTime | null
   @column()
   declare name: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })

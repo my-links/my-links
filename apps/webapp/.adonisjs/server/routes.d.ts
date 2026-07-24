@@ -22,10 +22,6 @@ export type ScannedRoutes = {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.create': { paramsTuple?: []; params?: {} }
-    'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'search': { paramsTuple?: []; params?: {} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
@@ -47,6 +43,11 @@ export type ScannedRoutes = {
     'api-search.index': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
+    'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.create': { paramsTuple?: []; params?: {} }
+    'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
@@ -71,6 +72,7 @@ export type ScannedRoutes = {
     'api-search.index': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
+    'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -95,33 +97,34 @@ export type ScannedRoutes = {
     'api-search.index': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
+    'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.create': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
+    'link.create': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
     'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'user.settings.delete': { paramsTuple?: []; params?: {} }
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

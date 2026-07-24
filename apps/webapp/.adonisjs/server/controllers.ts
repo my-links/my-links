@@ -61,6 +61,7 @@ export const controllers = {
     DeleteLink: () => import('#controllers/links/delete_link_controller'),
     ToggleFavorite: () => import('#controllers/links/toggle_favorite_controller'),
     UpdateLink: () => import('#controllers/links/update_link_controller'),
+    VisitLink: () => import('#controllers/links/visit_link_controller'),
   },
   search: {
     Search: () => import('#controllers/search/search_controller'),

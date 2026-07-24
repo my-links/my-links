@@ -114,30 +114,6 @@ const routes = {
     tokens: [{"old":"/collections/:id/unfollow","type":0,"val":"collections","end":""},{"old":"/collections/:id/unfollow","type":1,"val":"id","end":""},{"old":"/collections/:id/unfollow","type":0,"val":"unfollow","end":""}],
     types: placeholder as Registry['collection.unfollow']['types'],
   },
-  'link.create': {
-    methods: ["POST"],
-    pattern: '/links',
-    tokens: [{"old":"/links","type":0,"val":"links","end":""}],
-    types: placeholder as Registry['link.create']['types'],
-  },
-  'link.edit': {
-    methods: ["PUT"],
-    pattern: '/links/:id',
-    tokens: [{"old":"/links/:id","type":0,"val":"links","end":""},{"old":"/links/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['link.edit']['types'],
-  },
-  'link.toggle-favorite': {
-    methods: ["PUT"],
-    pattern: '/links/:id/favorite',
-    tokens: [{"old":"/links/:id/favorite","type":0,"val":"links","end":""},{"old":"/links/:id/favorite","type":1,"val":"id","end":""},{"old":"/links/:id/favorite","type":0,"val":"favorite","end":""}],
-    types: placeholder as Registry['link.toggle-favorite']['types'],
-  },
-  'link.delete': {
-    methods: ["DELETE"],
-    pattern: '/links/:id',
-    tokens: [{"old":"/links/:id","type":0,"val":"links","end":""},{"old":"/links/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['link.delete']['types'],
-  },
   'search': {
     methods: ["GET","HEAD"],
     pattern: '/search',
@@ -263,6 +239,36 @@ const routes = {
     pattern: '/api/v1/tokens/check',
     tokens: [{"old":"/api/v1/tokens/check","type":0,"val":"api","end":""},{"old":"/api/v1/tokens/check","type":0,"val":"v1","end":""},{"old":"/api/v1/tokens/check","type":0,"val":"tokens","end":""},{"old":"/api/v1/tokens/check","type":0,"val":"check","end":""}],
     types: placeholder as Registry['api-tokens.index']['types'],
+  },
+  'link.visit': {
+    methods: ["GET","HEAD"],
+    pattern: '/l/:id',
+    tokens: [{"old":"/l/:id","type":0,"val":"l","end":""},{"old":"/l/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['link.visit']['types'],
+  },
+  'link.create': {
+    methods: ["POST"],
+    pattern: '/links',
+    tokens: [{"old":"/links","type":0,"val":"links","end":""}],
+    types: placeholder as Registry['link.create']['types'],
+  },
+  'link.edit': {
+    methods: ["PUT"],
+    pattern: '/links/:id',
+    tokens: [{"old":"/links/:id","type":0,"val":"links","end":""},{"old":"/links/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['link.edit']['types'],
+  },
+  'link.toggle-favorite': {
+    methods: ["PUT"],
+    pattern: '/links/:id/favorite',
+    tokens: [{"old":"/links/:id/favorite","type":0,"val":"links","end":""},{"old":"/links/:id/favorite","type":1,"val":"id","end":""},{"old":"/links/:id/favorite","type":0,"val":"favorite","end":""}],
+    types: placeholder as Registry['link.toggle-favorite']['types'],
+  },
+  'link.delete': {
+    methods: ["DELETE"],
+    pattern: '/links/:id',
+    tokens: [{"old":"/links/:id","type":0,"val":"links","end":""},{"old":"/links/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['link.delete']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

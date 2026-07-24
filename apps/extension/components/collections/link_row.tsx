@@ -8,6 +8,7 @@ import { useInstanceUrl } from '@/hooks/use_instance_url';
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { EditLinkModal } from '@/components/links/edit_link_modal';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
+import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
 
 interface LinkRowProps {
 	link: LinkResource;
@@ -18,8 +19,11 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	const { collections } = useCollections();
 	const deleteLink = useDeleteLink();
 	const faviconUrl = instanceUrl
-		? `${instanceUrl}/favicon?url=${encodeURIComponent(link.url)}`
+		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
+	// Falls back to the raw target only until `instanceUrl` hydrates from
+	// storage — the redirect is what counts the click.
+	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
 
 	const handleEdit = () => {
 		const call = Modal.call({
@@ -47,7 +51,7 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	return (
 		<div className="group flex items-center gap-0.5 rounded-md hover:bg-white/50 dark:hover:bg-gray-800/50">
 			<a
-				href={link.url}
+				href={href}
 				target="_blank"
 				rel="noreferrer"
 				title={link.url}
