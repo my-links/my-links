@@ -1,8 +1,10 @@
 import clsx from 'clsx';
 import { useRef } from 'react';
+import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 
 import { LinkFavicon } from './link_favicon';
+import { hasCollectionIds } from '~/lib/link';
 import { LinkControls, LinkControlsRef } from './link_controls';
 
 interface LinkItemProps {
@@ -18,6 +20,9 @@ export function LinkItem({
 }: Readonly<LinkItemProps>) {
 	const { name, url, description } = link;
 	const showFavoriteIcon = !hideMenu && 'favorite' in link && link.favorite;
+	const collectionCount = hasCollectionIds(link)
+		? link.collectionIds.length
+		: 0;
 	const linkControlsRef = useRef<LinkControlsRef>(null);
 
 	const handleClick = (e: React.MouseEvent) => {
@@ -71,6 +76,14 @@ export function LinkItem({
 							>
 								{name}
 							</h3>
+							{collectionCount > 1 && (
+								<span
+									title={t`In ${collectionCount} collections`}
+									className="flex-shrink-0 rounded bg-gray-100 dark:bg-gray-700 px-1.5 text-xs text-gray-500 dark:text-gray-400"
+								>
+									{collectionCount}
+								</span>
+							)}
 							{showFavoriteIcon && (
 								<div className="i-ant-design-star-filled w-4 h-4 text-yellow-500 flex-shrink-0" />
 							)}

@@ -82,7 +82,7 @@ msgstr "Actions"
 msgid "Active sessions"
 msgstr "Sessions actives"
 
-#: inertia/components/dashboard/links/link_controls.tsx:164
+#: inertia/components/dashboard/links/link_controls.tsx:159
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
@@ -210,7 +210,7 @@ msgstr "Copié !"
 msgid "Copy"
 msgstr "Copier"
 
-#: inertia/components/dashboard/links/link_controls.tsx:172
+#: inertia/components/dashboard/links/link_controls.tsx:167
 msgid "Copy link"
 msgstr "Copier le lien"
 
@@ -304,8 +304,8 @@ msgstr "Supprimer"
 msgid "Delete a collection"
 msgstr "Supprimer une collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:80
-#: inertia/components/dashboard/links/link_controls.tsx:184
+#: inertia/components/dashboard/links/link_controls.tsx:75
+#: inertia/components/dashboard/links/link_controls.tsx:179
 msgid "Delete a link"
 msgstr "Supprimer un lien"
 
@@ -350,8 +350,8 @@ msgstr "Télécharger le JSON"
 msgid "Edit a collection"
 msgstr "Modifier une collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:66
-#: inertia/components/dashboard/links/link_controls.tsx:177
+#: inertia/components/dashboard/links/link_controls.tsx:61
+#: inertia/components/dashboard/links/link_controls.tsx:172
 msgid "Edit a link"
 msgstr "Modifier un lien"
 
@@ -391,7 +391,7 @@ msgid "Extension"
 msgstr "Extension"
 
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:36
-#: inertia/components/dashboard/forms/form_link_content.tsx:183
+#: inertia/components/dashboard/forms/form_link_content.tsx:181
 msgid "Favorite"
 msgstr "Favoris"
 
@@ -421,7 +421,7 @@ msgid "Get Started"
 msgstr "Commencer"
 
 #. placeholder {0}: collection.name
-#: inertia/components/dashboard/links/link_controls.tsx:153
+#: inertia/components/dashboard/links/link_controls.tsx:148
 msgid "Go to {0}"
 msgstr "Aller à {0}"
 
@@ -446,6 +446,10 @@ msgstr "ID"
 #: inertia/components/user_settings/export_import.tsx:144
 msgid "Import"
 msgstr "Importer"
+
+#: inertia/components/dashboard/links/link_item.tsx:79
+msgid "In {collectionCount} collections"
+msgstr "Dans {collectionCount} collections"
 
 #: inertia/lib/format.ts:36
 msgid "In {value, plural, one {# day} other {# days}}"
@@ -649,7 +653,7 @@ msgstr "Prêt à commencer ?"
 msgid "Remove"
 msgstr "Supprimer"
 
-#: inertia/components/dashboard/links/link_controls.tsx:162
+#: inertia/components/dashboard/links/link_controls.tsx:157
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
 

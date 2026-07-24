@@ -6,6 +6,7 @@ import { Link as InertiaLink } from '@adonisjs/inertia/react';
 import { MouseEvent, useCallback, useImperativeHandle, useMemo } from 'react';
 
 import { urlFor } from '~/lib/tuyau';
+import { hasCollectionIds } from '~/lib/link';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { EditLinkModal } from '../modals/edit_link_modal';
 import { DeleteLinkModal } from '../modals/delete_link_modal';
@@ -15,12 +16,6 @@ import { ContextMenuItem } from '~/components/common/context_menu/context_menu_i
 
 type Link = Data.Link;
 type LinkWithCollections = Data.Link.Variants['withCollections'];
-
-// The backend only nests `collectionIds` for the owner's own links (see
-// CollectionTransformer.withLinks) — non-owner views get bare `Data.Link`.
-function hasCollectionIds(link: Link): link is LinkWithCollections {
-	return 'collectionIds' in link;
-}
 
 export interface LinkControlsRef {
 	openContextMenu: (x: number, y: number) => void;

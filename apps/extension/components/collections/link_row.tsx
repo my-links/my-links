@@ -60,6 +60,14 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 					<LinkFavicon key={faviconUrl} faviconUrl={faviconUrl} />
 				)}
 				<span className="flex-1 truncate">{link.name}</span>
+				{link.collectionIds.length > 1 && (
+					<span
+						title={`In ${link.collectionIds.length} collections`}
+						className="flex-shrink-0 rounded bg-gray-200 px-1 text-xs text-gray-500 dark:bg-gray-700 dark:text-gray-400"
+					>
+						{link.collectionIds.length}
+					</span>
+				)}
 				{link.favorite && (
 					<div className="i-ant-design-star-filled h-3.5 w-3.5 flex-shrink-0 text-yellow-500" />
 				)}
