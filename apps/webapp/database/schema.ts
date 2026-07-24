@@ -89,6 +89,17 @@ export class LinkSchema extends BaseModel {
   declare url: string
 }
 
+export class RateLimitSchema extends BaseModel {
+  static $columns = ['expire', 'key', 'points'] as const
+  $columns = RateLimitSchema.$columns
+  @column()
+  declare expire: bigint | number | null
+  @column({ isPrimary: true })
+  declare key: string
+  @column()
+  declare points: number
+}
+
 export class UserSessionSchema extends BaseModel {
   static $columns = ['createdAt', 'data', 'expiresAt', 'id', 'userId'] as const
   $columns = UserSessionSchema.$columns

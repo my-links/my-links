@@ -43,18 +43,6 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'api-health.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/health'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
-    }
-  }
   'shared': {
     methods: ["GET","HEAD"]
     pattern: '/shared/:id'
@@ -149,126 +137,6 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/admin/bulk_delete_users_validator').bulkDeleteUsersValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/bulk_delete_users_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/bulk_delete_users_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-collections.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/collections'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/get_collections_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/get_collections_controller').default['render']>>>
-    }
-  }
-  'api-collections.create': {
-    methods: ["POST"]
-    pattern: '/api/v1/collections'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-collections.update': {
-    methods: ["PUT"]
-    pattern: '/api/v1/collections/:id'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-collections.delete': {
-    methods: ["DELETE"]
-    pattern: '/api/v1/collections/:id'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-favorites.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/links/favorites'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
-    }
-  }
-  'api-links.create': {
-    methods: ["POST"]
-    pattern: '/api/v1/links'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/create_link_api_validator').createLinkApiValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/create_link_api_validator').createLinkApiValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-links.update': {
-    methods: ["PUT"]
-    pattern: '/api/v1/links/:id'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-links.delete': {
-    methods: ["DELETE"]
-    pattern: '/api/v1/links/:id'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-search.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/search'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-tokens.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/tokens/check'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/tokens/api_token_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/api_token_controller').default['render']>>>
     }
   }
   'collection.create': {
@@ -509,6 +377,138 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
+    }
+  }
+  'api-collections.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/collections'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/get_collections_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/get_collections_controller').default['render']>>>
+    }
+  }
+  'api-collections.create': {
+    methods: ["POST"]
+    pattern: '/api/v1/collections'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-collections.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/collections/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-collections.delete': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/collections/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-favorites.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/links/favorites'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
+    }
+  }
+  'api-health.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/health'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
+    }
+  }
+  'api-links.create': {
+    methods: ["POST"]
+    pattern: '/api/v1/links'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/create_link_api_validator').createLinkApiValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/create_link_api_validator').createLinkApiValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/create_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-links.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/links/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-links.delete': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/links/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-search.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/search'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'api-tokens.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/tokens/check'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/tokens/api_token_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/api_token_controller').default['render']>>>
     }
   }
 }
