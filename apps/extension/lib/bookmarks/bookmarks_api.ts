@@ -48,6 +48,28 @@ export function isFolder(node: BookmarkNode): boolean {
 	return node.url === undefined;
 }
 
+/**
+ * Indexes a subtree, not just its top level. Anything resolving a mapped node
+ * id has to search the whole subtree: a node the user dragged into a folder
+ * is misplaced, not gone, and reading it as deleted would propagate a removal
+ * the user never asked for.
+ */
+export function indexBySubtreeId(
+	nodes: BookmarkNode[]
+): Map<string, BookmarkNode> {
+	const nodesById = new Map<string, BookmarkNode>();
+
+	const visit = (candidates: BookmarkNode[]): void => {
+		for (const node of candidates) {
+			nodesById.set(node.id, node);
+			visit(node.children ?? []);
+		}
+	};
+	visit(nodes);
+
+	return nodesById;
+}
+
 export function getBrowserBookmarksApi(): BookmarksApi {
 	return {
 		getTree: () => browser.bookmarks.getTree(),

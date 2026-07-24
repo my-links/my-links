@@ -32,8 +32,9 @@ export default defineBackground(() => {
 		}
 	});
 
-	// The mirror only ever runs against a cache the collections sync has
-	// already refreshed, so it reacts to the cache rather than to the network.
+	// The mirror reads the cache, never the network, so a refreshed cache is
+	// its "the server changed" signal. Requests landing while a pass is
+	// already running are coalesced rather than dropped — see syncBookmarks.
 	collectionsCacheStorage.watch(() => {
 		void syncBookmarks();
 	});
@@ -71,11 +72,13 @@ export default defineBackground(() => {
 	// switching tabs, regaining window focus, or a sidebar asking directly.
 	browser.tabs.onActivated.addListener(() => {
 		void syncCollections();
+		void syncBookmarks();
 	});
 
 	browser.windows.onFocusChanged.addListener((windowId) => {
 		if (windowId !== browser.windows.WINDOW_ID_NONE) {
 			void syncCollections();
+			void syncBookmarks();
 		}
 	});
 

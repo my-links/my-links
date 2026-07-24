@@ -1,7 +1,10 @@
 import type { BookmarkOperation } from '@/lib/bookmarks/diff';
-import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
+import {
+	indexBySubtreeId,
+	type BookmarkNode,
+} from '@/lib/bookmarks/bookmarks_api';
 import {
 	getMappedBookmarkId,
 	type BookmarkMapping,
@@ -264,20 +267,6 @@ function forgetOrRemoveStalePins(
 					? { kind: 'remove-bookmark', nodeId, linkKey }
 					: { kind: 'forget-bookmark', linkKey }
 		);
-}
-
-function indexBySubtreeId(nodes: BookmarkNode[]): Map<string, BookmarkNode> {
-	const nodesById = new Map<string, BookmarkNode>();
-
-	const visit = (candidates: BookmarkNode[]): void => {
-		for (const node of candidates) {
-			nodesById.set(node.id, node);
-			visit(node.children ?? []);
-		}
-	};
-	visit(nodes);
-
-	return nodesById;
 }
 
 function toDesiredBookmark(link: LinkResource): DesiredBookmark {
