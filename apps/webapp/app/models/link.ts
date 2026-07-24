@@ -1,5 +1,5 @@
-import { belongsTo, column } from '@adonisjs/lucid/orm';
-import type { BelongsTo } from '@adonisjs/lucid/types/relations';
+import { belongsTo, column, manyToMany } from '@adonisjs/lucid/orm';
+import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
 import User from '#models/user';
 import Collection from '#models/collection';
@@ -18,11 +18,18 @@ export default class Link extends AppBaseModel {
 	@column()
 	declare favorite: boolean;
 
-	@column()
-	declare collectionId: number;
-
-	@belongsTo(() => Collection, { foreignKey: 'collectionId' })
-	declare collection: BelongsTo<typeof Collection>;
+	@manyToMany(() => Collection, {
+		pivotTable: 'collection_link',
+		localKey: 'id',
+		relatedKey: 'id',
+		pivotForeignKey: 'link_id',
+		pivotRelatedForeignKey: 'collection_id',
+		pivotTimestamps: {
+			createdAt: 'created_at',
+			updatedAt: false,
+		},
+	})
+	declare collections: ManyToMany<typeof Collection>;
 
 	@column()
 	declare authorId: number;
