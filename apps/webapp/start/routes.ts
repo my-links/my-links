@@ -11,6 +11,7 @@ import '#routes/api/api_favorites';
 import '#routes/api/api_health';
 import '#routes/api/api_links';
 import '#routes/api/api_search';
+import '#routes/api/api_sync';
 import '#routes/api/api_tokens';
 // App routes
 import '#routes/collections';

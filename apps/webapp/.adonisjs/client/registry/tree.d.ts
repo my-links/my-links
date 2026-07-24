@@ -71,6 +71,9 @@ export interface ApiDefinition {
   apiSearch: {
     index: typeof routes['api-search.index']
   }
+  apiSync: {
+    delta: typeof routes['api-sync.delta']
+  }
   apiTokens: {
     index: typeof routes['api-tokens.index']
   }

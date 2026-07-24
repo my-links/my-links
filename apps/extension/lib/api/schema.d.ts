@@ -333,6 +333,43 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
+	'/api/v1/sync': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get: {
+			parameters: {
+				query?: {
+					since?: string | null;
+				};
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['SyncRenderResponse'];
+					};
+				};
+			};
+		};
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	'/api/v1/tokens/check': {
 		parameters: {
 			query?: never;
@@ -546,6 +583,7 @@ export interface components {
 			capabilities: {
 				apiSearch: boolean;
 				extensionAuthHandoff: boolean;
+				syncDelta: boolean;
 			};
 			isHealthy: boolean;
 			version: string;
@@ -563,6 +601,51 @@ export interface components {
 		};
 		/** @enum {string} */
 		SearchResultType: 'collection' | 'link';
+		SyncRenderResponse: {
+			collections: {
+				author?: {
+					avatarUrl: string;
+					createdAt: string;
+					fullname: string;
+					id: number;
+					isAdmin: boolean;
+					updatedAt: string;
+				};
+				authorId: number;
+				createdAt: string;
+				description: string | null;
+				icon: string | null;
+				id: number;
+				isDefault: boolean;
+				isOwner: boolean;
+				name: string;
+				updatedAt: string;
+				visibility: components['schemas']['Visibility'];
+			}[];
+			deletedCollectionIds: number[];
+			deletedLinkIds: number[];
+			isFullSync: boolean;
+			links: {
+				author?: {
+					avatarUrl: string;
+					createdAt: string;
+					fullname: string;
+					id: number;
+					isAdmin: boolean;
+					updatedAt: string;
+				};
+				authorId: number;
+				collectionIds: number[];
+				createdAt: string;
+				description: string | null;
+				favorite: boolean;
+				id: number;
+				name: string;
+				updatedAt: string;
+				url: string;
+			}[];
+			syncedAt: string;
+		};
 		UpdateCollectionExecuteResponse: {
 			message: string;
 		};

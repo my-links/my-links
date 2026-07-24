@@ -252,6 +252,12 @@ const routes = {
     tokens: [{"old":"/api/v1/search","type":0,"val":"api","end":""},{"old":"/api/v1/search","type":0,"val":"v1","end":""},{"old":"/api/v1/search","type":0,"val":"search","end":""}],
     types: placeholder as Registry['api-search.index']['types'],
   },
+  'api-sync.delta': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/sync',
+    tokens: [{"old":"/api/v1/sync","type":0,"val":"api","end":""},{"old":"/api/v1/sync","type":0,"val":"v1","end":""},{"old":"/api/v1/sync","type":0,"val":"sync","end":""}],
+    types: placeholder as Registry['api-sync.delta']['types'],
+  },
   'api-tokens.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/tokens/check',

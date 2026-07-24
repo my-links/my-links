@@ -109,6 +109,21 @@ export class RateLimitSchema extends BaseModel {
   declare points: number
 }
 
+export class SyncDeletionSchema extends BaseModel {
+  static $columns = ['authorId', 'deletedAt', 'entityId', 'entityType', 'id'] as const
+  $columns = SyncDeletionSchema.$columns
+  @column()
+  declare authorId: number
+  @column.dateTime()
+  declare deletedAt: DateTime
+  @column()
+  declare entityId: number
+  @column()
+  declare entityType: string
+  @column({ isPrimary: true })
+  declare id: number
+}
+
 export class UserSessionSchema extends BaseModel {
   static $columns = ['createdAt', 'data', 'expiresAt', 'id', 'userId'] as const
   $columns = UserSessionSchema.$columns

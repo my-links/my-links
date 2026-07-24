@@ -5,11 +5,14 @@ import Link from '#models/link';
 import User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ExportImportService } from '#services/user/export_import_service';
 import { CollectionService } from '#services/collections/collection_service';
 
 function buildService() {
-	return new ExportImportService(new CollectionService());
+	return new ExportImportService(
+		new CollectionService(new SyncJournalService())
+	);
 }
 
 let userCounter = 0;

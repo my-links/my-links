@@ -499,6 +499,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'api-sync.delta': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/sync'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/sync/sync_delta_validator').syncDeltaValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/sync/sync_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/sync/sync_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'api-tokens.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/tokens/check'
