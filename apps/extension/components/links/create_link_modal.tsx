@@ -19,16 +19,20 @@ export function CreateLinkModal({
 	onClose,
 }: Readonly<CreateLinkModalProps>) {
 	const createLink = useCreateLink();
+	const defaultCollectionId = getDefaultCollectionId(collections);
 	const [values, setValues] = useState<LinkFormValues>({
 		name: '',
 		url: '',
 		description: null,
 		favorite: false,
-		collectionId: getDefaultCollectionId(collections),
+		collectionIds: defaultCollectionId ? [defaultCollectionId] : [],
 		...initialValues,
 	});
 
-	const isFormValid = values.name.trim() !== '' && values.url.trim() !== '';
+	const isFormValid =
+		values.name.trim() !== '' &&
+		values.url.trim() !== '' &&
+		values.collectionIds.length > 0;
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -38,7 +42,7 @@ export function CreateLinkModal({
 				url: values.url.trim(),
 				description: trimToNullableText(values.description),
 				favorite: values.favorite,
-				collectionId: values.collectionId,
+				collectionIds: values.collectionIds,
 			},
 			{ onSuccess: onClose }
 		);

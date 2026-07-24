@@ -306,7 +306,7 @@ export interface paths {
 			parameters: {
 				query: {
 					term: string;
-					type?: 'both' | 'link' | 'collection' | null;
+					type?: 'both' | 'collection' | 'link' | null;
 				};
 				header?: never;
 				path?: never;
@@ -431,7 +431,7 @@ export interface components {
 				isOwner: boolean;
 				links?: {
 					authorId: number;
-					collectionId: number;
+					collectionIds: number[];
 					createdAt: string;
 					description: string | null;
 					favorite: boolean;
@@ -453,7 +453,7 @@ export interface components {
 			visibility: components['schemas']['Visibility'];
 		};
 		CreateLinkApiProps: {
-			collectionId?: string | number | null;
+			collectionIds?: (string | number)[] | null;
 			description?: string | null;
 			favorite: string | number | boolean;
 			name: string;
@@ -470,7 +470,6 @@ export interface components {
 					updatedAt: string;
 				};
 				authorId: number;
-				collectionId: number;
 				createdAt: string;
 				description: string | null;
 				favorite: boolean;
@@ -505,7 +504,7 @@ export interface components {
 				isOwner: boolean;
 				links?: {
 					authorId: number;
-					collectionId: number;
+					collectionIds: number[];
 					createdAt: string;
 					description: string | null;
 					favorite: boolean;
@@ -530,7 +529,7 @@ export interface components {
 					updatedAt: string;
 				};
 				authorId: number;
-				collectionId: number;
+				collectionIds: number[];
 				createdAt: string;
 				description: string | null;
 				favorite: boolean;
@@ -550,7 +549,6 @@ export interface components {
 		};
 		SearchRenderResponse: {
 			data: {
-				collectionId: number | null;
 				icon: string | null;
 				id: number;
 				matchedPart: string | null;
@@ -561,7 +559,7 @@ export interface components {
 			}[];
 		};
 		/** @enum {string} */
-		SearchResultType: 'link' | 'collection';
+		SearchResultType: 'collection' | 'link';
 		UpdateCollectionExecuteResponse: {
 			message: string;
 		};
@@ -575,7 +573,7 @@ export interface components {
 			message: string;
 		};
 		UpdateLinkProps: {
-			collectionId: string | number;
+			collectionIds: (string | number)[];
 			description?: string | null;
 			favorite: string | number | boolean;
 			name: string;

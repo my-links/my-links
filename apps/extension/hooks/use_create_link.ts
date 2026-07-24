@@ -13,14 +13,14 @@ const TEMPORARY_LINK_ID_FACTOR = -1;
  */
 function toOptimisticLink(
 	input: CreateLinkInput,
-	collectionId: number
+	collectionIds: number[]
 ): LinkResource {
 	const now = new Date().toISOString();
 
 	return {
 		id: TEMPORARY_LINK_ID_FACTOR * Date.now(),
 		authorId: TEMPORARY_LINK_ID_FACTOR,
-		collectionId,
+		collectionIds,
 		createdAt: now,
 		updatedAt: now,
 		name: input.name,
@@ -34,13 +34,13 @@ export function useCreateLink() {
 	return useCollectionsMutation<CreateLinkInput>({
 		mutationFn: createLink,
 		applyOptimisticUpdate: (collections, input) => {
-			if (input.collectionId === undefined) {
+			if (!input.collectionIds || input.collectionIds.length === 0) {
 				return collections;
 			}
 
 			return insertLinkIntoTree(
 				collections,
-				toOptimisticLink(input, input.collectionId)
+				toOptimisticLink(input, input.collectionIds)
 			);
 		},
 	});

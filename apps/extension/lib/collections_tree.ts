@@ -15,7 +15,7 @@ export function insertLinkIntoTree(
 	link: LinkResource
 ): CollectionWithLinks[] {
 	return collections.map((collection) =>
-		collection.id === link.collectionId
+		link.collectionIds.includes(collection.id)
 			? { ...collection, links: [...(collection.links ?? []), link] }
 			: collection
 	);
