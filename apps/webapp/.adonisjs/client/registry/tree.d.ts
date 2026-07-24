@@ -5,9 +5,6 @@ export interface ApiDefinition {
   home: typeof routes['home']
   terms: typeof routes['terms']
   privacy: typeof routes['privacy']
-  apiHealth: {
-    index: typeof routes['api-health.index']
-  }
   shared: typeof routes['shared']
   favicon: typeof routes['favicon']
   auth: typeof routes['auth'] & {
@@ -20,26 +17,6 @@ export interface ApiDefinition {
     users: {
       bulkDelete: typeof routes['admin.users.bulkDelete']
     }
-  }
-  apiCollections: {
-    index: typeof routes['api-collections.index']
-    create: typeof routes['api-collections.create']
-    update: typeof routes['api-collections.update']
-    delete: typeof routes['api-collections.delete']
-  }
-  apiFavorites: {
-    index: typeof routes['api-favorites.index']
-  }
-  apiLinks: {
-    create: typeof routes['api-links.create']
-    update: typeof routes['api-links.update']
-    delete: typeof routes['api-links.delete']
-  }
-  apiSearch: {
-    index: typeof routes['api-search.index']
-  }
-  apiTokens: {
-    index: typeof routes['api-tokens.index']
   }
   collection: {
     create: typeof routes['collection.create']
@@ -73,5 +50,28 @@ export interface ApiDefinition {
       import: typeof routes['user.settings.import']
       delete: typeof routes['user.settings.delete']
     }
+  }
+  apiCollections: {
+    index: typeof routes['api-collections.index']
+    create: typeof routes['api-collections.create']
+    update: typeof routes['api-collections.update']
+    delete: typeof routes['api-collections.delete']
+  }
+  apiFavorites: {
+    index: typeof routes['api-favorites.index']
+  }
+  apiHealth: {
+    index: typeof routes['api-health.index']
+  }
+  apiLinks: {
+    create: typeof routes['api-links.create']
+    update: typeof routes['api-links.update']
+    delete: typeof routes['api-links.delete']
+  }
+  apiSearch: {
+    index: typeof routes['api-search.index']
+  }
+  apiTokens: {
+    index: typeof routes['api-tokens.index']
   }
 }

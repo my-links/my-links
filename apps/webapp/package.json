@@ -43,6 +43,7 @@
 		"@adonisjs/core": "^7.3.5",
 		"@adonisjs/cors": "^3.0.0",
 		"@adonisjs/inertia": "5.0.0-next.1",
+		"@adonisjs/limiter": "^3.0.1",
 		"@adonisjs/lucid": "^22.4.2",
 		"@adonisjs/session": "^8.1.0",
 		"@adonisjs/shield": "^9.0.0",
