@@ -31,7 +31,7 @@ export function CollectionSection({
 			children: (
 				<CreateLinkModal
 					collections={collections}
-					initialValues={{ collectionId: collection.id }}
+					initialValues={{ collectionIds: [collection.id] }}
 					onClose={() => Modal.end(call)}
 				/>
 			),

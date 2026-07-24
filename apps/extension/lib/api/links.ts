@@ -1,4 +1,3 @@
-import type { LinkResource } from '@/lib/api/types';
 import { createExtensionApiClient } from '@/lib/api/client';
 
 export class CreateLinkError extends Error {}
@@ -10,7 +9,7 @@ export interface CreateLinkInput {
 	url: string;
 	description?: string | null;
 	favorite: boolean;
-	collectionId?: number;
+	collectionIds?: number[];
 }
 
 export interface UpdateLinkInput {
@@ -18,20 +17,16 @@ export interface UpdateLinkInput {
 	url: string;
 	description?: string | null;
 	favorite: boolean;
-	collectionId: number;
+	collectionIds: number[];
 }
 
-export async function createLink(
-	input: CreateLinkInput
-): Promise<LinkResource> {
+export async function createLink(input: CreateLinkInput): Promise<void> {
 	const client = await createExtensionApiClient();
-	const { data, error } = await client.POST('/api/v1/links', { body: input });
+	const { error } = await client.POST('/api/v1/links', { body: input });
 
 	if (error) {
 		throw new CreateLinkError('Failed to create the link.');
 	}
-
-	return data.link;
 }
 
 export async function updateLink(

@@ -16,7 +16,7 @@ function buildLink(overrides: Partial<LinkResource> = {}): LinkResource {
 	return {
 		id: 1,
 		authorId: 1,
-		collectionId: 1,
+		collectionIds: [1],
 		createdAt: '2026-01-01T00:00:00.000Z',
 		updatedAt: '2026-01-01T00:00:00.000Z',
 		name: 'Example',
@@ -46,17 +46,32 @@ function buildCollection(
 }
 
 describe('insertLinkIntoTree', () => {
-	it('should append the link to the collection matching its collectionId', () => {
+	it('should append the link to the collection matching its collectionIds', () => {
 		const collections = [
 			buildCollection({ id: 1 }),
 			buildCollection({ id: 2 }),
 		];
-		const link = buildLink({ id: 10, collectionId: 2 });
+		const link = buildLink({ id: 10, collectionIds: [2] });
 
 		const result = insertLinkIntoTree(collections, link);
 
 		expect(result[0].links).toEqual([]);
 		expect(result[1].links).toEqual([link]);
+	});
+
+	it('should append the link to every collection listed in collectionIds', () => {
+		const collections = [
+			buildCollection({ id: 1 }),
+			buildCollection({ id: 2 }),
+			buildCollection({ id: 3 }),
+		];
+		const link = buildLink({ id: 10, collectionIds: [1, 3] });
+
+		const result = insertLinkIntoTree(collections, link);
+
+		expect(result[0].links).toEqual([link]);
+		expect(result[1].links).toEqual([]);
+		expect(result[2].links).toEqual([link]);
 	});
 });
 
@@ -72,18 +87,34 @@ describe('removeLinkFromTree', () => {
 });
 
 describe('replaceLinkInTree', () => {
-	it('should move the link to its new collection when collectionId changes', () => {
-		const link = buildLink({ id: 10, collectionId: 1 });
+	it('should move the link to its new collection when collectionIds changes', () => {
+		const link = buildLink({ id: 10, collectionIds: [1] });
 		const collections = [
 			buildCollection({ id: 1, links: [link] }),
 			buildCollection({ id: 2, links: [] }),
 		];
 
-		const movedLink = { ...link, collectionId: 2 };
+		const movedLink = { ...link, collectionIds: [2] };
 		const result = replaceLinkInTree(collections, 10, movedLink);
 
 		expect(result[0].links).toEqual([]);
 		expect(result[1].links).toEqual([movedLink]);
+	});
+
+	it('should fan out the link across every collection in its new set', () => {
+		const link = buildLink({ id: 10, collectionIds: [1] });
+		const collections = [
+			buildCollection({ id: 1, links: [link] }),
+			buildCollection({ id: 2, links: [] }),
+			buildCollection({ id: 3, links: [] }),
+		];
+
+		const movedLink = { ...link, collectionIds: [2, 3] };
+		const result = replaceLinkInTree(collections, 10, movedLink);
+
+		expect(result[0].links).toEqual([]);
+		expect(result[1].links).toEqual([movedLink]);
+		expect(result[2].links).toEqual([movedLink]);
 	});
 });
 

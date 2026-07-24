@@ -23,17 +23,17 @@ export function EditLinkModal({
 		url: link.url,
 		description: link.description,
 		favorite: link.favorite,
-		collectionId: link.collectionId,
+		collectionIds: link.collectionIds,
 	});
 
 	const isFormValid =
 		values.name.trim() !== '' &&
 		values.url.trim() !== '' &&
-		values.collectionId !== undefined;
+		values.collectionIds.length > 0;
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		if (values.collectionId === undefined) {
+		if (values.collectionIds.length === 0) {
 			return;
 		}
 
@@ -45,7 +45,7 @@ export function EditLinkModal({
 					url: values.url.trim(),
 					description: trimToNullableText(values.description),
 					favorite: values.favorite,
-					collectionId: values.collectionId,
+					collectionIds: values.collectionIds,
 				},
 			},
 			{ onSuccess: onClose }

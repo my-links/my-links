@@ -18,7 +18,7 @@ function toOptimisticLink(
 		authorId: previous?.authorId ?? 0,
 		createdAt: previous?.createdAt ?? new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
-		collectionId: input.collectionId,
+		collectionIds: input.collectionIds,
 		name: input.name,
 		url: input.url,
 		description: input.description ?? null,

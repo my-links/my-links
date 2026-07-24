@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react';
-import { Checkbox, Input, Select, Textarea } from '@minimalstuff/ui';
+import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
 
@@ -8,7 +8,7 @@ export interface LinkFormValues {
 	url: string;
 	description: string | null;
 	favorite: boolean;
-	collectionId: number | undefined;
+	collectionIds: number[];
 }
 
 interface LinkFormFieldsProps {
@@ -33,16 +33,16 @@ export function LinkFormFields({
 	const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
 		onChange({ ...values, description: event.target.value });
 
-	const handleCollectionChange = (event: ChangeEvent<HTMLSelectElement>) =>
-		onChange({ ...values, collectionId: Number(event.target.value) });
+	const toggleCollection = (collectionId: number) =>
+		onChange({
+			...values,
+			collectionIds: values.collectionIds.includes(collectionId)
+				? values.collectionIds.filter((id) => id !== collectionId)
+				: [...values.collectionIds, collectionId],
+		});
 
 	const handleFavoriteChange = (event: ChangeEvent<HTMLInputElement>) =>
 		onChange({ ...values, favorite: event.target.checked });
-
-	const collectionOptions = collections.map((collection) => ({
-		value: String(collection.id),
-		label: collection.name,
-	}));
 
 	return (
 		<div className="space-y-3">
@@ -72,14 +72,21 @@ export function LinkFormFields({
 				disabled={isDisabled}
 				rows={2}
 			/>
-			{collectionOptions.length > 0 && (
-				<Select
-					label={`Collections (${collectionOptions.length})`}
-					options={collectionOptions}
-					value={values.collectionId ? String(values.collectionId) : ''}
-					onChange={handleCollectionChange}
-					disabled={isDisabled}
-				/>
+			{collections.length > 0 && (
+				<fieldset className="space-y-1">
+					<legend className="text-sm mb-1">
+						Collections ({collections.length})
+					</legend>
+					{collections.map((collection) => (
+						<Checkbox
+							key={collection.id}
+							label={collection.name}
+							checked={values.collectionIds.includes(collection.id)}
+							onChange={() => toggleCollection(collection.id)}
+							disabled={isDisabled}
+						/>
+					))}
+				</fieldset>
 			)}
 			<Checkbox
 				label="Favorite"

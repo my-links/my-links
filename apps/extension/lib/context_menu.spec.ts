@@ -95,17 +95,7 @@ describe('handleContextMenuClick', () => {
 	} as Browser.tabs.Tab;
 
 	it('should create the link and resync when the URL is new', async () => {
-		mockedCreateLink.mockResolvedValue({
-			id: 1,
-			authorId: 1,
-			collectionId: 1,
-			createdAt: '2026-01-01T00:00:00.000Z',
-			updatedAt: '2026-01-01T00:00:00.000Z',
-			name: 'Example page',
-			url: 'https://example.com/page',
-			description: null,
-			favorite: false,
-		});
+		mockedCreateLink.mockResolvedValue(undefined);
 
 		await handleContextMenuClick(pageClickInfo, tab);
 
@@ -135,7 +125,7 @@ describe('handleContextMenuClick', () => {
 						{
 							id: 1,
 							authorId: 1,
-							collectionId: 1,
+							collectionIds: [1],
 							createdAt: '2026-01-01T00:00:00.000Z',
 							updatedAt: '2026-01-01T00:00:00.000Z',
 							name: 'Example page',
