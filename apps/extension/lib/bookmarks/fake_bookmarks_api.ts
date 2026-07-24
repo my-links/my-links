@@ -61,12 +61,15 @@ export class FakeBookmarksApi implements BookmarksApi {
 
 	async create(details: BookmarkCreateDetails): Promise<BookmarkNode> {
 		const id = this.claimId();
-		this.insert({
-			id,
-			parentId: details.parentId,
-			title: details.title ?? '',
-			url: details.url,
-		});
+		this.insert(
+			{
+				id,
+				parentId: details.parentId,
+				title: details.title ?? '',
+				url: details.url,
+			},
+			details.index
+		);
 		return this.buildNode(id);
 	}
 
@@ -77,7 +80,7 @@ export class FakeBookmarksApi implements BookmarksApi {
 		const node = this.getStoredNode(id);
 		this.detachFromParent(id);
 		node.parentId = destination.parentId ?? node.parentId;
-		this.attachToParent(node);
+		this.attachToParent(node, destination.index);
 		return this.buildNode(id);
 	}
 
@@ -109,18 +112,21 @@ export class FakeBookmarksApi implements BookmarksApi {
 		return id;
 	}
 
-	private insert(node: StoredNode): void {
+	private insert(node: StoredNode, index?: number): void {
 		this.nodes.set(node.id, node);
-		this.attachToParent(node);
+		this.attachToParent(node, index);
 	}
 
-	private attachToParent(node: StoredNode): void {
+	private attachToParent(node: StoredNode, index?: number): void {
 		if (node.parentId === undefined) {
 			return;
 		}
+		const siblings = this.childIdsOf(node.parentId);
+		const position = index ?? siblings.length;
 		this.childIdsByParentId.set(node.parentId, [
-			...this.childIdsOf(node.parentId),
+			...siblings.slice(0, position),
 			node.id,
+			...siblings.slice(position),
 		]);
 	}
 

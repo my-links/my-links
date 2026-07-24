@@ -22,18 +22,18 @@ export type BookmarkOperation =
 	| {
 			kind: 'create-bookmark';
 			parentNodeId: string;
-			collectionId: number;
-			linkId: number;
+			linkKey: string;
 			title: string;
 			url: string;
 	  }
 	| { kind: 'update-bookmark'; nodeId: string; title: string; url: string }
-	| {
-			kind: 'remove-bookmark';
-			nodeId: string;
-			collectionId: number;
-			linkId: number;
-	  };
+	| { kind: 'remove-bookmark'; nodeId: string; linkKey: string }
+	/**
+	 * Ordering is one operation carrying the whole ranking rather than a move
+	 * per node: each move renumbers its siblings, so independently computed
+	 * indexes would land in the wrong final order.
+	 */
+	| { kind: 'reorder-pinned'; parentNodeId: string; nodeIdsInOrder: string[] };
 
 /**
  * Compares what the server says the tree should look like against what is
@@ -129,8 +129,7 @@ function diffBookmarksOfFolder(
 					{
 						kind: 'create-bookmark',
 						parentNodeId: actualFolder.id,
-						collectionId: desiredFolder.collectionId,
-						linkId: desiredBookmark.linkId,
+						linkKey,
 						title: desiredBookmark.title,
 						url: desiredBookmark.url,
 					},
@@ -179,22 +178,21 @@ function findRemovedBookmarks(
 	claimedNodeIds: Set<string>,
 	mapping: BookmarkMapping
 ): BookmarkOperation[] {
-	const linkIdByNodeId = new Map(
+	const linkKeyByNodeId = new Map(
 		Object.entries(mapping.bookmarkIdByLinkKey)
 			.filter(([linkKey]) => linkKey.startsWith(`${collectionId}:`))
-			.map(([linkKey, nodeId]) => [nodeId, Number(linkKey.split(':')[1])])
+			.map(([linkKey, nodeId]) => [nodeId, linkKey])
 	);
 
 	return (actualFolder.children ?? [])
 		.filter(
-			(child) => !claimedNodeIds.has(child.id) && linkIdByNodeId.has(child.id)
+			(child) => !claimedNodeIds.has(child.id) && linkKeyByNodeId.has(child.id)
 		)
 		.map(
 			(child): BookmarkOperation => ({
 				kind: 'remove-bookmark',
 				nodeId: child.id,
-				collectionId,
-				linkId: linkIdByNodeId.get(child.id) ?? 0,
+				linkKey: linkKeyByNodeId.get(child.id) ?? '',
 			})
 		);
 }

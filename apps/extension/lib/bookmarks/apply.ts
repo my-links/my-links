@@ -66,12 +66,10 @@ async function applyOperation(
 			return [];
 		case 'remove-bookmark':
 			await api.remove(operation.nodeId);
-			return [
-				{
-					kind: 'unmap-bookmark',
-					linkKey: buildLinkKey(operation.collectionId, operation.linkId),
-				},
-			];
+			return [{ kind: 'unmap-bookmark', linkKey: operation.linkKey }];
+		case 'reorder-pinned':
+			await reorderPinned(api, operation);
+			return [];
 	}
 }
 
@@ -122,12 +120,22 @@ async function createBookmark(
 	});
 
 	return [
-		{
-			kind: 'map-bookmark',
-			linkKey: buildLinkKey(operation.collectionId, operation.linkId),
-			nodeId: created.id,
-		},
+		{ kind: 'map-bookmark', linkKey: operation.linkKey, nodeId: created.id },
 	];
+}
+
+/**
+ * Sequential and in rank order: every move renumbers the siblings after it,
+ * so placing node `n` only lands correctly once nodes `0..n-1` already sit
+ * where they belong.
+ */
+async function reorderPinned(
+	api: BookmarksApi,
+	operation: Extract<BookmarkOperation, { kind: 'reorder-pinned' }>
+): Promise<void> {
+	for (const [index, nodeId] of operation.nodeIdsInOrder.entries()) {
+		await api.move(nodeId, { parentId: operation.parentNodeId, index });
+	}
 }
 
 function applyMappingChange(
