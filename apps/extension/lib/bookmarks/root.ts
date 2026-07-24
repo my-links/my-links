@@ -1,9 +1,5 @@
 import {
-	buildBackupFolderTitle,
-	selectNodesToBackUp,
-} from '@/lib/bookmarks/backup';
-import {
-	BOOKMARK_ROOT_TITLE,
+	COLLECTIONS_FOLDER_TITLE,
 	KNOWN_BOOKMARKS_BAR_IDS,
 } from '@/lib/bookmarks/constants';
 import {
@@ -14,9 +10,11 @@ import {
 
 export class BookmarksUnavailableError extends Error {}
 
+const COLLECTIONS_FOLDER_POSITION = 0;
+
 /**
- * The bar is where a takeover has to look, and where the MyLinks root is
- * created so the mirror is visible without opening a menu.
+ * Both halves of the mirror live here: the `Collections` folder is created on
+ * the bar, and pinned favourites are placed on the bar itself.
  */
 export async function resolveBookmarksBarId(
 	api: BookmarksApi
@@ -41,82 +39,65 @@ export async function resolveBookmarksBarId(
 }
 
 /**
- * Reuses the root recorded last time when it still exists, then an untouched
- * `MyLinks` folder already on the bar (a reinstall must adopt the mirror it
- * left behind rather than build a second one), and only creates a new folder
- * when neither is there.
+ * Reuses the folder recorded last time when it still exists, then a folder of
+ * the right name already on the bar (a reinstall must adopt what it left
+ * behind rather than build a second one), and only creates one when neither
+ * is there.
+ *
+ * Kept first on the bar so it never drifts into the middle of the user's own
+ * bookmarks, and retitled if an earlier version of the extension named it
+ * something else.
  */
-export async function getOrCreateMyLinksRoot(
+export async function getOrCreateCollectionsFolder(
 	api: BookmarksApi,
-	knownRootId: string | null
+	knownFolderId: string | null
 ): Promise<string> {
-	if (knownRootId && (await isExistingNode(api, knownRootId))) {
-		return knownRootId;
-	}
-
 	const barId = await resolveBookmarksBarId(api);
 	const [bar] = await api.getSubTree(barId);
-	const existingRoot = (bar?.children ?? []).find(
-		(child) => isFolder(child) && child.title === BOOKMARK_ROOT_TITLE
-	);
-	if (existingRoot) {
-		return existingRoot.id;
+	const barChildren = bar?.children ?? [];
+
+	const existingFolder =
+		findById(barChildren, knownFolderId) ?? findByTitle(barChildren);
+
+	if (!existingFolder) {
+		const createdFolder = await api.create({
+			parentId: barId,
+			title: COLLECTIONS_FOLDER_TITLE,
+			index: COLLECTIONS_FOLDER_POSITION,
+		});
+		return createdFolder.id;
 	}
 
-	const createdRoot = await api.create({
-		parentId: barId,
-		title: BOOKMARK_ROOT_TITLE,
-	});
-	return createdRoot.id;
+	if (existingFolder.title !== COLLECTIONS_FOLDER_TITLE) {
+		await api.update(existingFolder.id, { title: COLLECTIONS_FOLDER_TITLE });
+	}
+	if (barChildren.indexOf(existingFolder) !== COLLECTIONS_FOLDER_POSITION) {
+		await api.move(existingFolder.id, {
+			parentId: barId,
+			index: COLLECTIONS_FOLDER_POSITION,
+		});
+	}
+
+	return existingFolder.id;
 }
 
 /**
- * Moves whatever was already on the bookmarks bar into a dated backup folder
- * inside the MyLinks root, so the mirror starts from a bar it fully owns.
- *
- * Nothing is ever deleted — every node keeps its id, its children and its
- * URL, one level deeper. Returns the backup folder id, or `undefined` when
- * the bar held nothing worth moving.
+ * Matched by id first: the folder may have been renamed by the user, and
+ * their name is worth keeping around only until the next pass retitles it —
+ * losing track of it entirely would strand every mapped collection under it.
  */
-export async function takeOverBookmarksBar(
-	api: BookmarksApi,
-	rootId: string,
-	takenOverAt: Date
-): Promise<string | undefined> {
-	const barId = await resolveBookmarksBarId(api);
-	const [bar] = await api.getSubTree(barId);
-	const nodesToBackUp = selectNodesToBackUp(bar?.children ?? [], rootId);
-
-	if (nodesToBackUp.length === 0) {
+function findById(
+	barChildren: BookmarkNode[],
+	folderId: string | null
+): BookmarkNode | undefined {
+	if (!folderId) {
 		return undefined;
 	}
-
-	const backupFolder = await api.create({
-		parentId: rootId,
-		title: buildBackupFolderTitle(takenOverAt),
-	});
-
-	// Sequential on purpose: each move reshuffles the bar's indexes, and
-	// racing them would interleave the backup in an order the user never had.
-	for (const node of nodesToBackUp) {
-		await api.move(node.id, { parentId: backupFolder.id });
-	}
-
-	return backupFolder.id;
+	return barChildren.find((child) => child.id === folderId && isFolder(child));
 }
 
-async function isExistingNode(api: BookmarksApi, id: string): Promise<boolean> {
-	try {
-		const [node] = await api.getSubTree(id);
-		return isPresent(node);
-	} catch {
-		// `getSubTree` rejects for an id the browser no longer knows — the
-		// user deleted our folder by hand. Treated as "gone", not as a
-		// failure worth surfacing.
-		return false;
-	}
-}
-
-function isPresent(node: BookmarkNode | undefined): node is BookmarkNode {
-	return node !== undefined;
+function findByTitle(barChildren: BookmarkNode[]): BookmarkNode | undefined {
+	return barChildren.find(
+		(child) => isFolder(child) && child.title === COLLECTIONS_FOLDER_TITLE
+	);
 }

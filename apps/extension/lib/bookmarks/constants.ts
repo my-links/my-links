@@ -1,11 +1,10 @@
 /**
- * The one folder MyLinks is ever allowed to write into. Everything the
- * mirror creates, renames or deletes lives under it, which is what bounds
- * the blast radius: the rest of the user's bookmarks are never touched.
+ * The one folder collection mirroring is allowed to write into, kept first on
+ * the bookmarks bar. Pinned favourites are the deliberate exception: they sit
+ * on the bar itself, because reaching them through a folder is the whole
+ * thing a pin is supposed to avoid.
  */
-export const BOOKMARK_ROOT_TITLE = 'MyLinks';
-
-export const BACKUP_FOLDER_TITLE_PREFIX = 'Backup';
+export const COLLECTIONS_FOLDER_TITLE = 'Collections';
 
 /**
  * Chromium calls its bookmarks bar `1`, Firefox `toolbar_____`. Both are

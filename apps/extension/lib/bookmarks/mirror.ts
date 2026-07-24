@@ -3,29 +3,38 @@ import { createLink, updateLink } from '@/lib/api/links';
 import { updateCollection } from '@/lib/api/collections';
 import { runWithConcurrencyLimit } from '@/lib/concurrency';
 import { syncCollections } from '@/lib/sync/sync_collections';
-import { getOrCreateMyLinksRoot } from '@/lib/bookmarks/root';
+import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
 import { buildDesiredTree } from '@/lib/bookmarks/desired_tree';
 import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
-import { getBrowserBookmarksApi } from '@/lib/bookmarks/bookmarks_api';
+import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import {
 	detectInboundChanges,
 	type InboundChange,
 } from '@/lib/bookmarks/inbound';
 import {
+	getBrowserBookmarksApi,
+	type BookmarksApi,
+} from '@/lib/bookmarks/bookmarks_api';
+import {
+	getOrCreateCollectionsFolder,
+	resolveBookmarksBarId,
+} from '@/lib/bookmarks/root';
+import {
 	applyBookmarkOperations,
 	MAX_CONCURRENT_BOOKMARK_WRITES,
 } from '@/lib/bookmarks/apply';
-import {
-	collectFavoriteLinks,
-	diffPinnedFavorites,
-	resolveRankedFavorites,
-} from '@/lib/bookmarks/pinned';
 import {
 	bookmarkMappingStorage,
 	bookmarkMirrorStorage,
 	collectionsCacheStorage,
 	pinnedRankingStorage,
 } from '@/lib/storage';
+import {
+	buildPinnedReorder,
+	collectFavoriteLinks,
+	diffPinnedFavorites,
+	resolveRankedFavorites,
+} from '@/lib/bookmarks/pinned';
 
 let isMirroring = false;
 
@@ -69,18 +78,29 @@ export async function syncBookmarks(): Promise<void> {
 		}
 
 		const api = getBrowserBookmarksApi();
-		const rootId = await getOrCreateMyLinksRoot(api, mirrorState.rootId);
-		if (rootId !== mirrorState.rootId) {
-			await bookmarkMirrorStorage.setValue({ ...mirrorState, rootId });
+		const collectionsFolderId = await getOrCreateCollectionsFolder(
+			api,
+			mirrorState.rootId
+		);
+		if (collectionsFolderId !== mirrorState.rootId) {
+			await bookmarkMirrorStorage.setValue({
+				...mirrorState,
+				rootId: collectionsFolderId,
+			});
 		}
 
-		const [root] = await api.getSubTree(rootId);
-		const rootChildren = root?.children ?? [];
+		const barId = await resolveBookmarksBarId(api);
+		const [bar] = await api.getSubTree(barId);
+		const barChildren = bar?.children ?? [];
+		const collectionsFolderChildren =
+			barChildren.find((child) => child.id === collectionsFolderId)?.children ??
+			[];
 		const mapping = await bookmarkMappingStorage.getValue();
 
 		const inboundChanges = detectInboundChanges(
 			collectionsCache.collections,
-			rootChildren,
+			collectionsFolderChildren,
+			barChildren,
 			mapping
 		);
 		if (inboundChanges.length > 0) {
@@ -89,7 +109,11 @@ export async function syncBookmarks(): Promise<void> {
 			return;
 		}
 
-		const { bookmarks: pinnedFavorites, ranking } = resolveRankedFavorites(
+		const {
+			bookmarks: pinnedFavorites,
+			ranking,
+			wasRecomputed,
+		} = resolveRankedFavorites(
 			collectFavoriteLinks(collectionsCache.collections),
 			await pinnedRankingStorage.getValue(),
 			Date.now()
@@ -99,22 +123,55 @@ export async function syncBookmarks(): Promise<void> {
 		const operations = [
 			...diffBookmarkTree(
 				buildDesiredTree(collectionsCache.collections),
-				rootChildren,
+				collectionsFolderChildren,
 				mapping
 			),
-			...diffPinnedFavorites(pinnedFavorites, rootId, rootChildren, mapping),
+			...diffPinnedFavorites(pinnedFavorites, barId, barChildren, mapping),
 		];
-		if (operations.length === 0) {
-			return;
+
+		const nextMapping =
+			operations.length > 0
+				? await applyBookmarkOperations(
+						api,
+						collectionsFolderId,
+						operations,
+						mapping
+					)
+				: mapping;
+
+		if (operations.length > 0) {
+			await bookmarkMappingStorage.setValue(nextMapping);
 		}
 
-		await bookmarkMappingStorage.setValue(
-			await applyBookmarkOperations(api, rootId, operations, mapping)
-		);
+		// Ordering runs last and only on a fresh ranking, against the tree the
+		// writes above just produced — the rest of the time a manual
+		// rearrangement of the bar is left alone.
+		if (wasRecomputed) {
+			await applyPinnedOrder(api, barId, pinnedFavorites, nextMapping);
+		}
 	} catch (error) {
 		console.error('MyLinks bookmark mirror failed', error);
 	} finally {
 		isMirroring = false;
+	}
+}
+
+async function applyPinnedOrder(
+	api: BookmarksApi,
+	barId: string,
+	pinnedFavorites: DesiredBookmark[],
+	mapping: BookmarkMapping
+): Promise<void> {
+	const [bar] = await api.getSubTree(barId);
+	const reorderOperations = buildPinnedReorder(
+		pinnedFavorites,
+		barId,
+		bar?.children ?? [],
+		mapping
+	);
+
+	if (reorderOperations.length > 0) {
+		await applyBookmarkOperations(api, barId, reorderOperations, mapping);
 	}
 }
 

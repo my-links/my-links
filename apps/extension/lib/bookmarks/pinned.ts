@@ -9,9 +9,9 @@ import {
 
 /**
  * Pinned favourites are keyed outside the `collectionId:linkId` namespace so
- * nothing else in the mirror mistakes them for collection members: the
- * inbound reconciliation skips them (a pin is a projection of the favourite
- * flag, not a membership), and a folder diff can never claim one.
+ * nothing else in the mirror mistakes them for collection membership: the
+ * folder diff can never claim one, and membership reconciliation ignores
+ * them.
  */
 const PINNED_LINK_KEY_PREFIX = 'pinned';
 
@@ -35,6 +35,16 @@ export const RANKING_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1_000;
 
 export function buildPinnedLinkKey(linkId: number): string {
 	return `${PINNED_LINK_KEY_PREFIX}:${linkId}`;
+}
+
+export function parsePinnedLinkKey(linkKey: string): number | undefined {
+	const [prefix, rawLinkId] = linkKey.split(':');
+	if (prefix !== PINNED_LINK_KEY_PREFIX) {
+		return undefined;
+	}
+
+	const linkId = Number(rawLinkId);
+	return Number.isInteger(linkId) ? linkId : undefined;
 }
 
 /** Every favourite, once, no matter how many collections it belongs to. */
@@ -70,15 +80,20 @@ export function shouldRecomputeRanking(
 }
 
 /**
- * Returns the favourites in the order they should appear on the bar, and the
- * ranking to remember. A stale-but-valid ranking is reused verbatim so the
- * bar only reshuffles under the user when there is a real reason to.
+ * Returns the favourites in the order they should appear on the bar, the
+ * ranking to remember, and whether it was worked out afresh. Callers use that
+ * last flag to decide whether to impose the order on the bar at all — a
+ * stale-but-valid ranking is reused verbatim so the bar stays put.
  */
 export function resolveRankedFavorites(
 	favorites: LinkResource[],
 	ranking: PinnedRanking,
 	now: number
-): { bookmarks: DesiredBookmark[]; ranking: PinnedRanking } {
+): {
+	bookmarks: DesiredBookmark[];
+	ranking: PinnedRanking;
+	wasRecomputed: boolean;
+} {
 	const favoriteLinkIds = favorites.map((link) => link.id);
 
 	if (!shouldRecomputeRanking(ranking, favoriteLinkIds, now)) {
@@ -87,6 +102,7 @@ export function resolveRankedFavorites(
 				toDesiredBookmark
 			),
 			ranking,
+			wasRecomputed: false,
 		};
 	}
 
@@ -97,37 +113,38 @@ export function resolveRankedFavorites(
 			rankedLinkIds: ranked.map((link) => link.id),
 			computedAt: now,
 		},
+		wasRecomputed: true,
 	};
 }
 
 /**
- * Pinned favourites sit directly under the MyLinks root, alongside the
- * collection folders, so they are one click away on the bar.
+ * Pins sit on the bookmarks bar itself, not inside the `Collections` folder:
+ * needing to open a folder to reach a favourite is the exact friction a pin
+ * exists to remove.
+ *
+ * `barNodes` is the bar's whole subtree, not just its direct children, so a
+ * pin the user (or an older version of the extension) left inside a folder is
+ * found and brought back up rather than duplicated.
  */
 export function diffPinnedFavorites(
 	desiredBookmarks: DesiredBookmark[],
-	rootId: string,
-	rootChildren: BookmarkNode[],
+	barId: string,
+	barNodes: BookmarkNode[],
 	mapping: BookmarkMapping
 ): BookmarkOperation[] {
-	const rootChildrenById = new Map(
-		rootChildren.map((child) => [child.id, child])
-	);
-	const claimedNodeIds: string[] = [];
+	const nodesById = indexBySubtreeId(barNodes);
 
 	const upserts = desiredBookmarks.flatMap(
 		(desiredBookmark): BookmarkOperation[] => {
 			const linkKey = buildPinnedLinkKey(desiredBookmark.linkId);
 			const mappedNodeId = getMappedBookmarkId(mapping, linkKey);
-			const actualNode = mappedNodeId
-				? rootChildrenById.get(mappedNodeId)
-				: undefined;
+			const actualNode = mappedNodeId ? nodesById.get(mappedNodeId) : undefined;
 
 			if (!actualNode) {
 				return [
 					{
 						kind: 'create-bookmark',
-						parentNodeId: rootId,
+						parentNodeId: barId,
 						linkKey,
 						title: desiredBookmark.title,
 						url: desiredBookmark.url,
@@ -135,75 +152,48 @@ export function diffPinnedFavorites(
 				];
 			}
 
-			claimedNodeIds.push(actualNode.id);
-
-			if (
-				actualNode.title === desiredBookmark.title &&
-				actualNode.url === desiredBookmark.url
-			) {
-				return [];
-			}
-
 			return [
-				{
-					kind: 'update-bookmark',
-					nodeId: actualNode.id,
-					title: desiredBookmark.title,
-					url: desiredBookmark.url,
-				},
+				...moveOntoBarIfNeeded(actualNode, barId),
+				...retitleIfNeeded(actualNode, desiredBookmark),
 			];
 		}
 	);
 
 	return [
 		...upserts,
-		...findUnpinnedBookmarks(desiredBookmarks, rootChildren, mapping),
-		...buildReorderOperation(rootId, claimedNodeIds, rootChildren),
+		...forgetOrRemoveStalePins(desiredBookmarks, nodesById, mapping),
 	];
 }
 
-/** A link that stopped being a favourite loses its pin, nothing else. */
-function findUnpinnedBookmarks(
+/**
+ * Imposing the order is a separate step because it is throttled: only a
+ * freshly computed ranking earns the right to rearrange the bar, so a manual
+ * reordering survives until the next recompute instead of being undone by the
+ * very next sync.
+ */
+export function buildPinnedReorder(
 	desiredBookmarks: DesiredBookmark[],
-	rootChildren: BookmarkNode[],
+	barId: string,
+	barChildren: BookmarkNode[],
 	mapping: BookmarkMapping
 ): BookmarkOperation[] {
-	const desiredLinkKeys = new Set(
-		desiredBookmarks.map((bookmark) => buildPinnedLinkKey(bookmark.linkId))
-	);
-	const presentNodeIds = new Set(rootChildren.map((child) => child.id));
-
-	return Object.entries(mapping.bookmarkIdByLinkKey)
-		.filter(([linkKey]) => linkKey.startsWith(`${PINNED_LINK_KEY_PREFIX}:`))
-		.filter(([linkKey]) => !desiredLinkKeys.has(linkKey))
-		.filter(([, nodeId]) => presentNodeIds.has(nodeId))
-		.map(
-			([linkKey, nodeId]): BookmarkOperation => ({
-				kind: 'remove-bookmark',
-				nodeId,
-				linkKey,
-			})
+	const presentNodeIds = new Set(barChildren.map((child) => child.id));
+	const rankedNodeIds = desiredBookmarks
+		.map((bookmark) =>
+			getMappedBookmarkId(mapping, buildPinnedLinkKey(bookmark.linkId))
+		)
+		.filter(
+			(nodeId): nodeId is string =>
+				nodeId !== undefined && presentNodeIds.has(nodeId)
 		);
-}
 
-/**
- * Only emitted when the pins are actually out of order — otherwise every
- * pass would move nodes that are already where they belong.
- */
-function buildReorderOperation(
-	rootId: string,
-	claimedNodeIds: string[],
-	rootChildren: BookmarkNode[]
-): BookmarkOperation[] {
-	const actualPinnedOrder = rootChildren
-		.filter((child) => claimedNodeIds.includes(child.id))
+	const actualOrder = barChildren
+		.filter((child) => rankedNodeIds.includes(child.id))
 		.map((child) => child.id);
 
 	const isAlreadyOrdered =
-		actualPinnedOrder.length === claimedNodeIds.length &&
-		actualPinnedOrder.every(
-			(nodeId, index) => nodeId === claimedNodeIds[index]
-		);
+		actualOrder.length === rankedNodeIds.length &&
+		actualOrder.every((nodeId, index) => nodeId === rankedNodeIds[index]);
 
 	if (isAlreadyOrdered) {
 		return [];
@@ -212,10 +202,82 @@ function buildReorderOperation(
 	return [
 		{
 			kind: 'reorder-pinned',
-			parentNodeId: rootId,
-			nodeIdsInOrder: claimedNodeIds,
+			parentNodeId: barId,
+			nodeIdsInOrder: rankedNodeIds,
 		},
 	];
+}
+
+function moveOntoBarIfNeeded(
+	actualNode: BookmarkNode,
+	barId: string
+): BookmarkOperation[] {
+	if (actualNode.parentId === barId) {
+		return [];
+	}
+	return [
+		{ kind: 'move-bookmark', nodeId: actualNode.id, parentNodeId: barId },
+	];
+}
+
+function retitleIfNeeded(
+	actualNode: BookmarkNode,
+	desiredBookmark: DesiredBookmark
+): BookmarkOperation[] {
+	if (
+		actualNode.title === desiredBookmark.title &&
+		actualNode.url === desiredBookmark.url
+	) {
+		return [];
+	}
+	return [
+		{
+			kind: 'update-bookmark',
+			nodeId: actualNode.id,
+			title: desiredBookmark.title,
+			url: desiredBookmark.url,
+		},
+	];
+}
+
+/**
+ * A link that stopped being a favourite loses its pin. When the node is
+ * already gone — the user deleted it, which is what unfavourited the link in
+ * the first place — only the bookkeeping is dropped, so no write is attempted
+ * against an id the browser has reclaimed.
+ */
+function forgetOrRemoveStalePins(
+	desiredBookmarks: DesiredBookmark[],
+	nodesById: Map<string, BookmarkNode>,
+	mapping: BookmarkMapping
+): BookmarkOperation[] {
+	const desiredLinkKeys = new Set(
+		desiredBookmarks.map((bookmark) => buildPinnedLinkKey(bookmark.linkId))
+	);
+
+	return Object.entries(mapping.bookmarkIdByLinkKey)
+		.filter(([linkKey]) => parsePinnedLinkKey(linkKey) !== undefined)
+		.filter(([linkKey]) => !desiredLinkKeys.has(linkKey))
+		.map(
+			([linkKey, nodeId]): BookmarkOperation =>
+				nodesById.has(nodeId)
+					? { kind: 'remove-bookmark', nodeId, linkKey }
+					: { kind: 'forget-bookmark', linkKey }
+		);
+}
+
+function indexBySubtreeId(nodes: BookmarkNode[]): Map<string, BookmarkNode> {
+	const nodesById = new Map<string, BookmarkNode>();
+
+	const visit = (candidates: BookmarkNode[]): void => {
+		for (const node of candidates) {
+			nodesById.set(node.id, node);
+			visit(node.children ?? []);
+		}
+	};
+	visit(nodes);
+
+	return nodesById;
 }
 
 function toDesiredBookmark(link: LinkResource): DesiredBookmark {

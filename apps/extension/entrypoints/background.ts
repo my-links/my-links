@@ -42,14 +42,29 @@ export default defineBackground(() => {
 		void syncBookmarks();
 	}, BOOKMARK_SYNC_DEBOUNCE_MS);
 
-	// `bookmarks` is an optional permission, so these listeners only exist
-	// once the user has turned mirroring on.
-	if (browser.bookmarks) {
+	// `bookmarks` is an optional permission, so the namespace does not exist
+	// until the user turns mirroring on. Registering again on `onAdded` is
+	// what keeps native edits flowing within seconds of the grant instead of
+	// waiting for the alarm — this worker is already running when the
+	// permission lands, so its startup pass has come and gone.
+	const registerBookmarkListeners = () => {
+		if (!browser.bookmarks) {
+			return;
+		}
+		if (browser.bookmarks.onCreated.hasListener(scheduleBookmarkSync)) {
+			return;
+		}
 		browser.bookmarks.onCreated.addListener(scheduleBookmarkSync);
 		browser.bookmarks.onChanged.addListener(scheduleBookmarkSync);
 		browser.bookmarks.onRemoved.addListener(scheduleBookmarkSync);
 		browser.bookmarks.onMoved.addListener(scheduleBookmarkSync);
-	}
+	};
+
+	registerBookmarkListeners();
+	browser.permissions.onAdded.addListener(() => {
+		registerBookmarkListeners();
+		void syncBookmarks();
+	});
 
 	// MV3 has no persistent thread, so "never paused" means resyncing on
 	// every plausible wake signal instead of relying solely on the alarm:

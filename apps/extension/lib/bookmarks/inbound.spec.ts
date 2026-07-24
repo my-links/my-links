@@ -63,6 +63,7 @@ describe('detectInboundChanges', () => {
 					{ id: 'b1', title: 'Docs', url: 'https://docs.example.com' },
 				]),
 			],
+			[],
 			WORK_FOLDER_MAPPING
 		);
 
@@ -77,6 +78,7 @@ describe('detectInboundChanges', () => {
 					{ id: 'new', title: 'Recipe', url: 'https://recipe.example.com' },
 				]),
 			],
+			[],
 			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
 		);
 
@@ -98,6 +100,7 @@ describe('detectInboundChanges', () => {
 					{ id: 'b1', title: 'Handbook', url: 'https://docs.example.com' },
 				]),
 			],
+			[],
 			WORK_FOLDER_MAPPING
 		);
 
@@ -118,6 +121,7 @@ describe('detectInboundChanges', () => {
 		const changes = detectInboundChanges(
 			[buildCollection()],
 			[buildFolderNode('f1', 'Work')],
+			[],
 			WORK_FOLDER_MAPPING
 		);
 
@@ -143,6 +147,7 @@ describe('detectInboundChanges', () => {
 		const changes = detectInboundChanges(
 			collections,
 			[buildFolderNode('f1', 'Work'), buildFolderNode('f2', 'Reading')],
+			[],
 			{
 				folderIdByCollectionId: { '1': 'f1', '2': 'f2' },
 				bookmarkIdByLinkKey: { '1:10': 'b1', '2:10': 'b2' },
@@ -172,6 +177,7 @@ describe('detectInboundChanges', () => {
 					{ id: 'b1', title: 'Docs', url: 'https://docs.example.com' },
 				]),
 			],
+			[],
 			{
 				folderIdByCollectionId: { '1': 'f1', '2': 'f2' },
 				bookmarkIdByLinkKey: { '1:10': 'b1' },
@@ -191,6 +197,7 @@ describe('detectInboundChanges', () => {
 		const changes = detectInboundChanges(
 			[buildCollection({ links: [buildLink({ collectionIds: [1, 99] })] })],
 			[buildFolderNode('f1', 'Work')],
+			[],
 			WORK_FOLDER_MAPPING
 		);
 
@@ -203,6 +210,7 @@ describe('detectInboundChanges', () => {
 		const changes = detectInboundChanges(
 			[buildCollection({ links: [] })],
 			[buildFolderNode('f1', 'Job')],
+			[],
 			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
 		);
 
@@ -219,12 +227,79 @@ describe('detectInboundChanges', () => {
 	});
 
 	it('should not delete a collection whose folder disappeared', () => {
-		const changes = detectInboundChanges([buildCollection({ links: [] })], [], {
-			folderIdByCollectionId: { '1': 'f1' },
-			bookmarkIdByLinkKey: {},
-		});
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [] })],
+			[],
+			[],
+			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
+		);
 
 		expect(changes).toEqual([]);
+	});
+
+	it('should unfavourite a link whose pin was deleted from the bar', () => {
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [buildLink({ favorite: true })] })],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Docs', url: 'https://docs.example.com' },
+				]),
+			],
+			[],
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+			}
+		);
+
+		expect(changes).toEqual([
+			expect.objectContaining({
+				kind: 'update-link',
+				linkId: 10,
+				favorite: false,
+				collectionIds: [1],
+			}),
+		]);
+	});
+
+	it('should leave the favourite flag alone for a link the mirror never pinned', () => {
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [buildLink({ favorite: true })] })],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Docs', url: 'https://docs.example.com' },
+				]),
+			],
+			[],
+			WORK_FOLDER_MAPPING
+		);
+
+		expect(changes).toEqual([]);
+	});
+
+	it('should push a pin renamed on the bar back onto its link', () => {
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [buildLink({ favorite: true })] })],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Docs', url: 'https://docs.example.com' },
+				]),
+			],
+			[{ id: 'p1', title: 'Handbook', url: 'https://docs.example.com' }],
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+			}
+		);
+
+		expect(changes).toEqual([
+			expect.objectContaining({
+				kind: 'update-link',
+				linkId: 10,
+				name: 'Handbook',
+				favorite: true,
+			}),
+		]);
 	});
 
 	it('should ignore bookmarks outside any mapped collection folder', () => {
@@ -235,6 +310,7 @@ describe('detectInboundChanges', () => {
 					{ id: 'x', title: 'Old', url: 'https://old.example.com' },
 				]),
 			],
+			[],
 			EMPTY_BOOKMARK_MAPPING
 		);
 
