@@ -67,8 +67,8 @@ export function BookmarkMirrorSection() {
 			<h2 className="text-sm font-semibold">Browser bookmarks</h2>
 			<p className="text-sm text-gray-600 dark:text-gray-400">
 				{isMirroring
-					? 'Your collections are mirrored into a MyLinks folder on the bookmarks bar. MyLinks only ever writes inside that folder.'
-					: 'Mirror your collections into a MyLinks folder on the bookmarks bar. Whatever is on the bar today is moved into a dated backup folder inside it. Nothing is deleted: turning this off moves your own bookmarks back onto the bar and leaves the MyLinks folder for you to keep or remove.'}
+					? 'Your favourites sit on the bookmarks bar, most used first, and your collections are in a Collections folder kept at the front of it. Bookmarks you added yourself are never touched.'
+					: 'Put your favourites straight onto the bookmarks bar, ordered by how often you open them, with your collections in a Collections folder alongside them. Nothing already on your bar is moved or deleted, and turning this off simply stops the syncing.'}
 			</p>
 
 			{isMirroring ? (
@@ -79,7 +79,7 @@ export function BookmarkMirrorSection() {
 					disabled={isWorking}
 					onClick={() => void handleDisable()}
 				>
-					Stop mirroring
+					Stop syncing bookmarks
 				</Button>
 			) : (
 				<Button
@@ -88,7 +88,7 @@ export function BookmarkMirrorSection() {
 					disabled={isWorking}
 					onClick={() => void handleEnable()}
 				>
-					Mirror to bookmarks bar
+					Sync to bookmarks bar
 				</Button>
 			)}
 

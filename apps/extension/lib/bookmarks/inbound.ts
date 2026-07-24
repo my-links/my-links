@@ -1,4 +1,5 @@
 import { parseLinkKey } from '@/lib/bookmarks/desired_tree';
+import { parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
 import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
 import { isFolder, type BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import type {
@@ -32,11 +33,16 @@ type ObservedNode = {
 	node: BookmarkNode;
 };
 
+type PinObservation = {
+	isMapped: boolean;
+	node: BookmarkNode | undefined;
+};
+
 /**
  * Reads the native tree back and works out what the server should be told.
  *
- * Deliberately a full reconciliation rather than a replay of bookmark
- * events: the mirror's own writes fire the same events a user's edits do, and
+ * Deliberately a full reconciliation rather than a replay of bookmark events:
+ * the mirror's own writes fire the same events a user's edits do, and
  * comparing states means anything MyLinks just wrote simply produces no
  * change. It also survives events missed while the MV3 service worker was
  * asleep.
@@ -44,31 +50,42 @@ type ObservedNode = {
  * Two things are pointedly *not* propagated. A collection folder that has
  * vanished does not delete the collection — a stray drag would otherwise
  * destroy a whole collection, and the outbound pass just puts the folder
- * back. Sub-folders nested inside a collection folder are ignored: the
- * mirror is one level deep, and there is nothing on the server to map them
- * onto.
+ * back. Sub-folders nested inside a collection folder are ignored: the mirror
+ * is one level deep, and there is nothing on the server to map them onto.
  */
 export function detectInboundChanges(
 	collections: CollectionWithLinks[],
-	rootChildren: BookmarkNode[],
+	collectionsFolderChildren: BookmarkNode[],
+	barChildren: BookmarkNode[],
 	mapping: BookmarkMapping
 ): InboundChange[] {
-	const observedFolders = collectObservedFolders(rootChildren, mapping);
+	const observedFolders = collectObservedFolders(
+		collectionsFolderChildren,
+		mapping
+	);
 	const observedNodes = collectObservedNodes(observedFolders);
 
 	return [
 		...detectRenamedCollections(collections, observedFolders),
 		...detectAdoptedBookmarks(observedNodes, mapping),
-		...detectLinkChanges(collections, observedNodes, observedFolders, mapping),
+		...detectLinkChanges(
+			collections,
+			observedNodes,
+			observedFolders,
+			collectPinObservations(barChildren, mapping),
+			mapping
+		),
 	];
 }
 
-/** Mapped collection folders that are actually present under the root. */
+/** Mapped collection folders actually present inside the Collections folder. */
 function collectObservedFolders(
-	rootChildren: BookmarkNode[],
+	collectionsFolderChildren: BookmarkNode[],
 	mapping: BookmarkMapping
 ): Map<number, BookmarkNode> {
-	const nodesById = new Map(rootChildren.map((node) => [node.id, node]));
+	const nodesById = new Map(
+		collectionsFolderChildren.map((node) => [node.id, node])
+	);
 
 	return new Map(
 		Object.entries(mapping.folderIdByCollectionId)
@@ -90,6 +107,30 @@ function collectObservedNodes(
 		(folder.children ?? [])
 			.filter((child) => child.url !== undefined)
 			.map((child) => ({ collectionId, node: child }))
+	);
+}
+
+/**
+ * Where each pinned link's node stands right now. `isMapped` matters as much
+ * as the node: a link the mirror has never pinned must keep the server's
+ * favourite flag, rather than being read as "the user removed its pin".
+ */
+function collectPinObservations(
+	barChildren: BookmarkNode[],
+	mapping: BookmarkMapping
+): Map<number, PinObservation> {
+	const barNodesById = new Map(barChildren.map((node) => [node.id, node]));
+
+	return new Map(
+		Object.entries(mapping.bookmarkIdByLinkKey)
+			.map(([linkKey, nodeId]): [number | undefined, PinObservation] => [
+				parsePinnedLinkKey(linkKey),
+				{ isMapped: true, node: barNodesById.get(nodeId) },
+			])
+			.filter((entry): entry is [number, PinObservation] => {
+				const [linkId] = entry;
+				return linkId !== undefined;
+			})
 	);
 }
 
@@ -131,13 +172,14 @@ function detectAdoptedBookmarks(
 
 /**
  * One update per link, never one per node: a link dragged out of two folders
- * at once has to produce a single membership payload, or the second write
- * would undo the first.
+ * at once — or out of a folder *and* off the bar — has to produce a single
+ * payload, or the second write would undo the first.
  */
 function detectLinkChanges(
 	collections: CollectionWithLinks[],
 	observedNodes: ObservedNode[],
 	observedFolders: Map<number, BookmarkNode>,
+	pinObservations: Map<number, PinObservation>,
 	mapping: BookmarkMapping
 ): InboundChange[] {
 	const linksById = indexLinksById(collections);
@@ -148,12 +190,19 @@ function detectLinkChanges(
 		])
 	);
 	const observableCollectionIds = new Set(observedFolders.keys());
+	const mappedNodesByLinkId = groupMappedNodesByLinkId(mapping);
 
-	return [...groupMappedNodesByLinkId(mapping)]
-		.map(([linkId, mappedNodes]) =>
+	const touchedLinkIds = new Set([
+		...mappedNodesByLinkId.keys(),
+		...pinObservations.keys(),
+	]);
+
+	return [...touchedLinkIds]
+		.map((linkId) =>
 			buildLinkChange(
 				linksById.get(linkId),
-				mappedNodes,
+				mappedNodesByLinkId.get(linkId) ?? [],
+				pinObservations.get(linkId),
 				nodesByNodeId,
 				observableCollectionIds
 			)
@@ -164,6 +213,7 @@ function detectLinkChanges(
 function buildLinkChange(
 	link: LinkResource | undefined,
 	mappedNodes: { collectionId: number; nodeId: string }[],
+	pinObservation: PinObservation | undefined,
 	nodesByNodeId: Map<string, ObservedNode>,
 	observableCollectionIds: Set<number>
 ): InboundChange | undefined {
@@ -188,27 +238,50 @@ function buildLinkChange(
 		]),
 	].sort((left, right) => left - right);
 
-	const editedNode = presentNodes.find(
-		({ node }) => node.title !== link.name || node.url !== link.url
-	);
+	// Deleting a pin is how the bar unfavourites a link. Only a link the
+	// mirror actually pinned can be read that way; for anything else the
+	// server's flag stands.
+	const nextFavorite = pinObservation?.isMapped
+		? pinObservation.node !== undefined
+		: link.favorite;
+
+	const editedNode =
+		presentNodes.find(
+			({ node }) => node.title !== link.name || node.url !== link.url
+		)?.node ?? findEditedPin(pinObservation, link);
 
 	const hasMembershipChange = !areSameIds(
 		nextCollectionIds,
 		link.collectionIds
 	);
-	if (!hasMembershipChange && !editedNode) {
+	const hasFavoriteChange = nextFavorite !== link.favorite;
+	if (!hasMembershipChange && !hasFavoriteChange && !editedNode) {
 		return undefined;
 	}
 
 	return {
 		kind: 'update-link',
 		linkId: link.id,
-		name: editedNode?.node.title ?? link.name,
-		url: editedNode?.node.url ?? link.url,
+		name: editedNode?.title ?? link.name,
+		url: editedNode?.url ?? link.url,
 		description: link.description,
-		favorite: link.favorite,
+		favorite: nextFavorite,
 		collectionIds: nextCollectionIds,
 	};
+}
+
+function findEditedPin(
+	pinObservation: PinObservation | undefined,
+	link: LinkResource
+): BookmarkNode | undefined {
+	const pinnedNode = pinObservation?.node;
+	if (!pinnedNode) {
+		return undefined;
+	}
+	if (pinnedNode.title === link.name && pinnedNode.url === link.url) {
+		return undefined;
+	}
+	return pinnedNode;
 }
 
 function groupMappedNodesByLinkId(

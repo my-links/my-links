@@ -67,6 +67,11 @@ async function applyOperation(
 		case 'remove-bookmark':
 			await api.remove(operation.nodeId);
 			return [{ kind: 'unmap-bookmark', linkKey: operation.linkKey }];
+		case 'forget-bookmark':
+			return [{ kind: 'unmap-bookmark', linkKey: operation.linkKey }];
+		case 'move-bookmark':
+			await api.move(operation.nodeId, { parentId: operation.parentNodeId });
+			return [];
 		case 'reorder-pinned':
 			await reorderPinned(api, operation);
 			return [];

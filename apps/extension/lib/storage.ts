@@ -69,21 +69,18 @@ export const authInvalidStorage = storage.defineItem<boolean>(
 
 export interface BookmarkMirrorState {
 	isEnabled: boolean;
-	/** Id of the single `MyLinks` folder the mirror is allowed to write in. */
+	/** Id of the `Collections` folder holding the mirrored collections. */
 	rootId: string | null;
-	/** Dated folder holding whatever was on the bookmarks bar before takeover. */
-	backupFolderId: string | null;
 }
 
 const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
 	isEnabled: false,
 	rootId: null,
-	backupFolderId: null,
 };
 
 /**
- * Off until the user turns it on from the options page — mirroring rearranges
- * their bookmarks bar, which is not something to do behind their back. The
+ * Off until the user turns it on from the options page — putting things on
+ * someone's bookmarks bar is not something to do behind their back. The
  * `bookmarks` permission is optional for the same reason.
  */
 export const bookmarkMirrorStorage = storage.defineItem<BookmarkMirrorState>(

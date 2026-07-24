@@ -28,6 +28,9 @@ export type BookmarkOperation =
 	  }
 	| { kind: 'update-bookmark'; nodeId: string; title: string; url: string }
 	| { kind: 'remove-bookmark'; nodeId: string; linkKey: string }
+	/** Drops a mapping entry whose node the browser has already reclaimed. */
+	| { kind: 'forget-bookmark'; linkKey: string }
+	| { kind: 'move-bookmark'; nodeId: string; parentNodeId: string }
 	/**
 	 * Ordering is one operation carrying the whole ranking rather than a move
 	 * per node: each move renumbers its siblings, so independently computed
