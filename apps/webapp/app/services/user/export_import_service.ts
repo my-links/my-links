@@ -1,8 +1,20 @@
+import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
+import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
+import { CollectionService } from '#services/collections/collection_service';
+
+type ExportLink = {
+	name: string;
+	description: string | null;
+	url: string;
+	favorite: boolean;
+	// Indexes into `collections` above — a link can belong to several.
+	collectionIndexes: number[];
+};
 
 type ExportData = {
 	collections: Array<{
@@ -11,14 +23,14 @@ type ExportData = {
 		visibility: string;
 		icon: string | null;
 	}>;
-	links: Array<{
-		name: string;
-		description: string | null;
-		url: string;
-		favorite: boolean;
-		// Indexes into `collections` above — a link can belong to several.
-		collectionIndexes: number[];
-	}>;
+	links: Array<ExportLink>;
+};
+
+type ImportLink = {
+	name: string;
+	description?: string | null;
+	url: string;
+	favorite: boolean;
 };
 
 type ValidatedImportData = {
@@ -27,17 +39,19 @@ type ValidatedImportData = {
 		description?: string | null;
 		visibility: string;
 		icon?: string | null;
+		// Legacy format: links nested under a single collection.
+		links?: Array<ImportLink>;
 	}>;
-	links?: Array<{
-		name: string;
-		description?: string | null;
-		url: string;
-		favorite: boolean;
-		collectionIndexes: number[];
-	}>;
+	// New format: links at the top level referencing collections by index.
+	links?: Array<ImportLink & { collectionIndexes: number[] }>;
 };
 
+type LinkToCreate = { link: ImportLink; collectionIndexes: number[] };
+
+@inject()
 export class ExportImportService {
+	constructor(protected readonly collectionService: CollectionService) {}
+
 	async exportUserData(userId: User['id']): Promise<ExportData> {
 		const collections = await Collection.query()
 			.where('author_id', userId)
@@ -91,7 +105,9 @@ export class ExportImportService {
 				{ client: transaction }
 			);
 
-			for (const linkData of validatedData.links ?? []) {
+			const linksToCreate = this.collectLinksToImport(validatedData);
+
+			for (const { link: linkData, collectionIndexes } of linksToCreate) {
 				const link = await Link.create(
 					{
 						name: linkData.name,
@@ -103,14 +119,66 @@ export class ExportImportService {
 					{ client: transaction }
 				);
 
-				const collectionIds = linkData.collectionIndexes
-					.map((index) => createdCollections[index]?.id)
-					.filter((id): id is number => id !== undefined);
-
-				if (collectionIds.length > 0) {
-					await link.related('collections').attach(collectionIds, transaction);
-				}
+				const collectionIds = await this.resolveImportedCollectionIds(
+					userId,
+					collectionIndexes,
+					createdCollections,
+					transaction
+				);
+				await link.related('collections').attach(collectionIds, transaction);
 			}
 		});
+	}
+
+	/**
+	 * Maps a link's collection indexes to the freshly-created collection ids,
+	 * falling back to Inbox when a (malformed) file references none — every
+	 * link must keep at least one collection.
+	 */
+	private async resolveImportedCollectionIds(
+		userId: User['id'],
+		collectionIndexes: number[],
+		createdCollections: Collection[],
+		transaction: TransactionClientContract
+	): Promise<number[]> {
+		const collectionIds = collectionIndexes
+			.map((index) => createdCollections[index]?.id)
+			.filter((id): id is number => id !== undefined);
+
+		if (collectionIds.length > 0) {
+			return collectionIds;
+		}
+
+		const defaultCollection =
+			await this.collectionService.getOrCreateDefaultCollection(
+				userId,
+				transaction
+			);
+		return [defaultCollection.id];
+	}
+
+	/**
+	 * Flattens both export formats into a single list: the current one (links
+	 * at the top level referencing collections by index) and the legacy one
+	 * (links nested under a single collection). Old export files predate
+	 * multi-collection, so a nested link maps to exactly its parent's index.
+	 */
+	private collectLinksToImport(
+		validatedData: ValidatedImportData
+	): LinkToCreate[] {
+		const nestedLinks = validatedData.collections.flatMap(
+			(collectionData, collectionIndex) =>
+				(collectionData.links ?? []).map((link) => ({
+					link,
+					collectionIndexes: [collectionIndex],
+				}))
+		);
+
+		const topLevelLinks = (validatedData.links ?? []).map((link) => ({
+			link,
+			collectionIndexes: link.collectionIndexes,
+		}));
+
+		return [...nestedLinks, ...topLevelLinks];
 	}
 }

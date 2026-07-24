@@ -1,5 +1,6 @@
 import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
+import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
 import Collection from '#models/collection';
@@ -126,8 +127,11 @@ export class CollectionService {
 		});
 	}
 
-	async getOrCreateDefaultCollection(userId: User['id']): Promise<Collection> {
-		const existingDefaultCollection = await Collection.query()
+	async getOrCreateDefaultCollection(
+		userId: User['id'],
+		client?: TransactionClientContract
+	): Promise<Collection> {
+		const existingDefaultCollection = await Collection.query({ client })
 			.where('author_id', userId)
 			.andWhere('is_default', true)
 			.first();
@@ -136,14 +140,17 @@ export class CollectionService {
 			return existingDefaultCollection;
 		}
 
-		return await Collection.create({
-			name: DEFAULT_COLLECTION_NAME,
-			description: null,
-			visibility: Visibility.PRIVATE,
-			icon: null,
-			authorId: userId,
-			isDefault: true,
-		});
+		return await Collection.create(
+			{
+				name: DEFAULT_COLLECTION_NAME,
+				description: null,
+				visibility: Visibility.PRIVATE,
+				icon: null,
+				authorId: userId,
+				isDefault: true,
+			},
+			{ client }
+		);
 	}
 
 	getPublicCollectionById(id: Collection['id']) {

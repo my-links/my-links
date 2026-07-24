@@ -1,0 +1,185 @@
+import { test } from '@japa/runner';
+import testUtils from '@adonisjs/core/services/test_utils';
+
+import Link from '#models/link';
+import User from '#models/user';
+import Collection from '#models/collection';
+import { Visibility } from '#enums/collections/visibility';
+import { ExportImportService } from '#services/user/export_import_service';
+import { CollectionService } from '#services/collections/collection_service';
+
+function buildService() {
+	return new ExportImportService(new CollectionService());
+}
+
+let userCounter = 0;
+async function createUser() {
+	userCounter += 1;
+	return User.create({
+		email: `export-import-${Date.now()}-${userCounter}@example.com`,
+		name: 'Export Import Test User',
+		avatarUrl: 'https://example.com/avatar.png',
+		providerId: Date.now() + userCounter,
+	});
+}
+
+async function createCollection(user: User, name: string) {
+	return Collection.create({
+		name,
+		description: null,
+		visibility: Visibility.PRIVATE,
+		icon: null,
+		authorId: user.id,
+	});
+}
+
+async function collectionIdsForLinkNamed(user: User, name: string) {
+	const link = await Link.query()
+		.where('author_id', user.id)
+		.andWhere('name', name)
+		.preload('collections')
+		.firstOrFail();
+	return link.collections.map((collection) => collection.id);
+}
+
+test.group('Export/import — multi-collection', (group) => {
+	group.each.setup(() => testUtils.db().withGlobalTransaction());
+
+	test('should export a link once with an index per collection it belongs to', async ({
+		assert,
+	}) => {
+		const user = await createUser();
+		const work = await createCollection(user, 'Work');
+		const reading = await createCollection(user, 'Reading');
+		const link = await Link.create({
+			name: 'Shared link',
+			description: null,
+			url: 'https://example.com',
+			favorite: false,
+			authorId: user.id,
+		});
+		await link.related('collections').attach([work.id, reading.id]);
+
+		const data = await buildService().exportUserData(user.id);
+
+		assert.lengthOf(data.links, 1);
+		assert.equal(data.links[0].name, 'Shared link');
+		// Collections are exported ordered by name: Reading (0), Work (1).
+		assert.sameMembers(data.links[0].collectionIndexes, [0, 1]);
+	});
+
+	test('should import the top-level format into multi-collection membership', async ({
+		assert,
+	}) => {
+		const user = await createUser();
+
+		await buildService().importUserData(user.id, {
+			collections: [
+				{ name: 'Work', visibility: 'PRIVATE' },
+				{ name: 'Reading', visibility: 'PRIVATE' },
+			],
+			links: [
+				{
+					name: 'Shared link',
+					url: 'https://example.com',
+					favorite: false,
+					collectionIndexes: [0, 1],
+				},
+			],
+		});
+
+		const collections = await Collection.query()
+			.where('author_id', user.id)
+			.orderBy('name', 'asc');
+		const membership = await collectionIdsForLinkNamed(user, 'Shared link');
+		assert.sameMembers(
+			membership,
+			collections.map((collection) => collection.id)
+		);
+	});
+
+	test('should import the legacy nested-links format', async ({ assert }) => {
+		const user = await createUser();
+
+		await buildService().importUserData(user.id, {
+			collections: [
+				{
+					name: 'Work',
+					visibility: 'PRIVATE',
+					links: [
+						{
+							name: 'Legacy link',
+							url: 'https://example.com',
+							favorite: false,
+						},
+					],
+				},
+			],
+		});
+
+		const work = await Collection.query()
+			.where('author_id', user.id)
+			.andWhere('name', 'Work')
+			.firstOrFail();
+		const membership = await collectionIdsForLinkNamed(user, 'Legacy link');
+		assert.deepEqual(membership, [work.id]);
+	});
+
+	test('should fall back to Inbox when an imported link references no collection', async ({
+		assert,
+	}) => {
+		const user = await createUser();
+
+		await buildService().importUserData(user.id, {
+			collections: [{ name: 'Work', visibility: 'PRIVATE' }],
+			links: [
+				{
+					name: 'Homeless link',
+					url: 'https://example.com',
+					favorite: false,
+					collectionIndexes: [],
+				},
+			],
+		});
+
+		const inbox = await Collection.query()
+			.where('author_id', user.id)
+			.andWhere('is_default', true)
+			.firstOrFail();
+		const membership = await collectionIdsForLinkNamed(user, 'Homeless link');
+		assert.deepEqual(membership, [inbox.id]);
+	});
+
+	test('should round-trip a multi-collection export into another account', async ({
+		assert,
+	}) => {
+		const source = await createUser();
+		const work = await createCollection(source, 'Work');
+		const reading = await createCollection(source, 'Reading');
+		const link = await Link.create({
+			name: 'Round trip link',
+			description: null,
+			url: 'https://example.com',
+			favorite: true,
+			authorId: source.id,
+		});
+		await link.related('collections').attach([work.id, reading.id]);
+
+		const exported = await buildService().exportUserData(source.id);
+
+		const target = await createUser();
+		await buildService().importUserData(target.id, exported);
+
+		const targetCollections = await Collection.query()
+			.where('author_id', target.id)
+			.orderBy('name', 'asc');
+		const membership = await collectionIdsForLinkNamed(
+			target,
+			'Round trip link'
+		);
+		assert.sameMembers(
+			membership,
+			targetCollections.map((collection) => collection.id)
+		);
+	});
+});
