@@ -1,3 +1,7 @@
+import { isRequestSyncMessage } from '@/lib/sync/messages';
+import { syncCollections } from '@/lib/sync/sync_collections';
+import { SYNC_ALARM_NAME, SYNC_INTERVAL_MINUTES } from '@/lib/sync/constants';
+
 export default defineBackground(() => {
 	// Firefox has no `sidePanel` API yet (it uses `sidebar_action` instead) —
 	// this is a no-op there until Firefox parity lands.
@@ -6,4 +10,38 @@ export default defineBackground(() => {
 		.catch((error: unknown) => {
 			console.error('Failed to set side panel behavior', error);
 		});
+
+	void browser.alarms.create(SYNC_ALARM_NAME, {
+		periodInMinutes: SYNC_INTERVAL_MINUTES,
+	});
+
+	browser.alarms.onAlarm.addListener((alarm) => {
+		if (alarm.name === SYNC_ALARM_NAME) {
+			void syncCollections();
+		}
+	});
+
+	// MV3 has no persistent thread, so "never paused" means resyncing on
+	// every plausible wake signal instead of relying solely on the alarm:
+	// switching tabs, regaining window focus, or a sidebar asking directly.
+	browser.tabs.onActivated.addListener(() => {
+		void syncCollections();
+	});
+
+	browser.windows.onFocusChanged.addListener((windowId) => {
+		if (windowId !== browser.windows.WINDOW_ID_NONE) {
+			void syncCollections();
+		}
+	});
+
+	browser.runtime.onMessage.addListener((message: unknown) => {
+		if (isRequestSyncMessage(message)) {
+			void syncCollections();
+		}
+	});
+
+	// This callback itself reruns on every service worker wake (install,
+	// browser start, any of the listeners above) — resync immediately rather
+	// than waiting for the next alarm tick.
+	void syncCollections();
 });

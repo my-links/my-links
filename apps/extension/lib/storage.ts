@@ -1,5 +1,11 @@
 import { storage } from 'wxt/utils/storage';
 
+import type { CollectionWithLinks } from '@/lib/api/types';
+import {
+	INITIAL_SYNC_BACKOFF_STATE,
+	type SyncBackoffState,
+} from '@/lib/sync/backoff';
+
 const LOCAL_DEV_INSTANCE_URL = 'http://localhost:3333';
 const PUBLIC_INSTANCE_URL = 'https://mylinks.app';
 
@@ -15,6 +21,31 @@ export const instanceUrlStorage = storage.defineItem<string>(
 export const apiTokenStorage = storage.defineItem<string | null>(
 	'local:apiToken',
 	{ fallback: null }
+);
+
+export interface CollectionsCache {
+	collections: CollectionWithLinks[];
+	fetchedAt: number;
+}
+
+const EMPTY_COLLECTIONS_CACHE: CollectionsCache = {
+	collections: [],
+	fetchedAt: 0,
+};
+
+/**
+ * Written by the background worker, read by every open sidebar/newtab —
+ * the single source of truth the UI hydrates from instantly on mount so it
+ * never shows a blank/loading state on reopen (see `use_collections.ts`).
+ */
+export const collectionsCacheStorage = storage.defineItem<CollectionsCache>(
+	'local:collectionsCache',
+	{ fallback: EMPTY_COLLECTIONS_CACHE }
+);
+
+export const syncBackoffStorage = storage.defineItem<SyncBackoffState>(
+	'local:syncBackoff',
+	{ fallback: INITIAL_SYNC_BACKOFF_STATE }
 );
 
 /**
