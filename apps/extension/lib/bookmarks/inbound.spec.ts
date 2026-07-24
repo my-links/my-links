@@ -262,6 +262,28 @@ describe('detectInboundChanges', () => {
 		]);
 	});
 
+	it('should not unfavourite a pin that merely sits inside a folder', () => {
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [buildLink({ favorite: true })] })],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Docs', url: 'https://docs.example.com' },
+				]),
+			],
+			[
+				buildFolderNode('collections', 'Collections', [
+					{ id: 'p1', title: 'Docs', url: 'https://docs.example.com' },
+				]),
+			],
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+			}
+		);
+
+		expect(changes).toEqual([]);
+	});
+
 	it('should leave the favourite flag alone for a link the mirror never pinned', () => {
 		const changes = detectInboundChanges(
 			[buildCollection({ links: [buildLink({ favorite: true })] })],

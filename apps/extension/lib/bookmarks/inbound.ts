@@ -1,7 +1,11 @@
 import { parseLinkKey } from '@/lib/bookmarks/desired_tree';
 import { parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
 import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
-import { isFolder, type BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
+import {
+	indexBySubtreeId,
+	isFolder,
+	type BookmarkNode,
+} from '@/lib/bookmarks/bookmarks_api';
 import type {
 	CollectionVisibility,
 	CollectionWithLinks,
@@ -114,12 +118,17 @@ function collectObservedNodes(
  * Where each pinned link's node stands right now. `isMapped` matters as much
  * as the node: a link the mirror has never pinned must keep the server's
  * favourite flag, rather than being read as "the user removed its pin".
+ *
+ * Searched across the bar's whole subtree, deliberately: a pin dragged into a
+ * folder — or left inside one by an older layout — is misplaced, not deleted.
+ * Matching only the bar's top level would unfavourite it, and since this pass
+ * runs before the outbound one, nothing would ever get to move it back.
  */
 function collectPinObservations(
-	barChildren: BookmarkNode[],
+	barNodes: BookmarkNode[],
 	mapping: BookmarkMapping
 ): Map<number, PinObservation> {
-	const barNodesById = new Map(barChildren.map((node) => [node.id, node]));
+	const barNodesById = indexBySubtreeId(barNodes);
 
 	return new Map(
 		Object.entries(mapping.bookmarkIdByLinkKey)

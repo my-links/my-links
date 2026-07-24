@@ -5,6 +5,7 @@ import { runWithConcurrencyLimit } from '@/lib/concurrency';
 import { syncCollections } from '@/lib/sync/sync_collections';
 import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
 import { buildDesiredTree } from '@/lib/bookmarks/desired_tree';
+import { createCoalescingRunner } from '@/lib/coalescing_runner';
 import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
 import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import {
@@ -36,27 +37,23 @@ import {
 	resolveRankedFavorites,
 } from '@/lib/bookmarks/pinned';
 
-let isMirroring = false;
-
 /**
- * One reconciliation pass between the server's collections and the native
- * bookmarks tree.
+ * Reconciles the server's collections with the native bookmarks tree.
  *
  * Native edits are pushed first. When there are any, the pass stops right
  * after refreshing the collections cache instead of also mirroring: the
- * server has just assigned real ids, and the cache watcher re-enters here
- * with them. Two short converging passes beat one pass reasoning about
- * records it half-invented.
+ * server has just assigned real ids, and the run repeats with them. Two short
+ * converging passes beat one pass reasoning about records it half-invented.
+ *
+ * Coalescing rather than a plain mutex, because that convergence depends on
+ * it: a request arriving mid-pass — the cache write from the sync above, a
+ * bookmark event, the alarm — is what carries the mirror to its next state,
+ * and dropping it would strand the two sides apart until an unrelated trigger
+ * happened along.
  */
-export async function syncBookmarks(): Promise<void> {
-	// Set before the first `await`, like the collections sync mutex: a
-	// bookmark event and an alarm landing in the same tick must not both get
-	// past this check.
-	if (isMirroring) {
-		return;
-	}
-	isMirroring = true;
+export const syncBookmarks = createCoalescingRunner(runMirrorPass);
 
+async function runMirrorPass(): Promise<void> {
 	try {
 		const mirrorState = await bookmarkMirrorStorage.getValue();
 		if (!mirrorState.isEnabled) {
@@ -151,8 +148,6 @@ export async function syncBookmarks(): Promise<void> {
 		}
 	} catch (error) {
 		console.error('MyLinks bookmark mirror failed', error);
-	} finally {
-		isMirroring = false;
 	}
 }
 
