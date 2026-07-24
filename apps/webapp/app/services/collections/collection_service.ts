@@ -32,7 +32,7 @@ export class CollectionService {
 				});
 			})
 			.preload('links', (q) => {
-				q.orderBy('name', 'asc');
+				q.orderBy('name', 'asc').preload('collections');
 			})
 			.preload('author')
 			.firstOrFail();
@@ -49,7 +49,7 @@ export class CollectionService {
 			.where('author_id', context.auth.getUserOrFail().id)
 			.orderBy('name', 'asc')
 			.preload('links', (q) => {
-				q.orderBy('favorite', 'desc');
+				q.orderBy('favorite', 'desc').preload('collections');
 			});
 	}
 
@@ -91,9 +91,13 @@ export class CollectionService {
 
 	async deleteCollection(id: Collection['id']) {
 		const context = this.getAuthContext();
+		const userId = context.auth.getUserOrFail().id;
 		const collection = await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.getUserOrFail().id)
+			.andWhere('author_id', userId)
+			.preload('links', (linksQuery) => {
+				linksQuery.preload('collections');
+			})
 			.firstOrFail();
 
 		if (collection.isDefault) {
@@ -102,11 +106,24 @@ export class CollectionService {
 			);
 		}
 
-		return Collection.query()
-			.where('id', id)
-			.andWhere('author_id', context.auth.getUserOrFail().id)
-			.orderBy('name', 'asc')
-			.delete();
+		const orphanedLinkIds = collection.links
+			.filter((link) => link.collections.length === 1)
+			.map((link) => link.id);
+
+		return db.transaction(async (transaction) => {
+			if (orphanedLinkIds.length > 0) {
+				const defaultCollection =
+					await this.getOrCreateDefaultCollection(userId);
+				await defaultCollection
+					.related('links')
+					.attach(orphanedLinkIds, transaction);
+			}
+
+			await Collection.query({ client: transaction })
+				.where('id', id)
+				.andWhere('author_id', userId)
+				.delete();
+		});
 	}
 
 	async getOrCreateDefaultCollection(userId: User['id']): Promise<Collection> {
@@ -134,7 +151,7 @@ export class CollectionService {
 			.where('id', id)
 			.andWhere('visibility', Visibility.PUBLIC)
 			.preload('links', (q) => {
-				q.orderBy('name', 'asc');
+				q.orderBy('name', 'asc').preload('collections');
 			})
 			.preload('author')
 			.orderBy('name', 'asc')

@@ -5,5 +5,5 @@ export const baseLinkValidator = vine.object({
 	description: vine.string().trim().maxLength(300).optional(),
 	url: vine.string().normalizeUrl({ defaultProtocol: 'https' }).trim(),
 	favorite: vine.boolean(),
-	collectionId: vine.number(),
+	collectionIds: vine.array(vine.number()).minLength(1),
 });

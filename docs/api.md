@@ -51,7 +51,7 @@ Retrieve all collections for the authenticated user.
 					"description": "Link description",
 					"url": "https://example.com",
 					"favorite": false,
-					"collectionId": 1,
+					"collectionIds": [1],
 					"authorId": 1,
 					"createdAt": "2024-01-01T00:00:00.000Z",
 					"updatedAt": "2024-01-01T00:00:00.000Z"
@@ -204,7 +204,7 @@ Create a new link in a collection.
 	"description": "Link description (optional, max 300 characters)",
 	"url": "https://example.com",
 	"favorite": false,
-	"collectionId": 1
+	"collectionIds": [1]
 }
 ```
 
@@ -214,7 +214,7 @@ Create a new link in a collection.
 - `description` (optional): Link description (max 300 characters)
 - `url` (required): Link URL (valid URL format)
 - `favorite` (required): Whether the link is marked as favorite (boolean)
-- `collectionId` (required): ID of the collection to add the link to
+- `collectionIds` (optional): IDs of the collections to add the link to (defaults to the Inbox collection when omitted or empty)
 
 **Response:**
 
@@ -227,7 +227,6 @@ Create a new link in a collection.
 		"description": "Link description",
 		"url": "https://example.com",
 		"favorite": false,
-		"collectionId": 1,
 		"authorId": 1,
 		"createdAt": "2024-01-01T00:00:00.000Z",
 		"updatedAt": "2024-01-01T00:00:00.000Z"
@@ -258,7 +257,7 @@ Update an existing link.
 	"description": "Updated description",
 	"url": "https://updated-example.com",
 	"favorite": true,
-	"collectionId": 1
+	"collectionIds": [1]
 }
 ```
 
@@ -268,7 +267,7 @@ Update an existing link.
 - `description` (optional): Link description (max 300 characters)
 - `url` (required): Link URL (valid URL format)
 - `favorite` (required): Whether the link is marked as favorite (boolean)
-- `collectionId` (required): ID of the collection
+- `collectionIds` (required): IDs of the collections this link belongs to (at least one)
 
 **Response:**
 
@@ -320,7 +319,7 @@ Retrieve all favorite links for the authenticated user.
 		"description": "Link description",
 		"url": "https://example.com",
 		"favorite": true,
-		"collectionId": 1,
+		"collectionIds": [1],
 		"authorId": 1,
 		"createdAt": "2024-01-01T00:00:00.000Z",
 		"updatedAt": "2024-01-01T00:00:00.000Z"
@@ -440,7 +439,7 @@ Returned when an unexpected server error occurs.
 	description: string | null;
 	url: string;
 	favorite: boolean;
-	collectionId: number;
+	collectionIds: number[];
 	authorId: number;
 	createdAt: string | null; // ISO 8601 date string
 	updatedAt: string | null; // ISO 8601 date string

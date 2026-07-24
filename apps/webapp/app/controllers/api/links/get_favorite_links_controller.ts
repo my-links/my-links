@@ -10,6 +10,8 @@ export default class GetFavoriteLinksController {
 
 	public async render({ serialize }: HttpContext) {
 		const links = await this.linkService.getMyFavoriteLinks();
-		return serialize(LinkTransformer.transform(links));
+		return serialize(
+			LinkTransformer.transform(links).useVariant('withCollections')
+		);
 	}
 }

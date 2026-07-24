@@ -19,8 +19,9 @@ export default class DeleteLinkController {
 			params.id,
 			auth.getUserOrFail().id
 		);
+		const [primaryCollection] = link.collections;
 		await this.linkService.deleteLink(params.id);
 
-		return this.collectionsService.redirectToCollectionId(link.collectionId);
+		return this.collectionsService.redirectToCollectionId(primaryCollection.id);
 	}
 }

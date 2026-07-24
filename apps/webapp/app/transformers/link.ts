@@ -2,7 +2,6 @@ import { BaseTransformer } from '@adonisjs/core/transformers';
 
 import type Link from '#models/link';
 import UserTransformer from '#transformers/user';
-import CollectionTransformer from '#transformers/collection';
 
 export default class LinkTransformer extends BaseTransformer<Link> {
 	toObject() {
@@ -12,7 +11,6 @@ export default class LinkTransformer extends BaseTransformer<Link> {
 			description: this.resource.description ?? null,
 			url: this.resource.url,
 			favorite: this.resource.favorite,
-			collectionId: this.resource.collectionId,
 			authorId: this.resource.authorId,
 			author: UserTransformer.transform(this.whenLoaded(this.resource.author)),
 			createdAt: this.resource.createdAt?.toString(),
@@ -20,11 +18,11 @@ export default class LinkTransformer extends BaseTransformer<Link> {
 		};
 	}
 
-	withCollection() {
+	withCollections() {
 		return {
 			...this.toObject(),
-			collection: CollectionTransformer.transform(
-				this.whenLoaded(this.resource.collection)
+			collectionIds: (this.resource.collections ?? []).map(
+				(collection) => collection.id
 			),
 		};
 	}

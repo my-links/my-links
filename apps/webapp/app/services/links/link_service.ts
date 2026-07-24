@@ -10,7 +10,7 @@ type LinkPayload = {
 	description?: string;
 	url: string;
 	favorite: boolean;
-	collectionId?: number;
+	collectionIds?: number[];
 };
 
 @inject()
@@ -19,22 +19,62 @@ export class LinkService {
 
 	async createLink(payload: LinkPayload) {
 		const userId = this.getAuthenticatedUserId();
-		const collectionId =
-			payload.collectionId ??
-			(await this.collectionService.getOrCreateDefaultCollection(userId)).id;
+		const { collectionIds, ...linkAttributes } = payload;
+		const resolvedCollectionIds = await this.resolveCollectionIds(
+			collectionIds,
+			userId
+		);
 
-		return Link.create({
-			...payload,
-			collectionId,
-			authorId: userId,
+		return db.transaction(async (transaction) => {
+			const link = await Link.create(
+				{ ...linkAttributes, authorId: userId },
+				{ client: transaction }
+			);
+			await link
+				.related('collections')
+				.attach(resolvedCollectionIds, transaction);
+			return link;
 		});
 	}
 
-	updateLink(id: number, payload: LinkPayload) {
-		return Link.query()
-			.where('id', id)
-			.andWhere('author_id', this.getAuthenticatedUserId())
-			.update(payload);
+	async updateLink(id: number, payload: LinkPayload) {
+		const userId = this.getAuthenticatedUserId();
+		const { collectionIds, ...linkAttributes } = payload;
+
+		return db.transaction(async (transaction) => {
+			const link = await Link.query({ client: transaction })
+				.where('id', id)
+				.andWhere('author_id', userId)
+				.firstOrFail();
+
+			link.merge(linkAttributes);
+			await link.useTransaction(transaction).save();
+
+			if (collectionIds) {
+				const resolvedCollectionIds = await this.resolveCollectionIds(
+					collectionIds,
+					userId
+				);
+				await link
+					.related('collections')
+					.sync(resolvedCollectionIds, true, transaction);
+			}
+
+			return link;
+		});
+	}
+
+	private async resolveCollectionIds(
+		collectionIds: number[] | undefined,
+		userId: number
+	) {
+		if (collectionIds && collectionIds.length > 0) {
+			return collectionIds;
+		}
+
+		const defaultCollection =
+			await this.collectionService.getOrCreateDefaultCollection(userId);
+		return [defaultCollection.id];
 	}
 
 	deleteLink(id: number) {
@@ -48,6 +88,7 @@ export class LinkService {
 		return await Link.query()
 			.where('id', id)
 			.andWhere('author_id', userId)
+			.preload('collections')
 			.firstOrFail();
 	}
 
@@ -62,6 +103,7 @@ export class LinkService {
 		return await Link.query()
 			.where('author_id', this.getAuthenticatedUserId())
 			.where('favorite', true)
+			.preload('collections')
 			.orderBy('created_at');
 	}
 

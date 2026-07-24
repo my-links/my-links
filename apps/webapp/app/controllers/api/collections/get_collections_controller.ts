@@ -12,7 +12,7 @@ export default class GetCollectionsController {
 		const collections =
 			await this.collectionService.getCollectionsForAuthenticatedUser();
 		return serialize(
-			CollectionTransformer.transform(collections).useVariant('withLinks')
+			CollectionTransformer.transform(collections).useVariant('withOwnLinks')
 		);
 	}
 }

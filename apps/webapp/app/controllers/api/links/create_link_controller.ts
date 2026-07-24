@@ -10,13 +10,13 @@ export default class CreateLinkController {
 	constructor(protected readonly linkService: LinkService) {}
 
 	async execute({ request, response, serialize }: HttpContext) {
-		const { collectionId, ...payload } = await request.validateUsing(
+		const { collectionIds, ...payload } = await request.validateUsing(
 			createLinkApiValidator
 		);
 
 		const link = await this.linkService.createLink({
 			...payload,
-			collectionId,
+			collectionIds,
 		});
 		const { data: serializedLink } = await serialize(
 			LinkTransformer.transform(link)

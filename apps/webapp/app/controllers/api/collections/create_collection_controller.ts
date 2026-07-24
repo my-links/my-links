@@ -18,7 +18,7 @@ export default class CreateCollectionController {
 			icon: payload.icon ?? null,
 		});
 		const { data: serializedCollection } = await serialize(
-			CollectionTransformer.transform(collection).useVariant('withLinks')
+			CollectionTransformer.transform(collection).useVariant('withOwnLinks')
 		);
 		return response.json({
 			message: 'Collection created successfully',
