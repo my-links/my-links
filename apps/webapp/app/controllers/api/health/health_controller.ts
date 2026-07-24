@@ -21,6 +21,7 @@ const { version } = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
 const capabilities = {
 	extensionAuthHandoff: true,
 	apiSearch: true,
+	syncDelta: true,
 } as const;
 
 export default class HealthController {

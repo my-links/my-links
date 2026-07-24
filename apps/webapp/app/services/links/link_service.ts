@@ -3,6 +3,7 @@ import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
 
 import Link from '#models/link';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { CollectionService } from '#services/collections/collection_service';
 
 type LinkPayload = {
@@ -15,7 +16,10 @@ type LinkPayload = {
 
 @inject()
 export class LinkService {
-	constructor(protected readonly collectionService: CollectionService) {}
+	constructor(
+		protected readonly collectionService: CollectionService,
+		protected readonly syncJournalService: SyncJournalService
+	) {}
 
 	async createLink(payload: LinkPayload) {
 		const userId = this.getAuthenticatedUserId();
@@ -60,6 +64,7 @@ export class LinkService {
 				await link
 					.related('collections')
 					.sync(resolvedCollectionIds, true, transaction);
+				await this.syncJournalService.markLinksChanged([id], transaction);
 			}
 		});
 
@@ -79,11 +84,22 @@ export class LinkService {
 		return [defaultCollection.id];
 	}
 
-	deleteLink(id: number) {
-		return Link.query()
-			.where('id', id)
-			.andWhere('author_id', this.getAuthenticatedUserId())
-			.delete();
+	async deleteLink(id: number) {
+		const userId = this.getAuthenticatedUserId();
+
+		await db.transaction(async (transaction) => {
+			const link = await Link.query({ client: transaction })
+				.where('id', id)
+				.andWhere('author_id', userId)
+				.first();
+
+			if (!link) {
+				return;
+			}
+
+			await link.useTransaction(transaction).delete();
+			await this.syncJournalService.recordDeletedLink(userId, id, transaction);
+		});
 	}
 
 	async getLinkById(id: Link['id'], userId: Link['id']) {
@@ -94,11 +110,19 @@ export class LinkService {
 			.firstOrFail();
 	}
 
-	updateFavorite(id: number, favorite: boolean) {
-		return Link.query()
+	/**
+	 * Saved through the model rather than a bare `update()` so `updated_at`
+	 * is bumped — a favourite toggle has to surface on the delta feed like
+	 * any other change (the extension ranks pinned bookmarks off it).
+	 */
+	async updateFavorite(id: number, favorite: boolean) {
+		const link = await Link.query()
 			.where('id', id)
 			.andWhere('author_id', this.getAuthenticatedUserId())
-			.update({ favorite });
+			.firstOrFail();
+
+		link.favorite = favorite;
+		return await link.save();
 	}
 
 	async getMyFavoriteLinks() {

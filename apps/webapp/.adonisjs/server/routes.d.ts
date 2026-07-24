@@ -45,6 +45,7 @@ export type ScannedRoutes = {
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-search.index': { paramsTuple?: []; params?: {} }
+    'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
   }
   GET: {
@@ -68,6 +69,7 @@ export type ScannedRoutes = {
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
     'api-search.index': { paramsTuple?: []; params?: {} }
+    'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
@@ -91,6 +93,7 @@ export type ScannedRoutes = {
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
     'api-search.index': { paramsTuple?: []; params?: {} }
+    'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
   }
   POST: {

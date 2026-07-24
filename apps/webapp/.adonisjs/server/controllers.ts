@@ -28,6 +28,9 @@ export const controllers = {
     search: {
       Search: () => import('#controllers/api/search/search_controller'),
     },
+    sync: {
+      Sync: () => import('#controllers/api/sync/sync_controller'),
+    },
     tokens: {
       ApiToken: () => import('#controllers/api/tokens/api_token_controller'),
     },

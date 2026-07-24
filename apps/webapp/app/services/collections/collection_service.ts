@@ -1,3 +1,4 @@
+import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
@@ -5,6 +6,7 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 import User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
 import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
@@ -16,7 +18,10 @@ type CollectionPayload = {
 	icon: string | null;
 };
 
+@inject()
 export class CollectionService {
+	constructor(protected readonly syncJournalService: SyncJournalService) {}
+
 	async getAccessibleCollectionByIdWithLinks(
 		id: Collection['id'],
 		userId: User['id']
@@ -67,6 +72,11 @@ export class CollectionService {
 		});
 	}
 
+	/**
+	 * Persisted through the model rather than a bare `update()` so
+	 * `updated_at` is bumped and the change reaches the delta feed
+	 * (`GET /api/v1/sync`).
+	 */
 	async updateCollection(id: Collection['id'], payload: CollectionPayload) {
 		const context = this.getAuthContext();
 		const collection = await Collection.query()
@@ -74,16 +84,12 @@ export class CollectionService {
 			.andWhere('author_id', context.auth.getUserOrFail().id)
 			.firstOrFail();
 
-		await Collection.query()
-			.where('id', id)
-			.andWhere('author_id', context.auth.getUserOrFail().id)
-			.update(payload);
+		const wasPublic = collection.visibility === Visibility.PUBLIC;
 
-		// If collection becomes private, remove all followers
-		if (
-			collection.visibility === Visibility.PUBLIC &&
-			payload.visibility === Visibility.PRIVATE
-		) {
+		collection.merge(payload);
+		await collection.save();
+
+		if (wasPublic && payload.visibility === Visibility.PRIVATE) {
 			await this.removeAllFollowers(id);
 		}
 
@@ -111,6 +117,11 @@ export class CollectionService {
 			.filter((link) => link.collections.length === 1)
 			.map((link) => link.id);
 
+		// Every link filed here changes membership, whether it lands back in
+		// the Inbox or merely loses one of its collections — the delta feed
+		// only reports it if the link row itself is touched.
+		const affectedLinkIds = collection.links.map((link) => link.id);
+
 		return db.transaction(async (transaction) => {
 			if (orphanedLinkIds.length > 0) {
 				const defaultCollection =
@@ -124,6 +135,16 @@ export class CollectionService {
 				.where('id', id)
 				.andWhere('author_id', userId)
 				.delete();
+
+			await this.syncJournalService.markLinksChanged(
+				affectedLinkIds,
+				transaction
+			);
+			await this.syncJournalService.recordDeletedCollection(
+				userId,
+				id,
+				transaction
+			);
 		});
 	}
 
