@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import {
 	findLinkByUrl,
+	getDefaultCollectionId,
 	insertCollectionIntoTree,
 	insertLinkIntoTree,
 	removeCollectionFromTree,
@@ -177,5 +178,22 @@ describe('findLinkByUrl', () => {
 		expect(
 			findLinkByUrl(collections, 'https://missing.example')
 		).toBeUndefined();
+	});
+});
+
+describe('getDefaultCollectionId', () => {
+	it('should return the id of the collection flagged as default', () => {
+		const collections = [
+			buildCollection({ id: 1, name: 'Work' }),
+			buildCollection({ id: 2, name: 'Inbox', isDefault: true }),
+		];
+
+		expect(getDefaultCollectionId(collections)).toBe(2);
+	});
+
+	it('should return undefined when no collection is the default', () => {
+		const collections = [buildCollection({ id: 1, name: 'Work' })];
+
+		expect(getDefaultCollectionId(collections)).toBeUndefined();
 	});
 });
