@@ -85,7 +85,9 @@ export const CollectionControls = forwardRef<
 		},
 	}));
 
-	if (!isOwner) {
+	// The default (Inbox) collection can't be edited or renamed and is
+	// delete-guarded server-side — so it carries no controls at all.
+	if (!isOwner || collection.isDefault) {
 		return null;
 	}
 

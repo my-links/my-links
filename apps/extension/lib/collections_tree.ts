@@ -1,7 +1,5 @@
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 
-const DEFAULT_COLLECTION_NAME = 'Inbox';
-
 /**
  * Pure read/write helpers over the collections tree held in TanStack Query's
  * cache. Kept side-effect free so mutation hooks (`use_create_link.ts` and
@@ -70,22 +68,4 @@ export function findLinkByUrl(
 	return collections
 		.flatMap((collection) => collection.links ?? [])
 		.find((link) => link.url === url);
-}
-
-/**
- * The backend lazily creates a per-user "Inbox" collection on first
- * collection-less link (see `CollectionService.getOrCreateDefaultCollection`)
- * — it may not exist yet in a fresh account. Falls back to the first
- * collection so the create-link form always has a sane default, and to
- * `undefined` (omit `collectionId`, let the backend resolve it) only when no
- * collection exists at all yet.
- */
-export function getDefaultCollectionId(
-	collections: CollectionWithLinks[]
-): number | undefined {
-	return (
-		collections.find(
-			(collection) => collection.name === DEFAULT_COLLECTION_NAME
-		)?.id ?? collections[0]?.id
-	);
 }

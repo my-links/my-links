@@ -17,6 +17,7 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 			visibility: this.resource.visibility,
 			authorId: this.resource.authorId,
 			icon: this.resource.icon ?? null,
+			isDefault: this.resource.isDefault,
 			author: UserTransformer.transform(this.whenLoaded(this.resource.author)),
 			isOwner,
 			createdAt: this.resource.createdAt?.toString(),

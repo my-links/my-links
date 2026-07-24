@@ -44,6 +44,12 @@ export function LinkFormFields({
 	const handleFavoriteChange = (event: ChangeEvent<HTMLInputElement>) =>
 		onChange({ ...values, favorite: event.target.checked });
 
+	// The default (Inbox) collection is the implicit home for links with no
+	// collection selected, so it's never offered as an explicit choice here.
+	const selectableCollections = collections.filter(
+		(collection) => !collection.isDefault
+	);
+
 	return (
 		<div className="space-y-3">
 			<Input
@@ -72,12 +78,12 @@ export function LinkFormFields({
 				disabled={isDisabled}
 				rows={2}
 			/>
-			{collections.length > 0 && (
+			{selectableCollections.length > 0 && (
 				<fieldset className="space-y-1">
 					<legend className="text-sm mb-1">
-						Collections ({collections.length})
+						Collections ({selectableCollections.length})
 					</legend>
-					{collections.map((collection) => (
+					{selectableCollections.map((collection) => (
 						<Checkbox
 							key={collection.id}
 							label={collection.name}

@@ -115,6 +115,7 @@ describe('handleContextMenuClick', () => {
 					id: 1,
 					authorId: 1,
 					isOwner: true,
+					isDefault: true,
 					createdAt: '2026-01-01T00:00:00.000Z',
 					updatedAt: '2026-01-01T00:00:00.000Z',
 					name: 'Inbox',
