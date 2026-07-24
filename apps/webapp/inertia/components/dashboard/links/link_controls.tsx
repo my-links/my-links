@@ -14,7 +14,13 @@ import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 
 type Link = Data.Link;
-type LinkWithCollection = Data.Link.Variants['withCollection'];
+type LinkWithCollections = Data.Link.Variants['withCollections'];
+
+// The backend only nests `collectionIds` for the owner's own links (see
+// CollectionTransformer.withLinks) — non-owner views get bare `Data.Link`.
+function hasCollectionIds(link: Link): link is LinkWithCollections {
+	return 'collectionIds' in link;
+}
 
 export interface LinkControlsRef {
 	openContextMenu: (x: number, y: number) => void;
@@ -42,32 +48,25 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 		handleContextMenu,
 	} = useContextMenu();
 
-	const linkWithCollection: LinkWithCollection | null = useMemo(() => {
-		if (!activeCollection) {
-			const collection = myCollections.find((c) => c.id === link.collectionId);
-			if (collection) {
-				return {
-					...link,
-					collection,
-				} satisfies LinkWithCollection;
-			}
-			return null;
-		}
+	const linkWithCollections: LinkWithCollections | null = hasCollectionIds(link)
+		? link
+		: null;
 
-		return {
-			...link,
-			collection: activeCollection,
-		} satisfies LinkWithCollection;
-	}, [link, activeCollection, myCollections]);
+	const linkCollections = useMemo(() => {
+		if (!linkWithCollections) return [];
+		return myCollections.filter((collection) =>
+			linkWithCollections.collectionIds.includes(collection.id)
+		);
+	}, [linkWithCollections, myCollections]);
 
 	const handleEditLink = () => {
 		closeMenu();
-		if (!linkWithCollection) return;
+		if (!linkWithCollections) return;
 		const call = Modal.call({
 			title: <Trans>Edit a link</Trans>,
 			children: (
 				<EditLinkModal
-					link={linkWithCollection}
+					link={linkWithCollections}
 					onClose={() => Modal.end(call)}
 				/>
 			),
@@ -76,12 +75,12 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 
 	const handleDeleteLink = () => {
 		closeMenu();
-		if (!linkWithCollection) return;
+		if (!linkWithCollections) return;
 		const call = Modal.call({
 			title: <Trans>Delete a link</Trans>,
 			children: (
 				<DeleteLinkModal
-					link={linkWithCollection}
+					link={linkWithCollections}
 					onClose={() => Modal.end(call)}
 				/>
 			),
@@ -138,20 +137,22 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 				menuPosition={menuPosition}
 				menuContentRef={menuContentRef}
 			>
-				{!activeCollection && (
-					<InertiaLink
-						route="collection.show"
-						routeParams={{ id: link.collectionId }}
-						className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-						onClick={(e) => {
-							e.stopPropagation();
-							closeMenu();
-						}}
-					>
-						<div className="i-fa6-regular-eye w-4 h-4" />
-						<Trans>Go to collection</Trans>
-					</InertiaLink>
-				)}
+				{!activeCollection &&
+					linkCollections.map((collection) => (
+						<InertiaLink
+							key={collection.id}
+							route="collection.show"
+							routeParams={{ id: collection.id }}
+							className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+							onClick={(e) => {
+								e.stopPropagation();
+								closeMenu();
+							}}
+						>
+							<div className="i-fa6-regular-eye w-4 h-4" />
+							<Trans>Go to {collection.name}</Trans>
+						</InertiaLink>
+					))}
 				{'favorite' in link && (
 					<ContextMenuItem
 						icon={link.favorite ? 'i-mdi-favorite' : 'i-mdi-favorite-border'}

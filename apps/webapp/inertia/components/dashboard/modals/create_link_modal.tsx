@@ -15,13 +15,13 @@ interface CreateLinkModalProps {
 
 export function CreateLinkModal({ onClose }: Readonly<CreateLinkModalProps>) {
 	const { activeCollection, allCollections } = useDashboardProps();
-	const collectionId = activeCollection?.id ?? allCollections[0]?.id;
+	const defaultCollectionId = activeCollection?.id ?? allCollections[0]?.id;
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: '',
 		description: '',
 		url: '',
 		favorite: false,
-		collectionId: collectionId,
+		collectionIds: defaultCollectionId ? [defaultCollectionId] : [],
 	});
 
 	const canSubmit = useMemo<boolean>(
@@ -29,7 +29,7 @@ export function CreateLinkModal({ onClose }: Readonly<CreateLinkModalProps>) {
 			data.name !== '' &&
 			isValidHttpUrl(data.url) &&
 			data.favorite !== null &&
-			data.collectionId !== null &&
+			data.collectionIds.length > 0 &&
 			!processing,
 		[data, processing]
 	);

@@ -5,10 +5,11 @@ import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
 import { FormLinkData } from '~/types/link_form';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
 
 interface DeleteLinkModalProps {
-	link: Data.Link.Variants['withCollection'];
+	link: Data.Link.Variants['withCollections'];
 	onClose: () => void;
 }
 
@@ -16,12 +17,16 @@ export function DeleteLinkModal({
 	link,
 	onClose,
 }: Readonly<DeleteLinkModalProps>) {
+	const { allCollections } = useDashboardProps();
+	const linkCollections = allCollections.filter((collection) =>
+		link.collectionIds.includes(collection.id)
+	);
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: link.name,
 		description: link.description,
 		url: link.url,
 		favorite: link.favorite,
-		collectionId: link.collectionId,
+		collectionIds: link.collectionIds,
 	});
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +51,7 @@ export function DeleteLinkModal({
 				data={data}
 				setData={setData}
 				errors={errors}
-				collections={[link.collection!]}
+				collections={linkCollections}
 				disableInputs
 			/>
 

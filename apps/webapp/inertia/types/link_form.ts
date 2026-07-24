@@ -5,5 +5,5 @@ export type FormLinkData = {
 	description: string | null;
 	url: string;
 	favorite: boolean;
-	collectionId: Data.Collection['id'];
+	collectionIds: Data.Collection['id'][];
 };
