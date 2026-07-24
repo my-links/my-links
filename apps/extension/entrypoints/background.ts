@@ -1,6 +1,7 @@
 import { isRequestSyncMessage } from '@/lib/sync/messages';
 import { syncCollections } from '@/lib/sync/sync_collections';
 import { SYNC_ALARM_NAME, SYNC_INTERVAL_MINUTES } from '@/lib/sync/constants';
+import { createContextMenus, handleContextMenuClick } from '@/lib/context_menu';
 
 export default defineBackground(() => {
 	// Firefox has no `sidePanel` API yet (it uses `sidebar_action` instead) —
@@ -10,6 +11,11 @@ export default defineBackground(() => {
 		.catch((error: unknown) => {
 			console.error('Failed to set side panel behavior', error);
 		});
+
+	void createContextMenus();
+	browser.contextMenus.onClicked.addListener((info, tab) => {
+		void handleContextMenuClick(info, tab);
+	});
 
 	void browser.alarms.create(SYNC_ALARM_NAME, {
 		periodInMinutes: SYNC_INTERVAL_MINUTES,

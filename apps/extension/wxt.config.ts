@@ -15,7 +15,20 @@ export default defineConfig({
 		// user-supplied origins, so their host permission is requested at
 		// runtime (`browser.permissions.request`) instead of being listed
 		// here as a fixed `host_permissions` entry.
-		permissions: ['storage', 'identity', 'alarms'],
+		// `contextMenus`/`notifications` back the quick-capture flow (Phase 2).
+		// `tabs` gives the sidebar's quick-add button reliable title/url
+		// access to whatever tab is currently active — the side panel stays
+		// open across tab switches, so the gesture-scoped `activeTab`
+		// permission would go stale the moment the user changes tabs without
+		// reclicking the toolbar icon.
+		permissions: [
+			'storage',
+			'identity',
+			'alarms',
+			'contextMenus',
+			'notifications',
+			'tabs',
+		],
 		optional_host_permissions: ['*://*/*'],
 		// Empty object: the extension has an action (icon), but no popup —
 		// clicking it opens the side panel instead (see background.ts).
