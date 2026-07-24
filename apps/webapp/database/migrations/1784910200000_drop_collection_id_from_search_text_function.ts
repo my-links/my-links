@@ -1,0 +1,77 @@
+import { BaseSchema } from '@adonisjs/lucid/schema';
+
+export default class DropCollectionIdFromSearchTextFunction extends BaseSchema {
+	async up() {
+		// Return type changes (dropped column) — Postgres requires DROP before
+		// CREATE OR REPLACE can't just widen/narrow an existing signature.
+		this.schema.raw('DROP FUNCTION IF EXISTS search_text(text, integer);');
+		this.schema.raw(`
+			CREATE OR REPLACE FUNCTION search_text(search_query TEXT, p_author_id INTEGER)
+			RETURNS TABLE (
+					id INTEGER,
+					type TEXT,
+					name VARCHAR(254),
+					url TEXT,
+					matched_part TEXT,
+					rank DOUBLE PRECISION
+			)
+			AS $$
+			BEGIN
+					RETURN QUERY
+					SELECT links.id, 'link' AS type, links.name, links.url,
+							ts_headline('english', unaccent(links.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
+							ts_rank_cd(to_tsvector('english', unaccent(links.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
+					FROM links
+					WHERE unaccent(links.name) ILIKE '%' || unaccent(search_query) || '%'
+							AND (p_author_id IS NULL OR links.author_id = p_author_id)
+					UNION ALL
+					SELECT collections.id, 'collection' AS type, collections.name, NULL AS url,
+							ts_headline('english', unaccent(collections.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
+							ts_rank_cd(to_tsvector('english', unaccent(collections.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
+					FROM collections
+					WHERE unaccent(collections.name) ILIKE '%' || unaccent(search_query) || '%'
+							AND (p_author_id IS NULL OR collections.author_id = p_author_id)
+					ORDER BY rank DESC NULLS LAST, matched_part DESC NULLS LAST;
+			END;
+			$$
+			LANGUAGE plpgsql;
+		`);
+	}
+
+	async down() {
+		this.schema.raw('DROP FUNCTION IF EXISTS search_text(text, integer);');
+		this.schema.raw(`
+			CREATE OR REPLACE FUNCTION search_text(search_query TEXT, p_author_id INTEGER)
+			RETURNS TABLE (
+					id INTEGER,
+					type TEXT,
+					name VARCHAR(254),
+					url TEXT,
+					collection_id INTEGER,
+					matched_part TEXT,
+					rank DOUBLE PRECISION
+			)
+			AS $$
+			BEGIN
+					RETURN QUERY
+					SELECT links.id, 'link' AS type, links.name, links.url,
+							(SELECT MIN(collection_link.collection_id) FROM collection_link WHERE collection_link.link_id = links.id) AS collection_id,
+							ts_headline('english', unaccent(links.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
+							ts_rank_cd(to_tsvector('english', unaccent(links.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
+					FROM links
+					WHERE unaccent(links.name) ILIKE '%' || unaccent(search_query) || '%'
+							AND (p_author_id IS NULL OR links.author_id = p_author_id)
+					UNION ALL
+					SELECT collections.id, 'collection' AS type, collections.name, NULL AS url, NULL AS collection_id,
+							ts_headline('english', unaccent(collections.name), plainto_tsquery('english', unaccent(search_query))) AS matched_part,
+							ts_rank_cd(to_tsvector('english', unaccent(collections.name)), plainto_tsquery('english', unaccent(search_query)))::DOUBLE PRECISION AS rank
+					FROM collections
+					WHERE unaccent(collections.name) ILIKE '%' || unaccent(search_query) || '%'
+							AND (p_author_id IS NULL OR collections.author_id = p_author_id)
+					ORDER BY rank DESC NULLS LAST, matched_part DESC NULLS LAST;
+			END;
+			$$
+			LANGUAGE plpgsql;
+		`);
+	}
+}

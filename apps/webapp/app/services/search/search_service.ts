@@ -15,7 +15,6 @@ type SearchResultRow = {
 	type: 'link' | 'collection';
 	name: string;
 	url: string | null;
-	collection_id: number | null;
 	icon: string | null;
 	matched_part: string | null;
 	rank: number | null;
