@@ -1,7 +1,10 @@
 import type { LinkResource } from '@/lib/api/types';
-import { replaceLinkInTree } from '@/lib/collections_tree';
 import { updateLink, type UpdateLinkInput } from '@/lib/api/links';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
+import {
+	getDefaultCollectionId,
+	replaceLinkInTree,
+} from '@/lib/collections_tree';
 
 export interface UpdateLinkVariables {
 	linkId: number;
@@ -11,14 +14,15 @@ export interface UpdateLinkVariables {
 function toOptimisticLink(
 	linkId: number,
 	input: UpdateLinkInput,
-	previous: LinkResource | undefined
+	previous: LinkResource | undefined,
+	collectionIds: number[]
 ): LinkResource {
 	return {
 		id: linkId,
 		authorId: previous?.authorId ?? 0,
 		createdAt: previous?.createdAt ?? new Date().toISOString(),
 		updatedAt: new Date().toISOString(),
-		collectionIds: input.collectionIds,
+		collectionIds,
 		name: input.name,
 		url: input.url,
 		description: input.description ?? null,
@@ -34,10 +38,18 @@ export function useUpdateLink() {
 				.flatMap((collection) => collection.links ?? [])
 				.find((link) => link.id === linkId);
 
+			// Cleared every collection → the backend re-homes it in Inbox, so
+			// reflect that instead of leaving the link in no section at all.
+			const collectionIds = input.collectionIds.length
+				? input.collectionIds
+				: [getDefaultCollectionId(collections)].filter(
+						(id): id is number => id !== undefined
+					);
+
 			return replaceLinkInTree(
 				collections,
 				linkId,
-				toOptimisticLink(linkId, input, previous)
+				toOptimisticLink(linkId, input, previous, collectionIds)
 			);
 		},
 	});

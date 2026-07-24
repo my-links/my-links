@@ -69,3 +69,15 @@ export function findLinkByUrl(
 		.flatMap((collection) => collection.links ?? [])
 		.find((link) => link.url === url);
 }
+
+/**
+ * The Inbox is where a link with no explicit collection lands. Returns its id
+ * so an optimistic update can place a collection-less link there instead of
+ * nowhere (else it would vanish until the resync). Undefined when the Inbox
+ * hasn't been created yet (fresh account) — the backend makes it on submit.
+ */
+export function getDefaultCollectionId(
+	collections: CollectionWithLinks[]
+): number | undefined {
+	return collections.find((collection) => collection.isDefault)?.id;
+}

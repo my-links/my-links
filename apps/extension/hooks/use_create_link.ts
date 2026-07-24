@@ -1,7 +1,10 @@
 import type { LinkResource } from '@/lib/api/types';
-import { insertLinkIntoTree } from '@/lib/collections_tree';
 import { createLink, type CreateLinkInput } from '@/lib/api/links';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
+import {
+	getDefaultCollectionId,
+	insertLinkIntoTree,
+} from '@/lib/collections_tree';
 
 const TEMPORARY_LINK_ID_FACTOR = -1;
 
@@ -34,13 +37,21 @@ export function useCreateLink() {
 	return useCollectionsMutation<CreateLinkInput>({
 		mutationFn: createLink,
 		applyOptimisticUpdate: (collections, input) => {
-			if (!input.collectionIds || input.collectionIds.length === 0) {
+			// No collection picked → the backend files it under Inbox, so mirror
+			// that optimistically instead of dropping the link from the tree.
+			const collectionIds = input.collectionIds?.length
+				? input.collectionIds
+				: [getDefaultCollectionId(collections)].filter(
+						(id): id is number => id !== undefined
+					);
+
+			if (collectionIds.length === 0) {
 				return collections;
 			}
 
 			return insertLinkIntoTree(
 				collections,
-				toOptimisticLink(input, input.collectionIds)
+				toOptimisticLink(input, collectionIds)
 			);
 		},
 	});
