@@ -15,3 +15,11 @@ export const BACKUP_FOLDER_TITLE_PREFIX = 'Backup';
 export const KNOWN_BOOKMARKS_BAR_IDS = ['1', 'toolbar_____'];
 
 export const BOOKMARKS_PERMISSION = 'bookmarks';
+
+/**
+ * Long enough for a drag-and-drop of a whole folder to settle into one
+ * reconciliation, short enough that an edit feels like it took effect. The
+ * periodic sync alarm is the fallback for bursts that end after the MV3
+ * service worker has already been suspended.
+ */
+export const BOOKMARK_SYNC_DEBOUNCE_MS = 7_000;

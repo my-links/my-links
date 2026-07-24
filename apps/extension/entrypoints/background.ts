@@ -1,5 +1,9 @@
+import { syncBookmarks } from '@/lib/bookmarks/mirror';
+import { collectionsCacheStorage } from '@/lib/storage';
+import { createDebouncedTrigger } from '@/lib/debounce';
 import { isRequestSyncMessage } from '@/lib/sync/messages';
 import { syncCollections } from '@/lib/sync/sync_collections';
+import { BOOKMARK_SYNC_DEBOUNCE_MS } from '@/lib/bookmarks/constants';
 import { SYNC_ALARM_NAME, SYNC_INTERVAL_MINUTES } from '@/lib/sync/constants';
 import { createContextMenus, handleContextMenuClick } from '@/lib/context_menu';
 
@@ -24,8 +28,28 @@ export default defineBackground(() => {
 	browser.alarms.onAlarm.addListener((alarm) => {
 		if (alarm.name === SYNC_ALARM_NAME) {
 			void syncCollections();
+			void syncBookmarks();
 		}
 	});
+
+	// The mirror only ever runs against a cache the collections sync has
+	// already refreshed, so it reacts to the cache rather than to the network.
+	collectionsCacheStorage.watch(() => {
+		void syncBookmarks();
+	});
+
+	const scheduleBookmarkSync = createDebouncedTrigger(() => {
+		void syncBookmarks();
+	}, BOOKMARK_SYNC_DEBOUNCE_MS);
+
+	// `bookmarks` is an optional permission, so these listeners only exist
+	// once the user has turned mirroring on.
+	if (browser.bookmarks) {
+		browser.bookmarks.onCreated.addListener(scheduleBookmarkSync);
+		browser.bookmarks.onChanged.addListener(scheduleBookmarkSync);
+		browser.bookmarks.onRemoved.addListener(scheduleBookmarkSync);
+		browser.bookmarks.onMoved.addListener(scheduleBookmarkSync);
+	}
 
 	// MV3 has no persistent thread, so "never paused" means resyncing on
 	// every plausible wake signal instead of relying solely on the alarm:
@@ -50,4 +74,5 @@ export default defineBackground(() => {
 	// browser start, any of the listeners above) — resync immediately rather
 	// than waiting for the next alarm tick.
 	void syncCollections();
+	void syncBookmarks();
 });
