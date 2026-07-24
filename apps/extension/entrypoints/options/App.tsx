@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Input, ThemeToggle } from '@minimalstuff/ui';
 
 import { connectToInstance, disconnectFromInstance } from '@/lib/api/auth';
+import { BookmarkMirrorSection } from '@/components/bookmarks/bookmark_mirror_section';
 import {
 	apiTokenStorage,
 	DEFAULT_INSTANCE_URL,
@@ -99,6 +100,8 @@ function App() {
 						{status.message}
 					</p>
 				)}
+
+				{isConnected && <BookmarkMirrorSection />}
 			</div>
 		</main>
 	);

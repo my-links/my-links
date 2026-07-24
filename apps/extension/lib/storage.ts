@@ -59,6 +59,30 @@ export const authInvalidStorage = storage.defineItem<boolean>(
 	{ fallback: false }
 );
 
+export interface BookmarkMirrorState {
+	isEnabled: boolean;
+	/** Id of the single `MyLinks` folder the mirror is allowed to write in. */
+	rootId: string | null;
+	/** Dated folder holding whatever was on the bookmarks bar before takeover. */
+	backupFolderId: string | null;
+}
+
+const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
+	isEnabled: false,
+	rootId: null,
+	backupFolderId: null,
+};
+
+/**
+ * Off until the user turns it on from the options page — mirroring rearranges
+ * their bookmarks bar, which is not something to do behind their back. The
+ * `bookmarks` permission is optional for the same reason.
+ */
+export const bookmarkMirrorStorage = storage.defineItem<BookmarkMirrorState>(
+	'local:bookmarkMirror',
+	{ fallback: DISABLED_BOOKMARK_MIRROR }
+);
+
 /**
  * Switching instances or logging out must never leak data across origins:
  * the token is instance-specific, and any cached API data (TanStack Query
