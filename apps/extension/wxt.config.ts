@@ -29,6 +29,10 @@ export default defineConfig({
 			'notifications',
 			'tabs',
 		],
+		// Optional, not static: mirroring rearranges the user's bookmarks bar,
+		// so the grant is asked for from the options page at the moment they
+		// turn the mirror on — never at install time.
+		optional_permissions: ['bookmarks'],
 		optional_host_permissions: ['*://*/*'],
 		// Empty object: the extension has an action (icon), but no popup —
 		// clicking it opens the side panel instead (see background.ts).
