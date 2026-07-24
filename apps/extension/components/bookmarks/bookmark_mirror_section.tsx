@@ -68,7 +68,7 @@ export function BookmarkMirrorSection() {
 			<p className="text-sm text-gray-600 dark:text-gray-400">
 				{isMirroring
 					? 'Your collections are mirrored into a MyLinks folder on the bookmarks bar. MyLinks only ever writes inside that folder.'
-					: 'Mirror your collections into a MyLinks folder on the bookmarks bar. Whatever is on the bar today is moved into a dated backup folder inside it — nothing is deleted, and turning this off puts it all back.'}
+					: 'Mirror your collections into a MyLinks folder on the bookmarks bar. Whatever is on the bar today is moved into a dated backup folder inside it. Nothing is deleted: turning this off moves your own bookmarks back onto the bar and leaves the MyLinks folder for you to keep or remove.'}
 			</p>
 
 			{isMirroring ? (
