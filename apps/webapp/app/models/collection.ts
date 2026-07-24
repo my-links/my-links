@@ -1,9 +1,5 @@
-import { belongsTo, column, hasMany, manyToMany } from '@adonisjs/lucid/orm';
-import type {
-	BelongsTo,
-	HasMany,
-	ManyToMany,
-} from '@adonisjs/lucid/types/relations';
+import { belongsTo, column, manyToMany } from '@adonisjs/lucid/orm';
+import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
 import Link from '#models/link';
 import User from '#models/user';
@@ -32,8 +28,18 @@ export default class Collection extends AppBaseModel {
 	@belongsTo(() => User, { foreignKey: 'authorId' })
 	declare author: BelongsTo<typeof User>;
 
-	@hasMany(() => Link)
-	declare links: HasMany<typeof Link>;
+	@manyToMany(() => Link, {
+		pivotTable: 'collection_link',
+		localKey: 'id',
+		relatedKey: 'id',
+		pivotForeignKey: 'collection_id',
+		pivotRelatedForeignKey: 'link_id',
+		pivotTimestamps: {
+			createdAt: 'created_at',
+			updatedAt: false,
+		},
+	})
+	declare links: ManyToMany<typeof Link>;
 
 	@manyToMany(() => User, {
 		pivotTable: 'collection_followers',

@@ -43,6 +43,17 @@ export class CollectionFollowerSchema extends BaseModel {
   declare userId: number
 }
 
+export class CollectionLinkSchema extends BaseModel {
+  static $columns = ['collectionId', 'createdAt', 'linkId'] as const
+  $columns = CollectionLinkSchema.$columns
+  @column({ isPrimary: true })
+  declare collectionId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare linkId: number
+}
+
 export class CollectionSchema extends BaseModel {
   static $columns = ['authorId', 'createdAt', 'description', 'icon', 'id', 'isDefault', 'name', 'updatedAt', 'visibility'] as const
   $columns = CollectionSchema.$columns
@@ -67,12 +78,10 @@ export class CollectionSchema extends BaseModel {
 }
 
 export class LinkSchema extends BaseModel {
-  static $columns = ['authorId', 'collectionId', 'createdAt', 'description', 'favorite', 'id', 'name', 'updatedAt', 'url'] as const
+  static $columns = ['authorId', 'createdAt', 'description', 'favorite', 'id', 'name', 'updatedAt', 'url'] as const
   $columns = LinkSchema.$columns
   @column()
   declare authorId: number | null
-  @column()
-  declare collectionId: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
