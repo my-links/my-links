@@ -152,9 +152,7 @@ export const FormLinkContent = ({
 				</div>
 				{data.collectionIds.length === 0 && (
 					<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-						<Trans>
-							No collection selected — this link goes to your Inbox.
-						</Trans>
+						<Trans>No collection selected. This link goes to your Inbox.</Trans>
 					</p>
 				)}
 				{collectionsError && (

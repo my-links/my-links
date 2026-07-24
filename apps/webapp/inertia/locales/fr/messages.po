@@ -565,8 +565,8 @@ msgid "No active sessions"
 msgstr "Aucune session active"
 
 #: inertia/components/dashboard/forms/form_link_content.tsx:155
-msgid "No collection selected — this link goes to your Inbox."
-msgstr "Aucune collection sélectionnée — ce lien ira dans votre Inbox."
+msgid "No collection selected. This link goes to your Inbox."
+msgstr "Aucune collection sélectionnée. Ce lien ira dans votre Inbox."
 
 #: inertia/components/dashboard/links/link_list.tsx:34
 #: inertia/components/shared/link_list.tsx:22
