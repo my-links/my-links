@@ -12,6 +12,7 @@ function toOptimisticCollection(input: CollectionInput): CollectionWithLinks {
 		id: TEMPORARY_COLLECTION_ID_FACTOR * Date.now(),
 		authorId: TEMPORARY_COLLECTION_ID_FACTOR,
 		isOwner: true,
+		isDefault: false,
 		createdAt: now,
 		updatedAt: now,
 		name: input.name,

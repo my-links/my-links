@@ -22,13 +22,17 @@ function sameMembers(left: number[], right: number[]): boolean {
 }
 
 export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
-	const { activeCollection, allCollections } = useDashboardProps();
-	const initialCollectionIds =
-		link.collectionIds.length > 0
-			? link.collectionIds
-			: [activeCollection?.id ?? allCollections[0]?.id].filter(
-					(id): id is number => id !== undefined
-				);
+	const { allCollections } = useDashboardProps();
+	// The Inbox membership is the "no collection" fallback, not an explicit
+	// choice — strip it so an Inbox-only link opens with nothing checked (and
+	// the "goes to your Inbox" hint), and clearing every box lands it back there.
+	const inboxCollectionId = allCollections.find(
+		(collection) => collection.isDefault
+	)?.id;
+	const initialCollectionIds = useMemo(
+		() => link.collectionIds.filter((id) => id !== inboxCollectionId),
+		[link.collectionIds, inboxCollectionId]
+	);
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: link.name,
 		description: link.description,
@@ -47,7 +51,7 @@ export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 			trimmedUrl !== link.url ||
 			trimmedDescription !== link.description ||
 			data.favorite !== link.favorite ||
-			!sameMembers(data.collectionIds, link.collectionIds);
+			!sameMembers(data.collectionIds, initialCollectionIds);
 
 		const isFormValid =
 			trimmedName !== '' &&
@@ -55,7 +59,7 @@ export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 			data.favorite !== null;
 
 		return isFormEdited && isFormValid && !processing;
-	}, [data, link, processing]);
+	}, [data, link, initialCollectionIds, processing]);
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

@@ -18,12 +18,18 @@ export function EditLinkModal({
 	onClose,
 }: Readonly<EditLinkModalProps>) {
 	const updateLink = useUpdateLink();
+	// Inbox membership is the "no collection" fallback, not an explicit choice —
+	// strip it so an Inbox-only link opens with nothing checked, and clearing
+	// every box lands it back there.
+	const inboxCollectionId = collections.find(
+		(collection) => collection.isDefault
+	)?.id;
 	const [values, setValues] = useState<LinkFormValues>({
 		name: link.name,
 		url: link.url,
 		description: link.description,
 		favorite: link.favorite,
-		collectionIds: link.collectionIds,
+		collectionIds: link.collectionIds.filter((id) => id !== inboxCollectionId),
 	});
 
 	const isFormValid = values.name.trim() !== '' && values.url.trim() !== '';

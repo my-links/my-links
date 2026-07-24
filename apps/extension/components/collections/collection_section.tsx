@@ -96,18 +96,21 @@ export function CollectionSection({
 						variant="ghost"
 						onClick={handleAddLink}
 					/>
-					<KebabMenu label={`Actions for ${collection.name}`}>
-						<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
-							Edit
-						</KebabMenuItem>
-						<KebabMenuItem
-							icon="i-ion-trash-outline"
-							onClick={handleDelete}
-							isDanger
-						>
-							Delete
-						</KebabMenuItem>
-					</KebabMenu>
+					{/* The default (Inbox) collection can't be renamed or deleted. */}
+					{!collection.isDefault && (
+						<KebabMenu label={`Actions for ${collection.name}`}>
+							<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
+								Edit
+							</KebabMenuItem>
+							<KebabMenuItem
+								icon="i-ion-trash-outline"
+								onClick={handleDelete}
+								isDanger
+							>
+								Delete
+							</KebabMenuItem>
+						</KebabMenu>
+					)}
 				</div>
 			</div>
 			{deleteCollection.isError && (

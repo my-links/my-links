@@ -4,7 +4,6 @@ import { useState, type FormEvent } from 'react';
 import { trimToNullableText } from '@/lib/strings';
 import { useCreateLink } from '@/hooks/use_create_link';
 import type { CollectionWithLinks } from '@/lib/api/types';
-import { getDefaultCollectionId } from '@/lib/collections_tree';
 import { LinkFormFields, type LinkFormValues } from './link_form_fields';
 
 interface CreateLinkModalProps {
@@ -19,14 +18,20 @@ export function CreateLinkModal({
 	onClose,
 }: Readonly<CreateLinkModalProps>) {
 	const createLink = useCreateLink();
-	const defaultCollectionId = getDefaultCollectionId(collections);
+	// The Inbox membership is the "no collection" fallback, not an explicit
+	// choice, so it's stripped from any seed — an empty set lands there anyway.
+	const inboxCollectionId = collections.find(
+		(collection) => collection.isDefault
+	)?.id;
 	const [values, setValues] = useState<LinkFormValues>({
 		name: '',
 		url: '',
 		description: null,
 		favorite: false,
-		collectionIds: defaultCollectionId ? [defaultCollectionId] : [],
 		...initialValues,
+		collectionIds: (initialValues?.collectionIds ?? []).filter(
+			(id) => id !== inboxCollectionId
+		),
 	});
 
 	const isFormValid = values.name.trim() !== '' && values.url.trim() !== '';

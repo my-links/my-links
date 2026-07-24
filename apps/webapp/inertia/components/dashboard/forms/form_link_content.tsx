@@ -38,6 +38,12 @@ export const FormLinkContent = ({
 		? errors.collectionIds[0]
 		: errors?.collectionIds;
 
+	// The default (Inbox) collection is the implicit home for links with no
+	// collection selected, so it's never offered as an explicit choice here.
+	const selectableCollections = collections.filter(
+		(collection) => !collection.isDefault
+	);
+
 	return (
 		<div className="space-y-4">
 			<FormField
@@ -110,7 +116,7 @@ export const FormLinkContent = ({
 					id="collections-label"
 					className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
 				>
-					<Trans>Collections ({collections.length})</Trans>
+					<Trans>Collections ({selectableCollections.length})</Trans>
 				</span>
 				<div
 					role="group"
@@ -122,7 +128,7 @@ export const FormLinkContent = ({
 							: 'border-gray-300 dark:border-gray-600'
 					)}
 				>
-					{collections.map((collection) => (
+					{selectableCollections.map((collection) => (
 						<div key={collection.id} className="flex items-center gap-2">
 							<input
 								type="checkbox"

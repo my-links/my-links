@@ -428,6 +428,7 @@ export interface components {
 				description: string | null;
 				icon: string | null;
 				id: number;
+				isDefault: boolean;
 				isOwner: boolean;
 				links?: {
 					authorId: number;
@@ -502,6 +503,7 @@ export interface components {
 				description: string | null;
 				icon: string | null;
 				id: number;
+				isDefault: boolean;
 				isOwner: boolean;
 				links?: {
 					authorId: number;

@@ -15,13 +15,18 @@ interface CreateLinkModalProps {
 
 export function CreateLinkModal({ onClose }: Readonly<CreateLinkModalProps>) {
 	const { activeCollection, allCollections } = useDashboardProps();
-	const defaultCollectionId = activeCollection?.id ?? allCollections[0]?.id;
+	// Pre-check the collection being viewed, unless it's the Inbox (the "no
+	// collection" fallback) — leaving the boxes empty already lands there.
+	const seededCollectionIds =
+		activeCollection && !activeCollection.isDefault
+			? [activeCollection.id]
+			: [];
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({
 		name: '',
 		description: '',
 		url: '',
 		favorite: false,
-		collectionIds: defaultCollectionId ? [defaultCollectionId] : [],
+		collectionIds: seededCollectionIds,
 	});
 
 	const canSubmit = useMemo<boolean>(
