@@ -1,6 +1,7 @@
 import { storage } from 'wxt/utils/storage';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
+import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
 import {
 	EMPTY_PINNED_RANKING,
 	type PinnedRanking,
@@ -114,12 +115,24 @@ export const lastPushedChangesStorage = storage.defineItem<string | null>(
 /**
  * Which native bookmark node stands for which collection/link. Persisted
  * because it is also the mirror's safety fence: only nodes recorded here may
- * ever be deleted, so the takeover backup and anything the user filed by
- * hand cannot be touched by a diff.
+ * ever be deleted, so anything the user filed by hand cannot be touched by a
+ * plan.
  */
 export const bookmarkMappingStorage = storage.defineItem<BookmarkMapping>(
 	'local:bookmarkMapping',
 	{ fallback: EMPTY_BOOKMARK_MAPPING }
+);
+
+/**
+ * The state the browser and the server were last agreed on, per mapped node.
+ *
+ * This is what lets a pass tell which side actually moved instead of merely
+ * seeing that they differ. Only ever advanced after a pass that succeeded in
+ * full — see `lib/bookmarks/snapshot.ts`.
+ */
+export const syncedTreeStorage = storage.defineItem<SyncedTree>(
+	'local:syncedBookmarkTree',
+	{ fallback: EMPTY_SYNCED_TREE }
 );
 
 /**
@@ -149,6 +162,7 @@ export async function clearExtensionSession(): Promise<void> {
 	await authInvalidStorage.removeValue();
 	await collectionsCacheStorage.removeValue();
 	await bookmarkMappingStorage.removeValue();
+	await syncedTreeStorage.removeValue();
 	await pinnedRankingStorage.removeValue();
 	await lastPushedChangesStorage.removeValue();
 }
