@@ -24,7 +24,13 @@ export type DesiredFolder = {
 export function buildDesiredTree(
 	collections: CollectionWithLinks[]
 ): DesiredFolder[] {
-	return collections.map((collection) => ({
+	return collections.map(buildDesiredFolder);
+}
+
+export function buildDesiredFolder(
+	collection: CollectionWithLinks
+): DesiredFolder {
+	return {
 		collectionId: collection.id,
 		title: collection.name,
 		bookmarks: (collection.links ?? []).map((link) => ({
@@ -32,7 +38,7 @@ export function buildDesiredTree(
 			title: link.name,
 			url: link.url,
 		})),
-	}));
+	};
 }
 
 /**

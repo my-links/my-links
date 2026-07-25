@@ -3,13 +3,14 @@ import { describe, expect, it } from 'vitest';
 import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
 import { EMPTY_BOOKMARK_MAPPING } from '@/lib/bookmarks/mapping';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import {
 	buildPinnedLinkKey,
 	buildPinnedReorder,
 	collectFavoriteLinks,
-	diffPinnedFavorites,
 	EMPTY_PINNED_RANKING,
 	RANKING_REFRESH_INTERVAL_MS,
 	resolveRankedFavorites,
@@ -141,151 +142,11 @@ describe('resolveRankedFavorites', () => {
 	});
 });
 
-describe('diffPinnedFavorites', () => {
-	const barId = BAR_ID;
-
-	it('should pin a favourite directly onto the bookmarks bar', () => {
-		const operations = diffPinnedFavorites(
-			[{ linkId: 10, title: 'Docs', url: 'https://docs.example.com' }],
-			barId,
-			[],
-			EMPTY_BOOKMARK_MAPPING
-		);
-
-		expect(operations).toEqual([
-			{
-				kind: 'create-bookmark',
-				parentNodeId: barId,
-				linkKey: 'pinned:10',
-				title: 'Docs',
-				url: 'https://docs.example.com',
-			},
-		]);
-	});
-
-	it('should bring a pin that ended up inside a folder back onto the bar', () => {
-		const operations = diffPinnedFavorites(
-			[{ linkId: 10, title: 'Docs', url: 'https://docs.example.com' }],
-			barId,
-			[
-				{
-					id: 'collections',
-					title: 'Collections',
-					children: [
-						{
-							id: 'p1',
-							parentId: 'collections',
-							title: 'Docs',
-							url: 'https://docs.example.com',
-						},
-					],
-				},
-			],
-			{
-				folderIdByCollectionId: {},
-				bookmarkIdByLinkKey: { 'pinned:10': 'p1' },
-				titleByNodeId: {},
-			}
-		);
-
-		expect(operations).toEqual([
-			{ kind: 'move-bookmark', nodeId: 'p1', parentNodeId: barId },
-		]);
-	});
-
-	it('should only drop the bookkeeping when the pin node is already gone', () => {
-		const operations = diffPinnedFavorites([], barId, [], {
-			folderIdByCollectionId: {},
-			bookmarkIdByLinkKey: { 'pinned:10': 'deleted-by-user' },
-			titleByNodeId: {},
-		});
-
-		expect(operations).toEqual([
-			{ kind: 'forget-bookmark', linkKey: 'pinned:10' },
-		]);
-	});
-
-	it('should unpin a link that stopped being a favourite', () => {
-		const operations = diffPinnedFavorites(
-			[],
-			barId,
-			[buildBookmarkNode('p1', 'Docs', 'https://docs.example.com')],
-			{
-				folderIdByCollectionId: {},
-				bookmarkIdByLinkKey: { 'pinned:10': 'p1' },
-				titleByNodeId: {},
-			}
-		);
-
-		expect(operations).toEqual([
-			{ kind: 'remove-bookmark', nodeId: 'p1', linkKey: 'pinned:10' },
-		]);
-	});
-
-	it('should leave the collection copy of a favourite untouched', () => {
-		const operations = diffPinnedFavorites(
-			[],
-			barId,
-			[buildBookmarkNode('b1', 'Docs', 'https://docs.example.com')],
-			{
-				folderIdByCollectionId: {},
-				bookmarkIdByLinkKey: { '1:10': 'b1' },
-				titleByNodeId: {},
-			}
-		);
-
-		expect(operations).toEqual([]);
-	});
-
-	it('should emit nothing when the pins already match the ranking', () => {
-		const operations = diffPinnedFavorites(
-			[
-				{ linkId: 10, title: 'Docs', url: 'https://docs.example.com' },
-				{ linkId: 20, title: 'News', url: 'https://news.example.com' },
-			],
-			barId,
-			[
-				buildBookmarkNode('p1', 'Docs', 'https://docs.example.com'),
-				buildBookmarkNode('p2', 'News', 'https://news.example.com'),
-			],
-			{
-				folderIdByCollectionId: {},
-				bookmarkIdByLinkKey: { 'pinned:10': 'p1', 'pinned:20': 'p2' },
-				titleByNodeId: {},
-			}
-		);
-
-		expect(operations).toEqual([]);
-	});
-
-	it('should never reorder as part of the regular diff', () => {
-		const operations = diffPinnedFavorites(
-			[
-				{ linkId: 20, title: 'News', url: 'https://news.example.com' },
-				{ linkId: 10, title: 'Docs', url: 'https://docs.example.com' },
-			],
-			barId,
-			[
-				buildBookmarkNode('p1', 'Docs', 'https://docs.example.com'),
-				buildBookmarkNode('p2', 'News', 'https://news.example.com'),
-			],
-			{
-				folderIdByCollectionId: {},
-				bookmarkIdByLinkKey: { 'pinned:10': 'p1', 'pinned:20': 'p2' },
-				titleByNodeId: {},
-			}
-		);
-
-		expect(operations).toEqual([]);
-	});
-});
-
 describe('buildPinnedReorder', () => {
 	const barId = BAR_ID;
 	const twoPins = {
 		folderIdByCollectionId: {},
 		bookmarkIdByLinkKey: { 'pinned:10': 'p1', 'pinned:20': 'p2' },
-		titleByNodeId: {},
 	};
 
 	it('should rearrange the bar in one operation when the ranking changed', () => {
@@ -330,6 +191,19 @@ describe('buildPinnedReorder', () => {
 });
 
 describe('pinned favourites applied to a real tree', () => {
+	function buildPinCreations(
+		pins: DesiredBookmark[],
+		barId: string
+	): BookmarkOperation[] {
+		return pins.map((pin) => ({
+			kind: 'create-bookmark',
+			parentNodeId: barId,
+			linkKey: buildPinnedLinkKey(pin.linkId),
+			title: pin.title,
+			url: pin.url,
+		}));
+	}
+
 	async function childrenOf(api: FakeBookmarksApi, id: string) {
 		const [node] = await api.getSubTree(id);
 		return node?.children ?? [];
@@ -346,7 +220,7 @@ describe('pinned favourites applied to a real tree', () => {
 		const { mapping: created } = await applyBookmarkOperations(
 			api,
 			barId,
-			diffPinnedFavorites(desiredPins, barId, [], EMPTY_BOOKMARK_MAPPING),
+			buildPinCreations(desiredPins, barId),
 			EMPTY_BOOKMARK_MAPPING
 		);
 
@@ -390,11 +264,9 @@ describe('pinned favourites applied to a real tree', () => {
 		await applyBookmarkOperations(
 			api,
 			barId,
-			diffPinnedFavorites(
+			buildPinCreations(
 				[{ linkId: 10, title: 'Docs', url: 'https://docs.example.com' }],
-				barId,
-				await childrenOf(api, barId),
-				EMPTY_BOOKMARK_MAPPING
+				barId
 			),
 			EMPTY_BOOKMARK_MAPPING
 		);

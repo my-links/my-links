@@ -53,7 +53,6 @@ describe('remapOrphanedNodes', () => {
 		const existing = {
 			folderIdByCollectionId: { '1': 'f1' },
 			bookmarkIdByLinkKey: { '1:2': 'b1' },
-			titleByNodeId: {},
 		};
 
 		const mapping = remapOrphanedNodes(

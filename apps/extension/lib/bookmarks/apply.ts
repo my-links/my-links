@@ -1,7 +1,8 @@
+import type { SyncedTree } from '@/lib/bookmarks/snapshot';
 import { buildLinkKey } from '@/lib/bookmarks/desired_tree';
 import { runWithConcurrencyLimit } from '@/lib/concurrency';
-import type { BookmarkOperation } from '@/lib/bookmarks/diff';
 import type { BookmarksApi } from '@/lib/bookmarks/bookmarks_api';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
 import {
 	withMappedBookmark,
 	withMappedFolder,
@@ -15,6 +16,11 @@ export const MAX_CONCURRENT_BOOKMARK_WRITES = 4;
 
 export type BookmarkApplyResult = {
 	mapping: BookmarkMapping;
+	/**
+	 * Snapshot entries for the nodes this run created — the executor is the
+	 * first to learn their ids, so the plan could not carry them.
+	 */
+	snapshot: SyncedTree;
 	failedOperationCount: number;
 };
 
@@ -24,9 +30,19 @@ type MappingChange =
 	| { kind: 'unmap-folder'; collectionId: number }
 	| { kind: 'unmap-bookmark'; linkKey: string };
 
+type OperationOutcome = {
+	changes: MappingChange[];
+	snapshot: SyncedTree;
+	hasFailed: boolean;
+};
+
+type OperationResult = Omit<OperationOutcome, 'hasFailed'>;
+
+const NO_MAPPING_RESULT: OperationResult = { changes: [], snapshot: {} };
+
 /**
- * Executes a diff against the native tree and returns the mapping that
- * results from it, plus how many operations failed.
+ * Executes a plan against the native tree and returns the mapping and
+ * snapshot entries that result from it, plus how many operations failed.
  *
  * Operations touch disjoint nodes by construction, so they run through a
  * small concurrency window rather than one at a time. The mapping is folded
@@ -54,22 +70,43 @@ export async function applyBookmarkOperations(
 	);
 
 	return {
-		mapping: outcomes
-			.flatMap((outcome) => outcome.changes)
-			.reduce(applyMappingChange, mapping),
+		mapping: applyMappingChanges(
+			mapping,
+			outcomes.flatMap((outcome) => outcome.changes)
+		),
+		snapshot: mergeSnapshots(outcomes.map((outcome) => outcome.snapshot)),
 		failedOperationCount: outcomes.filter((outcome) => outcome.hasFailed)
 			.length,
 	};
+}
+
+/**
+ * Every key is released before any key is claimed. Two nodes swapping
+ * collections release and claim each other's key in the same run, and folding
+ * one operation at a time would let the second release undo the first claim.
+ */
+function applyMappingChanges(
+	mapping: BookmarkMapping,
+	changes: MappingChange[]
+): BookmarkMapping {
+	return [
+		...changes.filter(isMappingRelease),
+		...changes.filter((change) => !isMappingRelease(change)),
+	].reduce(applyMappingChange, mapping);
+}
+
+function isMappingRelease(change: MappingChange): boolean {
+	return change.kind === 'unmap-folder' || change.kind === 'unmap-bookmark';
 }
 
 async function settleOperation(
 	api: BookmarksApi,
 	rootId: string,
 	operation: BookmarkOperation
-): Promise<{ changes: MappingChange[]; hasFailed: boolean }> {
+): Promise<OperationOutcome> {
 	try {
 		return {
-			changes: await applyOperation(api, rootId, operation),
+			...(await applyOperation(api, rootId, operation)),
 			hasFailed: false,
 		};
 	} catch (error) {
@@ -77,7 +114,7 @@ async function settleOperation(
 			`MyLinks bookmark operation "${operation.kind}" failed`,
 			error
 		);
-		return { changes: [], hasFailed: true };
+		return { changes: [], snapshot: {}, hasFailed: true };
 	}
 }
 
@@ -85,16 +122,18 @@ async function applyOperation(
 	api: BookmarksApi,
 	rootId: string,
 	operation: BookmarkOperation
-): Promise<MappingChange[]> {
+): Promise<OperationResult> {
 	switch (operation.kind) {
 		case 'create-folder':
 			return await createFolder(api, rootId, operation);
 		case 'rename-folder':
 			await api.update(operation.nodeId, { title: operation.title });
-			return [];
+			return NO_MAPPING_RESULT;
 		case 'remove-folder':
 			await api.removeTree(operation.nodeId);
-			return [{ kind: 'unmap-folder', collectionId: operation.collectionId }];
+			return unmapFolder(operation.collectionId);
+		case 'forget-folder':
+			return unmapFolder(operation.collectionId);
 		case 'create-bookmark':
 			return await createBookmark(api, operation);
 		case 'update-bookmark':
@@ -102,70 +141,115 @@ async function applyOperation(
 				title: operation.title,
 				url: operation.url,
 			});
-			return [];
+			return NO_MAPPING_RESULT;
 		case 'remove-bookmark':
 			await api.remove(operation.nodeId);
-			return [{ kind: 'unmap-bookmark', linkKey: operation.linkKey }];
+			return unmapBookmark(operation.linkKey);
 		case 'forget-bookmark':
-			return [{ kind: 'unmap-bookmark', linkKey: operation.linkKey }];
-		case 'move-bookmark':
+			return unmapBookmark(operation.linkKey);
+		case 'remap-bookmark':
+			return {
+				changes: [
+					{ kind: 'unmap-bookmark', linkKey: operation.fromLinkKey },
+					{
+						kind: 'map-bookmark',
+						linkKey: operation.toLinkKey,
+						nodeId: operation.nodeId,
+					},
+				],
+				snapshot: {},
+			};
+		case 'move-node':
 			await api.move(operation.nodeId, { parentId: operation.parentNodeId });
-			return [];
+			return NO_MAPPING_RESULT;
 		case 'reorder-pinned':
 			await reorderPinned(api, operation);
-			return [];
+			return NO_MAPPING_RESULT;
 	}
+}
+
+function unmapFolder(collectionId: number): OperationResult {
+	return { changes: [{ kind: 'unmap-folder', collectionId }], snapshot: {} };
+}
+
+function unmapBookmark(linkKey: string): OperationResult {
+	return { changes: [{ kind: 'unmap-bookmark', linkKey }], snapshot: {} };
 }
 
 async function createFolder(
 	api: BookmarksApi,
 	rootId: string,
 	operation: Extract<BookmarkOperation, { kind: 'create-folder' }>
-): Promise<MappingChange[]> {
+): Promise<OperationResult> {
 	// Always directly under the root — the mirror is one folder deep, and
-	// creating anywhere else would put writes outside the blast radius the
-	// takeover established.
+	// creating anywhere else would put writes outside the collections folder.
 	const folder = await api.create({ parentId: rootId, title: operation.title });
 
 	// Children go in sequentially so they land in the order the server lists
 	// them; the browser appends, and racing the creates would shuffle them.
-	const childChanges: MappingChange[] = [];
+	const children: OperationResult[] = [];
 	for (const bookmark of operation.bookmarks) {
 		const created = await api.create({
 			parentId: folder.id,
 			title: bookmark.title,
 			url: bookmark.url,
 		});
-		childChanges.push({
-			kind: 'map-bookmark',
-			linkKey: buildLinkKey(operation.collectionId, bookmark.linkId),
-			nodeId: created.id,
+		children.push({
+			changes: [
+				{
+					kind: 'map-bookmark',
+					linkKey: buildLinkKey(operation.collectionId, bookmark.linkId),
+					nodeId: created.id,
+				},
+			],
+			snapshot: {
+				[created.id]: {
+					parentId: folder.id,
+					title: bookmark.title,
+					url: bookmark.url,
+				},
+			},
 		});
 	}
 
-	return [
-		{
-			kind: 'map-folder',
-			collectionId: operation.collectionId,
-			nodeId: folder.id,
-		},
-		...childChanges,
-	];
+	return {
+		changes: [
+			{
+				kind: 'map-folder',
+				collectionId: operation.collectionId,
+				nodeId: folder.id,
+			},
+			...children.flatMap((child) => child.changes),
+		],
+		snapshot: mergeSnapshots([
+			{ [folder.id]: { parentId: rootId, title: operation.title } },
+			...children.map((child) => child.snapshot),
+		]),
+	};
 }
 
 async function createBookmark(
 	api: BookmarksApi,
 	operation: Extract<BookmarkOperation, { kind: 'create-bookmark' }>
-): Promise<MappingChange[]> {
+): Promise<OperationResult> {
 	const created = await api.create({
 		parentId: operation.parentNodeId,
 		title: operation.title,
 		url: operation.url,
 	});
 
-	return [
-		{ kind: 'map-bookmark', linkKey: operation.linkKey, nodeId: created.id },
-	];
+	return {
+		changes: [
+			{ kind: 'map-bookmark', linkKey: operation.linkKey, nodeId: created.id },
+		],
+		snapshot: {
+			[created.id]: {
+				parentId: operation.parentNodeId,
+				title: operation.title,
+				url: operation.url,
+			},
+		},
+	};
 }
 
 /**
@@ -199,4 +283,11 @@ function applyMappingChange(
 		case 'unmap-bookmark':
 			return withoutMappedBookmark(mapping, change.linkKey);
 	}
+}
+
+function mergeSnapshots(snapshots: SyncedTree[]): SyncedTree {
+	return snapshots.reduce<SyncedTree>(
+		(merged, snapshot) => ({ ...merged, ...snapshot }),
+		{}
+	);
 }
