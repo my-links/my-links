@@ -13,7 +13,8 @@
 		"zip:firefox": "wxt zip -b firefox",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
-		"check": "pnpm run typecheck && pnpm run test",
+		"test:firefox": "WXT_TEST_BROWSER=firefox vitest run",
+		"check": "pnpm run typecheck && pnpm run test && pnpm run test:firefox",
 		"postinstall": "wxt prepare",
 		"generate:api-types": "openapi-typescript ../webapp/.adonisjs/openapi.json -o lib/api/schema.d.ts && pnpm exec oxfmt --write lib/api/schema.d.ts"
 	},
