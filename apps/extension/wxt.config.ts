@@ -1,6 +1,8 @@
 import { defineConfig } from 'wxt';
 import { fileURLToPath } from 'node:url';
 
+import { OPEN_SEARCH_COMMAND } from './lib/search/constants';
+
 // See https://wxt.dev/api/config.html
 export default defineConfig({
 	modules: ['@wxt-dev/module-react', '@wxt-dev/unocss'],
@@ -37,5 +39,17 @@ export default defineConfig({
 		// Empty object: the extension has an action (icon), but no popup —
 		// clicking it opens the side panel instead (see background.ts).
 		action: {},
+		// Ctrl+Shift+K is free in Chromium. Firefox binds it to the Web
+		// Console, so users there get the command listed with no shortcut
+		// and can assign their own from about:addons.
+		commands: {
+			[OPEN_SEARCH_COMMAND]: {
+				suggested_key: {
+					default: 'Ctrl+Shift+K',
+					mac: 'Command+Shift+K',
+				},
+				description: 'Open MyLinks and focus the search field',
+			},
+		},
 	},
 });

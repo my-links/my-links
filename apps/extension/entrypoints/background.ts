@@ -1,7 +1,9 @@
+import { openSearch } from '@/lib/search/open_search';
 import { syncBookmarks } from '@/lib/bookmarks/mirror';
 import { collectionsCacheStorage } from '@/lib/storage';
 import { createDebouncedTrigger } from '@/lib/debounce';
 import { isRequestSyncMessage } from '@/lib/sync/messages';
+import { OPEN_SEARCH_COMMAND } from '@/lib/search/constants';
 import { syncCollections } from '@/lib/sync/sync_collections';
 import { BOOKMARK_SYNC_DEBOUNCE_MS } from '@/lib/bookmarks/constants';
 import { SYNC_ALARM_NAME, SYNC_INTERVAL_MINUTES } from '@/lib/sync/constants';
@@ -19,6 +21,13 @@ export default defineBackground(() => {
 	void createContextMenus();
 	browser.contextMenus.onClicked.addListener((info, tab) => {
 		void handleContextMenuClick(info, tab);
+	});
+
+	browser.commands.onCommand.addListener((command, tab) => {
+		if (command !== OPEN_SEARCH_COMMAND) {
+			return;
+		}
+		openSearch(tab?.windowId);
 	});
 
 	void browser.alarms.create(SYNC_ALARM_NAME, {
