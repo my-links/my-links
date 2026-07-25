@@ -100,6 +100,18 @@ export const bookmarkMirrorStorage = storage.defineItem<BookmarkMirrorState>(
 );
 
 /**
+ * Signature of the last set of native changes pushed to the server. A pass
+ * that produces the very same set again has not converged — the server is
+ * rewriting what it is told — so it is reported as a failure instead of
+ * being pushed a second time. Cleared as soon as a pass finds nothing to
+ * push. See `lib/bookmarks/change_fingerprint.ts`.
+ */
+export const lastPushedChangesStorage = storage.defineItem<string | null>(
+	'local:lastPushedBookmarkChanges',
+	{ fallback: null }
+);
+
+/**
  * Which native bookmark node stands for which collection/link. Persisted
  * because it is also the mirror's safety fence: only nodes recorded here may
  * ever be deleted, so the takeover backup and anything the user filed by
