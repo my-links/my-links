@@ -128,16 +128,17 @@ async function runMirrorPass(): Promise<void> {
 		mirrorState.rootId
 	);
 	// A mirror enabled before this line shipped has no stamp: dating it from
-	// now leaves the bar as it stands rather than importing all of it at once.
-	const barAdoptionSince = mirrorState.enabledAt ?? Date.now();
+	// now treats everything already saved as the user's own, rather than
+	// claiming all of it at once.
+	const savedSince = mirrorState.enabledAt ?? Date.now();
 	if (
 		collectionsFolderId !== mirrorState.rootId ||
-		barAdoptionSince !== mirrorState.enabledAt
+		savedSince !== mirrorState.enabledAt
 	) {
 		await bookmarkMirrorStorage.setValue({
 			...mirrorState,
 			rootId: collectionsFolderId,
-			enabledAt: barAdoptionSince,
+			enabledAt: savedSince,
 		});
 	}
 
@@ -167,7 +168,7 @@ async function runMirrorPass(): Promise<void> {
 		collectionsFolderId,
 		barId,
 		barChildren,
-		barAdoptionSince,
+		savedSince,
 		mapping,
 		snapshot: await syncedTreeStorage.getValue(),
 	});
@@ -348,6 +349,21 @@ async function pushServerChanges(
 
 type ServerAdoption = { linkKey: string; nodeId: string };
 
+/**
+ * The adopted node keeps its place, so it is mapped under the key that place
+ * stands for. Filing a bar node as a folder copy would have the next pass
+ * drag it into the folder, undoing the move the user just made by hand.
+ */
+function buildAdoptedLinkKey(
+	change: Extract<ServerChange, { kind: 'create-link' }>,
+	linkId: number
+): string {
+	if (change.placement === 'pinned') {
+		return buildPinnedLinkKey(linkId);
+	}
+	return buildLinkKey(change.collectionId, linkId);
+}
+
 async function settleServerChange(change: ServerChange): Promise<{
 	adoption: ServerAdoption | undefined;
 	hasFailed: boolean;
@@ -368,26 +384,11 @@ async function pushServerChange(
 			const createdLink = await createLink({
 				name: change.name,
 				url: change.url,
-				favorite: false,
+				favorite: change.favorite,
 				collectionIds: [change.collectionId],
 			});
 			return {
-				linkKey: buildLinkKey(change.collectionId, createdLink.id),
-				nodeId: change.nodeId,
-			};
-		}
-		case 'create-favorite-link': {
-			const createdLink = await createLink({
-				name: change.name,
-				url: change.url,
-				favorite: true,
-				collectionIds: [change.collectionId],
-			});
-			// Mapped as the link's pin, not as its folder copy: the node is on
-			// the bar, which is exactly where a pinned favourite belongs. The
-			// folder copy is a separate node the next pass creates.
-			return {
-				linkKey: buildPinnedLinkKey(createdLink.id),
+				linkKey: buildAdoptedLinkKey(change, createdLink.id),
 				nodeId: change.nodeId,
 			};
 		}

@@ -58,6 +58,13 @@ export type BookmarkOperation =
 	| { kind: 'reorder-pinned'; parentNodeId: string; nodeIdsInOrder: string[] };
 
 /**
+ * A node on the bar is a link's pin; one inside a collection folder is its
+ * copy for that collection. An adopted node keeps the place the user chose,
+ * so the mapping has to follow it rather than the other way round.
+ */
+export type NodePlacement = 'pinned' | 'filed';
+
+/**
  * A write the server has to be told about.
  *
  * Never more than one per link per pass: a link dragged out of two folders at
@@ -72,19 +79,14 @@ export type ServerChange =
 			collectionId: number;
 			name: string;
 			url: string;
-	  }
-	/**
-	 * A bookmark the user saved onto the bar itself. The bar is where pinned
-	 * favourites live, so putting one there reads as "favourite this" — the
-	 * exact opposite of removing a pin, which already unfavourites. The node
-	 * stays where they put it and is mapped as the link's pin.
-	 */
-	| {
-			kind: 'create-favorite-link';
-			nodeId: string;
-			collectionId: number;
-			name: string;
-			url: string;
+			/**
+			 * True when the browser had just created the node, which is what
+			 * saving a page does. Dragging an existing bookmark in is a move, and
+			 * only files it.
+			 */
+			favorite: boolean;
+			/** Where the adopted node sits, which is the key it is mapped under. */
+			placement: NodePlacement;
 	  }
 	| {
 			kind: 'update-link';

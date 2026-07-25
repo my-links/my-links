@@ -7,10 +7,6 @@ import {
 	getMappedFolderId,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
-import type {
-	BookmarkOperation,
-	ServerChange,
-} from '@/lib/bookmarks/operations';
 import {
 	buildDesiredFolder,
 	buildLinkKey,
@@ -21,6 +17,11 @@ import {
 	isFolder,
 	type BookmarkNode,
 } from '@/lib/bookmarks/bookmarks_api';
+import type {
+	BookmarkOperation,
+	NodePlacement,
+	ServerChange,
+} from '@/lib/bookmarks/operations';
 
 export type ReconcileInput = {
 	/** The server's answer, as last cached by the collections sync. */
@@ -32,11 +33,11 @@ export type ReconcileInput = {
 	mapping: BookmarkMapping;
 	snapshot: SyncedTree;
 	/**
-	 * When the mirror was switched on. Bookmarks the bar already held are the
-	 * user's own and are never claimed; only ones saved afterwards are read as
-	 * a request to keep them in MyLinks.
+	 * When the mirror was switched on. Bookmarks that already existed are the
+	 * user's own; only ones the browser created afterwards are read as pages
+	 * they saved, which is what marks a link as a favourite.
 	 */
-	barAdoptionSince: number;
+	savedSince: number;
 };
 
 export type ReconcilePlan = {
@@ -88,7 +89,7 @@ type MergeContext = {
 	collectionsFolderId: string;
 	barId: string;
 	barChildren: BookmarkNode[];
-	barAdoptionSince: number;
+	savedSince: number;
 	collections: CollectionWithLinks[];
 	mapping: BookmarkMapping;
 	snapshot: SyncedTree;
@@ -115,7 +116,7 @@ function buildMergeContext(input: ReconcileInput): MergeContext {
 		collectionsFolderId: input.collectionsFolderId,
 		barId: input.barId,
 		barChildren: input.barChildren,
-		barAdoptionSince: input.barAdoptionSince,
+		savedSince: input.savedSince,
 		collections: input.collections,
 		mapping: input.mapping,
 		snapshot: input.snapshot,
@@ -923,39 +924,24 @@ function buildUpdateLink(
 // Adoption
 // ---------------------------------------------------------------------------
 
-/** A bookmark the user dropped into a collection folder becomes a link. */
+/** A bookmark the user put anywhere the mirror owns becomes a link. */
 function planAdoptions(
 	context: MergeContext,
 	removedCollectionIds: Set<number>
 ): { serverChanges: ServerChange[]; snapshot: SyncedTree } {
-	const filed = context.collections
-		.filter((collection) => !removedCollectionIds.has(collection.id))
-		.flatMap((collection) => collectFiledNodes(context, collection.id));
-	const saved = collectSavedOnBarNodes(context);
+	const adoptions = [
+		...context.collections
+			.filter((collection) => !removedCollectionIds.has(collection.id))
+			.flatMap((collection) => collectFiledNodes(context, collection.id)),
+		...collectSavedOnBarNodes(context),
+	];
 
 	return {
-		serverChanges: [
-			...filed.map(
-				({ collectionId, node }): ServerChange => ({
-					kind: 'create-link',
-					nodeId: node.id,
-					collectionId,
-					name: node.title,
-					url: node.url ?? '',
-				})
-			),
-			...saved.map(
-				({ collectionId, node }): ServerChange => ({
-					kind: 'create-favorite-link',
-					nodeId: node.id,
-					collectionId,
-					name: node.title,
-					url: node.url ?? '',
-				})
-			),
-		],
+		serverChanges: adoptions.map((adoption) =>
+			buildAdoption(context, adoption)
+		),
 		snapshot: Object.fromEntries(
-			[...filed, ...saved].map(({ node }) => [
+			adoptions.map(({ node }) => [
 				node.id,
 				{ parentId: node.parentId ?? '', title: node.title, url: node.url },
 			])
@@ -963,7 +949,38 @@ function planAdoptions(
 	};
 }
 
-/** A bookmark the user dropped into a collection folder joins that collection. */
+/**
+ * Saving a page and filing an existing bookmark are the same node in the same
+ * folder, and only the browser's own dates tell them apart: a save creates a
+ * node, a drag moves one and carries its original date along.
+ *
+ * The distinction matters because the star button cannot be pinned down by
+ * place. Chromium files a new bookmark into the most recently modified folder
+ * (`GetParentForNewNodes`), and the mirror writes into its own folders on
+ * every pass — so it keeps making itself the target, and a saved page can
+ * surface in any collection.
+ */
+function buildAdoption(
+	context: MergeContext,
+	{ collectionId, node, placement }: AdoptableNode
+): ServerChange {
+	return {
+		kind: 'create-link',
+		nodeId: node.id,
+		collectionId,
+		name: node.title,
+		url: node.url ?? '',
+		favorite: wasSavedByUser(context, node),
+		placement,
+	};
+}
+
+/** Created since the mirror was switched on, so the user saved it themselves. */
+function wasSavedByUser(context: MergeContext, node: BookmarkNode): boolean {
+	return node.dateAdded !== undefined && node.dateAdded > context.savedSince;
+}
+
+/** A bookmark inside a collection folder joins that collection. */
 function collectFiledNodes(
 	context: MergeContext,
 	collectionId: number
@@ -973,18 +990,17 @@ function collectFiledNodes(
 
 	return (folder?.children ?? [])
 		.filter((child) => isAdoptable(context, child))
-		.map((node) => ({ collectionId, node }));
+		.map((node) => ({ collectionId, node, placement: 'filed' as const }));
 }
 
 /**
- * A bookmark saved straight onto the bar — the browser's own star button lands
- * here — becomes a favourite in the default collection, pinned where the user
- * put it.
+ * A bookmark on the bar itself joins the default collection, and is kept as
+ * the link's pin — the bar is where pins live, so leaving it anywhere else
+ * would move it out from under the user.
  *
- * Restricted to nodes newer than the day the mirror was switched on, and to
- * the bar's top level. Anything older was on the bar before MyLinks had any
- * say over it, and anything filed inside one of the user's own folders was
- * filed *away*, not saved.
+ * Only ones saved since the mirror was switched on: the bar was the user's
+ * long before MyLinks had any say over it, and adopting what it already held
+ * would import their whole bar into the account.
  */
 function collectSavedOnBarNodes(context: MergeContext): AdoptableNode[] {
 	const defaultCollectionId = getDefaultCollectionId(context.collections);
@@ -994,15 +1010,20 @@ function collectSavedOnBarNodes(context: MergeContext): AdoptableNode[] {
 
 	return context.barChildren
 		.filter(
-			(child) =>
-				isAdoptable(context, child) &&
-				child.dateAdded !== undefined &&
-				child.dateAdded > context.barAdoptionSince
+			(child) => isAdoptable(context, child) && wasSavedByUser(context, child)
 		)
-		.map((node) => ({ collectionId: defaultCollectionId, node }));
+		.map((node) => ({
+			collectionId: defaultCollectionId,
+			node,
+			placement: 'pinned' as const,
+		}));
 }
 
-type AdoptableNode = { collectionId: number; node: BookmarkNode };
+type AdoptableNode = {
+	collectionId: number;
+	node: BookmarkNode;
+	placement: NodePlacement;
+};
 
 function isAdoptable(context: MergeContext, node: BookmarkNode): boolean {
 	return node.url !== undefined && !context.mappedNodeIds.has(node.id);
