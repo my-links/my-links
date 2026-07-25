@@ -1,5 +1,6 @@
 import { parseLinkKey } from '@/lib/bookmarks/desired_tree';
 import { parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
+import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
 import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
 import {
 	indexBySubtreeId,
@@ -248,12 +249,21 @@ function buildLinkChange(
 	const unobservableCollectionIds = link.collectionIds.filter(
 		(collectionId) => !observableCollectionIds.has(collectionId)
 	);
-	const nextCollectionIds = [
+	const observedCollectionIds = [
 		...new Set([
 			...unobservableCollectionIds,
 			...presentNodes.map(({ collectionId }) => collectionId),
 		]),
 	].sort((left, right) => left - right);
+
+	// A link always has a home: the server re-files an empty set under the
+	// Inbox. Pushing one would therefore change nothing, be read back as the
+	// same difference, and loop forever — so removing a link's last bookmark
+	// is not a detach. The outbound pass puts the bookmark back.
+	const nextCollectionIds =
+		observedCollectionIds.length > 0
+			? observedCollectionIds
+			: link.collectionIds;
 
 	// Deleting a pin is how the bar unfavourites a link. Only a link the
 	// mirror actually pinned can be read that way; for anything else the
@@ -263,9 +273,8 @@ function buildLinkChange(
 		: link.favorite;
 
 	const editedNode =
-		presentNodes.find(
-			({ node }) => node.title !== link.name || node.url !== link.url
-		)?.node ?? findEditedPin(pinObservation, link);
+		presentNodes.find(({ node }) => isEditedNode(node, link))?.node ??
+		findEditedPin(pinObservation, link);
 
 	const hasMembershipChange = !areSameIds(
 		nextCollectionIds,
@@ -295,10 +304,11 @@ function findEditedPin(
 	if (!pinnedNode) {
 		return undefined;
 	}
-	if (pinnedNode.title === link.name && pinnedNode.url === link.url) {
-		return undefined;
-	}
-	return pinnedNode;
+	return isEditedNode(pinnedNode, link) ? pinnedNode : undefined;
+}
+
+function isEditedNode(node: BookmarkNode, link: LinkResource): boolean {
+	return node.title !== link.name || !areSameBookmarkUrl(node.url, link.url);
 }
 
 function groupMappedNodesByLinkId(

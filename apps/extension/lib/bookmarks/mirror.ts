@@ -7,6 +7,7 @@ import { createCoalescingRunner } from '@/lib/coalescing_runner';
 import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
 import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import { buildDesiredTree, buildLinkKey } from '@/lib/bookmarks/desired_tree';
+import { fingerprintInboundChanges } from '@/lib/bookmarks/change_fingerprint';
 import {
 	withMappedBookmark,
 	type BookmarkMapping,
@@ -43,6 +44,7 @@ import {
 	bookmarkMappingStorage,
 	bookmarkMirrorStorage,
 	collectionsCacheStorage,
+	lastPushedChangesStorage,
 	pinnedRankingStorage,
 } from '@/lib/storage';
 
@@ -134,6 +136,14 @@ async function runMirrorPass(): Promise<void> {
 		mapping
 	);
 	if (inboundChanges.length > 0) {
+		const fingerprint = fingerprintInboundChanges(inboundChanges);
+		if (fingerprint === (await lastPushedChangesStorage.getValue())) {
+			throw new BookmarkMirrorError(
+				'The same native changes came back after being pushed — the server is not recording them as sent'
+			);
+		}
+		await lastPushedChangesStorage.setValue(fingerprint);
+
 		const { adoptions, failedChangeCount } =
 			await pushInboundChanges(inboundChanges);
 
@@ -159,6 +169,8 @@ async function runMirrorPass(): Promise<void> {
 		}
 		return;
 	}
+
+	await lastPushedChangesStorage.setValue(null);
 
 	const {
 		bookmarks: pinnedFavorites,

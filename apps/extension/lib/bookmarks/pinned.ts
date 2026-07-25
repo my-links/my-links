@@ -1,4 +1,5 @@
 import type { BookmarkOperation } from '@/lib/bookmarks/diff';
+import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
 import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import {
@@ -229,7 +230,7 @@ function retitleIfNeeded(
 ): BookmarkOperation[] {
 	if (
 		actualNode.title === desiredBookmark.title &&
-		actualNode.url === desiredBookmark.url
+		areSameBookmarkUrl(actualNode.url, desiredBookmark.url)
 	) {
 		return [];
 	}

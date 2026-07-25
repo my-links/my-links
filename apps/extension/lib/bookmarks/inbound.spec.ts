@@ -93,6 +93,36 @@ describe('detectInboundChanges', () => {
 		]);
 	});
 
+	it('should not read the browser adding a trailing slash as a user edit', () => {
+		const changes = detectInboundChanges(
+			[
+				buildCollection({
+					links: [buildLink({ url: 'https://example.com' })],
+				}),
+			],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Docs', url: 'https://example.com/' },
+				]),
+			],
+			[],
+			WORK_FOLDER_MAPPING
+		);
+
+		expect(changes).toEqual([]);
+	});
+
+	it('should not try to strip a link out of its last collection', () => {
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [buildLink({ collectionIds: [1] })] })],
+			[buildFolderNode('f1', 'Work')],
+			[],
+			WORK_FOLDER_MAPPING
+		);
+
+		expect(changes).toEqual([]);
+	});
+
 	it('should stop adopting a bookmark once its new link is mapped', () => {
 		const adoptedNode = {
 			id: 'new',
@@ -149,23 +179,6 @@ describe('detectInboundChanges', () => {
 	});
 
 	it('should drop the collection from a link whose bookmark was deleted', () => {
-		const changes = detectInboundChanges(
-			[buildCollection()],
-			[buildFolderNode('f1', 'Work')],
-			[],
-			WORK_FOLDER_MAPPING
-		);
-
-		expect(changes).toEqual([
-			expect.objectContaining({
-				kind: 'update-link',
-				linkId: 10,
-				collectionIds: [],
-			}),
-		]);
-	});
-
-	it('should record a single membership change when a link is pulled from two folders at once', () => {
 		const collections = [
 			buildCollection({ links: [buildLink({ collectionIds: [1, 2] })] }),
 			buildCollection({
@@ -173,6 +186,39 @@ describe('detectInboundChanges', () => {
 				name: 'Reading',
 				links: [buildLink({ collectionIds: [1, 2] })],
 			}),
+		];
+
+		const changes = detectInboundChanges(
+			collections,
+			[
+				buildFolderNode('f1', 'Work'),
+				buildFolderNode('f2', 'Reading', [
+					{ id: 'b2', title: 'Docs', url: 'https://docs.example.com' },
+				]),
+			],
+			[],
+			{
+				folderIdByCollectionId: { '1': 'f1', '2': 'f2' },
+				bookmarkIdByLinkKey: { '1:10': 'b1', '2:10': 'b2' },
+			}
+		);
+
+		expect(changes).toEqual([
+			expect.objectContaining({
+				kind: 'update-link',
+				linkId: 10,
+				collectionIds: [2],
+			}),
+		]);
+	});
+
+	it('should record a single membership change when a link is pulled from two folders at once', () => {
+		// Also filed in collection 99, which has no folder on screen — that is
+		// what keeps the link housed once both visible bookmarks are gone.
+		const linkInThree = buildLink({ collectionIds: [1, 2, 99] });
+		const collections = [
+			buildCollection({ links: [linkInThree] }),
+			buildCollection({ id: 2, name: 'Reading', links: [linkInThree] }),
 		];
 
 		const changes = detectInboundChanges(
@@ -189,7 +235,7 @@ describe('detectInboundChanges', () => {
 			expect.objectContaining({
 				kind: 'update-link',
 				linkId: 10,
-				collectionIds: [],
+				collectionIds: [99],
 			}),
 		]);
 	});

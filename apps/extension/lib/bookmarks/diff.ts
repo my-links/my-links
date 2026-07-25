@@ -1,3 +1,4 @@
+import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
 import { isFolder, type BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import {
 	buildLinkKey,
@@ -143,7 +144,7 @@ function diffBookmarksOfFolder(
 
 			if (
 				actualBookmark.title === desiredBookmark.title &&
-				actualBookmark.url === desiredBookmark.url
+				areSameBookmarkUrl(actualBookmark.url, desiredBookmark.url)
 			) {
 				return [];
 			}
