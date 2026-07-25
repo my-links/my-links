@@ -73,6 +73,19 @@ export type ServerChange =
 			name: string;
 			url: string;
 	  }
+	/**
+	 * A bookmark the user saved onto the bar itself. The bar is where pinned
+	 * favourites live, so putting one there reads as "favourite this" — the
+	 * exact opposite of removing a pin, which already unfavourites. The node
+	 * stays where they put it and is mapped as the link's pin.
+	 */
+	| {
+			kind: 'create-favorite-link';
+			nodeId: string;
+			collectionId: number;
+			name: string;
+			url: string;
+	  }
 	| {
 			kind: 'update-link';
 			linkId: number;

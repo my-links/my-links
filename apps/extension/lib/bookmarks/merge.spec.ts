@@ -1,13 +1,16 @@
 import { describe, expect, it } from 'vitest';
 
 import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
-import { collectFavoriteLinks } from '@/lib/bookmarks/pinned';
 import type { ServerChange } from '@/lib/bookmarks/operations';
 import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
 import { reconcile, type ReconcilePlan } from '@/lib/bookmarks/merge';
 import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
+import {
+	buildPinnedLinkKey,
+	collectFavoriteLinks,
+} from '@/lib/bookmarks/pinned';
 import {
 	buildDesiredTree,
 	buildLinkKey,
@@ -77,6 +80,10 @@ class FakeServer {
 		return link;
 	}
 
+	get links(): LinkResource[] {
+		return [...this.linksById.values()];
+	}
+
 	get collections(): CollectionWithLinks[] {
 		return [...this.collectionsById.values()].map((collection) => ({
 			...collection,
@@ -131,6 +138,18 @@ class FakeServer {
 				});
 				return {
 					linkKey: buildLinkKey(change.collectionId, created.id),
+					nodeId: change.nodeId,
+				};
+			}
+			case 'create-favorite-link': {
+				const created = this.addLink({
+					name: change.name,
+					url: change.url,
+					favorite: true,
+					collectionIds: [change.collectionId],
+				});
+				return {
+					linkKey: buildPinnedLinkKey(created.id),
 					nodeId: change.nodeId,
 				};
 			}
@@ -209,6 +228,13 @@ class MirrorHarness {
 	readonly collectionsFolderId: string;
 	mapping: BookmarkMapping = EMPTY_BOOKMARK_MAPPING;
 	snapshot: SyncedTree = EMPTY_SYNCED_TREE;
+	/**
+	 * The mirror was switched on at time zero, which is also what the fake
+	 * browser stamps until a scenario advances its clock — so bookmarks a
+	 * scenario sets up are "already there" and only the ones it saves after
+	 * moving the clock read as new.
+	 */
+	barAdoptionSince = 0;
 
 	constructor(readonly server: FakeServer) {
 		this.barId = this.api.createFolder(this.api.rootId, 'Bookmarks bar');
@@ -258,6 +284,7 @@ class MirrorHarness {
 			collectionsFolderId: this.collectionsFolderId,
 			barId: this.barId,
 			barChildren,
+			barAdoptionSince: this.barAdoptionSince,
 			mapping: this.mapping,
 			snapshot: this.snapshot,
 		});
@@ -307,9 +334,28 @@ class MirrorHarness {
 	}
 
 	async settle(): Promise<ReconcilePlan> {
+		return await this.settleOver(1);
+	}
+
+	/**
+	 * A pass can only build on what the one before it created: a bar bookmark
+	 * adopted into a link gains its folder copy the pass after the link
+	 * exists. `passCount` is how many the scenario is allowed before there has
+	 * to be nothing left to do. The first plan is returned, since that is the
+	 * one carrying the change under test.
+	 */
+	async settleOver(passCount: number): Promise<ReconcilePlan> {
+		const firstPlan = await this.runSuccessfully();
+		for (let remaining = passCount - 1; remaining > 0; remaining -= 1) {
+			await this.runSuccessfully();
+		}
+		await this.expectConverged();
+		return firstPlan;
+	}
+
+	private async runSuccessfully(): Promise<ReconcilePlan> {
 		const { plan, failedOperationCount } = await this.run();
 		expect(failedOperationCount).toBe(0);
-		await this.expectConverged();
 		return plan;
 	}
 }
@@ -658,6 +704,109 @@ describe('reconcile — pinned favourites', () => {
 			'Collections',
 			'Docs',
 		]);
+	});
+});
+
+describe('reconcile — bookmarks saved onto the bar', () => {
+	it('should turn a bookmark saved with the native star into a favourite in the default collection', async () => {
+		const { harness, server } = await buildSettledHarness();
+		harness.api.clock = 1;
+		harness.api.createLink(
+			harness.barId,
+			'Saved',
+			'https://saved.example.com/a'
+		);
+
+		const plan = await harness.settleOver(2);
+
+		expect(plan.serverChanges).toEqual([
+			expect.objectContaining({
+				kind: 'create-favorite-link',
+				collectionId: INBOX_ID,
+				name: 'Saved',
+			}),
+		]);
+		const saved = server.links.find((link) => link.name === 'Saved');
+		expect(saved?.favorite).toBe(true);
+		expect(saved?.collectionIds).toEqual([INBOX_ID]);
+	});
+
+	it('should leave the node where the user saved it and keep it as the link pin', async () => {
+		const { harness, server } = await buildSettledHarness();
+		harness.api.clock = 1;
+		const nodeId = harness.api.createLink(
+			harness.barId,
+			'Saved',
+			'https://saved.example.com/a'
+		);
+
+		await harness.settleOver(2);
+
+		const saved = server.links.find((link) => link.name === 'Saved');
+		expect(await harness.nodeIdOf(buildPinnedLinkKey(saved?.id ?? 0))).toBe(
+			nodeId
+		);
+		expect(await harness.titlesIn(harness.barId)).toEqual([
+			'Collections',
+			'Saved',
+		]);
+		expect(await harness.titlesIn(await harness.folderIdOf(INBOX_ID))).toEqual([
+			'Saved',
+		]);
+	});
+
+	it('should push a rename of a bookmark it adopted off the bar', async () => {
+		const { harness, server } = await buildSettledHarness();
+		harness.api.clock = 1;
+		const nodeId = harness.api.createLink(
+			harness.barId,
+			'Saved',
+			'https://saved.example.com/a'
+		);
+		await harness.settleOver(2);
+
+		await harness.api.update(nodeId, { title: 'Saved for later' });
+		await harness.settle();
+
+		expect(server.links.map((link) => link.name)).toContain('Saved for later');
+	});
+
+	it('should leave alone a bookmark the bar already held when the mirror was switched on', async () => {
+		const { harness, server } = await buildSettledHarness();
+		harness.api.createLink(harness.barId, 'Theirs', 'https://own.example.com');
+
+		await harness.settle();
+
+		expect(server.links.map((link) => link.name)).not.toContain('Theirs');
+		expect(await harness.titlesIn(harness.barId)).toEqual([
+			'Collections',
+			'Theirs',
+		]);
+	});
+
+	it('should never adopt a pin it put on the bar itself', async () => {
+		const { harness, server, docs } = await buildSettledHarness();
+		harness.api.clock = 1;
+		server.editLink(docs.id, { favorite: true });
+
+		await harness.settle();
+
+		expect(server.links).toHaveLength(1);
+	});
+
+	it('should ignore a bookmark saved inside one of the user own folders', async () => {
+		const { harness, server } = await buildSettledHarness();
+		const ownFolderId = harness.api.createFolder(harness.barId, 'Theirs');
+		harness.api.clock = 1;
+		harness.api.createLink(
+			ownFolderId,
+			'Filed away',
+			'https://own.example.com'
+		);
+
+		await harness.settle();
+
+		expect(server.links.map((link) => link.name)).not.toContain('Filed away');
 	});
 });
 

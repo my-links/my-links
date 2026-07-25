@@ -11,6 +11,7 @@ type StoredNode = {
 	parentId?: string;
 	title: string;
 	url?: string;
+	dateAdded: number;
 };
 
 /**
@@ -26,9 +27,11 @@ export class FakeBookmarksApi implements BookmarksApi {
 	private readonly nodes = new Map<string, StoredNode>();
 	private readonly childIdsByParentId = new Map<string, string[]>();
 	private nextId = 0;
+	/** What the browser stamps on every node it creates. */
+	clock = 0;
 
 	constructor(rootTitle = 'root') {
-		this.insert({ id: this.claimId(), title: rootTitle });
+		this.insert({ id: this.claimId(), title: rootTitle, dateAdded: 0 });
 	}
 
 	/** Chromium numbers the tree root `0` and the bookmarks bar `1`. */
@@ -38,13 +41,13 @@ export class FakeBookmarksApi implements BookmarksApi {
 
 	createFolder(parentId: string, title: string): string {
 		const id = this.claimId();
-		this.insert({ id, parentId, title });
+		this.insert({ id, parentId, title, dateAdded: this.clock });
 		return id;
 	}
 
 	createLink(parentId: string, title: string, url: string): string {
 		const id = this.claimId();
-		this.insert({ id, parentId, title, url });
+		this.insert({ id, parentId, title, url, dateAdded: this.clock });
 		return id;
 	}
 
@@ -67,6 +70,7 @@ export class FakeBookmarksApi implements BookmarksApi {
 				parentId: details.parentId,
 				title: details.title ?? '',
 				url: details.url,
+				dateAdded: this.clock,
 			},
 			details.index
 		);
@@ -166,6 +170,7 @@ export class FakeBookmarksApi implements BookmarksApi {
 			parentId: node.parentId,
 			title: node.title,
 			url: node.url,
+			dateAdded: node.dateAdded,
 			children:
 				node.url === undefined
 					? children.map((childId) => this.buildNode(childId))
