@@ -188,7 +188,7 @@ describe('applyBookmarkOperations', () => {
 		const api = new FakeBookmarksApi();
 		const rootId = api.createFolder(api.rootId, 'MyLinks');
 
-		const mapping = await applyBookmarkOperations(
+		const { mapping } = await applyBookmarkOperations(
 			api,
 			rootId,
 			diffBookmarkTree([buildDesiredFolder()], [], EMPTY_BOOKMARK_MAPPING),
@@ -207,14 +207,14 @@ describe('applyBookmarkOperations', () => {
 	it('should forget the bookmarks of a folder it removed so no mapping points at a dead node', async () => {
 		const api = new FakeBookmarksApi();
 		const rootId = api.createFolder(api.rootId, 'MyLinks');
-		const createdMapping = await applyBookmarkOperations(
+		const { mapping: createdMapping } = await applyBookmarkOperations(
 			api,
 			rootId,
 			diffBookmarkTree([buildDesiredFolder()], [], EMPTY_BOOKMARK_MAPPING),
 			EMPTY_BOOKMARK_MAPPING
 		);
 
-		const finalMapping = await applyBookmarkOperations(
+		const { mapping: finalMapping } = await applyBookmarkOperations(
 			api,
 			rootId,
 			diffBookmarkTree([], await childrenOf(api, rootId), createdMapping),
@@ -224,6 +224,27 @@ describe('applyBookmarkOperations', () => {
 		expect(finalMapping.folderIdByCollectionId).toEqual({});
 		expect(finalMapping.bookmarkIdByLinkKey).toEqual({});
 		expect(await childrenOf(api, rootId)).toEqual([]);
+	});
+
+	it('should keep the mappings of operations that succeeded when one fails', async () => {
+		const api = new FakeBookmarksApi();
+		const rootId = api.createFolder(api.rootId, 'Collections');
+
+		const { mapping, failedOperationCount } = await applyBookmarkOperations(
+			api,
+			rootId,
+			[
+				...diffBookmarkTree([buildDesiredFolder()], [], EMPTY_BOOKMARK_MAPPING),
+				// The browser reclaimed this node already; the batch must not lose
+				// the folder it just created because of it.
+				{ kind: 'remove-bookmark', nodeId: 'gone', linkKey: '9:9' },
+			],
+			EMPTY_BOOKMARK_MAPPING
+		);
+
+		expect(failedOperationCount).toBe(1);
+		expect(mapping.folderIdByCollectionId['1']).toBeDefined();
+		expect(mapping.bookmarkIdByLinkKey['1:10']).toBeDefined();
 	});
 
 	it('should converge in one pass — a second diff of the same state is empty', async () => {
@@ -240,7 +261,7 @@ describe('applyBookmarkOperations', () => {
 			}),
 		];
 
-		const mapping = await applyBookmarkOperations(
+		const { mapping } = await applyBookmarkOperations(
 			api,
 			rootId,
 			diffBookmarkTree(desiredFolders, [], EMPTY_BOOKMARK_MAPPING),

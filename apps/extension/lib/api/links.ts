@@ -1,3 +1,4 @@
+import type { LinkResource } from '@/lib/api/types';
 import { createExtensionApiClient } from '@/lib/api/client';
 
 export class CreateLinkError extends Error {}
@@ -20,13 +21,23 @@ export interface UpdateLinkInput {
 	collectionIds: number[];
 }
 
-export async function createLink(input: CreateLinkInput): Promise<void> {
+/**
+ * Returns the created link: the bookmark mirror adopts an existing native
+ * node into a new link, and needs the server's id straight away to record
+ * the mapping. Without it the node stays unmapped and every later pass
+ * adopts it again, creating a duplicate link each time.
+ */
+export async function createLink(
+	input: CreateLinkInput
+): Promise<LinkResource> {
 	const client = await createExtensionApiClient();
-	const { error } = await client.POST('/api/v1/links', { body: input });
+	const { data, error } = await client.POST('/api/v1/links', { body: input });
 
 	if (error) {
 		throw new CreateLinkError('Failed to create the link.');
 	}
+
+	return data.link;
 }
 
 export async function updateLink(

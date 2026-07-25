@@ -13,6 +13,11 @@ import {
 
 export const MAX_CONCURRENT_BOOKMARK_WRITES = 4;
 
+export type BookmarkApplyResult = {
+	mapping: BookmarkMapping;
+	failedOperationCount: number;
+};
+
 type MappingChange =
 	| { kind: 'map-folder'; collectionId: number; nodeId: string }
 	| { kind: 'map-bookmark'; linkKey: string; nodeId: string }
@@ -21,25 +26,59 @@ type MappingChange =
 
 /**
  * Executes a diff against the native tree and returns the mapping that
- * results from it.
+ * results from it, plus how many operations failed.
  *
  * Operations touch disjoint nodes by construction, so they run through a
  * small concurrency window rather than one at a time. The mapping is folded
  * afterwards, sequentially, so the outcome doesn't depend on which task
  * happened to finish first.
+ *
+ * A failing operation is isolated rather than aborting the batch: nodes the
+ * successful ones created are already in the tree, and losing their mapping
+ * would leave them unclaimed — the next pass would then read them as
+ * bookmarks the user added by hand and adopt them into duplicate links. The
+ * caller persists this mapping and treats a non-zero failure count as a
+ * failed pass, so the rest is retried under backoff.
  */
 export async function applyBookmarkOperations(
 	api: BookmarksApi,
 	rootId: string,
 	operations: BookmarkOperation[],
 	mapping: BookmarkMapping
-): Promise<BookmarkMapping> {
-	const changesPerOperation = await runWithConcurrencyLimit(
-		operations.map((operation) => () => applyOperation(api, rootId, operation)),
+): Promise<BookmarkApplyResult> {
+	const outcomes = await runWithConcurrencyLimit(
+		operations.map(
+			(operation) => () => settleOperation(api, rootId, operation)
+		),
 		MAX_CONCURRENT_BOOKMARK_WRITES
 	);
 
-	return changesPerOperation.flat().reduce(applyMappingChange, mapping);
+	return {
+		mapping: outcomes
+			.flatMap((outcome) => outcome.changes)
+			.reduce(applyMappingChange, mapping),
+		failedOperationCount: outcomes.filter((outcome) => outcome.hasFailed)
+			.length,
+	};
+}
+
+async function settleOperation(
+	api: BookmarksApi,
+	rootId: string,
+	operation: BookmarkOperation
+): Promise<{ changes: MappingChange[]; hasFailed: boolean }> {
+	try {
+		return {
+			changes: await applyOperation(api, rootId, operation),
+			hasFailed: false,
+		};
+	} catch (error) {
+		console.error(
+			`MyLinks bookmark operation "${operation.kind}" failed`,
+			error
+		);
+		return { changes: [], hasFailed: true };
+	}
 }
 
 async function applyOperation(

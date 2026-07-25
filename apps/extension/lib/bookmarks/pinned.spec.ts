@@ -333,7 +333,7 @@ describe('pinned favourites applied to a real tree', () => {
 			{ linkId: 10, title: 'Docs', url: 'https://docs.example.com' },
 		];
 
-		const created = await applyBookmarkOperations(
+		const { mapping: created } = await applyBookmarkOperations(
 			api,
 			barId,
 			diffPinnedFavorites(desiredPins, barId, [], EMPTY_BOOKMARK_MAPPING),
@@ -343,7 +343,7 @@ describe('pinned favourites applied to a real tree', () => {
 		// Reversing the ranking must reshuffle the existing nodes, not recreate
 		// them — the mapping is what proves nothing was thrown away.
 		const reversedPins = [...desiredPins].reverse();
-		const afterReorder = await applyBookmarkOperations(
+		const { mapping: afterReorder } = await applyBookmarkOperations(
 			api,
 			barId,
 			buildPinnedReorder(
