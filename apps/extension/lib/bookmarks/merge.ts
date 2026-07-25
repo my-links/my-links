@@ -1,4 +1,5 @@
 import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
+import { getDefaultCollectionId } from '@/lib/collections_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import { getSyncedNode, type SyncedTree } from '@/lib/bookmarks/snapshot';
 import { buildPinnedLinkKey, parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
@@ -30,6 +31,12 @@ export type ReconcileInput = {
 	barChildren: BookmarkNode[];
 	mapping: BookmarkMapping;
 	snapshot: SyncedTree;
+	/**
+	 * When the mirror was switched on. Bookmarks the bar already held are the
+	 * user's own and are never claimed; only ones saved afterwards are read as
+	 * a request to keep them in MyLinks.
+	 */
+	barAdoptionSince: number;
 };
 
 export type ReconcilePlan = {
@@ -80,6 +87,8 @@ export function reconcile(input: ReconcileInput): ReconcilePlan {
 type MergeContext = {
 	collectionsFolderId: string;
 	barId: string;
+	barChildren: BookmarkNode[];
+	barAdoptionSince: number;
 	collections: CollectionWithLinks[];
 	mapping: BookmarkMapping;
 	snapshot: SyncedTree;
@@ -105,6 +114,8 @@ function buildMergeContext(input: ReconcileInput): MergeContext {
 	return {
 		collectionsFolderId: input.collectionsFolderId,
 		barId: input.barId,
+		barChildren: input.barChildren,
+		barAdoptionSince: input.barAdoptionSince,
 		collections: input.collections,
 		mapping: input.mapping,
 		snapshot: input.snapshot,
@@ -917,22 +928,34 @@ function planAdoptions(
 	context: MergeContext,
 	removedCollectionIds: Set<number>
 ): { serverChanges: ServerChange[]; snapshot: SyncedTree } {
-	const adoptions = context.collections
+	const filed = context.collections
 		.filter((collection) => !removedCollectionIds.has(collection.id))
-		.flatMap((collection) => collectAdoptableNodes(context, collection.id));
+		.flatMap((collection) => collectFiledNodes(context, collection.id));
+	const saved = collectSavedOnBarNodes(context);
 
 	return {
-		serverChanges: adoptions.map(
-			({ collectionId, node }): ServerChange => ({
-				kind: 'create-link',
-				nodeId: node.id,
-				collectionId,
-				name: node.title,
-				url: node.url ?? '',
-			})
-		),
+		serverChanges: [
+			...filed.map(
+				({ collectionId, node }): ServerChange => ({
+					kind: 'create-link',
+					nodeId: node.id,
+					collectionId,
+					name: node.title,
+					url: node.url ?? '',
+				})
+			),
+			...saved.map(
+				({ collectionId, node }): ServerChange => ({
+					kind: 'create-favorite-link',
+					nodeId: node.id,
+					collectionId,
+					name: node.title,
+					url: node.url ?? '',
+				})
+			),
+		],
 		snapshot: Object.fromEntries(
-			adoptions.map(({ node }) => [
+			[...filed, ...saved].map(({ node }) => [
 				node.id,
 				{ parentId: node.parentId ?? '', title: node.title, url: node.url },
 			])
@@ -940,18 +963,49 @@ function planAdoptions(
 	};
 }
 
-function collectAdoptableNodes(
+/** A bookmark the user dropped into a collection folder joins that collection. */
+function collectFiledNodes(
 	context: MergeContext,
 	collectionId: number
-): { collectionId: number; node: BookmarkNode }[] {
+): AdoptableNode[] {
 	const folderNodeId = getMappedFolderId(context.mapping, collectionId);
 	const folder = folderNodeId ? context.nodesById.get(folderNodeId) : undefined;
 
 	return (folder?.children ?? [])
-		.filter(
-			(child) => child.url !== undefined && !context.mappedNodeIds.has(child.id)
-		)
+		.filter((child) => isAdoptable(context, child))
 		.map((node) => ({ collectionId, node }));
+}
+
+/**
+ * A bookmark saved straight onto the bar — the browser's own star button lands
+ * here — becomes a favourite in the default collection, pinned where the user
+ * put it.
+ *
+ * Restricted to nodes newer than the day the mirror was switched on, and to
+ * the bar's top level. Anything older was on the bar before MyLinks had any
+ * say over it, and anything filed inside one of the user's own folders was
+ * filed *away*, not saved.
+ */
+function collectSavedOnBarNodes(context: MergeContext): AdoptableNode[] {
+	const defaultCollectionId = getDefaultCollectionId(context.collections);
+	if (defaultCollectionId === undefined) {
+		return [];
+	}
+
+	return context.barChildren
+		.filter(
+			(child) =>
+				isAdoptable(context, child) &&
+				child.dateAdded !== undefined &&
+				child.dateAdded > context.barAdoptionSince
+		)
+		.map((node) => ({ collectionId: defaultCollectionId, node }));
+}
+
+type AdoptableNode = { collectionId: number; node: BookmarkNode };
+
+function isAdoptable(context: MergeContext, node: BookmarkNode): boolean {
+	return node.url !== undefined && !context.mappedNodeIds.has(node.id);
 }
 
 // ---------------------------------------------------------------------------

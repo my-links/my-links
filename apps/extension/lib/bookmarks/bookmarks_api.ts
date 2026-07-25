@@ -14,6 +14,13 @@ export type BookmarkNode = {
 	title: string;
 	url?: string;
 	index?: number;
+	/**
+	 * When the browser created the node. The only timestamp the API offers
+	 * that says anything about a node's origin — there is none for edits — and
+	 * it is what keeps the mirror from swallowing a bar full of bookmarks that
+	 * predate it.
+	 */
+	dateAdded?: number;
 	children?: BookmarkNode[];
 };
 

@@ -32,7 +32,14 @@ export async function enableBookmarkMirror(): Promise<void> {
 		previousState.rootId
 	);
 
-	await bookmarkMirrorStorage.setValue({ isEnabled: true, rootId });
+	// Stamped on every enable, not just the first: bookmarks added while the
+	// mirror was off were saved without it, and importing them retroactively
+	// is not what turning it back on asks for.
+	await bookmarkMirrorStorage.setValue({
+		isEnabled: true,
+		rootId,
+		enabledAt: Date.now(),
+	});
 }
 
 /**

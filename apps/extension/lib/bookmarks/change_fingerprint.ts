@@ -18,7 +18,8 @@ export function fingerprintServerChanges(changes: ServerChange[]): string {
 function describeChange(change: ServerChange): string {
 	switch (change.kind) {
 		case 'create-link':
-			return `create-link:${change.nodeId}:${change.collectionId}:${change.name}:${change.url}`;
+		case 'create-favorite-link':
+			return `${change.kind}:${change.nodeId}:${change.collectionId}:${change.name}:${change.url}`;
 		case 'update-link':
 			return [
 				'update-link',

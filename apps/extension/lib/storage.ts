@@ -83,11 +83,19 @@ export interface BookmarkMirrorState {
 	isEnabled: boolean;
 	/** Id of the `Collections` folder holding the mirrored collections. */
 	rootId: string | null;
+	/**
+	 * When the user turned the mirror on. Bookmarks the bar already held at
+	 * that moment are theirs and stay theirs; only ones added afterwards are
+	 * read as "save this to MyLinks". Without this line, enabling the mirror
+	 * would silently import someone's whole bookmarks bar into their account.
+	 */
+	enabledAt: number | null;
 }
 
 const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
 	isEnabled: false,
 	rootId: null,
+	enabledAt: null,
 };
 
 /**

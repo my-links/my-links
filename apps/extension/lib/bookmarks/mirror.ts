@@ -27,11 +27,6 @@ import {
 	type DesiredBookmark,
 } from '@/lib/bookmarks/desired_tree';
 import {
-	buildPinnedReorder,
-	collectFavoriteLinks,
-	resolveRankedFavorites,
-} from '@/lib/bookmarks/pinned';
-import {
 	getBrowserBookmarksApi,
 	type BookmarkNode,
 	type BookmarksApi,
@@ -41,6 +36,12 @@ import {
 	INITIAL_SYNC_BACKOFF_STATE,
 	isSyncBackingOff,
 } from '@/lib/sync/backoff';
+import {
+	buildPinnedLinkKey,
+	buildPinnedReorder,
+	collectFavoriteLinks,
+	resolveRankedFavorites,
+} from '@/lib/bookmarks/pinned';
 import {
 	bookmarkBackoffStorage,
 	bookmarkMappingStorage,
@@ -126,10 +127,17 @@ async function runMirrorPass(): Promise<void> {
 		api,
 		mirrorState.rootId
 	);
-	if (collectionsFolderId !== mirrorState.rootId) {
+	// A mirror enabled before this line shipped has no stamp: dating it from
+	// now leaves the bar as it stands rather than importing all of it at once.
+	const barAdoptionSince = mirrorState.enabledAt ?? Date.now();
+	if (
+		collectionsFolderId !== mirrorState.rootId ||
+		barAdoptionSince !== mirrorState.enabledAt
+	) {
 		await bookmarkMirrorStorage.setValue({
 			...mirrorState,
 			rootId: collectionsFolderId,
+			enabledAt: barAdoptionSince,
 		});
 	}
 
@@ -159,6 +167,7 @@ async function runMirrorPass(): Promise<void> {
 		collectionsFolderId,
 		barId,
 		barChildren,
+		barAdoptionSince,
 		mapping,
 		snapshot: await syncedTreeStorage.getValue(),
 	});
@@ -364,6 +373,21 @@ async function pushServerChange(
 			});
 			return {
 				linkKey: buildLinkKey(change.collectionId, createdLink.id),
+				nodeId: change.nodeId,
+			};
+		}
+		case 'create-favorite-link': {
+			const createdLink = await createLink({
+				name: change.name,
+				url: change.url,
+				favorite: true,
+				collectionIds: [change.collectionId],
+			});
+			// Mapped as the link's pin, not as its folder copy: the node is on
+			// the bar, which is exactly where a pinned favourite belongs. The
+			// folder copy is a separate node the next pass creates.
+			return {
+				linkKey: buildPinnedLinkKey(createdLink.id),
 				nodeId: change.nodeId,
 			};
 		}
