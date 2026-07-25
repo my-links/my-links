@@ -184,6 +184,7 @@ describe('diffPinnedFavorites', () => {
 			{
 				folderIdByCollectionId: {},
 				bookmarkIdByLinkKey: { 'pinned:10': 'p1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -196,6 +197,7 @@ describe('diffPinnedFavorites', () => {
 		const operations = diffPinnedFavorites([], barId, [], {
 			folderIdByCollectionId: {},
 			bookmarkIdByLinkKey: { 'pinned:10': 'deleted-by-user' },
+			titleByNodeId: {},
 		});
 
 		expect(operations).toEqual([
@@ -211,6 +213,7 @@ describe('diffPinnedFavorites', () => {
 			{
 				folderIdByCollectionId: {},
 				bookmarkIdByLinkKey: { 'pinned:10': 'p1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -224,7 +227,11 @@ describe('diffPinnedFavorites', () => {
 			[],
 			barId,
 			[buildBookmarkNode('b1', 'Docs', 'https://docs.example.com')],
-			{ folderIdByCollectionId: {}, bookmarkIdByLinkKey: { '1:10': 'b1' } }
+			{
+				folderIdByCollectionId: {},
+				bookmarkIdByLinkKey: { '1:10': 'b1' },
+				titleByNodeId: {},
+			}
 		);
 
 		expect(operations).toEqual([]);
@@ -244,6 +251,7 @@ describe('diffPinnedFavorites', () => {
 			{
 				folderIdByCollectionId: {},
 				bookmarkIdByLinkKey: { 'pinned:10': 'p1', 'pinned:20': 'p2' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -264,6 +272,7 @@ describe('diffPinnedFavorites', () => {
 			{
 				folderIdByCollectionId: {},
 				bookmarkIdByLinkKey: { 'pinned:10': 'p1', 'pinned:20': 'p2' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -276,6 +285,7 @@ describe('buildPinnedReorder', () => {
 	const twoPins = {
 		folderIdByCollectionId: {},
 		bookmarkIdByLinkKey: { 'pinned:10': 'p1', 'pinned:20': 'p2' },
+		titleByNodeId: {},
 	};
 
 	it('should rearrange the bar in one operation when the ranking changed', () => {

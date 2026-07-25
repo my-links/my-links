@@ -1,7 +1,9 @@
 import { parseLinkKey } from '@/lib/bookmarks/desired_tree';
 import { parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
-import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
-import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
+import {
+	getSnapshotTitle,
+	type BookmarkMapping,
+} from '@/lib/bookmarks/mapping';
 import {
 	indexBySubtreeId,
 	isFolder,
@@ -78,7 +80,7 @@ export function detectInboundChanges(
 	const observedNodes = collectObservedNodes(observedFolders);
 
 	return [
-		...detectRenamedCollections(collections, observedFolders),
+		...detectRenamedCollections(collections, observedFolders, mapping),
 		...detectAdoptedBookmarks(observedNodes, mapping),
 		...detectLinkChanges(
 			collections,
@@ -153,12 +155,15 @@ function collectPinObservations(
 
 function detectRenamedCollections(
 	collections: CollectionWithLinks[],
-	observedFolders: Map<number, BookmarkNode>
+	observedFolders: Map<number, BookmarkNode>,
+	mapping: BookmarkMapping
 ): InboundChange[] {
 	return collections
 		.filter((collection) => {
 			const folder = observedFolders.get(collection.id);
-			return folder !== undefined && folder.title !== collection.name;
+			return (
+				folder !== undefined && isRenamedNode(folder, collection.name, mapping)
+			);
 		})
 		.map((collection) => ({
 			kind: 'rename-collection',
@@ -222,7 +227,8 @@ function detectLinkChanges(
 				mappedNodesByLinkId.get(linkId) ?? [],
 				pinObservations.get(linkId),
 				nodesByNodeId,
-				observableCollectionIds
+				observableCollectionIds,
+				mapping
 			)
 		)
 		.filter((change): change is InboundChange => change !== undefined);
@@ -233,7 +239,8 @@ function buildLinkChange(
 	mappedNodes: { collectionId: number; nodeId: string }[],
 	pinObservation: PinObservation | undefined,
 	nodesByNodeId: Map<string, ObservedNode>,
-	observableCollectionIds: Set<number>
+	observableCollectionIds: Set<number>,
+	mapping: BookmarkMapping
 ): InboundChange | undefined {
 	if (!link) {
 		return undefined;
@@ -272,43 +279,60 @@ function buildLinkChange(
 		? pinObservation.node !== undefined
 		: link.favorite;
 
-	const editedNode =
-		presentNodes.find(({ node }) => isEditedNode(node, link))?.node ??
-		findEditedPin(pinObservation, link);
+	const renamedNode =
+		presentNodes.find(({ node }) => isRenamedNode(node, link.name, mapping))
+			?.node ?? findRenamedPin(pinObservation, link, mapping);
 
 	const hasMembershipChange = !areSameIds(
 		nextCollectionIds,
 		link.collectionIds
 	);
 	const hasFavoriteChange = nextFavorite !== link.favorite;
-	if (!hasMembershipChange && !hasFavoriteChange && !editedNode) {
+	if (!hasMembershipChange && !hasFavoriteChange && !renamedNode) {
 		return undefined;
 	}
 
 	return {
 		kind: 'update-link',
 		linkId: link.id,
-		name: editedNode?.title ?? link.name,
-		url: editedNode?.url ?? link.url,
+		name: renamedNode?.title ?? link.name,
+		// The server's own URL, never the browser's. The two normalise
+		// differently and neither yields — the API strips `www.` and trailing
+		// slashes, the browser puts a slash back — so a URL difference cannot
+		// be read as a user edit: pushing the browser's form gets rewritten,
+		// re-detected, and pushed again forever. The server owns URLs, and the
+		// outbound pass rewrites the bookmark to match. A URL is edited from
+		// the sidebar or the webapp, not from the bookmark manager.
+		url: link.url,
 		description: link.description,
 		favorite: nextFavorite,
 		collectionIds: nextCollectionIds,
 	};
 }
 
-function findEditedPin(
+function findRenamedPin(
 	pinObservation: PinObservation | undefined,
-	link: LinkResource
+	link: LinkResource,
+	mapping: BookmarkMapping
 ): BookmarkNode | undefined {
 	const pinnedNode = pinObservation?.node;
 	if (!pinnedNode) {
 		return undefined;
 	}
-	return isEditedNode(pinnedNode, link) ? pinnedNode : undefined;
+	return isRenamedNode(pinnedNode, link.name, mapping) ? pinnedNode : undefined;
 }
 
-function isEditedNode(node: BookmarkNode, link: LinkResource): boolean {
-	return node.title !== link.name || !areSameBookmarkUrl(node.url, link.url);
+/**
+ * Renamed by the user, as opposed to merely out of date. With no snapshot yet
+ * the server's own value stands in, so a node the mirror has never settled is
+ * never mistaken for an edit.
+ */
+function isRenamedNode(
+	node: BookmarkNode,
+	serverName: string,
+	mapping: BookmarkMapping
+): boolean {
+	return node.title !== (getSnapshotTitle(mapping, node.id) ?? serverName);
 }
 
 function groupMappedNodesByLinkId(

@@ -1,6 +1,7 @@
 import { diffBookmarkTree } from '@/lib/bookmarks/diff';
 import { createLink, updateLink } from '@/lib/api/links';
 import { updateCollection } from '@/lib/api/collections';
+import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
 import { runWithConcurrencyLimit } from '@/lib/concurrency';
 import { syncCollections } from '@/lib/sync/sync_collections';
 import { createCoalescingRunner } from '@/lib/coalescing_runner';
@@ -9,17 +10,9 @@ import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import { buildDesiredTree, buildLinkKey } from '@/lib/bookmarks/desired_tree';
 import { fingerprintInboundChanges } from '@/lib/bookmarks/change_fingerprint';
 import {
-	withMappedBookmark,
-	type BookmarkMapping,
-} from '@/lib/bookmarks/mapping';
-import {
 	detectInboundChanges,
 	type InboundChange,
 } from '@/lib/bookmarks/inbound';
-import {
-	getBrowserBookmarksApi,
-	type BookmarksApi,
-} from '@/lib/bookmarks/bookmarks_api';
 import {
 	getOrCreateCollectionsFolder,
 	resolveBookmarksBarId,
@@ -28,6 +21,16 @@ import {
 	applyBookmarkOperations,
 	MAX_CONCURRENT_BOOKMARK_WRITES,
 } from '@/lib/bookmarks/apply';
+import {
+	withMappedBookmark,
+	withNodeTitles,
+	type BookmarkMapping,
+} from '@/lib/bookmarks/mapping';
+import {
+	getBrowserBookmarksApi,
+	indexBySubtreeId,
+	type BookmarksApi,
+} from '@/lib/bookmarks/bookmarks_api';
 import {
 	computeBackoffAfterFailure,
 	INITIAL_SYNC_BACKOFF_STATE,
@@ -46,6 +49,7 @@ import {
 	collectionsCacheStorage,
 	lastPushedChangesStorage,
 	pinnedRankingStorage,
+	syncBackoffStorage,
 } from '@/lib/storage';
 
 /**
@@ -102,6 +106,15 @@ async function runMirrorPass(): Promise<void> {
 		return;
 	}
 
+	// Reconciling against a cache the sync is currently failing to refresh
+	// means judging the server by an out-of-date picture of it — every native
+	// edit would be re-detected and re-pushed until the instance comes back.
+	// The mirror waits alongside the sync instead.
+	const syncBackoff = await syncBackoffStorage.getValue();
+	if (isSyncBackingOff(syncBackoff, Date.now())) {
+		return;
+	}
+
 	const collectionsCache = await collectionsCacheStorage.getValue();
 	// Never synced yet: an empty cache would read as "the user deleted
 	// everything" and the diff would tear the mirror down.
@@ -127,7 +140,34 @@ async function runMirrorPass(): Promise<void> {
 	const collectionsFolderChildren =
 		barChildren.find((child) => child.id === collectionsFolderId)?.children ??
 		[];
-	const mapping = await bookmarkMappingStorage.getValue();
+	const desiredFolders = buildDesiredTree(collectionsCache.collections);
+	const {
+		bookmarks: pinnedFavorites,
+		ranking,
+		wasRecomputed,
+	} = resolveRankedFavorites(
+		collectFavoriteLinks(collectionsCache.collections),
+		await pinnedRankingStorage.getValue(),
+		Date.now()
+	);
+	await pinnedRankingStorage.setValue(ranking);
+
+	// Before anything is judged: nodes the mirror created but can no longer
+	// recognise are claimed back. Storage does not survive a reinstall while
+	// the bookmarks do, and without this every one of them would be read as
+	// user content — adopted into duplicate links, and shadowed by a second
+	// set of folders.
+	const storedMapping = await bookmarkMappingStorage.getValue();
+	const mapping = remapOrphanedNodes(
+		desiredFolders,
+		pinnedFavorites,
+		collectionsFolderChildren,
+		barChildren,
+		storedMapping
+	);
+	if (mapping !== storedMapping) {
+		await bookmarkMappingStorage.setValue(mapping);
+	}
 
 	const inboundChanges = detectInboundChanges(
 		collectionsCache.collections,
@@ -142,7 +182,6 @@ async function runMirrorPass(): Promise<void> {
 				'The same native changes came back after being pushed — the server is not recording them as sent'
 			);
 		}
-		await lastPushedChangesStorage.setValue(fingerprint);
 
 		const { adoptions, failedChangeCount } =
 			await pushInboundChanges(inboundChanges);
@@ -162,9 +201,29 @@ async function runMirrorPass(): Promise<void> {
 
 		await syncCollections();
 
+		// The fingerprint only means anything once the push has been read back
+		// from the server. If the resync could not reach it, the next pass
+		// re-reads the same stale cache and would find the same changes —
+		// which is a failure to verify, not the server refusing to record
+		// them. Recording the fingerprint then would raise a false alarm.
+		const hasRefreshedCache =
+			(await collectionsCacheStorage.getValue()).fetchedAt >
+			collectionsCache.fetchedAt;
+
+		await lastPushedChangesStorage.setValue(
+			hasRefreshedCache ? fingerprint : null
+		);
+
+		await snapshotNodeTitles(api, barId);
+
 		if (failedChangeCount > 0) {
 			throw new BookmarkMirrorError(
 				`${failedChangeCount} native bookmark changes could not be pushed`
+			);
+		}
+		if (!hasRefreshedCache) {
+			throw new BookmarkMirrorError(
+				'Native changes were pushed but the instance could not be reached to confirm them'
 			);
 		}
 		return;
@@ -172,23 +231,8 @@ async function runMirrorPass(): Promise<void> {
 
 	await lastPushedChangesStorage.setValue(null);
 
-	const {
-		bookmarks: pinnedFavorites,
-		ranking,
-		wasRecomputed,
-	} = resolveRankedFavorites(
-		collectFavoriteLinks(collectionsCache.collections),
-		await pinnedRankingStorage.getValue(),
-		Date.now()
-	);
-	await pinnedRankingStorage.setValue(ranking);
-
 	const operations = [
-		...diffBookmarkTree(
-			buildDesiredTree(collectionsCache.collections),
-			collectionsFolderChildren,
-			mapping
-		),
+		...diffBookmarkTree(desiredFolders, collectionsFolderChildren, mapping),
 		...diffPinnedFavorites(pinnedFavorites, barId, barChildren, mapping),
 	];
 
@@ -214,11 +258,43 @@ async function runMirrorPass(): Promise<void> {
 		await applyPinnedOrder(api, barId, pinnedFavorites, nextMapping);
 	}
 
+	await snapshotNodeTitles(api, barId);
+
 	if (failedOperationCount > 0) {
 		throw new BookmarkMirrorError(
 			`${failedOperationCount} bookmark operations failed`
 		);
 	}
+}
+
+/**
+ * Records every mapped node's current title as the settled state, at the end
+ * of a pass and in both directions.
+ *
+ * That is what lets the next pass tell a node the user edited from one merely
+ * waiting to be overwritten. Taken after the writes, from the tree as it
+ * actually is: a node that was just pushed to the server is settled at its
+ * new title, and its stale siblings stay settled at the old one until the
+ * outbound pass rewrites them.
+ */
+async function snapshotNodeTitles(
+	api: BookmarksApi,
+	barId: string
+): Promise<void> {
+	const mapping = await bookmarkMappingStorage.getValue();
+	const mappedNodeIds = new Set([
+		...Object.values(mapping.folderIdByCollectionId),
+		...Object.values(mapping.bookmarkIdByLinkKey),
+	]);
+
+	const [bar] = await api.getSubTree(barId);
+	const titleByNodeId = Object.fromEntries(
+		[...indexBySubtreeId(bar?.children ?? [])]
+			.filter(([nodeId]) => mappedNodeIds.has(nodeId))
+			.map(([nodeId, node]) => [nodeId, node.title])
+	);
+
+	await bookmarkMappingStorage.setValue(withNodeTitles(mapping, titleByNodeId));
 }
 
 async function applyPinnedOrder(

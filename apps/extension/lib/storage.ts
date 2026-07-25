@@ -136,8 +136,19 @@ export const pinnedRankingStorage = storage.defineItem<PinnedRanking>(
  * Switching instances or logging out must never leak data across origins:
  * the token is instance-specific, and any cached API data (TanStack Query
  * cache) is invalidated by the caller once this resolves.
+ *
+ * The cached tree and the bookmark mapping go too. They describe one
+ * account's collections, and reconnecting may well be as somebody else — a
+ * mapping kept across that would point native bookmarks at entity ids
+ * belonging to a different user. Clearing the cache also parks the mirror
+ * (it refuses to run against a tree it has never fetched) until the new
+ * session has synced once.
  */
 export async function clearExtensionSession(): Promise<void> {
 	await apiTokenStorage.removeValue();
 	await authInvalidStorage.removeValue();
+	await collectionsCacheStorage.removeValue();
+	await bookmarkMappingStorage.removeValue();
+	await pinnedRankingStorage.removeValue();
+	await lastPushedChangesStorage.removeValue();
 }

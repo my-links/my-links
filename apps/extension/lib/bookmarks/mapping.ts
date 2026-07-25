@@ -9,11 +9,24 @@
 export type BookmarkMapping = {
 	folderIdByCollectionId: Record<string, string>;
 	bookmarkIdByLinkKey: Record<string, string>;
+	/**
+	 * What each mapped node's title was when the mirror last left the tree in
+	 * a settled state.
+	 *
+	 * Comparing a node against the server only says the two disagree, not
+	 * which of them moved — and a link with a bookmark in a collection *and* a
+	 * pin on the bar has two nodes that then take turns pushing their own
+	 * title back, forever. Against this snapshot the question has an answer: a
+	 * node that no longer matches it is one the user edited, and everything
+	 * else is the server's to overwrite.
+	 */
+	titleByNodeId: Record<string, string>;
 };
 
 export const EMPTY_BOOKMARK_MAPPING: BookmarkMapping = {
 	folderIdByCollectionId: {},
 	bookmarkIdByLinkKey: {},
+	titleByNodeId: {},
 };
 
 export function getMappedFolderId(
@@ -21,6 +34,21 @@ export function getMappedFolderId(
 	collectionId: number
 ): string | undefined {
 	return mapping.folderIdByCollectionId[String(collectionId)];
+}
+
+export function getSnapshotTitle(
+	mapping: BookmarkMapping,
+	nodeId: string
+): string | undefined {
+	return mapping.titleByNodeId[nodeId];
+}
+
+/** Replaces the whole snapshot: nodes gone from the tree drop out with it. */
+export function withNodeTitles(
+	mapping: BookmarkMapping,
+	titleByNodeId: Record<string, string>
+): BookmarkMapping {
+	return { ...mapping, titleByNodeId };
 }
 
 export function getMappedBookmarkId(
