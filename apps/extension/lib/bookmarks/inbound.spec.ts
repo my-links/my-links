@@ -85,11 +85,42 @@ describe('detectInboundChanges', () => {
 		expect(changes).toEqual([
 			{
 				kind: 'create-link',
+				nodeId: 'new',
 				collectionId: 1,
 				name: 'Recipe',
 				url: 'https://recipe.example.com',
 			},
 		]);
+	});
+
+	it('should stop adopting a bookmark once its new link is mapped', () => {
+		const adoptedNode = {
+			id: 'new',
+			title: 'Recipe',
+			url: 'https://recipe.example.com',
+		};
+
+		const changes = detectInboundChanges(
+			[
+				buildCollection({
+					links: [
+						buildLink({
+							id: 99,
+							name: 'Recipe',
+							url: 'https://recipe.example.com',
+						}),
+					],
+				}),
+			],
+			[buildFolderNode('f1', 'Work', [adoptedNode])],
+			[],
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: { '1:99': 'new' },
+			}
+		);
+
+		expect(changes).toEqual([]);
 	});
 
 	it('should push a bookmark renamed in the browser back onto its link', () => {

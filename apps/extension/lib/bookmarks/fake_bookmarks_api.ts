@@ -92,6 +92,10 @@ export class FakeBookmarksApi implements BookmarksApi {
 	}
 
 	async remove(id: string): Promise<void> {
+		// Rejects for an unknown id, like the real API: code that writes
+		// against a node the browser has already reclaimed has to be caught
+		// by the specs, not silently tolerated.
+		this.getStoredNode(id);
 		this.detachFromParent(id);
 		this.nodes.delete(id);
 		this.childIdsByParentId.delete(id);

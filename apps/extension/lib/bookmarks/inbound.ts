@@ -13,7 +13,14 @@ import type {
 } from '@/lib/api/types';
 
 export type InboundChange =
-	| { kind: 'create-link'; collectionId: number; name: string; url: string }
+	| {
+			kind: 'create-link';
+			/** Native node being adopted — mapped to the new link once created. */
+			nodeId: string;
+			collectionId: number;
+			name: string;
+			url: string;
+	  }
 	| {
 			kind: 'update-link';
 			linkId: number;
@@ -173,6 +180,7 @@ function detectAdoptedBookmarks(
 		.filter(({ node }) => !mappedNodeIds.has(node.id))
 		.map(({ collectionId, node }) => ({
 			kind: 'create-link',
+			nodeId: node.id,
 			collectionId,
 			name: node.title,
 			url: node.url ?? '',

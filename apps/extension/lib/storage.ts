@@ -57,6 +57,17 @@ export const syncBackoffStorage = storage.defineItem<SyncBackoffState>(
 );
 
 /**
+ * Backoff for the bookmark mirror, kept separate from the collections sync:
+ * a server rejecting writes (rate limit, outage) must not keep the mirror
+ * retrying on every tab switch and bookmark event, and it must not stop the
+ * sidebar from refreshing its read-only view either.
+ */
+export const bookmarkBackoffStorage = storage.defineItem<SyncBackoffState>(
+	'local:bookmarkBackoff',
+	{ fallback: INITIAL_SYNC_BACKOFF_STATE }
+);
+
+/**
  * True when the last sync attempt was rejected with a 401 — the stored token
  * is dead (deleted/expired) and needs a reconnect, not just a retry. Kept
  * separate from the backoff state so the UI can show a distinct "reconnect"
