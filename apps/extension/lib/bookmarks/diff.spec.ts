@@ -57,6 +57,7 @@ describe('diffBookmarkTree', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:10': 'b1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -67,7 +68,11 @@ describe('diffBookmarkTree', () => {
 		const operations = diffBookmarkTree(
 			[buildDesiredFolder({ title: 'Reading', bookmarks: [] })],
 			[buildFolderNode('f1', 'Work')],
-			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: {},
+				titleByNodeId: {},
+			}
 		);
 
 		expect(operations).toEqual([
@@ -92,6 +97,7 @@ describe('diffBookmarkTree', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:10': 'b1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -101,6 +107,37 @@ describe('diffBookmarkTree', () => {
 				nodeId: 'b1',
 				title: 'Handbook',
 				url: 'https://docs.example.com',
+			},
+		]);
+	});
+
+	it('should rewrite a bookmark whose URL the server normalised differently', () => {
+		const operations = diffBookmarkTree(
+			[
+				buildDesiredFolder({
+					bookmarks: [
+						{ linkId: 10, title: 'Google', url: 'https://google.com' },
+					],
+				}),
+			],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Google', url: 'https://www.google.com/' },
+				]),
+			],
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: { '1:10': 'b1' },
+				titleByNodeId: {},
+			}
+		);
+
+		expect(operations).toEqual([
+			{
+				kind: 'update-bookmark',
+				nodeId: 'b1',
+				title: 'Google',
+				url: 'https://google.com',
 			},
 		]);
 	});
@@ -116,6 +153,7 @@ describe('diffBookmarkTree', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:10': 'b1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -132,7 +170,11 @@ describe('diffBookmarkTree', () => {
 					{ id: 'user-added', title: 'Mine', url: 'https://mine.example.com' },
 				]),
 			],
-			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: {},
+				titleByNodeId: {},
+			}
 		);
 
 		expect(operations).toEqual([]);
@@ -152,6 +194,7 @@ describe('diffBookmarkTree', () => {
 		const operations = diffBookmarkTree([], [buildFolderNode('f1', 'Work')], {
 			folderIdByCollectionId: { '1': 'f1' },
 			bookmarkIdByLinkKey: {},
+			titleByNodeId: {},
 		});
 
 		expect(operations).toEqual([
@@ -163,6 +206,7 @@ describe('diffBookmarkTree', () => {
 		const operations = diffBookmarkTree([buildDesiredFolder()], [], {
 			folderIdByCollectionId: { '1': 'gone' },
 			bookmarkIdByLinkKey: {},
+			titleByNodeId: {},
 		});
 
 		expect(operations).toEqual([
@@ -271,5 +315,46 @@ describe('applyBookmarkOperations', () => {
 		expect(
 			diffBookmarkTree(desiredFolders, await childrenOf(api, rootId), mapping)
 		).toEqual([]);
+	});
+});
+
+describe('duplicate links', () => {
+	const TWIN_LINKS = buildDesiredFolder({
+		bookmarks: [
+			{ linkId: 2, title: 'Google', url: 'https://google.com' },
+			{ linkId: 5, title: 'Google', url: 'https://google.com' },
+		],
+	});
+
+	it('should mirror two links sharing a URL as two separate bookmarks', async () => {
+		const api = new FakeBookmarksApi();
+		const rootId = api.createFolder(api.rootId, 'Collections');
+
+		const { mapping } = await applyBookmarkOperations(
+			api,
+			rootId,
+			diffBookmarkTree([TWIN_LINKS], [], EMPTY_BOOKMARK_MAPPING),
+			EMPTY_BOOKMARK_MAPPING
+		);
+
+		const [folder] = (await api.getSubTree(rootId))[0]?.children ?? [];
+		expect(folder?.children).toHaveLength(2);
+		expect(mapping.bookmarkIdByLinkKey['1:2']).not.toBe(
+			mapping.bookmarkIdByLinkKey['1:5']
+		);
+	});
+
+	it('should settle after one pass instead of churning on the twins', async () => {
+		const api = new FakeBookmarksApi();
+		const rootId = api.createFolder(api.rootId, 'Collections');
+		const { mapping } = await applyBookmarkOperations(
+			api,
+			rootId,
+			diffBookmarkTree([TWIN_LINKS], [], EMPTY_BOOKMARK_MAPPING),
+			EMPTY_BOOKMARK_MAPPING
+		);
+
+		const rootChildren = (await api.getSubTree(rootId))[0]?.children ?? [];
+		expect(diffBookmarkTree([TWIN_LINKS], rootChildren, mapping)).toEqual([]);
 	});
 });

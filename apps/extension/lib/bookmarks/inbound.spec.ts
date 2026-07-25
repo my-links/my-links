@@ -52,6 +52,7 @@ function buildFolderNode(
 const WORK_FOLDER_MAPPING = {
 	folderIdByCollectionId: { '1': 'f1' },
 	bookmarkIdByLinkKey: { '1:10': 'b1' },
+	titleByNodeId: {},
 };
 
 describe('detectInboundChanges', () => {
@@ -79,7 +80,11 @@ describe('detectInboundChanges', () => {
 				]),
 			],
 			[],
-			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: {},
+				titleByNodeId: {},
+			}
 		);
 
 		expect(changes).toEqual([
@@ -90,6 +95,54 @@ describe('detectInboundChanges', () => {
 				name: 'Recipe',
 				url: 'https://recipe.example.com',
 			},
+		]);
+	});
+
+	it('should not read a URL the server normalised differently as a user edit', () => {
+		// The user bookmarked https://www.google.com/ and the API stored
+		// https://google.com — `normalizeUrl` strips `www.`. Neither side will
+		// yield, so this must never be mistaken for an edit.
+		const changes = detectInboundChanges(
+			[
+				buildCollection({
+					links: [buildLink({ name: 'Google', url: 'https://google.com' })],
+				}),
+			],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'Google', url: 'https://www.google.com/' },
+				]),
+			],
+			[],
+			WORK_FOLDER_MAPPING
+		);
+
+		expect(changes).toEqual([]);
+	});
+
+	it('should push a rename while leaving the URL as the server holds it', () => {
+		const changes = detectInboundChanges(
+			[
+				buildCollection({
+					links: [buildLink({ name: 'Google', url: 'https://google.com' })],
+				}),
+			],
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: 'My G', url: 'https://www.google.com/' },
+				]),
+			],
+			[],
+			WORK_FOLDER_MAPPING
+		);
+
+		expect(changes).toEqual([
+			expect.objectContaining({
+				kind: 'update-link',
+				linkId: 10,
+				name: 'My G',
+				url: 'https://google.com',
+			}),
 		]);
 	});
 
@@ -147,6 +200,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:99': 'new' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -200,6 +254,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1', '2': 'f2' },
 				bookmarkIdByLinkKey: { '1:10': 'b1', '2:10': 'b2' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -228,6 +283,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1', '2': 'f2' },
 				bookmarkIdByLinkKey: { '1:10': 'b1', '2:10': 'b2' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -258,6 +314,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1', '2': 'f2' },
 				bookmarkIdByLinkKey: { '1:10': 'b1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -288,7 +345,11 @@ describe('detectInboundChanges', () => {
 			[buildCollection({ links: [] })],
 			[buildFolderNode('f1', 'Job')],
 			[],
-			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: {},
+				titleByNodeId: {},
+			}
 		);
 
 		expect(changes).toEqual([
@@ -308,7 +369,11 @@ describe('detectInboundChanges', () => {
 			[buildCollection({ links: [] })],
 			[],
 			[],
-			{ folderIdByCollectionId: { '1': 'f1' }, bookmarkIdByLinkKey: {} }
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: {},
+				titleByNodeId: {},
+			}
 		);
 
 		expect(changes).toEqual([]);
@@ -326,6 +391,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -355,6 +421,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -388,6 +455,7 @@ describe('detectInboundChanges', () => {
 			{
 				folderIdByCollectionId: { '1': 'f1' },
 				bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+				titleByNodeId: {},
 			}
 		);
 
@@ -411,6 +479,133 @@ describe('detectInboundChanges', () => {
 			],
 			[],
 			EMPTY_BOOKMARK_MAPPING
+		);
+
+		expect(changes).toEqual([]);
+	});
+});
+
+describe('detectInboundChanges — duplicate links', () => {
+	const TWIN_MAPPING = {
+		folderIdByCollectionId: { '1': 'f1' },
+		bookmarkIdByLinkKey: { '1:2': 'b-one', '1:5': 'b-two' },
+		titleByNodeId: {},
+	};
+
+	function buildTwinCollections() {
+		return [
+			buildCollection({
+				links: [
+					buildLink({ id: 2, name: 'Google', url: 'https://google.com' }),
+					buildLink({ id: 5, name: 'Google', url: 'https://google.com' }),
+				],
+			}),
+		];
+	}
+
+	it('should report nothing when both twins are mirrored', () => {
+		const changes = detectInboundChanges(
+			buildTwinCollections(),
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b-one', title: 'Google', url: 'https://google.com' },
+					{ id: 'b-two', title: 'Google', url: 'https://google.com' },
+				]),
+			],
+			[],
+			TWIN_MAPPING
+		);
+
+		expect(changes).toEqual([]);
+	});
+
+	it('should rename only the twin whose own bookmark was renamed', () => {
+		const changes = detectInboundChanges(
+			buildTwinCollections(),
+			[
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b-one', title: 'Google', url: 'https://google.com' },
+					{ id: 'b-two', title: 'My G', url: 'https://google.com' },
+				]),
+			],
+			[],
+			TWIN_MAPPING
+		);
+
+		expect(changes).toEqual([
+			expect.objectContaining({ kind: 'update-link', linkId: 5, name: 'My G' }),
+		]);
+	});
+});
+
+describe('detectInboundChanges — settled snapshot', () => {
+	const TWO_NODE_MAPPING = {
+		folderIdByCollectionId: { '1': 'f1' },
+		bookmarkIdByLinkKey: { '1:10': 'b1', 'pinned:10': 'p1' },
+		titleByNodeId: { f1: 'Work', b1: 'Docs', p1: 'Docs' },
+	};
+
+	function buildTree(collectionTitle: string, pinTitle: string) {
+		return {
+			folderChildren: [
+				buildFolderNode('f1', 'Work', [
+					{ id: 'b1', title: collectionTitle, url: 'https://docs.example.com' },
+				]),
+			],
+			barChildren: [
+				{ id: 'p1', title: pinTitle, url: 'https://docs.example.com' },
+			],
+		};
+	}
+
+	it('should push the rename from the node the user actually edited', () => {
+		const { folderChildren, barChildren } = buildTree('Docs', 'My D');
+
+		const changes = detectInboundChanges(
+			[buildCollection({ links: [buildLink({ favorite: true })] })],
+			folderChildren,
+			barChildren,
+			TWO_NODE_MAPPING
+		);
+
+		expect(changes).toEqual([
+			expect.objectContaining({ kind: 'update-link', name: 'My D' }),
+		]);
+	});
+
+	it('should not let the stale sibling push the old name back once the rename landed', () => {
+		// The pass that pushed "My D" settled each node at its own current
+		// title, so the collection copy is merely out of date — the outbound
+		// pass rewrites it, it does not get to argue.
+		const { folderChildren, barChildren } = buildTree('Docs', 'My D');
+
+		const changes = detectInboundChanges(
+			[
+				buildCollection({
+					links: [buildLink({ name: 'My D', favorite: true })],
+				}),
+			],
+			folderChildren,
+			barChildren,
+			{
+				...TWO_NODE_MAPPING,
+				titleByNodeId: { f1: 'Work', b1: 'Docs', p1: 'My D' },
+			}
+		);
+
+		expect(changes).toEqual([]);
+	});
+
+	it('should not undo a collection renamed on the server', () => {
+		const changes = detectInboundChanges(
+			[buildCollection({ name: 'Job', links: [] })],
+			[buildFolderNode('f1', 'Work')],
+			[],
+			{
+				folderIdByCollectionId: { '1': 'f1' },
+				bookmarkIdByLinkKey: {},
+				titleByNodeId: { f1: 'Work' },
+			}
 		);
 
 		expect(changes).toEqual([]);
