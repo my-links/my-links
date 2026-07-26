@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
 import type { ServerChange } from '@/lib/bookmarks/operations';
 import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
+import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
 import { reconcile, type ReconcilePlan } from '@/lib/bookmarks/merge';
 import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
@@ -227,6 +228,12 @@ class MirrorHarness {
 	 * moving the clock read as newly saved.
 	 */
 	savedSince = 0;
+	/**
+	 * The harness stands in for a mirror that has already settled a tree here,
+	 * which is what licenses reclaiming an orphaned node by resemblance. A
+	 * scenario about a first-ever pass sets this to `created` instead.
+	 */
+	rootOrigin: CollectionsFolderOrigin = 'adopted';
 
 	constructor(readonly server: FakeServer) {
 		this.barId = this.api.createFolder(this.api.rootId, 'Bookmarks bar');
@@ -262,14 +269,16 @@ class MirrorHarness {
 		const barChildren = await this.childrenOf(this.barId);
 		const collections = this.server.collections;
 
-		this.mapping = remapOrphanedNodes(
-			buildDesiredTree(collections),
-			collectFavoriteLinks(collections).map(toDesiredBookmark),
-			barChildren.find((child) => child.id === this.collectionsFolderId)
-				?.children ?? [],
+		this.mapping = remapOrphanedNodes({
+			desiredFolders: buildDesiredTree(collections),
+			pinnedBookmarks: collectFavoriteLinks(collections).map(toDesiredBookmark),
+			collectionsFolderChildren:
+				barChildren.find((child) => child.id === this.collectionsFolderId)
+					?.children ?? [],
 			barChildren,
-			this.mapping
-		);
+			mapping: this.mapping,
+			rootOrigin: this.rootOrigin,
+		});
 
 		return reconcile({
 			collections,
@@ -678,6 +687,23 @@ describe('reconcile — pinned favourites', () => {
 		]);
 		expect(server.linkById(docs.id).favorite).toBe(false);
 		expect(await harness.titlesIn(harness.barId)).toEqual(['Collections']);
+	});
+
+	it('should pin a favourite beside the bookmark the user already had for it, not take theirs over', async () => {
+		const { harness, server, docs } = buildHarness();
+		harness.rootOrigin = 'created';
+		server.editLink(docs.id, { favorite: true });
+		const theirNodeId = harness.api.createLink(
+			harness.barId,
+			'My own docs',
+			'https://docs.example.com/guide'
+		);
+
+		await harness.settle();
+
+		const [theirNode] = await harness.api.getSubTree(theirNodeId);
+		expect(theirNode?.title).toBe('My own docs');
+		expect(await harness.nodeIdOf(`pinned:${docs.id}`)).not.toBe(theirNodeId);
 	});
 
 	it('should bring a pin dragged into a folder back onto the bar', async () => {

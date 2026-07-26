@@ -1,6 +1,7 @@
 import { storage } from 'wxt/utils/storage';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
+import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
 import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
 import {
 	EMPTY_PINNED_RANKING,
@@ -90,12 +91,23 @@ export interface BookmarkMirrorState {
 	 * would silently import someone's whole bookmarks bar into their account.
 	 */
 	enabledAt: number | null;
+	/**
+	 * Whether the mirror has a tree of its own on this bar yet — `adopted`
+	 * once it either found one at enable time or settled one itself.
+	 *
+	 * It is what licenses recovering nodes by resemblance after storage has
+	 * been cleared. While it reads `created` the mirror has demonstrably left
+	 * nothing here, so a bar bookmark matching a favourite's URL is the
+	 * user's own and must not be claimed.
+	 */
+	rootOrigin: CollectionsFolderOrigin | null;
 }
 
 const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
 	isEnabled: false,
 	rootId: null,
 	enabledAt: null,
+	rootOrigin: null,
 };
 
 /**

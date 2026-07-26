@@ -27,7 +27,7 @@ export async function enableBookmarkMirror(): Promise<void> {
 	}
 
 	const previousState = await bookmarkMirrorStorage.getValue();
-	const rootId = await getOrCreateCollectionsFolder(
+	const collectionsFolder = await getOrCreateCollectionsFolder(
 		getBrowserBookmarksApi(),
 		previousState.rootId
 	);
@@ -37,8 +37,9 @@ export async function enableBookmarkMirror(): Promise<void> {
 	// is not what turning it back on asks for.
 	await bookmarkMirrorStorage.setValue({
 		isEnabled: true,
-		rootId,
+		rootId: collectionsFolder.id,
 		enabledAt: Date.now(),
+		rootOrigin: collectionsFolder.origin,
 	});
 }
 

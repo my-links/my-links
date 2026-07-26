@@ -39,6 +39,20 @@ export async function resolveBookmarksBarId(
 }
 
 /**
+ * Whether the folder was already there. `adopted` is the mirror's only proof
+ * that it has run against this tree before — the state that says so lives in
+ * extension storage, which a reinstall wipes while the bookmarks survive.
+ * Anything that recovers nodes by resemblance rather than by id has to know
+ * the difference, or a first run would claim bookmarks it never created.
+ */
+export type CollectionsFolderOrigin = 'created' | 'adopted';
+
+export type CollectionsFolder = {
+	id: string;
+	origin: CollectionsFolderOrigin;
+};
+
+/**
  * Reuses the folder recorded last time when it still exists, then a folder of
  * the right name already on the bar (a reinstall must adopt what it left
  * behind rather than build a second one), and only creates one when neither
@@ -51,7 +65,7 @@ export async function resolveBookmarksBarId(
 export async function getOrCreateCollectionsFolder(
 	api: BookmarksApi,
 	knownFolderId: string | null
-): Promise<string> {
+): Promise<CollectionsFolder> {
 	const barId = await resolveBookmarksBarId(api);
 	const [bar] = await api.getSubTree(barId);
 	const barChildren = bar?.children ?? [];
@@ -65,7 +79,7 @@ export async function getOrCreateCollectionsFolder(
 			title: COLLECTIONS_FOLDER_TITLE,
 			index: COLLECTIONS_FOLDER_POSITION,
 		});
-		return createdFolder.id;
+		return { id: createdFolder.id, origin: 'created' };
 	}
 
 	if (existingFolder.title !== COLLECTIONS_FOLDER_TITLE) {
@@ -78,7 +92,7 @@ export async function getOrCreateCollectionsFolder(
 		});
 	}
 
-	return existingFolder.id;
+	return { id: existingFolder.id, origin: 'adopted' };
 }
 
 /**
