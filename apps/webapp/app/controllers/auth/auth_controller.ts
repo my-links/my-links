@@ -3,7 +3,6 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { RoutesList } from '@adonisjs/core/types/http';
 
-import User from '#models/user';
 import { AUTH_PROVIDER } from '#constants/auth';
 import { SessionService } from '#services/user/session_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
@@ -105,15 +104,5 @@ export default class AuthController {
 		session.flash('success', 'Successfully disconnected');
 		logger.info(`[${auth.user?.email}] disconnected successfully`);
 		response.redirectToNamedRoute('home');
-	}
-
-	async getAllUsersWithTotalRelations() {
-		return User.query()
-			.withCount('collections', (q) => {
-				q.as('totalCollections');
-			})
-			.withCount('links', (q) => {
-				q.as('totalLinks');
-			});
 	}
 }
