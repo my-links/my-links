@@ -2,9 +2,12 @@ import { errors } from '@adonisjs/lucid';
 import app from '@adonisjs/core/services/app';
 import { ExceptionHandler, type HttpContext } from '@adonisjs/core/http';
 import type {
+	HttpError,
 	StatusPageRange,
 	StatusPageRenderer,
 } from '@adonisjs/core/types/http';
+
+const API_PREFIX = '/api/v1';
 
 export default class HttpExceptionHandler extends ExceptionHandler {
 	/**
@@ -36,40 +39,40 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	 * response to the client
 	 */
 	async handle(error: unknown, ctx: HttpContext) {
-		if (ctx.request.url()?.startsWith('/api/v1')) {
-			return ctx.response.status(this.getStatusCode(error)).json({
-				message: 'Bad Request',
-				errors: [error],
-			});
-		}
-
-		if (error instanceof errors.E_ROW_NOT_FOUND) {
+		// A missing row is a dead end for a visitor, who is better off on their
+		// collections than on a 404 page — but it is information an API client
+		// asked for, so it keeps its status there.
+		if (error instanceof errors.E_ROW_NOT_FOUND && !this.isApiRequest(ctx)) {
 			return ctx.response.redirectToNamedRoute('collection.favorites');
 		}
+
 		return super.handle(error, ctx);
 	}
 
 	/**
-	 * Framework exceptions (auth, validation, Lucid row-not-found, our own
-	 * domain exceptions) all carry their real HTTP status on `.status`.
-	 * Preserving it lets API consumers (the browser extension in particular)
-	 * distinguish "unauthenticated" from "validation failed" from "not found"
-	 * instead of seeing a flattened 400 for everything.
+	 * API clients talk to us with an OpenAPI fetch client that sends no
+	 * negotiable `Accept` header, so content negotiation would fall back to
+	 * HTML and answer a JSON caller with an error page. The route prefix
+	 * decides instead; the rendering itself stays the framework's.
 	 */
-	private getStatusCode(error: unknown): number {
-		if (this.hasNumericStatus(error)) {
-			return error.status;
+	override renderError(error: HttpError, ctx: HttpContext) {
+		if (this.isApiRequest(ctx)) {
+			return this.renderErrorAsJSON(error, ctx);
 		}
-		return 400;
+
+		return super.renderError(error, ctx);
 	}
 
-	private hasNumericStatus(error: unknown): error is { status: number } {
-		return (
-			typeof error === 'object' &&
-			error !== null &&
-			'status' in error &&
-			typeof error.status === 'number'
-		);
+	override renderValidationError(error: HttpError, ctx: HttpContext) {
+		if (this.isApiRequest(ctx)) {
+			return this.renderValidationErrorAsJSON(error, ctx);
+		}
+
+		return super.renderValidationError(error, ctx);
+	}
+
+	private isApiRequest(ctx: HttpContext): boolean {
+		return ctx.request.url()?.startsWith(API_PREFIX) ?? false;
 	}
 
 	/**
