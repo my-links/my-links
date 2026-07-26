@@ -18,7 +18,7 @@ test.group('API tokens — revocation', (group) => {
 		});
 
 		await client
-			.delete(`${TOKENS_ROUTE}/${token.identifier}`)
+			.delete(`${TOKENS_ROUTE}/${String(token.identifier)}`)
 			.withCsrfToken()
 			.loginAs(user)
 			.redirects(0);
@@ -38,7 +38,7 @@ test.group('API tokens — revocation', (group) => {
 		});
 
 		await client
-			.delete(`${TOKENS_ROUTE}/${token.identifier}`)
+			.delete(`${TOKENS_ROUTE}/${String(token.identifier)}`)
 			.withCsrfToken()
 			.loginAs(intruder)
 			.redirects(0);

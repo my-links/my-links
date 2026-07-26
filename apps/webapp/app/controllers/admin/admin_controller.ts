@@ -2,20 +2,20 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import UserTransformer from '#transformers/user';
+import { UserService } from '#services/user/user_service';
 import { LinkService } from '#services/links/link_service';
-import AuthController from '#controllers/auth/auth_controller';
 import { CollectionService } from '#services/collections/collection_service';
 
 @inject()
 export default class AdminController {
 	constructor(
-		protected usersController: AuthController,
+		protected userService: UserService,
 		protected collectionService: CollectionService,
 		protected linkService: LinkService
 	) {}
 
 	async render({ inertia }: HttpContext) {
-		const users = await this.usersController.getAllUsersWithTotalRelations();
+		const users = await this.userService.getAllUsersWithTotalRelations();
 		const linksCount = await this.linkService.getTotalLinksCount();
 		const collectionsCount =
 			await this.collectionService.getTotalCollectionsCount();
