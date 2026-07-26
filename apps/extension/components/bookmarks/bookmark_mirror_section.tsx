@@ -2,6 +2,7 @@ import { Button } from '@minimalstuff/ui';
 import { useEffect, useState } from 'react';
 
 import { bookmarkMirrorStorage } from '@/lib/storage';
+import { stopMirroringAndRemoveBookmarks } from '@/lib/bookmarks/teardown';
 import {
 	disableBookmarkMirror,
 	enableBookmarkMirror,
@@ -23,37 +24,43 @@ export function BookmarkMirrorSection() {
 		});
 	}, []);
 
-	const handleEnable = async () => {
+	const runMirrorAction = async (
+		action: () => Promise<void>,
+		settledKind: 'on' | 'off',
+		fallbackMessage: string
+	) => {
 		setStatus({ kind: 'working' });
 		try {
-			await enableBookmarkMirror();
-			setStatus({ kind: 'on' });
+			await action();
+			setStatus({ kind: settledKind });
 		} catch (error) {
 			setStatus({
 				kind: 'error',
-				message:
-					error instanceof Error
-						? error.message
-						: 'Could not set up bookmark mirroring.',
+				message: error instanceof Error ? error.message : fallbackMessage,
 			});
 		}
 	};
 
-	const handleDisable = async () => {
-		setStatus({ kind: 'working' });
-		try {
-			await disableBookmarkMirror();
-			setStatus({ kind: 'off' });
-		} catch (error) {
-			setStatus({
-				kind: 'error',
-				message:
-					error instanceof Error
-						? error.message
-						: 'Could not stop bookmark mirroring.',
-			});
-		}
-	};
+	const handleEnable = () =>
+		runMirrorAction(
+			enableBookmarkMirror,
+			'on',
+			'Could not set up bookmark mirroring.'
+		);
+
+	const handleDisable = () =>
+		runMirrorAction(
+			disableBookmarkMirror,
+			'off',
+			'Could not stop bookmark mirroring.'
+		);
+
+	const handleDisableAndRemove = () =>
+		runMirrorAction(
+			stopMirroringAndRemoveBookmarks,
+			'off',
+			'Could not remove the bookmarks MyLinks added.'
+		);
 
 	if (status.kind === 'loading') {
 		return null;
@@ -72,15 +79,30 @@ export function BookmarkMirrorSection() {
 			</p>
 
 			{isMirroring ? (
-				<Button
-					color="neutral"
-					variant="outline"
-					loading={isWorking}
-					disabled={isWorking}
-					onClick={() => void handleDisable()}
-				>
-					Stop syncing bookmarks
-				</Button>
+				<>
+					<Button
+						color="neutral"
+						variant="outline"
+						loading={isWorking}
+						disabled={isWorking}
+						onClick={() => void handleDisable()}
+					>
+						Stop syncing, keep the bookmarks
+					</Button>
+					<Button
+						color="danger"
+						variant="outline"
+						loading={isWorking}
+						disabled={isWorking}
+						onClick={() => void handleDisableAndRemove()}
+					>
+						Stop syncing and remove them
+					</Button>
+					<p className="text-xs text-gray-500 dark:text-gray-500">
+						Removing takes back only what MyLinks put there. Bookmarks you added
+						yourself stay, and so does any folder holding one.
+					</p>
+				</>
 			) : (
 				<Button
 					color="primary"
