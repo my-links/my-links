@@ -25,6 +25,7 @@
 - [Development](#development)
   - [Environment Configuration](#environment-configuration)
   - [Google OAuth Environment Variables](#google-oauth-environment-variables)
+  - [Outgoing Mail Environment Variables](#outgoing-mail-environment-variables)
   - [Running the Project in Development](#running-the-project-in-development)
   - [Useful Commands](#useful-commands)
 - [Browser Extension](#browser-extension)
@@ -214,14 +215,14 @@ cp apps/webapp/.env.example apps/webapp/.env
 - `DB_USER`: PostgreSQL user
 - `DB_PASSWORD`: PostgreSQL password (optional)
 - `DB_DATABASE`: Database name
-- `GOOGLE_CLIENT_ID`: Google OAuth Client ID
-- `GOOGLE_CLIENT_SECRET`: Google OAuth Client Secret
 - `LIMITER_STORE`: Where the `/api/v1/*` rate limiter keeps its counters (`database` or `memory`)
 
 **Optional variables:**
 
 - `SESSION_DRIVER`: Session store (`database`, `cookie`, or `memory`; defaults to `database`). Tests override it to `memory` through `.env.test`.
 - `TZ`: Timezone used by the application (e.g., `UTC`)
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`: Google sign-in. Leave both empty to run without it — see [Google OAuth Environment Variables](#google-oauth-environment-variables).
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_SECURE`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME`: Outgoing mail. Leave them all empty to run without it — see [Outgoing Mail Environment Variables](#outgoing-mail-environment-variables).
 
 **Generate an application key:**
 
@@ -249,6 +250,32 @@ To obtain the Google Client ID and Secret required for authentication:
    - **Client Secret**: to set in `GOOGLE_CLIENT_SECRET`
 
 > **Note**: For production, make sure to add your production URL in the authorized redirect URIs (e.g., `https://your-domain.com/auth/callback`)
+
+### Outgoing Mail Environment Variables
+
+Email is optional. Leave every `SMTP_*` and `MAIL_*` variable empty and the instance runs without it — email verification and password reset links are simply unavailable, and account recovery goes through the `node ace user:*` commands instead.
+
+Setting any one of them commits you to a complete configuration: `SMTP_HOST` and `MAIL_FROM_ADDRESS` are then both required, and a partial configuration is rejected at boot rather than silently dropping the one email a locked-out user is waiting for.
+
+| Variable            | Notes                                                             |
+| ------------------- | ----------------------------------------------------------------- |
+| `SMTP_HOST`         | Relay hostname                                                    |
+| `SMTP_PORT`         | Defaults to `587`                                                 |
+| `SMTP_USERNAME`     | Optional, but requires `SMTP_PASSWORD` when set                   |
+| `SMTP_PASSWORD`     | Optional, but requires `SMTP_USERNAME` when set                   |
+| `SMTP_SECURE`       | Implicit TLS. Defaults to `true` on port `465`, `false` elsewhere |
+| `MAIL_FROM_ADDRESS` | Sender address                                                    |
+| `MAIL_FROM_NAME`    | Sender name, defaults to `MyLinks`                                |
+
+In development, `dev.compose.yml` ships [mailpit](https://mailpit.axllent.org/): point `SMTP_HOST` at `127.0.0.1` and `SMTP_PORT` at `1025`, then read everything the app sends on `http://localhost:8025`. Nothing leaves your machine.
+
+**An external SMTP provider is the recommended path in production.** The repository's [`compose.yml`](./compose.yml) does carry a local [`boky/postfix`](https://github.com/bokysan/docker-postfix) relay behind an opt-in profile:
+
+```bash
+docker compose --profile smtp up -d
+```
+
+with `SMTP_ALLOWED_SENDER_DOMAINS` set to the domains it may send for, `SMTP_RELAYHOST` set if it should forward to an upstream, and the app configured with `SMTP_HOST=smtp` and `SMTP_PORT=587`. Be aware of what self-hosting an MTA involves: without SPF, DKIM, DMARC records and a matching reverse DNS entry, Gmail and Outlook drop the mail, and many hosting providers block outbound port 25 outright.
 
 ### Running the Project in Development
 

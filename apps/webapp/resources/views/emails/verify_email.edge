@@ -1,0 +1,14 @@
+@component('emails/layout', { title: 'Verify your email address' })
+  <p style="margin: 0 0 16px;">Hi {{ name }},</p>
+
+  <p style="margin: 0 0 16px;">
+    Confirm this address to finish setting up your {{ brandName }} account.
+  </p>
+
+  @!component('emails/action_button', { url: verificationUrl, label: 'Verify my email' })
+
+  <p style="margin: 0;">
+    This link stops working in {{ expiresInHours }} hours. If you did not create
+    an account, ignore this email.
+  </p>
+@end

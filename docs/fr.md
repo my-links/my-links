@@ -26,6 +26,7 @@
 - [Développement](#développement)
   - [Configuration de l'environnement](#configuration-de-lenvironnement)
   - [Variables d'environnement Google OAuth](#variables-denvironnement-google-oauth)
+  - [Variables d'environnement d'envoi d'e-mails](#variables-denvironnement-denvoi-de-mails)
   - [Lancer le projet en développement](#lancer-le-projet-en-développement)
   - [Commandes utiles](#commandes-utiles)
 - [Extension de navigateur](#extension-de-navigateur)
@@ -215,14 +216,14 @@ cp apps/webapp/.env.example apps/webapp/.env
 - `DB_USER` : Utilisateur PostgreSQL
 - `DB_PASSWORD` : Mot de passe PostgreSQL (optionnel)
 - `DB_DATABASE` : Nom de la base de données
-- `GOOGLE_CLIENT_ID` : Client ID Google OAuth
-- `GOOGLE_CLIENT_SECRET` : Client Secret Google OAuth
 - `LIMITER_STORE` : Où le rate limiter de `/api/v1/*` stocke ses compteurs (`database` ou `memory`)
 
 **Variables optionnelles :**
 
 - `SESSION_DRIVER` : Store de session (`database`, `cookie` ou `memory` ; `database` par défaut). Les tests le forcent à `memory` via `.env.test`.
 - `TZ` : Fuseau horaire utilisé par l'application (ex: `UTC`)
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` : Connexion Google. Laissez les deux vides pour vous en passer — voir [Variables d'environnement Google OAuth](#variables-denvironnement-google-oauth).
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_SECURE`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` : Envoi d'e-mails. Laissez-les toutes vides pour vous en passer — voir [Variables d'environnement d'envoi d'e-mails](#variables-denvironnement-denvoi-de-mails).
 
 **Générer une clé d'application :**
 
@@ -250,6 +251,32 @@ Pour obtenir le Client ID et Secret Google nécessaires à l'authentification :
    - **Client Secret** : à définir dans `GOOGLE_CLIENT_SECRET`
 
 > **Note** : Pour la production, assurez-vous d'ajouter votre URL de production dans les URI de redirection autorisés (ex: `https://votre-domaine.com/auth/callback`)
+
+### Variables d'environnement d'envoi d'e-mails
+
+L'envoi d'e-mails est optionnel. Laissez toutes les variables `SMTP_*` et `MAIL_*` vides et l'instance démarre sans : les liens de vérification d'adresse et de réinitialisation de mot de passe sont alors indisponibles, et la récupération de compte passe par les commandes `node ace user:*`.
+
+En définir une seule vous engage à une configuration complète : `SMTP_HOST` et `MAIL_FROM_ADDRESS` deviennent obligatoires, et une configuration partielle est rejetée au démarrage plutôt que de faire disparaître en silence le seul e-mail qu'attend un utilisateur enfermé dehors.
+
+| Variable            | Remarques                                                         |
+| ------------------- | ----------------------------------------------------------------- |
+| `SMTP_HOST`         | Nom d'hôte du relais                                              |
+| `SMTP_PORT`         | `587` par défaut                                                  |
+| `SMTP_USERNAME`     | Optionnel, mais exige `SMTP_PASSWORD` s'il est défini             |
+| `SMTP_PASSWORD`     | Optionnel, mais exige `SMTP_USERNAME` s'il est défini             |
+| `SMTP_SECURE`       | TLS implicite. `true` par défaut sur le port `465`, `false` sinon |
+| `MAIL_FROM_ADDRESS` | Adresse d'expédition                                              |
+| `MAIL_FROM_NAME`    | Nom d'expédition, `MyLinks` par défaut                            |
+
+En développement, `dev.compose.yml` embarque [mailpit](https://mailpit.axllent.org/) : pointez `SMTP_HOST` sur `127.0.0.1` et `SMTP_PORT` sur `1025`, puis lisez tout ce que l'application envoie sur `http://localhost:8025`. Rien ne quitte votre machine.
+
+**En production, le chemin recommandé reste un fournisseur SMTP externe.** Le [`compose.yml`](../compose.yml) du dépôt embarque tout de même un relais [`boky/postfix`](https://github.com/bokysan/docker-postfix) derrière un profil opt-in :
+
+```bash
+docker compose --profile smtp up -d
+```
+
+avec `SMTP_ALLOWED_SENDER_DOMAINS` réglé sur les domaines qu'il a le droit d'expédier, `SMTP_RELAYHOST` s'il doit relayer vers un serveur en amont, et l'application configurée avec `SMTP_HOST=smtp` et `SMTP_PORT=587`. Mesurez ce qu'implique l'auto-hébergement d'un MTA : sans enregistrements SPF, DKIM, DMARC et un reverse DNS cohérent, Gmail et Outlook jettent les messages, et beaucoup d'hébergeurs bloquent purement et simplement le port 25 sortant.
 
 ### Lancer le projet en développement
 

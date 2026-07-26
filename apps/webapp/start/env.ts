@@ -43,4 +43,21 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
 	LIMITER_STORE: Env.schema.enum(['database', 'memory'] as const),
+
+	/*
+|----------------------------------------------------------
+| Variables for configuring the mail package
+|----------------------------------------------------------
+*/
+	/**
+	 * Optional: leave them all empty to run without outgoing mail. Setting one
+	 * commits to a complete configuration — see `resolveMailConfig`.
+	 */
+	SMTP_HOST: Env.schema.string.optional(),
+	SMTP_PORT: Env.schema.number.optional(),
+	SMTP_USERNAME: Env.schema.string.optional(),
+	SMTP_PASSWORD: Env.schema.string.optional(),
+	SMTP_SECURE: Env.schema.boolean.optional(),
+	MAIL_FROM_ADDRESS: Env.schema.string.optional(),
+	MAIL_FROM_NAME: Env.schema.string.optional(),
 });

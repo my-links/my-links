@@ -20,6 +20,7 @@ export default defineConfig({
 		() => import('@adonisjs/session/commands'),
 		() => import('@adonisjs/inertia/commands'),
 		() => import('@outloud/adonis-openapi/commands'),
+		() => import('@adonisjs/mail/commands'),
 	],
 
 	/*
@@ -53,6 +54,7 @@ export default defineConfig({
 		() => import('#providers/route_provider'),
 		() => import('@outloud/adonis-openapi/provider'),
 		() => import('@adonisjs/limiter/limiter_provider'),
+		() => import('@adonisjs/mail/mail_provider'),
 	],
 
 	/*
@@ -66,6 +68,7 @@ export default defineConfig({
 	preloads: [
 		() => import('#start/routes'),
 		() => import('#start/kernel'),
+		() => import('#start/events'),
 		() => import('#start/validator'),
 	],
 
