@@ -6,10 +6,10 @@ import { controllers } from '#generated/controllers';
 router
 	.group(() => {
 		router
-			.post('/', [controllers.user.ApiToken, 'store'])
+			.post('/', [controllers.user.CreateApiToken, 'execute'])
 			.as('user.api-tokens.store');
 		router
-			.delete('/:tokenId', [controllers.user.ApiToken, 'destroy'])
+			.delete('/:tokenId', [controllers.user.DeleteApiToken, 'execute'])
 			.as('user.api-tokens.destroy');
 	})
 	.prefix('/user/api-tokens')
