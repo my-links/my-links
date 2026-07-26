@@ -7,6 +7,8 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { Favicon } from '#types/favicon_type';
 import { CacheService } from '#services/favicons/cache_service';
 import { FaviconService } from '#services/favicons/favicons_service';
+import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
+import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 
 @inject()
 export default class FaviconsController {
@@ -28,8 +30,19 @@ export default class FaviconsController {
 				this.faviconService.getFavicon(url)
 			);
 			return this.sendImage(ctx, favicon);
-		} catch {
-			return this.sendDefaultFavicon(ctx);
+		} catch (error) {
+			// A site with no favicon, or one we refuse to fetch from, is an
+			// expected outcome served as the placeholder. Anything else is a
+			// fault of ours and has to surface: catching it too made a bug in
+			// this controller indistinguishable from a dead remote host.
+			if (
+				error instanceof FaviconNotFoundException ||
+				error instanceof UrlBlockedException
+			) {
+				return this.sendDefaultFavicon(ctx);
+			}
+
+			throw error;
 		}
 	}
 
