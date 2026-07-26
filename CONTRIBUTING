@@ -5,7 +5,6 @@ First of all, thank you for considering contributing to MyLinks! We appreciate y
 ### Table of Contents
 
 - [How to Contribute](#how-to-contribute)
-- [Code of Conduct](#code-of-conduct)
 - [Bug Reports and Feature Requests](#bug-reports-and-feature-requests)
 - [Pull Requests](#pull-requests)
 - [Development Setup](#development-setup)
@@ -20,13 +19,9 @@ There are several ways to contribute to MyLinks:
 - Writing or improving tests
 - Submitting code enhancements
 
-### Code of Conduct
-
-We are committed to fostering a welcoming community. Please review our [Code of Conduct](./CODE_OF_CONDUCT.md) to understand our expectations for all contributors.
-
 ### Bug Reports and Feature Requests
 
-If you encounter any bugs or have ideas for new features, please create an issue in our [GitHub Issues](https://github.com/your-repo-url/issues). When reporting bugs, please provide:
+If you encounter any bugs or have ideas for new features, please create an issue in our [GitHub Issues](https://github.com/my-links/my-links/issues). When reporting bugs, please provide:
 - A clear description of the problem.
 - Steps to reproduce the issue.
 - Any relevant log/error messages.
@@ -39,10 +34,11 @@ For feature requests, please describe:
 
 When making a pull request (PR), please adhere to the following guidelines:
 1. Fork the repository and create your branch from `main` (or the default branch).
-2. Run `pnpm run lint` and ensure your code passes the linter checks.
-3. Add tests for new features or bug fixes.
-4. Ensure your code passes existing tests (`pnpm run test`).
-5. Clearly describe the purpose of your pull request. Provide relevant issue numbers if applicable.
+2. Run `pnpm run check` (lint, format check and typecheck across the monorepo) and make sure it passes.
+3. Add tests for new features or bug fixes, co-located with the code they cover.
+4. Ensure existing tests still pass: `pnpm run test` for the webapp (needs PostgreSQL), and `pnpm --filter @my-links/extension run check` when touching the extension — it runs the suite against both the Chromium and Firefox targets.
+5. Write commit messages in the imperative mood, one logical change per commit.
+6. Clearly describe the purpose of your pull request. Provide relevant issue numbers if applicable.
 
 To create a pull request:
 1. Push your branch to your forked repository.
@@ -52,7 +48,11 @@ To create a pull request:
 
 ### Development Setup
 
-For instructions on setting up your development environment, please refer to the [Getting Started](./README.md#getting-started) section in the `README.md`.
+MyLinks is a pnpm workspace holding two packages: the webapp (`apps/webapp`) and the browser extension (`apps/extension`).
+
+- Setting up the database, the environment and the dev server: [Development](./README.md#development) in the `README.md`.
+- Working on the extension: [`apps/extension/README.md`](./apps/extension/README.md).
+- The REST API the extension consumes: [`docs/api.md`](./docs/api.md). Changing an API controller, validator or transformer means regenerating the OpenAPI document and the extension's typed client — see that README's *Generating the API types*.
 
 ### Community
 
