@@ -2,39 +2,18 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { healthChecks } from '#start/health';
-import type { StatusReportCheck } from '#transformers/status_report_check';
+import { toStatusReportChecks } from '#lib/health/status_report';
 
 export default class StatusController {
 	async render({ inertia }: HttpContext) {
-		const [isHealthy, checks] = await Promise.all([
-			this.isHealthy(),
-			this.checks(),
-		]);
+		// One run per page load: the previous split between an `isHealthy` and a
+		// `checks` helper ran every registered check twice.
+		const report = await healthChecks.run();
+		logger.info(report.checks);
+
 		return inertia.render('status', {
-			isHealthy,
-			checks,
+			isHealthy: report.isHealthy,
+			checks: toStatusReportChecks(report),
 		});
-	}
-
-	private async isHealthy(): Promise<boolean> {
-		const { isHealthy } = await this.getHealthChecks();
-		return isHealthy;
-	}
-
-	private async checks(): Promise<StatusReportCheck[]> {
-		const { checks } = await this.getHealthChecks();
-		return checks;
-	}
-
-	private async getHealthChecks(): Promise<{
-		isHealthy: boolean;
-		checks: StatusReportCheck[];
-	}> {
-		const { isHealthy, checks } = await healthChecks.run();
-		logger.info(checks);
-		return {
-			isHealthy,
-			checks: checks as StatusReportCheck[],
-		};
 	}
 }
