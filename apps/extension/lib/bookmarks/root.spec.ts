@@ -32,7 +32,7 @@ describe('getOrCreateCollectionsFolder', () => {
 		const { api, barId } = buildBrowserWithBar();
 		api.createFolder(barId, 'Recipes');
 
-		const folderId = await getOrCreateCollectionsFolder(api, null);
+		const { id: folderId } = await getOrCreateCollectionsFolder(api, null);
 
 		expect(await titlesUnder(api, barId)).toEqual([
 			COLLECTIONS_FOLDER_TITLE,
@@ -62,7 +62,7 @@ describe('getOrCreateCollectionsFolder', () => {
 		const { api, barId } = buildBrowserWithBar();
 		const existingFolderId = api.createFolder(barId, COLLECTIONS_FOLDER_TITLE);
 
-		expect(await getOrCreateCollectionsFolder(api, null)).toBe(
+		expect((await getOrCreateCollectionsFolder(api, null)).id).toBe(
 			existingFolderId
 		);
 		expect(await titlesUnder(api, barId)).toEqual([COLLECTIONS_FOLDER_TITLE]);
@@ -73,7 +73,7 @@ describe('getOrCreateCollectionsFolder', () => {
 		api.createLink(barId, 'News', 'https://news.example.com');
 		const legacyFolderId = api.createFolder(barId, 'MyLinks');
 
-		expect(await getOrCreateCollectionsFolder(api, legacyFolderId)).toBe(
+		expect((await getOrCreateCollectionsFolder(api, legacyFolderId)).id).toBe(
 			legacyFolderId
 		);
 		expect(await titlesUnder(api, barId)).toEqual([
@@ -87,9 +87,29 @@ describe('getOrCreateCollectionsFolder', () => {
 		const staleFolderId = api.createFolder(barId, COLLECTIONS_FOLDER_TITLE);
 		await api.removeTree(staleFolderId);
 
-		const folderId = await getOrCreateCollectionsFolder(api, staleFolderId);
+		const { id: folderId } = await getOrCreateCollectionsFolder(
+			api,
+			staleFolderId
+		);
 
 		expect(folderId).not.toBe(staleFolderId);
 		expect(await titlesUnder(api, barId)).toEqual([COLLECTIONS_FOLDER_TITLE]);
+	});
+
+	it('should report a folder it had to create as created', async () => {
+		const { api } = buildBrowserWithBar();
+
+		const { origin } = await getOrCreateCollectionsFolder(api, null);
+
+		expect(origin).toBe('created');
+	});
+
+	it('should report a folder left behind by an earlier install as adopted', async () => {
+		const { api, barId } = buildBrowserWithBar();
+		api.createFolder(barId, COLLECTIONS_FOLDER_TITLE);
+
+		const { origin } = await getOrCreateCollectionsFolder(api, null);
+
+		expect(origin).toBe('adopted');
 	});
 });

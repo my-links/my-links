@@ -14,10 +14,6 @@ import {
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
 import {
-	getOrCreateCollectionsFolder,
-	resolveBookmarksBarId,
-} from '@/lib/bookmarks/root';
-import {
 	applyBookmarkOperations,
 	MAX_CONCURRENT_BOOKMARK_WRITES,
 } from '@/lib/bookmarks/apply';
@@ -36,6 +32,11 @@ import {
 	INITIAL_SYNC_BACKOFF_STATE,
 	isSyncBackingOff,
 } from '@/lib/sync/backoff';
+import {
+	getOrCreateCollectionsFolder,
+	resolveBookmarksBarId,
+	type CollectionsFolderOrigin,
+} from '@/lib/bookmarks/root';
 import {
 	buildPinnedLinkKey,
 	buildPinnedReorder,
@@ -123,10 +124,11 @@ async function runMirrorPass(): Promise<void> {
 	}
 
 	const api = getBrowserBookmarksApi();
-	const collectionsFolderId = await getOrCreateCollectionsFolder(
+	const collectionsFolder = await getOrCreateCollectionsFolder(
 		api,
 		mirrorState.rootId
 	);
+	const collectionsFolderId = collectionsFolder.id;
 	// A mirror enabled before this line shipped has no stamp: dating it from
 	// now treats everything already saved as the user's own, rather than
 	// claiming all of it at once.
@@ -159,8 +161,8 @@ async function runMirrorPass(): Promise<void> {
 	const mapping = await claimOrphanedNodes(
 		collectionsCache.collections,
 		pinnedFavorites,
-		collectionsFolderId,
-		barChildren
+		mirrorState.rootOrigin,
+		{ collectionsFolderId, barChildren }
 	);
 
 	const plan = reconcile({
@@ -204,6 +206,7 @@ async function runMirrorPass(): Promise<void> {
 			...plan.nextSnapshot,
 			...applyResult.snapshot,
 		});
+		await rememberSettledTree();
 		return;
 	}
 
@@ -215,29 +218,53 @@ async function runMirrorPass(): Promise<void> {
 }
 
 /**
+ * From here on the mirror has a tree of its own on this bar — it has just
+ * settled one. Recorded only after a pass that fully landed, and it is what
+ * later licenses claiming a node back by resemblance: a mirror that has never
+ * written here has nothing to recognise, and every match would be the user's.
+ */
+async function rememberSettledTree(): Promise<void> {
+	const mirrorState = await bookmarkMirrorStorage.getValue();
+	if (mirrorState.rootOrigin === 'adopted') {
+		return;
+	}
+
+	await bookmarkMirrorStorage.setValue({
+		...mirrorState,
+		rootOrigin: 'adopted',
+	});
+}
+
+/**
  * Nodes the mirror created but can no longer recognise are claimed back before
  * anything is judged. Storage does not survive a reinstall while the bookmarks
  * do, and without this every one of them would be read as user content —
  * adopted into duplicate links, and shadowed by a second set of folders.
+ *
+ * Pins are only reclaimed once the mirror has a tree of its own here. Until
+ * then it has left nothing on the bar to find, so a bookmark matching a
+ * favourite's URL is one the user saved themselves — claiming it would put
+ * their bookmark under MyLinks' control without them ever asking, down to
+ * deleting it the day the link stops being a favourite.
  */
 async function claimOrphanedNodes(
 	collections: CollectionWithLinks[],
 	pinnedFavorites: DesiredBookmark[],
-	collectionsFolderId: string,
-	barChildren: BookmarkNode[]
+	rootOrigin: CollectionsFolderOrigin | null,
+	tree: { collectionsFolderId: string; barChildren: BookmarkNode[] }
 ): Promise<BookmarkMapping> {
 	const storedMapping = await bookmarkMappingStorage.getValue();
-	const collectionsFolderChildren =
-		barChildren.find((child) => child.id === collectionsFolderId)?.children ??
-		[];
+	const mapping = remapOrphanedNodes({
+		desiredFolders: buildDesiredTree(collections),
+		pinnedBookmarks: pinnedFavorites,
+		collectionsFolderChildren:
+			tree.barChildren.find((child) => child.id === tree.collectionsFolderId)
+				?.children ?? [],
+		barChildren: tree.barChildren,
+		mapping: storedMapping,
+		rootOrigin,
+	});
 
-	const mapping = remapOrphanedNodes(
-		buildDesiredTree(collections),
-		pinnedFavorites,
-		collectionsFolderChildren,
-		barChildren,
-		storedMapping
-	);
 	if (mapping !== storedMapping) {
 		await bookmarkMappingStorage.setValue(mapping);
 	}

@@ -1,5 +1,6 @@
 import { buildPinnedLinkKey } from '@/lib/bookmarks/pinned';
 import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
+import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
 import { isFolder, type BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import {
 	buildLinkKey,
@@ -29,31 +30,74 @@ import {
  * title, a bookmark's URL — and only ever claims nodes nothing else has
  * claimed. Matching the wrong same-named folder is harmless: the mapping
  * takes over from the next pass, and no node is created or destroyed here.
+ *
+ * Folders and pins are not equally safe to recognise, though. A collection
+ * folder is looked for inside the `Collections` folder, which is the mirror's
+ * own ground. A pin is looked for on the bar, which is the user's: URL is all
+ * there is to go on there, and it cannot tell a pin the mirror created from a
+ * bookmark they had saved for the same page long before. So pins are only
+ * reclaimed once `rootOrigin` says the mirror has a tree here to reclaim —
+ * otherwise their bookmark would quietly change hands, to be retitled, ranked
+ * and finally deleted the day the link stopped being a favourite.
  */
-export function remapOrphanedNodes(
-	desiredFolders: DesiredFolder[],
-	pinnedBookmarks: DesiredBookmark[],
-	collectionsFolderChildren: BookmarkNode[],
-	barChildren: BookmarkNode[],
-	mapping: BookmarkMapping
-): BookmarkMapping {
-	const claimedNodeIds = new Set([
-		...Object.values(mapping.folderIdByCollectionId),
-		...Object.values(mapping.bookmarkIdByLinkKey),
-	]);
-
-	const withFolders = desiredFolders.reduce(
+export function remapOrphanedNodes(recovery: OrphanRecovery): BookmarkMapping {
+	const claimedNodeIds = collectClaimedNodeIds(recovery.mapping);
+	const withFolders = recovery.desiredFolders.reduce(
 		(current, desiredFolder) =>
 			remapFolder(
 				desiredFolder,
-				collectionsFolderChildren,
+				recovery.collectionsFolderChildren,
+				claimedNodeIds,
+				current
+			),
+		recovery.mapping
+	);
+
+	if (recovery.rootOrigin !== 'adopted') {
+		return withFolders;
+	}
+	return remapPins(
+		recovery.pinnedBookmarks,
+		recovery.barChildren,
+		claimedNodeIds,
+		withFolders
+	);
+}
+
+export type OrphanRecovery = {
+	desiredFolders: DesiredFolder[];
+	pinnedBookmarks: DesiredBookmark[];
+	collectionsFolderChildren: BookmarkNode[];
+	barChildren: BookmarkNode[];
+	mapping: BookmarkMapping;
+	/** Only `adopted` licenses claiming a node on the bar back by its URL. */
+	rootOrigin: CollectionsFolderOrigin | null;
+};
+
+function remapPins(
+	pinnedBookmarks: DesiredBookmark[],
+	barChildren: BookmarkNode[],
+	claimedNodeIds: Set<string>,
+	mapping: BookmarkMapping
+): BookmarkMapping {
+	return pinnedBookmarks.reduce(
+		(current, pinnedBookmark) =>
+			remapBookmark(
+				buildPinnedLinkKey(pinnedBookmark.linkId),
+				pinnedBookmark,
+				barChildren,
 				claimedNodeIds,
 				current
 			),
 		mapping
 	);
+}
 
-	return remapPins(pinnedBookmarks, barChildren, claimedNodeIds, withFolders);
+function collectClaimedNodeIds(mapping: BookmarkMapping): Set<string> {
+	return new Set([
+		...Object.values(mapping.folderIdByCollectionId),
+		...Object.values(mapping.bookmarkIdByLinkKey),
+	]);
 }
 
 function remapFolder(
@@ -143,23 +187,4 @@ function remapBookmark(
 
 	claimedNodeIds.add(matchingNode.id);
 	return withMappedBookmark(mapping, linkKey, matchingNode.id);
-}
-
-function remapPins(
-	pinnedBookmarks: DesiredBookmark[],
-	barChildren: BookmarkNode[],
-	claimedNodeIds: Set<string>,
-	mapping: BookmarkMapping
-): BookmarkMapping {
-	return pinnedBookmarks.reduce(
-		(current, pinnedBookmark) =>
-			remapBookmark(
-				buildPinnedLinkKey(pinnedBookmark.linkId),
-				pinnedBookmark,
-				barChildren,
-				claimedNodeIds,
-				current
-			),
-		mapping
-	);
 }
