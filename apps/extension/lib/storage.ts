@@ -181,6 +181,27 @@ export async function clearExtensionSession(): Promise<void> {
 	await apiTokenStorage.removeValue();
 	await authInvalidStorage.removeValue();
 	await collectionsCacheStorage.removeValue();
+	await clearBookmarkBookkeeping();
+}
+
+/**
+ * Everything the mirror remembers about the native tree, including whether it
+ * is on at all. Used when the user asks for their bookmarks back: the ids kept
+ * here name nodes that no longer exist, and a later re-enable reasoning from
+ * them would judge a tree that is gone.
+ */
+export async function clearBookmarkMirrorState(): Promise<void> {
+	await bookmarkMirrorStorage.removeValue();
+	await bookmarkBackoffStorage.removeValue();
+	await clearBookmarkBookkeeping();
+}
+
+/**
+ * The mirror's view of the tree, without the switch itself — reconnecting as
+ * somebody else invalidates every id in here, but it does not mean the user
+ * asked to stop mirroring.
+ */
+async function clearBookmarkBookkeeping(): Promise<void> {
 	await bookmarkMappingStorage.removeValue();
 	await syncedTreeStorage.removeValue();
 	await pinnedRankingStorage.removeValue();
