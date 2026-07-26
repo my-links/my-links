@@ -2,7 +2,6 @@ import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { RoutesList } from '@adonisjs/core/types/http';
-import type { AllyUserContract, GoogleToken } from '@adonisjs/ally/types';
 
 import User from '#models/user';
 import { AUTH_PROVIDER } from '#constants/auth';
@@ -10,14 +9,6 @@ import { SessionService } from '#services/user/session_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
-import OauthAuthenticationRefusedException from '#exceptions/auth/oauth_authentication_refused_exception';
-
-/**
- * Shown for every refusal the OAuth account service raises. The wording must
- * not vary with the reason, or the flash message becomes an account
- * enumeration oracle.
- */
-const REFUSED_MESSAGE = 'This Google account cannot be used to sign in';
 
 /**
  * The subset of the Ally driver this controller reads after a callback.
@@ -65,20 +56,25 @@ export default class AuthController {
 		const google = ally.use('google');
 		const callbackError = this.getCallbackError(google);
 		if (callbackError) {
-			session.flash('flash', callbackError);
+			session.flash('error', callbackError);
 			return response.redirectToNamedRoute(this.redirectTo);
 		}
 
-		const user = await this.resolveGoogleAccount(await google.user());
-		if (!user) {
-			session.flash('flash', REFUSED_MESSAGE);
-			return response.redirectToNamedRoute(this.redirectTo);
-		}
+		const googleUser = await google.user();
+		const user = await this.oauthAccountService.authenticate({
+			provider: AUTH_PROVIDER.GOOGLE,
+			providerUserId: googleUser.id,
+			email: googleUser.email,
+			isEmailVerified: googleUser.emailVerificationState === 'verified',
+			name: googleUser.name,
+			nickName: googleUser.nickName,
+			avatarUrl: googleUser.avatarUrl,
+		});
 
 		await auth.use('web').login(user);
 		this.sessionService.createAuthSession(user);
 
-		session.flash('flash', 'Successfully authenticated');
+		session.flash('success', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
 		// Falls back to the favorites page, but honors an intended URL stashed
 		// by AuthMiddleware (e.g. a GET to /extension/authorize?redirect_uri=...
@@ -103,33 +99,10 @@ export default class AuthController {
 		return null;
 	}
 
-	private async resolveGoogleAccount(
-		googleUser: AllyUserContract<GoogleToken>
-	): Promise<User | null> {
-		try {
-			return await this.oauthAccountService.authenticate({
-				provider: AUTH_PROVIDER.GOOGLE,
-				providerUserId: googleUser.id,
-				email: googleUser.email,
-				isEmailVerified: googleUser.emailVerificationState === 'verified',
-				name: googleUser.name,
-				nickName: googleUser.nickName,
-				avatarUrl: googleUser.avatarUrl,
-			});
-		} catch (error) {
-			if (error instanceof OauthAuthenticationRefusedException) {
-				logger.warn(`google auth refused (${error.reason})`);
-				return null;
-			}
-
-			throw error;
-		}
-	}
-
 	async logout({ auth, response, session }: HttpContext) {
 		await auth.use('web').logout();
 		session.clear();
-		session.flash('flash', 'Successfully disconnected');
+		session.flash('success', 'Successfully disconnected');
 		logger.info(`[${auth.user?.email}] disconnected successfully`);
 		response.redirectToNamedRoute('home');
 	}

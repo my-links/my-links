@@ -136,9 +136,7 @@ test.group('Login — credentials', (group) => {
 			.withCsrfToken()
 			.redirects(0);
 
-		response.assertFlashMessage('inputErrorsBag', {
-			email: [GENERIC_FAILURE_MESSAGE],
-		});
+		response.assertFlashMessage('error', GENERIC_FAILURE_MESSAGE);
 	});
 
 	test('should answer an unknown email with the very same failure message', async ({
@@ -151,9 +149,7 @@ test.group('Login — credentials', (group) => {
 			.withCsrfToken()
 			.redirects(0);
 
-		response.assertFlashMessage('inputErrorsBag', {
-			email: [GENERIC_FAILURE_MESSAGE],
-		});
+		response.assertFlashMessage('error', GENERIC_FAILURE_MESSAGE);
 	});
 
 	test('should record a failed login event without an account when the email is unknown', async ({

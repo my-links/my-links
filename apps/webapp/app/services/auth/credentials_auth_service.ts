@@ -1,16 +1,34 @@
+import { errors } from '@adonisjs/auth';
 import { inject } from '@adonisjs/core';
 
 import User from '#models/user';
 import { PasswordHasher } from '#services/auth/password_hasher';
-import InvalidCredentialsException from '#exceptions/auth/invalid_credentials_exception';
+import { AuthEventService } from '#services/auth/auth_event_service';
+import type { AuthEventOrigin } from '#services/auth/auth_event_service';
 
 const DECOY_PLAIN_PASSWORD = 'this-password-belongs-to-nobody';
+
+/**
+ * One wording for a wrong password and for an email nobody ever registered.
+ * A message that varies with the cause tells an attacker which addresses are
+ * worth a dictionary run.
+ */
+const INVALID_CREDENTIALS_MESSAGE = 'Invalid email address or password';
+
+export type CredentialsAttempt = {
+	readonly email: string;
+	readonly password: string;
+	readonly origin: AuthEventOrigin;
+};
 
 @inject()
 export class CredentialsAuthService {
 	private decoyHash: Promise<string> | null = null;
 
-	constructor(protected readonly passwordHasher: PasswordHasher) {}
+	constructor(
+		protected readonly passwordHasher: PasswordHasher,
+		protected readonly authEventService: AuthEventService
+	) {}
 
 	/**
 	 * Resolves an email and password pair to the account it unlocks.
@@ -19,25 +37,43 @@ export class CredentialsAuthService {
 	 * an enumeration oracle: an unknown email would answer in a millisecond
 	 * where a known one spends the argon2 budget. Both paths therefore run one
 	 * verification before failing with the very same exception.
+	 *
+	 * `E_INVALID_CREDENTIALS` renders itself — message flashed, submitted input
+	 * kept, redirect back — so no caller has to catch it to build a form error.
 	 */
-	async verifyCredentials(email: string, plainPassword: string): Promise<User> {
+	async verifyCredentials({
+		email,
+		password,
+		origin,
+	}: CredentialsAttempt): Promise<User> {
 		const user = await this.findUserWithPassword(email);
 
 		if (!user?.passwordAuth) {
-			await this.verifyAgainstDecoy(plainPassword);
-			throw new InvalidCredentialsException();
+			await this.verifyAgainstDecoy(password);
+			return this.refuse(email, origin);
 		}
 
 		const isPasswordValid = await this.passwordHasher.verify(
 			user.passwordAuth.password,
-			plainPassword
+			password
 		);
 
 		if (!isPasswordValid) {
-			throw new InvalidCredentialsException();
+			return this.refuse(email, origin);
 		}
 
 		return user;
+	}
+
+	/**
+	 * Journals the attempt from here rather than from the controller: the
+	 * refusal travels as an exception nobody catches, so this is the last place
+	 * that still knows an attempt failed.
+	 */
+	private async refuse(email: string, origin: AuthEventOrigin): Promise<never> {
+		await this.authEventService.recordFailedLogin({ email, ...origin });
+
+		throw new errors.E_INVALID_CREDENTIALS(INVALID_CREDENTIALS_MESSAGE);
 	}
 
 	private findUserWithPassword(email: string): Promise<User | null> {
