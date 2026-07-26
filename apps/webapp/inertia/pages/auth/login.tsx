@@ -72,6 +72,7 @@ function LoginPage() {
 							name="password"
 							value={data.password}
 							onChange={handlePasswordChange}
+							placeholder={t`Your password`}
 							error={errors.password}
 							autoComplete="current-password"
 							required

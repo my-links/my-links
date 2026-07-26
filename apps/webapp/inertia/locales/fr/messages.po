@@ -519,7 +519,7 @@ msgstr "Liens"
 #: inertia/components/common/navigation/guest_auth_actions.tsx:9
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:16
 #: inertia/pages/auth/login.tsx:39
-#: inertia/pages/auth/login.tsx:87
+#: inertia/pages/auth/login.tsx:88
 msgid "Login"
 msgstr "Connexion"
 
@@ -902,3 +902,7 @@ msgstr "vous@exemple.com"
 #: inertia/pages/home.tsx:104
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Vos données vous appartiennent. Nous privilégions votre vie privée et ne partageons ni ne vendons jamais vos informations à des tiers."
+
+#: inertia/pages/auth/login.tsx:75
+msgid "Your password"
+msgstr "Votre mot de passe"
