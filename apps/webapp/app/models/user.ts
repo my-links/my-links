@@ -1,11 +1,22 @@
 import { DateTime } from 'luxon';
-import type { GoogleToken } from '@adonisjs/ally/types';
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens';
-import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations';
-import { column, computed, hasMany, manyToMany } from '@adonisjs/lucid/orm';
+import type {
+	HasMany,
+	HasOne,
+	ManyToMany,
+} from '@adonisjs/lucid/types/relations';
+import {
+	column,
+	computed,
+	hasMany,
+	hasOne,
+	manyToMany,
+} from '@adonisjs/lucid/orm';
 
 import Link from '#models/link';
+import OauthAuth from '#models/oauth_auth';
 import Collection from '#models/collection';
+import PasswordAuth from '#models/password_auth';
 import AppBaseModel from '#models/app_base_model';
 
 export default class User extends AppBaseModel {
@@ -19,19 +30,19 @@ export default class User extends AppBaseModel {
 	declare nickName: string; // public username
 
 	@column()
-	declare avatarUrl: string;
+	declare avatarUrl: string | null;
 
 	@column()
 	declare isAdmin: boolean;
 
-	@column({ serializeAs: null })
-	declare token?: GoogleToken;
+	@column.dateTime()
+	declare emailVerifiedAt: DateTime | null;
 
-	@column({ serializeAs: null })
-	declare providerId: number;
+	@hasOne(() => PasswordAuth)
+	declare passwordAuth: HasOne<typeof PasswordAuth>;
 
-	@column({ serializeAs: null })
-	declare providerType: 'google';
+	@hasMany(() => OauthAuth)
+	declare oauthAuths: HasMany<typeof OauthAuth>;
 
 	@hasMany(() => Collection, {
 		foreignKey: 'authorId',

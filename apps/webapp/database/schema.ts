@@ -32,6 +32,25 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class AuthEventSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'ip', 'type', 'updatedAt', 'userAgent', 'userId'] as const
+  $columns = AuthEventSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ip: string | null
+  @column()
+  declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userAgent: string | null
+  @column()
+  declare userId: number | null
+}
+
 export class CollectionFollowerSchema extends BaseModel {
   static $columns = ['collectionId', 'createdAt', 'userId'] as const
   $columns = CollectionFollowerSchema.$columns
@@ -102,6 +121,63 @@ export class LinkSchema extends BaseModel {
   declare url: string
 }
 
+export class OauthAuthSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'linkedAt', 'provider', 'providerUserId', 'updatedAt', 'userId'] as const
+  $columns = OauthAuthSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column.dateTime()
+  declare linkedAt: DateTime
+  @column()
+  declare provider: string
+  @column()
+  declare providerUserId: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class OneTimeTokenSchema extends BaseModel {
+  static $columns = ['consumedAt', 'createdAt', 'expiresAt', 'id', 'tokenHash', 'type', 'updatedAt', 'userId'] as const
+  $columns = OneTimeTokenSchema.$columns
+  @column.dateTime()
+  declare consumedAt: DateTime | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare expiresAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare tokenHash: string
+  @column()
+  declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class PasswordAuthSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'password', 'passwordChangedAt', 'updatedAt', 'userId'] as const
+  $columns = PasswordAuthSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column({ serializeAs: null })
+  declare password: string
+  @column.dateTime()
+  declare passwordChangedAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
 export class RateLimitSchema extends BaseModel {
   static $columns = ['expire', 'key', 'points'] as const
   $columns = RateLimitSchema.$columns
@@ -144,14 +220,16 @@ export class UserSessionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatarUrl', 'createdAt', 'email', 'id', 'isAdmin', 'lastSeenAt', 'name', 'nickName', 'providerId', 'providerType', 'token', 'updatedAt'] as const
+  static $columns = ['avatarUrl', 'createdAt', 'email', 'emailVerifiedAt', 'id', 'isAdmin', 'lastSeenAt', 'name', 'nickName', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column()
-  declare avatarUrl: string
+  declare avatarUrl: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
   declare email: string
+  @column.dateTime()
+  declare emailVerifiedAt: DateTime | null
   @column({ isPrimary: true })
   declare id: number
   @column()
@@ -162,12 +240,6 @@ export class UserSchema extends BaseModel {
   declare name: string
   @column()
   declare nickName: string | null
-  @column()
-  declare providerId: string
-  @column()
-  declare providerType: string
-  @column()
-  declare token: any | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }

@@ -2,9 +2,10 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Link from '#models/link';
-import User from '#models/user';
+import type User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
+import { createUser } from '#tests/factories/user_factory';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ExportImportService } from '#services/user/export_import_service';
 import { CollectionService } from '#services/collections/collection_service';
@@ -13,17 +14,6 @@ function buildService() {
 	return new ExportImportService(
 		new CollectionService(new SyncJournalService())
 	);
-}
-
-let userCounter = 0;
-async function createUser() {
-	userCounter += 1;
-	return User.create({
-		email: `export-import-${Date.now()}-${userCounter}@example.com`,
-		name: 'Export Import Test User',
-		avatarUrl: 'https://example.com/avatar.png',
-		providerId: Date.now() + userCounter,
-	});
 }
 
 async function createCollection(user: User, name: string) {

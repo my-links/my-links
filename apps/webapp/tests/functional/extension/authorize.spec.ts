@@ -1,19 +1,10 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import User from '#models/user';
+import { createUser } from '#tests/factories/user_factory';
 
 const VALID_REDIRECT_URI =
 	'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/';
-
-async function createUser() {
-	return User.create({
-		email: `extension-auth-${Date.now()}@example.com`,
-		name: 'Extension Test User',
-		avatarUrl: 'https://example.com/avatar.png',
-		providerId: Date.now(),
-	});
-}
 
 test.group('Extension authorize', (group) => {
 	group.each.setup(() => testUtils.db().withGlobalTransaction());

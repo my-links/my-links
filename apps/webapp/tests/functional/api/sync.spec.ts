@@ -3,22 +3,11 @@ import { test } from '@japa/runner';
 import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import User from '#models/user';
+import type User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
+import { createUser } from '#tests/factories/user_factory';
 import { TOMBSTONE_RETENTION_DAYS } from '#services/sync/sync_service';
-
-let userCounter = 0;
-
-async function createUser() {
-	userCounter += 1;
-	return User.create({
-		email: `api-sync-${Date.now()}-${userCounter}@example.com`,
-		name: 'Sync Test User',
-		avatarUrl: 'https://example.com/avatar.png',
-		providerId: Date.now() + userCounter,
-	});
-}
 
 async function createCollection(user: User, name: string) {
 	return Collection.create({
