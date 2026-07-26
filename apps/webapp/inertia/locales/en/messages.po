@@ -98,7 +98,7 @@ msgstr "Admin Dashboard"
 msgid "All"
 msgstr "All"
 
-#: inertia/pages/home.tsx:129
+#: inertia/pages/home.tsx:132
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 msgstr "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
 
@@ -130,11 +130,11 @@ msgstr "Are you sure you want to revoke this token?"
 msgid "Are you sure you want to sign out this session?"
 msgstr "Are you sure you want to sign out this session?"
 
-#: inertia/pages/home.tsx:156
+#: inertia/pages/home.tsx:146
 msgid "Built for users who value privacy, control, and simplicity"
 msgstr "Built for users who value privacy, control, and simplicity"
 
-#: inertia/pages/home.tsx:91
+#: inertia/pages/home.tsx:93
 msgid "Built with transparency and community in mind. View the source code, contribute, and trust in our open development process."
 msgstr "Built with transparency and community in mind. View the source code, contribute, and trust in our open development process."
 
@@ -181,7 +181,7 @@ msgstr "Collection managed by <0>{0}</0>"
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:82
 #: inertia/components/dashboard/modals/search_modal.tsx:243
 #: inertia/components/dashboard/search/search_collection_results.tsx:25
-#: inertia/pages/home.tsx:35
+#: inertia/pages/home.tsx:37
 msgid "Collections"
 msgstr "Collections"
 
@@ -190,7 +190,13 @@ msgstr "Collections"
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
 
-#: inertia/pages/home.tsx:45
+#: inertia/components/auth/google_sign_in_action.tsx:18
+#: inertia/components/home/call_to_action_auth_actions.tsx:22
+#: inertia/components/home/hero_auth_actions.tsx:22
+msgid "Continue with Google"
+msgstr "Continue with Google"
+
+#: inertia/pages/home.tsx:47
 msgid "Contribute"
 msgstr "Contribute"
 
@@ -230,10 +236,6 @@ msgstr "Create a link"
 #: inertia/components/api_tokens/create_token_modal.tsx:35
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
-
-#: inertia/pages/home.tsx:222
-msgid "Create Account"
-msgstr "Create Account"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_header.tsx:116
@@ -361,11 +363,15 @@ msgstr "Edit a link"
 msgid "Edit collection"
 msgstr "Edit collection"
 
+#: inertia/pages/auth/login.tsx:49
+msgid "Email"
+msgstr "Email"
+
 #: inertia/components/api_tokens/create_token_modal.tsx:45
 msgid "Enter token name"
 msgstr "Enter token name"
 
-#: inertia/pages/home.tsx:192
+#: inertia/pages/home.tsx:182
 msgid "Everything you need to organize and manage your bookmarks effectively"
 msgstr "Everything you need to organize and manage your bookmarks effectively"
 
@@ -386,7 +392,7 @@ msgstr "Export / Import"
 msgid "Export all your collections and links, or import them from a JSON file"
 msgstr "Export all your collections and links, or import them from a JSON file"
 
-#: inertia/pages/home.tsx:41
+#: inertia/pages/home.tsx:43
 msgid "Extension"
 msgstr "Extension"
 
@@ -416,7 +422,7 @@ msgstr "Functional data is retained until the user requests deletion. Once this 
 msgid "GDPR Compliance"
 msgstr "GDPR Compliance"
 
-#: inertia/pages/home.tsx:139
+#: inertia/components/home/hero_auth_actions.tsx:15
 msgid "Get Started"
 msgstr "Get Started"
 
@@ -425,11 +431,11 @@ msgstr "Get Started"
 msgid "Go to {0}"
 msgstr "Go to {0}"
 
-#: inertia/components/common/navigation/navbar.tsx:103
+#: inertia/components/common/navigation/navbar.tsx:105
 msgid "Hello"
 msgstr "Hello"
 
-#: inertia/pages/home.tsx:62
+#: inertia/pages/home.tsx:64
 msgid "Help improve the project by contributing"
 msgstr "Help improve the project by contributing"
 
@@ -447,7 +453,7 @@ msgstr "ID"
 msgid "Import"
 msgstr "Import"
 
-#: inertia/components/dashboard/links/link_item.tsx:79
+#: inertia/components/dashboard/links/link_item.tsx:86
 msgid "In {collectionCount} collections"
 msgstr "In {collectionCount} collections"
 
@@ -471,7 +477,7 @@ msgstr "In less than a minute"
 msgid "IP"
 msgstr "IP"
 
-#: inertia/pages/home.tsx:212
+#: inertia/pages/home.tsx:202
 msgid "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 msgstr "Join the community and start organizing your links today. It's free, open-source, and respects your privacy."
 
@@ -506,12 +512,19 @@ msgstr "links"
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:67
 #: inertia/components/dashboard/modals/search_modal.tsx:231
 #: inertia/components/dashboard/search/search_link_results.tsx:23
-#: inertia/pages/home.tsx:37
+#: inertia/pages/home.tsx:39
 msgid "Links"
 msgstr "Links"
 
-#: inertia/components/common/navigation/navbar.tsx:119
-#: inertia/components/common/navigation/navbar.tsx:217
+#: inertia/components/common/navigation/guest_auth_actions.tsx:9
+#: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:16
+#: inertia/pages/auth/login.tsx:39
+#: inertia/pages/auth/login.tsx:87
+msgid "Login"
+msgstr "Login"
+
+#: inertia/components/common/navigation/navbar.tsx:121
+#: inertia/components/common/navigation/navbar.tsx:206
 msgid "Logout"
 msgstr "Logout"
 
@@ -519,7 +532,7 @@ msgstr "Logout"
 msgid "Made by"
 msgstr "Made by"
 
-#: inertia/pages/home.tsx:126
+#: inertia/pages/home.tsx:129
 msgid "Manage your links in the best possible way"
 msgstr "Manage your links in the best possible way"
 
@@ -593,15 +606,19 @@ msgstr "Nothing found"
 msgid "Once you delete your account, there is no going back. Please be certain."
 msgstr "Once you delete your account, there is no going back. Please be certain."
 
-#: inertia/pages/home.tsx:89
+#: inertia/pages/home.tsx:91
 msgid "Open Source"
 msgstr "Open Source"
+
+#: inertia/components/auth/google_sign_in_action.tsx:9
+msgid "or"
+msgstr "or"
 
 #: inertia/pages/dashboard.tsx:144
 msgid "Or create a new collection to get started"
 msgstr "Or create a new collection to get started"
 
-#: inertia/pages/home.tsx:52
+#: inertia/pages/home.tsx:54
 msgid "Organize your links into collections"
 msgstr "Organize your links into collections"
 
@@ -609,11 +626,15 @@ msgstr "Organize your links into collections"
 msgid "Page not found"
 msgstr "Page not found"
 
+#: inertia/pages/auth/login.tsx:65
+msgid "Password"
+msgstr "Password"
+
 #: inertia/pages/terms.tsx:107
 msgid "Personal Data"
 msgstr "Personal Data"
 
-#: inertia/pages/home.tsx:189
+#: inertia/pages/home.tsx:179
 msgid "Powerful Features"
 msgstr "Powerful Features"
 
@@ -621,7 +642,7 @@ msgstr "Powerful Features"
 msgid "Privacy"
 msgstr "Privacy"
 
-#: inertia/pages/home.tsx:100
+#: inertia/pages/home.tsx:102
 msgid "Privacy First"
 msgstr "Privacy First"
 
@@ -641,11 +662,11 @@ msgstr "Public"
 msgid "Quick Actions"
 msgstr "Quick Actions"
 
-#: inertia/pages/home.tsx:56
+#: inertia/pages/home.tsx:58
 msgid "Quickly find what you're looking for"
 msgstr "Quickly find what you're looking for"
 
-#: inertia/pages/home.tsx:209
+#: inertia/pages/home.tsx:199
 msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
 
@@ -670,12 +691,12 @@ msgstr "Revoke"
 msgid "Role"
 msgstr "Role"
 
-#: inertia/pages/home.tsx:54
+#: inertia/pages/home.tsx:56
 msgid "Save and manage your favorite links"
 msgstr "Save and manage your favorite links"
 
 #: inertia/pages/dashboard.tsx:80
-#: inertia/pages/home.tsx:39
+#: inertia/pages/home.tsx:41
 msgid "Search"
 msgstr "Search"
 
@@ -691,7 +712,7 @@ msgstr "Select a collection to view its links"
 msgid "Select JSON file"
 msgstr "Select JSON file"
 
-#: inertia/pages/home.tsx:111
+#: inertia/pages/home.tsx:113
 msgid "Self-Hosted"
 msgstr "Self-Hosted"
 
@@ -699,13 +720,13 @@ msgstr "Self-Hosted"
 msgid "Server Error"
 msgstr "Server Error"
 
-#: inertia/components/common/navigation/navbar.tsx:111
-#: inertia/components/common/navigation/navbar.tsx:209
+#: inertia/components/common/navigation/navbar.tsx:113
+#: inertia/components/common/navigation/navbar.tsx:198
 #: inertia/pages/user_settings/show.tsx:11
 msgid "Settings"
 msgstr "Settings"
 
-#: inertia/pages/home.tsx:43
+#: inertia/pages/home.tsx:45
 msgid "Share"
 msgstr "Share"
 
@@ -713,13 +734,17 @@ msgstr "Share"
 msgid "Share collection"
 msgstr "Share collection"
 
-#: inertia/pages/home.tsx:60
+#: inertia/pages/home.tsx:62
 msgid "Share your collections with others"
 msgstr "Share your collections with others"
 
-#: inertia/pages/home.tsx:228
+#: inertia/components/home/call_to_action_auth_actions.tsx:15
 msgid "Sign In"
 msgstr "Sign In"
+
+#: inertia/pages/auth/login.tsx:45
+msgid "Sign in to reach your collections"
+msgstr "Sign in to reach your collections"
 
 #: inertia/components/user_settings/sessions.tsx:23
 msgid "Sign out"
@@ -729,10 +754,6 @@ msgstr "Sign out"
 msgid "Sign out session"
 msgstr "Sign out session"
 
-#: inertia/pages/home.tsx:145
-msgid "Sign Up"
-msgstr "Sign Up"
-
 #: inertia/components/dashboard/modals/search_modal.tsx:110
 msgid "Start typing to search..."
 msgstr "Start typing to search..."
@@ -741,7 +762,7 @@ msgstr "Start typing to search..."
 msgid "Status"
 msgstr "Status"
 
-#: inertia/pages/home.tsx:113
+#: inertia/pages/home.tsx:115
 msgid "Take full control by hosting MyLinks on your own infrastructure. Your data, your rules, your server."
 msgstr "Take full control by hosting MyLinks on your own infrastructure. Your data, your rules, your server."
 
@@ -829,7 +850,7 @@ msgstr "URL"
 msgid "Use of the Service"
 msgstr "Use of the Service"
 
-#: inertia/pages/home.tsx:58
+#: inertia/pages/home.tsx:60
 msgid "Use our browser extension for quick access"
 msgstr "Use our browser extension for quick access"
 
@@ -845,6 +866,10 @@ msgstr "User Rights"
 msgid "Visibility"
 msgstr "Visibility"
 
+#: inertia/pages/auth/login.tsx:42
+msgid "Welcome back"
+msgstr "Welcome back"
+
 #: inertia/pages/terms.tsx:23
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. By using this service, you agree to the terms and conditions of use outlined below. Please read them carefully."
 msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. By using this service, you agree to the terms and conditions of use outlined below. Please read them carefully."
@@ -853,7 +878,7 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 
-#: inertia/pages/home.tsx:153
+#: inertia/pages/home.tsx:143
 msgid "Why Choose MyLinks?"
 msgstr "Why Choose MyLinks?"
 
@@ -870,6 +895,10 @@ msgstr "You can request the deletion of your account at any time in accordance w
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 
-#: inertia/pages/home.tsx:102
+#: inertia/pages/auth/login.tsx:56
+msgid "you@example.com"
+msgstr "you@example.com"
+
+#: inertia/pages/home.tsx:104
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."

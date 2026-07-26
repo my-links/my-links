@@ -22,5 +22,6 @@ export type UserAuth = {
 };
 
 export type AuthProviders = {
+	isCredentialsEnabled: boolean;
 	isGoogleEnabled: boolean;
 };

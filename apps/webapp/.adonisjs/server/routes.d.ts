@@ -9,9 +9,6 @@ export type ScannedRoutes = {
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
-    'auth': { paramsTuple?: []; params?: {} }
-    'auth.callback': { paramsTuple?: []; params?: {} }
-    'auth.logout': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
@@ -31,6 +28,11 @@ export type ScannedRoutes = {
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
     'user.settings.delete': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
+    'auth.login.submit': { paramsTuple?: []; params?: {} }
+    'auth': { paramsTuple?: []; params?: {} }
+    'auth.callback': { paramsTuple?: []; params?: {} }
+    'auth.logout': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -55,9 +57,6 @@ export type ScannedRoutes = {
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
-    'auth': { paramsTuple?: []; params?: {} }
-    'auth.callback': { paramsTuple?: []; params?: {} }
-    'auth.logout': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
@@ -66,6 +65,10 @@ export type ScannedRoutes = {
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
+    'auth': { paramsTuple?: []; params?: {} }
+    'auth.callback': { paramsTuple?: []; params?: {} }
+    'auth.logout': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
@@ -80,9 +83,6 @@ export type ScannedRoutes = {
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
-    'auth': { paramsTuple?: []; params?: {} }
-    'auth.callback': { paramsTuple?: []; params?: {} }
-    'auth.logout': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
@@ -91,6 +91,10 @@ export type ScannedRoutes = {
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
+    'auth.login': { paramsTuple?: []; params?: {} }
+    'auth': { paramsTuple?: []; params?: {} }
+    'auth.callback': { paramsTuple?: []; params?: {} }
+    'auth.logout': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
@@ -106,6 +110,7 @@ export type ScannedRoutes = {
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
+    'auth.login.submit': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }

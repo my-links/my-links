@@ -7,10 +7,6 @@ export interface ApiDefinition {
   privacy: typeof routes['privacy']
   shared: typeof routes['shared']
   favicon: typeof routes['favicon']
-  auth: typeof routes['auth'] & {
-    callback: typeof routes['auth.callback']
-    logout: typeof routes['auth.logout']
-  }
   admin: {
     dashboard: typeof routes['admin.dashboard']
     status: typeof routes['admin.status']
@@ -44,6 +40,13 @@ export interface ApiDefinition {
       import: typeof routes['user.settings.import']
       delete: typeof routes['user.settings.delete']
     }
+  }
+  auth: typeof routes['auth'] & {
+    login: typeof routes['auth.login'] & {
+      submit: typeof routes['auth.login.submit']
+    }
+    callback: typeof routes['auth.callback']
+    logout: typeof routes['auth.logout']
   }
   apiCollections: {
     index: typeof routes['api-collections.index']

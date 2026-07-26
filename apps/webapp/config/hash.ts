@@ -1,14 +1,19 @@
 import { defineConfig, drivers } from '@adonisjs/core/hash';
 
+/**
+ * argon2id is the only hasher on the instance. There is no legacy hash to
+ * migrate, so keeping a second driver around would offer nothing but a weaker
+ * fallback nobody asked for.
+ */
 const hashConfig = defineConfig({
-	default: 'scrypt',
+	default: 'argon',
 
 	list: {
-		scrypt: drivers.scrypt({
-			cost: 16384,
-			blockSize: 8,
-			parallelization: 1,
-			maxMemory: 33554432,
+		argon: drivers.argon2({
+			variant: 'id',
+			iterations: 3,
+			memory: 65536,
+			parallelism: 4,
 		}),
 	},
 });

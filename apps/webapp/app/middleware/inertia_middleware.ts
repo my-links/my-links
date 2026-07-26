@@ -41,6 +41,10 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			token: session?.flashMessages.get('token'),
 			auth: ctx.inertia.always(userAuth),
 			authProviders: ctx.inertia.always({
+				// Credentials are the mandatory backbone of authentication and
+				// cannot be switched off, so the client can always count on at
+				// least one sign-in route being reachable.
+				isCredentialsEnabled: true,
 				isGoogleEnabled: googleAuthConfigService.isEnabled,
 			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),

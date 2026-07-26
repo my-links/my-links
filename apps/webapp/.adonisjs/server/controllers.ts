@@ -37,6 +37,7 @@ export const controllers = {
   },
   auth: {
     Auth: () => import('#controllers/auth/auth_controller'),
+    Login: () => import('#controllers/auth/login_controller'),
   },
   collections: {
     CreateCollection: () => import('#controllers/collections/create_collection_controller'),
