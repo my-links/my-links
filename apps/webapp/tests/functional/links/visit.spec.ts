@@ -2,21 +2,10 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Link from '#models/link';
-import User from '#models/user';
+import type User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
-
-let userCounter = 0;
-
-async function createUser() {
-	userCounter += 1;
-	return User.create({
-		email: `link-visit-${Date.now()}-${userCounter}@example.com`,
-		name: 'Link Visit Test User',
-		avatarUrl: 'https://example.com/avatar.png',
-		providerId: Date.now() + userCounter,
-	});
-}
+import { createUser } from '#tests/factories/user_factory';
 
 async function createLinkIn(user: User, visibility: Visibility) {
 	const collection = await Collection.create({

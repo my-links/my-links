@@ -1,18 +1,41 @@
 import { inject } from '@adonisjs/core';
-import db from '@adonisjs/lucid/services/db';
 import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { RoutesList } from '@adonisjs/core/types/http';
+import type { AllyUserContract, GoogleToken } from '@adonisjs/ally/types';
 
 import User from '#models/user';
+import { AUTH_PROVIDER } from '#constants/auth';
 import { SessionService } from '#services/user/session_service';
+import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
+import OauthAuthenticationRefusedException from '#exceptions/auth/oauth_authentication_refused_exception';
+
+/**
+ * Shown for every refusal the OAuth account service raises. The wording must
+ * not vary with the reason, or the flash message becomes an account
+ * enumeration oracle.
+ */
+const REFUSED_MESSAGE = 'This Google account cannot be used to sign in';
+
+/**
+ * The subset of the Ally driver this controller reads after a callback.
+ * Depending on the shape rather than on the concrete driver keeps the guards
+ * provider-agnostic.
+ */
+type OauthCallbackState = {
+	accessDenied(): boolean;
+	stateMisMatch(): boolean;
+	hasError(): boolean;
+	getError(): string | null;
+};
 
 @inject()
 export default class AuthController {
 	constructor(
 		protected readonly sessionService: SessionService,
+		protected readonly oauthAccountService: OauthAccountService,
 		protected readonly googleAuthConfigService: GoogleAuthConfigService
 	) {}
 
@@ -40,45 +63,17 @@ export default class AuthController {
 		this.assertGoogleAuthEnabled();
 
 		const google = ally.use('google');
-		if (google.accessDenied()) {
-			session.flash('flash', 'Access was denied');
+		const callbackError = this.getCallbackError(google);
+		if (callbackError) {
+			session.flash('flash', callbackError);
 			return response.redirectToNamedRoute(this.redirectTo);
 		}
 
-		if (google.stateMisMatch()) {
-			session.flash('flash', 'Request expired. Retry again');
+		const user = await this.resolveGoogleAccount(await google.user());
+		if (!user) {
+			session.flash('flash', REFUSED_MESSAGE);
 			return response.redirectToNamedRoute(this.redirectTo);
 		}
-
-		if (google.hasError()) {
-			session.flash('flash', google.getError() ?? 'Something went wrong');
-			return response.redirectToNamedRoute(this.redirectTo);
-		}
-
-		const userCount = await db.from('users').count('* as total');
-		const {
-			email,
-			id: providerId,
-			name,
-			nickName,
-			avatarUrl,
-			token,
-		} = await google.user();
-		const user = await User.updateOrCreate(
-			{
-				email,
-			},
-			{
-				email,
-				providerId,
-				name,
-				nickName,
-				avatarUrl,
-				token,
-				providerType: 'google',
-				isAdmin: userCount[0].total === '0' ? true : undefined,
-			}
-		);
 
 		await auth.use('web').login(user);
 		this.sessionService.createAuthSession(user);
@@ -90,6 +85,45 @@ export default class AuthController {
 		// hit while logged out) so the extension auth handoff survives a login
 		// round-trip instead of stranding on the dashboard.
 		response.redirect().toIntendedRoute('collection.favorites');
+	}
+
+	private getCallbackError(callback: OauthCallbackState): string | null {
+		if (callback.accessDenied()) {
+			return 'Access was denied';
+		}
+
+		if (callback.stateMisMatch()) {
+			return 'Request expired. Retry again';
+		}
+
+		if (callback.hasError()) {
+			return callback.getError() ?? 'Something went wrong';
+		}
+
+		return null;
+	}
+
+	private async resolveGoogleAccount(
+		googleUser: AllyUserContract<GoogleToken>
+	): Promise<User | null> {
+		try {
+			return await this.oauthAccountService.authenticate({
+				provider: AUTH_PROVIDER.GOOGLE,
+				providerUserId: googleUser.id,
+				email: googleUser.email,
+				isEmailVerified: googleUser.emailVerificationState === 'verified',
+				name: googleUser.name,
+				nickName: googleUser.nickName,
+				avatarUrl: googleUser.avatarUrl,
+			});
+		} catch (error) {
+			if (error instanceof OauthAuthenticationRefusedException) {
+				logger.warn(`google auth refused (${error.reason})`);
+				return null;
+			}
+
+			throw error;
+		}
 	}
 
 	async logout({ auth, response, session }: HttpContext) {

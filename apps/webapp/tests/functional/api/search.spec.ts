@@ -1,18 +1,9 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
-
-async function createUser() {
-	return User.create({
-		email: `api-search-${Date.now()}@example.com`,
-		name: 'Search Test User',
-		avatarUrl: 'https://example.com/avatar.png',
-		providerId: Date.now(),
-	});
-}
+import { createUser } from '#tests/factories/user_factory';
 
 test.group('API search', (group) => {
 	group.each.setup(() => testUtils.db().withGlobalTransaction());

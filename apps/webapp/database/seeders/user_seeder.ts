@@ -1,17 +1,25 @@
+import { DateTime } from 'luxon';
 import { faker } from '@faker-js/faker';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
-import type { GoogleToken } from '@adonisjs/ally/types';
 
 import User from '#models/user';
+import OauthAuth from '#models/oauth_auth';
+import { AUTH_PROVIDER } from '#constants/auth';
+
+const SEEDED_USERS_COUNT = 25;
 
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
 		const users = faker.helpers.multiple(() => createRandomUser(), {
-			count: 25,
+			count: SEEDED_USERS_COUNT,
 		});
-		await User.createMany(users);
+		const createdUsers = await User.createMany(users);
+
+		await OauthAuth.createMany(
+			createdUsers.map((user) => createRandomGoogleIdentity(user))
+		);
 	}
 }
 
@@ -22,8 +30,15 @@ export function createRandomUser() {
 		nickName: faker.internet.displayName(),
 		avatarUrl: faker.image.avatar(),
 		isAdmin: false,
-		providerId: faker.number.int(),
-		providerType: 'google' as const,
-		token: {} as GoogleToken,
+		emailVerifiedAt: DateTime.now(),
+	};
+}
+
+function createRandomGoogleIdentity(user: User) {
+	return {
+		userId: user.id,
+		provider: AUTH_PROVIDER.GOOGLE,
+		providerUserId: String(faker.number.int()),
+		linkedAt: DateTime.now(),
 	};
 }
