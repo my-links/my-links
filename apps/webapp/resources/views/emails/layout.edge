@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+</head>
+
+<body style="margin: 0; padding: 24px; background-color: #f4f4f5; color: #18181b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.5;">
+  <div style="max-width: 560px; margin: 0 auto; padding: 32px; background-color: #ffffff; border-radius: 12px;">
+    <p style="margin: 0 0 24px; font-size: 18px; font-weight: 700;">{{ brandName }}</p>
+
+    <h1 style="margin: 0 0 16px; font-size: 22px; line-height: 1.3;">{{ title }}</h1>
+
+    {{{ await $slots.main() }}}
+
+    <hr style="margin: 32px 0 16px; border: 0; border-top: 1px solid #e4e4e7;" />
+
+    <p style="margin: 0; font-size: 13px; color: #71717a;">
+      Sent by {{ brandName }} — <a href="{{ appUrl }}" style="color: #71717a;">{{ appUrl }}</a>
+    </p>
+  </div>
+</body>
+
+</html>

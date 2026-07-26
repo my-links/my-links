@@ -40,5 +40,21 @@ services:
     ports:
       - ${PORT}:3333
 
+  # Opt-in local relay: `docker compose --profile smtp up`, then point
+  # SMTP_HOST at `smtp` and SMTP_PORT at 587. Left out of the default stack on
+  # purpose — mail sent straight from a container without SPF, DKIM, DMARC and
+  # a matching reverse DNS is rejected by most inboxes, and many hosting
+  # providers block outbound port 25 outright. An external SMTP provider
+  # configured through the SMTP_* variables is the recommended path.
+  smtp:
+    profiles: ['smtp']
+    restart: always
+    image: boky/postfix
+    environment:
+      - ALLOWED_SENDER_DOMAINS=${SMTP_ALLOWED_SENDER_DOMAINS}
+      - RELAYHOST=${SMTP_RELAYHOST:-}
+    expose:
+      - '587'
+
 volumes:
   postgres-volume:

@@ -1,0 +1,15 @@
+@component('emails/layout', { title: 'Confirm your new email address' })
+  <p style="margin: 0 0 16px;">Hi {{ name }},</p>
+
+  <p style="margin: 0 0 16px;">
+    Your {{ brandName }} account is moving to {{ newEmailAddress }}. Confirm it
+    from this address to complete the change.
+  </p>
+
+  @!component('emails/action_button', { url: confirmationUrl, label: 'Confirm this address' })
+
+  <p style="margin: 0;">
+    This link stops working in {{ expiresInHours }} hours. If you did not ask
+    for this change, ignore this email — the account keeps its current address.
+  </p>
+@end

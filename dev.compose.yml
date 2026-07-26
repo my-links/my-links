@@ -20,5 +20,17 @@ services:
     ports:
       - '${DB_PORT}:5432'
 
+  # Catch-all SMTP sink: accepts every message and shows it on
+  # http://localhost:8025 instead of delivering it anywhere.
+  mailpit:
+    restart: always
+    image: axllent/mailpit:v1.28
+    environment:
+      - MP_SMTP_AUTH_ACCEPT_ANY=1
+      - MP_SMTP_AUTH_ALLOW_INSECURE=1
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
 volumes:
   postgres-volume:
