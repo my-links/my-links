@@ -20,3 +20,7 @@ export type UserAuth = {
 	isAdmin: boolean;
 	user: Data.User | undefined;
 };
+
+export type AuthProviders = {
+	isGoogleEnabled: boolean;
+};

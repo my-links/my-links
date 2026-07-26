@@ -1,3 +1,4 @@
+import app from '@adonisjs/core/services/app';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
@@ -5,6 +6,7 @@ import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
 import UserTransformer from '#transformers/user';
 import { resolveServerLocale } from '#config/inertia';
 import packageJson from '../../package.json' with { type: 'json' };
+import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	async share(ctx: HttpContext) {
@@ -30,10 +32,17 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 						user: undefined,
 					};
 
+		const googleAuthConfigService = await app.container.make(
+			GoogleAuthConfigService
+		);
+
 		return {
 			errors: ctx.inertia.always(this.getValidationErrors(ctx)),
 			token: session?.flashMessages.get('token'),
 			auth: ctx.inertia.always(userAuth),
+			authProviders: ctx.inertia.always({
+				isGoogleEnabled: googleAuthConfigService.isEnabled,
+			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
 			appVersion: packageJson.version,
 		};

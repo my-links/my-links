@@ -6,14 +6,27 @@ import type { RoutesList } from '@adonisjs/core/types/http';
 
 import User from '#models/user';
 import { SessionService } from '#services/user/session_service';
+import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
 
 @inject()
 export default class AuthController {
-	constructor(protected readonly sessionService: SessionService) {}
+	constructor(
+		protected readonly sessionService: SessionService,
+		protected readonly googleAuthConfigService: GoogleAuthConfigService
+	) {}
 
 	private readonly redirectTo: keyof RoutesList['GET'] = 'home';
 
+	private assertGoogleAuthEnabled() {
+		if (!this.googleAuthConfigService.isEnabled) {
+			throw new GoogleAuthDisabledException();
+		}
+	}
+
 	async google({ ally, inertia, request, response }: HttpContext) {
+		this.assertGoogleAuthEnabled();
+
 		const redirectUrl = await ally.use('google').redirectUrl();
 
 		if (request.header('x-inertia')) {
@@ -24,6 +37,8 @@ export default class AuthController {
 	}
 
 	async callbackAuth({ ally, auth, response, session }: HttpContext) {
+		this.assertGoogleAuthEnabled();
+
 		const google = ally.use('google');
 		if (google.accessDenied()) {
 			session.flash('flash', 'Access was denied');

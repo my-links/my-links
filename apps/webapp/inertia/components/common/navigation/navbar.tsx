@@ -6,14 +6,18 @@ import { ThemeToggle } from '@minimalstuff/ui';
 
 import { useAuth } from '~/hooks/use_auth';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
+import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
 import { useFooterLinks } from '~/components/common/navigation/footer_links';
+import { GuestAuthActions } from '~/components/common/navigation/guest_auth_actions';
+import { MobileGuestAuthActions } from '~/components/common/navigation/mobile_guest_auth_actions';
 
 export function Navbar() {
 	const auth = useAuth();
+	const { isGoogleEnabled } = useAuthProviders();
 	const footerLinks = useFooterLinks();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -123,20 +127,7 @@ export function Navbar() {
 							</div>
 						</>
 					) : (
-						<>
-							<Link
-								route="auth"
-								className="px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium"
-							>
-								Login
-							</Link>
-							<Link
-								route="auth"
-								className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-md shadow-blue-500/30"
-							>
-								Register
-							</Link>
-						</>
+						isGoogleEnabled && <GuestAuthActions />
 					)}
 				</div>
 				<button
@@ -222,22 +213,9 @@ export function Navbar() {
 									</div>
 								</>
 							) : (
-								<>
-									<Link
-										route="auth"
-										className="block px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium text-center"
-										onClick={closeMobileMenu}
-									>
-										Login
-									</Link>
-									<Link
-										route="auth"
-										className="block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-md shadow-blue-500/30 text-center"
-										onClick={closeMobileMenu}
-									>
-										Register
-									</Link>
-								</>
+								isGoogleEnabled && (
+									<MobileGuestAuthActions onNavigate={closeMobileMenu} />
+								)
 							)}
 						</div>
 						<div className="pt-2 border-t border-gray-200 dark:border-gray-700 space-y-2">
