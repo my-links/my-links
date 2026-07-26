@@ -30,8 +30,12 @@ export default await Env.create(new URL('../', import.meta.url), {
 | Variables for configuring ally package
 |----------------------------------------------------------
 */
-	GOOGLE_CLIENT_ID: Env.schema.string(),
-	GOOGLE_CLIENT_SECRET: Env.schema.string(),
+	/**
+	 * Optional: leave both empty to run without Google sign-in. Setting only
+	 * one of the two is rejected at boot — see `resolveGoogleAuthConfig`.
+	 */
+	GOOGLE_CLIENT_ID: Env.schema.string.optional(),
+	GOOGLE_CLIENT_SECRET: Env.schema.string.optional(),
 
 	/*
   |----------------------------------------------------------

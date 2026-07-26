@@ -1,5 +1,8 @@
 import { Trans } from '@lingui/react/macro';
-import { Link } from '@adonisjs/inertia/react';
+
+import { useAuthProviders } from '~/hooks/use_auth_providers';
+import { HeroAuthActions } from '~/components/home/hero_auth_actions';
+import { CallToActionAuthActions } from '~/components/home/call_to_action_auth_actions';
 
 const featureList = [
 	'collection',
@@ -119,118 +122,94 @@ const values = [
 	},
 ];
 
-const HomePage = () => (
-	<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
-		<div className="text-center mb-16">
-			<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-gray-100 dark:via-gray-200 dark:to-gray-100 bg-clip-text text-transparent">
-				<Trans>Manage your links in the best possible way</Trans>
-			</h1>
-			<p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8">
-				<Trans>
-					An open-source, self-hosted bookmark manager that lets you manage your
-					favorite links in an intuitive interface
-				</Trans>
-			</p>
-			<div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-				<Link
-					route="auth"
-					className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-0.5"
-				>
-					<Trans>Get Started</Trans>
-				</Link>
-				<Link
-					route="auth"
-					className="px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 font-semibold rounded-xl border-2 border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 transition-all duration-200 hover:shadow-lg"
-				>
-					<Trans>Sign Up</Trans>
-				</Link>
-			</div>
-		</div>
+export default function HomePage() {
+	const { isGoogleEnabled } = useAuthProviders();
 
-		<div className="mb-24">
-			<div className="text-center mb-12">
-				<h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-					<Trans>Why Choose MyLinks?</Trans>
-				</h2>
-				<p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+	return (
+		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
+			<div className="text-center mb-16">
+				<h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-gray-100 dark:via-gray-200 dark:to-gray-100 bg-clip-text text-transparent">
+					<Trans>Manage your links in the best possible way</Trans>
+				</h1>
+				<p className="text-xl sm:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed mb-8">
 					<Trans>
-						Built for users who value privacy, control, and simplicity
+						An open-source, self-hosted bookmark manager that lets you manage
+						your favorite links in an intuitive interface
 					</Trans>
 				</p>
+				{isGoogleEnabled && <HeroAuthActions />}
 			</div>
-			<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-				{values.map((value, index) => (
-					<div
-						key={index}
-						className="bg-white dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300"
-					>
+
+			<div className="mb-24">
+				<div className="text-center mb-12">
+					<h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+						<Trans>Why Choose MyLinks?</Trans>
+					</h2>
+					<p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+						<Trans>
+							Built for users who value privacy, control, and simplicity
+						</Trans>
+					</p>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+					{values.map((value, index) => (
 						<div
-							className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg`}
+							key={index}
+							className="bg-white dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-all duration-300"
 						>
 							<div
-								className={value.icon}
-								style={{ width: '32px', height: '32px', color: 'white' }}
-							/>
+								className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center mb-6 shadow-lg`}
+							>
+								<div
+									className={value.icon}
+									style={{ width: '32px', height: '32px', color: 'white' }}
+								/>
+							</div>
+							<h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">
+								{value.title}
+							</h3>
+							<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+								{value.description}
+							</p>
 						</div>
-						<h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100">
-							{value.title}
-						</h3>
-						<p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-							{value.description}
-						</p>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
-		</div>
 
-		<div className="mb-24">
-			<div className="text-center mb-12">
-				<h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-					<Trans>Powerful Features</Trans>
-				</h2>
-				<p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-					<Trans>
-						Everything you need to organize and manage your bookmarks
-						effectively
-					</Trans>
-				</p>
+			<div className="mb-24">
+				<div className="text-center mb-12">
+					<h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+						<Trans>Powerful Features</Trans>
+					</h2>
+					<p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+						<Trans>
+							Everything you need to organize and manage your bookmarks
+							effectively
+						</Trans>
+					</p>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+					{featureList.map((feature, index) => (
+						<Feature name={feature} key={index} />
+					))}
+				</div>
 			</div>
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-				{featureList.map((feature, index) => (
-					<Feature name={feature} key={index} />
-				))}
-			</div>
-		</div>
 
-		<div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-3xl p-12 text-center overflow-hidden">
-			<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-20" />
-			<div className="relative z-10">
-				<h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-					<Trans>Ready to Get Started?</Trans>
-				</h2>
-				<p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-					<Trans>
-						Join the community and start organizing your links today. It's free,
-						open-source, and respects your privacy.
-					</Trans>
-				</p>
-				<div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-					<Link
-						route="auth"
-						className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-gray-100 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-					>
-						<Trans>Create Account</Trans>
-					</Link>
-					<Link
-						route="auth"
-						className="px-8 py-4 bg-white/10 text-white font-semibold rounded-xl border-2 border-white/30 hover:bg-white/20 transition-all duration-200 backdrop-blur-sm"
-					>
-						<Trans>Sign In</Trans>
-					</Link>
+			<div className="relative bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 rounded-3xl p-12 text-center overflow-hidden">
+				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-20" />
+				<div className="relative z-10">
+					<h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+						<Trans>Ready to Get Started?</Trans>
+					</h2>
+					<p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+						<Trans>
+							Join the community and start organizing your links today. It's
+							free, open-source, and respects your privacy.
+						</Trans>
+					</p>
+					{isGoogleEnabled && <CallToActionAuthActions />}
 				</div>
 			</div>
 		</div>
-	</div>
-);
-
-export default HomePage;
+	);
+}
