@@ -108,7 +108,7 @@ describe('createSidebarActionApi', () => {
 		expect(calls).toEqual(['toggle']);
 	});
 
-	it('should open the sidebar without closing it first', () => {
+	it("should open the sidebar without Chromium's close-and-reopen, which buys no focus here", () => {
 		const calls: string[] = [];
 
 		createSidebarActionApi(
