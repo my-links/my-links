@@ -21,6 +21,7 @@ dev:
 	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} pull
 	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} up -d --wait --remove-orphans
 	@cd {{ webapp_path }} && node ace migration:fresh
+	@cd {{ webapp_path }} && node ace db:seed
 	@pnpm run dev:webapp
 
 prod:
