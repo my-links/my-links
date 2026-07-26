@@ -93,10 +93,19 @@ export function createSidebarActionApi(
 		},
 
 		/**
-		 * No close-and-reopen dance here: `open` on a sidebar that is already
-		 * showing focuses it instead of doing nothing, so Chromium's workaround
-		 * would only cost a remount. The window is implicit — Firefox always
-		 * opens the sidebar of the window the gesture came from.
+		 * Opens the sidebar but cannot focus it. Firefox never hands keyboard
+		 * focus to an extension sidebar it opened programmatically, and offers
+		 * no API to ask for it — open since 2018, still unfixed
+		 * (https://bugzilla.mozilla.org/show_bug.cgi?id=1502713). Its own
+		 * `_execute_sidebar_action` command has the same gap.
+		 *
+		 * Chromium's close-and-reopen workaround does not help here: the point
+		 * of reopening is that a freshly created panel document takes focus,
+		 * which is exactly what Firefox declines to do. So the caret is placed
+		 * in the search field anyway — `document.activeElement` survives an
+		 * unfocused document — and lands the moment the user clicks into the
+		 * sidebar. The window is implicit: Firefox opens the sidebar of the
+		 * window the gesture came from.
 		 */
 		reveal() {
 			void sidebarAction.open().catch(reportPanelFailure('open the sidebar'));
