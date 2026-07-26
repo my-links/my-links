@@ -1,4 +1,5 @@
 import User from '#models/user';
+import ApiTokenNotFoundException from '#exceptions/user/api_token_not_found_exception';
 
 type CreateTokenParams = {
 	name: string;
@@ -18,11 +19,18 @@ export class ApiTokenService {
 		return User.accessTokens.all(user);
 	}
 
-	revokeToken(user: User, identifier: number) {
-		return User.accessTokens.delete(user, identifier);
-	}
+	/**
+	 * The lookup is what scopes a revocation to its owner: `accessTokens.find`
+	 * only returns tokens belonging to the user handed in, so an identifier
+	 * from another account is a miss instead of a deletion.
+	 */
+	async revokeToken(user: User, tokenId: string): Promise<void> {
+		const token = await User.accessTokens.find(user, tokenId);
 
-	getTokenByValue(user: User, value: string) {
-		return User.accessTokens.find(user, value);
+		if (!token) {
+			throw new ApiTokenNotFoundException();
+		}
+
+		await User.accessTokens.delete(user, Number(token.identifier));
 	}
 }

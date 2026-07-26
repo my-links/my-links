@@ -77,7 +77,8 @@ export const controllers = {
     ShowUserSettings: () => import('#controllers/user_settings/show_user_settings_controller'),
   },
   user: {
-    ApiToken: () => import('#controllers/user/api_token_controller'),
+    CreateApiToken: () => import('#controllers/user/create_api_token_controller'),
+    DeleteApiToken: () => import('#controllers/user/delete_api_token_controller'),
     DestroySession: () => import('#controllers/user/destroy_session_controller'),
   },
 }
