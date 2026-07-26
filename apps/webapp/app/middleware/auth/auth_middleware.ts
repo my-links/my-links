@@ -4,7 +4,13 @@ import type { Authenticators } from '@adonisjs/auth/types';
 import { urlFor } from '@adonisjs/core/services/url_builder';
 
 export default class AuthMiddleware {
-	redirectTo = urlFor('auth');
+	/**
+	 * Credentials are the one sign-in method an instance cannot turn off, so
+	 * this is the only landing page guaranteed to exist. Pointing at the
+	 * Google route instead would send guests to a 404 on any instance running
+	 * without Google.
+	 */
+	redirectTo = urlFor('auth.login');
 
 	async handle(
 		ctx: HttpContext,

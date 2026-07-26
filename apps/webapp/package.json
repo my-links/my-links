@@ -60,6 +60,7 @@
 		"@tuyau/inertia": "^0.0.15",
 		"@types/proxy-addr": "^2.0.3",
 		"@vinejs/vine": "^4.4.0",
+		"argon2": "^0.45.1",
 		"bentocache": "^1.6.1",
 		"clsx": "^2.1.1",
 		"edge.js": "^6.5.1",

@@ -1,9 +1,20 @@
 import router from '@adonisjs/core/services/router';
 
 import { middleware } from '#start/kernel';
+import { loginThrottles } from '#start/limiter';
 import { controllers } from '#generated/controllers';
 
 const ROUTES_PREFIX = '/auth';
+
+router
+	.group(() => {
+		router.get('/login', [controllers.auth.Login, 'render']).as('auth.login');
+		router
+			.post('/login', [controllers.auth.Login, 'execute'])
+			.as('auth.login.submit')
+			.use(loginThrottles);
+	})
+	.use(middleware.guest({ redirectTo: 'collection.favorites' }));
 
 router
 	.group(() => {

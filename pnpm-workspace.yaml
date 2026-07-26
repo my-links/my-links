@@ -15,8 +15,14 @@ packageExtensions:
     peerDependencies:
       vite: '*'
 
+# argon2 is built with `prebuildify --napi --tag-libc`, so its npm tarball
+# already carries the binaries for every platform we ship (glibc and musl,
+# x64 and arm64) and `node-gyp-build` picks the right one at require time.
+# Running its install script would only rebuild what is already there — and
+# would demand a C toolchain inside the Alpine image, which it does not have.
 allowBuilds:
   '@swc/core': true
+  argon2: false
   esbuild: true
   spawn-sync: true
 onlyBuiltDependencies:

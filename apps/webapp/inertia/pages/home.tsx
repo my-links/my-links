@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/react/macro';
 
-import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { HeroAuthActions } from '~/components/home/hero_auth_actions';
 import { CallToActionAuthActions } from '~/components/home/call_to_action_auth_actions';
 
@@ -123,8 +122,6 @@ const values = [
 ];
 
 export default function HomePage() {
-	const { isGoogleEnabled } = useAuthProviders();
-
 	return (
 		<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
 			<div className="text-center mb-16">
@@ -137,7 +134,7 @@ export default function HomePage() {
 						your favorite links in an intuitive interface
 					</Trans>
 				</p>
-				{isGoogleEnabled && <HeroAuthActions />}
+				<HeroAuthActions />
 			</div>
 
 			<div className="mb-24">
@@ -207,7 +204,7 @@ export default function HomePage() {
 							free, open-source, and respects your privacy.
 						</Trans>
 					</p>
-					{isGoogleEnabled && <CallToActionAuthActions />}
+					<CallToActionAuthActions />
 				</div>
 			</div>
 		</div>

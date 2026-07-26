@@ -6,7 +6,6 @@ import { ThemeToggle } from '@minimalstuff/ui';
 
 import { useAuth } from '~/hooks/use_auth';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
-import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
@@ -17,7 +16,6 @@ import { MobileGuestAuthActions } from '~/components/common/navigation/mobile_gu
 
 export function Navbar() {
 	const auth = useAuth();
-	const { isGoogleEnabled } = useAuthProviders();
 	const footerLinks = useFooterLinks();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -127,7 +125,7 @@ export function Navbar() {
 							</div>
 						</>
 					) : (
-						isGoogleEnabled && <GuestAuthActions />
+						<GuestAuthActions />
 					)}
 				</div>
 				<button
@@ -213,9 +211,7 @@ export function Navbar() {
 									</div>
 								</>
 							) : (
-								isGoogleEnabled && (
-									<MobileGuestAuthActions onNavigate={closeMobileMenu} />
-								)
+								<MobileGuestAuthActions onNavigate={closeMobileMenu} />
 							)}
 						</div>
 						<div className="pt-2 border-t border-gray-200 dark:border-gray-700 space-y-2">

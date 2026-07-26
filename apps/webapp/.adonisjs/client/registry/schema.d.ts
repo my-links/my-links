@@ -67,42 +67,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
     }
   }
-  'auth': {
-    methods: ["GET","HEAD"]
-    pattern: '/auth/google'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['google']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['google']>>>
-    }
-  }
-  'auth.callback': {
-    methods: ["GET","HEAD"]
-    pattern: '/auth/callback'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['callbackAuth']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['callbackAuth']>>>
-    }
-  }
-  'auth.logout': {
-    methods: ["GET","HEAD"]
-    pattern: '/auth/logout'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
-    }
-  }
   'admin.dashboard': {
     methods: ["GET","HEAD"]
     pattern: '/admin'
@@ -329,6 +293,66 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
+    }
+  }
+  'auth.login': {
+    methods: ["GET","HEAD"]
+    pattern: '/login'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/login_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/login_controller').default['render']>>>
+    }
+  }
+  'auth.login.submit': {
+    methods: ["POST"]
+    pattern: '/login'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/login_validator').loginValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/login_validator').loginValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/login_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/login_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth': {
+    methods: ["GET","HEAD"]
+    pattern: '/auth/google'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['google']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['google']>>>
+    }
+  }
+  'auth.callback': {
+    methods: ["GET","HEAD"]
+    pattern: '/auth/callback'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['callbackAuth']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['callbackAuth']>>>
+    }
+  }
+  'auth.logout': {
+    methods: ["GET","HEAD"]
+    pattern: '/auth/logout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
     }
   }
   'api-collections.index': {

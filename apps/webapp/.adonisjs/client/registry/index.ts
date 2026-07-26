@@ -36,24 +36,6 @@ const routes = {
     tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
     types: placeholder as Registry['favicon']['types'],
   },
-  'auth': {
-    methods: ["GET","HEAD"],
-    pattern: '/auth/google',
-    tokens: [{"old":"/auth/google","type":0,"val":"auth","end":""},{"old":"/auth/google","type":0,"val":"google","end":""}],
-    types: placeholder as Registry['auth']['types'],
-  },
-  'auth.callback': {
-    methods: ["GET","HEAD"],
-    pattern: '/auth/callback',
-    tokens: [{"old":"/auth/callback","type":0,"val":"auth","end":""},{"old":"/auth/callback","type":0,"val":"callback","end":""}],
-    types: placeholder as Registry['auth.callback']['types'],
-  },
-  'auth.logout': {
-    methods: ["GET","HEAD"],
-    pattern: '/auth/logout',
-    tokens: [{"old":"/auth/logout","type":0,"val":"auth","end":""},{"old":"/auth/logout","type":0,"val":"logout","end":""}],
-    types: placeholder as Registry['auth.logout']['types'],
-  },
   'admin.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/admin',
@@ -167,6 +149,36 @@ const routes = {
     pattern: '/user/settings/account',
     tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['user.settings.delete']['types'],
+  },
+  'auth.login': {
+    methods: ["GET","HEAD"],
+    pattern: '/login',
+    tokens: [{"old":"/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['auth.login']['types'],
+  },
+  'auth.login.submit': {
+    methods: ["POST"],
+    pattern: '/login',
+    tokens: [{"old":"/login","type":0,"val":"login","end":""}],
+    types: placeholder as Registry['auth.login.submit']['types'],
+  },
+  'auth': {
+    methods: ["GET","HEAD"],
+    pattern: '/auth/google',
+    tokens: [{"old":"/auth/google","type":0,"val":"auth","end":""},{"old":"/auth/google","type":0,"val":"google","end":""}],
+    types: placeholder as Registry['auth']['types'],
+  },
+  'auth.callback': {
+    methods: ["GET","HEAD"],
+    pattern: '/auth/callback',
+    tokens: [{"old":"/auth/callback","type":0,"val":"auth","end":""},{"old":"/auth/callback","type":0,"val":"callback","end":""}],
+    types: placeholder as Registry['auth.callback']['types'],
+  },
+  'auth.logout': {
+    methods: ["GET","HEAD"],
+    pattern: '/auth/logout',
+    tokens: [{"old":"/auth/logout","type":0,"val":"auth","end":""},{"old":"/auth/logout","type":0,"val":"logout","end":""}],
+    types: placeholder as Registry['auth.logout']['types'],
   },
   'api-collections.index': {
     methods: ["GET","HEAD"],
