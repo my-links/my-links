@@ -18,6 +18,7 @@
 ## Table of Contents
 
 - [Main Features](#main-features)
+- [Repository Layout](#repository-layout)
 - [Deployment](#deployment)
   - [Docker Deployment](#docker-deployment)
   - [Native Deployment](#native-deployment)
@@ -25,18 +26,34 @@
   - [Environment Configuration](#environment-configuration)
   - [Google OAuth Environment Variables](#google-oauth-environment-variables)
   - [Running the Project in Development](#running-the-project-in-development)
+  - [Useful Commands](#useful-commands)
+- [Browser Extension](#browser-extension)
+- [API](#api)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Main Features
 
-- **Organize bookmarks with collections**: Keep your links tidy and easily accessible by grouping them into customizable collections.
+- **Organize bookmarks with collections**: Keep your links tidy and easily accessible by grouping them into customizable collections. A link can live in several collections at once, and one saved without a collection lands in your **Inbox**.
 - **Intuitive link management**: Add, edit, and manage your bookmarks effortlessly with a user-friendly interface.
 - **Powerful search functionality**: Quickly locate any bookmark using the robust search feature, enhancing your productivity.
 - **Privacy-focused and open-source**: Enjoy a secure, transparent experience with an open-source platform that prioritizes your privacy.
-- **Browser extension (coming soon)**: Seamlessly integrate MyLinks into your browsing experience with the upcoming official browser extension.
+- **Browser extension**: Browse, save and search your links from a side panel in Chromium and Firefox, with optional two-way syncing to your native bookmarks. See [Browser Extension](#browser-extension).
 - **Shareable collections**: Easily share your curated collections with others, facilitating collaboration and information sharing.
+- **Most-used links first**: Opening a link counts a click, so your favourites can be ranked by how often you actually use them.
 - **Community-driven development**: Contribute to MyLinks by suggesting improvements and features, helping to shape the tool to better meet user needs.
+
+## Repository Layout
+
+MyLinks is a pnpm workspace:
+
+| Path             | Package               | What it is                                                                  |
+| ---------------- | --------------------- | --------------------------------------------------------------------------- |
+| `apps/webapp`    | `@my-links/webapp`    | The AdonisJS + Inertia/React application, and the REST API it exposes       |
+| `apps/extension` | `@my-links/extension` | The browser extension (WXT + React), targeting Chromium MV3 and Firefox MV2 |
+| `docs/`          | —                     | [API documentation](./docs/api.md) and the French [README](./docs/fr.md)    |
+
+Environment files, migrations and the `node ace` CLI all belong to `apps/webapp` — that is where a `.env` goes, not the repository root.
 
 ## Deployment
 
@@ -61,7 +78,7 @@ name: my-links
 services:
   postgres:
     container_name: postgres
-    image: postgres:16
+    image: postgres:18
     restart: always
     environment:
       - POSTGRES_DB=${DB_DATABASE}
@@ -70,7 +87,7 @@ services:
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready', '-U', '${DB_USER}']
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
+      - postgres-volume:/var/lib/postgresql
     ports:
       - '${DB_PORT}:5432'
 
@@ -94,7 +111,7 @@ volumes:
   postgres-volume:
 ```
 
-3. Create a `.env` file with all required environment variables. You can use the [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example) from the repository as a template.
+3. Create a `.env` file with all required environment variables. You can use the [`.env.example`](https://github.com/my-links/my-links/blob/main/apps/webapp/.env.example) from the repository as a template.
 
 4. Start the application with Docker Compose:
 
@@ -116,9 +133,9 @@ The application will be accessible on the port configured in the `PORT` variable
 
 #### Prerequisites
 
-- **Node.js** version 24.11.0 (or compatible)
+- **Node.js** version 24.14.0 (or compatible)
 - **pnpm** (package manager)
-- **PostgreSQL** 16 installed and running
+- **PostgreSQL** 18 installed and running
 - A `.env` file configured with all required environment variables
 
 1. Clone the repository:
@@ -137,22 +154,24 @@ pnpm install
 3. Copy the `.env.example` file to `.env` and configure the environment variables:
 
 ```bash
-cp .env.example .env
-# Edit the .env file with your values
+cp apps/webapp/.env.example apps/webapp/.env
+# Edit apps/webapp/.env with your values
 ```
 
 4. Make sure PostgreSQL is installed and running, then configure the connection in your `.env` file.
 
-5. Apply database migrations:
+5. Apply database migrations (every `node ace` command runs from `apps/webapp`):
 
 ```bash
+cd apps/webapp
 node ace migration:run
 ```
 
-6. Create the production build:
+6. Compile the translation catalogs and create the production build:
 
 ```bash
-pnpm run build
+pnpm run compile
+node ace build
 ```
 
 7. Copy the `.env` file to the `build` directory:
@@ -174,10 +193,10 @@ The application will be accessible on the port configured in the `PORT` variable
 
 ### Environment Configuration
 
-1. Copy the `.env.example` file to `.env`:
+1. Copy the `.env.example` file to `.env` (it belongs to the webapp, not the repository root):
 
 ```bash
-cp .env.example .env
+cp apps/webapp/.env.example apps/webapp/.env
 ```
 
 2. Edit the `.env` file and configure the following variables:
@@ -189,7 +208,6 @@ cp .env.example .env
 - `APP_KEY`: Application secret key (generate one with `openssl rand -base64 32`)
 - `HOST`: IP address or hostname (e.g., `0.0.0.0` or `localhost`)
 - `LOG_LEVEL`: Log level (e.g., `info`, `debug`)
-- `SESSION_DRIVER`: Session driver (`cookie` or `memory`)
 - `APP_URL`: Application URL (e.g., `http://localhost:3333`)
 - `DB_HOST`: PostgreSQL server address
 - `DB_PORT`: PostgreSQL port (default `5432`)
@@ -198,6 +216,12 @@ cp .env.example .env
 - `DB_DATABASE`: Database name
 - `GOOGLE_CLIENT_ID`: Google OAuth Client ID
 - `GOOGLE_CLIENT_SECRET`: Google OAuth Client Secret
+- `LIMITER_STORE`: Where the `/api/v1/*` rate limiter keeps its counters (`database` or `memory`)
+
+**Optional variables:**
+
+- `SESSION_DRIVER`: Session store (`database`, `cookie`, or `memory`; defaults to `database`). Tests override it to `memory` through `.env.test`.
+- `TZ`: Timezone used by the application (e.g., `UTC`)
 
 **Generate an application key:**
 
@@ -230,10 +254,10 @@ To obtain the Google Client ID and Secret required for authentication:
 
 #### With Docker
 
-The recommended method for development uses Docker for the PostgreSQL database:
+The recommended method for development uses Docker for the PostgreSQL database. Recipes are defined in the [`Justfile`](./Justfile) and run with [just](https://github.com/casey/just):
 
 ```bash
-make dev
+just dev
 ```
 
 This command will:
@@ -247,20 +271,67 @@ This command will:
 If you prefer to use locally installed PostgreSQL:
 
 1. Make sure PostgreSQL is installed and running
-2. Configure the `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, and `DB_DATABASE` variables in your `.env` file
+2. Configure the `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, and `DB_DATABASE` variables in `apps/webapp/.env`
 3. Reset the database and apply migrations:
 
 ```bash
-node ace migration:fresh
+cd apps/webapp && node ace migration:fresh
 ```
 
 4. Start the development server:
 
 ```bash
-pnpm run dev
+pnpm run dev:webapp
 ```
 
 The development server will be accessible at `http://localhost:3333` (or the port configured in your `.env`).
+
+#### Working on the Extension
+
+The extension needs a running webapp to talk to. With one started, from the repository root:
+
+```bash
+pnpm run dev:extension
+```
+
+See [`apps/extension/README.md`](./apps/extension/README.md) for side-loading, Firefox builds and the rest.
+
+### Useful Commands
+
+Run from the repository root:
+
+| Command                                 | What it does                                                |
+| --------------------------------------- | ----------------------------------------------------------- |
+| `just dev`                              | Database container + migrations + webapp dev server         |
+| `just fresh`                            | Reset the database and re-run every migration               |
+| `just seed`                             | Seed the database                                           |
+| `just down`                             | Stop the dev and production containers                      |
+| `just prod`                             | Run the production compose stack locally                    |
+| `just extract` / `just compile`         | Extract and compile the i18n catalogs                       |
+| `pnpm run dev:webapp` / `dev:extension` | Dev server for one workspace                                |
+| `pnpm run build`                        | Build every workspace                                       |
+| `pnpm run test`                         | Webapp test suite (needs PostgreSQL on the configured host) |
+| `pnpm run check`                        | Lint, format check and typecheck across the monorepo        |
+
+## Browser Extension
+
+The official extension lives in [`apps/extension`](./apps/extension) and works against **any** instance — the public one or your own self-hosted deployment. It targets Chromium (MV3) and Firefox (MV2) from a single source.
+
+- A **side panel** (sidebar on Firefox) and a **new tab page** to browse, create and edit collections and links
+- **Quick capture** from the toolbar or the context menu, with duplicate detection
+- **Search** reachable from anywhere with a keyboard shortcut
+- **Offline-tolerant**: the last sync is cached, stale data is flagged, an expired token asks for a reconnect
+- **Optional bookmark mirroring**: two-way sync between your collections and the browser's native bookmarks, with favourites pinned to the bookmarks bar ordered by how often you open them
+
+Connecting is a one-click handoff: the extension sends you to `/extension/authorize` on your instance, which issues an API token and hands it back to the browser. Tokens can be reviewed and revoked from `/user/settings`.
+
+Full documentation — including install, permissions and browser differences — is in [`apps/extension/README.md`](./apps/extension/README.md).
+
+## API
+
+MyLinks exposes a REST API under `/api/v1`, authenticated with Bearer tokens created from `/user/settings`. It backs the browser extension and is documented in [`docs/api.md`](./docs/api.md).
+
+An OpenAPI 3.1 document is generated from the source with `node ace openapi:generate` (from `apps/webapp`), and is what the extension's typed client is built from.
 
 ## Contributing
 

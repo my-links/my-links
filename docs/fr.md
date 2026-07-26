@@ -19,6 +19,7 @@
 ## Table of Contents
 
 - [Fonctionnalités principales](#fonctionnalités-principales)
+- [Structure du dépôt](#structure-du-dépôt)
 - [Déploiement](#déploiement)
   - [Déploiement avec Docker](#déploiement-avec-docker)
   - [Déploiement natif](#déploiement-natif)
@@ -26,18 +27,34 @@
   - [Configuration de l'environnement](#configuration-de-lenvironnement)
   - [Variables d'environnement Google OAuth](#variables-denvironnement-google-oauth)
   - [Lancer le projet en développement](#lancer-le-projet-en-développement)
+  - [Commandes utiles](#commandes-utiles)
+- [Extension de navigateur](#extension-de-navigateur)
+- [API](#api)
 - [Contribuer](#contribuer)
 - [Licence](#licence)
 
 ## Fonctionnalités principales
 
-- **Organiser les favoris avec des collections** : Gardez vos liens bien organisés et facilement accessibles en les regroupant dans des collections personnalisables.
+- **Organiser les favoris avec des collections** : Gardez vos liens bien organisés et facilement accessibles en les regroupant dans des collections personnalisables. Un lien peut appartenir à plusieurs collections à la fois, et un lien enregistré sans collection atterrit dans votre **Inbox**.
 - **Gestion intuitive des liens** : Ajoutez, modifiez et gérez vos favoris sans effort grâce à une interface conviviale.
 - **Fonctionnalité de recherche puissante** : Localisez rapidement n'importe quel favori grâce à la fonctionnalité de recherche robuste, améliorant votre productivité.
 - **Centré sur la confidentialité et open-source** : Profitez d'une expérience sécurisée et transparente avec une plateforme open-source qui privilégie votre confidentialité.
-- **Extension de navigateur (à venir)** : Intégrez MyLinks de manière transparente dans votre expérience de navigation avec la prochaine extension de navigateur officielle.
+- **Extension de navigateur** : Consultez, enregistrez et cherchez vos liens depuis un panneau latéral sur Chromium et Firefox, avec une synchronisation bidirectionnelle optionnelle vers vos favoris natifs. Voir [Extension de navigateur](#extension-de-navigateur).
 - **Collections partageables** : Partagez facilement vos collections organisées avec d'autres, facilitant la collaboration et le partage d'informations.
+- **Les liens les plus utilisés en premier** : Ouvrir un lien compte un clic, ce qui permet de classer vos favoris selon leur usage réel.
 - **Développement communautaire** : Contribuez à MyLinks en suggérant des améliorations et des fonctionnalités, aidant à façonner l'outil pour mieux répondre aux besoins des utilisateurs.
+
+## Structure du dépôt
+
+MyLinks est un workspace pnpm :
+
+| Chemin           | Package               | Contenu                                                                   |
+| ---------------- | --------------------- | ------------------------------------------------------------------------- |
+| `apps/webapp`    | `@my-links/webapp`    | L'application AdonisJS + Inertia/React, et l'API REST qu'elle expose      |
+| `apps/extension` | `@my-links/extension` | L'extension de navigateur (WXT + React), pour Chromium MV3 et Firefox MV2 |
+| `docs/`          | —                     | La [documentation de l'API](./api.md) et ce README                        |
+
+Les fichiers d'environnement, les migrations et la CLI `node ace` appartiennent tous à `apps/webapp` — c'est là que va le `.env`, pas à la racine du dépôt.
 
 ## Déploiement
 
@@ -62,7 +79,7 @@ name: my-links
 services:
   postgres:
     container_name: postgres
-    image: postgres:16
+    image: postgres:18
     restart: always
     environment:
       - POSTGRES_DB=${DB_DATABASE}
@@ -71,7 +88,7 @@ services:
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready', '-U', '${DB_USER}']
     volumes:
-      - postgres-volume:/var/lib/postgresql/data
+      - postgres-volume:/var/lib/postgresql
     ports:
       - '${DB_PORT}:5432'
 
@@ -95,7 +112,7 @@ volumes:
   postgres-volume:
 ```
 
-3. Créez un fichier `.env` avec toutes les variables d'environnement requises. Vous pouvez utiliser le fichier [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example) du repository comme modèle.
+3. Créez un fichier `.env` avec toutes les variables d'environnement requises. Vous pouvez utiliser le fichier [`.env.example`](https://github.com/my-links/my-links/blob/main/apps/webapp/.env.example) du repository comme modèle.
 
 4. Lancez l'application avec Docker Compose :
 
@@ -117,9 +134,9 @@ L'application sera accessible sur le port configuré dans la variable `PORT` de 
 
 #### Prérequis
 
-- **Node.js** version 24.11.0 (ou compatible)
+- **Node.js** version 24.14.0 (ou compatible)
 - **pnpm** (gestionnaire de paquets)
-- **PostgreSQL** 16 installé et en cours d'exécution
+- **PostgreSQL** 18 installé et en cours d'exécution
 - Un fichier `.env` configuré avec toutes les variables d'environnement nécessaires
 
 1. Clonez le repository :
@@ -138,22 +155,24 @@ pnpm install
 3. Copiez le fichier `.env.example` vers `.env` et configurez les variables d'environnement :
 
 ```bash
-cp .env.example .env
-# Éditez le fichier .env avec vos valeurs
+cp apps/webapp/.env.example apps/webapp/.env
+# Éditez apps/webapp/.env avec vos valeurs
 ```
 
 4. Assurez-vous que PostgreSQL est installé et en cours d'exécution, puis configurez la connexion dans votre fichier `.env`.
 
-5. Appliquez les migrations de base de données :
+5. Appliquez les migrations de base de données (toutes les commandes `node ace` se lancent depuis `apps/webapp`) :
 
 ```bash
+cd apps/webapp
 node ace migration:run
 ```
 
-6. Créez le build de production :
+6. Compilez les catalogues de traduction et créez le build de production :
 
 ```bash
-pnpm run build
+pnpm run compile
+node ace build
 ```
 
 7. Copiez le fichier `.env` dans le dossier `build` :
@@ -175,10 +194,10 @@ L'application sera accessible sur le port configuré dans la variable `PORT` de 
 
 ### Configuration de l'environnement
 
-1. Copiez le fichier `.env.example` vers `.env` :
+1. Copiez le fichier `.env.example` vers `.env` (il appartient à la webapp, pas à la racine du dépôt) :
 
 ```bash
-cp .env.example .env
+cp apps/webapp/.env.example apps/webapp/.env
 ```
 
 2. Éditez le fichier `.env` et configurez les variables suivantes :
@@ -190,7 +209,6 @@ cp .env.example .env
 - `APP_KEY` : Clé secrète de l'application (générez-en une avec `openssl rand -base64 32`)
 - `HOST` : Adresse IP ou hostname (ex: `0.0.0.0` ou `localhost`)
 - `LOG_LEVEL` : Niveau de log (ex: `info`, `debug`)
-- `SESSION_DRIVER` : Driver de session (`cookie` ou `memory`)
 - `APP_URL` : URL de l'application (ex: `http://localhost:3333`)
 - `DB_HOST` : Adresse du serveur PostgreSQL
 - `DB_PORT` : Port PostgreSQL (par défaut `5432`)
@@ -199,6 +217,12 @@ cp .env.example .env
 - `DB_DATABASE` : Nom de la base de données
 - `GOOGLE_CLIENT_ID` : Client ID Google OAuth
 - `GOOGLE_CLIENT_SECRET` : Client Secret Google OAuth
+- `LIMITER_STORE` : Où le rate limiter de `/api/v1/*` stocke ses compteurs (`database` ou `memory`)
+
+**Variables optionnelles :**
+
+- `SESSION_DRIVER` : Store de session (`database`, `cookie` ou `memory` ; `database` par défaut). Les tests le forcent à `memory` via `.env.test`.
+- `TZ` : Fuseau horaire utilisé par l'application (ex: `UTC`)
 
 **Générer une clé d'application :**
 
@@ -231,10 +255,10 @@ Pour obtenir le Client ID et Secret Google nécessaires à l'authentification :
 
 #### Avec Docker
 
-La méthode recommandée pour le développement utilise Docker pour la base de données PostgreSQL :
+La méthode recommandée pour le développement utilise Docker pour la base de données PostgreSQL. Les recettes sont définies dans le [`Justfile`](../Justfile) et se lancent avec [just](https://github.com/casey/just) :
 
 ```bash
-make dev
+just dev
 ```
 
 Cette commande va :
@@ -248,20 +272,67 @@ Cette commande va :
 Si vous préférez utiliser PostgreSQL installé localement :
 
 1. Assurez-vous que PostgreSQL est installé et en cours d'exécution
-2. Configurez les variables `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, et `DB_DATABASE` dans votre fichier `.env`
+2. Configurez les variables `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, et `DB_DATABASE` dans `apps/webapp/.env`
 3. Réinitialisez la base de données et appliquez les migrations :
 
 ```bash
-node ace migration:fresh
+cd apps/webapp && node ace migration:fresh
 ```
 
 4. Démarrez le serveur de développement :
 
 ```bash
-pnpm run dev
+pnpm run dev:webapp
 ```
 
 Le serveur de développement sera accessible sur `http://localhost:3333` (ou le port configuré dans votre `.env`).
+
+#### Travailler sur l'extension
+
+L'extension a besoin d'une webapp en cours d'exécution pour avoir quelque chose à interroger. Une fois celle-ci lancée, depuis la racine du dépôt :
+
+```bash
+pnpm run dev:extension
+```
+
+Voir [`apps/extension/README.md`](../apps/extension/README.md) pour le side-load, les builds Firefox et le reste.
+
+### Commandes utiles
+
+À lancer depuis la racine du dépôt :
+
+| Commande                                | Ce qu'elle fait                                                   |
+| --------------------------------------- | ----------------------------------------------------------------- |
+| `just dev`                              | Conteneur de base de données + migrations + serveur de dev webapp |
+| `just fresh`                            | Réinitialise la base et rejoue toutes les migrations              |
+| `just seed`                             | Remplit la base avec des données de test                          |
+| `just down`                             | Arrête les conteneurs de dev et de production                     |
+| `just prod`                             | Lance la stack compose de production en local                     |
+| `just extract` / `just compile`         | Extrait et compile les catalogues i18n                            |
+| `pnpm run dev:webapp` / `dev:extension` | Serveur de dev pour l'un des workspaces                           |
+| `pnpm run build`                        | Build de tous les workspaces                                      |
+| `pnpm run test`                         | Suite de tests webapp (nécessite PostgreSQL sur l'hôte configuré) |
+| `pnpm run check`                        | Lint, vérification du format et typecheck sur tout le monorepo    |
+
+## Extension de navigateur
+
+L'extension officielle vit dans [`apps/extension`](../apps/extension) et fonctionne avec **n'importe quelle** instance — l'instance publique ou votre propre déploiement self-hosted. Elle cible Chromium (MV3) et Firefox (MV2) depuis une source unique.
+
+- Un **panneau latéral** (sidebar sur Firefox) et une **page nouvel onglet** pour consulter, créer et modifier collections et liens
+- **Capture rapide** depuis la barre d'outils ou le menu contextuel, avec détection des doublons
+- **Recherche** accessible depuis n'importe où par raccourci clavier
+- **Tolérante au hors-ligne** : la dernière synchro est mise en cache, les données périmées sont signalées, un token expiré demande une reconnexion
+- **Miroir de favoris optionnel** : synchronisation bidirectionnelle entre vos collections et les favoris natifs du navigateur, avec les favoris épinglés sur la barre, classés selon la fréquence d'ouverture
+
+La connexion tient en un clic : l'extension vous envoie sur `/extension/authorize` de votre instance, qui émet un token d'API et le renvoie au navigateur. Les tokens se consultent et se révoquent depuis `/user/settings`.
+
+La documentation complète — installation, permissions et différences entre navigateurs — est dans [`apps/extension/README.md`](../apps/extension/README.md).
+
+## API
+
+MyLinks expose une API REST sous `/api/v1`, authentifiée par token Bearer créé depuis `/user/settings`. Elle alimente l'extension de navigateur et est documentée dans [`docs/api.md`](./api.md).
+
+Un document OpenAPI 3.1 est généré depuis les sources avec `node ace openapi:generate` (depuis `apps/webapp`) ; c'est lui qui sert à construire le client typé de l'extension.
 
 ## Contribuer
 
