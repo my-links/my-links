@@ -20,6 +20,15 @@ type SearchResultRow = {
 	rank: number | null;
 };
 
+/**
+ * Shape returned by the `search_text` SQL function — see the migration that
+ * declares it. Naming it here is what lets the rest of the method be typed
+ * instead of walking rows as `any` and asserting the result on the way out.
+ */
+type SearchTextResult = {
+	rows: SearchResultRow[];
+};
+
 export class SearchService {
 	async search({
 		term,
@@ -30,43 +39,46 @@ export class SearchService {
 			return [];
 		}
 
-		const { rows } = await db.rawQuery('SELECT * FROM search_text(?, ?)', [
-			term.trim(),
-			userId,
-		]);
+		const { rows } = await db.rawQuery<SearchTextResult>(
+			'SELECT * FROM search_text(?, ?)',
+			[term.trim(), userId]
+		);
 
-		let filteredResults = rows;
+		const matchingRows =
+			type === 'both' ? rows : rows.filter((row) => row.type === type);
+		const collectionIcons = await this.getCollectionIcons(matchingRows);
 
-		if (type !== 'both') {
-			filteredResults = rows.filter((row: any) => row.type === type);
-		}
-
-		const collectionIds = filteredResults
-			.filter((row: any) => row.type === 'collection')
-			.map((row: any) => row.id);
-
-		let collectionIconsMap: Record<number, string | null> = {};
-
-		if (collectionIds.length > 0) {
-			const collections = await Collection.query()
-				.whereIn('id', collectionIds)
-				.select('id', 'icon');
-
-			collectionIconsMap = collections.reduce(
-				(acc, collection) => {
-					acc[collection.id] = collection.icon;
-					return acc;
-				},
-				{} as Record<number, string | null>
-			);
-		}
-
-		const enrichedResults = filteredResults.map((row: any) => ({
+		return matchingRows.map((row) => ({
 			...row,
 			icon:
-				row.type === 'collection' ? (collectionIconsMap[row.id] ?? null) : null,
+				row.type === 'collection' ? (collectionIcons[row.id] ?? null) : null,
 		}));
+	}
 
-		return enrichedResults as SearchResultRow[];
+	/**
+	 * The search function returns no icon, so collections get theirs in a single
+	 * extra query rather than one per row.
+	 */
+	private async getCollectionIcons(
+		rows: SearchResultRow[]
+	): Promise<Record<number, string | null>> {
+		const collectionIds = rows
+			.filter((row) => row.type === 'collection')
+			.map((row) => row.id);
+
+		if (collectionIds.length === 0) {
+			return {};
+		}
+
+		const collections = await Collection.query()
+			.whereIn('id', collectionIds)
+			.select('id', 'icon');
+
+		const iconsByCollectionId: Record<number, string | null> = {};
+		for (const collection of collections) {
+			iconsByCollectionId[collection.id] = collection.icon;
+		}
+
+		return iconsByCollectionId;
 	}
 }

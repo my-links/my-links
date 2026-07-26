@@ -6,9 +6,7 @@ interface GlobalStatusProps {
 }
 
 export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
-	const overallStatus = isHealthy
-		? ('healthy' as const)
-		: ('unhealthy' as const);
+	const overallStatus = isHealthy ? ('ok' as const) : ('error' as const);
 	const overallVariant = getHealthStatusVariant(overallStatus);
 	const overallIcon = getHealthStatusIcon(overallStatus);
 

@@ -5,29 +5,26 @@ type HealthCheckStatus = Data.StatusReportCheck['status'];
 export function getHealthStatusVariant(
 	status: HealthCheckStatus
 ): 'success' | 'danger' | 'warning' {
-	if (status === 'ok' || status === 'healthy') return 'success';
-	if (status === 'failed' || status === 'unhealthy') return 'danger';
+	if (status === 'ok') return 'success';
+	if (status === 'error') return 'danger';
 	return 'warning';
 }
 
 export function getHealthStatusIcon(status: HealthCheckStatus): string {
-	if (status === 'ok' || status === 'healthy') return 'i-mdi-check-circle';
-	if (status === 'failed' || status === 'unhealthy')
-		return 'i-mdi-close-circle';
+	if (status === 'ok') return 'i-mdi-check-circle';
+	if (status === 'error') return 'i-mdi-close-circle';
 	return 'i-mdi-alert-circle';
 }
 
 export function getHealthStatusLabel(status: HealthCheckStatus): string {
-	if (status === 'ok' || status === 'healthy') return 'Opérationnel';
-	if (status === 'failed' || status === 'unhealthy') return 'Défaillant';
+	if (status === 'ok') return 'Opérationnel';
+	if (status === 'error') return 'Défaillant';
 	return 'Avertissement';
 }
 
 export function getHealthStatusColorClass(status: HealthCheckStatus): string {
-	if (status === 'ok' || status === 'healthy')
-		return 'text-green-600 dark:text-green-400';
-	if (status === 'failed' || status === 'unhealthy')
-		return 'text-red-600 dark:text-red-400';
+	if (status === 'ok') return 'text-green-600 dark:text-green-400';
+	if (status === 'error') return 'text-red-600 dark:text-red-400';
 	return 'text-yellow-600 dark:text-yellow-400';
 }
 
