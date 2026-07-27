@@ -1,4 +1,5 @@
 import { inject } from '@adonisjs/core';
+import { Secret } from '@adonisjs/core/helpers';
 import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
@@ -27,7 +28,9 @@ export default class VerifyEmailController {
 			data: ctx.params,
 		});
 
-		const user = await this.emailVerificationService.confirm(token);
+		// Wrapped at the boundary it arrives on, so the clear value cannot be
+		// printed by anything downstream that takes it for an ordinary string.
+		const user = await this.emailVerificationService.confirm(new Secret(token));
 
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.EMAIL_VERIFIED,

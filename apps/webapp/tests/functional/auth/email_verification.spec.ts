@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
+import { Secret } from '@adonisjs/core/helpers';
 import mail from '@adonisjs/mail/services/main';
 import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
@@ -38,19 +39,19 @@ function enableOutgoingMail() {
 	};
 }
 
-async function issueVerificationToken(user: User): Promise<string> {
+async function issueVerificationToken(user: User): Promise<Secret<string>> {
 	const oneTimeTokenService = await app.container.make(OneTimeTokenService);
-	const { plainToken } = await oneTimeTokenService.issue({
+	const { secret } = await oneTimeTokenService.issue({
 		userId: user.id,
 		type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION,
 	});
 
-	return plainToken;
+	return secret;
 }
 
-function followVerificationLink(client: ApiClient, plainToken: string) {
+function followVerificationLink(client: ApiClient, secret: Secret<string>) {
 	return client
-		.get(`/verify-email/${plainToken}`)
+		.get(`/verify-email/${secret.release()}`)
 		.header('x-forwarded-for', nextClientAddress())
 		.redirects(0);
 }
@@ -68,15 +69,32 @@ test.group('One-time tokens', (group) => {
 		assert,
 	}) => {
 		const user = await createUser({ emailPrefix: 'token-fresh' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
 
 		const consumedUserId = await oneTimeTokenService.consume(
-			{ plainToken, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
+			{ secret, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
 			async (token) => token.userId
 		);
 
 		assert.equal(consumedUserId, user.id);
+	});
+
+	test('should hand back a token that redacts itself when printed', async ({
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'token-redacted' });
+		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
+
+		const { secret } = await oneTimeTokenService.issue({
+			userId: user.id,
+			type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION,
+		});
+
+		// What a stray `logger.info({ token })` would end up writing. The clear
+		// value stays reachable, but only by asking for it.
+		assert.equal(JSON.stringify({ token: secret }), '{"token":"[redacted]"}');
+		assert.notEqual(secret.release(), '[redacted]');
 	});
 
 	test('should refuse a token nobody ever issued', async ({ assert }) => {
@@ -86,7 +104,7 @@ test.group('One-time tokens', (group) => {
 			() =>
 				oneTimeTokenService.consume(
 					{
-						plainToken: UNKNOWN_TOKEN,
+						secret: new Secret(UNKNOWN_TOKEN),
 						type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION,
 					},
 					async (token) => token.id
@@ -99,12 +117,12 @@ test.group('One-time tokens', (group) => {
 		assert,
 	}) => {
 		const user = await createUser({ emailPrefix: 'token-purpose' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
 
 		await assert.rejects(() =>
 			oneTimeTokenService.consume(
-				{ plainToken, type: ONE_TIME_TOKEN_TYPE.PASSWORD_RESET },
+				{ secret, type: ONE_TIME_TOKEN_TYPE.PASSWORD_RESET },
 				async (token) => token.id
 			)
 		);
@@ -112,13 +130,13 @@ test.group('One-time tokens', (group) => {
 
 	test('should refuse a token that expired', async ({ assert }) => {
 		const user = await createUser({ emailPrefix: 'token-expired' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		await expireTokensOf(user);
 		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
 
 		await assert.rejects(() =>
 			oneTimeTokenService.consume(
-				{ plainToken, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
+				{ secret, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
 				async (token) => token.id
 			)
 		);
@@ -128,11 +146,11 @@ test.group('One-time tokens', (group) => {
 		assert,
 	}) => {
 		const user = await createUser({ emailPrefix: 'token-replay' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
 		const consume = () =>
 			oneTimeTokenService.consume(
-				{ plainToken, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
+				{ secret, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
 				async (token) => token.id
 			);
 		await consume();
@@ -144,7 +162,7 @@ test.group('One-time tokens', (group) => {
 		assert,
 	}) => {
 		const user = await createUser({ emailPrefix: 'token-invalidated' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
 
 		await oneTimeTokenService.invalidateAll({
@@ -154,7 +172,7 @@ test.group('One-time tokens', (group) => {
 
 		await assert.rejects(() =>
 			oneTimeTokenService.consume(
-				{ plainToken, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
+				{ secret, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
 				async (token) => token.id
 			)
 		);
@@ -164,11 +182,11 @@ test.group('One-time tokens', (group) => {
 		assert,
 	}) => {
 		const user = await createUser({ emailPrefix: 'token-atomic' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		const oneTimeTokenService = await app.container.make(OneTimeTokenService);
 		await assert.rejects(() =>
 			oneTimeTokenService.consume(
-				{ plainToken, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
+				{ secret, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
 				async () => {
 					throw new Error('the guarded action failed');
 				}
@@ -176,7 +194,7 @@ test.group('One-time tokens', (group) => {
 		);
 
 		const consumedUserId = await oneTimeTokenService.consume(
-			{ plainToken, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
+			{ secret, type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION },
 			async (token) => token.userId
 		);
 
@@ -243,9 +261,9 @@ test.group('Email verification — confirming the address', (group) => {
 		client,
 	}) => {
 		const user = await createUser({ emailPrefix: 'verify-fresh' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 
-		await followVerificationLink(client, plainToken);
+		await followVerificationLink(client, secret);
 
 		await user.refresh();
 		assert.isNotNull(user.emailVerifiedAt);
@@ -253,9 +271,9 @@ test.group('Email verification — confirming the address', (group) => {
 
 	test('should record an email verified event', async ({ assert, client }) => {
 		const user = await createUser({ emailPrefix: 'verify-journal' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 
-		await followVerificationLink(client, plainToken);
+		await followVerificationLink(client, secret);
 
 		const event = await AuthEvent.query()
 			.where('userId', user.id)
@@ -265,10 +283,10 @@ test.group('Email verification — confirming the address', (group) => {
 
 	test('should refuse a link that was already used', async ({ client }) => {
 		const user = await createUser({ emailPrefix: 'verify-replay' });
-		const plainToken = await issueVerificationToken(user);
-		await followVerificationLink(client, plainToken);
+		const secret = await issueVerificationToken(user);
+		await followVerificationLink(client, secret);
 
-		const response = await followVerificationLink(client, plainToken);
+		const response = await followVerificationLink(client, secret);
 
 		response.assertHeader('location', HOME_PATH);
 		response.assertFlashMessage('error', INVALID_LINK_MESSAGE);
@@ -276,10 +294,10 @@ test.group('Email verification — confirming the address', (group) => {
 
 	test('should refuse a link that expired', async ({ client }) => {
 		const user = await createUser({ emailPrefix: 'verify-expired' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		await expireTokensOf(user);
 
-		const response = await followVerificationLink(client, plainToken);
+		const response = await followVerificationLink(client, secret);
 
 		response.assertFlashMessage('error', INVALID_LINK_MESSAGE);
 	});
@@ -289,10 +307,10 @@ test.group('Email verification — confirming the address', (group) => {
 		client,
 	}) => {
 		const user = await createUser({ emailPrefix: 'verify-refused' });
-		const plainToken = await issueVerificationToken(user);
+		const secret = await issueVerificationToken(user);
 		await expireTokensOf(user);
 
-		await followVerificationLink(client, plainToken);
+		await followVerificationLink(client, secret);
 
 		await user.refresh();
 		assert.isNull(user.emailVerifiedAt);
