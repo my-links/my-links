@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon';
+import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
-import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
+import { UserService } from '#services/user/user_service';
 import OauthAuthenticationRefusedException, {
 	OAUTH_REFUSAL_REASON,
 } from '#exceptions/auth/oauth_authentication_refused_exception';
@@ -23,7 +24,10 @@ export type OauthIdentity = {
 	readonly avatarUrl: string | null;
 };
 
+@inject()
 export class OauthAccountService {
+	constructor(protected readonly userService: UserService) {}
+
 	/**
 	 * Resolves an OAuth identity to the account it belongs to, creating that
 	 * account on first sight.
@@ -104,7 +108,7 @@ export class OauthAccountService {
 					name: identity.name,
 					nickName: identity.nickName,
 					avatarUrl: identity.avatarUrl,
-					isAdmin: await this.isFirstAccount(trx),
+					isAdmin: await this.userService.isNextAccountAdmin(trx),
 					emailVerifiedAt: DateTime.now(),
 				},
 				{ client: trx }
@@ -118,13 +122,5 @@ export class OauthAccountService {
 
 			return user;
 		});
-	}
-
-	private async isFirstAccount(
-		trx: TransactionClientContract
-	): Promise<boolean> {
-		const anyUser = await User.query().useTransaction(trx).select('id').first();
-
-		return anyUser === null;
 	}
 }

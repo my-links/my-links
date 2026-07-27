@@ -45,6 +45,10 @@ export interface ApiDefinition {
     login: typeof routes['auth.login'] & {
       submit: typeof routes['auth.login.submit']
     }
+    register: typeof routes['auth.register'] & {
+      submit: typeof routes['auth.register.submit']
+    }
+    verifyEmail: typeof routes['auth.verify-email']
     callback: typeof routes['auth.callback']
     logout: typeof routes['auth.logout']
   }

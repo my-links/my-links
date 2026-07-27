@@ -1,5 +1,7 @@
 import { Env } from '@adonisjs/core/env';
 
+import { REGISTRATION_POLICIES } from '#constants/auth';
+
 export default await Env.create(new URL('../', import.meta.url), {
 	NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
 	PORT: Env.schema.number(),
@@ -36,6 +38,17 @@ export default await Env.create(new URL('../', import.meta.url), {
 	 */
 	GOOGLE_CLIENT_ID: Env.schema.string.optional(),
 	GOOGLE_CLIENT_SECRET: Env.schema.string.optional(),
+
+	/*
+|----------------------------------------------------------
+| Variables for configuring the registration policy
+|----------------------------------------------------------
+*/
+	/**
+	 * Optional: leave it unset to let the instance decide — open until it has
+	 * its first account, closed afterwards. See `resolveRegistrationPolicy`.
+	 */
+	ALLOW_REGISTRATION: Env.schema.enum.optional(REGISTRATION_POLICIES),
 
 	/*
   |----------------------------------------------------------

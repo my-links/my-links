@@ -1,12 +1,14 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Button, Input } from '@minimalstuff/ui';
+import { Link } from '@adonisjs/inertia/react';
 import { Head, useForm } from '@inertiajs/react';
+import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import SmallContentLayout from '~/layouts/small_content';
 import { FormField } from '~/components/common/form_field';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
+import { useRegistrationPolicy } from '~/hooks/use_registration_policy';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
 
 type LoginFormData = {
@@ -16,6 +18,7 @@ type LoginFormData = {
 
 function LoginPage() {
 	const { isGoogleEnabled } = useAuthProviders();
+	const { isOpen: isRegistrationOpen } = useRegistrationPolicy();
 	const { data, setData, submit, processing, errors } = useForm<LoginFormData>({
 		email: '',
 		password: '',
@@ -93,6 +96,20 @@ function LoginPage() {
 					<div className="mt-6 space-y-4">
 						<GoogleSignInAction />
 					</div>
+				)}
+
+				{isRegistrationOpen && (
+					<p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+						<Trans>
+							No account yet?{' '}
+							<Link
+								route="auth.register"
+								className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+							>
+								Create one
+							</Link>
+						</Trans>
+					</p>
 				)}
 			</div>
 		</>

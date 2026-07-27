@@ -26,6 +26,7 @@
   - [Environment Configuration](#environment-configuration)
   - [Google OAuth Environment Variables](#google-oauth-environment-variables)
   - [Outgoing Mail Environment Variables](#outgoing-mail-environment-variables)
+  - [Registration Policy](#registration-policy)
   - [Running the Project in Development](#running-the-project-in-development)
   - [Useful Commands](#useful-commands)
 - [Browser Extension](#browser-extension)
@@ -223,6 +224,7 @@ cp apps/webapp/.env.example apps/webapp/.env
 - `TZ`: Timezone used by the application (e.g., `UTC`)
 - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`: Google sign-in. Leave both empty to run without it — see [Google OAuth Environment Variables](#google-oauth-environment-variables).
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_SECURE`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME`: Outgoing mail. Leave them all empty to run without it — see [Outgoing Mail Environment Variables](#outgoing-mail-environment-variables).
+- `ALLOW_REGISTRATION`: Whether the instance accepts sign-ups (`open` or `closed`). Leave it unset to let the instance decide — see [Registration Policy](#registration-policy).
 
 **Generate an application key:**
 
@@ -276,6 +278,22 @@ docker compose --profile smtp up -d
 ```
 
 with `SMTP_ALLOWED_SENDER_DOMAINS` set to the domains it may send for, `SMTP_RELAYHOST` set if it should forward to an upstream, and the app configured with `SMTP_HOST=smtp` and `SMTP_PORT=587`. Be aware of what self-hosting an MTA involves: without SPF, DKIM, DMARC records and a matching reverse DNS entry, Gmail and Outlook drop the mail, and many hosting providers block outbound port 25 outright.
+
+### Registration Policy
+
+`ALLOW_REGISTRATION` decides whether `/register` accepts new accounts.
+
+Left unset, the instance answers for itself: **open until it has its first account, closed from then on.** That first account becomes the administrator, whichever method created it — the registration form or Google sign-in. A freshly deployed instance therefore lets you in without any configuration, and stops being an open sign-up form the moment you are in.
+
+| Value    | Effect                                                                 |
+| -------- | ---------------------------------------------------------------------- |
+| unset    | Open until the first account exists, closed afterwards                 |
+| `open`   | Anyone can create an account                                           |
+| `closed` | `/register` is refused; accounts are added with `node ace user:create` |
+
+A submitted address is never confirmed or denied: registering with an address that already has an account produces exactly the response a free address produces, and no email is sent. That is what keeps the form from becoming a way to find out who has an account here.
+
+If [outgoing mail](#outgoing-mail-environment-variables) is configured, a new account receives a confirmation link valid for 24 hours. Without it, no link is issued and no feature is gated behind an unconfirmed address.
 
 ### Running the Project in Development
 

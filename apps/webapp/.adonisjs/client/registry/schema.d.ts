@@ -319,6 +319,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/login_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.register': {
+    methods: ["GET","HEAD"]
+    pattern: '/register'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/register_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/register_controller').default['render']>>>
+    }
+  }
+  'auth.register.submit': {
+    methods: ["POST"]
+    pattern: '/register'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/register_validator').registerValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/register_validator').registerValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/register_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/register_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.verify-email': {
+    methods: ["GET","HEAD"]
+    pattern: '/verify-email/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auth/verify_email_validator').verifyEmailValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/verify_email_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/verify_email_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'auth': {
     methods: ["GET","HEAD"]
     pattern: '/auth/google'

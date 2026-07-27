@@ -12,6 +12,9 @@ tmp
 # Frontend assets compiled code
 public/assets
 
+# Lingui compiled catalogs (built from the tracked .po files)
+apps/webapp/inertia/locales/*/messages.ts
+
 # Build tools specific
 npm-debug.log
 yarn-error.log

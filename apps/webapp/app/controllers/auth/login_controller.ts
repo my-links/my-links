@@ -6,7 +6,7 @@ import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { SessionService } from '#services/user/session_service';
 import { loginValidator } from '#validators/auth/login_validator';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import type { AuthEventOrigin } from '#services/auth/auth_event_service';
+import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { CredentialsAuthService } from '#services/auth/credentials_auth_service';
 
 @inject()
@@ -27,7 +27,7 @@ export default class LoginController {
 		const user = await this.credentialsAuthService.verifyCredentials({
 			email,
 			password,
-			origin: this.originOf(ctx),
+			origin: resolveAuthEventOrigin(ctx),
 		});
 
 		await ctx.auth.use('web').login(user);
@@ -39,19 +39,12 @@ export default class LoginController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
 			userId: user.id,
-			...this.originOf(ctx),
+			...resolveAuthEventOrigin(ctx),
 		});
 
 		logger.info(`[${user.email}] auth success`);
 		// Honors an intended URL stashed by AuthMiddleware, so a guest sent to
 		// the form from a deep link lands back on it instead of the dashboard.
 		return ctx.response.redirect().toIntendedRoute('collection.favorites');
-	}
-
-	private originOf(ctx: HttpContext): AuthEventOrigin {
-		return {
-			ip: ctx.request.ip(),
-			userAgent: ctx.request.header('user-agent') ?? null,
-		};
 	}
 }
