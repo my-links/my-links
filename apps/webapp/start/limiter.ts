@@ -32,7 +32,7 @@ export const apiThrottle = limiter.define('api', (ctx) => {
 		.usingKey(ctx.auth.user?.id ?? ctx.request.ip());
 });
 
-type LoginAttemptTier = {
+type AttemptTier = {
 	readonly name: string;
 	readonly requests: number;
 	readonly window: string;
@@ -48,7 +48,7 @@ export const LOGIN_BURST_TIER = {
 	requests: 5,
 	window: '1 minute',
 	blockFor: '1 minute',
-} as const satisfies LoginAttemptTier;
+} as const satisfies AttemptTier;
 
 /**
  * Stacked windows, each blocking longer than the last. Fixed-window limiters
@@ -67,7 +67,43 @@ const LOGIN_ATTEMPT_TIERS = [
 		blockFor: '15 minutes',
 	},
 	{ name: 'persistent', requests: 50, window: '1 hour', blockFor: '1 hour' },
-] as const satisfies readonly LoginAttemptTier[];
+] as const satisfies readonly AttemptTier[];
+
+/**
+ * Registration is the other unauthenticated write, and the one an address
+ * harvester would walk to find out which emails already have an account. The
+ * budget is smaller than the sign-in one because nobody legitimately creates
+ * three accounts in ten minutes.
+ */
+export const REGISTRATION_BURST_TIER = {
+	name: 'burst',
+	requests: 3,
+	window: '10 minutes',
+	blockFor: '10 minutes',
+} as const satisfies AttemptTier;
+
+const REGISTRATION_ATTEMPT_TIERS = [
+	REGISTRATION_BURST_TIER,
+	{ name: 'sustained', requests: 10, window: '1 hour', blockFor: '1 hour' },
+] as const satisfies readonly AttemptTier[];
+
+/**
+ * Guessing a 256-bit token is not a threat anyone can carry out, so the budget
+ * is here to keep the endpoint from being a free way to spend an instance's
+ * database and CPU — hence a ceiling well above what following a link from a
+ * mailbox costs, prefetching mail clients included.
+ */
+export const TOKEN_VERIFICATION_BURST_TIER = {
+	name: 'burst',
+	requests: 20,
+	window: '10 minutes',
+	blockFor: '10 minutes',
+} as const satisfies AttemptTier;
+
+const TOKEN_VERIFICATION_TIERS = [
+	TOKEN_VERIFICATION_BURST_TIER,
+	{ name: 'sustained', requests: 60, window: '1 hour', blockFor: '1 hour' },
+] as const satisfies readonly AttemptTier[];
 
 function resolveClientAddress(ctx: HttpContext): string {
 	return ctx.request.ip();
@@ -87,23 +123,21 @@ function resolveTargetedAccount(ctx: HttpContext): string | null {
 	return createHash('sha256').update(normalizedEmail).digest('hex');
 }
 
-/**
- * Both dimensions are needed: the address alone lets a botnet spread one
- * account's attempts over thousands of hosts, the account alone lets a single
- * host walk a dictionary of addresses.
- */
-const LOGIN_ATTEMPT_DIMENSIONS = {
+const ATTEMPT_DIMENSIONS = {
 	address: resolveClientAddress,
 	account: resolveTargetedAccount,
 } as const;
 
-function defineLoginThrottle(
-	dimension: keyof typeof LOGIN_ATTEMPT_DIMENSIONS,
-	tier: LoginAttemptTier
-): MiddlewareFn {
-	const resolveKey = LOGIN_ATTEMPT_DIMENSIONS[dimension];
+type AttemptDimension = keyof typeof ATTEMPT_DIMENSIONS;
 
-	return limiter.define(`login_${dimension}_${tier.name}`, (ctx) => {
+function defineAttemptThrottle(
+	action: string,
+	dimension: AttemptDimension,
+	tier: AttemptTier
+): MiddlewareFn {
+	const resolveKey = ATTEMPT_DIMENSIONS[dimension];
+
+	return limiter.define(`${action}_${dimension}_${tier.name}`, (ctx) => {
 		const key = resolveKey(ctx);
 		if (!key) return limiter.noLimit();
 
@@ -115,9 +149,46 @@ function defineLoginThrottle(
 	});
 }
 
-export const loginThrottles: MiddlewareFn[] = LOGIN_ATTEMPT_TIERS.flatMap(
-	(tier) => [
-		defineLoginThrottle('address', tier),
-		defineLoginThrottle('account', tier),
-	]
+function defineAttemptThrottles(
+	action: string,
+	tiers: readonly AttemptTier[],
+	dimensions: readonly AttemptDimension[]
+): MiddlewareFn[] {
+	return tiers.flatMap((tier) =>
+		dimensions.map((dimension) =>
+			defineAttemptThrottle(action, dimension, tier)
+		)
+	);
+}
+
+/**
+ * Both dimensions are needed on sign-in: the address alone lets a botnet spread
+ * one account's attempts over thousands of hosts, the account alone lets a
+ * single host walk a dictionary of addresses.
+ */
+export const loginThrottles: MiddlewareFn[] = defineAttemptThrottles(
+	'login',
+	LOGIN_ATTEMPT_TIERS,
+	['address', 'account']
 );
+
+/**
+ * Sign-up is throttled by address only. Keying it on the submitted email too
+ * would let anyone burn a chosen address's budget and keep its owner from ever
+ * registering — and it would buy nothing, since a harvester walks a different
+ * address on every request anyway.
+ */
+export const registrationThrottles: MiddlewareFn[] = defineAttemptThrottles(
+	'registration',
+	REGISTRATION_ATTEMPT_TIERS,
+	['address']
+);
+
+/**
+ * Guards the routes that redeem a one-time link. Address only: the token is the
+ * whole request, so there is no account to key on until it has been resolved.
+ */
+export const tokenVerificationThrottles: MiddlewareFn[] =
+	defineAttemptThrottles('token_verification', TOKEN_VERIFICATION_TIERS, [
+		'address',
+	]);

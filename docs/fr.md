@@ -27,6 +27,7 @@
   - [Configuration de l'environnement](#configuration-de-lenvironnement)
   - [Variables d'environnement Google OAuth](#variables-denvironnement-google-oauth)
   - [Variables d'environnement d'envoi d'e-mails](#variables-denvironnement-denvoi-de-mails)
+  - [Politique d'inscription](#politique-dinscription)
   - [Lancer le projet en développement](#lancer-le-projet-en-développement)
   - [Commandes utiles](#commandes-utiles)
 - [Extension de navigateur](#extension-de-navigateur)
@@ -224,6 +225,7 @@ cp apps/webapp/.env.example apps/webapp/.env
 - `TZ` : Fuseau horaire utilisé par l'application (ex: `UTC`)
 - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` : Connexion Google. Laissez les deux vides pour vous en passer — voir [Variables d'environnement Google OAuth](#variables-denvironnement-google-oauth).
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_SECURE`, `MAIL_FROM_ADDRESS`, `MAIL_FROM_NAME` : Envoi d'e-mails. Laissez-les toutes vides pour vous en passer — voir [Variables d'environnement d'envoi d'e-mails](#variables-denvironnement-denvoi-de-mails).
+- `ALLOW_REGISTRATION` : Ouverture des inscriptions (`open` ou `closed`). Laissez-la vide pour laisser l'instance décider — voir [Politique d'inscription](#politique-dinscription).
 
 **Générer une clé d'application :**
 
@@ -277,6 +279,22 @@ docker compose --profile smtp up -d
 ```
 
 avec `SMTP_ALLOWED_SENDER_DOMAINS` réglé sur les domaines qu'il a le droit d'expédier, `SMTP_RELAYHOST` s'il doit relayer vers un serveur en amont, et l'application configurée avec `SMTP_HOST=smtp` et `SMTP_PORT=587`. Mesurez ce qu'implique l'auto-hébergement d'un MTA : sans enregistrements SPF, DKIM, DMARC et un reverse DNS cohérent, Gmail et Outlook jettent les messages, et beaucoup d'hébergeurs bloquent purement et simplement le port 25 sortant.
+
+### Politique d'inscription
+
+`ALLOW_REGISTRATION` détermine si `/register` accepte de nouveaux comptes.
+
+Laissée vide, l'instance décide elle-même : **ouverte tant qu'elle n'a aucun compte, fermée ensuite.** Ce premier compte devient l'administrateur, quelle que soit la méthode qui l'a créé — le formulaire d'inscription ou la connexion Google. Une instance fraîchement déployée vous laisse donc entrer sans aucune configuration, et cesse d'être un formulaire d'inscription ouvert dès l'instant où vous êtes entré.
+
+| Valeur   | Effet                                                                       |
+| -------- | --------------------------------------------------------------------------- |
+| vide     | Ouverte jusqu'au premier compte, fermée ensuite                             |
+| `open`   | N'importe qui peut créer un compte                                          |
+| `closed` | `/register` est refusé ; les comptes s'ajoutent avec `node ace user:create` |
+
+Une adresse soumise n'est jamais confirmée ni démentie : s'inscrire avec une adresse qui a déjà un compte produit exactement la réponse que produit une adresse libre, et aucun e-mail n'est envoyé. C'est ce qui empêche le formulaire de devenir un moyen de savoir qui possède un compte ici.
+
+Si l'[envoi d'e-mails](#variables-denvironnement-denvoi-de-mails) est configuré, un nouveau compte reçoit un lien de confirmation valable 24 heures. Sans lui, aucun lien n'est émis et aucune fonctionnalité n'est bloquée par une adresse non confirmée.
 
 ### Lancer le projet en développement
 

@@ -7,6 +7,7 @@ import UserTransformer from '#transformers/user';
 import { resolveServerLocale } from '#config/inertia';
 import packageJson from '../../package.json' with { type: 'json' };
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	async share(ctx: HttpContext) {
@@ -35,6 +36,9 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 		const googleAuthConfigService = await app.container.make(
 			GoogleAuthConfigService
 		);
+		const registrationPolicyService = await app.container.make(
+			RegistrationPolicyService
+		);
 
 		return {
 			errors: ctx.inertia.always(this.getValidationErrors(ctx)),
@@ -53,6 +57,12 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 				// least one sign-in route being reachable.
 				isCredentialsEnabled: true,
 				isGoogleEnabled: googleAuthConfigService.isEnabled,
+			}),
+			// Kept apart from `authProviders`: whether an instance takes new
+			// accounts is not a way of signing in, and a closed instance still
+			// has every provider it had before.
+			registrationPolicy: ctx.inertia.always({
+				isOpen: await registrationPolicyService.isOpen(),
 			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
 			appVersion: packageJson.version,

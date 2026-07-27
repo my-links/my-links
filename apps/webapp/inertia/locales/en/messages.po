@@ -82,6 +82,10 @@ msgstr "Actions"
 msgid "Active sessions"
 msgstr "Active sessions"
 
+#: inertia/pages/auth/register.tsx:75
+msgid "Ada Lovelace"
+msgstr "Ada Lovelace"
+
 #: inertia/components/dashboard/links/link_controls.tsx:159
 msgid "Add to favorites"
 msgstr "Add to favorites"
@@ -97,6 +101,10 @@ msgstr "Admin Dashboard"
 #: inertia/components/dashboard/modals/search_modal.tsx:219
 msgid "All"
 msgstr "All"
+
+#: inertia/pages/auth/register.tsx:151
+msgid "Already have an account? <0>Sign in</0>"
+msgstr "Already have an account? <0>Sign in</0>"
 
 #: inertia/pages/home.tsx:132
 msgid "An open-source, self-hosted bookmark manager that lets you manage your favorite links in an intuitive interface"
@@ -129,6 +137,10 @@ msgstr "Are you sure you want to revoke this token?"
 #: inertia/components/user_settings/sessions.tsx:20
 msgid "Are you sure you want to sign out this session?"
 msgstr "Are you sure you want to sign out this session?"
+
+#: inertia/pages/auth/register.tsx:108
+msgid "At least {minimumPasswordLength} characters"
+msgstr "At least {minimumPasswordLength} characters"
 
 #: inertia/pages/home.tsx:146
 msgid "Built for users who value privacy, control, and simplicity"
@@ -190,9 +202,13 @@ msgstr "Collections"
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
 
+#: inertia/pages/auth/register.tsx:117
+msgid "Confirm password"
+msgstr "Confirm password"
+
 #: inertia/components/auth/google_sign_in_action.tsx:18
-#: inertia/components/home/call_to_action_auth_actions.tsx:22
-#: inertia/components/home/hero_auth_actions.tsx:22
+#: inertia/components/home/call_to_action_auth_actions.tsx:34
+#: inertia/components/home/hero_auth_actions.tsx:42
 msgid "Continue with Google"
 msgstr "Continue with Google"
 
@@ -237,6 +253,10 @@ msgstr "Create a link"
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
+#: inertia/components/home/call_to_action_auth_actions.tsx:21
+msgid "Create an account"
+msgstr "Create an account"
+
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_header.tsx:116
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:100
@@ -249,6 +269,10 @@ msgstr "Create collection {0}"
 msgid "Create link {0}"
 msgstr "Create link {0}"
 
+#: inertia/pages/auth/register.tsx:140
+msgid "Create my account"
+msgstr "Create my account"
+
 #: inertia/components/api_tokens/api_tokens.tsx:27
 msgid "Create new token"
 msgstr "Create new token"
@@ -257,6 +281,10 @@ msgstr "Create new token"
 #: inertia/components/api_tokens/create_token_modal.tsx:71
 msgid "Create token"
 msgstr "Create token"
+
+#: inertia/pages/auth/register.tsx:61
+msgid "Create your account"
+msgstr "Create your account"
 
 #: inertia/components/dashboard/links/link_list.tsx:37
 msgid "Create your first link to get started"
@@ -363,7 +391,8 @@ msgstr "Edit a link"
 msgid "Edit collection"
 msgstr "Edit collection"
 
-#: inertia/pages/auth/login.tsx:49
+#: inertia/pages/auth/login.tsx:52
+#: inertia/pages/auth/register.tsx:83
 msgid "Email"
 msgstr "Email"
 
@@ -422,7 +451,7 @@ msgstr "Functional data is retained until the user requests deletion. Once this 
 msgid "GDPR Compliance"
 msgstr "GDPR Compliance"
 
-#: inertia/components/home/hero_auth_actions.tsx:15
+#: inertia/components/home/hero_auth_actions.tsx:29
 msgid "Get Started"
 msgstr "Get Started"
 
@@ -516,10 +545,10 @@ msgstr "links"
 msgid "Links"
 msgstr "Links"
 
-#: inertia/components/common/navigation/guest_auth_actions.tsx:9
-#: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:16
-#: inertia/pages/auth/login.tsx:39
-#: inertia/pages/auth/login.tsx:88
+#: inertia/components/common/navigation/guest_auth_actions.tsx:23
+#: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:22
+#: inertia/pages/auth/login.tsx:42
+#: inertia/pages/auth/login.tsx:91
 msgid "Login"
 msgstr "Login"
 
@@ -570,12 +599,17 @@ msgstr "MyLinks reserves the right to terminate or suspend your access to the se
 #: inertia/components/dashboard/forms/form_collection_content.tsx:64
 #: inertia/components/dashboard/forms/form_link_content.tsx:50
 #: inertia/components/dashboard/forms/form_link_content.tsx:60
+#: inertia/pages/auth/register.tsx:68
 msgid "Name"
 msgstr "Name"
 
 #: inertia/components/api_tokens/api_tokens.tsx:63
 msgid "New token created"
 msgstr "New token created"
+
+#: inertia/pages/auth/login.tsx:103
+msgid "No account yet? <0>Create one</0>"
+msgstr "No account yet? <0>Create one</0>"
 
 #: inertia/components/user_settings/sessions.tsx:40
 msgid "No active sessions"
@@ -626,7 +660,8 @@ msgstr "Organize your links into collections"
 msgid "Page not found"
 msgstr "Page not found"
 
-#: inertia/pages/auth/login.tsx:65
+#: inertia/pages/auth/login.tsx:68
+#: inertia/pages/auth/register.tsx:98
 msgid "Password"
 msgstr "Password"
 
@@ -669,6 +704,12 @@ msgstr "Quickly find what you're looking for"
 #: inertia/pages/home.tsx:199
 msgid "Ready to Get Started?"
 msgstr "Ready to Get Started?"
+
+#: inertia/components/common/navigation/guest_auth_actions.tsx:16
+#: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:30
+#: inertia/pages/auth/register.tsx:58
+msgid "Register"
+msgstr "Register"
 
 #: inertia/components/dashboard/forms/form_collection_content.tsx:52
 msgid "Remove"
@@ -738,11 +779,12 @@ msgstr "Share collection"
 msgid "Share your collections with others"
 msgstr "Share your collections with others"
 
-#: inertia/components/home/call_to_action_auth_actions.tsx:15
+#: inertia/components/home/call_to_action_auth_actions.tsx:30
+#: inertia/components/home/hero_auth_actions.tsx:38
 msgid "Sign In"
 msgstr "Sign In"
 
-#: inertia/pages/auth/login.tsx:45
+#: inertia/pages/auth/login.tsx:48
 msgid "Sign in to reach your collections"
 msgstr "Sign in to reach your collections"
 
@@ -753,6 +795,10 @@ msgstr "Sign out"
 #: inertia/components/user_settings/sessions.tsx:17
 msgid "Sign out session"
 msgstr "Sign out session"
+
+#: inertia/pages/auth/register.tsx:64
+msgid "Start collecting your links in one place"
+msgstr "Start collecting your links in one place"
 
 #: inertia/components/dashboard/modals/search_modal.tsx:110
 msgid "Start typing to search..."
@@ -830,6 +876,10 @@ msgstr "Total Users"
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
 
+#: inertia/pages/auth/register.tsx:127
+msgid "Type it once more"
+msgstr "Type it once more"
+
 #: inertia/components/dashboard/headers/dashboard_header.tsx:150
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:129
 #: inertia/pages/shared.tsx:84
@@ -866,7 +916,7 @@ msgstr "User Rights"
 msgid "Visibility"
 msgstr "Visibility"
 
-#: inertia/pages/auth/login.tsx:42
+#: inertia/pages/auth/login.tsx:45
 msgid "Welcome back"
 msgstr "Welcome back"
 
@@ -895,7 +945,8 @@ msgstr "You can request the deletion of your account at any time in accordance w
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 
-#: inertia/pages/auth/login.tsx:56
+#: inertia/pages/auth/login.tsx:59
+#: inertia/pages/auth/register.tsx:90
 msgid "you@example.com"
 msgstr "you@example.com"
 
@@ -903,6 +954,6 @@ msgstr "you@example.com"
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 
-#: inertia/pages/auth/login.tsx:75
+#: inertia/pages/auth/login.tsx:78
 msgid "Your password"
 msgstr "Your password"

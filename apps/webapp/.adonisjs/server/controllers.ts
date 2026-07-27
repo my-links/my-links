@@ -38,6 +38,8 @@ export const controllers = {
   auth: {
     Auth: () => import('#controllers/auth/auth_controller'),
     Login: () => import('#controllers/auth/login_controller'),
+    Register: () => import('#controllers/auth/register_controller'),
+    VerifyEmail: () => import('#controllers/auth/verify_email_controller'),
   },
   collections: {
     CreateCollection: () => import('#controllers/collections/create_collection_controller'),

@@ -162,6 +162,24 @@ const routes = {
     tokens: [{"old":"/login","type":0,"val":"login","end":""}],
     types: placeholder as Registry['auth.login.submit']['types'],
   },
+  'auth.register': {
+    methods: ["GET","HEAD"],
+    pattern: '/register',
+    tokens: [{"old":"/register","type":0,"val":"register","end":""}],
+    types: placeholder as Registry['auth.register']['types'],
+  },
+  'auth.register.submit': {
+    methods: ["POST"],
+    pattern: '/register',
+    tokens: [{"old":"/register","type":0,"val":"register","end":""}],
+    types: placeholder as Registry['auth.register.submit']['types'],
+  },
+  'auth.verify-email': {
+    methods: ["GET","HEAD"],
+    pattern: '/verify-email/:token',
+    tokens: [{"old":"/verify-email/:token","type":0,"val":"verify-email","end":""},{"old":"/verify-email/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['auth.verify-email']['types'],
+  },
   'auth': {
     methods: ["GET","HEAD"],
     pattern: '/auth/google',

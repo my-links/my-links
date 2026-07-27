@@ -1,8 +1,12 @@
 import router from '@adonisjs/core/services/router';
 
 import { middleware } from '#start/kernel';
-import { loginThrottles } from '#start/limiter';
 import { controllers } from '#generated/controllers';
+import {
+	loginThrottles,
+	registrationThrottles,
+	tokenVerificationThrottles,
+} from '#start/limiter';
 
 const ROUTES_PREFIX = '/auth';
 
@@ -13,8 +17,24 @@ router
 			.post('/login', [controllers.auth.Login, 'execute'])
 			.as('auth.login.submit')
 			.use(loginThrottles);
+
+		router
+			.get('/register', [controllers.auth.Register, 'render'])
+			.as('auth.register');
+		router
+			.post('/register', [controllers.auth.Register, 'execute'])
+			.as('auth.register.submit')
+			.use(registrationThrottles);
 	})
 	.use(middleware.guest({ redirectTo: 'collection.favorites' }));
+
+// Open to guests and to signed-in users alike: a confirmation link is followed
+// from a mailbox, and whether its owner happens to have a session at that
+// moment says nothing about their right to confirm their own address.
+router
+	.get('/verify-email/:token', [controllers.auth.VerifyEmail, 'execute'])
+	.as('auth.verify-email')
+	.use(tokenVerificationThrottles);
 
 router
 	.group(() => {

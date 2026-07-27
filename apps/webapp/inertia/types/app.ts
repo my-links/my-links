@@ -25,3 +25,7 @@ export type AuthProviders = {
 	isCredentialsEnabled: boolean;
 	isGoogleEnabled: boolean;
 };
+
+export type RegistrationPolicy = {
+	isOpen: boolean;
+};

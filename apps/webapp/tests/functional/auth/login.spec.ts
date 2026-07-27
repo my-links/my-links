@@ -5,6 +5,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import AuthEvent from '#models/auth_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { LOGIN_BURST_TIER } from '#start/limiter';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 
@@ -14,19 +15,6 @@ const UNKNOWN_EMAIL = 'nobody@example.com';
 const THROTTLED_EMAIL = 'throttled@example.com';
 const GENERIC_FAILURE_MESSAGE = 'Invalid email address or password';
 const SESSION_GUARD_KEY = 'auth_web';
-
-/**
- * Login is throttled per IP, and the memory limiter store outlives a rolled
- * back transaction. Giving every test its own forwarded address keeps one
- * test's attempts from spending another's budget. Loopback is a trusted proxy
- * (see `config/app.ts`), so the header is what `request.ip()` resolves to.
- */
-let clientAddressCounter = 0;
-
-function nextClientAddress(): string {
-	clientAddressCounter += 1;
-	return `203.0.113.${clientAddressCounter % 255}`;
-}
 
 function disableGoogleAuth() {
 	app.container.swap(GoogleAuthConfigService, () => ({ isEnabled: false }));

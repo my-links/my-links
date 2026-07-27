@@ -30,6 +30,9 @@ export type ScannedRoutes = {
     'user.settings.delete': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }
+    'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.register.submit': { paramsTuple?: []; params?: {} }
+    'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -66,6 +69,8 @@ export type ScannedRoutes = {
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
+    'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -92,6 +97,8 @@ export type ScannedRoutes = {
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
+    'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -111,6 +118,7 @@ export type ScannedRoutes = {
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }
+    'auth.register.submit': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }

@@ -1,0 +1,170 @@
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
+import { Link } from '@adonisjs/inertia/react';
+import { Head, useForm } from '@inertiajs/react';
+import { Button, Input } from '@minimalstuff/ui';
+
+import { urlFor } from '~/lib/tuyau';
+import { InertiaProps } from '~/types/inertia';
+import SmallContentLayout from '~/layouts/small_content';
+import { FormField } from '~/components/common/form_field';
+import { useAuthProviders } from '~/hooks/use_auth_providers';
+import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
+
+type RegisterFormData = {
+	name: string;
+	email: string;
+	password: string;
+	passwordConfirmation: string;
+};
+
+/**
+ * The minimum comes from the server, so the hint under the field and the rule
+ * that rejects the form can never drift apart.
+ */
+type PageProps = InertiaProps<{
+	minimumPasswordLength: number;
+}>;
+
+function RegisterPage({ minimumPasswordLength }: PageProps) {
+	const { isGoogleEnabled } = useAuthProviders();
+	const { data, setData, submit, processing, errors } =
+		useForm<RegisterFormData>({
+			name: '',
+			email: '',
+			password: '',
+			passwordConfirmation: '',
+		});
+
+	const isSubmitDisabled =
+		processing ||
+		!data.name ||
+		!data.email ||
+		!data.password ||
+		!data.passwordConfirmation;
+
+	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		submit('post', urlFor('auth.register.submit'));
+	};
+
+	const handleChangeOf =
+		(field: keyof RegisterFormData) =>
+		(event: React.ChangeEvent<HTMLInputElement>) =>
+			setData(field, event.target.value);
+
+	return (
+		<>
+			<Head title={t`Register`} />
+			<div className="max-w-md mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-sm">
+				<h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+					<Trans>Create your account</Trans>
+				</h1>
+				<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+					<Trans>Start collecting your links in one place</Trans>
+				</p>
+
+				<form onSubmit={handleSubmit} className="space-y-4">
+					<FormField label={t`Name`} htmlFor="name" error={errors.name}>
+						<Input
+							type="text"
+							id="name"
+							name="name"
+							value={data.name}
+							onChange={handleChangeOf('name')}
+							placeholder={t`Ada Lovelace`}
+							error={errors.name}
+							autoComplete="name"
+							autoFocus
+							required
+						/>
+					</FormField>
+
+					<FormField label={t`Email`} htmlFor="email" error={errors.email}>
+						<Input
+							type="email"
+							id="email"
+							name="email"
+							value={data.email}
+							onChange={handleChangeOf('email')}
+							placeholder={t`you@example.com`}
+							error={errors.email}
+							autoComplete="email"
+							required
+						/>
+					</FormField>
+
+					<FormField
+						label={t`Password`}
+						htmlFor="password"
+						error={errors.password}
+					>
+						<Input
+							type="password"
+							id="password"
+							name="password"
+							value={data.password}
+							onChange={handleChangeOf('password')}
+							placeholder={t`At least ${minimumPasswordLength} characters`}
+							error={errors.password}
+							autoComplete="new-password"
+							minLength={minimumPasswordLength}
+							required
+						/>
+					</FormField>
+
+					<FormField
+						label={t`Confirm password`}
+						htmlFor="passwordConfirmation"
+						error={errors.passwordConfirmation}
+					>
+						<Input
+							type="password"
+							id="passwordConfirmation"
+							name="passwordConfirmation"
+							value={data.passwordConfirmation}
+							onChange={handleChangeOf('passwordConfirmation')}
+							placeholder={t`Type it once more`}
+							error={errors.passwordConfirmation}
+							autoComplete="new-password"
+							required
+						/>
+					</FormField>
+
+					<Button
+						type="submit"
+						disabled={isSubmitDisabled}
+						loading={processing}
+						fullWidth
+					>
+						<Trans>Create my account</Trans>
+					</Button>
+				</form>
+
+				{isGoogleEnabled && (
+					<div className="mt-6 space-y-4">
+						<GoogleSignInAction />
+					</div>
+				)}
+
+				<p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+					<Trans>
+						Already have an account?{' '}
+						<Link
+							route="auth.login"
+							className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+						>
+							Sign in
+						</Link>
+					</Trans>
+				</p>
+			</div>
+		</>
+	);
+}
+
+RegisterPage.layout = (page: React.ReactNode) => (
+	<SmallContentLayout>{page}</SmallContentLayout>
+);
+
+export default RegisterPage;
