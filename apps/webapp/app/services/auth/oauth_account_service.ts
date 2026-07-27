@@ -62,7 +62,11 @@ export class OauthAccountService {
 			);
 		}
 
-		return identity.email;
+		// Normalized the way the registration validator normalizes it. Two
+		// writers of `users.email` disagreeing on case is how the same person
+		// ends up with two accounts, and how the "this address is already
+		// registered" guard stops seeing a collision it should have seen.
+		return identity.email.trim().toLowerCase();
 	}
 
 	private async findLinkedUser(identity: OauthIdentity): Promise<User | null> {
