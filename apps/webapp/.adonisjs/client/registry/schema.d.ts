@@ -219,8 +219,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/user/token/create_api_token').createApiTokenValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/create_api_token_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/create_api_token_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.api-tokens.destroy': {
@@ -231,8 +231,8 @@ export interface Registry {
       paramsTuple: [ParamValue]
       params: { tokenId: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/user/token/delete_api_token').deleteApiTokenValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/api_token_controller').default['destroy']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/delete_api_token_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/delete_api_token_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.sessions.destroy': {
@@ -275,10 +275,10 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/user/settings/import'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/import_file_validator').importFileValidator)>|InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/import_file_validator').importFileValidator)>|InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
