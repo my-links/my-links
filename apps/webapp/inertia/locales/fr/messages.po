@@ -86,6 +86,10 @@ msgstr "Sessions actives"
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
+#: inertia/components/user_settings/password.tsx:66
+msgid "Add an email and password sign-in to this account, alongside the methods it already has."
+msgstr "Ajoutez une connexion par e-mail et mot de passe à ce compte, en plus des méthodes qu'il possède déjà."
+
 #: inertia/components/dashboard/links/link_controls.tsx:159
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
@@ -138,7 +142,9 @@ msgstr "Êtes-vous sûr de vouloir révoquer ce jeton ?"
 msgid "Are you sure you want to sign out this session?"
 msgstr "Êtes-vous sûr de vouloir déconnecter cette session ?"
 
+#: inertia/components/user_settings/password.tsx:86
 #: inertia/pages/auth/register.tsx:108
+#: inertia/pages/auth/reset_password.tsx:66
 msgid "At least {minimumPasswordLength} characters"
 msgstr "Au moins {minimumPasswordLength} caractères"
 
@@ -172,9 +178,22 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 msgid "Cancel"
 msgstr "Annuler"
 
+#: inertia/components/user_settings/password.tsx:119
+msgid "Change my password"
+msgstr "Changer mon mot de passe"
+
+#: inertia/components/user_settings/password.tsx:55
+msgid "Change your password"
+msgstr "Changer votre mot de passe"
+
 #: inertia/pages/terms.tsx:180
 msgid "Changes to the Terms"
 msgstr "Modifications des conditions"
+
+#: inertia/pages/auth/reset_password.tsx:43
+#: inertia/pages/auth/reset_password.tsx:46
+msgid "Choose a new password"
+msgstr "Choisissez un nouveau mot de passe"
 
 #: inertia/components/admin/users/users_table.tsx:122
 msgid "Clear"
@@ -202,9 +221,24 @@ msgstr "Collections"
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
 
+#: inertia/pages/auth/sudo.tsx:76
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: inertia/components/user_settings/password.tsx:95
 #: inertia/pages/auth/register.tsx:117
+#: inertia/pages/auth/reset_password.tsx:76
 msgid "Confirm password"
 msgstr "Confirmer le mot de passe"
+
+#: inertia/pages/auth/sudo.tsx:102
+msgid "Confirm with Google"
+msgstr "Confirmer avec Google"
+
+#: inertia/pages/auth/sudo.tsx:37
+#: inertia/pages/auth/sudo.tsx:40
+msgid "Confirm your identity"
+msgstr "Confirmez votre identité"
 
 #: inertia/components/auth/google_sign_in_action.tsx:18
 #: inertia/components/home/call_to_action_auth_actions.tsx:34
@@ -299,6 +333,10 @@ msgstr "Créé le"
 msgid "Created by <0>{0}</0>"
 msgstr "Créé par <0>{0}</0>"
 
+#: inertia/pages/auth/sudo.tsx:52
+msgid "Current password"
+msgstr "Mot de passe actuel"
+
 #: inertia/pages/dashboard.tsx:96
 msgid "Dashboard"
 msgstr "Tableau de bord"
@@ -391,7 +429,8 @@ msgstr "Modifier un lien"
 msgid "Edit collection"
 msgstr "Modifier une collection"
 
-#: inertia/pages/auth/login.tsx:52
+#: inertia/pages/auth/forgot_password.tsx:44
+#: inertia/pages/auth/login.tsx:54
 #: inertia/pages/auth/register.tsx:83
 msgid "Email"
 msgstr "E-mail"
@@ -399,6 +438,14 @@ msgstr "E-mail"
 #: inertia/components/api_tokens/create_token_modal.tsx:45
 msgid "Enter token name"
 msgstr "Entrer le nom du jeton"
+
+#: inertia/components/user_settings/password.tsx:62
+msgid "Every other session and every extension token will be signed out."
+msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconnectés."
+
+#: inertia/pages/auth/reset_password.tsx:49
+msgid "Everything else signed in on this account will be signed out."
+msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 
 #: inertia/pages/home.tsx:182
 msgid "Everything you need to organize and manage your bookmarks effectively"
@@ -443,6 +490,10 @@ msgstr "Suivre"
 msgid "Followed Collections"
 msgstr "Collections suivies"
 
+#: inertia/pages/auth/login.tsx:105
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié ?"
+
 #: inertia/pages/privacy.tsx:123
 msgid "Functional data is retained until the user requests deletion. Once this request is made, the data will be permanently deleted."
 msgstr "Les données fonctionnelles sont conservées jusqu'à ce que l'utilisateur demande leur suppression. Une fois cette demande effectuée, les données seront définitivement supprimées."
@@ -454,6 +505,10 @@ msgstr "Conformité RGPD"
 #: inertia/components/home/hero_auth_actions.tsx:29
 msgid "Get Started"
 msgstr "Commencer"
+
+#: inertia/pages/auth/forgot_password.tsx:37
+msgid "Give us the address on your account and we will send a link to choose a new password."
+msgstr "Donnez-nous l'adresse de votre compte et nous enverrons un lien pour choisir un nouveau mot de passe."
 
 #. placeholder {0}: collection.name
 #: inertia/components/dashboard/links/link_controls.tsx:148
@@ -547,8 +602,8 @@ msgstr "Liens"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:23
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:22
-#: inertia/pages/auth/login.tsx:42
-#: inertia/pages/auth/login.tsx:91
+#: inertia/pages/auth/login.tsx:44
+#: inertia/pages/auth/login.tsx:93
 msgid "Login"
 msgstr "Connexion"
 
@@ -603,11 +658,16 @@ msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès a
 msgid "Name"
 msgstr "Nom"
 
+#: inertia/components/user_settings/password.tsx:76
+#: inertia/pages/auth/reset_password.tsx:56
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
 #: inertia/components/api_tokens/api_tokens.tsx:63
 msgid "New token created"
 msgstr "Nouveau jeton créé"
 
-#: inertia/pages/auth/login.tsx:103
+#: inertia/pages/auth/login.tsx:118
 msgid "No account yet? <0>Create one</0>"
 msgstr "Pas encore de compte ? <0>Créez-en un</0>"
 
@@ -645,6 +705,7 @@ msgid "Open Source"
 msgstr "Open Source"
 
 #: inertia/components/auth/google_sign_in_action.tsx:9
+#: inertia/pages/auth/sudo.tsx:87
 msgid "or"
 msgstr "ou"
 
@@ -660,7 +721,7 @@ msgstr "Organisez vos liens dans des collections"
 msgid "Page not found"
 msgstr "Page non trouvée"
 
-#: inertia/pages/auth/login.tsx:68
+#: inertia/pages/auth/login.tsx:70
 #: inertia/pages/auth/register.tsx:98
 msgid "Password"
 msgstr "Mot de passe"
@@ -711,6 +772,10 @@ msgstr "Prêt à commencer ?"
 msgid "Register"
 msgstr "Inscription"
 
+#: inertia/pages/auth/forgot_password.tsx:70
+msgid "Remembered it? <0>Sign in</0>"
+msgstr "Ça vous revient ? <0>Se connecter</0>"
+
 #: inertia/components/dashboard/forms/form_collection_content.tsx:52
 msgid "Remove"
 msgstr "Supprimer"
@@ -718,6 +783,15 @@ msgstr "Supprimer"
 #: inertia/components/dashboard/links/link_controls.tsx:157
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
+
+#: inertia/pages/auth/reset_password.tsx:99
+msgid "Reset my password"
+msgstr "Réinitialiser mon mot de passe"
+
+#: inertia/pages/auth/forgot_password.tsx:31
+#: inertia/pages/auth/forgot_password.tsx:34
+msgid "Reset your password"
+msgstr "Réinitialiser votre mot de passe"
 
 #: inertia/pages/terms.tsx:144
 msgid "Responsibilities and Warranties"
@@ -757,13 +831,25 @@ msgstr "Sélectionnez un fichier JSON"
 msgid "Self-Hosted"
 msgstr "Auto-hébergé"
 
+#: inertia/pages/auth/forgot_password.tsx:65
+msgid "Send the link"
+msgstr "Envoyer le lien"
+
 #: inertia/pages/errors/server_error.tsx:13
 msgid "Server Error"
 msgstr "Erreur serveur"
 
+#: inertia/components/user_settings/password.tsx:57
+msgid "Set a password"
+msgstr "Définir un mot de passe"
+
+#: inertia/components/user_settings/password.tsx:121
+msgid "Set my password"
+msgstr "Définir mon mot de passe"
+
 #: inertia/components/common/navigation/navbar.tsx:113
 #: inertia/components/common/navigation/navbar.tsx:198
-#: inertia/pages/user_settings/show.tsx:11
+#: inertia/pages/user_settings/show.tsx:12
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -784,7 +870,7 @@ msgstr "Partagez vos collections avec d'autres utilisateurs"
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: inertia/pages/auth/login.tsx:48
+#: inertia/pages/auth/login.tsx:50
 msgid "Sign in to reach your collections"
 msgstr "Connectez-vous pour retrouver vos collections"
 
@@ -840,6 +926,10 @@ msgstr "Le contenu sera visible par tous"
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout moment et/ou de demander la suppression complète de ses données."
 
+#: inertia/pages/auth/sudo.tsx:109
+msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
+msgstr "Ce compte n'a plus aucun moyen de confirmer son identité sur cette instance. Déconnectez-vous puis reconnectez-vous pour continuer."
+
 #: inertia/pages/errors/not_found.tsx:8
 msgid "This page does not exist."
 msgstr "Cette page n'existe pas."
@@ -876,7 +966,9 @@ msgstr "Total des utilisateurs"
 msgid "Try adjusting your search criteria"
 msgstr "Essayez d'ajuster vos critères de recherche"
 
+#: inertia/components/user_settings/password.tsx:105
 #: inertia/pages/auth/register.tsx:127
+#: inertia/pages/auth/reset_password.tsx:86
 msgid "Type it once more"
 msgstr "Saisissez-le à nouveau"
 
@@ -916,7 +1008,7 @@ msgstr "Droits de l'utilisateur"
 msgid "Visibility"
 msgstr "Visibilité"
 
-#: inertia/pages/auth/login.tsx:45
+#: inertia/pages/auth/login.tsx:47
 msgid "Welcome back"
 msgstr "Content de vous revoir"
 
@@ -932,6 +1024,10 @@ msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-s
 msgid "Why Choose MyLinks?"
 msgstr "Pourquoi choisir MyLinks ?"
 
+#: inertia/pages/auth/sudo.tsx:43
+msgid "You are about to change something that protects your account, so we ask once more who you are."
+msgstr "Vous allez modifier quelque chose qui protège votre compte, nous vous redemandons donc qui vous êtes."
+
 #. placeholder {0}: targetIds.length
 #: inertia/components/admin/users/users_table.tsx:57
 msgid "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
@@ -945,7 +1041,8 @@ msgstr "Vous pouvez demander la suppression de votre compte à tout moment confo
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables et à ne pas violer les droits de tiers."
 
-#: inertia/pages/auth/login.tsx:59
+#: inertia/pages/auth/forgot_password.tsx:51
+#: inertia/pages/auth/login.tsx:61
 #: inertia/pages/auth/register.tsx:90
 msgid "you@example.com"
 msgstr "vous@exemple.com"
@@ -954,6 +1051,7 @@ msgstr "vous@exemple.com"
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Vos données vous appartiennent. Nous privilégions votre vie privée et ne partageons ni ne vendons jamais vos informations à des tiers."
 
-#: inertia/pages/auth/login.tsx:78
+#: inertia/pages/auth/login.tsx:80
+#: inertia/pages/auth/sudo.tsx:62
 msgid "Your password"
 msgstr "Votre mot de passe"

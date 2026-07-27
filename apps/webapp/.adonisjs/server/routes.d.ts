@@ -32,10 +32,19 @@ export type ScannedRoutes = {
     'auth.login.submit': { paramsTuple?: []; params?: {} }
     'auth.register': { paramsTuple?: []; params?: {} }
     'auth.register.submit': { paramsTuple?: []; params?: {} }
+    'auth.password.forgot': { paramsTuple?: []; params?: {} }
+    'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
+    'auth.sudo': { paramsTuple?: []; params?: {} }
+    'auth.sudo.submit': { paramsTuple?: []; params?: {} }
+    'auth.sudo.google': { paramsTuple?: []; params?: {} }
+    'auth.password.set': { paramsTuple?: []; params?: {} }
+    'auth.password.change': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -70,10 +79,14 @@ export type ScannedRoutes = {
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.password.forgot': { paramsTuple?: []; params?: {} }
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
+    'auth.sudo': { paramsTuple?: []; params?: {} }
+    'auth.sudo.google': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
@@ -98,10 +111,14 @@ export type ScannedRoutes = {
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.register': { paramsTuple?: []; params?: {} }
+    'auth.password.forgot': { paramsTuple?: []; params?: {} }
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
+    'auth.sudo': { paramsTuple?: []; params?: {} }
+    'auth.sudo.google': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
@@ -119,12 +136,17 @@ export type ScannedRoutes = {
     'user.settings.import': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }
     'auth.register.submit': { paramsTuple?: []; params?: {} }
+    'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
+    'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.sudo.submit': { paramsTuple?: []; params?: {} }
+    'auth.password.set': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'auth.password.change': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

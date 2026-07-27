@@ -8,6 +8,7 @@ import { urlFor } from '~/lib/tuyau';
 import SmallContentLayout from '~/layouts/small_content';
 import { FormField } from '~/components/common/form_field';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
+import { usePasswordRecovery } from '~/hooks/use_password_recovery';
 import { useRegistrationPolicy } from '~/hooks/use_registration_policy';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
 
@@ -19,6 +20,7 @@ type LoginFormData = {
 function LoginPage() {
 	const { isGoogleEnabled } = useAuthProviders();
 	const { isOpen: isRegistrationOpen } = useRegistrationPolicy();
+	const { isEnabled: isPasswordRecoveryEnabled } = usePasswordRecovery();
 	const { data, setData, submit, processing, errors } = useForm<LoginFormData>({
 		email: '',
 		password: '',
@@ -91,6 +93,19 @@ function LoginPage() {
 						<Trans>Login</Trans>
 					</Button>
 				</form>
+
+				{/* Only offered where a link can actually be sent: an instance
+				    with no outgoing mail has no reset route to point at. */}
+				{isPasswordRecoveryEnabled && (
+					<p className="mt-4 text-center text-sm">
+						<Link
+							route="auth.password.forgot"
+							className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+						>
+							<Trans>Forgot your password?</Trans>
+						</Link>
+					</p>
+				)}
 
 				{isGoogleEnabled && (
 					<div className="mt-6 space-y-4">

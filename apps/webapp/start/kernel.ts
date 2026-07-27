@@ -42,4 +42,5 @@ export const middleware = router.named({
 	admin: () => import('#middleware/admin/is_admin_middleware'),
 	guest: () => import('#middleware/auth/guest_middleware'),
 	auth: () => import('#middleware/auth/auth_middleware'),
+	sudo: () => import('#middleware/auth/sudo_mode_middleware'),
 });

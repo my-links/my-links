@@ -37,8 +37,14 @@ export const controllers = {
   },
   auth: {
     Auth: () => import('#controllers/auth/auth_controller'),
+    ChangePassword: () => import('#controllers/auth/change_password_controller'),
     Login: () => import('#controllers/auth/login_controller'),
     Register: () => import('#controllers/auth/register_controller'),
+    RequestPasswordReset: () => import('#controllers/auth/request_password_reset_controller'),
+    ResetPassword: () => import('#controllers/auth/reset_password_controller'),
+    SetPassword: () => import('#controllers/auth/set_password_controller'),
+    SudoMode: () => import('#controllers/auth/sudo_mode_controller'),
+    SudoModeGoogle: () => import('#controllers/auth/sudo_mode_google_controller'),
     VerifyEmail: () => import('#controllers/auth/verify_email_controller'),
   },
   collections: {

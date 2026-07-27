@@ -343,6 +343,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/register_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.password.forgot': {
+    methods: ["GET","HEAD"]
+    pattern: '/forgot-password'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/request_password_reset_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/request_password_reset_controller').default['render']>>>
+    }
+  }
+  'auth.password.forgot.submit': {
+    methods: ["POST"]
+    pattern: '/forgot-password'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/request_password_reset_validator').requestPasswordResetValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/request_password_reset_validator').requestPasswordResetValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/request_password_reset_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/request_password_reset_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'auth.verify-email': {
     methods: ["GET","HEAD"]
     pattern: '/verify-email/:token'
@@ -350,9 +374,33 @@ export interface Registry {
       body: {}
       paramsTuple: [ParamValue]
       params: { token: ParamValue }
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auth/verify_email_validator').verifyEmailValidator)>>
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auth/one_time_token_validator').oneTimeTokenValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/verify_email_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/verify_email_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.password.reset': {
+    methods: ["GET","HEAD"]
+    pattern: '/reset-password/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auth/one_time_token_validator').oneTimeTokenValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/reset_password_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reset_password_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.password.reset.submit': {
+    methods: ["POST"]
+    pattern: '/reset-password/:token'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/one_time_token_validator').oneTimeTokenValidator)>|InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/one_time_token_validator').oneTimeTokenValidator)>|InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/reset_password_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reset_password_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'auth': {
@@ -389,6 +437,66 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
+    }
+  }
+  'auth.sudo': {
+    methods: ["GET","HEAD"]
+    pattern: '/sudo'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['render']>>>
+    }
+  }
+  'auth.sudo.submit': {
+    methods: ["POST"]
+    pattern: '/sudo'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/sudo_confirmation_validator').sudoConfirmationValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/sudo_confirmation_validator').sudoConfirmationValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.sudo.google': {
+    methods: ["GET","HEAD"]
+    pattern: '/sudo/google'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_google_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_google_controller').default['execute']>>>
+    }
+  }
+  'auth.password.set': {
+    methods: ["POST"]
+    pattern: '/account/password'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/set_password_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/set_password_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.password.change': {
+    methods: ["PUT"]
+    pattern: '/account/password'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/change_password_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/change_password_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-collections.index': {

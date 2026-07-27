@@ -29,3 +29,7 @@ export type AuthProviders = {
 export type RegistrationPolicy = {
 	isOpen: boolean;
 };
+
+export type PasswordRecovery = {
+	isEnabled: boolean;
+};

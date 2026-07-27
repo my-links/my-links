@@ -51,6 +51,15 @@ export const REGISTRATION_POLICIES = [
 	REGISTRATION_POLICY.CLOSED,
 ] as const satisfies readonly RegistrationPolicy[];
 
+/**
+ * How long proving your identity keeps sensitive account operations open.
+ *
+ * Short enough that a session left open on a shared machine is not a way to
+ * take the account over, long enough that a person working through their
+ * settings is asked once rather than at every click.
+ */
+export const SUDO_MODE_WINDOW_MINUTES = 15;
+
 export const AUTH_EVENT_TYPE = {
 	LOGIN_SUCCEEDED: 'login_succeeded',
 	LOGIN_FAILED: 'login_failed',
@@ -65,6 +74,8 @@ export const AUTH_EVENT_TYPE = {
 	PASSWORD_RESET_COMPLETED: 'password_reset_completed',
 	PROVIDER_LINKED: 'provider_linked',
 	PROVIDER_UNLINKED: 'provider_unlinked',
+	SUDO_CONFIRMED: 'sudo_confirmed',
+	SUDO_CONFIRMATION_FAILED: 'sudo_confirmation_failed',
 } as const;
 
 export type AuthEventType =

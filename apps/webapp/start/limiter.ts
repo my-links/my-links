@@ -105,6 +105,41 @@ const TOKEN_VERIFICATION_TIERS = [
 	{ name: 'sustained', requests: 60, window: '1 hour', blockFor: '1 hour' },
 ] as const satisfies readonly AttemptTier[];
 
+/**
+ * Asking for a reset link is free to send and costs the instance a mail, so
+ * the budget is about stopping someone from walking a list of addresses to
+ * spray — the ceiling is well above what a person who mistypes their own
+ * address twice ever needs.
+ */
+export const PASSWORD_RESET_REQUEST_BURST_TIER = {
+	name: 'burst',
+	requests: 5,
+	window: '15 minutes',
+	blockFor: '15 minutes',
+} as const satisfies AttemptTier;
+
+const PASSWORD_RESET_REQUEST_TIERS = [
+	PASSWORD_RESET_REQUEST_BURST_TIER,
+	{ name: 'sustained', requests: 15, window: '1 hour', blockFor: '1 hour' },
+] as const satisfies readonly AttemptTier[];
+
+/**
+ * Confirming sudo mode is a password prompt behind a session, so it is a
+ * guessing surface like sign-in — and a tighter one, since the account is
+ * already picked and only its owner should ever be typing here.
+ */
+export const SUDO_CONFIRMATION_BURST_TIER = {
+	name: 'burst',
+	requests: 5,
+	window: '5 minutes',
+	blockFor: '5 minutes',
+} as const satisfies AttemptTier;
+
+const SUDO_CONFIRMATION_TIERS = [
+	SUDO_CONFIRMATION_BURST_TIER,
+	{ name: 'sustained', requests: 20, window: '1 hour', blockFor: '1 hour' },
+] as const satisfies readonly AttemptTier[];
+
 function resolveClientAddress(ctx: HttpContext): string {
 	return ctx.request.ip();
 }
@@ -123,9 +158,21 @@ function resolveTargetedAccount(ctx: HttpContext): string | null {
 	return createHash('sha256').update(normalizedEmail).digest('hex');
 }
 
+/**
+ * The signed-in account itself, for the throttles that sit behind a session.
+ * Unlike `account`, nothing attacker-supplied picks this key, so it cannot be
+ * used to spend somebody else's budget.
+ */
+function resolveAuthenticatedAccount(ctx: HttpContext): string | null {
+	const authenticatedUser = ctx.auth.user;
+
+	return authenticatedUser ? String(authenticatedUser.id) : null;
+}
+
 const ATTEMPT_DIMENSIONS = {
 	address: resolveClientAddress,
 	account: resolveTargetedAccount,
+	actor: resolveAuthenticatedAccount,
 } as const;
 
 type AttemptDimension = keyof typeof ATTEMPT_DIMENSIONS;
@@ -192,3 +239,24 @@ export const tokenVerificationThrottles: MiddlewareFn[] =
 	defineAttemptThrottles('token_verification', TOKEN_VERIFICATION_TIERS, [
 		'address',
 	]);
+
+/**
+ * Address only, for the reason sign-up is: keying on the submitted email would
+ * hand anyone a way to keep a chosen account from ever recovering itself.
+ */
+export const passwordResetRequestThrottles: MiddlewareFn[] =
+	defineAttemptThrottles(
+		'password_reset_request',
+		PASSWORD_RESET_REQUEST_TIERS,
+		['address']
+	);
+
+/**
+ * Keyed on the signed-in account as well as the address, so a stolen session
+ * cannot spread its guesses across hosts.
+ */
+export const sudoConfirmationThrottles: MiddlewareFn[] = defineAttemptThrottles(
+	'sudo_confirmation',
+	SUDO_CONFIRMATION_TIERS,
+	['address', 'actor']
+);

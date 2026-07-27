@@ -7,14 +7,12 @@ import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { MailService } from '#services/mail/mail_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
+import { registerValidator } from '#validators/auth/register_validator';
 import type { AuthEventOrigin } from '#services/auth/auth_event_service';
 import { RegistrationService } from '#services/auth/registration_service';
+import { MINIMUM_PASSWORD_LENGTH } from '#validators/auth/password_rules';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
-import {
-	MINIMUM_PASSWORD_LENGTH,
-	registerValidator,
-} from '#validators/auth/register_validator';
 
 /**
  * The one thing a visitor is told after submitting the form. It never mentions

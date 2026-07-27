@@ -6,6 +6,7 @@ import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
 import UserTransformer from '#transformers/user';
 import { resolveServerLocale } from '#config/inertia';
 import packageJson from '../../package.json' with { type: 'json' };
+import { MailConfigService } from '#services/mail/mail_config_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 
@@ -39,6 +40,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 		const registrationPolicyService = await app.container.make(
 			RegistrationPolicyService
 		);
+		const mailConfigService = await app.container.make(MailConfigService);
 
 		return {
 			errors: ctx.inertia.always(this.getValidationErrors(ctx)),
@@ -63,6 +65,12 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			// has every provider it had before.
 			registrationPolicy: ctx.inertia.always({
 				isOpen: await registrationPolicyService.isOpen(),
+			}),
+			// A reset link is a link in a mailbox: an instance with no outgoing
+			// mail has no such feature, and offering the link anyway would send
+			// people to a 404 at the exact moment they are already locked out.
+			passwordRecovery: ctx.inertia.always({
+				isEnabled: mailConfigService.isEnabled,
 			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
 			appVersion: packageJson.version,
