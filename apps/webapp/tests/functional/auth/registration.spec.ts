@@ -1,6 +1,5 @@
 import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import mail from '@adonisjs/mail/services/main';
 import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
@@ -11,8 +10,8 @@ import { REGISTRATION_BURST_TIER } from '#start/limiter';
 import { UserService } from '#services/user/user_service';
 import { createUser } from '#tests/factories/user_factory';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { MailConfigService } from '#services/mail/mail_config_service';
 import VerifyEmailNotification from '#mails/verify_email_notification';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 import { REGISTRATION_CONFIRMATION_MESSAGES } from '#controllers/auth/register_controller';
 
@@ -68,23 +67,6 @@ function openRegistration() {
 	);
 
 	return () => app.container.restore(RegistrationPolicyService);
-}
-
-let fakeMailer: ReturnType<typeof mail.fake>;
-
-/**
- * Enabling outgoing mail without faking the mailer would send every test's
- * confirmation through the real transport — which, on an instance with no SMTP
- * configured, is a DNS lookup for an unreachable host on every registration.
- */
-function enableOutgoingMail() {
-	app.container.swap(MailConfigService, () => ({ isEnabled: true }));
-	fakeMailer = mail.fake();
-
-	return () => {
-		mail.restore();
-		app.container.restore(MailConfigService);
-	};
 }
 
 function submitRegistration(client: ApiClient, email: string) {
@@ -172,7 +154,7 @@ test.group('Registration — a brand new instance', (group) => {
 	}) => {
 		await submitRegistration(client, nextEmail());
 
-		fakeMailer.mails.assertQueued(VerifyEmailNotification);
+		queuedMails().assertQueued(VerifyEmailNotification);
 	});
 
 	test('should record a registered event for the new account', async ({
@@ -307,7 +289,7 @@ test.group('Registration — an email address already registered', (group) => {
 
 		await submitRegistration(client, existingUser.email);
 
-		fakeMailer.mails.assertNoneQueued();
+		queuedMails().assertNoneQueued();
 	});
 });
 
