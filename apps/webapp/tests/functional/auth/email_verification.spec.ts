@@ -2,7 +2,6 @@ import { DateTime } from 'luxon';
 import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import { Secret } from '@adonisjs/core/helpers';
-import mail from '@adonisjs/mail/services/main';
 import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
@@ -12,32 +11,15 @@ import OneTimeToken from '#models/one_time_token';
 import { createUser } from '#tests/factories/user_factory';
 import { TOKEN_VERIFICATION_BURST_TIER } from '#start/limiter';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { MailConfigService } from '#services/mail/mail_config_service';
 import VerifyEmailNotification from '#mails/verify_email_notification';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 
 const UNKNOWN_TOKEN = 'this-token-was-never-issued';
 const INVALID_LINK_MESSAGE = 'This link is no longer valid';
 const HOME_PATH = '/';
-
-let fakeMailer: ReturnType<typeof mail.fake>;
-
-/**
- * Enabling outgoing mail without faking the mailer would push every link
- * through the real transport, which on a suite with no SMTP configured means a
- * DNS lookup for an unreachable host.
- */
-function enableOutgoingMail() {
-	app.container.swap(MailConfigService, () => ({ isEnabled: true }));
-	fakeMailer = mail.fake();
-
-	return () => {
-		mail.restore();
-		app.container.restore(MailConfigService);
-	};
-}
 
 async function issueVerificationToken(user: User): Promise<Secret<string>> {
 	const oneTimeTokenService = await app.container.make(OneTimeTokenService);
@@ -214,7 +196,7 @@ test.group('Email verification — issuing the link', (group) => {
 
 		await emailVerificationService.sendVerificationLink(user);
 
-		fakeMailer.mails.assertQueued(VerifyEmailNotification);
+		queuedMails().assertQueued(VerifyEmailNotification);
 	});
 
 	test('should invalidate the link it issued previously', async ({
