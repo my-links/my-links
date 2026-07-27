@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
+import { createHash } from 'node:crypto';
 import db from '@adonisjs/lucid/services/db';
-import { createHash, randomBytes } from 'node:crypto';
+import { Secret, VerificationToken } from '@adonisjs/core/helpers';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import OneTimeToken from '#models/one_time_token';
@@ -10,7 +11,13 @@ import {
 } from '#constants/auth';
 import InvalidOneTimeTokenException from '#exceptions/auth/invalid_one_time_token_exception';
 
-const TOKEN_BYTE_LENGTH = 32;
+/**
+ * Counted in characters, not bytes — that is what `VerificationToken.seed`
+ * takes, and reading it as a byte count is how a token silently ends up
+ * weaker than intended. 43 base64url characters carry the same 256 bits as the
+ * 32 random bytes they encode.
+ */
+const TOKEN_CHARACTER_LENGTH = 43;
 
 export type OneTimeTokenSubject = {
 	readonly userId: number;
@@ -18,13 +25,13 @@ export type OneTimeTokenSubject = {
 };
 
 export type IssuedOneTimeToken = {
-	readonly plainToken: string;
+	readonly secret: Secret<string>;
 	readonly expiresAt: DateTime;
 	readonly lifetimeInHours: number;
 };
 
 export type OneTimeTokenPresentation = {
-	readonly plainToken: string;
+	readonly secret: Secret<string>;
 	readonly type: OneTimeTokenType;
 };
 
@@ -44,25 +51,30 @@ export type GuardedAction<TResult> = (
  * entropy, so a slow hash would buy nothing a dictionary could threaten while
  * making the column unindexable — but a plain-text column would hand every
  * outstanding link to anyone who reads a database backup.
+ *
+ * The clear value never travels as a bare string. `Secret` renders as
+ * `[redacted]` through `String()`, template interpolation and
+ * `JSON.stringify`, so the one line of logging somebody adds later cannot
+ * print a live link.
  */
 export class OneTimeTokenService {
 	async issue({
 		userId,
 		type,
 	}: OneTimeTokenSubject): Promise<IssuedOneTimeToken> {
-		const plainToken = randomBytes(TOKEN_BYTE_LENGTH).toString('base64url');
+		const { secret, hash } = VerificationToken.seed(TOKEN_CHARACTER_LENGTH);
 		const lifetimeInHours = ONE_TIME_TOKEN_LIFETIME_HOURS[type];
 		const expiresAt = DateTime.now().plus({ hours: lifetimeInHours });
 
 		await OneTimeToken.create({
 			userId,
 			type,
-			tokenHash: digest(plainToken),
+			tokenHash: hash,
 			expiresAt,
 			consumedAt: null,
 		});
 
-		return { plainToken, expiresAt, lifetimeInHours };
+		return { secret, expiresAt, lifetimeInHours };
 	}
 
 	/**
@@ -75,12 +87,12 @@ export class OneTimeTokenService {
 	 * while its owner clicks — cannot both get through.
 	 */
 	async consume<TResult>(
-		{ plainToken, type }: OneTimeTokenPresentation,
+		{ secret, type }: OneTimeTokenPresentation,
 		applyAction: GuardedAction<TResult>
 	): Promise<TResult> {
 		return db.transaction(async (trx) => {
 			const token = await OneTimeToken.query({ client: trx })
-				.where('tokenHash', digest(plainToken))
+				.where('tokenHash', digest(secret))
 				.andWhere('type', type)
 				.forUpdate()
 				.first();
@@ -110,8 +122,14 @@ export class OneTimeTokenService {
 	}
 }
 
-function digest(plainToken: string): string {
-	return createHash('sha256').update(plainToken).digest('hex');
+/**
+ * Recomputes what `VerificationToken.seed` stored, so a presented token can be
+ * found by an indexed lookup instead of a scan-and-compare. It has to stay the
+ * same digest `seed` produces; a divergence breaks every redemption at once,
+ * which is what the specs here are for.
+ */
+function digest(secret: Secret<string>): string {
+	return createHash('sha256').update(secret.release()).digest('hex');
 }
 
 function isUsable(token: OneTimeToken): boolean {

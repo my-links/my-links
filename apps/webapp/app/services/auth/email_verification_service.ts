@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import router from '@adonisjs/core/services/router';
+import type { Secret } from '@adonisjs/core/helpers';
 
 import env from '#start/env';
 import User from '#models/user';
@@ -35,16 +36,15 @@ export class EmailVerificationService {
 			type: TOKEN_TYPE,
 		});
 
-		const { plainToken, lifetimeInHours } =
-			await this.oneTimeTokenService.issue({
-				userId: user.id,
-				type: TOKEN_TYPE,
-			});
+		const { secret, lifetimeInHours } = await this.oneTimeTokenService.issue({
+			userId: user.id,
+			type: TOKEN_TYPE,
+		});
 
 		await this.mailService.send(
 			new VerifyEmailNotification({
 				user,
-				verificationUrl: this.buildVerificationUrl(plainToken),
+				verificationUrl: this.buildVerificationUrl(secret),
 				expiresInHours: lifetimeInHours,
 			})
 		);
@@ -53,9 +53,9 @@ export class EmailVerificationService {
 	/**
 	 * Marks the address confirmed, in the same transaction that burns the link.
 	 */
-	async confirm(plainToken: string): Promise<User> {
+	async confirm(secret: Secret<string>): Promise<User> {
 		return this.oneTimeTokenService.consume(
-			{ plainToken, type: TOKEN_TYPE },
+			{ secret, type: TOKEN_TYPE },
 			async (token, trx) => {
 				const user = await User.query({ client: trx })
 					.where('id', token.userId)
@@ -75,11 +75,11 @@ export class EmailVerificationService {
 	 * absolute prefix is needed because nothing in a background mail job knows
 	 * the host the request came in on.
 	 */
-	private buildVerificationUrl(plainToken: string): string {
+	private buildVerificationUrl(secret: Secret<string>): string {
 		return router
 			.builder()
 			.prefixUrl(env.get('APP_URL'))
-			.params({ token: plainToken })
+			.params({ token: secret.release() })
 			.make(VERIFY_EMAIL_ROUTE);
 	}
 }
