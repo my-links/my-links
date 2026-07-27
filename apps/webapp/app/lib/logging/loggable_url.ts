@@ -10,7 +10,10 @@
  * file. The tokens are single-use and short-lived, but a log is exactly the
  * artefact that gets shipped, archived and forgotten.
  */
-const SECRET_BEARING_PATH_PREFIXES = ['/verify-email/'] as const;
+const SECRET_BEARING_PATH_PREFIXES = [
+	'/verify-email/',
+	'/reset-password/',
+] as const;
 
 /**
  * Rewrites a request URL into the form it is safe to record.

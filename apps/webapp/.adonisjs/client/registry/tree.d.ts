@@ -48,9 +48,23 @@ export interface ApiDefinition {
     register: typeof routes['auth.register'] & {
       submit: typeof routes['auth.register.submit']
     }
+    password: {
+      forgot: typeof routes['auth.password.forgot'] & {
+        submit: typeof routes['auth.password.forgot.submit']
+      }
+      reset: typeof routes['auth.password.reset'] & {
+        submit: typeof routes['auth.password.reset.submit']
+      }
+      set: typeof routes['auth.password.set']
+      change: typeof routes['auth.password.change']
+    }
     verifyEmail: typeof routes['auth.verify-email']
     callback: typeof routes['auth.callback']
     logout: typeof routes['auth.logout']
+    sudo: typeof routes['auth.sudo'] & {
+      submit: typeof routes['auth.sudo.submit']
+      google: typeof routes['auth.sudo.google']
+    }
   }
   apiCollections: {
     index: typeof routes['api-collections.index']

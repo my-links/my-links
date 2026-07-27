@@ -6,7 +6,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
-import { verifyEmailValidator } from '#validators/auth/verify_email_validator';
+import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 
 const CONFIRMED_MESSAGE = 'Your email address is confirmed';
@@ -24,7 +24,7 @@ export default class VerifyEmailController {
 	 * users alike: whoever holds the link proved they read the mailbox.
 	 */
 	async execute(ctx: HttpContext) {
-		const { token } = await ctx.request.validateUsing(verifyEmailValidator, {
+		const { token } = await ctx.request.validateUsing(oneTimeTokenValidator, {
 			data: ctx.params,
 		});
 

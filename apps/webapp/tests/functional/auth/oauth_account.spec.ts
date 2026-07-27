@@ -4,9 +4,9 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
 import { AUTH_PROVIDER } from '#constants/auth';
-import { createUser } from '#tests/factories/user_factory';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
+import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
 
 const MIXED_CASE_EMAIL = 'Ada.Lovelace@Example.com';
 const NORMALIZED_EMAIL = 'ada.lovelace@example.com';
@@ -68,5 +68,60 @@ test.group('OAuth accounts — email normalization', (group) => {
 		const resolvedUser = await oauthAccountService.authenticate(identity);
 
 		assert.equal(resolvedUser.id, existingUser.id);
+	});
+});
+
+/**
+ * What identity confirmation asks: not "who should this identity sign in as"
+ * but "does this identity already belong to the session in front of me".
+ */
+test.group('OAuth accounts — resolving an identity to its owner', (group) => {
+	group.each.setup(() => testUtils.db().withGlobalTransaction());
+
+	test('should resolve a linked identity to the account holding it', async ({
+		assert,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'oauth-owner' });
+		const identity = googleIdentity(owner.email);
+		await linkOauthIdentity(owner, identity.providerUserId);
+		const oauthAccountService = await app.container.make(OauthAccountService);
+
+		const linkedUser = await oauthAccountService.findLinkedUser(identity);
+
+		assert.equal(linkedUser?.id, owner.id);
+	});
+
+	test('should resolve an identity nobody claimed to nothing', async ({
+		assert,
+	}) => {
+		const oauthAccountService = await app.container.make(OauthAccountService);
+
+		const linkedUser = await oauthAccountService.findLinkedUser(
+			googleIdentity('stranger@example.com')
+		);
+
+		assert.isNull(linkedUser);
+	});
+
+	test('should report whether an account can prove itself through a provider', async ({
+		assert,
+	}) => {
+		const linkedUser = await createUser({ emailPrefix: 'oauth-has-google' });
+		const unlinkedUser = await createUser({ emailPrefix: 'oauth-no-google' });
+		await linkOauthIdentity(linkedUser, 'google-has-provider');
+		const oauthAccountService = await app.container.make(OauthAccountService);
+
+		assert.isTrue(
+			await oauthAccountService.hasLinkedProvider(
+				linkedUser,
+				AUTH_PROVIDER.GOOGLE
+			)
+		);
+		assert.isFalse(
+			await oauthAccountService.hasLinkedProvider(
+				unlinkedUser,
+				AUTH_PROVIDER.GOOGLE
+			)
+		);
 	});
 });

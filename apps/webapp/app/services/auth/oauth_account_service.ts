@@ -69,7 +69,13 @@ export class OauthAccountService {
 		return identity.email.trim().toLowerCase();
 	}
 
-	private async findLinkedUser(identity: OauthIdentity): Promise<User | null> {
+	/**
+	 * The account an OAuth identity belongs to, or `null` when no account has
+	 * ever claimed it. Public because confirming identity asks the same
+	 * question sign-in does — it just compares the answer to the session
+	 * instead of signing it in.
+	 */
+	async findLinkedUser(identity: OauthIdentity): Promise<User | null> {
 		const oauthAuth = await OauthAuth.query()
 			.where('provider', identity.provider)
 			.andWhere('providerUserId', identity.providerUserId)
@@ -77,6 +83,21 @@ export class OauthAccountService {
 			.first();
 
 		return oauthAuth?.user ?? null;
+	}
+
+	/**
+	 * Whether an account can be asked to prove itself through a given provider.
+	 */
+	async hasLinkedProvider(
+		user: User,
+		provider: AuthProvider
+	): Promise<boolean> {
+		const oauthAuth = await OauthAuth.query()
+			.where('userId', user.id)
+			.andWhere('provider', provider)
+			.first();
+
+		return oauthAuth !== null;
 	}
 
 	private async assertEmailIsAvailable(email: string): Promise<void> {

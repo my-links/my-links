@@ -174,11 +174,35 @@ const routes = {
     tokens: [{"old":"/register","type":0,"val":"register","end":""}],
     types: placeholder as Registry['auth.register.submit']['types'],
   },
+  'auth.password.forgot': {
+    methods: ["GET","HEAD"],
+    pattern: '/forgot-password',
+    tokens: [{"old":"/forgot-password","type":0,"val":"forgot-password","end":""}],
+    types: placeholder as Registry['auth.password.forgot']['types'],
+  },
+  'auth.password.forgot.submit': {
+    methods: ["POST"],
+    pattern: '/forgot-password',
+    tokens: [{"old":"/forgot-password","type":0,"val":"forgot-password","end":""}],
+    types: placeholder as Registry['auth.password.forgot.submit']['types'],
+  },
   'auth.verify-email': {
     methods: ["GET","HEAD"],
     pattern: '/verify-email/:token',
     tokens: [{"old":"/verify-email/:token","type":0,"val":"verify-email","end":""},{"old":"/verify-email/:token","type":1,"val":"token","end":""}],
     types: placeholder as Registry['auth.verify-email']['types'],
+  },
+  'auth.password.reset': {
+    methods: ["GET","HEAD"],
+    pattern: '/reset-password/:token',
+    tokens: [{"old":"/reset-password/:token","type":0,"val":"reset-password","end":""},{"old":"/reset-password/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['auth.password.reset']['types'],
+  },
+  'auth.password.reset.submit': {
+    methods: ["POST"],
+    pattern: '/reset-password/:token',
+    tokens: [{"old":"/reset-password/:token","type":0,"val":"reset-password","end":""},{"old":"/reset-password/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['auth.password.reset.submit']['types'],
   },
   'auth': {
     methods: ["GET","HEAD"],
@@ -197,6 +221,36 @@ const routes = {
     pattern: '/auth/logout',
     tokens: [{"old":"/auth/logout","type":0,"val":"auth","end":""},{"old":"/auth/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['auth.logout']['types'],
+  },
+  'auth.sudo': {
+    methods: ["GET","HEAD"],
+    pattern: '/sudo',
+    tokens: [{"old":"/sudo","type":0,"val":"sudo","end":""}],
+    types: placeholder as Registry['auth.sudo']['types'],
+  },
+  'auth.sudo.submit': {
+    methods: ["POST"],
+    pattern: '/sudo',
+    tokens: [{"old":"/sudo","type":0,"val":"sudo","end":""}],
+    types: placeholder as Registry['auth.sudo.submit']['types'],
+  },
+  'auth.sudo.google': {
+    methods: ["GET","HEAD"],
+    pattern: '/sudo/google',
+    tokens: [{"old":"/sudo/google","type":0,"val":"sudo","end":""},{"old":"/sudo/google","type":0,"val":"google","end":""}],
+    types: placeholder as Registry['auth.sudo.google']['types'],
+  },
+  'auth.password.set': {
+    methods: ["POST"],
+    pattern: '/account/password',
+    tokens: [{"old":"/account/password","type":0,"val":"account","end":""},{"old":"/account/password","type":0,"val":"password","end":""}],
+    types: placeholder as Registry['auth.password.set']['types'],
+  },
+  'auth.password.change': {
+    methods: ["PUT"],
+    pattern: '/account/password',
+    tokens: [{"old":"/account/password","type":0,"val":"account","end":""},{"old":"/account/password","type":0,"val":"password","end":""}],
+    types: placeholder as Registry['auth.password.change']['types'],
   },
   'api-collections.index': {
     methods: ["GET","HEAD"],
