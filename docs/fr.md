@@ -393,7 +393,21 @@ Voir [`apps/extension/README.md`](../apps/extension/README.md) pour le side-load
 | `pnpm run dev:webapp` / `dev:extension` | Serveur de dev pour l'un des workspaces                           |
 | `pnpm run build`                        | Build de tous les workspaces                                      |
 | `pnpm run test`                         | Suite de tests webapp (nécessite PostgreSQL sur l'hôte configuré) |
+| `pnpm run test:browser`                 | Suite navigateur du parcours d'authentification — voir ci-dessous |
 | `pnpm run check`                        | Lint, vérification du format et typecheck sur tout le monorepo    |
+
+### Suite de tests navigateur
+
+L'essentiel de la suite est fonctionnel : des requêtes HTTP réelles contre l'app, sans navigateur. Une chose que ça ne couvre pas ainsi, c'est le parcours d'authentification tel qu'une personne le vit vraiment au clic — soumission de formulaire, redirections, et ce qu'une boîte mail reçoit — donc `apps/webapp/tests/browser/auth_journey.spec.ts` le pilote avec un vrai navigateur (headless) via Playwright, contre mailpit pour le mail qu'il envoie.
+
+Il lui faut deux choses qu'un simple `pnpm run test` ne demande pas :
+
+- **mailpit démarré** — `docker compose -f dev.compose.yml up -d mailpit`, ou toute la stack `just dev`.
+- **Un binaire Chromium** — `npx playwright install chromium`, une fois par machine.
+
+Aucun build ni serveur de dev séparé n'est nécessaire : `node ace test` démarre l'app de la même façon que `node ace serve`, middleware Vite de dev embarqué compris, et sert de vraies pages au navigateur directement depuis les sources. Si `apps/webapp/public/assets` existe suite à un `pnpm run build` précédent, il faut le supprimer d'abord — sa présence fait que l'app tente de lire un manifeste de production à la place, ce qui échoue immédiatement.
+
+Une fois mailpit démarré et Chromium installé, `pnpm run test:browser` (workspace webapp) lance la suite. `pnpm run test` ne l'inclut jamais — les deux suites sont volontairement séparées pour qu'un `pnpm run test` de routine n'ait jamais besoin de mailpit ni d'un navigateur. Le parcours qu'elle pilote est assez court pour se lire d'un bout à l'autre directement dans le fichier de spec.
 
 ## Extension de navigateur
 

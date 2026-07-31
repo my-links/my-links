@@ -36,7 +36,7 @@ When making a pull request (PR), please adhere to the following guidelines:
 1. Fork the repository and create your branch from `main` (or the default branch).
 2. Run `pnpm run check` (lint, format check and typecheck across the monorepo) and make sure it passes.
 3. Add tests for new features or bug fixes, co-located with the code they cover.
-4. Ensure existing tests still pass: `pnpm run test` for the webapp (needs PostgreSQL), and `pnpm --filter @my-links/extension run check` when touching the extension — it runs the suite against both the Chromium and Firefox targets.
+4. Ensure existing tests still pass: `pnpm run test` for the webapp (needs PostgreSQL), and `pnpm --filter @my-links/extension run check` when touching the extension — it runs the suite against both the Chromium and Firefox targets. If your change touches the auth UI, also run `pnpm run test:browser` (needs mailpit and a Chromium binary — see the README's *Browser Test Suite* section); it isn't part of `pnpm run test` and reviewers won't assume it ran otherwise.
 5. Write commit messages in the imperative mood, one logical change per commit.
 6. Clearly describe the purpose of your pull request. Provide relevant issue numbers if applicable.
 
