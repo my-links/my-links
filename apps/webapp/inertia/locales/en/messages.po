@@ -90,7 +90,7 @@ msgstr "Ada Lovelace"
 msgid "Add an email and password sign-in to this account, alongside the methods it already has."
 msgstr "Add an email and password sign-in to this account, alongside the methods it already has."
 
-#: inertia/components/user_settings/auth_methods.tsx:104
+#: inertia/components/user_settings/auth_methods.tsx:107
 msgid "Add another sign-in method before removing this one"
 msgstr "Add another sign-in method before removing this one"
 
@@ -182,6 +182,10 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 #: inertia/components/user_settings/sessions.tsx:24
 msgid "Cancel"
 msgstr "Cancel"
+
+#: inertia/components/user_settings/email_address.tsx:78
+msgid "Change my email address"
+msgstr "Change my email address"
 
 #: inertia/components/user_settings/password.tsx:119
 msgid "Change my password"
@@ -440,6 +444,10 @@ msgstr "Edit collection"
 msgid "Email"
 msgstr "Email"
 
+#: inertia/components/user_settings/email_address.tsx:31
+msgid "Email address"
+msgstr "Email address"
+
 #: inertia/components/user_settings/auth_methods.tsx:64
 msgid "Email and password"
 msgstr "Email and password"
@@ -528,7 +536,7 @@ msgstr "Give us the address on your account and we will send a link to choose a 
 msgid "Go to {0}"
 msgstr "Go to {0}"
 
-#: inertia/components/user_settings/auth_methods.tsx:83
+#: inertia/components/user_settings/auth_methods.tsx:86
 msgid "Google"
 msgstr "Google"
 
@@ -604,12 +612,12 @@ msgstr "Last used at"
 msgid "link"
 msgstr "link"
 
-#: inertia/components/user_settings/auth_methods.tsx:116
+#: inertia/components/user_settings/auth_methods.tsx:119
 msgid "Link"
 msgstr "Link"
 
 #. placeholder {0}: formatDate(googleLink.linkedAt)
-#: inertia/components/user_settings/auth_methods.tsx:87
+#: inertia/components/user_settings/auth_methods.tsx:90
 msgid "Linked on {0}"
 msgstr "Linked on {0}"
 
@@ -684,6 +692,10 @@ msgstr "MyLinks reserves the right to terminate or suspend your access to the se
 msgid "Name"
 msgstr "Name"
 
+#: inertia/components/user_settings/email_address.tsx:48
+msgid "New email address"
+msgstr "New email address"
+
 #: inertia/components/user_settings/password.tsx:76
 #: inertia/pages/auth/reset_password.tsx:56
 msgid "New password"
@@ -718,7 +730,7 @@ msgstr "No results found"
 msgid "No tokens created yet"
 msgstr "No tokens created yet"
 
-#: inertia/components/user_settings/auth_methods.tsx:89
+#: inertia/components/user_settings/auth_methods.tsx:92
 msgid "Not linked"
 msgstr "Not linked"
 
@@ -883,7 +895,7 @@ msgstr "Set my password"
 
 #: inertia/components/common/navigation/navbar.tsx:113
 #: inertia/components/common/navigation/navbar.tsx:198
-#: inertia/pages/user_settings/show.tsx:13
+#: inertia/pages/user_settings/show.tsx:14
 msgid "Settings"
 msgstr "Settings"
 
@@ -948,6 +960,10 @@ msgstr "Terms"
 msgid "Terms and Conditions of Use for MyLinks"
 msgstr "Terms and Conditions of Use for MyLinks"
 
+#: inertia/components/user_settings/email_address.tsx:34
+msgid "The address you sign in with, and the one recovery links are sent to."
+msgstr "The address you sign in with, and the one recovery links are sent to."
+
 #: inertia/pages/privacy.tsx:94
 msgid "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
 msgstr "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
@@ -960,6 +976,10 @@ msgstr "The collection and use of personal data is governed by our Privacy Polic
 msgid "The content will be visible to everyone"
 msgstr "The content will be visible to everyone"
 
+#: inertia/components/user_settings/email_address.tsx:66
+msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
+msgstr "The new address has to confirm the change, and the current one is told about it so you can cancel."
+
 #: inertia/pages/privacy.tsx:144
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
@@ -971,6 +991,10 @@ msgstr "The ways you can prove who you are. At least one has to remain."
 #: inertia/pages/auth/sudo.tsx:109
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
 msgstr "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
+
+#: inertia/components/user_settings/email_address.tsx:83
+msgid "This instance sends no email, so the address cannot be changed from here."
+msgstr "This instance sends no email, so the address cannot be changed from here."
 
 #: inertia/pages/errors/not_found.tsx:8
 msgid "This page does not exist."
@@ -1021,7 +1045,7 @@ msgid "Unfollow"
 msgstr "Unfollow"
 
 #: inertia/components/user_settings/auth_methods.tsx:32
-#: inertia/components/user_settings/auth_methods.tsx:107
+#: inertia/components/user_settings/auth_methods.tsx:110
 msgid "Unlink"
 msgstr "Unlink"
 
@@ -1096,6 +1120,7 @@ msgstr "You commit to using MyLinks in accordance with applicable laws and not v
 msgid "You will no longer be able to sign in with Google on this account."
 msgstr "You will no longer be able to sign in with Google on this account."
 
+#: inertia/components/user_settings/email_address.tsx:58
 #: inertia/pages/auth/forgot_password.tsx:51
 #: inertia/pages/auth/login.tsx:61
 #: inertia/pages/auth/register.tsx:90

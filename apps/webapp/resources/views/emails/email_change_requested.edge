@@ -1,0 +1,20 @@
+@component('emails/layout', { title: 'Your email address is about to change' })
+  <p style="margin: 0 0 16px;">Hi {{ name }},</p>
+
+  <p style="margin: 0 0 16px;">
+    Someone asked to move your {{ brandName }} account to {{ newEmailAddress }}.
+    Nothing has changed yet — the new address has to confirm it first.
+  </p>
+
+  <p style="margin: 0 0 16px;">
+    If that was not you, stop it from here. The change is cancelled and every
+    session and browser extension token is signed out.
+  </p>
+
+  @!component('emails/action_button', { url: cancellationUrl, label: 'Cancel this change' })
+
+  <p style="margin: 0;">
+    This link stops working in {{ expiresInHours }} hours. If you did ask for
+    the change, ignore this email.
+  </p>
+@end

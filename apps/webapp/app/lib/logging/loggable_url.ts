@@ -13,6 +13,8 @@
 const SECRET_BEARING_PATH_PREFIXES = [
 	'/verify-email/',
 	'/reset-password/',
+	'/confirm-email-change/',
+	'/cancel-email-change/',
 ] as const;
 
 /**

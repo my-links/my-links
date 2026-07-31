@@ -141,7 +141,7 @@ export class OauthAuthSchema extends BaseModel {
 }
 
 export class OneTimeTokenSchema extends BaseModel {
-  static $columns = ['consumedAt', 'createdAt', 'expiresAt', 'id', 'tokenHash', 'type', 'updatedAt', 'userId'] as const
+  static $columns = ['consumedAt', 'createdAt', 'expiresAt', 'id', 'newEmail', 'tokenHash', 'type', 'updatedAt', 'userId'] as const
   $columns = OneTimeTokenSchema.$columns
   @column.dateTime()
   declare consumedAt: DateTime | null
@@ -151,6 +151,8 @@ export class OneTimeTokenSchema extends BaseModel {
   declare expiresAt: DateTime
   @column({ isPrimary: true })
   declare id: number
+  @column()
+  declare newEmail: string | null
   @column()
   declare tokenHash: string
   @column()

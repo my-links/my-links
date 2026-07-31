@@ -90,7 +90,7 @@ msgstr "Ada Lovelace"
 msgid "Add an email and password sign-in to this account, alongside the methods it already has."
 msgstr "Ajoutez une connexion par e-mail et mot de passe à ce compte, en plus des méthodes qu'il possède déjà."
 
-#: inertia/components/user_settings/auth_methods.tsx:104
+#: inertia/components/user_settings/auth_methods.tsx:107
 msgid "Add another sign-in method before removing this one"
 msgstr "Ajoutez une autre méthode de connexion avant de retirer celle-ci"
 
@@ -182,6 +182,10 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 #: inertia/components/user_settings/sessions.tsx:24
 msgid "Cancel"
 msgstr "Annuler"
+
+#: inertia/components/user_settings/email_address.tsx:78
+msgid "Change my email address"
+msgstr "Changer mon adresse e-mail"
 
 #: inertia/components/user_settings/password.tsx:119
 msgid "Change my password"
@@ -440,6 +444,10 @@ msgstr "Modifier une collection"
 msgid "Email"
 msgstr "E-mail"
 
+#: inertia/components/user_settings/email_address.tsx:31
+msgid "Email address"
+msgstr "Adresse e-mail"
+
 #: inertia/components/user_settings/auth_methods.tsx:64
 msgid "Email and password"
 msgstr "Adresse email et mot de passe"
@@ -528,7 +536,7 @@ msgstr "Donnez-nous l'adresse de votre compte et nous enverrons un lien pour cho
 msgid "Go to {0}"
 msgstr "Aller à {0}"
 
-#: inertia/components/user_settings/auth_methods.tsx:83
+#: inertia/components/user_settings/auth_methods.tsx:86
 msgid "Google"
 msgstr "Google"
 
@@ -604,12 +612,12 @@ msgstr "Dernière utilisation"
 msgid "link"
 msgstr "lien"
 
-#: inertia/components/user_settings/auth_methods.tsx:116
+#: inertia/components/user_settings/auth_methods.tsx:119
 msgid "Link"
 msgstr "Lier"
 
 #. placeholder {0}: formatDate(googleLink.linkedAt)
-#: inertia/components/user_settings/auth_methods.tsx:87
+#: inertia/components/user_settings/auth_methods.tsx:90
 msgid "Linked on {0}"
 msgstr "Liée le {0}"
 
@@ -684,6 +692,10 @@ msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès a
 msgid "Name"
 msgstr "Nom"
 
+#: inertia/components/user_settings/email_address.tsx:48
+msgid "New email address"
+msgstr "Nouvelle adresse e-mail"
+
 #: inertia/components/user_settings/password.tsx:76
 #: inertia/pages/auth/reset_password.tsx:56
 msgid "New password"
@@ -718,7 +730,7 @@ msgstr "Aucun résultat trouvé"
 msgid "No tokens created yet"
 msgstr "Aucun jeton créé pour le moment"
 
-#: inertia/components/user_settings/auth_methods.tsx:89
+#: inertia/components/user_settings/auth_methods.tsx:92
 msgid "Not linked"
 msgstr "Non liée"
 
@@ -883,7 +895,7 @@ msgstr "Définir mon mot de passe"
 
 #: inertia/components/common/navigation/navbar.tsx:113
 #: inertia/components/common/navigation/navbar.tsx:198
-#: inertia/pages/user_settings/show.tsx:13
+#: inertia/pages/user_settings/show.tsx:14
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -948,6 +960,10 @@ msgstr "Conditions"
 msgid "Terms and Conditions of Use for MyLinks"
 msgstr "Conditions générales d'utilisation de MyLinks"
 
+#: inertia/components/user_settings/email_address.tsx:34
+msgid "The address you sign in with, and the one recovery links are sent to."
+msgstr "L'adresse avec laquelle vous vous connectez, et celle qui reçoit les liens de récupération."
+
 #: inertia/pages/privacy.tsx:94
 msgid "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
 msgstr "Les données collectées ne sont ni revendues ni utilisées à des fins autres que celles initialement prévues, à savoir la gestion des collections et des liens créés par l'utilisateur."
@@ -960,6 +976,10 @@ msgstr "La collecte et l'utilisation des données personnelles sont régies par 
 msgid "The content will be visible to everyone"
 msgstr "Le contenu sera visible par tous"
 
+#: inertia/components/user_settings/email_address.tsx:66
+msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
+msgstr "La nouvelle adresse doit confirmer le changement, et l'actuelle en est informée pour que vous puissiez l'annuler."
+
 #: inertia/pages/privacy.tsx:144
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout moment et/ou de demander la suppression complète de ses données."
@@ -971,6 +991,10 @@ msgstr "Les façons dont vous pouvez prouver votre identité. Il doit en rester 
 #: inertia/pages/auth/sudo.tsx:109
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
 msgstr "Ce compte n'a plus aucun moyen de confirmer son identité sur cette instance. Déconnectez-vous puis reconnectez-vous pour continuer."
+
+#: inertia/components/user_settings/email_address.tsx:83
+msgid "This instance sends no email, so the address cannot be changed from here."
+msgstr "Cette instance n'envoie aucun e-mail : l'adresse ne peut pas être changée ici."
 
 #: inertia/pages/errors/not_found.tsx:8
 msgid "This page does not exist."
@@ -1021,7 +1045,7 @@ msgid "Unfollow"
 msgstr "Ne plus suivre"
 
 #: inertia/components/user_settings/auth_methods.tsx:32
-#: inertia/components/user_settings/auth_methods.tsx:107
+#: inertia/components/user_settings/auth_methods.tsx:110
 msgid "Unlink"
 msgstr "Délier"
 
@@ -1096,6 +1120,7 @@ msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables
 msgid "You will no longer be able to sign in with Google on this account."
 msgstr "Vous ne pourrez plus vous connecter à ce compte avec Google."
 
+#: inertia/components/user_settings/email_address.tsx:58
 #: inertia/pages/auth/forgot_password.tsx:51
 #: inertia/pages/auth/login.tsx:61
 #: inertia/pages/auth/register.tsx:90

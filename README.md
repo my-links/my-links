@@ -255,7 +255,7 @@ To obtain the Google Client ID and Secret required for authentication:
 
 ### Outgoing Mail Environment Variables
 
-Email is optional. Leave every `SMTP_*` and `MAIL_*` variable empty and the instance runs without it — email verification and password reset links are simply unavailable, and account recovery goes through the `node ace user:*` commands instead.
+Email is optional. Leave every `SMTP_*` and `MAIL_*` variable empty and the instance runs without it — email verification, password reset links and changing your email address are simply unavailable, and account recovery goes through the `node ace user:*` commands instead.
 
 Setting any one of them commits you to a complete configuration: `SMTP_HOST` and `MAIL_FROM_ADDRESS` are then both required, and a partial configuration is rejected at boot rather than silently dropping the one email a locked-out user is waiting for.
 

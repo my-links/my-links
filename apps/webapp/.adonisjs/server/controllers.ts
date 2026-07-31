@@ -37,10 +37,13 @@ export const controllers = {
   },
   auth: {
     Auth: () => import('#controllers/auth/auth_controller'),
+    CancelEmailChange: () => import('#controllers/auth/cancel_email_change_controller'),
     ChangePassword: () => import('#controllers/auth/change_password_controller'),
+    ConfirmEmailChange: () => import('#controllers/auth/confirm_email_change_controller'),
     LinkProvider: () => import('#controllers/auth/link_provider_controller'),
     Login: () => import('#controllers/auth/login_controller'),
     Register: () => import('#controllers/auth/register_controller'),
+    RequestEmailChange: () => import('#controllers/auth/request_email_change_controller'),
     RequestPasswordReset: () => import('#controllers/auth/request_password_reset_controller'),
     ResetPassword: () => import('#controllers/auth/reset_password_controller'),
     SetPassword: () => import('#controllers/auth/set_password_controller'),

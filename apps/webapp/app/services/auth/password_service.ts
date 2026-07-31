@@ -9,12 +9,11 @@ import User from '#models/user';
 import PasswordAuth from '#models/password_auth';
 import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { MailService } from '#services/mail/mail_service';
-import { SessionService } from '#services/user/session_service';
 import { PasswordHasher } from '#services/auth/password_hasher';
-import { ApiTokenService } from '#services/user/api_token_service';
 import PasswordSetNotification from '#mails/password_set_notification';
 import ResetPasswordNotification from '#mails/reset_password_notification';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { AccountAccessService } from '#services/auth/account_access_service';
 import PasswordChangedNotification from '#mails/password_changed_notification';
 import PasswordUpdateRefusedException, {
 	PASSWORD_UPDATE_REFUSAL,
@@ -56,8 +55,7 @@ export class PasswordService {
 	constructor(
 		protected readonly oneTimeTokenService: OneTimeTokenService,
 		protected readonly passwordHasher: PasswordHasher,
-		protected readonly sessionService: SessionService,
-		protected readonly apiTokenService: ApiTokenService,
+		protected readonly accountAccessService: AccountAccessService,
 		protected readonly mailService: MailService
 	) {}
 
@@ -223,8 +221,7 @@ export class PasswordService {
 		user: User,
 		sessionIdToKeep: string | null
 	): Promise<void> {
-		await this.sessionService.revokeAllExcept(user, sessionIdToKeep);
-		await this.apiTokenService.revokeAllTokens(user);
+		await this.accountAccessService.revokeAllExcept(user, sessionIdToKeep);
 		await this.oneTimeTokenService.invalidateAll({
 			userId: user.id,
 			type: TOKEN_TYPE,

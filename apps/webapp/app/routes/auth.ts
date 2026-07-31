@@ -3,6 +3,7 @@ import router from '@adonisjs/core/services/router';
 import { middleware } from '#start/kernel';
 import { controllers } from '#generated/controllers';
 import {
+	emailChangeRequestThrottles,
 	loginThrottles,
 	passwordResetRequestThrottles,
 	registrationThrottles,
@@ -67,6 +68,27 @@ router
 	.prefix('/reset-password')
 	.use(tokenVerificationThrottles);
 
+// Settling an address change is done from a mailbox — the new one confirms, the
+// old one vetoes — so neither link assumes a session. Both carry their token in
+// the path, which is why their prefixes are among the ones `toLoggableUrl`
+// redacts.
+router
+	.group(() => {
+		router
+			.get('/confirm-email-change/:token', [
+				controllers.auth.ConfirmEmailChange,
+				'execute',
+			])
+			.as('auth.email.change.confirm');
+		router
+			.get('/cancel-email-change/:token', [
+				controllers.auth.CancelEmailChange,
+				'execute',
+			])
+			.as('auth.email.change.cancel');
+	})
+	.use(tokenVerificationThrottles);
+
 router
 	.get('/google', [controllers.auth.Auth, 'google'])
 	.as('auth')
@@ -114,6 +136,13 @@ router
 		router
 			.put('/password', [controllers.auth.ChangePassword, 'execute'])
 			.as('auth.password.change');
+
+		// The address is the account's other credential — it is what a reset link
+		// is sent to — so moving it belongs in the same guarded group.
+		router
+			.post('/email', [controllers.auth.RequestEmailChange, 'execute'])
+			.as('auth.email.change')
+			.use(emailChangeRequestThrottles);
 
 		// Adding or removing a way into the account is the same class of
 		// operation as replacing its password, and the anti-lockout guard in

@@ -140,6 +140,23 @@ const SUDO_CONFIRMATION_TIERS = [
 	{ name: 'sustained', requests: 20, window: '1 hour', blockFor: '1 hour' },
 ] as const satisfies readonly AttemptTier[];
 
+/**
+ * Asking to move an account to another address costs two mails and sits behind
+ * a session, so the budget only has to stop a signed-in account from spraying
+ * confirmation links at addresses it does not own.
+ */
+export const EMAIL_CHANGE_REQUEST_BURST_TIER = {
+	name: 'burst',
+	requests: 5,
+	window: '15 minutes',
+	blockFor: '15 minutes',
+} as const satisfies AttemptTier;
+
+const EMAIL_CHANGE_REQUEST_TIERS = [
+	EMAIL_CHANGE_REQUEST_BURST_TIER,
+	{ name: 'sustained', requests: 15, window: '1 hour', blockFor: '1 hour' },
+] as const satisfies readonly AttemptTier[];
+
 function resolveClientAddress(ctx: HttpContext): string {
 	return ctx.request.ip();
 }
@@ -260,3 +277,14 @@ export const sudoConfirmationThrottles: MiddlewareFn[] = defineAttemptThrottles(
 	SUDO_CONFIRMATION_TIERS,
 	['address', 'actor']
 );
+
+/**
+ * Keyed on the signed-in account as well as the address. Never on the submitted
+ * address: that one is attacker-supplied, and keying on it would let anyone
+ * spend the budget of an address they merely typed.
+ */
+export const emailChangeRequestThrottles: MiddlewareFn[] =
+	defineAttemptThrottles('email_change_request', EMAIL_CHANGE_REQUEST_TIERS, [
+		'address',
+		'actor',
+	]);

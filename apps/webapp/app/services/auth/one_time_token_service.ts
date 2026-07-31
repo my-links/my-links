@@ -5,11 +5,12 @@ import { Secret, VerificationToken } from '@adonisjs/core/helpers';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import OneTimeToken from '#models/one_time_token';
+import InvalidOneTimeTokenException from '#exceptions/auth/invalid_one_time_token_exception';
 import {
 	ONE_TIME_TOKEN_LIFETIME_HOURS,
+	ONE_TIME_TOKEN_TYPE,
 	type OneTimeTokenType,
 } from '#constants/auth';
-import InvalidOneTimeTokenException from '#exceptions/auth/invalid_one_time_token_exception';
 
 /**
  * Counted in characters, not bytes — that is what `VerificationToken.seed`
@@ -23,6 +24,30 @@ export type OneTimeTokenSubject = {
 	readonly userId: number;
 	readonly type: OneTimeTokenType;
 };
+
+type EmailChangeIssueRequest = {
+	readonly userId: number;
+	readonly type: typeof ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE;
+	/** The address the account moves to once this link is redeemed. */
+	readonly newEmail: string;
+};
+
+type PlainIssueRequest = {
+	readonly userId: number;
+	readonly type: Exclude<
+		OneTimeTokenType,
+		typeof ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE
+	>;
+};
+
+/**
+ * A union rather than an optional field: an email change token without the
+ * address it moves to is a link nothing can honour, and making that state
+ * unrepresentable is cheaper than checking for it at redemption time.
+ */
+export type OneTimeTokenIssueRequest =
+	| EmailChangeIssueRequest
+	| PlainIssueRequest;
 
 export type IssuedOneTimeToken = {
 	readonly secret: Secret<string>;
@@ -58,10 +83,8 @@ export type GuardedAction<TResult> = (
  * print a live link.
  */
 export class OneTimeTokenService {
-	async issue({
-		userId,
-		type,
-	}: OneTimeTokenSubject): Promise<IssuedOneTimeToken> {
+	async issue(request: OneTimeTokenIssueRequest): Promise<IssuedOneTimeToken> {
+		const { userId, type } = request;
 		const { secret, hash } = VerificationToken.seed(TOKEN_CHARACTER_LENGTH);
 		const lifetimeInHours = ONE_TIME_TOKEN_LIFETIME_HOURS[type];
 		const expiresAt = DateTime.now().plus({ hours: lifetimeInHours });
@@ -70,6 +93,10 @@ export class OneTimeTokenService {
 			userId,
 			type,
 			tokenHash: hash,
+			newEmail:
+				request.type === ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE
+					? request.newEmail
+					: null,
 			expiresAt,
 			consumedAt: null,
 		});
