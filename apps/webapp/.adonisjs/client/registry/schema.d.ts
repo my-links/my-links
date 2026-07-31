@@ -563,10 +563,10 @@ export interface Registry {
     methods: ["DELETE"]
     pattern: '/account/providers/:provider'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/auth/unlink_provider_validator').unlinkProviderValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/auth_provider_validator').authProviderValidator)>>
       paramsTuple: [ParamValue]
       params: { provider: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/auth/unlink_provider_validator').unlinkProviderValidator)>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/auth_provider_validator').authProviderValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/unlink_provider_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/unlink_provider_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }

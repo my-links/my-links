@@ -96,6 +96,25 @@ export class EmailVerificationService {
 	}
 
 	/**
+	 * Confirms an address on the operator's authority, from the console — the
+	 * way an instance with no outgoing mail unblocks an account that the
+	 * sign-in gate is holding out.
+	 *
+	 * An address that was already confirmed keeps the date it was confirmed on:
+	 * that date records when control of the mailbox was proven, and an operator
+	 * re-running the command has proven nothing new. `false` says so, so the
+	 * caller can report it rather than claim a change it did not make.
+	 */
+	async markVerified(user: User): Promise<boolean> {
+		if (user.emailVerifiedAt) return false;
+
+		user.emailVerifiedAt = DateTime.now();
+		await user.save();
+
+		return true;
+	}
+
+	/**
 	 * Marks the address confirmed, in the same transaction that burns the link.
 	 */
 	async confirm(secret: Secret<string>): Promise<User> {

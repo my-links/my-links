@@ -6,6 +6,7 @@
 	"type": "module",
 	"imports": {
 		"#adonis/api": "./.adonisjs/api.ts",
+		"#commands/*": "./commands/*.js",
 		"#config/*": "./config/*.js",
 		"#controllers/*": "./app/controllers/*.js",
 		"#generated/*": "./.adonisjs/server/*.js",

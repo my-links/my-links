@@ -32,6 +32,21 @@ export class AuthEventService {
 	}
 
 	/**
+	 * Journals something an operator did from the console.
+	 *
+	 * No address and no user agent: there is no request, and inventing one
+	 * would make an operator's own doing look like traffic. A row with neither
+	 * is exactly what "this came from the machine itself" looks like in the
+	 * journal.
+	 */
+	async recordConsoleAction(
+		type: AuthEventType,
+		userId: number
+	): Promise<void> {
+		await this.record({ type, userId, ip: null, userAgent: null });
+	}
+
+	/**
 	 * Attributes a failed attempt to the account it targeted, when there is
 	 * one. The lookup happens here rather than in the caller so the
 	 * credentials service can keep refusing to say whether an account exists:

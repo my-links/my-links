@@ -1,5 +1,7 @@
+import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
+import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
 import { UserService } from '#services/user/user_service';
@@ -10,6 +12,17 @@ export type RegistrationRequest = {
 	readonly name: string;
 	readonly email: string;
 	readonly password: string;
+};
+
+export type ProvisionRequest = RegistrationRequest & {
+	readonly isAdmin: boolean;
+};
+
+type AccountIdentity = {
+	readonly name: string;
+	readonly email: string;
+	readonly isAdmin: boolean;
+	readonly emailVerifiedAt: DateTime | null;
 };
 
 @inject()
@@ -38,7 +51,39 @@ export class RegistrationService {
 			return null;
 		}
 
-		return this.createAccount(request);
+		return db.transaction(async (trx) =>
+			this.createAccount(trx, request.password, {
+				name: request.name,
+				email: request.email,
+				isAdmin: await this.userService.isNextAccountAdmin(trx),
+				emailVerifiedAt: null,
+			})
+		);
+	}
+
+	/**
+	 * Opens an account on the operator's authority, from the console.
+	 *
+	 * Three things separate it from the visitor path, all following from who is
+	 * asking: the registration policy decides who may walk in from the outside
+	 * and has nothing to say about someone holding a shell on the machine; a
+	 * taken address is reported plainly, because there is no visitor left to
+	 * keep it from; and the address counts as confirmed, since an operator
+	 * typing it is the very proof a mailed link would have collected.
+	 */
+	async provision(request: ProvisionRequest): Promise<User> {
+		return db.transaction(async (trx) =>
+			this.createAccount(trx, request.password, {
+				name: request.name,
+				email: request.email,
+				isAdmin: request.isAdmin,
+				emailVerifiedAt: DateTime.now(),
+			})
+		);
+	}
+
+	async isEmailAvailable(email: string): Promise<boolean> {
+		return !(await this.isEmailTaken(email));
 	}
 
 	private async isEmailTaken(email: string): Promise<boolean> {
@@ -48,29 +93,20 @@ export class RegistrationService {
 	}
 
 	/**
-	 * The account and its password are one write: a `users` row without a
-	 * `password_auths` row is an account nobody — not even its owner — can sign
-	 * in to, and nothing would ever repair it.
+	 * The single writer, shared by both paths. The account and its password are
+	 * one write: a `users` row without a `password_auths` row is an account
+	 * nobody — not even its owner — can sign in to, and nothing would ever
+	 * repair it.
 	 */
-	private async createAccount({
-		name,
-		email,
-		password,
-	}: RegistrationRequest): Promise<User> {
-		return db.transaction(async (trx) => {
-			const user = await User.create(
-				{
-					name,
-					email,
-					isAdmin: await this.userService.isNextAccountAdmin(trx),
-					emailVerifiedAt: null,
-				},
-				{ client: trx }
-			);
+	private async createAccount(
+		trx: TransactionClientContract,
+		password: string,
+		identity: AccountIdentity
+	): Promise<User> {
+		const user = await User.create(identity, { client: trx });
 
-			await user.related('passwordAuth').create({ password });
+		await user.related('passwordAuth').create({ password });
 
-			return user;
-		});
+		return user;
 	}
 }

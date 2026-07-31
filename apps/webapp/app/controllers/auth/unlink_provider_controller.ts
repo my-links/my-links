@@ -6,7 +6,7 @@ import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { ProviderLinkService } from '#services/auth/provider_link_service';
-import { unlinkProviderValidator } from '#validators/auth/unlink_provider_validator';
+import { authProviderValidator } from '#validators/auth/auth_provider_validator';
 
 const PROVIDER_UNLINKED_MESSAGE = 'That sign-in method has been removed';
 
@@ -24,7 +24,7 @@ export default class UnlinkProviderController {
 
 	async execute(ctx: HttpContext) {
 		const { provider } = await ctx.request.validateUsing(
-			unlinkProviderValidator,
+			authProviderValidator,
 			{ data: ctx.params }
 		);
 		const user = ctx.auth.getUserOrFail();

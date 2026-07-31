@@ -41,6 +41,11 @@ export type ResetPasswordRequest = {
 	readonly newPassword: string;
 };
 
+export type IssuedResetLink = {
+	readonly url: string;
+	readonly expiresInHours: number;
+};
+
 /**
  * Everything that writes `password_auths`, plus the recovery flow that reaches
  * an account through its mailbox.
@@ -125,6 +130,29 @@ export class PasswordService {
 	}
 
 	/**
+	 * Writes a password on the operator's authority, from the console.
+	 *
+	 * Everything the previous credential reached goes with it, whether or not
+	 * there was one: an operator reaching for this command is recovering an
+	 * account, and an account being recovered is an account whose current
+	 * sessions and extension tokens are exactly what nobody can vouch for.
+	 */
+	async overwritePassword({
+		user,
+		newPassword,
+	}: SetPasswordRequest): Promise<void> {
+		const hadPassword = await this.hasPassword(user);
+
+		await this.writePassword(user, newPassword);
+		await this.revokeEveryOtherAccess(user, null);
+		await this.mailService.send(
+			hadPassword
+				? new PasswordChangedNotification({ user })
+				: new PasswordSetNotification({ user })
+		);
+	}
+
+	/**
 	 * Mails a reset link, or does nothing at all — and answers the same way
 	 * either time. The caller is handed no result, so there is nothing it could
 	 * accidentally turn into "that address has an account here".
@@ -135,6 +163,25 @@ export class PasswordService {
 		const user = await User.findBy('email', email);
 		if (!user) return;
 
+		const { url, expiresInHours } = await this.issueResetLink(user);
+
+		await this.mailService.send(
+			new ResetPasswordNotification({
+				user,
+				resetUrl: url,
+				expiresInHours,
+			})
+		);
+	}
+
+	/**
+	 * Mints a reset link and hands it back instead of mailing it.
+	 *
+	 * Nothing here asks whether outgoing mail is configured: this is what an
+	 * instance without it has *instead* of a reset email, printed by the
+	 * console for an operator to carry to the account's owner.
+	 */
+	async issueResetLink(user: User): Promise<IssuedResetLink> {
 		await this.oneTimeTokenService.invalidateAll({
 			userId: user.id,
 			type: TOKEN_TYPE,
@@ -145,13 +192,7 @@ export class PasswordService {
 			type: TOKEN_TYPE,
 		});
 
-		await this.mailService.send(
-			new ResetPasswordNotification({
-				user,
-				resetUrl: this.buildResetUrl(secret),
-				expiresInHours: lifetimeInHours,
-			})
-		);
+		return { url: this.buildResetUrl(secret), expiresInHours: lifetimeInHours };
 	}
 
 	/**
