@@ -392,7 +392,21 @@ Run from the repository root:
 | `pnpm run dev:webapp` / `dev:extension` | Dev server for one workspace                                |
 | `pnpm run build`                        | Build every workspace                                       |
 | `pnpm run test`                         | Webapp test suite (needs PostgreSQL on the configured host) |
+| `pnpm run test:browser`                 | Browser suite for the auth journey — see below              |
 | `pnpm run check`                        | Lint, format check and typecheck across the monorepo        |
+
+### Browser Test Suite
+
+Most of the test suite is functional: real HTTP requests against the app, no browser involved. One thing that isn't covered that way is the auth journey a person actually clicks through — form submission, redirects, and what a mailbox receives — so `apps/webapp/tests/browser/auth_journey.spec.ts` drives it with a real (headless) browser via Playwright, against mailpit for the mail it sends.
+
+It needs two things a plain `pnpm run test` doesn't:
+
+- **mailpit running** — `docker compose -f dev.compose.yml up -d mailpit`, or the full `just dev` stack.
+- **A Chromium binary** — `npx playwright install chromium`, once per machine.
+
+No separate build or dev server is required: `node ace test` boots the app the same way `node ace serve` does, embedded Vite dev middleware included, and serves real pages to the browser directly from source. If `apps/webapp/public/assets` exists from a previous `pnpm run build`, remove it first — its presence makes the app try to read a production manifest instead, which fails immediately.
+
+With mailpit up and Chromium installed, `pnpm run test:browser` (webapp workspace) runs it. `pnpm run test` never includes it — the two suites are deliberately kept apart so a routine `pnpm run test` never needs mailpit or a browser. The auth journey it drives is short enough to read start to finish in the spec file itself.
 
 ## Browser Extension
 

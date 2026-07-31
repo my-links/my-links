@@ -2,6 +2,7 @@ import { assert } from '@japa/assert';
 import { apiClient } from '@japa/api-client';
 import app from '@adonisjs/core/services/app';
 import type { Config } from '@japa/runner/types';
+import { browserClient } from '@japa/browser-client';
 import { pluginAdonisJS } from '@japa/plugin-adonisjs';
 import { dbAssertions } from '@adonisjs/lucid/plugins/db';
 import testUtils from '@adonisjs/core/services/test_utils';
@@ -10,6 +11,7 @@ import { shieldApiClient } from '@adonisjs/shield/plugins/api_client';
 import { inertiaApiClient } from '@adonisjs/inertia/plugins/api_client';
 import { sessionApiClient } from '@adonisjs/session/plugins/api_client';
 
+import env from '#start/env';
 import type { Registry } from '../.adonisjs/client/registry/schema.d.ts';
 
 declare module '@japa/api-client/types' {
@@ -30,6 +32,13 @@ export const plugins: Config['plugins'] = [
 	// without it Inertia answers 409 (version mismatch) instead of rendering.
 	inertiaApiClient(app),
 	dbAssertions(app),
+	// Only the `browser` suite pays for a Playwright launch. `visit()` resolves
+	// relative paths (`/login`, not `http://localhost:3333/login`) against this
+	// `baseURL`, the same host:port `testUtils.httpServer()` listens on below.
+	browserClient({
+		runInSuites: ['browser'],
+		contextOptions: { baseURL: `http://${env.get('HOST')}:${env.get('PORT')}` },
+	}),
 ];
 
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
