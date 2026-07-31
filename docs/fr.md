@@ -260,6 +260,8 @@ L'envoi d'e-mails est optionnel. Laissez toutes les variables `SMTP_*` et `MAIL_
 
 En définir une seule vous engage à une configuration complète : `SMTP_HOST` et `MAIL_FROM_ADDRESS` deviennent obligatoires, et une configuration partielle est rejetée au démarrage plutôt que de faire disparaître en silence le seul e-mail qu'attend un utilisateur enfermé dehors.
 
+Configurer l'envoi d'e-mails fait aussi du lien de confirmation une condition d'entrée : la connexion par mot de passe exige une adresse confirmée, et la page de connexion propose d'envoyer un nouveau lien à qui se voit refuser l'accès. Sans envoi d'e-mails, cette exigence n'existe pas — une instance qui ne peut envoyer aucun lien ne demande à personne d'en suivre un.
+
 | Variable            | Remarques                                                         |
 | ------------------- | ----------------------------------------------------------------- |
 | `SMTP_HOST`         | Nom d'hôte du relais                                              |

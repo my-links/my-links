@@ -58,6 +58,9 @@ export interface ApiDefinition {
       set: typeof routes['auth.password.set']
       change: typeof routes['auth.password.change']
     }
+    verification: {
+      resend: typeof routes['auth.verification.resend']
+    }
     verifyEmail: typeof routes['auth.verify-email']
     email: {
       change: typeof routes['auth.email.change'] & {

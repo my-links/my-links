@@ -35,6 +35,17 @@ export async function createUser({
 }
 
 /**
+ * Marks an existing user's address as confirmed. Accounts come out of
+ * `createUser` unconfirmed, which is what a fresh registration looks like, so
+ * the specs that need the other state say so explicitly.
+ */
+export async function verifyUserEmail(user: User): Promise<User> {
+	user.emailVerifiedAt = DateTime.now();
+
+	return user.save();
+}
+
+/**
  * Attaches a password to an existing user. The plain value is handed to the
  * model so the `beforeSave` hook does the hashing — a spec that pre-hashed the
  * value itself would stop covering that hook.

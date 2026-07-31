@@ -13,7 +13,7 @@ import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { PasswordHasher } from '#services/auth/password_hasher';
 import { SessionService } from '#services/user/session_service';
 import { newPasswordForm } from '#tests/helpers/password_forms';
-import { PASSWORD_RESET_REQUEST_BURST_TIER } from '#start/limiter';
+import { MAILED_LINK_REQUEST_BURST_TIER } from '#start/limiter';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import PasswordSetNotification from '#mails/password_set_notification';
@@ -444,7 +444,7 @@ test.group('Password — asking for a reset link', (group) => {
 
 		for (
 			let index = 0;
-			index < PASSWORD_RESET_REQUEST_BURST_TIER.requests;
+			index < MAILED_LINK_REQUEST_BURST_TIER.requests;
 			index += 1
 		) {
 			await attempt();

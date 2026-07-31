@@ -5,19 +5,29 @@ import { Head, useForm } from '@inertiajs/react';
 import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
+import { InertiaProps } from '~/types/inertia';
 import SmallContentLayout from '~/layouts/small_content';
 import { FormField } from '~/components/common/form_field';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { usePasswordRecovery } from '~/hooks/use_password_recovery';
 import { useRegistrationPolicy } from '~/hooks/use_registration_policy';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
+import { ResendVerificationAction } from '~/components/auth/resend_verification_action';
 
 type LoginFormData = {
 	email: string;
 	password: string;
 };
 
-function LoginPage() {
+/**
+ * Set only on the render that follows a sign-in refused for an unconfirmed
+ * address, and it carries that address so the resend action needs no typing.
+ */
+type PageProps = InertiaProps<{
+	unconfirmedEmail: string | null;
+}>;
+
+function LoginPage({ unconfirmedEmail }: PageProps) {
 	const { isGoogleEnabled } = useAuthProviders();
 	const { isOpen: isRegistrationOpen } = useRegistrationPolicy();
 	const { isEnabled: isPasswordRecoveryEnabled } = usePasswordRecovery();
@@ -93,6 +103,10 @@ function LoginPage() {
 						<Trans>Login</Trans>
 					</Button>
 				</form>
+
+				{unconfirmedEmail && (
+					<ResendVerificationAction email={unconfirmedEmail} />
+				)}
 
 				{/* Only offered where a link can actually be sent: an instance
 				    with no outgoing mail has no reset route to point at. */}

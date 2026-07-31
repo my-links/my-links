@@ -9,6 +9,7 @@ import {
 	registrationThrottles,
 	sudoConfirmationThrottles,
 	tokenVerificationThrottles,
+	verificationResendThrottles,
 } from '#start/limiter';
 
 const ROUTES_PREFIX = '/auth';
@@ -42,6 +43,16 @@ router
 			])
 			.as('auth.password.forgot.submit')
 			.use(passwordResetRequestThrottles);
+
+		// Offered by the login page to whoever was just turned away for an
+		// unconfirmed address — and open to anyone who lost the first link.
+		router
+			.post('/resend-verification', [
+				controllers.auth.ResendVerification,
+				'execute',
+			])
+			.as('auth.verification.resend')
+			.use(verificationResendThrottles);
 	})
 	.use(middleware.guest({ redirectTo: 'collection.favorites' }));
 
