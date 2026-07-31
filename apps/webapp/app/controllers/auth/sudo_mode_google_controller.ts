@@ -2,10 +2,13 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_PROVIDER } from '#constants/auth';
-import { SudoModeService } from '#services/auth/sudo_mode_service';
 import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import {
+	OAUTH_INTENT,
+	OauthIntentService,
+} from '#services/auth/oauth_intent_service';
 import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
 import SudoConfirmationFailedException from '#exceptions/auth/sudo_confirmation_failed_exception';
 
@@ -19,7 +22,7 @@ import SudoConfirmationFailedException from '#exceptions/auth/sudo_confirmation_
 @inject()
 export default class SudoModeGoogleController {
 	constructor(
-		protected readonly sudoModeService: SudoModeService,
+		protected readonly oauthIntentService: OauthIntentService,
 		protected readonly oauthAccountService: OauthAccountService,
 		protected readonly googleAuthConfigService: GoogleAuthConfigService
 	) {}
@@ -39,9 +42,9 @@ export default class SudoModeGoogleController {
 		}
 
 		// Armed before leaving, because the callback URL is the one Google was
-		// configured with — the flag is what tells the shared callback that the
+		// configured with — the intent is what tells the shared callback that the
 		// identity coming back confirms a session instead of opening one.
-		this.sudoModeService.startOauthConfirmation(ctx.session);
+		this.oauthIntentService.arm(ctx.session, OAUTH_INTENT.SUDO_CONFIRMATION);
 
 		const redirectUrl = await ctx.ally.use('google').redirectUrl();
 

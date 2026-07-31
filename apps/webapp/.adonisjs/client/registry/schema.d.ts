@@ -499,6 +499,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/change_password_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.provider.google.link': {
+    methods: ["GET","HEAD"]
+    pattern: '/account/providers/google'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/link_provider_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/link_provider_controller').default['execute']>>>
+    }
+  }
+  'auth.provider.unlink': {
+    methods: ["DELETE"]
+    pattern: '/account/providers/:provider'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/unlink_provider_validator').unlinkProviderValidator)>>
+      paramsTuple: [ParamValue]
+      params: { provider: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/unlink_provider_validator').unlinkProviderValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/unlink_provider_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/unlink_provider_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'api-collections.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/collections'

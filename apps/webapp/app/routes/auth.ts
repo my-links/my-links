@@ -114,6 +114,20 @@ router
 		router
 			.put('/password', [controllers.auth.ChangePassword, 'execute'])
 			.as('auth.password.change');
+
+		// Adding or removing a way into the account is the same class of
+		// operation as replacing its password, and the anti-lockout guard in
+		// `ProviderLinkService` is what makes the removal safe rather than the
+		// button the settings page decides to hide.
+		router
+			.get('/providers/google', [controllers.auth.LinkProvider, 'execute'])
+			.as('auth.provider.google.link');
+		router
+			.delete('/providers/:provider', [
+				controllers.auth.UnlinkProvider,
+				'execute',
+			])
+			.as('auth.provider.unlink');
 	})
 	.prefix('/account')
 	.use([middleware.auth(), middleware.sudo()]);

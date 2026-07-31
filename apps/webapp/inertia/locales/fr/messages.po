@@ -90,6 +90,10 @@ msgstr "Ada Lovelace"
 msgid "Add an email and password sign-in to this account, alongside the methods it already has."
 msgstr "Ajoutez une connexion par e-mail et mot de passe à ce compte, en plus des méthodes qu'il possède déjà."
 
+#: inertia/components/user_settings/auth_methods.tsx:104
+msgid "Add another sign-in method before removing this one"
+msgstr "Ajoutez une autre méthode de connexion avant de retirer celle-ci"
+
 #: inertia/components/dashboard/links/link_controls.tsx:159
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
@@ -173,6 +177,7 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:65
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:67
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:92
+#: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:21
 #: inertia/components/user_settings/sessions.tsx:24
 msgid "Cancel"
@@ -435,6 +440,14 @@ msgstr "Modifier une collection"
 msgid "Email"
 msgstr "E-mail"
 
+#: inertia/components/user_settings/auth_methods.tsx:64
+msgid "Email and password"
+msgstr "Adresse email et mot de passe"
+
+#: inertia/components/user_settings/auth_methods.tsx:68
+msgid "Enabled"
+msgstr "Activée"
+
 #: inertia/components/api_tokens/create_token_modal.tsx:45
 msgid "Enter token name"
 msgstr "Entrer le nom du jeton"
@@ -515,6 +528,10 @@ msgstr "Donnez-nous l'adresse de votre compte et nous enverrons un lien pour cho
 msgid "Go to {0}"
 msgstr "Aller à {0}"
 
+#: inertia/components/user_settings/auth_methods.tsx:83
+msgid "Google"
+msgstr "Google"
+
 #: inertia/components/common/navigation/navbar.tsx:105
 msgid "Hello"
 msgstr "Bonjour"
@@ -586,6 +603,15 @@ msgstr "Dernière utilisation"
 #: inertia/components/dashboard/views/favorites_view_content.tsx:24
 msgid "link"
 msgstr "lien"
+
+#: inertia/components/user_settings/auth_methods.tsx:116
+msgid "Link"
+msgstr "Lier"
+
+#. placeholder {0}: formatDate(googleLink.linkedAt)
+#: inertia/components/user_settings/auth_methods.tsx:87
+msgid "Linked on {0}"
+msgstr "Liée le {0}"
 
 #: inertia/components/dashboard/views/collection_view_content.tsx:31
 #: inertia/components/dashboard/views/favorites_view_content.tsx:26
@@ -691,6 +717,14 @@ msgstr "Aucun résultat trouvé"
 #: inertia/components/api_tokens/api_tokens.tsx:106
 msgid "No tokens created yet"
 msgstr "Aucun jeton créé pour le moment"
+
+#: inertia/components/user_settings/auth_methods.tsx:89
+msgid "Not linked"
+msgstr "Non liée"
+
+#: inertia/components/user_settings/auth_methods.tsx:70
+msgid "Not set — use the form below to add one"
+msgstr "Non définie — utilisez le formulaire ci-dessous pour en ajouter une"
 
 #: inertia/components/admin/users/users_table.tsx:234
 msgid "Nothing found"
@@ -849,7 +883,7 @@ msgstr "Définir mon mot de passe"
 
 #: inertia/components/common/navigation/navbar.tsx:113
 #: inertia/components/common/navigation/navbar.tsx:198
-#: inertia/pages/user_settings/show.tsx:12
+#: inertia/pages/user_settings/show.tsx:13
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -881,6 +915,10 @@ msgstr "Déconnecter"
 #: inertia/components/user_settings/sessions.tsx:17
 msgid "Sign out session"
 msgstr "Déconnecter la session"
+
+#: inertia/components/user_settings/auth_methods.tsx:46
+msgid "Sign-in methods"
+msgstr "Méthodes de connexion"
 
 #: inertia/pages/auth/register.tsx:64
 msgid "Start collecting your links in one place"
@@ -925,6 +963,10 @@ msgstr "Le contenu sera visible par tous"
 #: inertia/pages/privacy.tsx:144
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout moment et/ou de demander la suppression complète de ses données."
+
+#: inertia/components/user_settings/auth_methods.tsx:49
+msgid "The ways you can prove who you are. At least one has to remain."
+msgstr "Les façons dont vous pouvez prouver votre identité. Il doit en rester au moins une."
 
 #: inertia/pages/auth/sudo.tsx:109
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
@@ -977,6 +1019,15 @@ msgstr "Saisissez-le à nouveau"
 #: inertia/pages/shared.tsx:84
 msgid "Unfollow"
 msgstr "Ne plus suivre"
+
+#: inertia/components/user_settings/auth_methods.tsx:32
+#: inertia/components/user_settings/auth_methods.tsx:107
+msgid "Unlink"
+msgstr "Délier"
+
+#: inertia/components/user_settings/auth_methods.tsx:24
+msgid "Unlink Google"
+msgstr "Délier Google"
 
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:76
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:101
@@ -1040,6 +1091,10 @@ msgstr "Vous pouvez demander la suppression de votre compte à tout moment confo
 #: inertia/pages/terms.tsx:79
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables et à ne pas violer les droits de tiers."
+
+#: inertia/components/user_settings/auth_methods.tsx:27
+msgid "You will no longer be able to sign in with Google on this account."
+msgstr "Vous ne pourrez plus vous connecter à ce compte avec Google."
 
 #: inertia/pages/auth/forgot_password.tsx:51
 #: inertia/pages/auth/login.tsx:61

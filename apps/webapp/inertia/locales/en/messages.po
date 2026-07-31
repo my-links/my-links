@@ -90,6 +90,10 @@ msgstr "Ada Lovelace"
 msgid "Add an email and password sign-in to this account, alongside the methods it already has."
 msgstr "Add an email and password sign-in to this account, alongside the methods it already has."
 
+#: inertia/components/user_settings/auth_methods.tsx:104
+msgid "Add another sign-in method before removing this one"
+msgstr "Add another sign-in method before removing this one"
+
 #: inertia/components/dashboard/links/link_controls.tsx:159
 msgid "Add to favorites"
 msgstr "Add to favorites"
@@ -173,6 +177,7 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:65
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:67
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:92
+#: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:21
 #: inertia/components/user_settings/sessions.tsx:24
 msgid "Cancel"
@@ -435,6 +440,14 @@ msgstr "Edit collection"
 msgid "Email"
 msgstr "Email"
 
+#: inertia/components/user_settings/auth_methods.tsx:64
+msgid "Email and password"
+msgstr "Email and password"
+
+#: inertia/components/user_settings/auth_methods.tsx:68
+msgid "Enabled"
+msgstr "Enabled"
+
 #: inertia/components/api_tokens/create_token_modal.tsx:45
 msgid "Enter token name"
 msgstr "Enter token name"
@@ -515,6 +528,10 @@ msgstr "Give us the address on your account and we will send a link to choose a 
 msgid "Go to {0}"
 msgstr "Go to {0}"
 
+#: inertia/components/user_settings/auth_methods.tsx:83
+msgid "Google"
+msgstr "Google"
+
 #: inertia/components/common/navigation/navbar.tsx:105
 msgid "Hello"
 msgstr "Hello"
@@ -586,6 +603,15 @@ msgstr "Last used at"
 #: inertia/components/dashboard/views/favorites_view_content.tsx:24
 msgid "link"
 msgstr "link"
+
+#: inertia/components/user_settings/auth_methods.tsx:116
+msgid "Link"
+msgstr "Link"
+
+#. placeholder {0}: formatDate(googleLink.linkedAt)
+#: inertia/components/user_settings/auth_methods.tsx:87
+msgid "Linked on {0}"
+msgstr "Linked on {0}"
 
 #: inertia/components/dashboard/views/collection_view_content.tsx:31
 #: inertia/components/dashboard/views/favorites_view_content.tsx:26
@@ -691,6 +717,14 @@ msgstr "No results found"
 #: inertia/components/api_tokens/api_tokens.tsx:106
 msgid "No tokens created yet"
 msgstr "No tokens created yet"
+
+#: inertia/components/user_settings/auth_methods.tsx:89
+msgid "Not linked"
+msgstr "Not linked"
+
+#: inertia/components/user_settings/auth_methods.tsx:70
+msgid "Not set — use the form below to add one"
+msgstr "Not set — use the form below to add one"
 
 #: inertia/components/admin/users/users_table.tsx:234
 msgid "Nothing found"
@@ -849,7 +883,7 @@ msgstr "Set my password"
 
 #: inertia/components/common/navigation/navbar.tsx:113
 #: inertia/components/common/navigation/navbar.tsx:198
-#: inertia/pages/user_settings/show.tsx:12
+#: inertia/pages/user_settings/show.tsx:13
 msgid "Settings"
 msgstr "Settings"
 
@@ -881,6 +915,10 @@ msgstr "Sign out"
 #: inertia/components/user_settings/sessions.tsx:17
 msgid "Sign out session"
 msgstr "Sign out session"
+
+#: inertia/components/user_settings/auth_methods.tsx:46
+msgid "Sign-in methods"
+msgstr "Sign-in methods"
 
 #: inertia/pages/auth/register.tsx:64
 msgid "Start collecting your links in one place"
@@ -925,6 +963,10 @@ msgstr "The content will be visible to everyone"
 #: inertia/pages/privacy.tsx:144
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
+
+#: inertia/components/user_settings/auth_methods.tsx:49
+msgid "The ways you can prove who you are. At least one has to remain."
+msgstr "The ways you can prove who you are. At least one has to remain."
 
 #: inertia/pages/auth/sudo.tsx:109
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
@@ -977,6 +1019,15 @@ msgstr "Type it once more"
 #: inertia/pages/shared.tsx:84
 msgid "Unfollow"
 msgstr "Unfollow"
+
+#: inertia/components/user_settings/auth_methods.tsx:32
+#: inertia/components/user_settings/auth_methods.tsx:107
+msgid "Unlink"
+msgstr "Unlink"
+
+#: inertia/components/user_settings/auth_methods.tsx:24
+msgid "Unlink Google"
+msgstr "Unlink Google"
 
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:76
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:101
@@ -1040,6 +1091,10 @@ msgstr "You can request the deletion of your account at any time in accordance w
 #: inertia/pages/terms.tsx:79
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
+
+#: inertia/components/user_settings/auth_methods.tsx:27
+msgid "You will no longer be able to sign in with Google on this account."
+msgstr "You will no longer be able to sign in with Google on this account."
 
 #: inertia/pages/auth/forgot_password.tsx:51
 #: inertia/pages/auth/login.tsx:61

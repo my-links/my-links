@@ -10,6 +10,10 @@ export const AUTH_PROVIDER = {
 
 export type AuthProvider = (typeof AUTH_PROVIDER)[keyof typeof AUTH_PROVIDER];
 
+export const AUTH_PROVIDERS = [
+	AUTH_PROVIDER.GOOGLE,
+] as const satisfies readonly AuthProvider[];
+
 export const ONE_TIME_TOKEN_TYPE = {
 	EMAIL_VERIFICATION: 'email_verification',
 	PASSWORD_RESET: 'password_reset',

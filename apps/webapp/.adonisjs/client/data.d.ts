@@ -8,6 +8,7 @@ import type { InferData, InferVariants } from '@adonisjs/core/types/transformers
 import type { InferSharedProps } from '@adonisjs/inertia/types'
 import type CollectionTransformer from '#transformers/collection'
 import type LinkTransformer from '#transformers/link'
+import type OauthAuthTransformer from '#transformers/oauth_auth_transformer'
 import type SearchResultTransformer from '#transformers/search_result'
 import type StatusReportCheckTransformer from '#transformers/status_report_check'
 import type UserSessionTransformer from '#transformers/user_session_transformer'
@@ -22,6 +23,10 @@ export namespace Data {
   export type Link = InferData<LinkTransformer>
   export namespace Link {
     export type Variants = InferVariants<LinkTransformer>
+  }
+  export type OauthAuth = InferData<OauthAuthTransformer>
+  export namespace OauthAuth {
+    export type Variants = InferVariants<OauthAuthTransformer>
   }
   export type SearchResult = InferData<SearchResultTransformer>
   export namespace SearchResult {
