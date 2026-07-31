@@ -1,7 +1,12 @@
 {
 	"$schema": "https://unpkg.com/release-it@19/schema/release-it.json",
 	"hooks": {
-		"before:init": ["pnpm run check", "pnpm run build"]
+		"before:init": [
+			"pnpm run check",
+			"just test",
+			"pnpm run build",
+			"just build-image"
+		]
 	},
 	"git": {
 		"requireCleanWorkingDir": true,
