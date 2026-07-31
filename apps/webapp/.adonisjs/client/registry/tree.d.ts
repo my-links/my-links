@@ -10,8 +10,13 @@ export interface ApiDefinition {
   admin: {
     dashboard: typeof routes['admin.dashboard']
     status: typeof routes['admin.status']
+    authEvents: typeof routes['admin.authEvents']
     users: {
       bulkDelete: typeof routes['admin.users.bulkDelete']
+      sendPasswordReset: typeof routes['admin.users.sendPasswordReset']
+      revokeAccess: typeof routes['admin.users.revokeAccess']
+      verifyEmail: typeof routes['admin.users.verifyEmail']
+      setRole: typeof routes['admin.users.setRole']
     }
   }
   collection: {

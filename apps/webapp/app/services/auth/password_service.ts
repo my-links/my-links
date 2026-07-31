@@ -163,6 +163,19 @@ export class PasswordService {
 		const user = await User.findBy('email', email);
 		if (!user) return;
 
+		await this.mailResetLink(user);
+	}
+
+	/**
+	 * Mails a reset link to an account somebody else named — an administrator
+	 * from the dashboard, where there is no address to keep secret because the
+	 * account is already on screen.
+	 *
+	 * Nothing here asks whether outgoing mail is configured: the caller does,
+	 * and answers 404 when it is not, the way every other mail-backed route
+	 * does.
+	 */
+	async mailResetLink(user: User): Promise<void> {
 		const { url, expiresInHours } = await this.issueResetLink(user);
 
 		await this.mailService.send(

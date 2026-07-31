@@ -48,11 +48,41 @@ const routes = {
     tokens: [{"old":"/admin/status","type":0,"val":"admin","end":""},{"old":"/admin/status","type":0,"val":"status","end":""}],
     types: placeholder as Registry['admin.status']['types'],
   },
+  'admin.authEvents': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/auth-events',
+    tokens: [{"old":"/admin/auth-events","type":0,"val":"admin","end":""},{"old":"/admin/auth-events","type":0,"val":"auth-events","end":""}],
+    types: placeholder as Registry['admin.authEvents']['types'],
+  },
   'admin.users.bulkDelete': {
     methods: ["POST"],
     pattern: '/admin/users/bulk-delete',
     tokens: [{"old":"/admin/users/bulk-delete","type":0,"val":"admin","end":""},{"old":"/admin/users/bulk-delete","type":0,"val":"users","end":""},{"old":"/admin/users/bulk-delete","type":0,"val":"bulk-delete","end":""}],
     types: placeholder as Registry['admin.users.bulkDelete']['types'],
+  },
+  'admin.users.sendPasswordReset': {
+    methods: ["POST"],
+    pattern: '/admin/users/:id/password-reset',
+    tokens: [{"old":"/admin/users/:id/password-reset","type":0,"val":"admin","end":""},{"old":"/admin/users/:id/password-reset","type":0,"val":"users","end":""},{"old":"/admin/users/:id/password-reset","type":1,"val":"id","end":""},{"old":"/admin/users/:id/password-reset","type":0,"val":"password-reset","end":""}],
+    types: placeholder as Registry['admin.users.sendPasswordReset']['types'],
+  },
+  'admin.users.revokeAccess': {
+    methods: ["POST"],
+    pattern: '/admin/users/:id/revoke-access',
+    tokens: [{"old":"/admin/users/:id/revoke-access","type":0,"val":"admin","end":""},{"old":"/admin/users/:id/revoke-access","type":0,"val":"users","end":""},{"old":"/admin/users/:id/revoke-access","type":1,"val":"id","end":""},{"old":"/admin/users/:id/revoke-access","type":0,"val":"revoke-access","end":""}],
+    types: placeholder as Registry['admin.users.revokeAccess']['types'],
+  },
+  'admin.users.verifyEmail': {
+    methods: ["POST"],
+    pattern: '/admin/users/:id/verify-email',
+    tokens: [{"old":"/admin/users/:id/verify-email","type":0,"val":"admin","end":""},{"old":"/admin/users/:id/verify-email","type":0,"val":"users","end":""},{"old":"/admin/users/:id/verify-email","type":1,"val":"id","end":""},{"old":"/admin/users/:id/verify-email","type":0,"val":"verify-email","end":""}],
+    types: placeholder as Registry['admin.users.verifyEmail']['types'],
+  },
+  'admin.users.setRole': {
+    methods: ["PATCH"],
+    pattern: '/admin/users/:id/role',
+    tokens: [{"old":"/admin/users/:id/role","type":0,"val":"admin","end":""},{"old":"/admin/users/:id/role","type":0,"val":"users","end":""},{"old":"/admin/users/:id/role","type":1,"val":"id","end":""},{"old":"/admin/users/:id/role","type":0,"val":"role","end":""}],
+    types: placeholder as Registry['admin.users.setRole']['types'],
   },
   'collection.create': {
     methods: ["POST"],

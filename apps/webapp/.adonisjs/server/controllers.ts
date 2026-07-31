@@ -6,8 +6,13 @@
 export const controllers = {
   admin: {
     Admin: () => import('#controllers/admin/admin_controller'),
+    AuthJournal: () => import('#controllers/admin/auth_journal_controller'),
     BulkDeleteUsers: () => import('#controllers/admin/bulk_delete_users_controller'),
+    RevokeAccountAccess: () => import('#controllers/admin/revoke_account_access_controller'),
+    SendAccountPasswordReset: () => import('#controllers/admin/send_account_password_reset_controller'),
+    SetAccountRole: () => import('#controllers/admin/set_account_role_controller'),
     Status: () => import('#controllers/admin/status_controller'),
+    VerifyAccountEmail: () => import('#controllers/admin/verify_account_email_controller'),
   },
   api: {
     collections: {

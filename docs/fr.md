@@ -324,6 +324,14 @@ Les mots de passe sont toujours demandés, jamais lus depuis une option : un arg
 
 Deux refus sont volontaires. Un fournisseur ne peut pas être détaché lorsqu'il est le seul moyen d'entrer dans le compte, et le dernier administrateur d'une instance ne peut pas être rétrogradé ; les deux produiraient un état qu'aucune page de l'interface ne sait réparer.
 
+### L'espace d'administration
+
+Un administrateur accède à `/admin`, qui compte deux onglets.
+
+**Comptes** liste chaque compte avec ce qu'il possède, si son adresse a été confirmée un jour, comment il peut se connecter et quand il l'a fait pour la dernière fois. Quatre actions sont disponibles par compte, toutes également accessibles depuis la console : envoyer un lien de réinitialisation (uniquement là où l'envoi de mail est configuré — sinon `user:reset-password --link`), marquer une adresse comme confirmée, révoquer toutes les sessions de navigateur et tous les jetons d'extension, promouvoir ou rétrograder. Les mêmes refus s'appliquent que sur la console : le dernier administrateur d'une instance ne peut pas être rétrogradé.
+
+**Journal d'authentification** affiche ce que `auth_events` a enregistré — connexions, refus, changements de mot de passe et d'adresse, liaisons de fournisseur, confirmations sudo — du plus récent au plus ancien, 50 à la fois. Une action qu'un administrateur a menée sur le compte de quelqu'un d'autre nomme à la fois le compte et l'administrateur : une action d'administration n'est jamais prise pour un geste de son propriétaire.
+
 ### Lancer le projet en développement
 
 #### Avec Docker

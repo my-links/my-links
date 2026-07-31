@@ -12,6 +12,9 @@ import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { DataTable } from '~/components/common/data_table/data_table';
 import { useUsersSelection } from '~/hooks/admin/use_users_selection';
+import { AccountActions } from '~/components/admin/users/account_actions';
+import { AuthMethodsCell } from '~/components/admin/users/auth_methods_cell';
+import { EmailVerificationBadge } from '~/components/admin/users/email_verification_badge';
 
 type UserWithCounters = Data.User.Variants['withCounters'];
 
@@ -127,6 +130,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			<DataTable<UserWithCounters>
 				data={sortedData}
 				getRowKey={(user) => String(user.id)}
+				minWidthClassName="min-w-[1280px]"
 				sorting={{
 					sortBy,
 					reversed: reverseSortDirection,
@@ -179,6 +183,23 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						render: (user) => <UserBadgeRole user={user} />,
 					},
 					{
+						key: 'emailVerifiedAt',
+						header: <Trans>Email</Trans>,
+						sortKey: 'emailVerifiedAt',
+						cellClassName: 'px-6 py-4',
+						render: (user) => (
+							<EmailVerificationBadge emailVerifiedAt={user.emailVerifiedAt} />
+						),
+					},
+					{
+						key: 'authMethods',
+						header: <Trans>Sign-in methods</Trans>,
+						cellClassName: 'px-6 py-4',
+						render: (user) => (
+							<AuthMethodsCell authMethods={user.authMethods} />
+						),
+					},
+					{
 						key: 'collectionsCount',
 						header: <Trans>Collections</Trans>,
 						sortKey: 'collectionsCount',
@@ -225,6 +246,27 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 								{user.lastSeenAt ? formatDate(user.lastSeenAt) : <NaContent />}
 							</ClientOnly>
 						),
+					},
+					{
+						key: 'lastLoginAt',
+						header: <Trans>Last sign-in</Trans>,
+						sortKey: 'lastLoginAt',
+						cellClassName: 'px-6 py-4 text-sm text-gray-600 dark:text-gray-400',
+						render: (user) => (
+							<ClientOnly>
+								{user.lastLoginAt ? (
+									formatDate(user.lastLoginAt)
+								) : (
+									<NaContent />
+								)}
+							</ClientOnly>
+						),
+					},
+					{
+						key: 'actions',
+						header: <Trans>Actions</Trans>,
+						cellClassName: 'px-6 py-4',
+						render: (user) => <AccountActions account={user} />,
 					},
 				]}
 				emptyState={
