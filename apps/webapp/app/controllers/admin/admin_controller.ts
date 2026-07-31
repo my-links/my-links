@@ -15,7 +15,7 @@ export default class AdminController {
 	) {}
 
 	async render({ inertia }: HttpContext) {
-		const users = await this.userService.getAllUsersWithTotalRelations();
+		const users = await this.userService.getAccountsOverview();
 		const linksCount = await this.linkService.getTotalLinksCount();
 		const collectionsCount =
 			await this.collectionService.getTotalCollectionsCount();

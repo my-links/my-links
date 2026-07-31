@@ -323,6 +323,14 @@ Passwords are only ever asked for, never read from a flag: an argument would sit
 
 Two refusals are deliberate. A provider cannot be unlinked when it is the only way into the account, and the last administrator of an instance cannot be demoted; both would produce a state no page in the interface can repair.
 
+### The Admin Area
+
+An administrator reaches `/admin`, which holds two tabs.
+
+**Accounts** lists every account with what it owns, whether its address was ever confirmed, how it can sign in, and when it last did. Four actions are available per account, all of them also reachable from the console: mail a reset link (only where outgoing mail is configured — otherwise `user:reset-password --link`), mark an address confirmed, revoke every browser session and extension token, and promote or demote. The same refusals apply as on the console: the last administrator of an instance cannot be demoted.
+
+**Authentication journal** shows what `auth_events` recorded — sign-ins, refusals, password and address changes, provider links, sudo confirmations — newest first, 50 at a time. An action an administrator took on somebody else's account names both the account and the administrator, so an admin action is never mistaken for something the owner did.
+
 ### Running the Project in Development
 
 #### With Docker

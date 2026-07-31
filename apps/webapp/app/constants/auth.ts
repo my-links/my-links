@@ -14,6 +14,15 @@ export const AUTH_PROVIDERS = [
 	AUTH_PROVIDER.GOOGLE,
 ] as const satisfies readonly AuthProvider[];
 
+/**
+ * The credential half of the sign-in vocabulary. Providers name themselves in
+ * `oauth_auths`; a password has no provider to name, so it gets a value of its
+ * own and the two together describe how an account can prove itself.
+ */
+export const PASSWORD_AUTH_METHOD = 'password';
+
+export type AuthMethod = typeof PASSWORD_AUTH_METHOD | AuthProvider;
+
 export const ONE_TIME_TOKEN_TYPE = {
 	EMAIL_VERIFICATION: 'email_verification',
 	PASSWORD_RESET: 'password_reset',
@@ -87,6 +96,9 @@ export const AUTH_EVENT_TYPE = {
 	PROVIDER_UNLINKED: 'provider_unlinked',
 	SUDO_CONFIRMED: 'sudo_confirmed',
 	SUDO_CONFIRMATION_FAILED: 'sudo_confirmation_failed',
+	ROLE_PROMOTED: 'role_promoted',
+	ROLE_DEMOTED: 'role_demoted',
+	ACCESS_REVOKED: 'access_revoked',
 } as const;
 
 export type AuthEventType =

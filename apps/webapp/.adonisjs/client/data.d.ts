@@ -6,6 +6,7 @@
 /// <reference path="./manifest.d.ts" />
 import type { InferData, InferVariants } from '@adonisjs/core/types/transformers'
 import type { InferSharedProps } from '@adonisjs/inertia/types'
+import type AuthEventTransformer from '#transformers/auth_event_transformer'
 import type CollectionTransformer from '#transformers/collection'
 import type LinkTransformer from '#transformers/link'
 import type OauthAuthTransformer from '#transformers/oauth_auth_transformer'
@@ -16,6 +17,10 @@ import type UserTransformer from '#transformers/user'
 import type InertiaMiddleware from '#middleware/inertia_middleware'
 
 export namespace Data {
+  export type AuthEvent = InferData<AuthEventTransformer>
+  export namespace AuthEvent {
+    export type Variants = InferVariants<AuthEventTransformer>
+  }
   export type Collection = InferData<CollectionTransformer>
   export namespace Collection {
     export type Variants = InferVariants<CollectionTransformer>

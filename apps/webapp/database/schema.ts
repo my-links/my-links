@@ -33,8 +33,10 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class AuthEventSchema extends BaseModel {
-  static $columns = ['createdAt', 'id', 'ip', 'type', 'updatedAt', 'userAgent', 'userId'] as const
+  static $columns = ['actorId', 'createdAt', 'id', 'ip', 'type', 'updatedAt', 'userAgent', 'userId'] as const
   $columns = AuthEventSchema.$columns
+  @column()
+  declare actorId: number | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column({ isPrimary: true })

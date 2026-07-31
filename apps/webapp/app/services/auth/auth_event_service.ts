@@ -21,6 +21,23 @@ export type FailedLoginRecord = AuthEventOrigin & {
 	readonly email: string;
 };
 
+/**
+ * Something an administrator did to somebody else's account. Both identifiers
+ * are required: an admin action written without its author reads as the owner
+ * having done it, with the administrator's address attached to their name.
+ */
+export type AdminActionRecord = AuthEventOrigin & {
+	readonly type: AuthEventType;
+	readonly userId: number;
+	readonly actorId: number;
+};
+
+/**
+ * How many lines the journal hands over at a time. `auth_events` only ever
+ * grows, so nothing reads it whole.
+ */
+export const AUTH_JOURNAL_PAGE_SIZE = 50;
+
 export class AuthEventService {
 	async record({
 		type,
@@ -29,6 +46,37 @@ export class AuthEventService {
 		userAgent,
 	}: AuthEventRecord): Promise<void> {
 		await AuthEvent.create({ type, userId, ip, userAgent });
+	}
+
+	/**
+	 * The journal, newest first, one page at a time.
+	 *
+	 * Both accounts are preloaded because every line names them; reading them
+	 * row by row would be two round trips per line rendered.
+	 */
+	listRecent(page: number) {
+		return (
+			AuthEvent.query()
+				.preload('user')
+				.preload('actor')
+				.orderBy('createdAt', 'desc')
+				// Events written in the same transaction share a timestamp, so the
+				// date alone does not order them and a page boundary would be free to
+				// show the same row twice.
+				.orderBy('id', 'desc')
+				.paginate(page, AUTH_JOURNAL_PAGE_SIZE)
+		);
+	}
+
+	/**
+	 * Journals what an administrator did to an account from the dashboard.
+	 *
+	 * The address and user agent are the administrator's, which is precisely
+	 * why the row has to name them: attached to the target account alone they
+	 * would describe a sign-in that never happened.
+	 */
+	async recordAdminAction(record: AdminActionRecord): Promise<void> {
+		await AuthEvent.create(record);
 	}
 
 	/**

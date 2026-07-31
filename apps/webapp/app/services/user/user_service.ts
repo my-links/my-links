@@ -2,7 +2,7 @@ import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
-import type { AuthProvider } from '#constants/auth';
+import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
 import LastAdministratorException from '#exceptions/admin/last_administrator_exception';
 
 /**
@@ -72,19 +72,35 @@ export class UserService {
 		return accounts;
 	}
 
+	findAccountOrFail(userId: User['id']): Promise<User> {
+		return User.findOrFail(userId);
+	}
+
 	/**
-	 * Counts the relations in the query rather than per user: the admin
-	 * dashboard lists every account, so a count per row would be one round trip
-	 * per user.
+	 * Every account, with what the admin dashboard says about each: how much
+	 * they own, how they sign in, and when they last did.
+	 *
+	 * Everything is aggregated or preloaded in the same round of queries rather
+	 * than read per row. The dashboard lists the whole instance, so a lookup
+	 * per account is a lookup per account — the cost grows with the very number
+	 * the page exists to show.
 	 */
-	getAllUsersWithTotalRelations() {
+	getAccountsOverview() {
 		return User.query()
 			.withCount('collections', (query) => {
 				query.as('totalCollections');
 			})
 			.withCount('links', (query) => {
 				query.as('totalLinks');
-			});
+			})
+			.withAggregate('authEvents', (query) => {
+				query
+					.where('type', AUTH_EVENT_TYPE.LOGIN_SUCCEEDED)
+					.max('created_at')
+					.as('lastLoginAt');
+			})
+			.preload('passwordAuth')
+			.preload('oauthAuths');
 	}
 
 	async promoteToAdministrator(user: User): Promise<void> {

@@ -11,7 +11,12 @@ export type ScannedRoutes = {
     'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
+    'admin.authEvents': { paramsTuple?: []; params?: {} }
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
+    'admin.users.sendPasswordReset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.revokeAccess': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.verifyEmail': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -77,6 +82,7 @@ export type ScannedRoutes = {
     'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
+    'admin.authEvents': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'search': { paramsTuple?: []; params?: {} }
@@ -112,6 +118,7 @@ export type ScannedRoutes = {
     'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
+    'admin.authEvents': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'search': { paramsTuple?: []; params?: {} }
@@ -141,6 +148,9 @@ export type ScannedRoutes = {
   }
   POST: {
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
+    'admin.users.sendPasswordReset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.revokeAccess': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.verifyEmail': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -157,6 +167,9 @@ export type ScannedRoutes = {
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
+  }
+  PATCH: {
+    'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PUT: {
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

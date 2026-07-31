@@ -2,6 +2,7 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { InertiaProps } from '~/types/inertia';
+import { AdminTabs } from '~/components/admin/admin_tabs';
 import { UsersTable } from '~/components/admin/users/users_table';
 
 type PageProps = InertiaProps<{
@@ -17,6 +18,8 @@ const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
 				<Trans>Admin Dashboard</Trans>
 			</h1>
 		</div>
+
+		<AdminTabs />
 
 		<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
 			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
