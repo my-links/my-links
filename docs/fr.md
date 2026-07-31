@@ -298,6 +298,32 @@ Une adresse soumise n'est jamais confirmée ni démentie : s'inscrire avec une a
 
 Si l'[envoi d'e-mails](#variables-denvironnement-denvoi-de-mails) est configuré, un nouveau compte reçoit un lien de confirmation valable 24 heures. Sans lui, aucun lien n'est émis et aucune fonctionnalité n'est bloquée par une adresse non confirmée.
 
+### Gérer les comptes depuis la console
+
+Tout ce que les pages de réglages font à un compte, un opérateur disposant d'un shell peut le faire aussi — c'est ce qui garde récupérable une instance sans envoi d'e-mails.
+
+| Commande               | Effet                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------- |
+| `user:create`          | Ouvre un compte, quelle que soit la valeur d'`ALLOW_REGISTRATION`                   |
+| `user:list`            | Liste les comptes, avec `--admin`, `--unverified` et `--provider=google`            |
+| `user:reset-password`  | Écrit un nouveau mot de passe, ou imprime un lien de réinitialisation avec `--link` |
+| `user:set-role`        | Promeut en administrateur ou rétrograde en membre                                   |
+| `user:verify-email`    | Marque une adresse comme confirmée                                                  |
+| `user:unlink-provider` | Détache un fournisseur de connexion                                                 |
+| `user:delete`          | Supprime un compte et tout ce qu'il possède                                         |
+
+Chaque commande prend l'adresse en argument et demande ce qui manque : elles sont donc utilisables aussi bien depuis un script qu'à la main.
+
+```bash
+node ace user:create ada@example.com --name="Ada Lovelace" --admin
+node ace user:reset-password ada@example.com --link
+node ace user:list --unverified
+```
+
+Les mots de passe sont toujours demandés, jamais lus depuis une option : un argument resterait dans l'historique du shell et dans la liste des processus de tous les utilisateurs de la machine. La suppression d'un compte exige de même de retaper son adresse — aucune option ne permet de sauter cette étape, et rien ici ne permet de revenir en arrière.
+
+Deux refus sont volontaires. Un fournisseur ne peut pas être détaché lorsqu'il est le seul moyen d'entrer dans le compte, et le dernier administrateur d'une instance ne peut pas être rétrogradé ; les deux produiraient un état qu'aucune page de l'interface ne sait réparer.
+
 ### Lancer le projet en développement
 
 #### Avec Docker

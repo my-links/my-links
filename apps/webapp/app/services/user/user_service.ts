@@ -1,6 +1,20 @@
+import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
+import type { AuthProvider } from '#constants/auth';
+import LastAdministratorException from '#exceptions/admin/last_administrator_exception';
+
+/**
+ * Narrows a listing to a subset of the accounts. Every field is stated rather
+ * than optional: a filter nobody asked for and a filter turned off describe
+ * the same listing, and saying so keeps the query from having to guess.
+ */
+export type AccountFilters = {
+	readonly administratorsOnly: boolean;
+	readonly unverifiedOnly: boolean;
+	readonly provider: AuthProvider | null;
+};
 
 export class UserService {
 	/**
@@ -24,6 +38,41 @@ export class UserService {
 	}
 
 	/**
+	 * Every account the filters keep, carrying the rows that describe how each
+	 * one signs in.
+	 *
+	 * Preloaded rather than read per account: the console prints the sign-in
+	 * methods of every line it lists, and asking for them one line at a time is
+	 * a round trip per account.
+	 */
+	listAccounts({
+		administratorsOnly,
+		unverifiedOnly,
+		provider,
+	}: AccountFilters) {
+		const accounts = User.query()
+			.preload('passwordAuth')
+			.preload('oauthAuths')
+			.orderBy('email', 'asc');
+
+		if (administratorsOnly) {
+			accounts.where('isAdmin', true);
+		}
+
+		if (unverifiedOnly) {
+			accounts.whereNull('emailVerifiedAt');
+		}
+
+		if (provider) {
+			accounts.whereHas('oauthAuths', (query) => {
+				query.where('provider', provider);
+			});
+		}
+
+		return accounts;
+	}
+
+	/**
 	 * Counts the relations in the query rather than per user: the admin
 	 * dashboard lists every account, so a count per row would be one round trip
 	 * per user.
@@ -36,6 +85,37 @@ export class UserService {
 			.withCount('links', (query) => {
 				query.as('totalLinks');
 			});
+	}
+
+	async promoteToAdministrator(user: User): Promise<void> {
+		user.isAdmin = true;
+
+		await user.save();
+	}
+
+	/**
+	 * Takes the administrator role away, unless it is the last one standing.
+	 *
+	 * The administrator rows are locked for the whole transaction: two
+	 * demotions racing on an instance holding exactly two administrators would
+	 * otherwise each count the role the other is about to remove, and both
+	 * would be let through.
+	 */
+	async demoteToMember(user: User): Promise<void> {
+		await db.transaction(async (trx) => {
+			const administrators = await User.query({ client: trx })
+				.where('isAdmin', true)
+				.forUpdate();
+
+			const isLastAdministrator =
+				administrators.length === 1 && administrators[0]?.id === user.id;
+			if (isLastAdministrator) {
+				throw new LastAdministratorException();
+			}
+
+			user.isAdmin = false;
+			await user.useTransaction(trx).save();
+		});
 	}
 
 	deleteUser(userId: User['id']) {
