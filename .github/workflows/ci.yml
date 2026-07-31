@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  NODE_VERSION: 24.14.0
+  PNPM_VERSION: 11.0.9
+
+jobs:
+  check:
+    name: Lint, format, typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run check
+
+  test:
+    name: Unit, functional, browser
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: app
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: root
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U root -d app"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+      mailpit:
+        image: axllent/mailpit:v1.28
+        env:
+          MP_SMTP_AUTH_ACCEPT_ANY: 1
+          MP_SMTP_AUTH_ALLOW_INSECURE: 1
+        ports:
+          - 1025:1025
+          - 8025:8025
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Write .env
+        working-directory: apps/webapp
+        run: |
+          cp .env.example .env
+          node ace generate:key
+
+      - name: Install Playwright's Chromium
+        working-directory: apps/webapp
+        run: npx playwright install --with-deps chromium
+
+      - name: Migrate the database
+        working-directory: apps/webapp
+        run: node ace migration:fresh
+
+      # A public/assets left in the working tree makes the app read a
+      # production manifest and fail the browser suite.
+      - name: Remove stale production assets
+        run: rm -rf apps/webapp/public/assets
+
+      - name: Unit and functional tests
+        working-directory: apps/webapp
+        run: pnpm run test
+
+      - name: Browser tests
+        working-directory: apps/webapp
+        run: pnpm run test:browser
