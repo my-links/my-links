@@ -59,6 +59,12 @@ export interface ApiDefinition {
       change: typeof routes['auth.password.change']
     }
     verifyEmail: typeof routes['auth.verify-email']
+    email: {
+      change: typeof routes['auth.email.change'] & {
+        confirm: typeof routes['auth.email.change.confirm']
+        cancel: typeof routes['auth.email.change.cancel']
+      }
+    }
     callback: typeof routes['auth.callback']
     logout: typeof routes['auth.logout']
     sudo: typeof routes['auth.sudo'] & {

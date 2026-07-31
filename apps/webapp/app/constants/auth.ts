@@ -18,6 +18,7 @@ export const ONE_TIME_TOKEN_TYPE = {
 	EMAIL_VERIFICATION: 'email_verification',
 	PASSWORD_RESET: 'password_reset',
 	EMAIL_CHANGE: 'email_change',
+	EMAIL_CHANGE_CANCELLATION: 'email_change_cancellation',
 } as const;
 
 export type OneTimeTokenType =
@@ -36,6 +37,9 @@ export const ONE_TIME_TOKEN_LIFETIME_HOURS = {
 	[ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION]: 24,
 	[ONE_TIME_TOKEN_TYPE.PASSWORD_RESET]: 1,
 	[ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE]: 24,
+	// Never shorter than the change it undoes: a cancellation link that died
+	// first would leave its owner watching a change they can no longer stop.
+	[ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE_CANCELLATION]: 24,
 } as const satisfies Record<OneTimeTokenType, number>;
 
 /**
@@ -71,6 +75,7 @@ export const AUTH_EVENT_TYPE = {
 	REGISTERED: 'registered',
 	EMAIL_VERIFIED: 'email_verified',
 	EMAIL_CHANGE_REQUESTED: 'email_change_requested',
+	EMAIL_CHANGE_CANCELLED: 'email_change_cancelled',
 	EMAIL_CHANGED: 'email_changed',
 	PASSWORD_SET: 'password_set',
 	PASSWORD_CHANGED: 'password_changed',

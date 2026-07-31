@@ -37,6 +37,8 @@ export type ScannedRoutes = {
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.email.change.confirm': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -45,6 +47,7 @@ export type ScannedRoutes = {
     'auth.sudo.google': { paramsTuple?: []; params?: {} }
     'auth.password.set': { paramsTuple?: []; params?: {} }
     'auth.password.change': { paramsTuple?: []; params?: {} }
+    'auth.email.change': { paramsTuple?: []; params?: {} }
     'auth.provider.google.link': { paramsTuple?: []; params?: {} }
     'auth.provider.unlink': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
@@ -84,6 +87,8 @@ export type ScannedRoutes = {
     'auth.password.forgot': { paramsTuple?: []; params?: {} }
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.email.change.confirm': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -117,6 +122,8 @@ export type ScannedRoutes = {
     'auth.password.forgot': { paramsTuple?: []; params?: {} }
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.email.change.confirm': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -144,6 +151,7 @@ export type ScannedRoutes = {
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.sudo.submit': { paramsTuple?: []; params?: {} }
     'auth.password.set': { paramsTuple?: []; params?: {} }
+    'auth.email.change': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }

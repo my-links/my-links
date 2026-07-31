@@ -204,6 +204,18 @@ const routes = {
     tokens: [{"old":"/reset-password/:token","type":0,"val":"reset-password","end":""},{"old":"/reset-password/:token","type":1,"val":"token","end":""}],
     types: placeholder as Registry['auth.password.reset.submit']['types'],
   },
+  'auth.email.change.confirm': {
+    methods: ["GET","HEAD"],
+    pattern: '/confirm-email-change/:token',
+    tokens: [{"old":"/confirm-email-change/:token","type":0,"val":"confirm-email-change","end":""},{"old":"/confirm-email-change/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['auth.email.change.confirm']['types'],
+  },
+  'auth.email.change.cancel': {
+    methods: ["GET","HEAD"],
+    pattern: '/cancel-email-change/:token',
+    tokens: [{"old":"/cancel-email-change/:token","type":0,"val":"cancel-email-change","end":""},{"old":"/cancel-email-change/:token","type":1,"val":"token","end":""}],
+    types: placeholder as Registry['auth.email.change.cancel']['types'],
+  },
   'auth': {
     methods: ["GET","HEAD"],
     pattern: '/auth/google',
@@ -251,6 +263,12 @@ const routes = {
     pattern: '/account/password',
     tokens: [{"old":"/account/password","type":0,"val":"account","end":""},{"old":"/account/password","type":0,"val":"password","end":""}],
     types: placeholder as Registry['auth.password.change']['types'],
+  },
+  'auth.email.change': {
+    methods: ["POST"],
+    pattern: '/account/email',
+    tokens: [{"old":"/account/email","type":0,"val":"account","end":""},{"old":"/account/email","type":0,"val":"email","end":""}],
+    types: placeholder as Registry['auth.email.change']['types'],
   },
   'auth.provider.google.link': {
     methods: ["GET","HEAD"],

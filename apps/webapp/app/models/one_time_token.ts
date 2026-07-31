@@ -16,6 +16,13 @@ export default class OneTimeToken extends AppBaseModel {
 	@column({ serializeAs: null })
 	declare tokenHash: string;
 
+	/**
+	 * Only an email change carries one: it is the address the account moves to
+	 * when the link is redeemed. Every other purpose leaves it null.
+	 */
+	@column()
+	declare newEmail: string | null;
+
 	@column.dateTime()
 	declare expiresAt: DateTime;
 

@@ -256,7 +256,7 @@ Pour obtenir le Client ID et Secret Google nécessaires à l'authentification :
 
 ### Variables d'environnement d'envoi d'e-mails
 
-L'envoi d'e-mails est optionnel. Laissez toutes les variables `SMTP_*` et `MAIL_*` vides et l'instance démarre sans : les liens de vérification d'adresse et de réinitialisation de mot de passe sont alors indisponibles, et la récupération de compte passe par les commandes `node ace user:*`.
+L'envoi d'e-mails est optionnel. Laissez toutes les variables `SMTP_*` et `MAIL_*` vides et l'instance démarre sans : les liens de vérification d'adresse, de réinitialisation de mot de passe et le changement d'adresse e-mail sont alors indisponibles, et la récupération de compte passe par les commandes `node ace user:*`.
 
 En définir une seule vous engage à une configuration complète : `SMTP_HOST` et `MAIL_FROM_ADDRESS` deviennent obligatoires, et une configuration partielle est rejetée au démarrage plutôt que de faire disparaître en silence le seul e-mail qu'attend un utilisateur enfermé dehors.
 

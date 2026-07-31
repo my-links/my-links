@@ -403,6 +403,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reset_password_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.email.change.confirm': {
+    methods: ["GET","HEAD"]
+    pattern: '/confirm-email-change/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auth/one_time_token_validator').oneTimeTokenValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/confirm_email_change_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/confirm_email_change_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.email.change.cancel': {
+    methods: ["GET","HEAD"]
+    pattern: '/cancel-email-change/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/auth/one_time_token_validator').oneTimeTokenValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/cancel_email_change_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/cancel_email_change_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'auth': {
     methods: ["GET","HEAD"]
     pattern: '/auth/google'
@@ -497,6 +521,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/auth/new_password_validator').newPasswordValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/change_password_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/change_password_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.email.change': {
+    methods: ["POST"]
+    pattern: '/account/email'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/request_email_change_validator').requestEmailChangeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/request_email_change_validator').requestEmailChangeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/request_email_change_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/request_email_change_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'auth.provider.google.link': {
