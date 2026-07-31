@@ -24,6 +24,12 @@ const SESSION_GUARD_KEY = 'auth_web';
 const LOGIN_PATH = '/login';
 const RESEND_PATH = '/resend-verification';
 
+async function countOneTimeTokens(): Promise<number> {
+	const tokens = await OneTimeToken.query();
+
+	return tokens.length;
+}
+
 test.group('Email verification gate — with outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().withGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
@@ -208,10 +214,18 @@ test.group('Verification link — resending', (group) => {
 		);
 	});
 
+	/**
+	 * Counted rather than asserted empty: the table belongs to the whole
+	 * instance, and a row an operator left behind while trying the feature by
+	 * hand would otherwise make this test describe their database instead of
+	 * the flow.
+	 */
 	test('should issue no token for an address nobody registered', async ({
 		assert,
 		client,
 	}) => {
+		const tokenCountBefore = await countOneTimeTokens();
+
 		await client
 			.post(RESEND_PATH)
 			.header('x-forwarded-for', nextClientAddress())
@@ -219,8 +233,7 @@ test.group('Verification link — resending', (group) => {
 			.withCsrfToken()
 			.redirects(0);
 
-		const tokens = await OneTimeToken.query();
-		assert.lengthOf(tokens, 0);
+		assert.equal(await countOneTimeTokens(), tokenCountBefore);
 	});
 
 	test('should issue no token for an account that is already confirmed', async ({

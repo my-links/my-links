@@ -35,6 +35,15 @@ const LOGIN_PATH = '/login';
 const INVALID_LINK_MESSAGE = 'This link is no longer valid';
 const SESSION_GUARD_KEY = 'auth_web';
 
+async function countResetTokens(): Promise<number> {
+	const tokens = await OneTimeToken.query().where(
+		'type',
+		ONE_TIME_TOKEN_TYPE.PASSWORD_RESET
+	);
+
+	return tokens.length;
+}
+
 function submitPassword(client: ApiClient, user: User, password: string) {
 	return client
 		.post(PASSWORD_PATH)
@@ -402,17 +411,21 @@ test.group('Password — asking for a reset link', (group) => {
 		knownResponse.assertFlashMessage('success', PASSWORD_RESET_REQUEST_MESSAGE);
 	});
 
+	/**
+	 * Counted rather than asserted empty: the table belongs to the whole
+	 * instance, and a link an operator left behind while trying the feature by
+	 * hand would otherwise make this test describe their database instead of
+	 * the flow.
+	 */
 	test('should issue no token for an address nobody registered', async ({
 		assert,
 		client,
 	}) => {
+		const tokenCountBefore = await countResetTokens();
+
 		await requestReset(client, UNKNOWN_EMAIL);
 
-		const issuedTokens = await OneTimeToken.query().where(
-			'type',
-			ONE_TIME_TOKEN_TYPE.PASSWORD_RESET
-		);
-		assert.isEmpty(issuedTokens);
+		assert.equal(await countResetTokens(), tokenCountBefore);
 	});
 
 	test('should invalidate the link it issued previously', async ({
