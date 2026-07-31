@@ -61,7 +61,7 @@ export default class extends BaseSeeder {
 
 export function createRandomUser() {
 	return {
-		email: faker.internet.email(),
+		email: faker.internet.email().toLowerCase(),
 		name: faker.internet.username(),
 		nickName: faker.internet.displayName(),
 		avatarUrl: faker.image.avatar(),
