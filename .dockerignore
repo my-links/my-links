@@ -21,3 +21,7 @@ compose*
 
 # App specific
 **/database/seeders
+
+# Vite build output. Regenerated inside the image by `node ace build`; letting
+# the host copy leak into the context would ship stale assets.
+**/public/assets

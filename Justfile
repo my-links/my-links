@@ -36,10 +36,16 @@ test-unit:
 test-functional:
 	@cd {{ webapp_path }} && node ace test functional
 
+# Browser suite — drops public/assets first, a leftover one makes the app read a production manifest and fail
 test-e2e:
+	@rm -rf {{ webapp_path }}/public/assets
 	@cd {{ webapp_path }} && pnpm run test:browser
 
 test: _dev test-unit test-functional test-e2e
+
+# Build the image cd.yml ships, so a broken Dockerfile fails before the tag and the release exist
+build-image:
+	@docker build -f {{ webapp_path }}/Dockerfile -t my-links:release-check .
 
 seed:
 	@cd {{ webapp_path }} && node ace db:seed

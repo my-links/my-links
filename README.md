@@ -389,11 +389,15 @@ Run from the repository root:
 | `just down`                             | Stop the dev and production containers                      |
 | `just prod`                             | Run the production compose stack locally                    |
 | `just extract` / `just compile`         | Extract and compile the i18n catalogs                       |
+| `just test`                             | Dev stack + every suite, unit through browser               |
+| `just release`                          | Cut a release — checks, then `just test`, then the build    |
 | `pnpm run dev:webapp` / `dev:extension` | Dev server for one workspace                                |
 | `pnpm run build`                        | Build every workspace                                       |
 | `pnpm run test`                         | Webapp test suite (needs PostgreSQL on the configured host) |
 | `pnpm run test:browser`                 | Browser suite for the auth journey — see below              |
 | `pnpm run check`                        | Lint, format check and typecheck across the monorepo        |
+
+`just test` brings the dev containers up and runs `migration:fresh` before the suites, so it **wipes whatever is in the development database**. That also applies to `just release`, which runs it.
 
 ### Browser Test Suite
 
@@ -404,7 +408,7 @@ It needs two things a plain `pnpm run test` doesn't:
 - **mailpit running** — `docker compose -f dev.compose.yml up -d mailpit`, or the full `just dev` stack.
 - **A Chromium binary** — `npx playwright install chromium`, once per machine.
 
-No separate build or dev server is required: `node ace test` boots the app the same way `node ace serve` does, embedded Vite dev middleware included, and serves real pages to the browser directly from source. If `apps/webapp/public/assets` exists from a previous `pnpm run build`, remove it first — its presence makes the app try to read a production manifest instead, which fails immediately.
+No separate build or dev server is required: `node ace test` boots the app the same way `node ace serve` does, embedded Vite dev middleware included, and serves real pages to the browser directly from source. If `apps/webapp/public/assets` exists from a previous `pnpm run build`, remove it first — its presence makes the app try to read a production manifest instead, which fails immediately. `just test-e2e` deletes it for you; running `pnpm run test:browser` by hand does not.
 
 With mailpit up and Chromium installed, `pnpm run test:browser` (webapp workspace) runs it. `pnpm run test` never includes it — the two suites are deliberately kept apart so a routine `pnpm run test` never needs mailpit or a browser. The auth journey it drives is short enough to read start to finish in the spec file itself.
 

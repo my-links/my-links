@@ -390,11 +390,15 @@ Voir [`apps/extension/README.md`](../apps/extension/README.md) pour le side-load
 | `just down`                             | Arrête les conteneurs de dev et de production                     |
 | `just prod`                             | Lance la stack compose de production en local                     |
 | `just extract` / `just compile`         | Extrait et compile les catalogues i18n                            |
+| `just test`                             | Stack de dev + toutes les suites, de l'unitaire au navigateur     |
+| `just release`                          | Publie une release — checks, puis `just test`, puis le build      |
 | `pnpm run dev:webapp` / `dev:extension` | Serveur de dev pour l'un des workspaces                           |
 | `pnpm run build`                        | Build de tous les workspaces                                      |
 | `pnpm run test`                         | Suite de tests webapp (nécessite PostgreSQL sur l'hôte configuré) |
 | `pnpm run test:browser`                 | Suite navigateur du parcours d'authentification — voir ci-dessous |
 | `pnpm run check`                        | Lint, vérification du format et typecheck sur tout le monorepo    |
+
+`just test` démarre les conteneurs de dev et lance `migration:fresh` avant les suites : il **efface donc le contenu de la base de développement**. Ça vaut aussi pour `just release`, qui l'appelle.
 
 ### Suite de tests navigateur
 
@@ -405,7 +409,7 @@ Il lui faut deux choses qu'un simple `pnpm run test` ne demande pas :
 - **mailpit démarré** — `docker compose -f dev.compose.yml up -d mailpit`, ou toute la stack `just dev`.
 - **Un binaire Chromium** — `npx playwright install chromium`, une fois par machine.
 
-Aucun build ni serveur de dev séparé n'est nécessaire : `node ace test` démarre l'app de la même façon que `node ace serve`, middleware Vite de dev embarqué compris, et sert de vraies pages au navigateur directement depuis les sources. Si `apps/webapp/public/assets` existe suite à un `pnpm run build` précédent, il faut le supprimer d'abord — sa présence fait que l'app tente de lire un manifeste de production à la place, ce qui échoue immédiatement.
+Aucun build ni serveur de dev séparé n'est nécessaire : `node ace test` démarre l'app de la même façon que `node ace serve`, middleware Vite de dev embarqué compris, et sert de vraies pages au navigateur directement depuis les sources. Si `apps/webapp/public/assets` existe suite à un `pnpm run build` précédent, il faut le supprimer d'abord — sa présence fait que l'app tente de lire un manifeste de production à la place, ce qui échoue immédiatement. `just test-e2e` le supprime pour vous ; un `pnpm run test:browser` lancé à la main, non.
 
 Une fois mailpit démarré et Chromium installé, `pnpm run test:browser` (workspace webapp) lance la suite. `pnpm run test` ne l'inclut jamais — les deux suites sont volontairement séparées pour qu'un `pnpm run test` de routine n'ait jamais besoin de mailpit ni d'un navigateur. Le parcours qu'elle pilote est assez court pour se lire d'un bout à l'autre directement dans le fichier de spec.
 
