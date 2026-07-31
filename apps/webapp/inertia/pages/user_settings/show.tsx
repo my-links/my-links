@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/react';
 import { ApiTokens } from '~/components/api_tokens/api_tokens';
 import { Password } from '~/components/user_settings/password';
 import { Sessions } from '~/components/user_settings/sessions';
+import { AuthMethods } from '~/components/user_settings/auth_methods';
 import { ExportImport } from '~/components/user_settings/export_import';
 import { DeleteAccount } from '~/components/user_settings/delete_account';
 
@@ -11,6 +12,7 @@ const UserSettingsShow = () => (
 	<>
 		<Head title={t`Settings`} />
 		<div className="space-y-6">
+			<AuthMethods />
 			<Password />
 			<ApiTokens />
 			<Sessions />

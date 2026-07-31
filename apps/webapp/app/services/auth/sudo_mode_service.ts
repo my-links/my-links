@@ -17,7 +17,6 @@ import SudoConfirmationFailedException from '#exceptions/auth/sudo_confirmation_
 export const SUDO_CONFIRMED_AT_SESSION_KEY = 'sudo_confirmed_at';
 
 const RETURN_URL_KEY = 'sudo_return_url';
-const PENDING_OAUTH_KEY = 'sudo_pending_oauth';
 
 export const SUDO_CONFIRMED_MESSAGE = 'Identity confirmed';
 
@@ -111,26 +110,6 @@ export class SudoModeService {
 		session.forget(RETURN_URL_KEY);
 
 		return typeof returnUrl === 'string' ? returnUrl : urlFor('user.settings');
-	}
-
-	/**
-	 * Arms the OAuth round trip an account with no password has to take
-	 * instead of typing one. The flag is what tells the shared callback that
-	 * the identity coming back is a confirmation and not a sign-in.
-	 */
-	startOauthConfirmation(session: Session): void {
-		session.put(PENDING_OAUTH_KEY, true);
-	}
-
-	/**
-	 * Reads the flag and clears it in one move, so an abandoned or failed round
-	 * trip cannot leave the callback armed for the next one.
-	 */
-	takePendingOauthConfirmation(session: Session): boolean {
-		const isPending = session.get(PENDING_OAUTH_KEY) === true;
-		session.forget(PENDING_OAUTH_KEY);
-
-		return isPending;
 	}
 }
 

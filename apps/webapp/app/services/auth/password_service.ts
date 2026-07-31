@@ -61,8 +61,15 @@ export class PasswordService {
 		protected readonly mailService: MailService
 	) {}
 
-	async hasPassword(user: User): Promise<boolean> {
-		const passwordAuth = await this.findPasswordAuth(user);
+	/**
+	 * The transaction is optional because the anti-lockout guard has to count
+	 * this method inside the one that removes another.
+	 */
+	async hasPassword(
+		user: User,
+		trx?: TransactionClientContract
+	): Promise<boolean> {
+		const passwordAuth = await this.findPasswordAuth(user, trx);
 
 		return passwordAuth !== null;
 	}
@@ -188,8 +195,11 @@ export class PasswordService {
 		return user;
 	}
 
-	private findPasswordAuth(user: User): Promise<PasswordAuth | null> {
-		return PasswordAuth.query().where('userId', user.id).first();
+	private findPasswordAuth(
+		user: User,
+		trx?: TransactionClientContract
+	): Promise<PasswordAuth | null> {
+		return PasswordAuth.query({ client: trx }).where('userId', user.id).first();
 	}
 
 	/**

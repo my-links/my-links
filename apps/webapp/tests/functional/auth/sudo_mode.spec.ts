@@ -11,6 +11,10 @@ import { freshSudoSession, staleSudoSession } from '#tests/helpers/sudo_mode';
 import { SUDO_CONFIRMED_AT_SESSION_KEY } from '#services/auth/sudo_mode_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import {
+	OAUTH_INTENT,
+	OAUTH_INTENT_SESSION_KEY,
+} from '#services/auth/oauth_intent_service';
+import {
 	createUser,
 	linkOauthIdentity,
 	setUserPassword,
@@ -310,7 +314,10 @@ test.group('Sudo mode — confirming through Google', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		response.assertSession('sudo_pending_oauth', true);
+		response.assertSession(
+			OAUTH_INTENT_SESSION_KEY,
+			OAUTH_INTENT.SUDO_CONFIRMATION
+		);
 	}).teardown(() => app.container.restore(GoogleAuthConfigService));
 
 	test('should stamp no proof merely for starting the round trip', async ({

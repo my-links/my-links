@@ -252,6 +252,18 @@ const routes = {
     tokens: [{"old":"/account/password","type":0,"val":"account","end":""},{"old":"/account/password","type":0,"val":"password","end":""}],
     types: placeholder as Registry['auth.password.change']['types'],
   },
+  'auth.provider.google.link': {
+    methods: ["GET","HEAD"],
+    pattern: '/account/providers/google',
+    tokens: [{"old":"/account/providers/google","type":0,"val":"account","end":""},{"old":"/account/providers/google","type":0,"val":"providers","end":""},{"old":"/account/providers/google","type":0,"val":"google","end":""}],
+    types: placeholder as Registry['auth.provider.google.link']['types'],
+  },
+  'auth.provider.unlink': {
+    methods: ["DELETE"],
+    pattern: '/account/providers/:provider',
+    tokens: [{"old":"/account/providers/:provider","type":0,"val":"account","end":""},{"old":"/account/providers/:provider","type":0,"val":"providers","end":""},{"old":"/account/providers/:provider","type":1,"val":"provider","end":""}],
+    types: placeholder as Registry['auth.provider.unlink']['types'],
+  },
   'api-collections.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/collections',

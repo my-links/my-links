@@ -10,10 +10,16 @@ import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
+import type { OauthIntent } from '#services/auth/oauth_intent_service';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
+import { ProviderLinkService } from '#services/auth/provider_link_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
+import {
+	OAUTH_INTENT,
+	OauthIntentService,
+} from '#services/auth/oauth_intent_service';
 
 /**
  * The subset of the Ally driver this controller reads after a callback.
@@ -27,17 +33,29 @@ type OauthCallbackState = {
 	getError(): string | null;
 };
 
+/**
+ * Where a round trip that never delivered an identity puts the visitor back:
+ * the page they started from, whatever they came for.
+ */
+const ABORTED_ROUND_TRIP_ROUTE = {
+	[OAUTH_INTENT.SIGN_IN]: 'home',
+	[OAUTH_INTENT.SUDO_CONFIRMATION]: 'auth.sudo',
+	[OAUTH_INTENT.PROVIDER_LINK]: 'user.settings',
+} as const satisfies Record<OauthIntent, keyof RoutesList['GET']>;
+
+const PROVIDER_LINKED_MESSAGE = 'That sign-in method has been added';
+
 @inject()
 export default class AuthController {
 	constructor(
 		protected readonly sessionService: SessionService,
 		protected readonly sudoModeService: SudoModeService,
 		protected readonly authEventService: AuthEventService,
+		protected readonly oauthIntentService: OauthIntentService,
+		protected readonly providerLinkService: ProviderLinkService,
 		protected readonly oauthAccountService: OauthAccountService,
 		protected readonly googleAuthConfigService: GoogleAuthConfigService
 	) {}
-
-	private readonly redirectTo: keyof RoutesList['GET'] = 'home';
 
 	private assertGoogleAuthEnabled() {
 		if (!this.googleAuthConfigService.isEnabled) {
@@ -58,24 +76,24 @@ export default class AuthController {
 	 * callback URL is fixed in the provider's own configuration — a second one
 	 * would mean every self-hoster registering a second redirect URI.
 	 *
-	 * What the returning identity means is therefore decided here: it confirms
-	 * a session that armed the flag before leaving, or it opens one.
+	 * What the returning identity means is therefore decided here: it opens a
+	 * session, confirms one, or joins a second sign-in method to an account —
+	 * whichever the departing request armed.
 	 */
 	async callbackAuth(ctx: HttpContext) {
 		this.assertGoogleAuthEnabled();
 
 		const google = ctx.ally.use('google');
 		// Disarmed first, so an abandoned or failed round trip cannot leave the
-		// callback expecting a confirmation that never comes.
-		const isSudoConfirmation =
-			this.sudoModeService.takePendingOauthConfirmation(ctx.session);
+		// callback expecting something that never comes.
+		const intent = this.oauthIntentService.take(ctx.session);
 
 		const callbackError = this.getCallbackError(google);
 		if (callbackError) {
 			ctx.session.flash('error', callbackError);
 
 			return ctx.response.redirectToNamedRoute(
-				isSudoConfirmation ? 'auth.sudo' : this.redirectTo
+				ABORTED_ROUND_TRIP_ROUTE[intent]
 			);
 		}
 
@@ -92,21 +110,60 @@ export default class AuthController {
 
 		const signedInUser = ctx.auth.user;
 
-		// The flag alone is not enough: somebody who armed a confirmation, walked
-		// away and came back signed out is starting a plain sign-in, and must not
-		// be met with an authentication error for it.
-		if (isSudoConfirmation && signedInUser) {
-			return this.confirmIdentity(ctx, identity, signedInUser);
+		// The intent alone is not enough: somebody who armed one, walked away and
+		// came back signed out is starting a plain sign-in, and must not be met
+		// with an authentication error for it.
+		if (!signedInUser) {
+			return this.signIn(ctx, identity);
 		}
 
-		// Stands in for the guest middleware the route cannot carry any more:
-		// an already signed-in visitor landing here without having armed a
-		// confirmation is starting a sign-in they do not need.
-		if (signedInUser) {
-			return ctx.response.redirectToNamedRoute('collection.favorites');
-		}
+		return this.applyToSession(ctx, identity, signedInUser, intent);
+	}
 
-		return this.signIn(ctx, identity);
+	/**
+	 * What a returning identity does for a visitor who already has a session.
+	 * Also stands in for the guest middleware the route cannot carry any more:
+	 * landing here with nothing armed is starting a sign-in they do not need.
+	 */
+	private applyToSession(
+		ctx: HttpContext,
+		identity: OauthIdentity,
+		user: User,
+		intent: OauthIntent
+	) {
+		switch (intent) {
+			case OAUTH_INTENT.SUDO_CONFIRMATION:
+				return this.confirmIdentity(ctx, identity, user);
+			case OAUTH_INTENT.PROVIDER_LINK:
+				return this.linkProvider(ctx, identity, user);
+			default:
+				return ctx.response.redirectToNamedRoute('collection.favorites');
+		}
+	}
+
+	/**
+	 * Joins the identity that came back to the account that asked for it. The
+	 * departing route sat behind sudo mode, and the intent it armed is spent
+	 * here — that single-use flag is what carries the proof across the round
+	 * trip.
+	 */
+	private async linkProvider(
+		ctx: HttpContext,
+		identity: OauthIdentity,
+		user: User
+	) {
+		await this.providerLinkService.link(user, identity);
+
+		await this.authEventService.record({
+			type: AUTH_EVENT_TYPE.PROVIDER_LINKED,
+			userId: user.id,
+			...resolveAuthEventOrigin(ctx),
+		});
+
+		ctx.session.flash('success', PROVIDER_LINKED_MESSAGE);
+		logger.info(`[${user.email}] linked ${identity.provider}`);
+
+		return ctx.response.redirectToNamedRoute('user.settings');
 	}
 
 	private async signIn(ctx: HttpContext, identity: OauthIdentity) {

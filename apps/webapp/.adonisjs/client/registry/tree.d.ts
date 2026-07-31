@@ -65,6 +65,12 @@ export interface ApiDefinition {
       submit: typeof routes['auth.sudo.submit']
       google: typeof routes['auth.sudo.google']
     }
+    provider: {
+      google: {
+        link: typeof routes['auth.provider.google.link']
+      }
+      unlink: typeof routes['auth.provider.unlink']
+    }
   }
   apiCollections: {
     index: typeof routes['api-collections.index']

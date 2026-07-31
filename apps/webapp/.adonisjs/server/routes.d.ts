@@ -45,6 +45,8 @@ export type ScannedRoutes = {
     'auth.sudo.google': { paramsTuple?: []; params?: {} }
     'auth.password.set': { paramsTuple?: []; params?: {} }
     'auth.password.change': { paramsTuple?: []; params?: {} }
+    'auth.provider.google.link': { paramsTuple?: []; params?: {} }
+    'auth.provider.unlink': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -87,6 +89,7 @@ export type ScannedRoutes = {
     'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.sudo': { paramsTuple?: []; params?: {} }
     'auth.sudo.google': { paramsTuple?: []; params?: {} }
+    'auth.provider.google.link': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
@@ -119,6 +122,7 @@ export type ScannedRoutes = {
     'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.sudo': { paramsTuple?: []; params?: {} }
     'auth.sudo.google': { paramsTuple?: []; params?: {} }
+    'auth.provider.google.link': { paramsTuple?: []; params?: {} }
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
@@ -157,6 +161,7 @@ export type ScannedRoutes = {
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
     'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
     'user.settings.delete': { paramsTuple?: []; params?: {} }
+    'auth.provider.unlink': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
