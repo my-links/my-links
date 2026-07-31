@@ -106,20 +106,25 @@ const TOKEN_VERIFICATION_TIERS = [
 ] as const satisfies readonly AttemptTier[];
 
 /**
- * Asking for a reset link is free to send and costs the instance a mail, so
- * the budget is about stopping someone from walking a list of addresses to
- * spray — the ceiling is well above what a person who mistypes their own
- * address twice ever needs.
+ * The budget of the flows where a visitor types an address and the instance
+ * mails a link to it — asking for a password reset, asking for a fresh
+ * confirmation link. Sending is free for whoever asks and costs the instance a
+ * mail, so the budget is about stopping someone from walking a list of
+ * addresses to spray; the ceiling is well above what a person who mistypes
+ * their own address twice ever needs.
+ *
+ * The tiers are shared, the budgets are not: each flow defines its own
+ * throttle, so spending one does not spend the other.
  */
-export const PASSWORD_RESET_REQUEST_BURST_TIER = {
+export const MAILED_LINK_REQUEST_BURST_TIER = {
 	name: 'burst',
 	requests: 5,
 	window: '15 minutes',
 	blockFor: '15 minutes',
 } as const satisfies AttemptTier;
 
-const PASSWORD_RESET_REQUEST_TIERS = [
-	PASSWORD_RESET_REQUEST_BURST_TIER,
+const MAILED_LINK_REQUEST_TIERS = [
+	MAILED_LINK_REQUEST_BURST_TIER,
 	{ name: 'sustained', requests: 15, window: '1 hour', blockFor: '1 hour' },
 ] as const satisfies readonly AttemptTier[];
 
@@ -262,11 +267,21 @@ export const tokenVerificationThrottles: MiddlewareFn[] =
  * hand anyone a way to keep a chosen account from ever recovering itself.
  */
 export const passwordResetRequestThrottles: MiddlewareFn[] =
-	defineAttemptThrottles(
-		'password_reset_request',
-		PASSWORD_RESET_REQUEST_TIERS,
-		['address']
-	);
+	defineAttemptThrottles('password_reset_request', MAILED_LINK_REQUEST_TIERS, [
+		'address',
+	]);
+
+/**
+ * Asking for a fresh confirmation link, throttled like the reset request it
+ * mirrors and for the same reason: keying on the submitted address would let
+ * anyone keep a chosen account from ever confirming itself.
+ */
+export const VERIFICATION_RESEND_BURST_TIER = MAILED_LINK_REQUEST_BURST_TIER;
+
+export const verificationResendThrottles: MiddlewareFn[] =
+	defineAttemptThrottles('verification_resend', MAILED_LINK_REQUEST_TIERS, [
+		'address',
+	]);
 
 /**
  * Keyed on the signed-in account as well as the address, so a stolen session

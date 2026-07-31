@@ -45,6 +45,7 @@ export const controllers = {
     Register: () => import('#controllers/auth/register_controller'),
     RequestEmailChange: () => import('#controllers/auth/request_email_change_controller'),
     RequestPasswordReset: () => import('#controllers/auth/request_password_reset_controller'),
+    ResendVerification: () => import('#controllers/auth/resend_verification_controller'),
     ResetPassword: () => import('#controllers/auth/reset_password_controller'),
     SetPassword: () => import('#controllers/auth/set_password_controller'),
     SudoMode: () => import('#controllers/auth/sudo_mode_controller'),

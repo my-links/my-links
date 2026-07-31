@@ -71,9 +71,11 @@ export const SUDO_MODE_WINDOW_MINUTES = 15;
 export const AUTH_EVENT_TYPE = {
 	LOGIN_SUCCEEDED: 'login_succeeded',
 	LOGIN_FAILED: 'login_failed',
+	LOGIN_BLOCKED_UNVERIFIED: 'login_blocked_unverified',
 	LOGOUT: 'logout',
 	REGISTERED: 'registered',
 	EMAIL_VERIFIED: 'email_verified',
+	VERIFICATION_LINK_REQUESTED: 'verification_link_requested',
 	EMAIL_CHANGE_REQUESTED: 'email_change_requested',
 	EMAIL_CHANGE_CANCELLED: 'email_change_cancelled',
 	EMAIL_CHANGED: 'email_changed',

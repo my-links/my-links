@@ -186,6 +186,12 @@ const routes = {
     tokens: [{"old":"/forgot-password","type":0,"val":"forgot-password","end":""}],
     types: placeholder as Registry['auth.password.forgot.submit']['types'],
   },
+  'auth.verification.resend': {
+    methods: ["POST"],
+    pattern: '/resend-verification',
+    tokens: [{"old":"/resend-verification","type":0,"val":"resend-verification","end":""}],
+    types: placeholder as Registry['auth.verification.resend']['types'],
+  },
   'auth.verify-email': {
     methods: ["GET","HEAD"],
     pattern: '/verify-email/:token',

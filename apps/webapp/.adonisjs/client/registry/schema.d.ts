@@ -359,12 +359,24 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/forgot-password'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/auth/request_password_reset_validator').requestPasswordResetValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/email_address_validator').emailAddressValidator)>>
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/auth/request_password_reset_validator').requestPasswordResetValidator)>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/email_address_validator').emailAddressValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/request_password_reset_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/request_password_reset_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.verification.resend': {
+    methods: ["POST"]
+    pattern: '/resend-verification'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/auth/email_address_validator').emailAddressValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/auth/email_address_validator').emailAddressValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/resend_verification_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/resend_verification_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'auth.verify-email': {

@@ -6,7 +6,7 @@ import { MailService } from '#services/mail/mail_service';
 import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
-import { requestPasswordResetValidator } from '#validators/auth/request_password_reset_validator';
+import { emailAddressValidator } from '#validators/auth/email_address_validator';
 import PasswordResetUnavailableException from '#exceptions/auth/password_reset_unavailable_exception';
 
 /**
@@ -34,9 +34,7 @@ export default class RequestPasswordResetController {
 	async execute(ctx: HttpContext) {
 		this.assertPasswordResetIsAvailable();
 
-		const { email } = await ctx.request.validateUsing(
-			requestPasswordResetValidator
-		);
+		const { email } = await ctx.request.validateUsing(emailAddressValidator);
 
 		await this.passwordService.requestReset(email);
 

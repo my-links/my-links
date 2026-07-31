@@ -439,7 +439,7 @@ msgid "Edit collection"
 msgstr "Edit collection"
 
 #: inertia/pages/auth/forgot_password.tsx:44
-#: inertia/pages/auth/login.tsx:54
+#: inertia/pages/auth/login.tsx:64
 #: inertia/pages/auth/register.tsx:83
 msgid "Email"
 msgstr "Email"
@@ -511,7 +511,7 @@ msgstr "Follow"
 msgid "Followed Collections"
 msgstr "Followed Collections"
 
-#: inertia/pages/auth/login.tsx:105
+#: inertia/pages/auth/login.tsx:119
 msgid "Forgot your password?"
 msgstr "Forgot your password?"
 
@@ -636,8 +636,8 @@ msgstr "Links"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:23
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:22
-#: inertia/pages/auth/login.tsx:44
-#: inertia/pages/auth/login.tsx:93
+#: inertia/pages/auth/login.tsx:54
+#: inertia/pages/auth/login.tsx:103
 msgid "Login"
 msgstr "Login"
 
@@ -705,7 +705,7 @@ msgstr "New password"
 msgid "New token created"
 msgstr "New token created"
 
-#: inertia/pages/auth/login.tsx:118
+#: inertia/pages/auth/login.tsx:132
 msgid "No account yet? <0>Create one</0>"
 msgstr "No account yet? <0>Create one</0>"
 
@@ -767,7 +767,7 @@ msgstr "Organize your links into collections"
 msgid "Page not found"
 msgstr "Page not found"
 
-#: inertia/pages/auth/login.tsx:70
+#: inertia/pages/auth/login.tsx:80
 #: inertia/pages/auth/register.tsx:98
 msgid "Password"
 msgstr "Password"
@@ -877,6 +877,10 @@ msgstr "Select JSON file"
 msgid "Self-Hosted"
 msgstr "Self-Hosted"
 
+#: inertia/components/auth/resend_verification_action.tsx:37
+msgid "Send a new confirmation link"
+msgstr "Send a new confirmation link"
+
 #: inertia/pages/auth/forgot_password.tsx:65
 msgid "Send the link"
 msgstr "Send the link"
@@ -916,7 +920,7 @@ msgstr "Share your collections with others"
 msgid "Sign In"
 msgstr "Sign In"
 
-#: inertia/pages/auth/login.tsx:50
+#: inertia/pages/auth/login.tsx:60
 msgid "Sign in to reach your collections"
 msgstr "Sign in to reach your collections"
 
@@ -1083,7 +1087,7 @@ msgstr "User Rights"
 msgid "Visibility"
 msgstr "Visibility"
 
-#: inertia/pages/auth/login.tsx:47
+#: inertia/pages/auth/login.tsx:57
 msgid "Welcome back"
 msgstr "Welcome back"
 
@@ -1122,16 +1126,20 @@ msgstr "You will no longer be able to sign in with Google on this account."
 
 #: inertia/components/user_settings/email_address.tsx:58
 #: inertia/pages/auth/forgot_password.tsx:51
-#: inertia/pages/auth/login.tsx:61
+#: inertia/pages/auth/login.tsx:71
 #: inertia/pages/auth/register.tsx:90
 msgid "you@example.com"
 msgstr "you@example.com"
+
+#: inertia/components/auth/resend_verification_action.tsx:32
+msgid "Your address still needs confirming. We can send the link again."
+msgstr "Your address still needs confirming. We can send the link again."
 
 #: inertia/pages/home.tsx:104
 msgid "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 msgstr "Your data belongs to you. We prioritize your privacy and never share or sell your information to third parties."
 
-#: inertia/pages/auth/login.tsx:80
+#: inertia/pages/auth/login.tsx:90
 #: inertia/pages/auth/sudo.tsx:62
 msgid "Your password"
 msgstr "Your password"

@@ -259,6 +259,8 @@ Email is optional. Leave every `SMTP_*` and `MAIL_*` variable empty and the inst
 
 Setting any one of them commits you to a complete configuration: `SMTP_HOST` and `MAIL_FROM_ADDRESS` are then both required, and a partial configuration is rejected at boot rather than silently dropping the one email a locked-out user is waiting for.
 
+Configuring outgoing mail also turns the confirmation link into a condition of entry: signing in with a password requires a confirmed address, and the login page offers to send a fresh link to anyone turned away. Without outgoing mail there is no such requirement — an instance that cannot send a link never asks anyone to follow one.
+
 | Variable            | Notes                                                             |
 | ------------------- | ----------------------------------------------------------------- |
 | `SMTP_HOST`         | Relay hostname                                                    |

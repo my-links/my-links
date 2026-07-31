@@ -34,6 +34,7 @@ export type ScannedRoutes = {
     'auth.register.submit': { paramsTuple?: []; params?: {} }
     'auth.password.forgot': { paramsTuple?: []; params?: {} }
     'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
+    'auth.verification.resend': { paramsTuple?: []; params?: {} }
     'auth.verify-email': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -148,6 +149,7 @@ export type ScannedRoutes = {
     'auth.login.submit': { paramsTuple?: []; params?: {} }
     'auth.register.submit': { paramsTuple?: []; params?: {} }
     'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
+    'auth.verification.resend': { paramsTuple?: []; params?: {} }
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.sudo.submit': { paramsTuple?: []; params?: {} }
     'auth.password.set': { paramsTuple?: []; params?: {} }
