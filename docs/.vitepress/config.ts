@@ -7,11 +7,6 @@ export default defineConfig({
 	cleanUrls: true,
 	lastUpdated: true,
 
-	// docs/fr.md and docs/api.md predate this site and are removed once the
-	// README stops linking to them (see the plan's next phase) — excluded here
-	// so the VitePress build does not try to route them as pages.
-	srcExclude: ['fr.md', 'api.md'],
-
 	head: [['link', { rel: 'icon', href: '/favicon.svg' }]],
 
 	themeConfig: {

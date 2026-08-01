@@ -1,61 +1,15 @@
 ## Contributing to MyLinks
 
-First of all, thank you for considering contributing to MyLinks! We appreciate your time and efforts, and we want to make the contribution process as smooth and transparent as possible.
+Thank you for considering contributing to MyLinks! We appreciate your time and want to keep the contribution process smooth and transparent.
 
-### Table of Contents
+The full guide — development setup, pull request guidelines, and the test suites — lives at **[docs.mylinks.app/contributing](https://docs.mylinks.app/contributing)**.
 
-- [How to Contribute](#how-to-contribute)
-- [Bug Reports and Feature Requests](#bug-reports-and-feature-requests)
-- [Pull Requests](#pull-requests)
-- [Development Setup](#development-setup)
-- [Community](#community)
+Before opening a pull request, run locally what CI runs on every push and PR ([`.github/workflows/ci.yml`](https://github.com/my-links/my-links/blob/main/.github/workflows/ci.yml)):
 
-### How to Contribute
+```bash
+pnpm run check && just test
+```
 
-There are several ways to contribute to MyLinks:
-- Reporting bugs
-- Suggesting new features
-- Improving the documentation
-- Writing or improving tests
-- Submitting code enhancements
-
-### Bug Reports and Feature Requests
-
-If you encounter any bugs or have ideas for new features, please create an issue in our [GitHub Issues](https://github.com/my-links/my-links/issues). When reporting bugs, please provide:
-- A clear description of the problem.
-- Steps to reproduce the issue.
-- Any relevant log/error messages.
-
-For feature requests, please describe:
-- The problem you aim to solve.
-- How the feature could benefit users.
-
-### Pull Requests
-
-When making a pull request (PR), please adhere to the following guidelines:
-1. Fork the repository and create your branch from `main` (or the default branch).
-2. Run `pnpm run check` (lint, format check and typecheck across the monorepo) and make sure it passes.
-3. Add tests for new features or bug fixes, co-located with the code they cover.
-4. Ensure existing tests still pass: `pnpm run test` for the webapp (needs PostgreSQL), and `pnpm --filter @my-links/extension run check` when touching the extension — it runs the suite against both the Chromium and Firefox targets. If your change touches the auth UI, also run `pnpm run test:browser` (needs mailpit and a Chromium binary — see the README's *Browser Test Suite* section); it isn't part of `pnpm run test` and reviewers won't assume it ran otherwise.
-5. Write commit messages in the imperative mood, one logical change per commit.
-6. Clearly describe the purpose of your pull request. Provide relevant issue numbers if applicable.
-
-To create a pull request:
-1. Push your branch to your forked repository.
-2. Submit a pull request (PR) to the `main` branch of MyLinks.
-
-> **Note:** All contributions are reviewed by maintainers. We may request changes or improvements before merging.
-
-### Development Setup
-
-MyLinks is a pnpm workspace holding two packages: the webapp (`apps/webapp`) and the browser extension (`apps/extension`).
-
-- Setting up the database, the environment and the dev server: [Development](./README.md#development) in the `README.md`.
-- Working on the extension: [`apps/extension/README.md`](./apps/extension/README.md).
-- The REST API the extension consumes: [`docs/api.md`](./docs/api.md). Changing an API controller, validator or transformer means regenerating the OpenAPI document and the extension's typed client — see that README's *Generating the API types*.
-
-### Community
-
-Feel free to join our community discussions on [our Trello board](https://trello.com/b/CwxkMeZp/mylinks) to collaborate on ideas, issues, and features!
+Bug reports and feature requests go through [GitHub Issues](https://github.com/my-links/my-links/issues). Join [our Trello board](https://trello.com/b/CwxkMeZp/mylinks) for roadmap discussions.
 
 Thank you for helping make MyLinks better!
