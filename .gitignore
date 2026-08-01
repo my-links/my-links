@@ -10,7 +10,11 @@ tmp
 .env.development.local
 
 # Frontend assets compiled code
-public/assets
+**/public/assets
+
+# VitePress build output
+docs/.vitepress/dist
+docs/.vitepress/cache
 
 # Lingui compiled catalogs (built from the tracked .po files)
 apps/webapp/inertia/locales/*/messages.ts

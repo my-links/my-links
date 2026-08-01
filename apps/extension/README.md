@@ -2,7 +2,7 @@
 
 The official MyLinks browser extension, built with [WXT](https://wxt.dev) and React.
 It talks to any MyLinks instance — the public one or a self-hosted deployment —
-over the REST API documented in [`docs/api.md`](../../docs/api.md).
+over the REST API documented at [docs.mylinks.app/api](https://docs.mylinks.app/api/).
 
 Targets **Chromium (MV3)** and **Firefox (MV2)** from the same source.
 
@@ -103,8 +103,8 @@ Once on:
 
 ## Development
 
-The webapp must be running for the extension to have anything to talk to — see the
-[root README](../../README.md#running-the-project-in-development).
+The webapp must be running for the extension to have anything to talk to — see
+[Development setup](https://docs.mylinks.app/contributing#development-setup).
 
 ### Commands
 

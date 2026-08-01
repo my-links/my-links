@@ -21,7 +21,7 @@ export default defineConfig({
 	],
 	theme: {
 		colors: {
-			// Brand palette, from docs/imgs/logo-light.svg. Dark variants keep the
+			// Brand palette, from docs/public/logo-light.svg. Dark variants keep the
 			// same cold, undecorated character rather than warming the neutrals up.
 			brand: { DEFAULT: '#005AA5', dark: '#2B84D1' },
 			lift: { DEFAULT: '#48A2FF', dark: '#48A2FF' },
