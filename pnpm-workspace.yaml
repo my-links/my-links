@@ -28,3 +28,6 @@ allowBuilds:
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
+minimumReleaseAgeExclude:
+  - '@minimalstuff/ui@2.1.1'
+  - '@types/luxon@3.7.3'
