@@ -169,8 +169,10 @@ test.group('Auth journey (browser)', (group) => {
 		await page.assertPath(FAVORITES_PATH);
 
 		// 5. Registration closed the moment the first account landed, and
-		// Google is still off — the home page reflects both.
-		await page.goto(HOME_PATH);
+		// Google is still off — the home page reflects both. Signed out
+		// first: `/` now redirects a signed-in visitor to their favorites.
+		await page.locator(`a[href="${LOGOUT_PATH}"]`).first().click();
+		await page.assertPath(HOME_PATH);
 		await page.assertNotExists('a[href="/register"]');
 		await page.assertNotExists('a[href="/auth/google"]');
 		await page.assertExists('a[href="/login"]');
