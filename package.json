@@ -21,6 +21,16 @@
 		"release:webapp": "pnpm --filter @my-links/webapp exec release-it"
 	},
 	"devDependencies": {
+		"@iconify-json/ant-design": "^1.2.8",
+		"@iconify-json/fa6-regular": "^1.2.4",
+		"@iconify-json/fa6-solid": "^1.2.4",
+		"@iconify-json/ion": "^1.2.7",
+		"@iconify-json/logos": "^1.2.11",
+		"@iconify-json/mdi": "^1.2.3",
+		"@iconify-json/octicon": "^1.2.30",
+		"@iconify-json/svg-spinners": "^1.2.4",
+		"@iconify-json/tabler": "^1.2.38",
+		"@iconify-json/twemoji": "^1.2.5",
 		"@minimalstuff/tooling": "^0.6.0",
 		"@unocss/preset-icons": "^66.6.6",
 		"@unocss/preset-web-fonts": "^66.6.6",
