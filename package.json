@@ -17,6 +17,9 @@
 		"format": "pnpm run lint:fix; oxfmt --write .",
 		"format:check": "oxfmt --check .",
 		"check": "pnpm run lint && pnpm run format:check && pnpm run typecheck",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs",
 		"prepare": "husky",
 		"release:webapp": "pnpm --filter @my-links/webapp exec release-it"
 	},
@@ -39,7 +42,8 @@
 		"oxfmt": "^0.59.0",
 		"oxlint": "^1.74.0",
 		"oxlint-tsgolint": "^0.24.0",
-		"unocss": "^66.6.6"
+		"unocss": "^66.6.6",
+		"vitepress": "^1.6.4"
 	},
 	"lint-staged": {
 		"*.{js,ts,jsx,tsx}": [
