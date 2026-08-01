@@ -56,11 +56,11 @@ function RegisterPage({ minimumPasswordLength }: PageProps) {
 	return (
 		<>
 			<Head title={t`Register`} />
-			<div className="max-w-md mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-sm">
-				<h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+			<div className="max-w-md mx-auto bg-paper dark:bg-ink border border-rule dark:border-rule-dark rounded-2xl p-8 shadow-sm">
+				<h1 className="font-display text-2xl text-ink dark:text-ink-dark mb-1">
 					<Trans>Create your account</Trans>
 				</h1>
-				<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+				<p className="text-sm text-ink/60 dark:text-ink-dark/60 mb-6">
 					<Trans>Start collecting your links in one place</Trans>
 				</p>
 
@@ -147,12 +147,12 @@ function RegisterPage({ minimumPasswordLength }: PageProps) {
 					</div>
 				)}
 
-				<p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+				<p className="mt-6 text-center text-sm text-ink/60 dark:text-ink-dark/60">
 					<Trans>
 						Already have an account?{' '}
 						<Link
 							route="auth.login"
-							className="font-medium text-blue-600 dark:text-blue-400 hover:underline"
+							className="font-medium text-brand dark:text-brand-dark hover:underline"
 						>
 							Sign in
 						</Link>

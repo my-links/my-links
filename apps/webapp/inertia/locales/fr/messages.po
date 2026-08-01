@@ -99,7 +99,7 @@ msgstr "Sessions actives"
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
-#: inertia/pages/home.tsx:40
+#: inertia/pages/home.tsx:49
 msgid "Add a link from the app or straight from your browser with the extension. One click, and it's kept."
 msgstr "Ajoutez un lien depuis l'application ou directement depuis votre navigateur avec l'extension. Un clic, et c'est enregistré."
 
@@ -444,7 +444,7 @@ msgstr "Effectué par"
 msgid "Download JSON"
 msgstr "Télécharger le JSON"
 
-#: inertia/pages/home.tsx:19
+#: inertia/pages/home.tsx:21
 msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Déposez un lien. Récupérez un favori que vous retrouverez."
 
@@ -524,7 +524,7 @@ msgstr "Exporter / Importer"
 msgid "Export all your collections and links, or import them from a JSON file"
 msgstr "Exportez toutes vos collections et liens, ou importez-les depuis un fichier JSON"
 
-#: inertia/pages/home.tsx:71
+#: inertia/pages/home.tsx:82
 msgid "Export everything, any time"
 msgstr "Exportez tout, à tout moment"
 
@@ -538,7 +538,7 @@ msgstr "Favoris"
 msgid "Favorites"
 msgstr "Favoris"
 
-#: inertia/pages/home.tsx:60
+#: inertia/pages/home.tsx:71
 msgid "Find it in a search, not a scroll"
 msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 
@@ -554,7 +554,7 @@ msgstr "Collections suivies"
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
-#: inertia/pages/home.tsx:117
+#: inertia/pages/home.tsx:128
 msgid "Free to start, open-source to inspect, yours to run anywhere."
 msgstr "Gratuit pour commencer, open-source à inspecter, à vous d'héberger où vous voulez."
 
@@ -583,7 +583,7 @@ msgstr "Aller à {0}"
 msgid "Google"
 msgstr "Google"
 
-#: inertia/pages/home.tsx:51
+#: inertia/pages/home.tsx:62
 msgid "Group links by project or topic, keep some private and make others public. Your call, per collection."
 msgstr "Regroupez vos liens par projet ou par thème, gardez-en certains privés et rendez d'autres publics. À vous de choisir, collection par collection."
 
@@ -629,7 +629,7 @@ msgstr "Dans moins d'une minute"
 msgid "IP"
 msgstr "IP"
 
-#: inertia/pages/home.tsx:62
+#: inertia/pages/home.tsx:73
 msgid "Jump straight to a link by name or URL instead of hunting through years of folders."
 msgstr "Accédez directement à un lien par son nom ou son URL, sans fouiller des années de dossiers."
 
@@ -721,7 +721,7 @@ msgstr "MyLinks est conforme au Règlement général sur la protection des donn�
 msgid "MyLinks does not guarantee that the service will be free from errors or interruptions."
 msgstr "MyLinks ne garantit pas que le service sera exempt d'erreurs ou d'interruptions."
 
-#: inertia/pages/home.tsx:96
+#: inertia/pages/home.tsx:107
 msgid "MyLinks is open-source. Host it on your own server with Docker and keep every link on hardware you control."
 msgstr "MyLinks est open-source. Hébergez-le sur votre propre serveur avec Docker et gardez chaque lien sur un matériel que vous contrôlez."
 
@@ -733,7 +733,7 @@ msgstr "MyLinks se réserve le droit de modifier ces Conditions générales d'ut
 msgid "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès au service, avec ou sans préavis, en cas de violation de ces Conditions générales d'utilisation."
 
-#: inertia/pages/home.tsx:24
+#: inertia/pages/home.tsx:26
 msgid "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 msgstr "MyLinks transforme vos onglets éparpillés en collections que vous pouvez rechercher, partager et exporter à tout moment. Hébergé pour vous, ou par vous-même."
 
@@ -916,11 +916,11 @@ msgstr "Révoquer toutes les sessions et tous les jetons"
 msgid "Role"
 msgstr "Rôle"
 
-#: inertia/pages/home.tsx:94
+#: inertia/pages/home.tsx:105
 msgid "Run it yourself"
 msgstr "Hébergez-le vous-même"
 
-#: inertia/pages/home.tsx:38
+#: inertia/pages/home.tsx:47
 msgid "Save it before the tab closes"
 msgstr "Enregistrez-le avant de fermer l'onglet"
 
@@ -940,7 +940,7 @@ msgstr "Sélectionnez une collection pour voir ses liens"
 msgid "Select JSON file"
 msgstr "Sélectionnez un fichier JSON"
 
-#: inertia/pages/home.tsx:106
+#: inertia/pages/home.tsx:117
 msgid "Self-host it"
 msgstr "S'auto-héberger"
 
@@ -953,7 +953,7 @@ msgstr "Envoyer un nouveau lien de confirmation"
 msgid "Send a password reset link"
 msgstr "Envoyer un lien de réinitialisation"
 
-#: inertia/pages/home.tsx:84
+#: inertia/pages/home.tsx:95
 msgid "Send a single URL and anyone can browse a public collection. No account required on their end."
 msgstr "Envoyez une seule URL et n'importe qui peut consulter une collection publique. Aucun compte requis de leur côté."
 
@@ -979,7 +979,7 @@ msgstr "Définir mon mot de passe"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: inertia/pages/home.tsx:82
+#: inertia/pages/home.tsx:93
 msgid "Share a collection with one link"
 msgstr "Partagez une collection avec un seul lien"
 
@@ -1009,7 +1009,7 @@ msgstr "Déconnecter la session"
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
-#: inertia/pages/home.tsx:49
+#: inertia/pages/home.tsx:60
 msgid "Sort it into a collection, not a folder"
 msgstr "Rangez-le dans une collection, pas un dossier"
 
@@ -1045,6 +1045,10 @@ msgstr "Conditions générales d'utilisation de MyLinks"
 msgid "The address you sign in with, and the one recovery links are sent to."
 msgstr "L'adresse avec laquelle vous vous connectez, et celle qui reçoit les liens de récupération."
 
+#: inertia/pages/home.tsx:38
+msgid "the app"
+msgstr "l'app"
+
 #: inertia/pages/privacy.tsx:94
 msgid "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
 msgstr "Les données collectées ne sont ni revendues ni utilisées à des fins autres que celles initialement prévues, à savoir la gestion des collections et des liens créés par l'utilisateur."
@@ -1056,6 +1060,10 @@ msgstr "La collecte et l'utilisation des données personnelles sont régies par 
 #: inertia/components/dashboard/forms/form_collection_content.tsx:134
 msgid "The content will be visible to everyone"
 msgstr "Le contenu sera visible par tous"
+
+#: inertia/components/home/browser_bar_callout.tsx:12
+msgid "The extension, in your toolbar"
+msgstr "L'extension, dans votre barre d'outils"
 
 #: inertia/components/user_settings/email_address.tsx:66
 msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
@@ -1224,11 +1232,11 @@ msgstr "vous@exemple.com"
 msgid "Your address still needs confirming. We can send the link again."
 msgstr "Votre adresse doit encore être confirmée. Nous pouvons vous renvoyer le lien."
 
-#: inertia/pages/home.tsx:73
+#: inertia/pages/home.tsx:84
 msgid "Your links download as plain JSON whenever you want. Nothing kept hostage."
 msgstr "Vos liens se téléchargent en JSON brut quand vous le souhaitez. Rien n'est retenu en otage."
 
-#: inertia/pages/home.tsx:114
+#: inertia/pages/home.tsx:125
 msgid "Your links, organized"
 msgstr "Vos liens, organisés"
 

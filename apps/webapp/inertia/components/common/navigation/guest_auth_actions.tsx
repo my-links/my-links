@@ -11,14 +11,14 @@ export const GuestAuthActions = () => {
 			{isRegistrationOpen && (
 				<Link
 					route="auth.register"
-					className="px-2 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium"
+					className="px-2 py-2 text-ink dark:text-ink-dark hover:text-brand dark:hover:text-brand-dark transition-colors duration-200 font-medium"
 				>
 					<Trans>Register</Trans>
 				</Link>
 			)}
 			<Link
 				route="auth.login"
-				className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-md shadow-blue-500/30"
+				className="px-4 py-2 rounded-lg bg-brand dark:bg-brand-dark text-paper hover:opacity-90 transition-opacity duration-200 font-medium"
 			>
 				<Trans>Login</Trans>
 			</Link>
