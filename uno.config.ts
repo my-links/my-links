@@ -7,9 +7,7 @@ export default defineConfig({
 		presetWind4({
 			dark: 'class',
 		}),
-		presetIcons({
-			cdn: 'https://esm.sh/',
-		}),
+		presetIcons(),
 		presetWebFonts({
 			provider: 'bunny',
 		}),
