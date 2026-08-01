@@ -76,6 +76,7 @@ export const controllers = {
     ShowFavorites: () => import('#controllers/favorites/show_favorites_controller'),
   },
   HealthChecks: () => import('#controllers/health_checks_controller'),
+  Home: () => import('#controllers/home_controller'),
   links: {
     CreateLink: () => import('#controllers/links/create_link_controller'),
     DeleteLink: () => import('#controllers/links/delete_link_controller'),

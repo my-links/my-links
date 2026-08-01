@@ -1,3 +1,5 @@
 import router from '@adonisjs/core/services/router';
 
-router.on('/').renderInertia('home', {}).as('home');
+import { controllers } from '#generated/controllers';
+
+router.get('/', [controllers.Home, 'render']).as('home');

@@ -52,7 +52,7 @@ export function Navbar() {
 	}, []);
 
 	return (
-		<nav className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 max-w-[1920px] rounded-lg shadow-sm">
+		<nav className="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 rounded-lg shadow-sm">
 			<div className="h-[64px] flex justify-between items-center py-2 px-4 md:px-6">
 				<div className="flex items-center gap-4 md:gap-6">
 					<Link

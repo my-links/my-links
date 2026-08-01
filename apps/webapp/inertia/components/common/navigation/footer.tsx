@@ -17,7 +17,7 @@ export function Footer() {
 	);
 
 	return (
-		<footer className="hidden md:block bg-white/80 dark:bg-gray-800/80 backdrop-blur-md max-w-[1920px] rounded-lg shadow-sm">
+		<footer className="hidden md:block bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-sm">
 			<div className="py-4 px-4 sm:px-6 text-gray-600 dark:text-gray-400 text-sm">
 				<div className="flex flex-col md:flex-row items-center gap-4 md:justify-between">
 					<div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-start w-full md:w-auto">

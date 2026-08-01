@@ -64,3 +64,54 @@ body {
 		filter: blur(0);
 	}
 }
+
+/* Hero demo replay. Resting state (SSR- and no-JS-safe) is the finished card
+ * alone — the typing/resolving markup only exists in the DOM while
+ * hero_demo.tsx is mid-replay, so these animations just play on mount. */
+@keyframes heroDemoType {
+	from {
+		width: 0;
+	}
+	to {
+		width: 100%;
+	}
+}
+
+@keyframes heroDemoPulse {
+	0%,
+	100% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+@keyframes heroDemoCardIn {
+	from {
+		opacity: 0;
+		transform: translateY(0.5rem) scale(0.98);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.hero-demo__url {
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 0;
+	animation: heroDemoType 900ms steps(30, end) forwards;
+}
+
+.hero-demo__card-in {
+	animation: heroDemoCardIn 400ms ease forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero-demo__card-in {
+		animation: none;
+	}
+}
