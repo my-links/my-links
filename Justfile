@@ -7,6 +7,13 @@ tuyau:
 	@cd {{ webapp_path }} && node ace tuyau:generate
 	@pnpm run format
 
+docs:
+	@pnpm exec vitepress dev docs --host 0.0.0.0
+
+docs-preview:
+	@pnpm run docs:build
+	@pnpm exec vitepress preview docs --host 0.0.0.0
+
 extract:
 	@cd {{ webapp_path }} && pnpm run extract
 
