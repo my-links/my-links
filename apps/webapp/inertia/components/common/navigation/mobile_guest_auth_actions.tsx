@@ -16,7 +16,7 @@ export const MobileGuestAuthActions = ({
 		<div className="space-y-2">
 			<Link
 				route="auth.login"
-				className="block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-md shadow-blue-500/30 text-center"
+				className="block px-4 py-2 rounded-lg bg-brand dark:bg-brand-dark text-paper hover:opacity-90 transition-opacity duration-200 font-medium text-center"
 				onClick={onNavigate}
 			>
 				<Trans>Login</Trans>
@@ -24,7 +24,7 @@ export const MobileGuestAuthActions = ({
 			{isRegistrationOpen && (
 				<Link
 					route="auth.register"
-					className="block px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200 font-medium text-center"
+					className="block px-4 py-2 rounded-lg border border-rule dark:border-rule-dark text-ink dark:text-ink-dark hover:border-brand dark:hover:border-brand-dark transition-colors duration-200 font-medium text-center"
 					onClick={onNavigate}
 				>
 					<Trans>Register</Trans>

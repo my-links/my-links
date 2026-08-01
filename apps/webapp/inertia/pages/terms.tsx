@@ -7,19 +7,19 @@ function TermsPage() {
 
 	return (
 		<div className="max-w-none">
-			<div className="mb-12 pb-8 border-b border-gray-200 dark:border-gray-700">
-				<h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
+			<div className="mb-12 pb-8 border-b border-rule dark:border-rule-dark">
+				<h1 className="font-display text-4xl sm:text-5xl text-ink dark:text-ink-dark mb-4">
 					<Trans>Terms and Conditions of Use for MyLinks</Trans>
 				</h1>
-				<div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-full">
-					<span className="text-sm font-medium text-blue-700 dark:text-blue-300">
+				<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-rule dark:border-rule-dark">
+					<span className="text-sm font-medium text-ink/70 dark:text-ink-dark/70">
 						<Trans>Last updated: {date}</Trans>
 					</span>
 				</div>
 			</div>
 
-			<div className="mb-12 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-2xl border border-blue-100 dark:border-blue-900/50">
-				<p className="text-lg leading-relaxed text-gray-800 dark:text-gray-200">
+			<div className="mb-12 p-6 bg-paper dark:bg-ink rounded-2xl border border-rule dark:border-rule-dark">
+				<p className="text-lg leading-relaxed text-ink/80 dark:text-ink-dark/80">
 					<Trans>
 						Welcome to MyLinks, a free and open-source bookmark manager focused
 						on privacy and self-hosting. By using this service, you agree to the
@@ -31,15 +31,15 @@ function TermsPage() {
 
 			<section className="mb-10">
 				<div className="flex items-center gap-3 mb-6">
-					<div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
+					<div className="w-10 h-10 rounded-lg bg-brand dark:bg-brand-dark flex items-center justify-center text-paper font-display">
 						1
 					</div>
-					<h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					<h2 className="font-display text-3xl text-ink dark:text-ink-dark">
 						<Trans>Acceptance of Terms</Trans>
 					</h2>
 				</div>
 				<div className="ml-14">
-					<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+					<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70 mb-6">
 						<Trans>
 							By accessing MyLinks and using our services, you agree to comply
 							with these Terms and Conditions of Use.
@@ -50,19 +50,19 @@ function TermsPage() {
 
 			<section className="mb-10">
 				<div className="flex items-center gap-3 mb-6">
-					<div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
+					<div className="w-10 h-10 rounded-lg bg-brand dark:bg-brand-dark flex items-center justify-center text-paper font-display">
 						2
 					</div>
-					<h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					<h2 className="font-display text-3xl text-ink dark:text-ink-dark">
 						<Trans>Use of the Service</Trans>
 					</h2>
 				</div>
 				<div className="ml-14 space-y-8">
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>2.1 User Account</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								To access certain features of MyLinks, you will need to create a
 								user account. You are responsible for the confidentiality of
@@ -72,10 +72,10 @@ function TermsPage() {
 					</div>
 
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>2.2 Authorized Use</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								You commit to using MyLinks in accordance with applicable laws
 								and not violating the rights of third parties.
@@ -84,10 +84,10 @@ function TermsPage() {
 					</div>
 
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>2.3 User Content</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								By posting content on MyLinks, you grant MyLinks a worldwide,
 								non-exclusive, transferable, and free license to use, reproduce,
@@ -100,19 +100,19 @@ function TermsPage() {
 
 			<section className="mb-10">
 				<div className="flex items-center gap-3 mb-6">
-					<div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
+					<div className="w-10 h-10 rounded-lg bg-brand dark:bg-brand-dark flex items-center justify-center text-paper font-display">
 						3
 					</div>
-					<h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					<h2 className="font-display text-3xl text-ink dark:text-ink-dark">
 						<Trans>Personal Data</Trans>
 					</h2>
 				</div>
 				<div className="ml-14 space-y-8">
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>3.1 Collection and Use</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								The collection and use of personal data is governed by our
 								Privacy Policy. Please refer to it for detailed information
@@ -122,10 +122,10 @@ function TermsPage() {
 					</div>
 
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>3.2 Account Deletion</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								You can request the deletion of your account at any time in
 								accordance with our Privacy Policy.
@@ -137,19 +137,19 @@ function TermsPage() {
 
 			<section className="mb-10">
 				<div className="flex items-center gap-3 mb-6">
-					<div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
+					<div className="w-10 h-10 rounded-lg bg-brand dark:bg-brand-dark flex items-center justify-center text-paper font-display">
 						4
 					</div>
-					<h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					<h2 className="font-display text-3xl text-ink dark:text-ink-dark">
 						<Trans>Responsibilities and Warranties</Trans>
 					</h2>
 				</div>
 				<div className="ml-14 space-y-8">
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>4.1 Responsibility</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								MyLinks cannot be held responsible for direct or indirect
 								damages arising from the use of our services.
@@ -158,10 +158,10 @@ function TermsPage() {
 					</div>
 
 					<div>
-						<h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+						<h3 className="text-xl font-semibold mb-3 text-ink dark:text-ink-dark">
 							<Trans>4.2 Warranties</Trans>
 						</h3>
-						<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300">
+						<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70">
 							<Trans>
 								MyLinks does not guarantee that the service will be free from
 								errors or interruptions.
@@ -173,15 +173,15 @@ function TermsPage() {
 
 			<section className="mb-10">
 				<div className="flex items-center gap-3 mb-6">
-					<div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
+					<div className="w-10 h-10 rounded-lg bg-brand dark:bg-brand-dark flex items-center justify-center text-paper font-display">
 						5
 					</div>
-					<h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					<h2 className="font-display text-3xl text-ink dark:text-ink-dark">
 						<Trans>Changes to the Terms</Trans>
 					</h2>
 				</div>
 				<div className="ml-14">
-					<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+					<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70 mb-6">
 						<Trans>
 							MyLinks reserves the right to modify these Terms and Conditions of
 							Use at any time. Users will be notified of changes through a
@@ -193,15 +193,15 @@ function TermsPage() {
 
 			<section className="mb-10">
 				<div className="flex items-center gap-3 mb-6">
-					<div className="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold">
+					<div className="w-10 h-10 rounded-lg bg-brand dark:bg-brand-dark flex items-center justify-center text-paper font-display">
 						6
 					</div>
-					<h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+					<h2 className="font-display text-3xl text-ink dark:text-ink-dark">
 						<Trans>Termination</Trans>
 					</h2>
 				</div>
 				<div className="ml-14">
-					<p className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6">
+					<p className="text-base leading-relaxed text-ink/70 dark:text-ink-dark/70 mb-6">
 						<Trans>
 							MyLinks reserves the right to terminate or suspend your access to
 							the service, with or without notice, in case of violation of these

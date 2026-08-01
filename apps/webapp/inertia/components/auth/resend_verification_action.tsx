@@ -26,9 +26,9 @@ export const ResendVerificationAction = ({
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className="mt-6 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-4 text-center"
+			className="mt-6 rounded-lg border border-rule dark:border-rule-dark bg-paper dark:bg-ink p-4 text-center"
 		>
-			<p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+			<p className="text-sm text-ink/70 dark:text-ink-dark/70 mb-3">
 				<Trans>
 					Your address still needs confirming. We can send the link again.
 				</Trans>

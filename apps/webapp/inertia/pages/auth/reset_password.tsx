@@ -41,11 +41,11 @@ function ResetPasswordPage({ token, minimumPasswordLength }: PageProps) {
 	return (
 		<>
 			<Head title={t`Choose a new password`} />
-			<div className="max-w-md mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 shadow-sm">
-				<h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+			<div className="max-w-md mx-auto bg-paper dark:bg-ink border border-rule dark:border-rule-dark rounded-2xl p-8 shadow-sm">
+				<h1 className="font-display text-2xl text-ink dark:text-ink-dark mb-1">
 					<Trans>Choose a new password</Trans>
 				</h1>
-				<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+				<p className="text-sm text-ink/60 dark:text-ink-dark/60 mb-6">
 					<Trans>
 						Everything else signed in on this account will be signed out.
 					</Trans>
