@@ -3,8 +3,8 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { ProviderLinkService } from '#services/auth/provider_link_service';
 import { authProviderValidator } from '#validators/auth/auth_provider_validator';
 
@@ -34,7 +34,7 @@ export default class UnlinkProviderController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.PROVIDER_UNLINKED,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', PROVIDER_UNLINKED_MESSAGE);

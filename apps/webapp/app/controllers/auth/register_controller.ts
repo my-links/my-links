@@ -4,11 +4,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import type User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import type { RequestOrigin } from '#lib/request_origin';
 import { MailService } from '#services/mail/mail_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { registerValidator } from '#validators/auth/register_validator';
-import type { AuthEventOrigin } from '#services/auth/auth_event_service';
 import { RegistrationService } from '#services/auth/registration_service';
 import { MINIMUM_PASSWORD_LENGTH } from '#validators/auth/password_rules';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
@@ -56,7 +56,7 @@ export default class RegisterController {
 
 		const registeredUser = await this.registrationService.register(payload);
 		if (registeredUser) {
-			await this.welcome(registeredUser, resolveAuthEventOrigin(ctx));
+			await this.welcome(registeredUser, resolveRequestOrigin(ctx));
 		}
 
 		ctx.session.flash('success', this.confirmationMessage());
@@ -64,7 +64,7 @@ export default class RegisterController {
 		return ctx.response.redirectToNamedRoute('auth.login');
 	}
 
-	private async welcome(user: User, origin: AuthEventOrigin): Promise<void> {
+	private async welcome(user: User, origin: RequestOrigin): Promise<void> {
 		await this.emailVerificationService.sendVerificationLink(user);
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.REGISTERED,

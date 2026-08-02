@@ -4,8 +4,8 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { EmailChangeService } from '#services/auth/email_change_service';
 import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 
@@ -36,7 +36,7 @@ export default class CancelEmailChangeController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.EMAIL_CHANGE_CANCELLED,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', EMAIL_CHANGE_CANCELLED_MESSAGE);

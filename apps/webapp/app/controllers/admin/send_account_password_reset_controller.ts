@@ -4,9 +4,9 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
 import { MailService } from '#services/mail/mail_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { accountTargetValidator } from '#validators/admin/account_target_validator';
 import PasswordResetUnavailableException from '#exceptions/auth/password_reset_unavailable_exception';
 
@@ -47,7 +47,7 @@ export default class SendAccountPasswordResetController {
 			type: AUTH_EVENT_TYPE.PASSWORD_RESET_REQUESTED,
 			userId: account.id,
 			actorId: administrator.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', PASSWORD_RESET_SENT_MESSAGE);
