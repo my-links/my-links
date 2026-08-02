@@ -4,7 +4,6 @@ import { LinkCard } from '~/components/home/link_card';
 
 const DEMO_URL = 'https://github.com/my-links/my-links';
 const DEMO_TITLE = 'my-links/my-links';
-const DEMO_COLLECTION = 'Dev tools';
 
 const TYPING_DURATION_MS = 900;
 const RESOLVING_DURATION_MS = 500;
@@ -48,11 +47,7 @@ export function HeroDemo() {
 	if (phase === 'resolved') {
 		return (
 			<div className="hero-demo__card-in">
-				<LinkCard
-					url={DEMO_URL}
-					title={DEMO_TITLE}
-					collection={DEMO_COLLECTION}
-				/>
+				<LinkCard url={DEMO_URL} title={DEMO_TITLE} icon="i-mdi-github" />
 			</div>
 		);
 	}

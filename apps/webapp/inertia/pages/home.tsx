@@ -30,7 +30,25 @@ function HomePage() {
 					</p>
 					<HeroAuthActions />
 				</div>
-				<HeroDemo />
+				<div className="flex flex-col gap-3">
+					<HeroDemo />
+					<a
+						href={PROJECT_DOCS_URL}
+						target="_blank"
+						rel="noreferrer"
+						className="flex items-center gap-3 rounded-xl border border-rule dark:border-rule-dark bg-paper dark:bg-ink px-4 py-3 shadow-sm hover:border-brand dark:hover:border-brand-dark transition-colors"
+					>
+						<span className="i-mdi-book-open-variant w-8 h-8 flex-shrink-0 block transform-gpu text-ink dark:text-ink-dark" />
+						<div className="min-w-0 flex-1">
+							<p className="truncate font-medium text-ink dark:text-ink-dark">
+								<Trans>Documentation</Trans>
+							</p>
+							<p className="truncate font-mono text-xs text-ink/50 dark:text-ink-dark/50">
+								{PROJECT_DOCS_URL}
+							</p>
+						</div>
+					</a>
+				</div>
 			</div>
 
 			<div className="pb-16">
