@@ -3,8 +3,11 @@ import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
 
 import Link from '#models/link';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { CollectionService } from '#services/collections/collection_service';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 
 type LinkPayload = {
 	name: string;
@@ -18,7 +21,8 @@ type LinkPayload = {
 export class LinkService {
 	constructor(
 		protected readonly collectionService: CollectionService,
-		protected readonly syncJournalService: SyncJournalService
+		protected readonly syncJournalService: SyncJournalService,
+		protected readonly activityEventService: ActivityEventService
 	) {}
 
 	async createLink(payload: LinkPayload) {
@@ -37,6 +41,15 @@ export class LinkService {
 			await createdLink
 				.related('collections')
 				.attach(resolvedCollectionIds, transaction);
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.LINK_CREATED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.LINK,
+					subjectId: createdLink.id,
+				},
+				transaction
+			);
 			return createdLink;
 		});
 
@@ -66,6 +79,16 @@ export class LinkService {
 					.sync(resolvedCollectionIds, true, transaction);
 				await this.syncJournalService.markLinksChanged([id], transaction);
 			}
+
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.LINK_UPDATED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.LINK,
+					subjectId: id,
+				},
+				transaction
+			);
 		});
 
 		return this.getLinkById(id, userId);
@@ -99,6 +122,15 @@ export class LinkService {
 
 			await link.useTransaction(transaction).delete();
 			await this.syncJournalService.recordDeletedLink(userId, id, transaction);
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.LINK_DELETED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.LINK,
+					subjectId: id,
+				},
+				transaction
+			);
 		});
 	}
 
@@ -116,13 +148,24 @@ export class LinkService {
 	 * any other change (the extension ranks pinned bookmarks off it).
 	 */
 	async updateFavorite(id: number, favorite: boolean) {
+		const userId = this.getAuthenticatedUserId();
 		const link = await Link.query()
 			.where('id', id)
-			.andWhere('author_id', this.getAuthenticatedUserId())
+			.andWhere('author_id', userId)
 			.firstOrFail();
 
 		link.favorite = favorite;
-		return await link.save();
+		await link.save();
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.LINK_FAVORITE_TOGGLED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.LINK,
+			subjectId: id,
+			metadata: { favorite },
+		});
+
+		return link;
 	}
 
 	async getMyFavoriteLinks() {
