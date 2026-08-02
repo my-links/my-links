@@ -32,7 +32,7 @@ export function DashboardQuickAction(
 
 	return (
 		<IconButton
-			icon="i-ant-design-plus-circle-outlined"
+			icon="i-ant-design-thunderbolt-outlined"
 			onClick={handleOpen}
 			aria-label="Quick actions"
 			variant="ghost"
