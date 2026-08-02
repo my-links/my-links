@@ -1,8 +1,12 @@
+import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 import LastAdministratorException from '#exceptions/admin/last_administrator_exception';
 
 /**
@@ -16,7 +20,10 @@ export type AccountFilters = {
 	readonly provider: AuthProvider | null;
 };
 
+@inject()
 export class UserService {
+	constructor(protected readonly activityEventService: ActivityEventService) {}
+
 	/**
 	 * Whether this instance holds any account at all. Both the registration
 	 * policy and the administrator rule hang off this one question.
@@ -134,14 +141,83 @@ export class UserService {
 		});
 	}
 
-	deleteUser(userId: User['id']) {
-		return User.query().where('id', userId).delete();
+	/**
+	 * Wipes an account's own data, self-service (no actor). The activity row is
+	 * written before the delete, not after: `audit_events.user_id` references
+	 * `users`, so a row naming a user has to be inserted while that user still
+	 * exists. `ON DELETE SET NULL` then takes over — the row survives the
+	 * cascade and simply loses the name, exactly as it does for every other
+	 * account event.
+	 */
+	async deleteUser(userId: User['id']): Promise<void> {
+		await db.transaction(async (transaction) => {
+			const dataCounts = await this.countUserData(userId, transaction);
+
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+					subjectId: userId,
+					metadata: dataCounts,
+				},
+				transaction
+			);
+
+			await User.query({ client: transaction }).where('id', userId).delete();
+		});
 	}
 
-	bulkDeleteUsers(userIds: User['id'][]) {
-		return User.query()
-			.whereIn('id', userIds)
-			.andWhere('isAdmin', false)
-			.delete();
+	async bulkDeleteUsers(
+		userIds: User['id'][],
+		actorId: User['id']
+	): Promise<void> {
+		await db.transaction(async (transaction) => {
+			const targetUsers = await User.query({ client: transaction })
+				.whereIn('id', userIds)
+				.andWhere('isAdmin', false);
+
+			for (const targetUser of targetUsers) {
+				const dataCounts = await this.countUserData(targetUser.id, transaction);
+
+				await this.activityEventService.record(
+					{
+						type: ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED,
+						userId: targetUser.id,
+						actorId,
+						subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+						subjectId: targetUser.id,
+						metadata: dataCounts,
+					},
+					transaction
+				);
+			}
+
+			await User.query({ client: transaction })
+				.whereIn(
+					'id',
+					targetUsers.map((targetUser) => targetUser.id)
+				)
+				.delete();
+		});
+	}
+
+	private async countUserData(
+		userId: User['id'],
+		client: TransactionClientContract
+	): Promise<{ collections: number; links: number }> {
+		const [{ total: collectionsTotal }] = await client
+			.from('collections')
+			.where('author_id', userId)
+			.count('* as total');
+		const [{ total: linksTotal }] = await client
+			.from('links')
+			.where('author_id', userId)
+			.count('* as total');
+
+		return {
+			collections: Number(collectionsTotal),
+			links: Number(linksTotal),
+		};
 	}
 }

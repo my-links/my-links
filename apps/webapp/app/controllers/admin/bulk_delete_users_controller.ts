@@ -8,9 +8,9 @@ import { bulkDeleteUsersValidator } from '#validators/admin/bulk_delete_users_va
 export default class BulkDeleteUsersController {
 	constructor(protected readonly userService: UserService) {}
 
-	async execute({ request, response }: HttpContext) {
+	async execute({ request, response, auth }: HttpContext) {
 		const { userIds } = await request.validateUsing(bulkDeleteUsersValidator);
-		await this.userService.bulkDeleteUsers(userIds);
+		await this.userService.bulkDeleteUsers(userIds, auth.getUserOrFail().id);
 		return response.redirect().back();
 	}
 }
