@@ -4,7 +4,6 @@ import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { FormField } from '~/components/common/form_field';
 import { usePasswordSettings } from '~/hooks/use_password_settings';
 
 type PasswordFormData = {
@@ -72,42 +71,32 @@ export function Password() {
 			</div>
 
 			<form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-				<FormField
+				<Input
 					label={t`New password`}
-					htmlFor="newPassword"
+					type="password"
+					id="newPassword"
+					name="password"
+					value={data.password}
+					onChange={handleChangeOf('password')}
+					placeholder={t`At least ${minimumPasswordLength} characters`}
 					error={errors.password}
-				>
-					<Input
-						type="password"
-						id="newPassword"
-						name="password"
-						value={data.password}
-						onChange={handleChangeOf('password')}
-						placeholder={t`At least ${minimumPasswordLength} characters`}
-						error={errors.password}
-						autoComplete="new-password"
-						minLength={minimumPasswordLength}
-						required
-					/>
-				</FormField>
+					autoComplete="new-password"
+					minLength={minimumPasswordLength}
+					required
+				/>
 
-				<FormField
+				<Input
 					label={t`Confirm password`}
-					htmlFor="newPasswordConfirmation"
+					type="password"
+					id="newPasswordConfirmation"
+					name="passwordConfirmation"
+					value={data.passwordConfirmation}
+					onChange={handleChangeOf('passwordConfirmation')}
+					placeholder={t`Type it once more`}
 					error={errors.passwordConfirmation}
-				>
-					<Input
-						type="password"
-						id="newPasswordConfirmation"
-						name="passwordConfirmation"
-						value={data.passwordConfirmation}
-						onChange={handleChangeOf('passwordConfirmation')}
-						placeholder={t`Type it once more`}
-						error={errors.passwordConfirmation}
-						autoComplete="new-password"
-						required
-					/>
-				</FormField>
+					autoComplete="new-password"
+					required
+				/>
 
 				<Button
 					type="submit"

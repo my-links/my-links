@@ -4,7 +4,6 @@ import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { FormField } from '~/components/common/form_field';
 import { useEmailSettings } from '~/hooks/use_email_settings';
 
 type EmailChangeFormData = {
@@ -44,23 +43,18 @@ export function EmailAddress() {
 
 			{canChangeEmail ? (
 				<form onSubmit={handleSubmit} className="space-y-4 max-w-md mt-4">
-					<FormField
+					<Input
 						label={t`New email address`}
-						htmlFor="newEmailAddress"
+						type="email"
+						id="newEmailAddress"
+						name="email"
+						value={data.email}
+						onChange={(event) => setData('email', event.target.value)}
+						placeholder={t`you@example.com`}
 						error={errors.email}
-					>
-						<Input
-							type="email"
-							id="newEmailAddress"
-							name="email"
-							value={data.email}
-							onChange={(event) => setData('email', event.target.value)}
-							placeholder={t`you@example.com`}
-							error={errors.email}
-							autoComplete="email"
-							required
-						/>
-					</FormField>
+						autoComplete="email"
+						required
+					/>
 
 					<p className="text-sm text-gray-500 dark:text-gray-400">
 						<Trans>

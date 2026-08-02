@@ -6,7 +6,6 @@ import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import SmallContentLayout from '~/layouts/small_content';
-import { FormField } from '~/components/common/form_field';
 
 type ForgotPasswordFormData = {
 	email: string;
@@ -41,20 +40,19 @@ function ForgotPasswordPage() {
 				</p>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
-					<FormField label={t`Email`} htmlFor="email" error={errors.email}>
-						<Input
-							type="email"
-							id="email"
-							name="email"
-							value={data.email}
-							onChange={handleEmailChange}
-							placeholder={t`you@example.com`}
-							error={errors.email}
-							autoComplete="email"
-							autoFocus
-							required
-						/>
-					</FormField>
+					<Input
+						label={t`Email`}
+						type="email"
+						id="email"
+						name="email"
+						value={data.email}
+						onChange={handleEmailChange}
+						placeholder={t`you@example.com`}
+						error={errors.email}
+						autoComplete="email"
+						autoFocus
+						required
+					/>
 
 					<Button
 						type="submit"
