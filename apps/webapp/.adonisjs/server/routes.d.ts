@@ -69,6 +69,7 @@ export type ScannedRoutes = {
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.index': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -109,6 +110,7 @@ export type ScannedRoutes = {
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.index': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
@@ -145,6 +147,7 @@ export type ScannedRoutes = {
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.index': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }

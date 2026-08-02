@@ -1,38 +1,35 @@
 import { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
+import type { FuzzyMatch } from '~/lib/fuzzy_links';
 import { SearchLinkResult } from '~/components/dashboard/search/search_link_result';
 
 interface SearchLinkResultsProps {
-	linkResults: Data.SearchResult[];
+	results: FuzzyMatch<Data.Link>[];
 	selectedIndex: number;
-	handleResultClick: (result: Data.SearchResult) => void;
-	searchTerm: string;
+	handleResultClick: (link: Data.Link) => void;
 }
 
 export const SearchLinkResults = ({
-	linkResults,
+	results,
 	selectedIndex,
 	handleResultClick,
-	searchTerm,
-}: Readonly<SearchLinkResultsProps>) =>
-	linkResults.length > 0 && (
-		<div>
-			<h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-				<div className="i-ion-link w-4 h-4" />
-				<Trans>Links</Trans> ({linkResults.length})
-			</h3>
-			<div className="space-y-2">
-				{linkResults.map((result, resultIndex) => (
-					<SearchLinkResult
-						key={`link-${result.id}`}
-						result={result}
-						resultIndex={resultIndex}
-						isSelected={selectedIndex === resultIndex}
-						handleResultClick={handleResultClick}
-						searchTerm={searchTerm}
-					/>
-				))}
-			</div>
+}: Readonly<SearchLinkResultsProps>) => (
+	<div>
+		<h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+			<div className="i-ion-link w-4 h-4" />
+			<Trans>Links</Trans> ({results.length})
+		</h3>
+		<div className="space-y-2">
+			{results.map((match, resultIndex) => (
+				<SearchLinkResult
+					key={`link-${match.link.id}`}
+					match={match}
+					resultIndex={resultIndex}
+					isSelected={selectedIndex === resultIndex}
+					handleResultClick={handleResultClick}
+				/>
+			))}
 		</div>
-	);
+	</div>
+);

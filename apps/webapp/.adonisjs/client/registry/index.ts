@@ -396,6 +396,12 @@ const routes = {
     tokens: [{"old":"/l/:id","type":0,"val":"l","end":""},{"old":"/l/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['link.visit']['types'],
   },
+  'link.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/links',
+    tokens: [{"old":"/links","type":0,"val":"links","end":""}],
+    types: placeholder as Registry['link.index']['types'],
+  },
   'link.create': {
     methods: ["POST"],
     pattern: '/links',

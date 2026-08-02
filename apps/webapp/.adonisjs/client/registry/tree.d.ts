@@ -114,6 +114,7 @@ export interface ApiDefinition {
   }
   link: {
     visit: typeof routes['link.visit']
+    index: typeof routes['link.index']
     create: typeof routes['link.create']
     edit: typeof routes['link.edit']
     toggleFavorite: typeof routes['link.toggle-favorite']
