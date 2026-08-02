@@ -54,6 +54,12 @@ const routes = {
     tokens: [{"old":"/admin/auth-events","type":0,"val":"admin","end":""},{"old":"/admin/auth-events","type":0,"val":"auth-events","end":""}],
     types: placeholder as Registry['admin.authEvents']['types'],
   },
+  'admin.activityEvents': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/activity-events',
+    tokens: [{"old":"/admin/activity-events","type":0,"val":"admin","end":""},{"old":"/admin/activity-events","type":0,"val":"activity-events","end":""}],
+    types: placeholder as Registry['admin.activityEvents']['types'],
+  },
   'admin.users.bulkDelete': {
     methods: ["POST"],
     pattern: '/admin/users/bulk-delete',

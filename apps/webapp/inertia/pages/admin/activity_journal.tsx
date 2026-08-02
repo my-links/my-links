@@ -1,0 +1,53 @@
+import type { Data } from '@generated/data';
+import { Trans } from '@lingui/react/macro';
+
+import { InertiaProps } from '~/types/inertia';
+import { AdminTabs } from '~/components/admin/admin_tabs';
+import { ActivityEventsTable } from '~/components/admin/activity_events/activity_events_table';
+import { ActivityJournalPagination } from '~/components/admin/activity_events/activity_journal_pagination';
+
+type PageProps = InertiaProps<{
+	events: Data.ActivityEvent[];
+	currentPage: number;
+	lastPage: number;
+	totalEvents: number;
+}>;
+
+export default function ActivityJournal({
+	events,
+	currentPage,
+	lastPage,
+	totalEvents,
+}: Readonly<PageProps>) {
+	return (
+		<div className="w-full h-full flex flex-col">
+			<div className="mb-6">
+				<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+					<Trans>Admin Dashboard</Trans>
+				</h1>
+			</div>
+
+			<AdminTabs />
+
+			<div className="mb-4 flex items-baseline justify-between gap-4">
+				<p className="text-sm text-gray-600 dark:text-gray-400">
+					<Trans>
+						Every collection and link change this instance recorded, newest
+						first.
+					</Trans>
+				</p>
+				<p className="text-sm text-gray-500 dark:text-gray-400">
+					<Trans>{totalEvents} events</Trans>
+				</p>
+			</div>
+
+			<div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm p-6">
+				<ActivityEventsTable events={events} />
+				<ActivityJournalPagination
+					currentPage={currentPage}
+					lastPage={lastPage}
+				/>
+			</div>
+		</div>
+	);
+}

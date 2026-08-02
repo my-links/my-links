@@ -15,6 +15,10 @@ router
 			.as('admin.authEvents');
 
 		router
+			.get('/activity-events', [controllers.admin.ActivityJournal, 'render'])
+			.as('admin.activityEvents');
+
+		router
 			.post('/users/bulk-delete', [
 				controllers.admin.BulkDeleteUsers,
 				'execute',

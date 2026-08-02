@@ -12,6 +12,7 @@ const INACTIVE_TAB_CLASS =
 
 const ACCOUNTS_PAGE = 'admin/dashboard';
 const JOURNAL_PAGE = 'admin/auth_journal';
+const ACTIVITY_JOURNAL_PAGE = 'admin/activity_journal';
 
 /**
  * The two halves of the admin area. Real links rather than client-side tabs:
@@ -32,6 +33,13 @@ export function AdminTabs() {
 			<Link route="admin.authEvents" className={tabClassFor(JOURNAL_PAGE)}>
 				<i className="i-mdi-history w-4 h-4" />
 				<Trans>Authentication journal</Trans>
+			</Link>
+			<Link
+				route="admin.activityEvents"
+				className={tabClassFor(ACTIVITY_JOURNAL_PAGE)}
+			>
+				<i className="i-mdi-clipboard-text-clock w-4 h-4" />
+				<Trans>Activity journal</Trans>
 			</Link>
 		</nav>
 	);

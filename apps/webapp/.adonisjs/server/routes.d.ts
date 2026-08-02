@@ -12,6 +12,7 @@ export type ScannedRoutes = {
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.authEvents': { paramsTuple?: []; params?: {} }
+    'admin.activityEvents': { paramsTuple?: []; params?: {} }
     'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
     'admin.users.sendPasswordReset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.users.revokeAccess': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -82,6 +83,7 @@ export type ScannedRoutes = {
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.authEvents': { paramsTuple?: []; params?: {} }
+    'admin.activityEvents': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
@@ -117,6 +119,7 @@ export type ScannedRoutes = {
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.authEvents': { paramsTuple?: []; params?: {} }
+    'admin.activityEvents': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }

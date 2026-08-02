@@ -11,6 +11,7 @@ export interface ApiDefinition {
     dashboard: typeof routes['admin.dashboard']
     status: typeof routes['admin.status']
     authEvents: typeof routes['admin.authEvents']
+    activityEvents: typeof routes['admin.activityEvents']
     users: {
       bulkDelete: typeof routes['admin.users.bulkDelete']
       sendPasswordReset: typeof routes['admin.users.sendPasswordReset']

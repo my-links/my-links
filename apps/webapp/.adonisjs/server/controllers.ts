@@ -5,6 +5,7 @@
 
 export const controllers = {
   admin: {
+    ActivityJournal: () => import('#controllers/admin/activity_journal_controller'),
     Admin: () => import('#controllers/admin/admin_controller'),
     AuthJournal: () => import('#controllers/admin/auth_journal_controller'),
     BulkDeleteUsers: () => import('#controllers/admin/bulk_delete_users_controller'),
