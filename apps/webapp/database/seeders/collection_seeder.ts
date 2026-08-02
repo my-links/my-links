@@ -5,17 +5,18 @@ import User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 
+const COLLECTIONS_PER_USER = 10;
+
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
-		const users = await getUserIds();
+		const userIds = await getUserIds();
 
-		const collections = faker.helpers.multiple(
-			() => createRandomCollection(users),
-			{
-				count: 50,
-			}
+		const collections = userIds.flatMap((authorId) =>
+			faker.helpers.multiple(() => createRandomCollection(authorId), {
+				count: COLLECTIONS_PER_USER,
+			})
 		);
 		await Collection.createMany(collections);
 	}
@@ -26,8 +27,7 @@ export async function getUserIds() {
 	return users.map(({ id }) => id);
 }
 
-function createRandomCollection(userIds: User['id'][]) {
-	const authorId = faker.helpers.arrayElements(userIds, 1).at(0);
+function createRandomCollection(authorId: User['id']) {
 	return {
 		name: faker.lorem.words({ min: 1, max: 5 }),
 		description: faker.lorem.sentences({ min: 0, max: 3 }),
