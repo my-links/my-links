@@ -1,8 +1,5 @@
-import { useMemo } from 'react';
-
 import { useSearch } from '@/hooks/use_search';
 import { SearchLinkResult } from './search_link_result';
-import { buildDisplayedResults } from '@/lib/search/result_list';
 import { useResultNavigation } from '@/hooks/use_result_navigation';
 
 interface SearchResultsProps {
@@ -14,24 +11,14 @@ export function SearchResults({
 	term,
 	onResultActivate,
 }: Readonly<SearchResultsProps>) {
-	const { results, isLoading, error } = useSearch(term);
-	const displayedResults = useMemo(
-		() => buildDisplayedResults(results),
-		[results]
-	);
-	const { selectedIndex, resultsRef } = useResultNavigation(displayedResults);
+	const { results, isLoading } = useSearch(term);
+	const { selectedIndex, resultsRef } = useResultNavigation(results);
 
 	if (isLoading) {
 		return <p className="p-4 text-sm text-gray-500">Searching…</p>;
 	}
 
-	if (error) {
-		return (
-			<p className="p-4 text-sm text-red-500">Search failed. Try again.</p>
-		);
-	}
-
-	if (displayedResults.length === 0) {
+	if (results.length === 0) {
 		return (
 			<p className="p-4 text-sm text-gray-500">No results for "{term}".</p>
 		);
@@ -42,11 +29,10 @@ export function SearchResults({
 			ref={resultsRef}
 			className="flex-1 space-y-1 overflow-y-auto px-2 py-1"
 		>
-			{displayedResults.map((result, index) => (
+			{results.map((match, index) => (
 				<SearchLinkResult
-					key={result.id}
-					result={result}
-					searchTerm={term}
+					key={match.link.id}
+					match={match}
 					resultIndex={index}
 					isSelected={index === selectedIndex}
 					onActivate={onResultActivate}

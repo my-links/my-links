@@ -6,6 +6,3 @@ export type CollectionWithLinks =
 export type LinkResource = NonNullable<CollectionWithLinks['links']>[number];
 
 export type CollectionVisibility = components['schemas']['Visibility'];
-
-export type SearchResult =
-	components['schemas']['SearchRenderResponse']['data'][number];

@@ -1,29 +1,37 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMemo } from 'react';
 
-import { searchLinks } from '@/lib/api/search';
-import type { SearchResult } from '@/lib/api/types';
-
-const NO_RESULTS: SearchResult[] = [];
+import type { LinkResource } from '@/lib/api/types';
+import { useCollections } from '@/hooks/use_collections';
+import { matchLinks, type FuzzyMatch } from '@/lib/search/fuzzy_links';
 
 interface UseSearchReturn {
-	results: SearchResult[];
+	results: FuzzyMatch<LinkResource>[];
 	isLoading: boolean;
-	error: Error | null;
+}
+
+/**
+ * A link can belong to several collections, so the cache is deduped by id
+ * before matching — otherwise the same link could show up more than once.
+ */
+function collectUniqueLinks(
+	collections: readonly { links?: LinkResource[] }[]
+): LinkResource[] {
+	const linksById = new Map<number, LinkResource>();
+
+	for (const collection of collections) {
+		for (const link of collection.links ?? []) {
+			linksById.set(link.id, link);
+		}
+	}
+
+	return [...linksById.values()];
 }
 
 export function useSearch(term: string): UseSearchReturn {
-	const trimmedTerm = term.trim();
-	const isSearchEnabled = trimmedTerm.length > 0;
+	const { collections, isLoading } = useCollections();
 
-	const query = useQuery({
-		queryKey: ['search', trimmedTerm],
-		queryFn: () => searchLinks(trimmedTerm),
-		enabled: isSearchEnabled,
-	});
+	const links = useMemo(() => collectUniqueLinks(collections), [collections]);
+	const results = useMemo(() => matchLinks(links, term), [links, term]);
 
-	return {
-		results: isSearchEnabled ? (query.data ?? NO_RESULTS) : NO_RESULTS,
-		isLoading: isSearchEnabled && query.isPending,
-		error: query.error,
-	};
+	return { results, isLoading };
 }

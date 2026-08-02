@@ -1,35 +1,41 @@
-const REGEX_SPECIAL_CHARACTERS = /[.*+?^${}()|[\]\\]/g;
-
 export interface HighlightSegment {
 	text: string;
 	isMatch: boolean;
 }
 
-function escapeForRegex(term: string): string {
-	return term.replace(REGEX_SPECIAL_CHARACTERS, '\\$&');
-}
-
 /**
- * Splits `text` into consecutive segments, flagging the ones that
- * case-insensitively equal `searchTerm`. Returns a single unmatched segment
- * when the term is blank, so callers never special-case an empty search.
+ * Splits `text` into consecutive segments, flagging the ones covered by
+ * `ranges` (flat `[start0, end0, start1, end1, ...]` pairs, ascending and
+ * non-overlapping — the shape uFuzzy's match info returns). Returns a
+ * single unmatched segment when there are no ranges, so callers never
+ * special-case an unmatched row.
  */
 export function splitIntoHighlightSegments(
 	text: string,
-	searchTerm: string
+	ranges: readonly number[]
 ): HighlightSegment[] {
-	const trimmedSearchTerm = searchTerm.trim();
-
-	if (trimmedSearchTerm.length === 0) {
+	if (ranges.length === 0) {
 		return [{ text, isMatch: false }];
 	}
 
-	const escapedSearchTerm = escapeForRegex(trimmedSearchTerm);
-	const splitPattern = new RegExp(`(${escapedSearchTerm})`, 'gi');
-	const matchPattern = new RegExp(`^${escapedSearchTerm}$`, 'i');
+	const segments: HighlightSegment[] = [];
+	let cursor = 0;
 
-	return text
-		.split(splitPattern)
-		.filter((part) => part.length > 0)
-		.map((part) => ({ text: part, isMatch: matchPattern.test(part) }));
+	for (let rangeIndex = 0; rangeIndex < ranges.length; rangeIndex += 2) {
+		const start = ranges[rangeIndex];
+		const end = ranges[rangeIndex + 1];
+
+		if (start > cursor) {
+			segments.push({ text: text.slice(cursor, start), isMatch: false });
+		}
+
+		segments.push({ text: text.slice(start, end), isMatch: true });
+		cursor = end;
+	}
+
+	if (cursor < text.length) {
+		segments.push({ text: text.slice(cursor), isMatch: false });
+	}
+
+	return segments;
 }

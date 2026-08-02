@@ -2,11 +2,11 @@ import { splitIntoHighlightSegments } from '@/lib/search_highlight';
 
 interface HighlightProps {
 	text: string;
-	searchTerm: string;
+	ranges: readonly number[];
 }
 
-export function Highlight({ text, searchTerm }: Readonly<HighlightProps>) {
-	const segments = splitIntoHighlightSegments(text, searchTerm);
+export function Highlight({ text, ranges }: Readonly<HighlightProps>) {
+	const segments = splitIntoHighlightSegments(text, ranges);
 
 	return (
 		<>
