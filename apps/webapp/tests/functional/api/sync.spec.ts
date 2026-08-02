@@ -36,7 +36,7 @@ function cursorMinutesAgo(minutes: number) {
 }
 
 test.group('API sync — full snapshot', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should return every collection and link when no cursor is given', async ({
 		client,
@@ -108,7 +108,7 @@ test.group('API sync — full snapshot', (group) => {
 });
 
 test.group('API sync — incremental delta', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should omit entities untouched since the cursor', async ({
 		client,

@@ -20,7 +20,7 @@ async function runDeleteUser(email: string, retypedEmail: string) {
 }
 
 test.group('user:delete', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should delete the account once its address is retyped', async ({

@@ -25,7 +25,7 @@ async function getDefaultCollection(user: User) {
 }
 
 test.group('API create link — default collection', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should file a link under an auto-created default collection when collectionIds is omitted', async ({
 		client,
@@ -102,7 +102,7 @@ test.group('API create link — default collection', (group) => {
 });
 
 test.group('API create link — multiple collections', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should file a link under every collection listed in collectionIds', async ({
 		client,
@@ -138,7 +138,7 @@ test.group('API create link — multiple collections', (group) => {
 });
 
 test.group('API update link — collection membership', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should sync a link to a different set of collections on update', async ({
 		client,
@@ -227,7 +227,7 @@ test.group('API update link — collection membership', (group) => {
 });
 
 test.group('API delete collection — orphaned links', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should move links that were only in the deleted collection to the default collection', async ({
 		client,

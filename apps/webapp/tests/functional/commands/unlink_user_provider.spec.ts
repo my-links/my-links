@@ -38,7 +38,7 @@ async function runUnlink(email: string, provider: string) {
 }
 
 test.group('user:unlink-provider', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should detach the provider from the account', async ({ assert }) => {

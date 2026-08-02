@@ -45,7 +45,7 @@ async function createUserWithPassword(): Promise<User> {
 }
 
 test.group('CredentialsAuthService', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should return the account when the email and password match', async ({
 		assert,

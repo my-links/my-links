@@ -78,7 +78,7 @@ async function emptyInstance(): Promise<void> {
 }
 
 test.group('user:create', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should open an account for the address it was given', async ({
@@ -251,7 +251,7 @@ test.group('user:create', (group) => {
 });
 
 test.group('user:create — the registration policy of the instance', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	/**

@@ -9,7 +9,7 @@ const HTTP_UNPROCESSABLE_ENTITY = 422;
 const MISSING_COLLECTION_ID = 999999;
 
 test.group('API error rendering', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should answer an unauthenticated call with its own status rather than a catch-all', async ({
 		client,

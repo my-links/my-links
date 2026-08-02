@@ -28,7 +28,7 @@ function googleIdentity(email: string): OauthIdentity {
 }
 
 test.group('OAuth accounts — email normalization', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should store the address in the same case the registration form stores it', async ({
 		assert,
@@ -76,7 +76,7 @@ test.group('OAuth accounts — email normalization', (group) => {
  * but "does this identity already belong to the session in front of me".
  */
 test.group('OAuth accounts — resolving an identity to its owner', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should resolve a linked identity to the account holding it', async ({
 		assert,

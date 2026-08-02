@@ -54,7 +54,7 @@ function roleRoute(account: User): string {
 }
 
 test.group('Admin account actions — sending a reset link', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should mail a reset link to the account', async ({
@@ -98,7 +98,7 @@ test.group('Admin account actions — sending a reset link', (group) => {
 });
 
 test.group('Admin account actions — without outgoing mail', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should answer 404 when the instance cannot mail a reset link', async ({
 		client,
@@ -117,7 +117,7 @@ test.group('Admin account actions — without outgoing mail', (group) => {
 });
 
 test.group('Admin account actions — confirming an address', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should confirm an address nobody ever proved', async ({
 		assert,
@@ -157,7 +157,7 @@ test.group('Admin account actions — confirming an address', (group) => {
 });
 
 test.group('Admin account actions — revoking access', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should sign the account out of every browser', async ({
 		assert,
@@ -219,7 +219,7 @@ test.group('Admin account actions — revoking access', (group) => {
 });
 
 test.group('Admin account actions — changing a role', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should promote a member to administrator', async ({
 		assert,
@@ -297,7 +297,7 @@ test.group('Admin account actions — changing a role', (group) => {
 });
 
 test.group('Admin account actions — reserved to administrators', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should send a signed-in visitor without the admin flag away from a reset', async ({
 		client,

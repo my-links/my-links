@@ -31,7 +31,7 @@ function uploadOf(contents: string, filename: string) {
 }
 
 test.group('User settings import — upload', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should import the collections and links of a valid export file', async ({
 		assert,

@@ -52,7 +52,7 @@ async function emptyInstance(): Promise<void> {
 }
 
 test.group('user:list', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 	group.each.setup(() => emptyInstance());
 

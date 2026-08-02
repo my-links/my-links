@@ -91,7 +91,7 @@ function expireTokensOf(user: User) {
 }
 
 test.group('Email change — asking for one', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should mail a confirmation link to the new address', async ({
@@ -274,7 +274,7 @@ test.group('Email change — asking for one', (group) => {
 });
 
 test.group('Email change — without outgoing mail', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should refuse the request outright', async ({ client }) => {
 		const user = await createUser({ emailPrefix: 'email-change-nomail' });
@@ -298,7 +298,7 @@ test.group('Email change — without outgoing mail', (group) => {
 });
 
 test.group('Email change — confirming it', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should move the account to the new address', async ({
 		assert,
@@ -437,7 +437,7 @@ test.group('Email change — confirming it', (group) => {
 });
 
 test.group('Email change — cancelling it', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should keep the address the account has', async ({
 		assert,

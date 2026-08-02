@@ -118,7 +118,7 @@ async function verifiesAgainst(
 }
 
 test.group('Password — setting a first one', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should give a password to an account that had none', async ({
@@ -214,7 +214,7 @@ test.group('Password — setting a first one', (group) => {
 });
 
 test.group('Password — changing it', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should replace the password', async ({ assert, client }) => {
@@ -319,7 +319,7 @@ test.group('Password — changing it', (group) => {
 });
 
 test.group('Password — keeping the session that changed it', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should keep the session driving the change', async ({ assert }) => {
 		const user = await createUser({ emailPrefix: 'session-revoke-keep' });
@@ -372,7 +372,7 @@ test.group('Password — keeping the session that changed it', (group) => {
 });
 
 test.group('Password — asking for a reset link', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should render the request form', async ({ client }) => {
@@ -469,7 +469,7 @@ test.group('Password — asking for a reset link', (group) => {
 });
 
 test.group('Password — reset without outgoing mail', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should not offer the request form at all', async ({ client }) => {
 		const response = await client.get(FORGOT_PASSWORD_PATH);
@@ -490,7 +490,7 @@ test.group('Password — reset without outgoing mail', (group) => {
 });
 
 test.group('Password — redeeming a reset link', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should render the form for whoever holds the link', async ({

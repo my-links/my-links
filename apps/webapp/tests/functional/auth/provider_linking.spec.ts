@@ -67,7 +67,7 @@ function countLinksOf(user: User): Promise<OauthAuth[]> {
 }
 
 test.group('Provider linking — attaching an identity', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should attach the identity to the account that asked for it', async ({
 		assert,
@@ -125,7 +125,7 @@ test.group('Provider linking — attaching an identity', (group) => {
 });
 
 test.group('Provider linking — starting the round trip', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.teardown(() => app.container.restore(GoogleAuthConfigService));
 
 	test('should hand the visitor over to the provider', async ({
@@ -195,7 +195,7 @@ test.group('Provider linking — starting the round trip', (group) => {
 });
 
 test.group('Provider linking — detaching an identity', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should detach the provider when another method remains', async ({
 		assert,
@@ -289,7 +289,7 @@ test.group('Provider linking — detaching an identity', (group) => {
 });
 
 test.group('Provider linking — what the settings page reports', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should list the providers the account has linked', async ({
 		client,
