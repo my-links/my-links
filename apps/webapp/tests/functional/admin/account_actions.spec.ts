@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import OneTimeToken from '#models/one_time_token';
 import { ACCOUNT_ROLE } from '#constants/account';
@@ -90,7 +90,7 @@ test.group('Admin account actions — sending a reset link', (group) => {
 			.loginAs(administrator)
 			.redirects(0);
 
-		const events = await AuthEvent.query()
+		const events = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.PASSWORD_RESET_REQUESTED);
 		assert.equal(events[0]?.actorId, administrator.id);
@@ -289,7 +289,7 @@ test.group('Admin account actions — changing a role', (group) => {
 			.loginAs(administrator)
 			.redirects(0);
 
-		const events = await AuthEvent.query()
+		const events = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.ROLE_PROMOTED);
 		assert.equal(events[0]?.actorId, administrator.id);

@@ -4,7 +4,7 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { REGISTRATION_BURST_TIER } from '#start/limiter';
 import { UserService } from '#services/user/user_service';
@@ -166,7 +166,7 @@ test.group('Registration — a brand new instance', (group) => {
 		await submitRegistration(client, email);
 
 		const registeredUser = await User.findByOrFail('email', email);
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', registeredUser.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.REGISTERED);

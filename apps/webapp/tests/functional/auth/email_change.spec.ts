@@ -6,7 +6,7 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import OneTimeToken from '#models/one_time_token';
 import { createUser } from '#tests/factories/user_factory';
@@ -224,7 +224,7 @@ test.group('Email change — asking for one', (group) => {
 
 		await requestChange(client, user, NEW_EMAIL);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.andWhere('type', AUTH_EVENT_TYPE.EMAIL_CHANGE_REQUESTED)
 			.first();
@@ -349,7 +349,7 @@ test.group('Email change — confirming it', (group) => {
 
 		await followConfirmationLink(client, secret);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.andWhere('type', AUTH_EVENT_TYPE.EMAIL_CHANGED)
 			.first();
@@ -500,7 +500,7 @@ test.group('Email change — cancelling it', (group) => {
 
 		await followCancellationLink(client, secret);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.andWhere('type', AUTH_EVENT_TYPE.EMAIL_CHANGE_CANCELLED)
 			.first();

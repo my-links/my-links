@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { SUDO_CONFIRMATION_BURST_TIER } from '#start/limiter';
 import { newPasswordForm } from '#tests/helpers/password_forms';
@@ -205,7 +205,7 @@ test.group('Sudo mode — confirming with a password', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.SUDO_CONFIRMED);
@@ -258,7 +258,7 @@ test.group('Sudo mode — confirming with a password', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.SUDO_CONFIRMATION_FAILED);

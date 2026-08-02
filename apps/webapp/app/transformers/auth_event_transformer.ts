@@ -1,6 +1,6 @@
 import { BaseTransformer } from '@adonisjs/core/transformers';
 
-import type AuthEvent from '#models/auth_event';
+import type AuditEvent from '#models/audit_event';
 
 /**
  * One line of the authentication journal.
@@ -11,7 +11,7 @@ import type AuthEvent from '#models/auth_event';
  * deleted keeps its event and loses its name — that is what the `SET NULL` on
  * both foreign keys buys.
  */
-export default class AuthEventTransformer extends BaseTransformer<AuthEvent> {
+export default class AuthEventTransformer extends BaseTransformer<AuditEvent> {
 	toObject() {
 		return {
 			...this.pick(this.resource, ['id', 'type', 'ip', 'userAgent']),

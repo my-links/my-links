@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import OneTimeToken from '#models/one_time_token';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { VERIFICATION_RESEND_BURST_TIER } from '#start/limiter';
@@ -80,7 +80,7 @@ test.group('Email verification gate — with outgoing mail', (group) => {
 			.withCsrfToken()
 			.redirects(0);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.orderBy('id', 'desc')
 			.firstOrFail();

@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { createUser } from '#tests/factories/user_factory';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
@@ -33,7 +33,7 @@ async function createAdmin(): Promise<User> {
  * rest of the transaction.
  */
 async function emptyJournal(): Promise<void> {
-	await AuthEvent.query().delete();
+	await AuditEvent.query().delete();
 }
 
 test.group('Admin authentication journal', (group) => {

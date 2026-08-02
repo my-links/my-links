@@ -4,7 +4,7 @@ import hash from '@adonisjs/core/services/hash';
 import type { BaseCommand } from '@adonisjs/core/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import PasswordAuth from '#models/password_auth';
 import OneTimeToken from '#models/one_time_token';
@@ -125,7 +125,7 @@ test.group('user:reset-password — writing a password', (group) => {
 
 		await runPasswordReset({ email: account.email });
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.PASSWORD_CHANGED)
 			.first();
