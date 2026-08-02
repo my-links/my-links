@@ -103,6 +103,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/auth_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.activityEvents': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/activity-events'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/activity_journal_page_validator').activityJournalPageValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.users.bulkDelete': {
     methods: ["POST"]
     pattern: '/admin/users/bulk-delete'
