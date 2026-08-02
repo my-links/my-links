@@ -295,44 +295,6 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
-	'/api/v1/search': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get: {
-			parameters: {
-				query: {
-					term: string;
-					type?: 'both' | 'collection' | 'link' | null;
-				};
-				header?: never;
-				path?: never;
-				cookie?: never;
-			};
-			requestBody?: never;
-			responses: {
-				/** @description OK */
-				200: {
-					headers: {
-						[name: string]: unknown;
-					};
-					content: {
-						'application/json': components['schemas']['SearchRenderResponse'];
-					};
-				};
-			};
-		};
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
 	'/api/v1/sync': {
 		parameters: {
 			query?: never;
@@ -453,7 +415,7 @@ export interface components {
 		CreateCollectionExecuteResponse: {
 			collection: {
 				author?: {
-					avatarUrl: string;
+					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
@@ -502,7 +464,7 @@ export interface components {
 		CreateLinkExecuteResponse: {
 			link: {
 				author?: {
-					avatarUrl: string;
+					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
@@ -532,7 +494,7 @@ export interface components {
 		GetCollectionsRenderResponse: {
 			data: {
 				author?: {
-					avatarUrl: string;
+					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
@@ -567,7 +529,7 @@ export interface components {
 		GetFavoriteLinksRenderResponse: {
 			data: {
 				author?: {
-					avatarUrl: string;
+					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
@@ -597,23 +559,10 @@ export interface components {
 			isHealthy: boolean;
 			version: string;
 		};
-		SearchRenderResponse: {
-			data: {
-				icon: string | null;
-				id: number;
-				matchedPart: string | null;
-				name: string;
-				rank: number | null;
-				type: components['schemas']['SearchResultType'];
-				url: string | null;
-			}[];
-		};
-		/** @enum {string} */
-		SearchResultType: 'collection' | 'link';
 		SyncRenderResponse: {
 			collections: {
 				author?: {
-					avatarUrl: string;
+					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
@@ -636,7 +585,7 @@ export interface components {
 			isFullSync: boolean;
 			links: {
 				author?: {
-					avatarUrl: string;
+					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;

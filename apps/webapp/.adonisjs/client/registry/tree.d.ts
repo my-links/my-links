@@ -28,7 +28,6 @@ export interface ApiDefinition {
     follow: typeof routes['collection.follow']
     unfollow: typeof routes['collection.unfollow']
   }
-  search: typeof routes['search']
   extension: {
     authorize: typeof routes['extension.authorize']
   }
@@ -102,9 +101,6 @@ export interface ApiDefinition {
     create: typeof routes['api-links.create']
     update: typeof routes['api-links.update']
     delete: typeof routes['api-links.delete']
-  }
-  apiSearch: {
-    index: typeof routes['api-search.index']
   }
   apiSync: {
     delta: typeof routes['api-sync.delta']

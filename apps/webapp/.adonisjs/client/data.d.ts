@@ -10,7 +10,6 @@ import type AuthEventTransformer from '#transformers/auth_event_transformer'
 import type CollectionTransformer from '#transformers/collection'
 import type LinkTransformer from '#transformers/link'
 import type OauthAuthTransformer from '#transformers/oauth_auth_transformer'
-import type SearchResultTransformer from '#transformers/search_result'
 import type StatusReportCheckTransformer from '#transformers/status_report_check'
 import type UserSessionTransformer from '#transformers/user_session_transformer'
 import type UserTransformer from '#transformers/user'
@@ -32,10 +31,6 @@ export namespace Data {
   export type OauthAuth = InferData<OauthAuthTransformer>
   export namespace OauthAuth {
     export type Variants = InferVariants<OauthAuthTransformer>
-  }
-  export type SearchResult = InferData<SearchResultTransformer>
-  export namespace SearchResult {
-    export type Variants = InferVariants<SearchResultTransformer>
   }
   export type StatusReportCheck = InferData<StatusReportCheckTransformer>
   export namespace StatusReportCheck {
