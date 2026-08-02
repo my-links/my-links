@@ -4,11 +4,8 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
-import { getUserIds } from '#database/seeders/collection_seeder';
 
-const SEEDED_LINKS_COUNT = 500;
-const MIN_COLLECTIONS_PER_LINK = 1;
-const MAX_COLLECTIONS_PER_LINK = 3;
+const LINKS_PER_COLLECTION = 15;
 
 /**
  * Real domains, so the favicon fetcher (`FaviconService`) has an actual
@@ -42,8 +39,6 @@ const REAL_DOMAINS = [
 	'cloudflare.com',
 ];
 
-type CollectionIdsByAuthor = Map<User['id'], Collection['id'][]>;
-
 type LinkAttributes = {
 	readonly name: string;
 	readonly description: string;
@@ -53,28 +48,24 @@ type LinkAttributes = {
 };
 
 /**
- * A link and the collections it will belong to, kept together because the
+ * A link and the collection it will belong to, kept together because the
  * membership can only be written once the link row has an id.
  */
 type SeededLink = {
 	readonly attributes: LinkAttributes;
-	readonly collectionIds: Collection['id'][];
+	readonly collectionId: Collection['id'];
 };
 
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
-		const collectionIdsByAuthor = await groupCollectionIdsByAuthor();
-		const authorIds = await getAuthorIdsOwningACollection(
-			collectionIdsByAuthor
-		);
+		const collections = await Collection.all();
 
-		if (authorIds.length === 0) return;
-
-		const seededLinks = faker.helpers.multiple(
-			() => createRandomLink(authorIds, collectionIdsByAuthor),
-			{ count: SEEDED_LINKS_COUNT }
+		const seededLinks = collections.flatMap((collection) =>
+			faker.helpers.multiple(() => createRandomLink(collection), {
+				count: LINKS_PER_COLLECTION,
+			})
 		);
 
 		const createdLinks = await Link.createMany(
@@ -82,63 +73,25 @@ export default class extends BaseSeeder {
 		);
 
 		// `createMany` answers in the order it was given, which is what pairs
-		// each persisted link back with the collections drawn for it.
+		// each persisted link back with the collection it was drawn for.
 		await Promise.all(
 			createdLinks.map((link, index) =>
-				link.related('collections').attach(seededLinks[index].collectionIds)
+				link.related('collections').attach([seededLinks[index].collectionId])
 			)
 		);
 	}
 }
 
-async function groupCollectionIdsByAuthor(): Promise<CollectionIdsByAuthor> {
-	const collections = await Collection.all();
-
-	return collections.reduce<CollectionIdsByAuthor>(
-		(collectionIdsByAuthor, collection) => {
-			const ownedIds = collectionIdsByAuthor.get(collection.authorId) ?? [];
-			collectionIdsByAuthor.set(collection.authorId, [
-				...ownedIds,
-				collection.id,
-			]);
-
-			return collectionIdsByAuthor;
-		},
-		new Map()
-	);
-}
-
-/**
- * Collections are handed to a random subset of the seeded users, so the ones
- * left without any cannot own a link either.
- */
-async function getAuthorIdsOwningACollection(
-	collectionIdsByAuthor: CollectionIdsByAuthor
-): Promise<User['id'][]> {
-	const userIds = await getUserIds();
-
-	return userIds.filter((userId) => collectionIdsByAuthor.has(userId));
-}
-
-function createRandomLink(
-	authorIds: User['id'][],
-	collectionIdsByAuthor: CollectionIdsByAuthor
-): SeededLink {
-	const authorId = faker.helpers.arrayElement(authorIds);
-	const ownedCollectionIds = collectionIdsByAuthor.get(authorId) ?? [];
-
+function createRandomLink(collection: Collection): SeededLink {
 	return {
 		attributes: {
 			name: faker.lorem.words({ min: 1, max: 5 }),
 			description: faker.lorem.sentences({ min: 0, max: 3 }),
 			url: createRandomUrl(),
 			favorite: faker.datatype.boolean(),
-			authorId,
+			authorId: collection.authorId,
 		},
-		collectionIds: faker.helpers.arrayElements(ownedCollectionIds, {
-			min: MIN_COLLECTIONS_PER_LINK,
-			max: MAX_COLLECTIONS_PER_LINK,
-		}),
+		collectionId: collection.id,
 	};
 }
 
