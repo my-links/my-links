@@ -32,7 +32,7 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 				<EditLinkModal
 					link={link}
 					collections={collections}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});

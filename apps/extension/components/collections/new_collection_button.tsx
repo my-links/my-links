@@ -6,7 +6,9 @@ export function NewCollectionButton() {
 	const handleClick = () => {
 		const call = Modal.call({
 			title: 'New collection',
-			children: <CreateCollectionModal onClose={() => Modal.end(call)} />,
+			children: (
+				<CreateCollectionModal onClose={() => Modal.end(call, undefined)} />
+			),
 		});
 	};
 

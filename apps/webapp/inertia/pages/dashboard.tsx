@@ -45,7 +45,7 @@ export default function Dashboard() {
 			children: (
 				<CreateCollectionModal
 					message={message}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});
@@ -55,7 +55,9 @@ export default function Dashboard() {
 		if (!activeCollection || activeCollection.isOwner === false) return;
 		const call = Modal.call({
 			title: t`Edit a collection`,
-			children: <EditCollectionModal onClose={() => Modal.end(call)} />,
+			children: (
+				<EditCollectionModal onClose={() => Modal.end(call, undefined)} />
+			),
 		});
 	};
 
@@ -63,7 +65,9 @@ export default function Dashboard() {
 		if (!activeCollection || activeCollection.isOwner === false) return;
 		const call = Modal.call({
 			title: t`Delete a collection`,
-			children: <DeleteCollectionModal onClose={() => Modal.end(call)} />,
+			children: (
+				<DeleteCollectionModal onClose={() => Modal.end(call, undefined)} />
+			),
 		});
 	};
 
@@ -71,7 +75,7 @@ export default function Dashboard() {
 		if (activeCollection?.isOwner === false) return;
 		const call = Modal.call({
 			title: t`Create a link`,
-			children: <CreateLinkModal onClose={() => Modal.end(call)} />,
+			children: <CreateLinkModal onClose={() => Modal.end(call, undefined)} />,
 		});
 	};
 
@@ -79,7 +83,7 @@ export default function Dashboard() {
 		const call = Modal.call({
 			title: t`Search`,
 			size: 'lg',
-			children: <SearchModal onClose={() => Modal.end(call)} />,
+			children: <SearchModal onClose={() => Modal.end(call, undefined)} />,
 		});
 	};
 

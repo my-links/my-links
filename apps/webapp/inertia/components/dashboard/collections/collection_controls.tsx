@@ -55,7 +55,7 @@ export const CollectionControls = forwardRef<
 			children: (
 				<EditCollectionModal
 					collection={collection}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});
@@ -68,7 +68,7 @@ export const CollectionControls = forwardRef<
 			children: (
 				<DeleteCollectionModal
 					collection={collection}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});
