@@ -3,12 +3,16 @@ import { createExtensionApiClient } from '@/lib/api/client';
 
 export class SearchError extends Error {}
 
-export async function searchLinksAndCollections(
-	term: string
-): Promise<SearchResult[]> {
+/**
+ * Collections are already browsable through the sidebar tree, so the panel
+ * only ever searches links.
+ */
+const SEARCH_SCOPE = 'link';
+
+export async function searchLinks(term: string): Promise<SearchResult[]> {
 	const client = await createExtensionApiClient();
 	const { data, error } = await client.GET('/api/v1/search', {
-		params: { query: { term } },
+		params: { query: { term, type: SEARCH_SCOPE } },
 	});
 
 	if (error) {

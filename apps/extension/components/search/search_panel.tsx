@@ -9,14 +9,17 @@ import { CollectionTree } from '@/components/collections/collection_tree';
 export function SearchPanel() {
 	const [term, setTerm] = useState('');
 	const debouncedTerm = useDebouncedValue(term);
-	const isSearching = debouncedTerm.trim().length > 0;
+	const isSearching = term.trim().length > 0 && debouncedTerm.trim().length > 0;
 	const searchInputRef = useSearchFocus();
 
 	return (
 		<div className="flex flex-1 flex-col overflow-hidden">
 			<SearchBar value={term} onChange={setTerm} inputRef={searchInputRef} />
 			{isSearching ? (
-				<SearchResults term={debouncedTerm} />
+				<SearchResults
+					term={debouncedTerm}
+					onResultActivate={() => setTerm('')}
+				/>
 			) : (
 				<CollectionTree />
 			)}

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { searchLinks } from '@/lib/api/search';
 import type { SearchResult } from '@/lib/api/types';
-import { searchLinksAndCollections } from '@/lib/api/search';
 
-const MIN_SEARCH_TERM_LENGTH = 2;
+const NO_RESULTS: SearchResult[] = [];
 
 interface UseSearchReturn {
 	results: SearchResult[];
@@ -13,16 +13,16 @@ interface UseSearchReturn {
 
 export function useSearch(term: string): UseSearchReturn {
 	const trimmedTerm = term.trim();
-	const isSearchEnabled = trimmedTerm.length >= MIN_SEARCH_TERM_LENGTH;
+	const isSearchEnabled = trimmedTerm.length > 0;
 
 	const query = useQuery({
 		queryKey: ['search', trimmedTerm],
-		queryFn: () => searchLinksAndCollections(trimmedTerm),
+		queryFn: () => searchLinks(trimmedTerm),
 		enabled: isSearchEnabled,
 	});
 
 	return {
-		results: isSearchEnabled ? (query.data ?? []) : [],
+		results: isSearchEnabled ? (query.data ?? NO_RESULTS) : NO_RESULTS,
 		isLoading: isSearchEnabled && query.isPending,
 		error: query.error,
 	};
