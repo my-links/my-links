@@ -57,12 +57,17 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 				title={link.url}
 				className="flex min-w-0 flex-1 items-center gap-2 px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300"
 			>
-				{faviconUrl && (
-					// Remounts on URL change so a stale `hasFailed` from a
-					// previous link (or the pre-hydration empty instanceUrl)
-					// never leaks forward and hides a favicon that would load.
-					<LinkFavicon key={faviconUrl} faviconUrl={faviconUrl} />
-				)}
+				{faviconUrl &&
+					instanceUrl && (
+						// Remounts on URL change so a stale `hasFailed` from a
+						// previous link (or the pre-hydration empty instanceUrl)
+						// never leaks forward and hides a favicon that would load.
+						<LinkFavicon
+							key={faviconUrl}
+							faviconUrl={faviconUrl}
+							instanceUrl={instanceUrl}
+						/>
+					)}
 				<span className="flex-1 truncate">{link.name}</span>
 				{link.collectionIds.length > 1 && (
 					<span
