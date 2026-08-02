@@ -33,7 +33,7 @@ export function CreateTokenModal({
 				<Trans>Create a new API token to access the API</Trans>
 			</p>
 			<Input
-				label={<Trans>Token name</Trans>}
+				label={t({ message: 'Token name' })}
 				id="token-name"
 				type="text"
 				placeholder={t({ message: 'Enter token name' })}
