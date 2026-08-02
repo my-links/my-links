@@ -1,23 +1,14 @@
 import User from '#models/user';
 import AuditEvent from '#models/audit_event';
+import type { RequestOrigin } from '#lib/request_origin';
 import { AUTH_EVENT_TYPE, type AuthEventType } from '#constants/auth';
 
-/**
- * Where an authentication event came from. Both fields are nullable because a
- * request behind a misconfigured proxy, or one sent by a client that omits a
- * user agent, still has to be journaled.
- */
-export type AuthEventOrigin = {
-	readonly ip: string | null;
-	readonly userAgent: string | null;
-};
-
-export type AuthEventRecord = AuthEventOrigin & {
+export type AuthEventRecord = RequestOrigin & {
 	readonly type: AuthEventType;
 	readonly userId: number | null;
 };
 
-export type FailedLoginRecord = AuthEventOrigin & {
+export type FailedLoginRecord = RequestOrigin & {
 	readonly email: string;
 };
 
@@ -26,7 +17,7 @@ export type FailedLoginRecord = AuthEventOrigin & {
  * are required: an admin action written without its author reads as the owner
  * having done it, with the administrator's address attached to their name.
  */
-export type AdminActionRecord = AuthEventOrigin & {
+export type AdminActionRecord = RequestOrigin & {
 	readonly type: AuthEventType;
 	readonly userId: number;
 	readonly actorId: number;

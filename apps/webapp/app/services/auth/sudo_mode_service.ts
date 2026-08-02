@@ -3,8 +3,8 @@ import { inject } from '@adonisjs/core';
 import type { Session } from '@adonisjs/session';
 import { urlFor } from '@adonisjs/core/services/url_builder';
 
+import type { RequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import type { AuthEventOrigin } from '#services/auth/auth_event_service';
 import { AUTH_EVENT_TYPE, SUDO_MODE_WINDOW_MINUTES } from '#constants/auth';
 import SudoConfirmationFailedException from '#exceptions/auth/sudo_confirmation_failed_exception';
 
@@ -22,7 +22,7 @@ export const SUDO_CONFIRMED_MESSAGE = 'Identity confirmed';
 
 export type SudoConfirmationAttempt = {
 	readonly userId: number;
-	readonly origin: AuthEventOrigin;
+	readonly origin: RequestOrigin;
 };
 
 /**

@@ -3,9 +3,9 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import User from '#models/user';
 import { AUTH_PROVIDER } from '#constants/auth';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { PasswordService } from '#services/auth/password_service';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import { sudoConfirmationValidator } from '#validators/auth/sudo_confirmation_validator';
@@ -42,7 +42,7 @@ export default class SudoModeController {
 		const user = ctx.auth.getUserOrFail();
 		const attempt = {
 			userId: user.id,
-			origin: resolveAuthEventOrigin(ctx),
+			origin: resolveRequestOrigin(ctx),
 		};
 
 		const isPasswordValid = await this.passwordService.verify(user, password);

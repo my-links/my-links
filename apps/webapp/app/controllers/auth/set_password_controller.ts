@@ -3,9 +3,9 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { newPasswordValidator } from '#validators/auth/new_password_validator';
 
 const PASSWORD_SET_MESSAGE =
@@ -34,7 +34,7 @@ export default class SetPasswordController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.PASSWORD_SET,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', PASSWORD_SET_MESSAGE);

@@ -4,12 +4,12 @@ import type { HttpContext } from '@adonisjs/core/http';
 import type { RoutesList } from '@adonisjs/core/types/http';
 
 import type User from '#models/user';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { SessionService } from '#services/user/session_service';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
 import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import type { OauthIntent } from '#services/auth/oauth_intent_service';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { ProviderLinkService } from '#services/auth/provider_link_service';
@@ -157,7 +157,7 @@ export default class AuthController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.PROVIDER_LINKED,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', PROVIDER_LINKED_MESSAGE);
@@ -175,7 +175,7 @@ export default class AuthController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', 'Successfully authenticated');
@@ -200,7 +200,7 @@ export default class AuthController {
 	) {
 		const attempt = {
 			userId: user.id,
-			origin: resolveAuthEventOrigin(ctx),
+			origin: resolveRequestOrigin(ctx),
 		};
 
 		const linkedUser = await this.oauthAccountService.findLinkedUser(identity);

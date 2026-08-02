@@ -4,9 +4,9 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import type User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import type { RequestOrigin } from '#lib/request_origin';
 import { PasswordHasher } from '#services/auth/password_hasher';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import type { AuthEventOrigin } from '#services/auth/auth_event_service';
 import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import { CredentialsAuthService } from '#services/auth/credentials_auth_service';
 
@@ -14,7 +14,7 @@ const VALID_PASSWORD = 'correct-horse-battery-staple';
 const WRONG_PASSWORD = 'wrong-horse-battery-staple';
 const UNKNOWN_EMAIL = 'nobody@example.com';
 const GENERIC_FAILURE_MESSAGE = 'Invalid email address or password';
-const ORIGIN: AuthEventOrigin = { ip: '203.0.113.1', userAgent: 'japa' };
+const ORIGIN: RequestOrigin = { ip: '203.0.113.1', userAgent: 'japa' };
 
 /**
  * Counts verifications so a spec can assert the timing guarantee — every

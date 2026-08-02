@@ -2,9 +2,9 @@ import { errors } from '@adonisjs/auth';
 import { inject } from '@adonisjs/core';
 
 import User from '#models/user';
+import type { RequestOrigin } from '#lib/request_origin';
 import { PasswordHasher } from '#services/auth/password_hasher';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import type { AuthEventOrigin } from '#services/auth/auth_event_service';
 
 const DECOY_PLAIN_PASSWORD = 'this-password-belongs-to-nobody';
 
@@ -18,7 +18,7 @@ const INVALID_CREDENTIALS_MESSAGE = 'Invalid email address or password';
 export type CredentialsAttempt = {
 	readonly email: string;
 	readonly password: string;
-	readonly origin: AuthEventOrigin;
+	readonly origin: RequestOrigin;
 };
 
 @inject()
@@ -70,7 +70,7 @@ export class CredentialsAuthService {
 	 * refusal travels as an exception nobody catches, so this is the last place
 	 * that still knows an attempt failed.
 	 */
-	private async refuse(email: string, origin: AuthEventOrigin): Promise<never> {
+	private async refuse(email: string, origin: RequestOrigin): Promise<never> {
 		await this.authEventService.recordFailedLogin({ email, ...origin });
 
 		throw new errors.E_INVALID_CREDENTIALS(INVALID_CREDENTIALS_MESSAGE);

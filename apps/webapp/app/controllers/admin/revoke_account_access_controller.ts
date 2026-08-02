@@ -3,8 +3,8 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { AccountAccessService } from '#services/auth/account_access_service';
 import { accountTargetValidator } from '#validators/admin/account_target_validator';
 
@@ -39,7 +39,7 @@ export default class RevokeAccountAccessController {
 			type: AUTH_EVENT_TYPE.ACCESS_REVOKED,
 			userId: account.id,
 			actorId: administrator.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', ACCESS_REVOKED_MESSAGE);

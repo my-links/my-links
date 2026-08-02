@@ -4,8 +4,8 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 
@@ -35,7 +35,7 @@ export default class VerifyEmailController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.EMAIL_VERIFIED,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', CONFIRMED_MESSAGE);

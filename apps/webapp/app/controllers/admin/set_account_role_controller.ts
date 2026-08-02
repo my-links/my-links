@@ -4,9 +4,9 @@ import type { HttpContext } from '@adonisjs/core/http';
 import type User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { ACCOUNT_ROLE, type AccountRole } from '#constants/account';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { accountRoleValidator } from '#validators/admin/account_role_validator';
 import { accountTargetValidator } from '#validators/admin/account_target_validator';
 
@@ -46,7 +46,7 @@ export default class SetAccountRoleController {
 					: AUTH_EVENT_TYPE.ROLE_DEMOTED,
 			userId: account.id,
 			actorId: administrator.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', ROLE_CHANGED_MESSAGES[role]);

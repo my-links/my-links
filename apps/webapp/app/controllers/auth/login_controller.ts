@@ -4,10 +4,10 @@ import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { SessionService } from '#services/user/session_service';
 import { loginValidator } from '#validators/auth/login_validator';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { CredentialsAuthService } from '#services/auth/credentials_auth_service';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 
@@ -33,7 +33,7 @@ export default class LoginController {
 
 	async execute(ctx: HttpContext) {
 		const { email, password } = await ctx.request.validateUsing(loginValidator);
-		const origin = resolveAuthEventOrigin(ctx);
+		const origin = resolveRequestOrigin(ctx);
 
 		const user = await this.credentialsAuthService.verifyCredentials({
 			email,
@@ -55,7 +55,7 @@ export default class LoginController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
 			userId: user.id,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		logger.info(`[${user.email}] auth success`);

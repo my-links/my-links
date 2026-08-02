@@ -3,8 +3,8 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { MailService } from '#services/mail/mail_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { resolveAuthEventOrigin } from '#lib/auth/auth_event_origin';
 import { emailAddressValidator } from '#validators/auth/email_address_validator';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 import VerificationResendUnavailableException from '#exceptions/auth/verification_resend_unavailable_exception';
@@ -39,7 +39,7 @@ export default class ResendVerificationController {
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.VERIFICATION_LINK_REQUESTED,
 			userId: null,
-			...resolveAuthEventOrigin(ctx),
+			...resolveRequestOrigin(ctx),
 		});
 
 		ctx.session.flash('success', VERIFICATION_RESEND_MESSAGE);
