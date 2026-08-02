@@ -45,7 +45,7 @@ async function createLegacyGoogleUser(providerUserId: string): Promise<User> {
 
 test.group('Google users backfill', (group) => {
 	group.each.setup(async () => {
-		const rollback = await testUtils.db().withGlobalTransaction();
+		const rollback = await testUtils.db().wrapInGlobalTransaction();
 		await restoreLegacyProviderColumns();
 		return rollback;
 	});
@@ -101,7 +101,7 @@ test.group('Google users backfill', (group) => {
 });
 
 test.group('Oauth identity uniqueness', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should reject a provider identity already linked to another account', async ({
 		assert,

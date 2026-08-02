@@ -109,7 +109,7 @@ test.group('Auth journey (browser)', (group) => {
 	// mailpit's own UI — a search scoped to a unique recipient is not enough
 	// on its own to keep the inbox from growing without bound.
 	group.setup(() => resetMailpitInbox());
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should carry a new account through registration, mail confirmation, and password sign-in', async ({
 		visit,

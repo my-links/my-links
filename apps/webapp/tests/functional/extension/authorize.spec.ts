@@ -7,7 +7,7 @@ const VALID_REDIRECT_URI =
 	'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/';
 
 test.group('Extension authorize', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should redirect unauthenticated requests instead of exposing a token', async ({
 		client,

@@ -37,7 +37,7 @@ async function emptyJournal(): Promise<void> {
 }
 
 test.group('Admin authentication journal', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(() => emptyJournal());
 
 	test('should render the journal page to an administrator', async ({

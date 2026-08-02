@@ -5,7 +5,7 @@ import Link from '#models/link';
 import { createUser } from '#tests/factories/user_factory';
 
 test.group('Get links', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should redirect an unauthenticated request to login', async ({
 		client,

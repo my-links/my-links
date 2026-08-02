@@ -27,7 +27,7 @@ async function createLinkIn(user: User, visibility: Visibility) {
 }
 
 test.group('Link visit redirect', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should redirect to the target URL and count the click', async ({
 		client,

@@ -36,7 +36,7 @@ async function collectionIdsForLinkNamed(user: User, name: string) {
 }
 
 test.group('Export/import — multi-collection', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should export a link once with an index per collection it belongs to', async ({
 		assert,

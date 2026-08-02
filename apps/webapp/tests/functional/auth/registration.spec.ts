@@ -79,7 +79,7 @@ function submitRegistration(client: ApiClient, email: string) {
 }
 
 test.group('Registration — a brand new instance', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(() => emptyInstance());
 	group.each.setup(enableOutgoingMail);
 
@@ -186,7 +186,7 @@ test.group('Registration — a brand new instance', (group) => {
 });
 
 test.group('Registration — an instance without outgoing mail', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(() => emptyInstance());
 
 	test('should confirm without promising an email nobody can send', async ({
@@ -204,7 +204,7 @@ test.group('Registration — an instance without outgoing mail', (group) => {
 test.group(
 	'Registration — an instance that already has an account',
 	(group) => {
-		group.each.setup(() => testUtils.db().withGlobalTransaction());
+		group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 		test('should stop rendering the register page once an account exists', async ({
 			client,
@@ -231,7 +231,7 @@ test.group(
 );
 
 test.group('Registration — an email address already registered', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(openRegistration);
 	group.each.setup(enableOutgoingMail);
 
@@ -294,7 +294,7 @@ test.group('Registration — an email address already registered', (group) => {
 });
 
 test.group('Registration — administrator rights', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(openRegistration);
 
 	test('should not grant them to an account created after the first', async ({
@@ -312,7 +312,7 @@ test.group('Registration — administrator rights', (group) => {
 });
 
 test.group('Registration — throttling', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(openRegistration);
 
 	test('should answer 429 once the burst quota is spent', async ({

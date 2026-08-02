@@ -17,7 +17,7 @@ async function runVerifyUserEmail(email: string) {
 }
 
 test.group('user:verify-email', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should mark an unconfirmed address as confirmed', async ({

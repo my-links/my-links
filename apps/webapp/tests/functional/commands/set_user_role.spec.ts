@@ -26,7 +26,7 @@ async function runSetUserRole(email: string, role: string) {
 }
 
 test.group('user:set-role', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should promote a member to administrator', async ({ assert }) => {

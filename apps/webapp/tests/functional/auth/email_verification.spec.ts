@@ -45,7 +45,7 @@ async function expireTokensOf(user: User): Promise<void> {
 }
 
 test.group('One-time tokens', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should resolve a freshly issued token to its own record', async ({
 		assert,
@@ -185,7 +185,7 @@ test.group('One-time tokens', (group) => {
 });
 
 test.group('Email verification — issuing the link', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
 	test('should queue a verification email for the account', async () => {
@@ -218,7 +218,7 @@ test.group('Email verification — issuing the link', (group) => {
 });
 
 test.group('Email verification — without outgoing mail', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should issue no token, since no link can reach the account', async ({
 		assert,
@@ -236,7 +236,7 @@ test.group('Email verification — without outgoing mail', (group) => {
 });
 
 test.group('Email verification — confirming the address', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should mark the address verified when the link is fresh', async ({
 		assert,
@@ -300,7 +300,7 @@ test.group('Email verification — confirming the address', (group) => {
 });
 
 test.group('Email verification — throttling', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should answer 429 once the burst quota is spent', async ({
 		client,

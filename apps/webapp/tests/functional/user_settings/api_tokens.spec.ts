@@ -9,7 +9,7 @@ const UNKNOWN_TOKEN_ID = '999999';
 const TOKEN_NOT_FOUND_MESSAGE = 'This API token no longer exists';
 
 test.group('API tokens — revocation', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should revoke a token the account owns', async ({ assert, client }) => {
 		const user = await createUser({ emailPrefix: 'token-owner' });

@@ -21,7 +21,7 @@ function disableGoogleAuth() {
 }
 
 test.group('Login — page', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should render the login page to a guest', async ({ client }) => {
 		const response = await client.get('/login').withInertia();
@@ -59,7 +59,7 @@ test.group('Login — page', (group) => {
 });
 
 test.group('Login — credentials', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should authenticate the account when the credentials are valid', async ({
 		client,
@@ -160,7 +160,7 @@ test.group('Login — credentials', (group) => {
 });
 
 test.group('Login — throttling', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should answer 429 once the burst quota is spent', async ({
 		client,

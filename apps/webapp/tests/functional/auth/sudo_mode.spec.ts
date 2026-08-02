@@ -38,7 +38,7 @@ function enableGoogleAuth() {
 }
 
 test.group('Sudo mode — the guard', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should send a signed-in user with no recent proof to the prompt', async ({
 		client,
@@ -97,7 +97,7 @@ test.group('Sudo mode — the guard', (group) => {
 });
 
 test.group('Sudo mode — the prompt', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should offer the password field to an account that has a password', async ({
 		client,
@@ -156,7 +156,7 @@ test.group('Sudo mode — the prompt', (group) => {
 });
 
 test.group('Sudo mode — confirming with a password', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should stamp the proof when the account password is right', async ({
 		client,
@@ -282,7 +282,7 @@ test.group('Sudo mode — confirming with a password', (group) => {
 });
 
 test.group('Sudo mode — confirming through Google', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should hand a linked account over to the provider', async ({
 		assert,
@@ -365,7 +365,7 @@ test.group('Sudo mode — confirming through Google', (group) => {
 });
 
 test.group('Sudo mode — throttling', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should answer 429 once the burst quota is spent', async ({
 		client,

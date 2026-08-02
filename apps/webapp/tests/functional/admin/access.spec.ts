@@ -17,7 +17,7 @@ async function createAdmin(): Promise<User> {
 }
 
 test.group('Admin access', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should send a signed-in visitor without the admin flag back to their collections', async ({
 		client,

@@ -13,7 +13,7 @@ function enableOutgoingMail() {
 }
 
 test.group('Outgoing mail — disabled', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should boot with outgoing mail disabled when no smtp variable is set', async ({
 		assert,
@@ -35,7 +35,7 @@ test.group('Outgoing mail — disabled', (group) => {
 });
 
 test.group('Outgoing mail — enabled', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(() => {
 		enableOutgoingMail();
 		return () => app.container.restore(MailConfigService);

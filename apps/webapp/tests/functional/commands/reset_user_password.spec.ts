@@ -62,7 +62,7 @@ async function runLinkIssuance(email: string) {
 }
 
 test.group('user:reset-password — writing a password', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should replace the password of the account', async ({ assert }) => {
@@ -189,7 +189,7 @@ test.group('user:reset-password — writing a password', (group) => {
  * reset email, so nothing here enables the mailer.
  */
 test.group('user:reset-password — printing a link', (group) => {
-	group.each.setup(() => testUtils.db().withGlobalTransaction());
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
 	test('should print a redeemable link', async ({ assert }) => {
