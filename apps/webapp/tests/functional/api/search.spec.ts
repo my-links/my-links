@@ -36,7 +36,7 @@ test.group('API search', (group) => {
 			.loginAs(user);
 
 		response.assertStatus(200);
-		const results = response.body().data as unknown[];
+		const results = response.body().data;
 		assert.isArray(results);
 		assert.isTrue(results.length > 0);
 	});
