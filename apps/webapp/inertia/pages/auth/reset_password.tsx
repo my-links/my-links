@@ -6,7 +6,6 @@ import { Button, Input } from '@minimalstuff/ui';
 import { urlFor } from '~/lib/tuyau';
 import { InertiaProps } from '~/types/inertia';
 import SmallContentLayout from '~/layouts/small_content';
-import { FormField } from '~/components/common/form_field';
 
 type ResetPasswordFormData = {
 	password: string;
@@ -52,43 +51,33 @@ function ResetPasswordPage({ token, minimumPasswordLength }: PageProps) {
 				</p>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
-					<FormField
+					<Input
 						label={t`New password`}
-						htmlFor="password"
+						type="password"
+						id="password"
+						name="password"
+						value={data.password}
+						onChange={handleChangeOf('password')}
+						placeholder={t`At least ${minimumPasswordLength} characters`}
 						error={errors.password}
-					>
-						<Input
-							type="password"
-							id="password"
-							name="password"
-							value={data.password}
-							onChange={handleChangeOf('password')}
-							placeholder={t`At least ${minimumPasswordLength} characters`}
-							error={errors.password}
-							autoComplete="new-password"
-							minLength={minimumPasswordLength}
-							autoFocus
-							required
-						/>
-					</FormField>
+						autoComplete="new-password"
+						minLength={minimumPasswordLength}
+						autoFocus
+						required
+					/>
 
-					<FormField
+					<Input
 						label={t`Confirm password`}
-						htmlFor="passwordConfirmation"
+						type="password"
+						id="passwordConfirmation"
+						name="passwordConfirmation"
+						value={data.passwordConfirmation}
+						onChange={handleChangeOf('passwordConfirmation')}
+						placeholder={t`Type it once more`}
 						error={errors.passwordConfirmation}
-					>
-						<Input
-							type="password"
-							id="passwordConfirmation"
-							name="passwordConfirmation"
-							value={data.passwordConfirmation}
-							onChange={handleChangeOf('passwordConfirmation')}
-							placeholder={t`Type it once more`}
-							error={errors.passwordConfirmation}
-							autoComplete="new-password"
-							required
-						/>
-					</FormField>
+						autoComplete="new-password"
+						required
+					/>
 
 					<Button
 						type="submit"

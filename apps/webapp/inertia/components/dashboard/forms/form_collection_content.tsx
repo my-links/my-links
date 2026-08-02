@@ -1,9 +1,8 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Button, Input, Textarea } from '@minimalstuff/ui';
+import { Button, Input, RadioOptions, Textarea } from '@minimalstuff/ui';
 
 import { Visibility } from '~/types/app';
-import { FormField } from '~/components/common/form_field';
 import { FormCollectionData } from '~/types/collection_form';
 import { EmojiPicker } from '~/components/common/emoji_picker';
 
@@ -25,6 +24,11 @@ export const FormCollectionContent = ({
 }: Readonly<FormCollectionContentProps>) => {
 	const handleEmojiClick = (emoji: string | null) => setData('icon', emoji);
 	const handleRemoveIcon = () => setData('icon', null);
+
+	const visibilityOptions = [
+		{ value: Visibility.PRIVATE, label: t`Private` },
+		{ value: Visibility.PUBLIC, label: t`Public` },
+	];
 
 	return (
 		<div className="space-y-4">
@@ -55,80 +59,45 @@ export const FormCollectionContent = ({
 				</div>
 			</div>
 
-			<FormField label={t`Name`} htmlFor="name" error={errors?.name} required>
-				<Input
-					type="text"
-					id="name"
-					value={data.name}
-					onChange={(e) => setData('name', e.target.value)}
-					placeholder={t`Name`}
-					error={Array.isArray(errors?.name) ? errors.name[0] : errors?.name}
-					disabled={disableInputs}
-					readOnly={disableInputs}
-					autoFocus
-					required
-				/>
-			</FormField>
+			<Input
+				label={t`Name`}
+				type="text"
+				id="name"
+				value={data.name}
+				onChange={(e) => setData('name', e.target.value)}
+				placeholder={t`Name`}
+				error={Array.isArray(errors?.name) ? errors.name[0] : errors?.name}
+				disabled={disableInputs}
+				readOnly={disableInputs}
+				autoFocus
+				required
+			/>
 
-			<FormField
+			<Textarea
 				label={t`Description`}
-				htmlFor="description"
-				error={errors?.description}
-			>
-				<Textarea
-					id="description"
-					value={data.description ?? ''}
-					onChange={(e) => setData('description', e.target.value)}
-					placeholder={t`Description`}
-					rows={3}
-					error={
-						Array.isArray(errors?.description)
-							? errors.description[0]
-							: errors?.description
-					}
-					disabled={disableInputs}
-					readOnly={disableInputs}
-				/>
-			</FormField>
+				id="description"
+				value={data.description ?? ''}
+				onChange={(e) => setData('description', e.target.value)}
+				placeholder={t`Description`}
+				rows={3}
+				error={
+					Array.isArray(errors?.description)
+						? errors.description[0]
+						: errors?.description
+				}
+				disabled={disableInputs}
+				readOnly={disableInputs}
+			/>
 
 			<div>
-				<label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-					<Trans>Visibility</Trans>
-				</label>
-				<div className="flex items-center gap-4">
-					<label className="flex items-center gap-2 cursor-pointer">
-						<input
-							type="radio"
-							name="visibility"
-							value={Visibility.PRIVATE}
-							checked={data.visibility === Visibility.PRIVATE}
-							onChange={(e) =>
-								setData('visibility', e.target.value as Visibility)
-							}
-							className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-							disabled={disableInputs}
-						/>
-						<span className="text-sm text-gray-700 dark:text-gray-300">
-							<Trans>Private</Trans>
-						</span>
-					</label>
-					<label className="flex items-center gap-2 cursor-pointer">
-						<input
-							type="radio"
-							name="visibility"
-							value={Visibility.PUBLIC}
-							checked={data.visibility === Visibility.PUBLIC}
-							onChange={(e) =>
-								setData('visibility', e.target.value as Visibility)
-							}
-							className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-							disabled={disableInputs}
-						/>
-						<span className="text-sm text-gray-700 dark:text-gray-300">
-							<Trans>Public</Trans>
-						</span>
-					</label>
-				</div>
+				<RadioOptions
+					label={<Trans>Visibility</Trans>}
+					options={visibilityOptions}
+					value={data.visibility}
+					onChange={(value) => setData('visibility', value as Visibility)}
+					orientation="horizontal"
+					disabled={disableInputs}
+				/>
 				{data.visibility === Visibility.PUBLIC && (
 					<p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
 						<Trans>The content will be visible to everyone</Trans>

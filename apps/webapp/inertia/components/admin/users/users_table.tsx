@@ -2,7 +2,7 @@ import { router } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { ChangeEvent, useState } from 'react';
-import { Button, ConfirmModal } from '@minimalstuff/ui';
+import { Button, Checkbox, ConfirmModal, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import { formatDate } from '~/lib/format';
@@ -90,13 +90,13 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 		<div className="w-full h-full flex flex-col">
 			<div className="mb-4 flex items-center justify-between gap-4">
 				<div className="flex-1 relative max-w-md">
-					<i className="i-tabler-search absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
-					<input
+					<i className="i-tabler-search absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 z-10" />
+					<Input
 						type="text"
 						placeholder={`Search by any field (${users.length} users)`}
 						value={search}
 						onChange={handleSearchChange}
-						className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900/50 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition-all"
+						className="pl-10"
 					/>
 				</div>
 				<div className="flex items-center gap-3">
@@ -138,23 +138,19 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 				}}
 				leadingColumn={{
 					header: (
-						<input
+						<Checkbox
 							ref={selectAllCheckboxRef}
-							type="checkbox"
 							checked={allVisibleSelected}
 							onChange={(e) => setAllVisibleSelected(e.target.checked)}
 							disabled={visibleDeletableCount === 0}
-							className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
 							aria-label="Select all visible users"
 						/>
 					),
 					render: (user) => (
-						<input
-							type="checkbox"
+						<Checkbox
 							checked={selectedUserIds.has(user.id)}
 							disabled={user.isAdmin}
 							onChange={(e) => setUserSelected(user.id, e.target.checked)}
-							className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
 							aria-label={`Select user ${user.fullname}`}
 						/>
 					),

@@ -7,7 +7,6 @@ import { Button, Input } from '@minimalstuff/ui';
 import { urlFor } from '~/lib/tuyau';
 import { InertiaProps } from '~/types/inertia';
 import SmallContentLayout from '~/layouts/small_content';
-import { FormField } from '~/components/common/form_field';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
 
@@ -65,71 +64,59 @@ function RegisterPage({ minimumPasswordLength }: PageProps) {
 				</p>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
-					<FormField label={t`Name`} htmlFor="name" error={errors.name}>
-						<Input
-							type="text"
-							id="name"
-							name="name"
-							value={data.name}
-							onChange={handleChangeOf('name')}
-							placeholder={t`Ada Lovelace`}
-							error={errors.name}
-							autoComplete="name"
-							autoFocus
-							required
-						/>
-					</FormField>
+					<Input
+						label={t`Name`}
+						type="text"
+						id="name"
+						name="name"
+						value={data.name}
+						onChange={handleChangeOf('name')}
+						placeholder={t`Ada Lovelace`}
+						error={errors.name}
+						autoComplete="name"
+						autoFocus
+						required
+					/>
 
-					<FormField label={t`Email`} htmlFor="email" error={errors.email}>
-						<Input
-							type="email"
-							id="email"
-							name="email"
-							value={data.email}
-							onChange={handleChangeOf('email')}
-							placeholder={t`you@example.com`}
-							error={errors.email}
-							autoComplete="email"
-							required
-						/>
-					</FormField>
+					<Input
+						label={t`Email`}
+						type="email"
+						id="email"
+						name="email"
+						value={data.email}
+						onChange={handleChangeOf('email')}
+						placeholder={t`you@example.com`}
+						error={errors.email}
+						autoComplete="email"
+						required
+					/>
 
-					<FormField
+					<Input
 						label={t`Password`}
-						htmlFor="password"
+						type="password"
+						id="password"
+						name="password"
+						value={data.password}
+						onChange={handleChangeOf('password')}
+						placeholder={t`At least ${minimumPasswordLength} characters`}
 						error={errors.password}
-					>
-						<Input
-							type="password"
-							id="password"
-							name="password"
-							value={data.password}
-							onChange={handleChangeOf('password')}
-							placeholder={t`At least ${minimumPasswordLength} characters`}
-							error={errors.password}
-							autoComplete="new-password"
-							minLength={minimumPasswordLength}
-							required
-						/>
-					</FormField>
+						autoComplete="new-password"
+						minLength={minimumPasswordLength}
+						required
+					/>
 
-					<FormField
+					<Input
 						label={t`Confirm password`}
-						htmlFor="passwordConfirmation"
+						type="password"
+						id="passwordConfirmation"
+						name="passwordConfirmation"
+						value={data.passwordConfirmation}
+						onChange={handleChangeOf('passwordConfirmation')}
+						placeholder={t`Type it once more`}
 						error={errors.passwordConfirmation}
-					>
-						<Input
-							type="password"
-							id="passwordConfirmation"
-							name="passwordConfirmation"
-							value={data.passwordConfirmation}
-							onChange={handleChangeOf('passwordConfirmation')}
-							placeholder={t`Type it once more`}
-							error={errors.passwordConfirmation}
-							autoComplete="new-password"
-							required
-						/>
-					</FormField>
+						autoComplete="new-password"
+						required
+					/>
 
 					<Button
 						type="submit"

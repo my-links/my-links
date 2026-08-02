@@ -7,7 +7,6 @@ import { Button, Input } from '@minimalstuff/ui';
 import { urlFor } from '~/lib/tuyau';
 import { InertiaProps } from '~/types/inertia';
 import SmallContentLayout from '~/layouts/small_content';
-import { FormField } from '~/components/common/form_field';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { usePasswordRecovery } from '~/hooks/use_password_recovery';
 import { useRegistrationPolicy } from '~/hooks/use_registration_policy';
@@ -61,38 +60,32 @@ function LoginPage({ unconfirmedEmail }: PageProps) {
 				</p>
 
 				<form onSubmit={handleSubmit} className="space-y-4">
-					<FormField label={t`Email`} htmlFor="email" error={errors.email}>
-						<Input
-							type="email"
-							id="email"
-							name="email"
-							value={data.email}
-							onChange={handleEmailChange}
-							placeholder={t`you@example.com`}
-							error={errors.email}
-							autoComplete="email"
-							autoFocus
-							required
-						/>
-					</FormField>
+					<Input
+						label={t`Email`}
+						type="email"
+						id="email"
+						name="email"
+						value={data.email}
+						onChange={handleEmailChange}
+						placeholder={t`you@example.com`}
+						error={errors.email}
+						autoComplete="email"
+						autoFocus
+						required
+					/>
 
-					<FormField
+					<Input
 						label={t`Password`}
-						htmlFor="password"
+						type="password"
+						id="password"
+						name="password"
+						value={data.password}
+						onChange={handlePasswordChange}
+						placeholder={t`Your password`}
 						error={errors.password}
-					>
-						<Input
-							type="password"
-							id="password"
-							name="password"
-							value={data.password}
-							onChange={handlePasswordChange}
-							placeholder={t`Your password`}
-							error={errors.password}
-							autoComplete="current-password"
-							required
-						/>
-					</FormField>
+						autoComplete="current-password"
+						required
+					/>
 
 					<Button
 						type="submit"

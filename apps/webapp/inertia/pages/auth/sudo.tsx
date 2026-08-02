@@ -6,7 +6,6 @@ import { Button, Input } from '@minimalstuff/ui';
 import { urlFor } from '~/lib/tuyau';
 import { InertiaProps } from '~/types/inertia';
 import SmallContentLayout from '~/layouts/small_content';
-import { FormField } from '~/components/common/form_field';
 
 type SudoFormData = {
 	password: string;
@@ -48,24 +47,19 @@ function SudoPage({ hasPassword, isGoogleConfirmationAvailable }: PageProps) {
 
 				{hasPassword && (
 					<form onSubmit={handleSubmit} className="space-y-4">
-						<FormField
+						<Input
 							label={t`Current password`}
-							htmlFor="password"
+							type="password"
+							id="password"
+							name="password"
+							value={data.password}
+							onChange={handlePasswordChange}
+							placeholder={t`Your password`}
 							error={errors.password}
-						>
-							<Input
-								type="password"
-								id="password"
-								name="password"
-								value={data.password}
-								onChange={handlePasswordChange}
-								placeholder={t`Your password`}
-								error={errors.password}
-								autoComplete="current-password"
-								autoFocus
-								required
-							/>
-						</FormField>
+							autoComplete="current-password"
+							autoFocus
+							required
+						/>
 
 						<Button
 							type="submit"
