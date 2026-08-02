@@ -4,6 +4,9 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
+import AuditEvent from '#models/audit_event';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
@@ -13,7 +16,8 @@ import { ActivityEventService } from '#services/activity/activity_event_service'
 
 function buildService() {
 	return new ExportImportService(
-		new CollectionService(new SyncJournalService(), new ActivityEventService())
+		new CollectionService(new SyncJournalService(), new ActivityEventService()),
+		new ActivityEventService()
 	);
 }
 
@@ -175,5 +179,54 @@ test.group('Export/import — multi-collection', (group) => {
 			membership,
 			targetCollections.map((collection) => collection.id)
 		);
+	});
+});
+
+test.group('Export/import — activity journal', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should journal an export, never the collection or link names', async ({
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'activity-export' });
+		await createCollection(user, 'Secret collection');
+
+		await buildService().exportUserData(user.id);
+
+		const event = await AuditEvent.query()
+			.where('userId', user.id)
+			.andWhere('type', ACTIVITY_EVENT_TYPE.DATA_EXPORTED)
+			.firstOrFail();
+		assert.equal(event.subjectType, AUDIT_SUBJECT_TYPE.ACCOUNT);
+		assert.equal(event.subjectId, user.id);
+		assert.notInclude(JSON.stringify(event.metadata ?? {}), 'Secret');
+	});
+
+	test('should journal an import with the collection and link counts', async ({
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'activity-import' });
+
+		await buildService().importUserData(user.id, {
+			collections: [
+				{ name: 'Work', visibility: 'PRIVATE' },
+				{ name: 'Reading', visibility: 'PRIVATE' },
+			],
+			links: [
+				{
+					name: 'Imported link',
+					url: 'https://example.com',
+					favorite: false,
+					collectionIndexes: [0, 1],
+				},
+			],
+		});
+
+		const event = await AuditEvent.query()
+			.where('userId', user.id)
+			.andWhere('type', ACTIVITY_EVENT_TYPE.DATA_IMPORTED)
+			.firstOrFail();
+		assert.equal(event.subjectType, AUDIT_SUBJECT_TYPE.ACCOUNT);
+		assert.deepEqual(event.metadata, { collections: 2, links: 1 });
 	});
 });

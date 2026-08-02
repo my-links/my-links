@@ -5,7 +5,10 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { CollectionService } from '#services/collections/collection_service';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 
 type ExportLink = {
 	name: string;
@@ -50,7 +53,10 @@ type LinkToCreate = { link: ImportLink; collectionIndexes: number[] };
 
 @inject()
 export class ExportImportService {
-	constructor(protected readonly collectionService: CollectionService) {}
+	constructor(
+		protected readonly collectionService: CollectionService,
+		protected readonly activityEventService: ActivityEventService
+	) {}
 
 	async exportUserData(userId: User['id']): Promise<ExportData> {
 		const collections = await Collection.query()
@@ -72,6 +78,13 @@ export class ExportImportService {
 				linksById.set(link.id, link);
 			}
 		}
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.DATA_EXPORTED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+			subjectId: userId,
+		});
 
 		return {
 			collections: collections.map((collection) => ({
@@ -127,6 +140,20 @@ export class ExportImportService {
 				);
 				await link.related('collections').attach(collectionIds, transaction);
 			}
+
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.DATA_IMPORTED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+					subjectId: userId,
+					metadata: {
+						collections: createdCollections.length,
+						links: linksToCreate.length,
+					},
+				},
+				transaction
+			);
 		});
 	}
 
