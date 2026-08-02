@@ -28,7 +28,7 @@ export function ApiTokens() {
 			children: (
 				<CreateTokenModal
 					onCreate={(name) => createToken(name)}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});

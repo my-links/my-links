@@ -62,7 +62,7 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 			children: (
 				<EditLinkModal
 					link={linkWithCollections}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});
@@ -76,7 +76,7 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 			children: (
 				<DeleteLinkModal
 					link={linkWithCollections}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});

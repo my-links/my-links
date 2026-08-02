@@ -22,7 +22,10 @@ export function DashboardQuickAction(
 			size: 'sm',
 			className: 'flex flex-col gap-4',
 			children: (
-				<QuickActionsContent {...props} onClose={() => Modal.end(call)} />
+				<QuickActionsContent
+					{...props}
+					onClose={() => Modal.end(call, undefined)}
+				/>
 			),
 		});
 	};

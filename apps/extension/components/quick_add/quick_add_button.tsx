@@ -22,13 +22,13 @@ export function QuickAddButton() {
 				<EditLinkModal
 					link={existingLink}
 					collections={collections}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			) : (
 				<CreateLinkModal
 					collections={collections}
 					initialValues={{ name: activeTab.title, url: activeTab.url }}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});

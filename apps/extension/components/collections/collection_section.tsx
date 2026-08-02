@@ -32,7 +32,7 @@ export function CollectionSection({
 				<CreateLinkModal
 					collections={collections}
 					initialValues={{ collectionIds: [collection.id] }}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});
@@ -44,7 +44,7 @@ export function CollectionSection({
 			children: (
 				<EditCollectionModal
 					collection={collection}
-					onClose={() => Modal.end(call)}
+					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
 		});
