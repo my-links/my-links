@@ -45,9 +45,12 @@ export function LinkFavicon({ url, size = 32 }: Readonly<LinkFaviconProps>) {
 					className="rounded"
 				/>
 			) : (
-				<div
-					className="i-themify-world w-8 h-8 flex-shrink-0"
-					style={{ width: `${size}px`, height: `${size}px` }}
+				<img
+					src="/empty-image.png"
+					height={size}
+					width={size}
+					alt="icon"
+					className="rounded"
 				/>
 			)}
 			{isLoading && (

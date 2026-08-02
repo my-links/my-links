@@ -11,6 +11,10 @@ export function buildFaviconUrl(
 	return `${instanceUrl}/favicon?url=${encodeURIComponent(targetUrl)}`;
 }
 
+export function buildEmptyImageUrl(instanceUrl: string): string {
+	return `${instanceUrl}/empty-image.png`;
+}
+
 export function buildCollectionUrl(
 	instanceUrl: string,
 	collectionId: number

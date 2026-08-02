@@ -27,7 +27,13 @@ export function SearchLinkResult({ result }: Readonly<SearchLinkResultProps>) {
 			title={result.url}
 			className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-white/50 dark:hover:bg-gray-800/50"
 		>
-			{faviconUrl && <LinkFavicon key={faviconUrl} faviconUrl={faviconUrl} />}
+			{faviconUrl && instanceUrl && (
+				<LinkFavicon
+					key={faviconUrl}
+					faviconUrl={faviconUrl}
+					instanceUrl={instanceUrl}
+				/>
+			)}
 			<span className="flex-1 truncate">{result.name}</span>
 		</a>
 	);
