@@ -3,9 +3,9 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations';
 
 import User from '#models/user';
 import AppBaseModel from '#models/app_base_model';
-import type { AuthEventType } from '#constants/auth';
+import type { AuditEventType, AuditSubjectType } from '#constants/audit';
 
-export default class AuthEvent extends AppBaseModel {
+export default class AuditEvent extends AppBaseModel {
 	@column()
 	declare userId: number | null;
 
@@ -18,13 +18,27 @@ export default class AuthEvent extends AppBaseModel {
 	declare actorId: number | null;
 
 	@column()
-	declare type: AuthEventType;
+	declare type: AuditEventType;
 
 	@column()
 	declare ip: string | null;
 
 	@column()
 	declare userAgent: string | null;
+
+	/**
+	 * Null for an authentication event. Set for an activity event, together
+	 * with `subjectId`, to say what the event happened to without saying
+	 * anything about its content.
+	 */
+	@column()
+	declare subjectType: AuditSubjectType | null;
+
+	@column()
+	declare subjectId: number | null;
+
+	@column()
+	declare metadata: Record<string, unknown> | null;
 
 	@belongsTo(() => User)
 	declare user: BelongsTo<typeof User>;

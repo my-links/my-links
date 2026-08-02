@@ -1,5 +1,5 @@
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE, type AuthEventType } from '#constants/auth';
 
 /**
@@ -45,7 +45,7 @@ export class AuthEventService {
 		ip,
 		userAgent,
 	}: AuthEventRecord): Promise<void> {
-		await AuthEvent.create({ type, userId, ip, userAgent });
+		await AuditEvent.create({ type, userId, ip, userAgent });
 	}
 
 	/**
@@ -56,7 +56,8 @@ export class AuthEventService {
 	 */
 	listRecent(page: number) {
 		return (
-			AuthEvent.query()
+			AuditEvent.query()
+				.whereNull('subjectType')
 				.preload('user')
 				.preload('actor')
 				.orderBy('createdAt', 'desc')
@@ -76,7 +77,7 @@ export class AuthEventService {
 	 * would describe a sign-in that never happened.
 	 */
 	async recordAdminAction(record: AdminActionRecord): Promise<void> {
-		await AuthEvent.create(record);
+		await AuditEvent.create(record);
 	}
 
 	/**

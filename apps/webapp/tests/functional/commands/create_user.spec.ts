@@ -4,7 +4,7 @@ import hash from '@adonisjs/core/services/hash';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import PasswordAuth from '#models/password_auth';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { EMAIL_PROMPT } from '#commands/_account_command';
@@ -196,7 +196,7 @@ test.group('user:create', (group) => {
 		await runCreateUser({ email });
 
 		const account = await User.findByOrFail('email', email);
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.REGISTERED)
 			.first();

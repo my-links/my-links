@@ -3,7 +3,7 @@ import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import OauthAuth from '#models/oauth_auth';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { captureConsoleOutput } from '#tests/helpers/console';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
 import UnlinkUserProvider, {
@@ -59,7 +59,7 @@ test.group('user:unlink-provider', (group) => {
 
 		await runUnlink(account.email, AUTH_PROVIDER.GOOGLE);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.PROVIDER_UNLINKED)
 			.first();

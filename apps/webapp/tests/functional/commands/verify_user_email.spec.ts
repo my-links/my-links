@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import VerifyUserEmail from '#commands/verify_user_email';
 import { captureConsoleOutput } from '#tests/helpers/console';
@@ -37,7 +37,7 @@ test.group('user:verify-email', (group) => {
 
 		await runVerifyUserEmail(account.email);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.EMAIL_VERIFIED)
 			.first();
@@ -69,7 +69,7 @@ test.group('user:verify-email', (group) => {
 
 		await runVerifyUserEmail(account.email);
 
-		const events = await AuthEvent.query()
+		const events = await AuditEvent.query()
 			.where('userId', account.id)
 			.andWhere('type', AUTH_EVENT_TYPE.EMAIL_VERIFIED);
 		assert.isEmpty(events);

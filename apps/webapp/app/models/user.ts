@@ -14,9 +14,9 @@ import {
 } from '@adonisjs/lucid/orm';
 
 import Link from '#models/link';
-import AuthEvent from '#models/auth_event';
 import OauthAuth from '#models/oauth_auth';
 import Collection from '#models/collection';
+import AuditEvent from '#models/audit_event';
 import PasswordAuth from '#models/password_auth';
 import AppBaseModel from '#models/app_base_model';
 
@@ -45,8 +45,8 @@ export default class User extends AppBaseModel {
 	@hasMany(() => OauthAuth)
 	declare oauthAuths: HasMany<typeof OauthAuth>;
 
-	@hasMany(() => AuthEvent)
-	declare authEvents: HasMany<typeof AuthEvent>;
+	@hasMany(() => AuditEvent)
+	declare auditEvents: HasMany<typeof AuditEvent>;
 
 	@hasMany(() => Collection, {
 		foreignKey: 'authorId',

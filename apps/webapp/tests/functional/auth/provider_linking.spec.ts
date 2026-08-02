@@ -5,7 +5,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import type User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
@@ -218,7 +218,7 @@ test.group('Provider linking — detaching an identity', (group) => {
 
 		await unlinkGoogle(client, user);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.PROVIDER_UNLINKED);

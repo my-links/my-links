@@ -7,6 +7,33 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AuditEventSchema extends BaseModel {
+  static $columns = ['actorId', 'createdAt', 'id', 'ip', 'metadata', 'subjectId', 'subjectType', 'type', 'updatedAt', 'userAgent', 'userId'] as const
+  $columns = AuditEventSchema.$columns
+  @column()
+  declare actorId: number | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare ip: string | null
+  @column()
+  declare metadata: any | null
+  @column()
+  declare subjectId: number | null
+  @column()
+  declare subjectType: string | null
+  @column()
+  declare type: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userAgent: string | null
+  @column()
+  declare userId: number | null
+}
+
 export class AuthAccessTokenSchema extends BaseModel {
   static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
   $columns = AuthAccessTokenSchema.$columns
@@ -30,27 +57,6 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare type: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
-}
-
-export class AuthEventSchema extends BaseModel {
-  static $columns = ['actorId', 'createdAt', 'id', 'ip', 'type', 'updatedAt', 'userAgent', 'userId'] as const
-  $columns = AuthEventSchema.$columns
-  @column()
-  declare actorId: number | null
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-  @column({ isPrimary: true })
-  declare id: number
-  @column()
-  declare ip: string | null
-  @column()
-  declare type: string
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
-  @column()
-  declare userAgent: string | null
-  @column()
-  declare userId: number | null
 }
 
 export class CollectionFollowerSchema extends BaseModel {

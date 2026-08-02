@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import type User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { PasswordHasher } from '#services/auth/password_hasher';
 import { AuthEventService } from '#services/auth/auth_event_service';
@@ -161,7 +161,7 @@ test.group('CredentialsAuthService', (group) => {
 			})
 		);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.orderBy('id', 'desc')
 			.firstOrFail();

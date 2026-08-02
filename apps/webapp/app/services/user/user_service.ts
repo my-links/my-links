@@ -93,7 +93,7 @@ export class UserService {
 			.withCount('links', (query) => {
 				query.as('totalLinks');
 			})
-			.withAggregate('authEvents', (query) => {
+			.withAggregate('auditEvents', (query) => {
 				query
 					.where('type', AUTH_EVENT_TYPE.LOGIN_SUCCEEDED)
 					.max('created_at')

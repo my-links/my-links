@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { LOGIN_BURST_TIER } from '#start/limiter';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
@@ -88,7 +88,7 @@ test.group('Login — credentials', (group) => {
 			.withCsrfToken()
 			.redirects(0);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.orderBy('id', 'desc')
 			.firstOrFail();
@@ -151,7 +151,7 @@ test.group('Login — credentials', (group) => {
 			.withCsrfToken()
 			.redirects(0);
 
-		const event = await AuthEvent.query().orderBy('id', 'desc').firstOrFail();
+		const event = await AuditEvent.query().orderBy('id', 'desc').firstOrFail();
 		assert.deepEqual(
 			{ type: event.type, userId: event.userId },
 			{ type: AUTH_EVENT_TYPE.LOGIN_FAILED, userId: null }

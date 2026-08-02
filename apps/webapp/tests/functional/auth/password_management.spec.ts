@@ -6,7 +6,7 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import OneTimeToken from '#models/one_time_token';
 import { freshSudoSession } from '#tests/helpers/sudo_mode';
@@ -168,7 +168,7 @@ test.group('Password — setting a first one', (group) => {
 
 		await submitPassword(client, user, NEW_PASSWORD);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.PASSWORD_SET);
@@ -298,7 +298,7 @@ test.group('Password — changing it', (group) => {
 
 		await submitPasswordChange(client, user, NEW_PASSWORD);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.PASSWORD_CHANGED);
@@ -583,7 +583,7 @@ test.group('Password — redeeming a reset link', (group) => {
 
 		await submitReset(client, secret, NEW_PASSWORD);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.andWhere('type', AUTH_EVENT_TYPE.PASSWORD_RESET_COMPLETED)
 			.first();

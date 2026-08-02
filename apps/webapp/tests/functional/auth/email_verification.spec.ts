@@ -6,7 +6,7 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import type User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import OneTimeToken from '#models/one_time_token';
 import { createUser } from '#tests/factories/user_factory';
 import { TOKEN_VERIFICATION_BURST_TIER } from '#start/limiter';
@@ -257,7 +257,7 @@ test.group('Email verification — confirming the address', (group) => {
 
 		await followVerificationLink(client, secret);
 
-		const event = await AuthEvent.query()
+		const event = await AuditEvent.query()
 			.where('userId', user.id)
 			.firstOrFail();
 		assert.equal(event.type, AUTH_EVENT_TYPE.EMAIL_VERIFIED);

@@ -1,5 +1,5 @@
 import type User from '#models/user';
-import AuthEvent from '#models/auth_event';
+import AuditEvent from '#models/audit_event';
 import type { AuthEventType } from '#constants/auth';
 
 const DEFAULT_IP = '203.0.113.7';
@@ -20,8 +20,8 @@ export async function recordAuthEvent({
 	user,
 	type,
 	actor,
-}: AuthEventAttributes): Promise<AuthEvent> {
-	return AuthEvent.create({
+}: AuthEventAttributes): Promise<AuditEvent> {
+	return AuditEvent.create({
 		userId: user.id,
 		actorId: actor?.id ?? null,
 		type,
