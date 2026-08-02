@@ -34,7 +34,7 @@ export const IconLink = ({
 				className={combinedClassName}
 				onClick={onClick}
 			>
-				<i className={`${icon} h-5 min-w-5 block`} />
+				<i className={`${icon} h-5 min-w-5 block transform-gpu`} />
 				<span>{children}</span>
 			</a>
 		);
@@ -42,7 +42,7 @@ export const IconLink = ({
 
 	return (
 		<Link href={href} className={combinedClassName} onClick={onClick}>
-			<i className={`${icon} h-5 min-w-5 block`} />
+			<i className={`${icon} h-5 min-w-5 block transform-gpu`} />
 			<span>{children}</span>
 		</Link>
 	);
