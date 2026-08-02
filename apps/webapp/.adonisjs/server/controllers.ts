@@ -30,9 +30,6 @@ export const controllers = {
       GetFavoriteLinks: () => import('#controllers/api/links/get_favorite_links_controller'),
       UpdateLink: () => import('#controllers/api/links/update_link_controller'),
     },
-    search: {
-      Search: () => import('#controllers/api/search/search_controller'),
-    },
     sync: {
       Sync: () => import('#controllers/api/sync/sync_controller'),
     },
@@ -84,9 +81,6 @@ export const controllers = {
     ToggleFavorite: () => import('#controllers/links/toggle_favorite_controller'),
     UpdateLink: () => import('#controllers/links/update_link_controller'),
     VisitLink: () => import('#controllers/links/visit_link_controller'),
-  },
-  search: {
-    Search: () => import('#controllers/search/search_controller'),
   },
   sharedCollections: {
     SharedCollections: () => import('#controllers/shared_collections/shared_collections_controller'),

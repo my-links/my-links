@@ -247,18 +247,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/unfollow_collection_controller').default['execute']>>>
     }
   }
-  'search': {
-    methods: ["GET","HEAD"]
-    pattern: '/search'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'extension.authorize': {
     methods: ["GET","HEAD"]
     pattern: '/extension/authorize'
@@ -737,18 +725,6 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'api-search.index': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/search'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/search/search_validator').searchValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/search/search_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-sync.delta': {

@@ -126,12 +126,6 @@ const routes = {
     tokens: [{"old":"/collections/:id/unfollow","type":0,"val":"collections","end":""},{"old":"/collections/:id/unfollow","type":1,"val":"id","end":""},{"old":"/collections/:id/unfollow","type":0,"val":"unfollow","end":""}],
     types: placeholder as Registry['collection.unfollow']['types'],
   },
-  'search': {
-    methods: ["GET","HEAD"],
-    pattern: '/search',
-    tokens: [{"old":"/search","type":0,"val":"search","end":""}],
-    types: placeholder as Registry['search']['types'],
-  },
   'extension.authorize': {
     methods: ["GET","HEAD"],
     pattern: '/extension/authorize',
@@ -371,12 +365,6 @@ const routes = {
     pattern: '/api/v1/links/:id',
     tokens: [{"old":"/api/v1/links/:id","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['api-links.delete']['types'],
-  },
-  'api-search.index': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/search',
-    tokens: [{"old":"/api/v1/search","type":0,"val":"api","end":""},{"old":"/api/v1/search","type":0,"val":"v1","end":""},{"old":"/api/v1/search","type":0,"val":"search","end":""}],
-    types: placeholder as Registry['api-search.index']['types'],
   },
   'api-sync.delta': {
     methods: ["GET","HEAD"],
