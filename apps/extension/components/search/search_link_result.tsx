@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 
-import type { SearchResult } from '@/lib/api/types';
+import type { LinkResource } from '@/lib/api/types';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
 import { Highlight } from '@/components/common/highlight';
+import type { FuzzyMatch } from '@/lib/search/fuzzy_links';
 import { LinkFavicon } from '@/components/collections/link_favicon';
 import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
 
@@ -13,37 +14,32 @@ const ROW_SELECTED_CLASS =
 	'border-blue-500 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-950 dark:text-blue-100';
 
 interface SearchLinkResultProps {
-	result: SearchResult;
-	searchTerm: string;
+	match: FuzzyMatch<LinkResource>;
 	resultIndex: number;
 	isSelected: boolean;
 	onActivate: () => void;
 }
 
 export function SearchLinkResult({
-	result,
-	searchTerm,
+	match,
 	resultIndex,
 	isSelected,
 	onActivate,
 }: Readonly<SearchLinkResultProps>) {
 	const instanceUrl = useInstanceUrl();
-
-	if (!result.url) {
-		return null;
-	}
+	const { link, nameRanges } = match;
 
 	const faviconUrl = instanceUrl
-		? buildFaviconUrl(instanceUrl, result.url)
+		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
-	const href = instanceUrl ? buildVisitUrl(instanceUrl, result.id) : result.url;
+	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
 
 	return (
 		<a
 			href={href}
 			target="_blank"
 			rel="noreferrer"
-			title={result.url}
+			title={link.url}
 			data-result-index={resultIndex}
 			aria-current={isSelected}
 			onClick={onActivate}
@@ -57,7 +53,7 @@ export function SearchLinkResult({
 				/>
 			)}
 			<span className="flex-1 truncate">
-				<Highlight text={result.name} searchTerm={searchTerm} />
+				<Highlight text={link.name} ranges={nameRanges} />
 			</span>
 		</a>
 	);

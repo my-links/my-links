@@ -19,6 +19,7 @@
 		"generate:api-types": "openapi-typescript ../webapp/.adonisjs/openapi.json -o lib/api/schema.d.ts && pnpm exec oxfmt --write lib/api/schema.d.ts"
 	},
 	"dependencies": {
+		"@leeoniya/ufuzzy": "^1.0.19",
 		"@minimalstuff/ui": "^2.0.0",
 		"@tanstack/react-query": "^5.101.4",
 		"clsx": "^2.1.1",
