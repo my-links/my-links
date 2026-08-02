@@ -55,7 +55,7 @@ export const FormLinkContent = ({
 	return (
 		<div className="space-y-4">
 			<Input
-				label={<Trans>Name</Trans>}
+				label={t`Name`}
 				type="text"
 				id="name"
 				value={data.name}
@@ -69,7 +69,7 @@ export const FormLinkContent = ({
 			/>
 
 			<Input
-				label={<Trans>URL</Trans>}
+				label={t`URL`}
 				type="text"
 				id="url"
 				value={data.url}
