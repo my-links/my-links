@@ -5,8 +5,11 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
 import Collection from '#models/collection';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { Visibility } from '#enums/collections/visibility';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
@@ -20,7 +23,10 @@ type CollectionPayload = {
 
 @inject()
 export class CollectionService {
-	constructor(protected readonly syncJournalService: SyncJournalService) {}
+	constructor(
+		protected readonly syncJournalService: SyncJournalService,
+		protected readonly activityEventService: ActivityEventService
+	) {}
 
 	async getAccessibleCollectionByIdWithLinks(
 		id: Collection['id'],
@@ -64,12 +70,21 @@ export class CollectionService {
 		return Number(totalCount[0].total);
 	}
 
-	createCollection(payload: CollectionPayload) {
-		const context = this.getAuthContext();
-		return Collection.create({
+	async createCollection(payload: CollectionPayload) {
+		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		const collection = await Collection.create({
 			...payload,
-			authorId: context.auth.getUserOrFail().id,
+			authorId: userId,
 		});
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.COLLECTION_CREATED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
+			subjectId: collection.id,
+		});
+
+		return collection;
 	}
 
 	/**
@@ -78,10 +93,10 @@ export class CollectionService {
 	 * (`GET /api/v1/sync`).
 	 */
 	async updateCollection(id: Collection['id'], payload: CollectionPayload) {
-		const context = this.getAuthContext();
+		const userId = this.getAuthContext().auth.getUserOrFail().id;
 		const collection = await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', context.auth.getUserOrFail().id)
+			.andWhere('author_id', userId)
 			.firstOrFail();
 
 		const wasPublic = collection.visibility === Visibility.PUBLIC;
@@ -92,6 +107,13 @@ export class CollectionService {
 		if (wasPublic && payload.visibility === Visibility.PRIVATE) {
 			await this.removeAllFollowers(id);
 		}
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.COLLECTION_UPDATED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
+			subjectId: id,
+		});
 
 		return collection;
 	}
@@ -145,6 +167,16 @@ export class CollectionService {
 				id,
 				transaction
 			);
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.COLLECTION_DELETED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
+					subjectId: id,
+					metadata: { orphanedLinks: orphanedLinkIds.length },
+				},
+				transaction
+			);
 		});
 	}
 
@@ -161,7 +193,7 @@ export class CollectionService {
 			return existingDefaultCollection;
 		}
 
-		return await Collection.create(
+		const defaultCollection = await Collection.create(
 			{
 				name: DEFAULT_COLLECTION_NAME,
 				description: null,
@@ -172,6 +204,19 @@ export class CollectionService {
 			},
 			{ client }
 		);
+
+		await this.activityEventService.record(
+			{
+				type: ACTIVITY_EVENT_TYPE.COLLECTION_CREATED,
+				userId,
+				subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
+				subjectId: defaultCollection.id,
+				metadata: { automatic: true },
+			},
+			client
+		);
+
+		return defaultCollection;
 	}
 
 	getPublicCollectionById(id: Collection['id']) {
@@ -231,6 +276,13 @@ export class CollectionService {
 		const user = await User.findOrFail(userId);
 
 		await collection.related('followers').attach([user.id]);
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.COLLECTION_FOLLOWED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
+			subjectId: collectionId,
+		});
 	}
 
 	async unfollowCollection(collectionId: Collection['id'], userId: User['id']) {
@@ -238,6 +290,13 @@ export class CollectionService {
 		const user = await User.findOrFail(userId);
 
 		await collection.related('followers').detach([user.id]);
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.COLLECTION_UNFOLLOWED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
+			subjectId: collectionId,
+		});
 	}
 
 	async removeAllFollowers(collectionId: Collection['id']) {

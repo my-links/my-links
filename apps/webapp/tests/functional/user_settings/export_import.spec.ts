@@ -9,10 +9,11 @@ import { createUser } from '#tests/factories/user_factory';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ExportImportService } from '#services/user/export_import_service';
 import { CollectionService } from '#services/collections/collection_service';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 
 function buildService() {
 	return new ExportImportService(
-		new CollectionService(new SyncJournalService())
+		new CollectionService(new SyncJournalService(), new ActivityEventService())
 	);
 }
 
