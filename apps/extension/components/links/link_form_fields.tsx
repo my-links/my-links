@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import type { ChangeEvent } from 'react';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
+
+const COLLECTION_SEARCH_THRESHOLD = 6;
 
 export interface LinkFormValues {
 	name: string;
@@ -24,6 +27,8 @@ export function LinkFormFields({
 	collections,
 	isDisabled = false,
 }: Readonly<LinkFormFieldsProps>) {
+	const [collectionSearch, setCollectionSearch] = useState('');
+
 	const handleNameChange = (event: ChangeEvent<HTMLInputElement>) =>
 		onChange({ ...values, name: event.target.value });
 
@@ -48,6 +53,10 @@ export function LinkFormFields({
 	// collection selected, so it's never offered as an explicit choice here.
 	const selectableCollections = collections.filter(
 		(collection) => !collection.isDefault
+	);
+
+	const visibleCollections = selectableCollections.filter((collection) =>
+		collection.name.toLowerCase().includes(collectionSearch.toLowerCase())
 	);
 
 	return (
@@ -83,7 +92,17 @@ export function LinkFormFields({
 					<legend className="text-sm mb-1">
 						Collections ({selectableCollections.length})
 					</legend>
-					{selectableCollections.map((collection) => (
+					{selectableCollections.length > COLLECTION_SEARCH_THRESHOLD && (
+						<Input
+							value={collectionSearch}
+							onChange={(event) => setCollectionSearch(event.target.value)}
+							placeholder="Search collections"
+							aria-label="Search collections"
+							disabled={isDisabled}
+							wrapperClassName="mb-1"
+						/>
+					)}
+					{visibleCollections.map((collection) => (
 						<Checkbox
 							key={collection.id}
 							label={collection.name}
@@ -92,6 +111,11 @@ export function LinkFormFields({
 							disabled={isDisabled}
 						/>
 					))}
+					{visibleCollections.length === 0 && (
+						<p className="text-xs text-gray-500 dark:text-gray-400">
+							No collections match your search.
+						</p>
+					)}
 					{values.collectionIds.length === 0 && (
 						<p className="text-xs text-gray-500 dark:text-gray-400">
 							No collection selected. This link goes to your Inbox.
