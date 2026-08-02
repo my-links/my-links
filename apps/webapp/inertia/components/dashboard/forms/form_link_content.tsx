@@ -1,10 +1,13 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 
 import { FormLinkData } from '~/types/link_form';
+
+const COLLECTION_SEARCH_THRESHOLD = 6;
 
 interface FormLinkContentProps {
 	data: FormLinkData;
@@ -24,6 +27,8 @@ export const FormLinkContent = ({
 	collections,
 	disableInputs = false,
 }: Readonly<FormLinkContentProps>) => {
+	const [collectionSearch, setCollectionSearch] = useState('');
+
 	const toggleCollection = (collectionId: number) => {
 		setData(
 			'collectionIds',
@@ -41,6 +46,10 @@ export const FormLinkContent = ({
 	// collection selected, so it's never offered as an explicit choice here.
 	const selectableCollections = collections.filter(
 		(collection) => !collection.isDefault
+	);
+
+	const visibleCollections = selectableCollections.filter((collection) =>
+		collection.name.toLowerCase().includes(collectionSearch.toLowerCase())
 	);
 
 	return (
@@ -100,6 +109,17 @@ export const FormLinkContent = ({
 				>
 					<Trans>Collections ({selectableCollections.length})</Trans>
 				</span>
+				{selectableCollections.length > COLLECTION_SEARCH_THRESHOLD && (
+					<Input
+						type="text"
+						value={collectionSearch}
+						onChange={(e) => setCollectionSearch(e.target.value)}
+						placeholder={t`Search collections`}
+						aria-label={t`Search collections`}
+						disabled={disableInputs}
+						wrapperClassName="mb-2"
+					/>
+				)}
 				<div
 					role="group"
 					aria-labelledby="collections-label"
@@ -110,7 +130,7 @@ export const FormLinkContent = ({
 							: 'border-gray-300 dark:border-gray-600'
 					)}
 				>
-					{selectableCollections.map((collection) => (
+					{visibleCollections.map((collection) => (
 						<Checkbox
 							key={collection.id}
 							id={`collection-${collection.id}`}
@@ -120,6 +140,11 @@ export const FormLinkContent = ({
 							disabled={disableInputs}
 						/>
 					))}
+					{visibleCollections.length === 0 && (
+						<p className="text-sm text-gray-500 dark:text-gray-400">
+							<Trans>No collections match your search.</Trans>
+						</p>
+					)}
 				</div>
 				{data.collectionIds.length === 0 && (
 					<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
