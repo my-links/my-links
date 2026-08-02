@@ -28,6 +28,12 @@ export type ActivityEventRecord = {
  */
 export const ACTIVITY_JOURNAL_PAGE_SIZE = 50;
 
+/**
+ * How long an activity row is kept before `pruneBefore` removes it.
+ * Authentication rows are exempt — see `pruneBefore`.
+ */
+export const ACTIVITY_EVENT_RETENTION_DAYS = 90;
+
 export class ActivityEventService {
 	/**
 	 * The optional transaction client is what lets a row live or die with the
