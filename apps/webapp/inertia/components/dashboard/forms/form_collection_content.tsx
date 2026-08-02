@@ -97,6 +97,7 @@ export const FormCollectionContent = ({
 					onChange={(value) => setData('visibility', value as Visibility)}
 					orientation="horizontal"
 					disabled={disableInputs}
+					required
 				/>
 				{data.visibility === Visibility.PUBLIC && (
 					<p className="mt-2 text-sm text-gray-500 dark:text-gray-400">

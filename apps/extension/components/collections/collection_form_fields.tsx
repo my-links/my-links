@@ -72,6 +72,7 @@ export function CollectionFormFields({
 				onChange={handleVisibilityChange}
 				orientation="horizontal"
 				disabled={isDisabled}
+				required
 			/>
 		</div>
 	);
