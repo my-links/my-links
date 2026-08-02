@@ -1,95 +1,87 @@
-import clsx from 'clsx';
 import { Data } from '@generated/data';
-import { router } from '@inertiajs/react';
-import { Route } from '@tuyau/core/types';
+import { Input } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
-import { Button, Input } from '@minimalstuff/ui';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { tuyauClient } from '~/lib/tuyau';
+import { matchLinks } from '~/lib/fuzzy_links';
 import useShortcut, { UseShortcutProps } from '~/hooks/use_shortcut';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
-import { SearchCollectionResults } from '~/components/dashboard/search/search_collection_results';
 
-const SEARCH_DEBOUNCE_DELAY = 300;
 const DEFAULT_INDEX = 0;
-
-type SearchResultType = 'link' | 'collection' | 'both';
 
 interface SearchModalProps {
 	onClose: () => void;
 }
 
+/**
+ * The generated tuyau types claim `GET /links` resolves to a bare
+ * `Data.Link[]`, but the shared `ApiSerializer` always wraps collections
+ * under a `data` key at runtime — this narrows the actual response shape
+ * without trusting either side blindly.
+ */
+function extractLinks(payload: unknown): Data.Link[] {
+	if (Array.isArray(payload)) {
+		return payload;
+	}
+
+	if (
+		typeof payload === 'object' &&
+		payload !== null &&
+		'data' in payload &&
+		Array.isArray(payload.data)
+	) {
+		return payload.data;
+	}
+
+	return [];
+}
+
 export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 	const [searchTerm, setSearchTerm] = useState('');
-	const [searchType, setSearchType] = useState<SearchResultType>('both');
-	const [results, setResults] = useState<Data.SearchResult[]>([]);
-	const [isLoading, setIsLoading] = useState(false);
-	const [selectedIndex, setSelectedIndex] = useState(-1);
+	const [links, setLinks] = useState<Data.Link[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [selectedIndex, setSelectedIndex] = useState(DEFAULT_INDEX);
 	const resultsRef = useRef<HTMLDivElement>(null);
-	const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-	const performSearch = useCallback(async () => {
-		setIsLoading(true);
-
-		try {
-			const { data } = await tuyauClient.get('/search', {
-				query: {
-					term: searchTerm,
-					type: searchType,
-				},
-			});
-			setResults(Array.isArray(data) ? data : []);
-			setSelectedIndex(DEFAULT_INDEX);
-		} catch (e) {
-			const error = e as Route.Error<'search'>;
-			console.error('Search error:', error);
-			setResults([]);
-			setSelectedIndex(DEFAULT_INDEX);
-		} finally {
-			setIsLoading(false);
-		}
-	}, [searchTerm, searchType]);
 
 	useEffect(() => {
-		if (debounceTimerRef.current) {
-			clearTimeout(debounceTimerRef.current);
-		}
+		let isMounted = true;
 
-		if (searchTerm.trim().length === 0) {
-			setResults([]);
-			setSelectedIndex(DEFAULT_INDEX);
-			return;
-		}
-
-		debounceTimerRef.current = setTimeout(() => {
-			void performSearch();
-		}, SEARCH_DEBOUNCE_DELAY);
+		tuyauClient
+			.get('/links', {})
+			.then(({ data }) => {
+				if (isMounted) {
+					setLinks(extractLinks(data));
+				}
+			})
+			.catch(() => {
+				if (isMounted) {
+					setLinks([]);
+				}
+			})
+			.finally(() => {
+				if (isMounted) {
+					setIsLoading(false);
+				}
+			});
 
 		return () => {
-			if (debounceTimerRef.current) {
-				clearTimeout(debounceTimerRef.current);
-			}
+			isMounted = false;
 		};
-	}, [searchTerm, searchType, performSearch]);
+	}, []);
 
-	const linkResults = useMemo(
-		() => results.filter((r) => r.type === 'link'),
-		[results]
+	const results = useMemo(
+		() => matchLinks(links, searchTerm),
+		[links, searchTerm]
 	);
 
-	const collectionResults = useMemo(
-		() => results.filter((r) => r.type === 'collection'),
-		[results]
-	);
+	useEffect(() => {
+		setSelectedIndex(DEFAULT_INDEX);
+	}, [results]);
 
 	const handleResultClick = useCallback(
-		(result: Data.SearchResult) => {
-			if (result.type === 'link' && result.url) {
-				window.open(result.url, '_blank', 'noopener,noreferrer');
-			} else if (result.type === 'collection') {
-				router.visit(`/collections/${result.id}`);
-			}
+		(link: Data.Link) => {
+			window.open(link.url, '_blank', 'noopener,noreferrer');
 			onClose();
 		},
 		[onClose]
@@ -121,32 +113,13 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 		}
 
 		return (
-			<>
-				<SearchLinkResults
-					linkResults={linkResults}
-					selectedIndex={selectedIndex}
-					handleResultClick={handleResultClick}
-					searchTerm={searchTerm}
-				/>
-
-				<SearchCollectionResults
-					collectionResults={collectionResults}
-					linkResultsLength={linkResults.length}
-					selectedIndex={selectedIndex}
-					handleResultClick={handleResultClick}
-					searchTerm={searchTerm}
-				/>
-			</>
+			<SearchLinkResults
+				results={results}
+				selectedIndex={selectedIndex}
+				handleResultClick={handleResultClick}
+			/>
 		);
-	}, [
-		collectionResults,
-		handleResultClick,
-		searchTerm,
-		isLoading,
-		linkResults,
-		results.length,
-		selectedIndex,
-	]);
+	}, [isLoading, searchTerm, results, selectedIndex, handleResultClick]);
 
 	// Shortcuts to navigate the results
 	const commonShortcutOptions = {
@@ -169,7 +142,8 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 	useShortcut(
 		'ENTER_KEY',
-		() => results[selectedIndex] && handleResultClick(results[selectedIndex]),
+		() =>
+			results[selectedIndex] && handleResultClick(results[selectedIndex].link),
 		commonShortcutOptions
 	);
 
@@ -190,59 +164,18 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 	return (
 		<div className="space-y-4">
-			<div className="space-y-3">
-				<div className="relative">
-					<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-						<div className="i-ion-search w-5 h-5 text-gray-400" />
-					</div>
-					<Input
-						value={searchTerm}
-						type="text"
-						onChange={(e) => setSearchTerm(e.target.value)}
-						placeholder="Search..."
-						autoFocus
-						className="pl-10"
-					/>
+			<div className="relative">
+				<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+					<div className="i-ion-search w-5 h-5 text-gray-400" />
 				</div>
-
-				<div className="flex items-center gap-2">
-					<Button
-						color={searchType === 'both' ? 'primary' : 'neutral'}
-						variant={searchType === 'both' ? 'solid' : 'outline'}
-						size="sm"
-						onClick={() => setSearchType('both')}
-						className={clsx(
-							searchType !== 'both' &&
-								'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-						)}
-					>
-						<Trans>All</Trans>
-					</Button>
-					<Button
-						color={searchType === 'link' ? 'primary' : 'neutral'}
-						variant={searchType === 'link' ? 'solid' : 'outline'}
-						size="sm"
-						onClick={() => setSearchType('link')}
-						className={clsx(
-							searchType !== 'link' &&
-								'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-						)}
-					>
-						<Trans>Links</Trans>
-					</Button>
-					<Button
-						color={searchType === 'collection' ? 'primary' : 'neutral'}
-						variant={searchType === 'collection' ? 'solid' : 'outline'}
-						size="sm"
-						onClick={() => setSearchType('collection')}
-						className={clsx(
-							searchType !== 'collection' &&
-								'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-						)}
-					>
-						<Trans>Collections</Trans>
-					</Button>
-				</div>
+				<Input
+					value={searchTerm}
+					type="text"
+					onChange={(e) => setSearchTerm(e.target.value)}
+					placeholder="Search..."
+					autoFocus
+					className="pl-10"
+				/>
 			</div>
 
 			<div ref={resultsRef} className="max-h-96 overflow-y-auto space-y-4">

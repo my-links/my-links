@@ -133,6 +133,16 @@ export class LinkService {
 			.orderBy('created_at');
 	}
 
+	/**
+	 * Feeds the search modal's client-side matcher, which only reads
+	 * name/description/url — no `preload('collections')` needed here.
+	 */
+	async getMyLinks() {
+		return await Link.query()
+			.where('author_id', this.getAuthenticatedUserId())
+			.orderBy('name');
+	}
+
 	private getAuthenticatedUserId() {
 		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}

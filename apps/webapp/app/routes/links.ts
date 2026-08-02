@@ -20,6 +20,8 @@ router
 
 router
 	.group(() => {
+		router.get('/', [controllers.links.GetLinks, 'render']).as('link.index');
+
 		router
 			.post('/', [controllers.links.CreateLink, 'execute'])
 			.as('link.create');

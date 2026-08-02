@@ -787,6 +787,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/visit_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'link.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/links'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/get_links_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/get_links_controller').default['render']>>>
+    }
+  }
   'link.create': {
     methods: ["POST"]
     pattern: '/links'
