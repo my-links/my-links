@@ -29,8 +29,8 @@ export async function getUserIds() {
 function createRandomCollection(userIds: User['id'][]) {
 	const authorId = faker.helpers.arrayElements(userIds, 1).at(0);
 	return {
-		name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
-		description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
+		name: faker.lorem.words({ min: 1, max: 5 }),
+		description: faker.lorem.sentences({ min: 0, max: 3 }),
 		visibility: Visibility.PRIVATE,
 		authorId,
 	};

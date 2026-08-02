@@ -10,6 +10,38 @@ const SEEDED_LINKS_COUNT = 500;
 const MIN_COLLECTIONS_PER_LINK = 1;
 const MAX_COLLECTIONS_PER_LINK = 3;
 
+/**
+ * Real domains, so the favicon fetcher (`FaviconService`) has an actual
+ * `/favicon.ico` or `<link rel="icon">` to find instead of failing against
+ * `faker.internet.url()`'s made-up hosts.
+ */
+const REAL_DOMAINS = [
+	'github.com',
+	'developer.mozilla.org',
+	'wikipedia.org',
+	'nodejs.org',
+	'typescriptlang.org',
+	'react.dev',
+	'vuejs.org',
+	'tailwindcss.com',
+	'vercel.com',
+	'netlify.com',
+	'digitalocean.com',
+	'medium.com',
+	'dev.to',
+	'notion.so',
+	'figma.com',
+	'slack.com',
+	'discord.com',
+	'spotify.com',
+	'reddit.com',
+	'youtube.com',
+	'amazon.com',
+	'apple.com',
+	'microsoft.com',
+	'cloudflare.com',
+];
+
 type CollectionIdsByAuthor = Map<User['id'], Collection['id'][]>;
 
 type LinkAttributes = {
@@ -97,9 +129,9 @@ function createRandomLink(
 
 	return {
 		attributes: {
-			name: faker.string.alphanumeric({ length: { min: 5, max: 25 } }),
-			description: faker.string.alphanumeric({ length: { min: 0, max: 254 } }),
-			url: faker.internet.url(),
+			name: faker.lorem.words({ min: 1, max: 5 }),
+			description: faker.lorem.sentences({ min: 0, max: 3 }),
+			url: createRandomUrl(),
 			favorite: faker.datatype.boolean(),
 			authorId,
 		},
@@ -108,4 +140,9 @@ function createRandomLink(
 			max: MAX_COLLECTIONS_PER_LINK,
 		}),
 	};
+}
+
+function createRandomUrl(): string {
+	const domain = faker.helpers.arrayElement(REAL_DOMAINS);
+	return `https://${domain}`;
 }
