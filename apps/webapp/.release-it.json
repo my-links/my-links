@@ -5,6 +5,7 @@
 	},
 	"git": {
 		"requireCleanWorkingDir": true,
+		"tagName": "webapp-v${version}",
 		"commitMessage": "chore: release v${version}",
 		"commit": true,
 		"tag": true,
