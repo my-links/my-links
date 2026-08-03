@@ -25,18 +25,27 @@ export function AdminTabs() {
 		clsx(TAB_CLASS, component === page ? ACTIVE_TAB_CLASS : INACTIVE_TAB_CLASS);
 
 	return (
-		<nav className="flex items-center gap-2 border-b border-gray-200 dark:border-gray-700 mb-6">
-			<Link route="admin.dashboard" className={tabClassFor(ACCOUNTS_PAGE)}>
+		<nav className="flex items-center gap-2 overflow-x-auto border-b border-gray-200 dark:border-gray-700 mb-6">
+			<Link
+				route="admin.dashboard"
+				className={clsx(tabClassFor(ACCOUNTS_PAGE), 'whitespace-nowrap')}
+			>
 				<i className="i-mdi-account-group w-4 h-4" />
 				<Trans>Accounts</Trans>
 			</Link>
-			<Link route="admin.authEvents" className={tabClassFor(JOURNAL_PAGE)}>
+			<Link
+				route="admin.authEvents"
+				className={clsx(tabClassFor(JOURNAL_PAGE), 'whitespace-nowrap')}
+			>
 				<i className="i-mdi-history w-4 h-4" />
 				<Trans>Authentication journal</Trans>
 			</Link>
 			<Link
 				route="admin.activityEvents"
-				className={tabClassFor(ACTIVITY_JOURNAL_PAGE)}
+				className={clsx(
+					tabClassFor(ACTIVITY_JOURNAL_PAGE),
+					'whitespace-nowrap'
+				)}
 			>
 				<i className="i-mdi-clipboard-text-clock w-4 h-4" />
 				<Trans>Activity journal</Trans>
