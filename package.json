@@ -21,7 +21,8 @@
 		"docs:build": "vitepress build docs",
 		"docs:preview": "vitepress preview docs",
 		"prepare": "husky",
-		"release:webapp": "pnpm --filter @my-links/webapp exec release-it"
+		"release:webapp": "pnpm --filter @my-links/webapp exec release-it",
+		"release:extension": "pnpm --filter @my-links/extension exec release-it"
 	},
 	"devDependencies": {
 		"@iconify-json/ant-design": "^1.2.8",

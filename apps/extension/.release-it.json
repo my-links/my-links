@@ -1,0 +1,33 @@
+{
+	"$schema": "https://unpkg.com/release-it@19/schema/release-it.json",
+	"hooks": {
+		"before:init": [
+			"pnpm run check",
+			"pnpm run build",
+			"pnpm run build:firefox"
+		]
+	},
+	"git": {
+		"requireCleanWorkingDir": true,
+		"tagName": "extension-v${version}",
+		"commitMessage": "chore(extension): release v${version}",
+		"commit": true,
+		"tag": true,
+		"push": true
+	},
+	"github": {
+		"release": true,
+		"web": true
+	},
+	"npm": {
+		"publish": false
+	},
+	"plugins": {
+		"@release-it/conventional-changelog": {
+			"infile": "CHANGELOG.md",
+			"preset": {
+				"name": "conventionalcommits"
+			}
+		}
+	}
+}
