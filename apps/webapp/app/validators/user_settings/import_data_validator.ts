@@ -3,7 +3,7 @@ import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 const linkFields = {
 	name: vine.string().trim().minLength(1).maxLength(254),
 	description: vine.string().trim().maxLength(300).nullable().optional(),
-	url: vine.string().url({ require_tld: false }).trim(),
+	url: vine.string().url({ require_tld: false, validate_length: false }).trim(),
 	favorite: vine.boolean(),
 };
 
