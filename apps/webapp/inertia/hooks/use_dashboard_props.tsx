@@ -6,9 +6,9 @@ import { DashboardProps } from '~/pages/dashboard';
 
 export const useDashboardProps = () => {
 	const {
-		followedCollections,
-		myPublicCollections,
-		myPrivateCollections,
+		followedCollections = [],
+		myPublicCollections = [],
+		myPrivateCollections = [],
 		activeCollection = null,
 		favoriteLinks = [],
 	} = usePage<PageProps & DashboardProps>().props;
