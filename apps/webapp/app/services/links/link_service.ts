@@ -3,11 +3,13 @@ import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
 
 import Link from '#models/link';
+import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
 
 type LinkPayload = {
 	name: string;
@@ -99,6 +101,16 @@ export class LinkService {
 		userId: number
 	) {
 		if (collectionIds && collectionIds.length > 0) {
+			const ownedCollections = await Collection.query()
+				.where('author_id', userId)
+				.whereIn('id', collectionIds);
+
+			if (ownedCollections.length !== new Set(collectionIds).size) {
+				throw new ForeignCollectionException(
+					'One or more collections do not belong to the authenticated user'
+				);
+			}
+
 			return collectionIds;
 		}
 
