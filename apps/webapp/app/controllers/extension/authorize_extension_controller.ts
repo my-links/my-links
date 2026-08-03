@@ -13,7 +13,7 @@ const TOKEN_NAME = 'Browser extension';
 export default class AuthorizeExtensionController {
 	constructor(protected readonly apiTokenService: ApiTokenService) {}
 
-	async render({ request, response, auth }: HttpContext) {
+	async render({ request, response, auth, inertia }: HttpContext) {
 		const { redirect_uri: redirectUri } = await request.validateUsing(
 			authorizeExtensionValidator
 		);
@@ -36,6 +36,12 @@ export default class AuthorizeExtensionController {
 		// Fragment, not query string: it never reaches the server on the
 		// redirect itself nor on any subsequent request, unlike a query param.
 		callbackUrl.hash = `token=${encodeURIComponent(tokenValue)}`;
+
+		// Mid-Inertia-visit hits need a real navigation, not an XHR-followed redirect.
+		if (request.header('x-inertia')) {
+			inertia.location(callbackUrl.toString());
+			return;
+		}
 
 		return response.redirect().toPath(callbackUrl.toString());
 	}
