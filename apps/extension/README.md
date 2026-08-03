@@ -43,7 +43,10 @@ Targets **Chromium (MV3)** and **Firefox (MV2)** from the same source.
 
 ## Installing a development build
 
-The extension is not published to the stores yet. Build it, then side-load it.
+To test unreleased changes, build the extension and side-load it instead of
+using the [Chrome](https://chromewebstore.google.com/detail/my-links-extension/agkmlplihacolkakgeccnbhphnepphma)
+or [Firefox](https://addons.mozilla.org/firefox/addon/mylinks-extension/)
+store listing.
 
 ```bash
 pnpm --filter @my-links/extension build          # Chromium → .output/chrome-mv3

@@ -2,11 +2,15 @@
 
 Publishing runs exclusively through a GitHub Actions workflow via `wxt submit`
 (see [WXT's publishing guide](https://wxt.dev/guide/essentials/publishing)).
-No local command ever pushes a version to a store — everything below is
-one-time setup to obtain the credentials that workflow needs, done entirely
-through the Chrome / Firefox dashboards and Google's OAuth Playground (no
-CLI). Once the 7 secrets below are in the repo, every future release is:
-tag push → GitHub Action → store.
+No local command ever pushes a version to a store — everything below is the
+one-time setup used to obtain the credentials that workflow needs, done
+entirely through the Chrome / Firefox dashboards and Google's OAuth
+Playground (no CLI).
+
+**Status: the 7 secrets are configured in the repo.** Every release is now
+just: `pnpm run release:extension` → tag push → GitHub Action → store. The
+steps below are kept as reference for rotating a secret or re-authorizing
+after a credential expires.
 
 Both listings already exist (Chrome at v1.1.0, Firefox at v1.0.0), so `wxt
 submit` will **update** them directly — no manual "create a new listing"
@@ -110,7 +114,6 @@ pnpm run release:extension
 This runs `release-it` (config in `apps/extension/.release-it.json`):
 bumps `apps/extension/package.json`, runs `check` + both `build`s as a
 pre-flight, commits, tags `extension-v${version}`, pushes, and opens the
-GitHub release. That release event is what triggers `cd-extension.yml` —
-still nothing runs locally against either store.
-
-Once the 7 secrets above are added to the repo, this is the whole flow.
+GitHub release. That release event is what triggers `cd-extension.yml`,
+which submits to both stores — still nothing runs locally against either
+store.
