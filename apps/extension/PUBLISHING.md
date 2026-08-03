@@ -93,31 +93,24 @@ my-links@mylinks.app
 Repo → **Settings → Secrets and variables → Actions → New repository
 secret** → add all 7 names from the table above.
 
-## What consumes these secrets (reference, not yet implemented)
+## What consumes these secrets
 
-```yaml
-- name: Submit to stores
-  run: |
-    pnpm wxt submit \
-      --chrome-zip .output/*-chrome.zip \
-      --firefox-zip .output/*-firefox.zip \
-      --firefox-sources-zip .output/*-sources.zip
-  env:
-    CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
-    CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
-    CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
-    CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-    FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
-    FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
-    FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+`.github/workflows/cd-extension.yml`, triggered by a GitHub release whose
+tag starts with `extension-v` (`cd.yml`'s Docker job is scoped to
+`webapp-v*` the same way, so the two releases never trigger each other).
+
+## Cutting a release
+
+From the repo root:
+
+```bash
+pnpm run release:extension
 ```
 
-Still to do once the secrets are in place:
+This runs `release-it` (config in `apps/extension/.release-it.json`):
+bumps `apps/extension/package.json`, runs `check` + both `build`s as a
+pre-flight, commits, tags `extension-v${version}`, pushes, and opens the
+GitHub release. That release event is what triggers `cd-extension.yml` —
+still nothing runs locally against either store.
 
-- `apps/extension/package.json` version `0.0.0` → `2.0.0`.
-- A `.release-it.json` for the extension, mirroring the webapp's, tagging
-  as `extension-v${version}` instead of the default `v${version}`.
-- `.github/workflows/cd-extension.yml`: triggered on `extension-v*` tags,
-  runs `wxt zip` / `wxt zip:firefox` then the submit step above.
-- Scope the existing `cd.yml` (Docker build/push) to `webapp-v*` tags only,
-  so an extension release never triggers a webapp rebuild.
+Once the 7 secrets above are added to the repo, this is the whole flow.
