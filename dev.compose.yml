@@ -18,7 +18,7 @@ services:
     volumes:
       - postgres-volume:/var/lib/postgresql
     ports:
-      - '${DB_PORT}:5432'
+      - '127.0.0.1:${DB_PORT}:5432'
 
   # Catch-all SMTP sink: accepts every message and shows it on
   # http://localhost:8025 instead of delivering it anywhere.
