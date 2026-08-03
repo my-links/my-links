@@ -106,23 +106,25 @@ function QuickActionsContent({
 					</Trans>
 				</Button>
 
-				{!isFavorite && activeCollection?.isOwner !== false && (
-					<>
-						<Button
-							variant="outline"
-							onClick={() => handleQuickAction(onEditCollection)}
-						>
-							<Trans>Edit collection</Trans>
-						</Button>
-						<Button
-							color="danger"
-							onClick={() => handleQuickAction(onDeleteCollection)}
-							className="text-left"
-						>
-							<Trans>Delete collection</Trans>
-						</Button>
-					</>
-				)}
+				{!isFavorite &&
+					activeCollection?.isOwner !== false &&
+					!activeCollection?.isDefault && (
+						<>
+							<Button
+								variant="outline"
+								onClick={() => handleQuickAction(onEditCollection)}
+							>
+								<Trans>Edit collection</Trans>
+							</Button>
+							<Button
+								color="danger"
+								onClick={() => handleQuickAction(onDeleteCollection)}
+								className="text-left"
+							>
+								<Trans>Delete collection</Trans>
+							</Button>
+						</>
+					)}
 
 				{!isFavorite && activeCollection?.isOwner === false && (
 					<Button
