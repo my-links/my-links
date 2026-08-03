@@ -19,6 +19,7 @@ export class FaviconService {
 		'fluid-icon',
 	];
 	private readonly requestTimeout = 10000;
+	private readonly maxRedirects = 5;
 	private readonly urlValidator: UrlValidatorService;
 
 	constructor() {
@@ -28,7 +29,7 @@ export class FaviconService {
 	async getFavicon(url: string): Promise<Favicon> {
 		const normalizedUrl = this.normalizeUrl(url);
 
-		if (!this.urlValidator.isUrlAllowed(normalizedUrl)) {
+		if (!(await this.urlValidator.isUrlAllowed(normalizedUrl))) {
 			throw new UrlBlockedException(`URL is blocked: ${normalizedUrl}`);
 		}
 
@@ -159,6 +160,35 @@ export class FaviconService {
 	}
 
 	private async fetchWithUserAgent(url: string): Promise<Response> {
+		let targetUrl = url;
+
+		for (let hop = 0; hop <= this.maxRedirects; hop += 1) {
+			if (!(await this.urlValidator.isUrlAllowed(targetUrl))) {
+				throw new UrlBlockedException(`URL is blocked: ${targetUrl}`);
+			}
+
+			const response = await this.fetchOnce(targetUrl);
+
+			if (!this.isRedirect(response.status)) {
+				return response;
+			}
+
+			const location = response.headers.get('location');
+			if (!location) {
+				return response;
+			}
+
+			targetUrl = new URL(location, targetUrl).toString();
+		}
+
+		throw new FaviconNotFoundException(`Too many redirects for ${url}`);
+	}
+
+	private isRedirect(status: number): boolean {
+		return status >= 300 && status < 400;
+	}
+
+	private async fetchOnce(url: string): Promise<Response> {
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), this.requestTimeout);
 
@@ -167,7 +197,7 @@ export class FaviconService {
 			const response = await fetch(url, {
 				headers,
 				signal: controller.signal,
-				redirect: 'follow',
+				redirect: 'manual',
 			});
 			clearTimeout(timeoutId);
 			return response;

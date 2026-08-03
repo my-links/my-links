@@ -1,5 +1,6 @@
 import { cache } from '#lib/cache';
 import type { Favicon } from '#types/favicon_type';
+import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 
 export class CacheService {
@@ -29,15 +30,31 @@ export class CacheService {
 			});
 			return this.withRealBuffer(favicon);
 		} catch (error) {
+			const originalError = this.unwrapFactoryError(error);
 			const errorMessage =
-				error instanceof Error ? error.message : String(error);
+				originalError instanceof Error
+					? originalError.message
+					: String(originalError);
 			await this.errorCacheNs.set({
 				key: normalizedKey,
 				value: errorMessage,
 				ttl: this.errorTtl,
 			});
-			throw error;
+			throw originalError;
 		}
+	}
+
+	// bentocache wraps factory throws in `_FactoryError({ cause })`, breaking `instanceof` checks upstream.
+	private unwrapFactoryError(error: unknown): unknown {
+		if (
+			error instanceof Error &&
+			error.cause instanceof Error &&
+			(error.cause instanceof FaviconNotFoundException ||
+				error.cause instanceof UrlBlockedException)
+		) {
+			return error.cause;
+		}
+		return error;
 	}
 
 	/**
