@@ -21,9 +21,9 @@ import { DeleteCollectionModal } from '~/components/dashboard/modals/delete_coll
 import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard_layout_store';
 
 export interface DashboardProps {
-	followedCollections: Data.Collection[];
-	myPublicCollections: Data.Collection[];
-	myPrivateCollections: Data.Collection[];
+	followedCollections?: Data.Collection[];
+	myPublicCollections?: Data.Collection[];
+	myPrivateCollections?: Data.Collection[];
 	activeCollection?: Data.Collection.Variants['withLinks'] | null;
 	favoriteLinks?: Data.Link[];
 }
