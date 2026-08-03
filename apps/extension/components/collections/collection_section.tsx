@@ -1,12 +1,15 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 import { IconButton, Modal, ConfirmModal } from '@minimalstuff/ui';
 
 import { LinkRow } from './link_row';
 import { useCollections } from '@/hooks/use_collections';
+import { useContextMenu } from '@/hooks/use_context_menu';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { EditCollectionModal } from './edit_collection_modal';
+import { ContextMenu } from '@/components/common/context_menu';
 import { useDeleteCollection } from '@/hooks/use_delete_collection';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { CreateLinkModal } from '@/components/links/create_link_modal';
@@ -21,9 +24,15 @@ export function CollectionSection({
 	const [isExpanded, setIsExpanded] = useState(true);
 	const { collections } = useCollections();
 	const deleteCollection = useDeleteCollection();
+	const contextMenu = useContextMenu();
 	const links = collection.links ?? [];
 
 	const handleToggle = () => setIsExpanded((previous) => !previous);
+
+	const handleContextMenu = (event: ReactMouseEvent) => {
+		if (collection.isDefault) return;
+		contextMenu.handleContextMenu(event);
+	};
 
 	const handleAddLink = () => {
 		const call = Modal.call({
@@ -39,6 +48,7 @@ export function CollectionSection({
 	};
 
 	const handleEdit = () => {
+		contextMenu.closeMenu();
 		const call = Modal.call({
 			title: 'Edit collection',
 			children: (
@@ -51,6 +61,7 @@ export function CollectionSection({
 	};
 
 	const handleDelete = () => {
+		contextMenu.closeMenu();
 		void ConfirmModal.call({
 			title: 'Delete collection',
 			children: `Delete "${collection.name}" and all its links? This can't be undone.`,
@@ -62,7 +73,10 @@ export function CollectionSection({
 
 	return (
 		<div className="group mb-1">
-			<div className="flex w-full items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50">
+			<div
+				onContextMenu={handleContextMenu}
+				className="relative flex w-full items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50"
+			>
 				<button
 					onClick={handleToggle}
 					aria-expanded={isExpanded}
@@ -84,11 +98,11 @@ export function CollectionSection({
 					<span className="flex-1 truncate text-sm font-medium text-gray-700 dark:text-gray-300">
 						{collection.name}
 					</span>
-					<span className="flex-shrink-0 text-xs text-gray-400">
+					<span className="flex-shrink-0 text-xs text-gray-400 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0">
 						{links.length}
 					</span>
 				</button>
-				<div className="flex flex-shrink-0 items-center gap-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100">
+				<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
 					<IconButton
 						icon="i-ant-design-plus-outlined"
 						aria-label={`Add link to ${collection.name}`}
@@ -113,6 +127,26 @@ export function CollectionSection({
 					)}
 				</div>
 			</div>
+			{!collection.isDefault && (
+				<ContextMenu
+					isVisible={contextMenu.isVisible}
+					shouldRender={contextMenu.shouldRender}
+					menuPosition={contextMenu.menuPosition}
+					menuContentRef={contextMenu.menuContentRef}
+					onBackdropClick={contextMenu.closeMenu}
+				>
+					<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
+						Edit
+					</KebabMenuItem>
+					<KebabMenuItem
+						icon="i-ion-trash-outline"
+						onClick={handleDelete}
+						isDanger
+					>
+						Delete
+					</KebabMenuItem>
+				</ContextMenu>
+			)}
 			{deleteCollection.isError && (
 				<p className="px-2 py-1 text-xs text-red-500">
 					Couldn't delete this collection.
