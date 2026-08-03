@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Button, ModalProvider, ThemeToggle } from '@minimalstuff/ui';
+import {
+	Button,
+	IconButton,
+	ModalProvider,
+	ThemeToggle,
+} from '@minimalstuff/ui';
 
 import { SearchPanel } from '@/components/search/search_panel';
 import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
@@ -56,6 +61,13 @@ export function CollectionsWorkspace() {
 				<div className="flex flex-shrink-0 items-center gap-1">
 					<QuickAddButton />
 					<NewCollectionButton />
+					<IconButton
+						icon="i-ant-design-setting-outlined"
+						aria-label="Open settings"
+						size="sm"
+						variant="ghost"
+						onClick={() => void browser.runtime.openOptionsPage()}
+					/>
 					<ThemeToggle size="sm" />
 				</div>
 			</div>
