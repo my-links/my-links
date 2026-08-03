@@ -55,7 +55,7 @@ export function DashboardHeader({
 	return (
 		<header
 			className={clsx(
-				'border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
+				'md:border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
 				!sidebarOpen || isMobile ? 'pl-0' : 'pl-4'
 			)}
 		>
