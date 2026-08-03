@@ -87,9 +87,9 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 	};
 
 	return (
-		<div className="w-full h-full flex flex-col">
-			<div className="mb-4 flex items-center justify-between gap-4">
-				<div className="flex-1 relative max-w-md">
+		<div className="w-full flex flex-col md:h-full">
+			<div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+				<div className="flex-1 relative sm:max-w-md">
 					<i className="i-tabler-search absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 z-10" />
 					<Input
 						type="text"

@@ -12,7 +12,7 @@ type PageProps = InertiaProps<{
 }>;
 
 const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
-	<div className="w-full h-full flex flex-col">
+	<div className="w-full flex flex-col md:h-full">
 		<div className="mb-6">
 			<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
 				<Trans>Admin Dashboard</Trans>
@@ -22,7 +22,7 @@ const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
 		<AdminTabs />
 
 		<div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
 				<div className="flex items-center justify-between">
 					<div>
 						<p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
@@ -38,7 +38,7 @@ const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
 				</div>
 			</div>
 
-			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
 				<div className="flex items-center justify-between">
 					<div>
 						<p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
@@ -54,7 +54,7 @@ const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
 				</div>
 			</div>
 
-			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+			<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
 				<div className="flex items-center justify-between">
 					<div>
 						<p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
@@ -71,7 +71,7 @@ const AdminDashboard = ({ users, totalCollections, totalLinks }: PageProps) => (
 			</div>
 		</div>
 
-		<div className="flex-1 min-h-0 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm p-6">
+		<div className="md:flex-1 md:min-h-0 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm p-3 sm:p-6">
 			<UsersTable users={users} />
 		</div>
 	</div>

@@ -20,7 +20,7 @@ export default function AuthJournal({
 	totalEvents,
 }: Readonly<PageProps>) {
 	return (
-		<div className="w-full h-full flex flex-col">
+		<div className="w-full flex flex-col md:h-full">
 			<div className="mb-6">
 				<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
 					<Trans>Admin Dashboard</Trans>
@@ -40,7 +40,7 @@ export default function AuthJournal({
 				</p>
 			</div>
 
-			<div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm p-6">
+			<div className="md:flex-1 md:min-h-0 flex flex-col bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm p-3 sm:p-6">
 				<AuthEventsTable events={events} />
 				<JournalPagination currentPage={currentPage} lastPage={lastPage} />
 			</div>
