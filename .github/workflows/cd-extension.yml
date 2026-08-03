@@ -1,0 +1,50 @@
+name: CD Extension
+
+on:
+  release:
+    types: [published]
+
+env:
+  NODE_VERSION: 24.14.0
+  PNPM_VERSION: 11.18.0
+
+jobs:
+  submit:
+    name: Submit to Chrome Web Store and Firefox Add-ons
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.release.tag_name, 'extension-v')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Zip extensions
+        working-directory: apps/extension
+        run: |
+          pnpm run zip
+          pnpm run zip:firefox
+
+      - name: Submit to stores
+        working-directory: apps/extension
+        run: |
+          pnpm exec wxt submit \
+            --chrome-zip .output/*-chrome.zip \
+            --firefox-zip .output/*-firefox.zip \
+            --firefox-sources-zip .output/*-sources.zip
+        env:
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
