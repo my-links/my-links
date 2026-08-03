@@ -18,7 +18,7 @@ services:
     volumes:
       - postgres-volume:/var/lib/postgresql
     ports:
-      - '${DB_PORT}:5432'
+      - '127.0.0.1:${DB_PORT}:5432'
 
   my-links:
     container_name: my-links
