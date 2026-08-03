@@ -52,4 +52,24 @@ test.group('Extension authorize', (group) => {
 		assert.isTrue(location.startsWith(VALID_REDIRECT_URI));
 		assert.match(location, /#token=.+/);
 	});
+
+	test('should force a full-page navigation instead of a plain redirect when reached mid Inertia visit', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser();
+
+		// Simulates the post-login intended-URL bounce, which arrives as an Inertia XHR.
+		const response = await client
+			.get('/extension/authorize')
+			.qs({ redirect_uri: VALID_REDIRECT_URI })
+			.withInertia()
+			.redirects(0)
+			.loginAs(user);
+
+		assert.equal(response.response.status, 409);
+		const inertiaLocation = response.response.headers['x-inertia-location'];
+		assert.isTrue(inertiaLocation.startsWith(VALID_REDIRECT_URI));
+		assert.match(inertiaLocation, /#token=.+/);
+	});
 });
