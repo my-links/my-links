@@ -226,6 +226,82 @@ test.group('API update link — collection membership', (group) => {
 	});
 });
 
+test.group('API create/update link — foreign collection rejection', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should reject creating a link in another user’s collection', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser();
+		const attacker = await createUser();
+		const ownerCollection = await createCollection(owner, 'Owner-only');
+
+		const response = await client
+			.post('/api/v1/links')
+			.json({
+				name: 'Injected',
+				url: 'https://injected.example',
+				favorite: false,
+				collectionIds: [ownerCollection.id],
+			})
+			.withGuard('api')
+			.loginAs(attacker);
+
+		response.assertStatus(422);
+
+		const injectedLink = await Link.query()
+			.where('author_id', attacker.id)
+			.andWhere('name', 'Injected')
+			.first();
+		assert.isNull(injectedLink);
+	});
+
+	test('should reject updating a link into another user’s collection', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser();
+		const attacker = await createUser();
+		const ownerCollection = await createCollection(owner, 'Owner-only');
+		const attackerCollection = await createCollection(attacker, 'Mine');
+
+		const createResponse = await client
+			.post('/api/v1/links')
+			.json({
+				name: 'Attacker link',
+				url: 'https://example.com',
+				favorite: false,
+				collectionIds: [attackerCollection.id],
+			})
+			.withGuard('api')
+			.loginAs(attacker);
+		const linkId = createResponse.body().link.id;
+
+		const updateResponse = await client
+			.put(`/api/v1/links/${linkId}`)
+			.json({
+				name: 'Attacker link',
+				url: 'https://example.com',
+				favorite: false,
+				collectionIds: [ownerCollection.id],
+			})
+			.withGuard('api')
+			.loginAs(attacker);
+
+		updateResponse.assertStatus(422);
+
+		const link = await Link.query()
+			.where('id', linkId)
+			.preload('collections')
+			.firstOrFail();
+		assert.sameMembers(
+			link.collections.map((collection) => collection.id),
+			[attackerCollection.id]
+		);
+	});
+});
+
 test.group('API delete collection — orphaned links', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
