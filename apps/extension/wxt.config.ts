@@ -16,7 +16,7 @@ const ANY_ORIGIN = '*://*/*';
  * subdomain hashed from this id, so without it every temporary install would
  * hand the instance a different callback URL.
  */
-const GECKO_EXTENSION_ID = 'mylinks@mylinks.app';
+const GECKO_EXTENSION_ID = 'my-links@mylinks.app';
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
