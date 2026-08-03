@@ -17,6 +17,7 @@ msgstr ""
 msgid "{field}"
 msgstr "{field}"
 
+#: inertia/pages/admin/activity_journal.tsx:40
 #: inertia/pages/admin/auth_journal.tsx:39
 msgid "{totalEvents} events"
 msgstr "{totalEvents} événements"
@@ -77,15 +78,16 @@ msgstr "4.2 Garanties"
 msgid "Acceptance of Terms"
 msgstr "Acceptation des conditions"
 
+#: inertia/components/admin/activity_events/activity_events_table.tsx:73
 #: inertia/components/admin/auth_events/auth_events_table.tsx:40
 msgid "Account"
 msgstr "Compte"
 
-#: inertia/components/admin/admin_tabs.tsx:30
+#: inertia/components/admin/admin_tabs.tsx:31
 msgid "Accounts"
 msgstr "Comptes"
 
-#: inertia/components/admin/users/users_table.tsx:267
+#: inertia/components/admin/users/users_table.tsx:263
 #: inertia/components/api_tokens/api_tokens.tsx:161
 #: inertia/components/user_settings/sessions.tsx:91
 msgid "Actions"
@@ -95,15 +97,19 @@ msgstr "Actions"
 msgid "Active sessions"
 msgstr "Sessions actives"
 
-#: inertia/pages/auth/register.tsx:75
+#: inertia/components/admin/admin_tabs.tsx:42
+msgid "Activity journal"
+msgstr "Journal d'activité"
+
+#: inertia/pages/auth/register.tsx:74
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
-#: inertia/pages/home.tsx:49
+#: inertia/pages/home.tsx:67
 msgid "Add a link from the app or straight from your browser with the extension. One click, and it's kept."
 msgstr "Ajoutez un lien depuis l'application ou directement depuis votre navigateur avec l'extension. Un clic, et c'est enregistré."
 
-#: inertia/components/user_settings/password.tsx:66
+#: inertia/components/user_settings/password.tsx:65
 msgid "Add an email and password sign-in to this account, alongside the methods it already has."
 msgstr "Ajoutez une connexion par e-mail et mot de passe à ce compte, en plus des méthodes qu'il possède déjà."
 
@@ -115,6 +121,7 @@ msgstr "Ajoutez une autre méthode de connexion avant de retirer celle-ci"
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
+#: inertia/components/admin/activity_events/activity_events_table.tsx:87
 #: inertia/components/admin/auth_events/auth_events_table.tsx:54
 msgid "Address"
 msgstr "Adresse"
@@ -123,16 +130,13 @@ msgstr "Adresse"
 msgid "Admin"
 msgstr "Administrateur"
 
+#: inertia/pages/admin/activity_journal.tsx:26
 #: inertia/pages/admin/auth_journal.tsx:26
 #: inertia/pages/admin/dashboard.tsx:18
 msgid "Admin Dashboard"
 msgstr "Tableau de bord administrateur"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:219
-msgid "All"
-msgstr "Tous"
-
-#: inertia/pages/auth/register.tsx:151
+#: inertia/pages/auth/register.tsx:138
 msgid "Already have an account? <0>Sign in</0>"
 msgstr "Vous avez déjà un compte ? <0>Connectez-vous</0>"
 
@@ -164,13 +168,13 @@ msgstr "Êtes-vous sûr de vouloir révoquer ce jeton ?"
 msgid "Are you sure you want to sign out this session?"
 msgstr "Êtes-vous sûr de vouloir déconnecter cette session ?"
 
-#: inertia/components/user_settings/password.tsx:86
-#: inertia/pages/auth/register.tsx:108
-#: inertia/pages/auth/reset_password.tsx:66
+#: inertia/components/user_settings/password.tsx:81
+#: inertia/pages/auth/register.tsx:101
+#: inertia/pages/auth/reset_password.tsx:61
 msgid "At least {minimumPasswordLength} characters"
 msgstr "Au moins {minimumPasswordLength} caractères"
 
-#: inertia/components/admin/admin_tabs.tsx:34
+#: inertia/components/admin/admin_tabs.tsx:35
 msgid "Authentication journal"
 msgstr "Journal d'authentification"
 
@@ -186,7 +190,7 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 #: inertia/components/admin/users/account_actions.tsx:74
 #: inertia/components/admin/users/users_table.tsx:67
 #: inertia/components/api_tokens/api_tokens.tsx:53
-#: inertia/components/api_tokens/create_token_modal.tsx:58
+#: inertia/components/api_tokens/create_token_modal.tsx:51
 #: inertia/components/dashboard/modals/create_collection_modal.tsx:59
 #: inertia/components/dashboard/modals/create_link_modal.tsx:67
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:63
@@ -199,15 +203,15 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 msgid "Cancel"
 msgstr "Annuler"
 
-#: inertia/components/user_settings/email_address.tsx:78
+#: inertia/components/user_settings/email_address.tsx:72
 msgid "Change my email address"
 msgstr "Changer mon adresse e-mail"
 
-#: inertia/components/user_settings/password.tsx:119
+#: inertia/components/user_settings/password.tsx:108
 msgid "Change my password"
 msgstr "Changer mon mot de passe"
 
-#: inertia/components/user_settings/password.tsx:55
+#: inertia/components/user_settings/password.tsx:54
 msgid "Change your password"
 msgstr "Changer votre mot de passe"
 
@@ -215,8 +219,8 @@ msgstr "Changer votre mot de passe"
 msgid "Changes to the Terms"
 msgstr "Modifications des conditions"
 
-#: inertia/pages/auth/reset_password.tsx:43
-#: inertia/pages/auth/reset_password.tsx:46
+#: inertia/pages/auth/reset_password.tsx:42
+#: inertia/pages/auth/reset_password.tsx:45
 msgid "Choose a new password"
 msgstr "Choisissez un nouveau mot de passe"
 
@@ -233,35 +237,33 @@ msgstr "Cliquer pour copier le lien"
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection gérée par <0>{0}</0>"
 
-#: inertia/components/admin/users/users_table.tsx:204
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:82
-#: inertia/components/dashboard/modals/search_modal.tsx:243
-#: inertia/components/dashboard/search/search_collection_results.tsx:25
+#: inertia/components/admin/users/users_table.tsx:200
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:85
 msgid "Collections"
 msgstr "Collections"
 
 #. placeholder {0}: selectableCollections.length
-#: inertia/components/dashboard/forms/form_link_content.tsx:119
+#: inertia/components/dashboard/forms/form_link_content.tsx:110
 msgid "Collections ({0})"
 msgstr "Collections ({0})"
 
 #: inertia/components/admin/users/account_actions.tsx:73
-#: inertia/pages/auth/sudo.tsx:76
+#: inertia/pages/auth/sudo.tsx:70
 msgid "Confirm"
 msgstr "Confirmer"
 
-#: inertia/components/user_settings/password.tsx:95
-#: inertia/pages/auth/register.tsx:117
-#: inertia/pages/auth/reset_password.tsx:76
+#: inertia/components/user_settings/password.tsx:89
+#: inertia/pages/auth/register.tsx:109
+#: inertia/pages/auth/reset_password.tsx:70
 msgid "Confirm password"
 msgstr "Confirmer le mot de passe"
 
-#: inertia/pages/auth/sudo.tsx:102
+#: inertia/pages/auth/sudo.tsx:96
 msgid "Confirm with Google"
 msgstr "Confirmer avec Google"
 
-#: inertia/pages/auth/sudo.tsx:37
-#: inertia/pages/auth/sudo.tsx:40
+#: inertia/pages/auth/sudo.tsx:36
+#: inertia/pages/auth/sudo.tsx:39
 msgid "Confirm your identity"
 msgstr "Confirmez votre identité"
 
@@ -304,27 +306,27 @@ msgstr "Créer"
 msgid "Create a collection"
 msgstr "Créer une collection"
 
-#: inertia/pages/dashboard.tsx:73
+#: inertia/pages/dashboard.tsx:77
 msgid "Create a link"
 msgstr "Créer un lien"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:35
+#: inertia/components/api_tokens/create_token_modal.tsx:33
 msgid "Create a new API token to access the API"
 msgstr "Créez un nouveau jeton API pour accéder à l'API"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_header.tsx:116
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:100
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:103
 msgid "Create collection {0}"
 msgstr "Créer une collection {0}"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_header.tsx:142
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:74
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:77
 msgid "Create link {0}"
 msgstr "Créer un lien {0}"
 
-#: inertia/pages/auth/register.tsx:140
+#: inertia/pages/auth/register.tsx:127
 msgid "Create my account"
 msgstr "Créer mon compte"
 
@@ -333,11 +335,11 @@ msgid "Create new token"
 msgstr "Créer un nouveau jeton"
 
 #: inertia/components/api_tokens/api_tokens.tsx:100
-#: inertia/components/api_tokens/create_token_modal.tsx:71
+#: inertia/components/api_tokens/create_token_modal.tsx:64
 msgid "Create token"
 msgstr "Créer un jeton"
 
-#: inertia/pages/auth/register.tsx:61
+#: inertia/pages/auth/register.tsx:60
 msgid "Create your account"
 msgstr "Créez votre compte"
 
@@ -345,7 +347,7 @@ msgstr "Créez votre compte"
 msgid "Create your first link to get started"
 msgstr "Créez votre premier lien pour commencer"
 
-#: inertia/components/admin/users/users_table.tsx:230
+#: inertia/components/admin/users/users_table.tsx:226
 msgid "Created at"
 msgstr "Créé le"
 
@@ -354,11 +356,11 @@ msgstr "Créé le"
 msgid "Created by <0>{0}</0>"
 msgstr "Créé par <0>{0}</0>"
 
-#: inertia/pages/auth/sudo.tsx:52
+#: inertia/pages/auth/sudo.tsx:51
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
-#: inertia/pages/dashboard.tsx:96
+#: inertia/pages/dashboard.tsx:100
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
@@ -389,7 +391,7 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:67
-#: inertia/pages/dashboard.tsx:65
+#: inertia/pages/dashboard.tsx:67
 msgid "Delete a collection"
 msgstr "Supprimer une collection"
 
@@ -411,7 +413,7 @@ msgstr "Supprimer les comptes"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:126
 #: inertia/components/dashboard/headers/dashboard_header.tsx:133
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:119
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:122
 msgid "Delete collection"
 msgstr "Supprimer une collection"
 
@@ -425,17 +427,26 @@ msgstr "Supprimer la sélection"
 msgid "Demote to member"
 msgstr "Rétrograder en membre"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:74
-#: inertia/components/dashboard/forms/form_collection_content.tsx:82
+#: inertia/components/dashboard/forms/form_collection_content.tsx:77
+#: inertia/components/dashboard/forms/form_collection_content.tsx:81
+#: inertia/components/dashboard/forms/form_link_content.tsx:90
 #: inertia/components/dashboard/forms/form_link_content.tsx:94
-#: inertia/components/dashboard/forms/form_link_content.tsx:102
 msgid "Description"
 msgstr "Description"
+
+#: inertia/components/admin/activity_events/activity_events_table.tsx:66
+msgid "Details"
+msgstr "Détails"
 
 #: inertia/components/user_settings/sessions.tsx:72
 msgid "Device"
 msgstr "Appareil"
 
+#: inertia/pages/home.tsx:44
+msgid "Documentation"
+msgstr ""
+
+#: inertia/components/admin/activity_events/activity_events_table.tsx:80
 #: inertia/components/admin/auth_events/auth_events_table.tsx:47
 msgid "Done by"
 msgstr "Effectué par"
@@ -460,18 +471,18 @@ msgstr "Modifier un lien"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:119
 #: inertia/components/dashboard/headers/dashboard_header.tsx:125
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:112
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:115
 msgid "Edit collection"
 msgstr "Modifier une collection"
 
-#: inertia/components/admin/users/users_table.tsx:187
+#: inertia/components/admin/users/users_table.tsx:183
 #: inertia/pages/auth/forgot_password.tsx:44
 #: inertia/pages/auth/login.tsx:64
-#: inertia/pages/auth/register.tsx:83
+#: inertia/pages/auth/register.tsx:82
 msgid "Email"
 msgstr "E-mail"
 
-#: inertia/components/user_settings/email_address.tsx:31
+#: inertia/components/user_settings/email_address.tsx:30
 msgid "Email address"
 msgstr "Adresse e-mail"
 
@@ -483,10 +494,11 @@ msgstr "Adresse email et mot de passe"
 msgid "Enabled"
 msgstr "Activée"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:45
+#: inertia/components/api_tokens/create_token_modal.tsx:39
 msgid "Enter token name"
 msgstr "Entrer le nom du jeton"
 
+#: inertia/components/admin/activity_events/activity_events_table.tsx:53
 #: inertia/components/admin/auth_events/auth_events_table.tsx:34
 msgid "Event"
 msgstr "Événement"
@@ -499,11 +511,15 @@ msgstr "Tous les événements d'authentification enregistrés par cette instance
 msgid "Every browser session and every extension token of this account will stop working immediately."
 msgstr "Toutes les sessions de navigateur et tous les jetons d'extension de ce compte cesseront immédiatement de fonctionner."
 
-#: inertia/components/user_settings/password.tsx:62
+#: inertia/pages/admin/activity_journal.tsx:34
+msgid "Every collection and link change this instance recorded, newest first."
+msgstr "Toutes les modifications de collections et de liens enregistrées par cette instance, du plus récent au plus ancien."
+
+#: inertia/components/user_settings/password.tsx:61
 msgid "Every other session and every extension token will be signed out."
 msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconnectés."
 
-#: inertia/pages/auth/reset_password.tsx:49
+#: inertia/pages/auth/reset_password.tsx:48
 msgid "Everything else signed in on this account will be signed out."
 msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 
@@ -524,21 +540,21 @@ msgstr "Exporter / Importer"
 msgid "Export all your collections and links, or import them from a JSON file"
 msgstr "Exportez toutes vos collections et liens, ou importez-les depuis un fichier JSON"
 
-#: inertia/pages/home.tsx:82
+#: inertia/pages/home.tsx:100
 msgid "Export everything, any time"
 msgstr "Exportez tout, à tout moment"
 
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:36
-#: inertia/components/dashboard/forms/form_link_content.tsx:181
+#: inertia/components/dashboard/forms/form_link_content.tsx:163
 msgid "Favorite"
 msgstr "Favoris"
 
 #: inertia/components/dashboard/views/favorites_view_content.tsx:18
-#: inertia/pages/dashboard.tsx:93
+#: inertia/pages/dashboard.tsx:97
 msgid "Favorites"
 msgstr "Favoris"
 
-#: inertia/pages/home.tsx:71
+#: inertia/pages/home.tsx:89
 msgid "Find it in a search, not a scroll"
 msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 
@@ -550,11 +566,11 @@ msgstr "Suivre"
 msgid "Followed Collections"
 msgstr "Collections suivies"
 
-#: inertia/pages/auth/login.tsx:119
+#: inertia/pages/auth/login.tsx:112
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
-#: inertia/pages/home.tsx:128
+#: inertia/pages/home.tsx:146
 msgid "Free to start, open-source to inspect, yours to run anywhere."
 msgstr "Gratuit pour commencer, open-source à inspecter, à vous d'héberger où vous voulez."
 
@@ -570,7 +586,7 @@ msgstr "Conformité RGPD"
 msgid "Get Started"
 msgstr "Commencer"
 
-#: inertia/pages/auth/forgot_password.tsx:37
+#: inertia/pages/auth/forgot_password.tsx:36
 msgid "Give us the address on your account and we will send a link to choose a new password."
 msgstr "Donnez-nous l'adresse de votre compte et nous enverrons un lien pour choisir un nouveau mot de passe."
 
@@ -583,7 +599,7 @@ msgstr "Aller à {0}"
 msgid "Google"
 msgstr "Google"
 
-#: inertia/pages/home.tsx:62
+#: inertia/pages/home.tsx:80
 msgid "Group links by project or topic, keep some private and make others public. Your call, per collection."
 msgstr "Regroupez vos liens par projet ou par thème, gardez-en certains privés et rendez d'autres publics. À vous de choisir, collection par collection."
 
@@ -591,7 +607,7 @@ msgstr "Regroupez vos liens par projet ou par thème, gardez-en certains privés
 msgid "Hello"
 msgstr "Bonjour"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:36
+#: inertia/components/dashboard/forms/form_collection_content.tsx:40
 msgid "Icon"
 msgstr "Icône"
 
@@ -629,7 +645,7 @@ msgstr "Dans moins d'une minute"
 msgid "IP"
 msgstr "IP"
 
-#: inertia/pages/home.tsx:73
+#: inertia/pages/home.tsx:91
 msgid "Jump straight to a link by name or URL instead of hunting through years of folders."
 msgstr "Accédez directement à un lien par son nom ou son URL, sans fouiller des années de dossiers."
 
@@ -637,11 +653,11 @@ msgstr "Accédez directement à un lien par son nom ou son URL, sans fouiller de
 msgid "Just now"
 msgstr "À l'instant"
 
-#: inertia/components/admin/users/users_table.tsx:241
+#: inertia/components/admin/users/users_table.tsx:237
 msgid "Last seen at"
 msgstr "Dernière connexion le"
 
-#: inertia/components/admin/users/users_table.tsx:252
+#: inertia/components/admin/users/users_table.tsx:248
 msgid "Last sign-in"
 msgstr "Dernière connexion"
 
@@ -673,17 +689,16 @@ msgstr "Liée le {0}"
 msgid "links"
 msgstr "liens"
 
-#: inertia/components/admin/users/users_table.tsx:217
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:67
-#: inertia/components/dashboard/modals/search_modal.tsx:231
-#: inertia/components/dashboard/search/search_link_results.tsx:23
+#: inertia/components/admin/users/users_table.tsx:213
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:70
+#: inertia/components/dashboard/search/search_link_results.tsx:21
 msgid "Links"
 msgstr "Liens"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:23
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:22
-#: inertia/pages/auth/login.tsx:54
-#: inertia/pages/auth/login.tsx:103
+#: inertia/pages/auth/login.tsx:53
+#: inertia/pages/auth/login.tsx:96
 msgid "Login"
 msgstr "Connexion"
 
@@ -721,7 +736,7 @@ msgstr "MyLinks est conforme au Règlement général sur la protection des donn�
 msgid "MyLinks does not guarantee that the service will be free from errors or interruptions."
 msgstr "MyLinks ne garantit pas que le service sera exempt d'erreurs ou d'interruptions."
 
-#: inertia/pages/home.tsx:107
+#: inertia/pages/home.tsx:125
 msgid "MyLinks is open-source. Host it on your own server with Docker and keep every link on hardware you control."
 msgstr "MyLinks est open-source. Hébergez-le sur votre propre serveur avec Docker et gardez chaque lien sur un matériel que vous contrôlez."
 
@@ -737,22 +752,22 @@ msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès a
 msgid "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 msgstr "MyLinks transforme vos onglets éparpillés en collections que vous pouvez rechercher, partager et exporter à tout moment. Hébergé pour vous, ou par vous-même."
 
-#: inertia/components/admin/users/users_table.tsx:165
+#: inertia/components/admin/users/users_table.tsx:161
 #: inertia/components/api_tokens/api_tokens.tsx:131
-#: inertia/components/dashboard/forms/form_collection_content.tsx:58
-#: inertia/components/dashboard/forms/form_collection_content.tsx:64
-#: inertia/components/dashboard/forms/form_link_content.tsx:50
-#: inertia/components/dashboard/forms/form_link_content.tsx:60
+#: inertia/components/dashboard/forms/form_collection_content.tsx:63
+#: inertia/components/dashboard/forms/form_collection_content.tsx:68
+#: inertia/components/dashboard/forms/form_link_content.tsx:58
+#: inertia/components/dashboard/forms/form_link_content.tsx:63
 #: inertia/pages/auth/register.tsx:68
 msgid "Name"
 msgstr "Nom"
 
-#: inertia/components/user_settings/email_address.tsx:48
+#: inertia/components/user_settings/email_address.tsx:47
 msgid "New email address"
 msgstr "Nouvelle adresse e-mail"
 
-#: inertia/components/user_settings/password.tsx:76
-#: inertia/pages/auth/reset_password.tsx:56
+#: inertia/components/user_settings/password.tsx:75
+#: inertia/pages/auth/reset_password.tsx:55
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -760,11 +775,12 @@ msgstr "Nouveau mot de passe"
 msgid "New token created"
 msgstr "Nouveau jeton créé"
 
+#: inertia/components/admin/activity_events/activity_journal_pagination.tsx:25
 #: inertia/components/admin/auth_events/journal_pagination.tsx:25
 msgid "Newer"
 msgstr "Plus récents"
 
-#: inertia/pages/auth/login.tsx:132
+#: inertia/pages/auth/login.tsx:125
 msgid "No account yet? <0>Create one</0>"
 msgstr "Pas encore de compte ? <0>Créez-en un</0>"
 
@@ -772,16 +788,20 @@ msgstr "Pas encore de compte ? <0>Créez-en un</0>"
 msgid "No active sessions"
 msgstr "Aucune session active"
 
-#: inertia/components/dashboard/forms/form_link_content.tsx:155
+#: inertia/components/dashboard/forms/form_link_content.tsx:151
 msgid "No collection selected. This link goes to your Inbox."
 msgstr "Aucune collection sélectionnée. Ce lien ira dans votre Inbox."
+
+#: inertia/components/dashboard/forms/form_link_content.tsx:145
+msgid "No collections match your search."
+msgstr ""
 
 #: inertia/components/dashboard/links/link_list.tsx:34
 #: inertia/components/shared/link_list.tsx:22
 msgid "No links yet"
 msgstr "Aucun lien pour le moment"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:118
+#: inertia/components/dashboard/modals/search_modal.tsx:110
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
 
@@ -797,14 +817,16 @@ msgstr "Non liée"
 msgid "Not set — use the form below to add one"
 msgstr "Non définie — utilisez le formulaire ci-dessous pour en ajouter une"
 
-#: inertia/components/admin/users/users_table.tsx:276
+#: inertia/components/admin/users/users_table.tsx:272
 msgid "Nothing found"
 msgstr "Aucun résultat"
 
+#: inertia/components/admin/activity_events/activity_events_table.tsx:97
 #: inertia/components/admin/auth_events/auth_events_table.tsx:71
 msgid "Nothing has happened yet"
 msgstr "Rien ne s'est encore produit"
 
+#: inertia/components/admin/activity_events/activity_journal_pagination.tsx:39
 #: inertia/components/admin/auth_events/journal_pagination.tsx:39
 msgid "Older"
 msgstr "Plus anciens"
@@ -814,14 +836,15 @@ msgid "Once you delete your account, there is no going back. Please be certain."
 msgstr "Une fois que vous avez supprimé votre compte, il n'y a pas de retour en arrière. Veuillez être certain."
 
 #: inertia/components/auth/google_sign_in_action.tsx:9
-#: inertia/pages/auth/sudo.tsx:87
+#: inertia/pages/auth/sudo.tsx:81
 msgid "or"
 msgstr "ou"
 
-#: inertia/pages/dashboard.tsx:144
+#: inertia/pages/dashboard.tsx:148
 msgid "Or create a new collection to get started"
 msgstr "Ou créez une nouvelle collection pour commencer"
 
+#: inertia/components/admin/activity_events/activity_journal_pagination.tsx:32
 #: inertia/components/admin/auth_events/journal_pagination.tsx:32
 msgid "Page {currentPage} of {lastPage}"
 msgstr "Page {currentPage} sur {lastPage}"
@@ -831,8 +854,8 @@ msgid "Page not found"
 msgstr "Page non trouvée"
 
 #: inertia/components/admin/users/auth_methods_cell.tsx:19
-#: inertia/pages/auth/login.tsx:80
-#: inertia/pages/auth/register.tsx:98
+#: inertia/pages/auth/login.tsx:78
+#: inertia/pages/auth/register.tsx:95
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -848,7 +871,7 @@ msgstr "Confidentialité"
 msgid "Privacy Policy of MyLinks"
 msgstr "Politique de confidentialité de MyLinks"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:112
+#: inertia/components/dashboard/forms/form_collection_content.tsx:29
 msgid "Private"
 msgstr "Privé"
 
@@ -858,7 +881,7 @@ msgstr "Privé"
 msgid "Promote to administrator"
 msgstr "Promouvoir administrateur"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:128
+#: inertia/components/dashboard/forms/form_collection_content.tsx:30
 msgid "Public"
 msgstr "Public"
 
@@ -868,15 +891,15 @@ msgstr "Actions rapides"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:16
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:30
-#: inertia/pages/auth/register.tsx:58
+#: inertia/pages/auth/register.tsx:57
 msgid "Register"
 msgstr "Inscription"
 
-#: inertia/pages/auth/forgot_password.tsx:70
+#: inertia/pages/auth/forgot_password.tsx:68
 msgid "Remembered it? <0>Sign in</0>"
 msgstr "Ça vous revient ? <0>Se connecter</0>"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:52
+#: inertia/components/dashboard/forms/form_collection_content.tsx:56
 msgid "Remove"
 msgstr "Supprimer"
 
@@ -884,12 +907,12 @@ msgstr "Supprimer"
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
 
-#: inertia/pages/auth/reset_password.tsx:99
+#: inertia/pages/auth/reset_password.tsx:88
 msgid "Reset my password"
 msgstr "Réinitialiser mon mot de passe"
 
-#: inertia/pages/auth/forgot_password.tsx:31
-#: inertia/pages/auth/forgot_password.tsx:34
+#: inertia/pages/auth/forgot_password.tsx:30
+#: inertia/pages/auth/forgot_password.tsx:33
 msgid "Reset your password"
 msgstr "Réinitialiser votre mot de passe"
 
@@ -912,27 +935,32 @@ msgstr "Révoquer les accès"
 msgid "Revoke every session and token"
 msgstr "Révoquer toutes les sessions et tous les jetons"
 
-#: inertia/components/admin/users/users_table.tsx:180
+#: inertia/components/admin/users/users_table.tsx:176
 msgid "Role"
 msgstr "Rôle"
 
-#: inertia/pages/home.tsx:105
+#: inertia/pages/home.tsx:123
 msgid "Run it yourself"
 msgstr "Hébergez-le vous-même"
 
-#: inertia/pages/home.tsx:47
+#: inertia/pages/home.tsx:65
 msgid "Save it before the tab closes"
 msgstr "Enregistrez-le avant de fermer l'onglet"
 
-#: inertia/pages/dashboard.tsx:80
+#: inertia/pages/dashboard.tsx:84
 msgid "Search"
 msgstr "Rechercher"
+
+#: inertia/components/dashboard/forms/form_link_content.tsx:117
+#: inertia/components/dashboard/forms/form_link_content.tsx:118
+msgid "Search collections"
+msgstr ""
 
 #: inertia/components/dashboard/search/search_button.tsx:17
 msgid "Search..."
 msgstr "Rechercher..."
 
-#: inertia/pages/dashboard.tsx:141
+#: inertia/pages/dashboard.tsx:145
 msgid "Select a collection to view its links"
 msgstr "Sélectionnez une collection pour voir ses liens"
 
@@ -940,7 +968,7 @@ msgstr "Sélectionnez une collection pour voir ses liens"
 msgid "Select JSON file"
 msgstr "Sélectionnez un fichier JSON"
 
-#: inertia/pages/home.tsx:117
+#: inertia/pages/home.tsx:135
 msgid "Self-host it"
 msgstr "S'auto-héberger"
 
@@ -953,11 +981,11 @@ msgstr "Envoyer un nouveau lien de confirmation"
 msgid "Send a password reset link"
 msgstr "Envoyer un lien de réinitialisation"
 
-#: inertia/pages/home.tsx:95
+#: inertia/pages/home.tsx:113
 msgid "Send a single URL and anyone can browse a public collection. No account required on their end."
 msgstr "Envoyez une seule URL et n'importe qui peut consulter une collection publique. Aucun compte requis de leur côté."
 
-#: inertia/pages/auth/forgot_password.tsx:65
+#: inertia/pages/auth/forgot_password.tsx:63
 msgid "Send the link"
 msgstr "Envoyer le lien"
 
@@ -965,11 +993,11 @@ msgstr "Envoyer le lien"
 msgid "Server Error"
 msgstr "Erreur serveur"
 
-#: inertia/components/user_settings/password.tsx:57
+#: inertia/components/user_settings/password.tsx:56
 msgid "Set a password"
 msgstr "Définir un mot de passe"
 
-#: inertia/components/user_settings/password.tsx:121
+#: inertia/components/user_settings/password.tsx:110
 msgid "Set my password"
 msgstr "Définir mon mot de passe"
 
@@ -979,11 +1007,11 @@ msgstr "Définir mon mot de passe"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: inertia/pages/home.tsx:93
+#: inertia/pages/home.tsx:111
 msgid "Share a collection with one link"
 msgstr "Partagez une collection avec un seul lien"
 
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:91
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:94
 msgid "Share collection"
 msgstr "Partager la collection"
 
@@ -992,7 +1020,7 @@ msgstr "Partager la collection"
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: inertia/pages/auth/login.tsx:60
+#: inertia/pages/auth/login.tsx:59
 msgid "Sign in to reach your collections"
 msgstr "Connectez-vous pour retrouver vos collections"
 
@@ -1004,16 +1032,16 @@ msgstr "Déconnecter"
 msgid "Sign out session"
 msgstr "Déconnecter la session"
 
-#: inertia/components/admin/users/users_table.tsx:196
+#: inertia/components/admin/users/users_table.tsx:192
 #: inertia/components/user_settings/auth_methods.tsx:46
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
-#: inertia/pages/home.tsx:60
+#: inertia/pages/home.tsx:78
 msgid "Sort it into a collection, not a folder"
 msgstr "Rangez-le dans une collection, pas un dossier"
 
-#: inertia/pages/auth/register.tsx:64
+#: inertia/pages/auth/register.tsx:63
 msgid "Start collecting your links in one place"
 msgstr "Rassemblez vos liens au même endroit"
 
@@ -1021,13 +1049,17 @@ msgstr "Rassemblez vos liens au même endroit"
 msgid "Start for free"
 msgstr "Commencer gratuitement"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:110
+#: inertia/components/dashboard/modals/search_modal.tsx:102
 msgid "Start typing to search..."
 msgstr "Commencez à taper pour rechercher..."
 
 #: inertia/components/common/navigation/footer_links.tsx:21
 msgid "Status"
 msgstr "Statut"
+
+#: inertia/components/admin/activity_events/activity_events_table.tsx:59
+msgid "Subject"
+msgstr "Sujet"
 
 #: inertia/pages/terms.tsx:200
 msgid "Termination"
@@ -1041,11 +1073,11 @@ msgstr "Conditions"
 msgid "Terms and Conditions of Use for MyLinks"
 msgstr "Conditions générales d'utilisation de MyLinks"
 
-#: inertia/components/user_settings/email_address.tsx:34
+#: inertia/components/user_settings/email_address.tsx:33
 msgid "The address you sign in with, and the one recovery links are sent to."
 msgstr "L'adresse avec laquelle vous vous connectez, et celle qui reçoit les liens de récupération."
 
-#: inertia/pages/home.tsx:38
+#: inertia/pages/home.tsx:56
 msgid "the app"
 msgstr "l'app"
 
@@ -1057,7 +1089,7 @@ msgstr "Les données collectées ne sont ni revendues ni utilisées à des fins 
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "La collecte et l'utilisation des données personnelles sont régies par notre Politique de confidentialité. Veuillez vous y référer pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données."
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:134
+#: inertia/components/dashboard/forms/form_collection_content.tsx:104
 msgid "The content will be visible to everyone"
 msgstr "Le contenu sera visible par tous"
 
@@ -1065,7 +1097,7 @@ msgstr "Le contenu sera visible par tous"
 msgid "The extension, in your toolbar"
 msgstr "L'extension, dans votre barre d'outils"
 
-#: inertia/components/user_settings/email_address.tsx:66
+#: inertia/components/user_settings/email_address.tsx:60
 msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
 msgstr "La nouvelle adresse doit confirmer le changement, et l'actuelle en est informée pour que vous puissiez l'annuler."
 
@@ -1077,7 +1109,7 @@ msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout mome
 msgid "The ways you can prove who you are. At least one has to remain."
 msgstr "Les façons dont vous pouvez prouver votre identité. Il doit en rester au moins une."
 
-#: inertia/pages/auth/sudo.tsx:109
+#: inertia/pages/auth/sudo.tsx:103
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
 msgstr "Ce compte n'a plus aucun moyen de confirmer son identité sur cette instance. Déconnectez-vous puis reconnectez-vous pour continuer."
 
@@ -1089,7 +1121,7 @@ msgstr "Ce compte pourra gérer tous les comptes de cette instance."
 msgid "This account will lose access to the admin area, including this page."
 msgstr "Ce compte perdra l'accès à l'espace d'administration, y compris cette page."
 
-#: inertia/components/user_settings/email_address.tsx:83
+#: inertia/components/user_settings/email_address.tsx:77
 msgid "This instance sends no email, so the address cannot be changed from here."
 msgstr "Cette instance n'envoie aucun e-mail : l'adresse ne peut pas être changée ici."
 
@@ -1109,7 +1141,7 @@ msgstr "Pour créer des collections et des liens personnalisés et les associer 
 msgid "Token"
 msgstr "Jeton"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:38
+#: inertia/components/api_tokens/create_token_modal.tsx:36
 msgid "Token name"
 msgstr "Nom du jeton"
 
@@ -1125,13 +1157,13 @@ msgstr "Total des liens"
 msgid "Total Users"
 msgstr "Total des utilisateurs"
 
-#: inertia/components/admin/users/users_table.tsx:279
+#: inertia/components/admin/users/users_table.tsx:275
 msgid "Try adjusting your search criteria"
 msgstr "Essayez d'ajuster vos critères de recherche"
 
-#: inertia/components/user_settings/password.tsx:105
-#: inertia/pages/auth/register.tsx:127
-#: inertia/pages/auth/reset_password.tsx:86
+#: inertia/components/user_settings/password.tsx:95
+#: inertia/pages/auth/register.tsx:115
+#: inertia/pages/auth/reset_password.tsx:76
 msgid "Type it once more"
 msgstr "Saisissez-le à nouveau"
 
@@ -1140,7 +1172,7 @@ msgid "Unconfirmed"
 msgstr "Non confirmée"
 
 #: inertia/components/dashboard/headers/dashboard_header.tsx:150
-#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:129
+#: inertia/components/dashboard/headers/dashboard_quick_action.tsx:132
 #: inertia/pages/shared.tsx:84
 msgid "Unfollow"
 msgstr "Ne plus suivre"
@@ -1159,8 +1191,8 @@ msgstr "Délier Google"
 msgid "Update"
 msgstr "Mettre à jour"
 
-#: inertia/components/dashboard/forms/form_link_content.tsx:70
-#: inertia/components/dashboard/forms/form_link_content.tsx:80
+#: inertia/components/dashboard/forms/form_link_content.tsx:72
+#: inertia/components/dashboard/forms/form_link_content.tsx:77
 msgid "URL"
 msgstr "URL"
 
@@ -1180,11 +1212,11 @@ msgstr "Agent utilisateur"
 msgid "User Rights"
 msgstr "Droits de l'utilisateur"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:96
+#: inertia/components/dashboard/forms/form_collection_content.tsx:94
 msgid "Visibility"
 msgstr "Visibilité"
 
-#: inertia/pages/auth/login.tsx:57
+#: inertia/pages/auth/login.tsx:56
 msgid "Welcome back"
 msgstr "Content de vous revoir"
 
@@ -1196,11 +1228,12 @@ msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-s
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-source axé sur la confidentialité et l'auto-hébergement. Cette politique de confidentialité vise à vous informer sur la manière dont nous collectons, utilisons et protégeons vos données."
 
+#: inertia/components/admin/activity_events/activity_events_table.tsx:43
 #: inertia/components/admin/auth_events/auth_events_table.tsx:24
 msgid "When"
 msgstr "Quand"
 
-#: inertia/pages/auth/sudo.tsx:43
+#: inertia/pages/auth/sudo.tsx:42
 msgid "You are about to change something that protects your account, so we ask once more who you are."
 msgstr "Vous allez modifier quelque chose qui protège votre compte, nous vous redemandons donc qui vous êtes."
 
@@ -1221,10 +1254,10 @@ msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables
 msgid "You will no longer be able to sign in with Google on this account."
 msgstr "Vous ne pourrez plus vous connecter à ce compte avec Google."
 
-#: inertia/components/user_settings/email_address.tsx:58
-#: inertia/pages/auth/forgot_password.tsx:51
-#: inertia/pages/auth/login.tsx:71
-#: inertia/pages/auth/register.tsx:90
+#: inertia/components/user_settings/email_address.tsx:53
+#: inertia/pages/auth/forgot_password.tsx:50
+#: inertia/pages/auth/login.tsx:70
+#: inertia/pages/auth/register.tsx:88
 msgid "you@example.com"
 msgstr "vous@exemple.com"
 
@@ -1232,15 +1265,15 @@ msgstr "vous@exemple.com"
 msgid "Your address still needs confirming. We can send the link again."
 msgstr "Votre adresse doit encore être confirmée. Nous pouvons vous renvoyer le lien."
 
-#: inertia/pages/home.tsx:84
+#: inertia/pages/home.tsx:102
 msgid "Your links download as plain JSON whenever you want. Nothing kept hostage."
 msgstr "Vos liens se téléchargent en JSON brut quand vous le souhaitez. Rien n'est retenu en otage."
 
-#: inertia/pages/home.tsx:125
+#: inertia/pages/home.tsx:143
 msgid "Your links, organized"
 msgstr "Vos liens, organisés"
 
-#: inertia/pages/auth/login.tsx:90
-#: inertia/pages/auth/sudo.tsx:62
+#: inertia/pages/auth/login.tsx:84
+#: inertia/pages/auth/sudo.tsx:57
 msgid "Your password"
 msgstr "Votre mot de passe"
