@@ -52,7 +52,12 @@ export default function Dashboard() {
 	};
 
 	const handleEditCollection = () => {
-		if (!activeCollection || activeCollection.isOwner === false) return;
+		if (
+			!activeCollection ||
+			activeCollection.isOwner === false ||
+			activeCollection.isDefault
+		)
+			return;
 		const call = Modal.call({
 			title: t`Edit a collection`,
 			children: (
@@ -62,7 +67,12 @@ export default function Dashboard() {
 	};
 
 	const handleDeleteCollection = () => {
-		if (!activeCollection || activeCollection.isOwner === false) return;
+		if (
+			!activeCollection ||
+			activeCollection.isOwner === false ||
+			activeCollection.isDefault
+		)
+			return;
 		const call = Modal.call({
 			title: t`Delete a collection`,
 			children: (

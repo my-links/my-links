@@ -119,21 +119,27 @@ export function DashboardHeader({
 								</Trans>
 							</Button>
 
-							{!isFavorite && activeCollection?.isOwner !== false && (
-								<>
-									<Button variant="ghost" size="sm" onClick={onEditCollection}>
-										<Trans>Edit collection</Trans>
-									</Button>
-									<Button
-										variant="ghost"
-										size="sm"
-										onClick={onDeleteCollection}
-										className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
-									>
-										<Trans>Delete collection</Trans>
-									</Button>
-								</>
-							)}
+							{!isFavorite &&
+								activeCollection?.isOwner !== false &&
+								!activeCollection?.isDefault && (
+									<>
+										<Button
+											variant="ghost"
+											size="sm"
+											onClick={onEditCollection}
+										>
+											<Trans>Edit collection</Trans>
+										</Button>
+										<Button
+											variant="ghost"
+											size="sm"
+											onClick={onDeleteCollection}
+											className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+										>
+											<Trans>Delete collection</Trans>
+										</Button>
+									</>
+								)}
 						</div>
 
 						<div className="flex items-center gap-2 flex-wrap">
