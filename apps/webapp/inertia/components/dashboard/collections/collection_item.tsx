@@ -47,6 +47,8 @@ export function CollectionItem({ collection }: Readonly<CollectionItemProps>) {
 				<span className="text-lg flex-shrink-0 w-5 h-5 flex items-center justify-center">
 					{collection.icon}
 				</span>
+			) : collection.isDefault ? (
+				<div className="w-5 h-5 flex-shrink-0 i-ant-design-inbox-outlined" />
 			) : (
 				<div
 					className={clsx(

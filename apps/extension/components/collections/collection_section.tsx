@@ -92,6 +92,8 @@ export function CollectionSection({
 						<span className="flex h-5 w-5 flex-shrink-0 items-center justify-center text-base">
 							{collection.icon}
 						</span>
+					) : collection.isDefault ? (
+						<div className="i-ant-design-inbox-outlined h-5 w-5 flex-shrink-0 text-gray-500" />
 					) : (
 						<div className="i-ant-design-folder-outlined h-5 w-5 flex-shrink-0 text-gray-500" />
 					)}
