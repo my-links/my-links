@@ -6,6 +6,7 @@ import type User from '#models/user';
 import Collection from '#models/collection';
 
 const LINKS_PER_COLLECTION = 15;
+const DESCRIPTION_MAX_LENGTH = 254;
 
 /**
  * Real domains, so the favicon fetcher (`FaviconService`) has an actual
@@ -86,7 +87,9 @@ function createRandomLink(collection: Collection): SeededLink {
 	return {
 		attributes: {
 			name: faker.lorem.words({ min: 1, max: 5 }),
-			description: faker.lorem.sentences({ min: 0, max: 3 }),
+			description: faker.lorem
+				.sentences({ min: 0, max: 3 })
+				.slice(0, DESCRIPTION_MAX_LENGTH),
 			url: createRandomUrl(),
 			favorite: faker.datatype.boolean(),
 			authorId: collection.authorId,
