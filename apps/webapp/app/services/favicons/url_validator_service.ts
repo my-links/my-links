@@ -1,82 +1,111 @@
+import dns from 'node:dns/promises';
+import { BlockList, isIP } from 'node:net';
 import logger from '@adonisjs/core/services/logger';
 
+type DnsLookupResult = { address: string; family: number };
+type HostnameResolver = (hostname: string) => Promise<DnsLookupResult[]>;
+
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
+
 export class UrlValidatorService {
-	private readonly localhostPatterns = [
-		'localhost',
-		'127.0.0.1',
-		'0.0.0.0',
-		'::1',
-		'[::1]',
-	];
-
-	private readonly privateIpRanges = [
-		{ start: '10.0.0.0', end: '10.255.255.255' },
-		{ start: '172.16.0.0', end: '172.31.255.255' },
-		{ start: '192.168.0.0', end: '192.168.255.255' },
-		{ start: '169.254.0.0', end: '169.254.255.255' },
-	];
-
+	private readonly blockedAddresses = new BlockList();
 	private readonly localDomains = ['.local', '.localhost', '.internal', '.lan'];
+	private readonly resolveHostname: HostnameResolver;
 
-	isUrlAllowed(url: string): boolean {
+	constructor(
+		resolveHostname: HostnameResolver = (hostname) =>
+			dns.lookup(hostname, { all: true, verbatim: true })
+	) {
+		this.resolveHostname = resolveHostname;
+
+		// Loopback, RFC1918 private ranges, link-local (incl. cloud metadata
+		// endpoint), and "any" address.
+		this.blockedAddresses.addSubnet('127.0.0.0', 8, 'ipv4');
+		this.blockedAddresses.addSubnet('10.0.0.0', 8, 'ipv4');
+		this.blockedAddresses.addSubnet('172.16.0.0', 12, 'ipv4');
+		this.blockedAddresses.addSubnet('192.168.0.0', 16, 'ipv4');
+		this.blockedAddresses.addSubnet('169.254.0.0', 16, 'ipv4');
+		this.blockedAddresses.addSubnet('0.0.0.0', 8, 'ipv4');
+
+		// IPv6 loopback, unique local (ULA), and link-local. IPv4-mapped
+		// addresses (`::ffff:a.b.c.d`) need no separate rule: Node's
+		// BlockList checks them against the ipv4 subnets above already.
+		this.blockedAddresses.addSubnet('::1', 128, 'ipv6');
+		this.blockedAddresses.addSubnet('fc00::', 7, 'ipv6');
+		this.blockedAddresses.addSubnet('fe80::', 10, 'ipv6');
+	}
+
+	async isUrlAllowed(url: string): Promise<boolean> {
+		const parsedUrl = this.tryParseUrl(url);
+		if (!parsedUrl) {
+			return false;
+		}
+
+		if (!ALLOWED_PROTOCOLS.has(parsedUrl.protocol)) {
+			logger.debug(`Blocked non-http(s) URL: ${url}`);
+			return false;
+		}
+
+		const hostname = this.stripBrackets(parsedUrl.hostname.toLowerCase());
+
+		if (this.isLocalDomain(hostname)) {
+			logger.debug(`Blocked local domain URL: ${url}`);
+			return false;
+		}
+
+		if (!this.isIpLiteral(hostname) && !this.isFullyQualified(hostname)) {
+			logger.debug(`Blocked non-FQDN hostname: ${url}`);
+			return false;
+		}
+
+		const resolvedAddresses = await this.resolveSafely(hostname);
+		if (resolvedAddresses.length === 0) {
+			logger.debug(`Blocked unresolvable hostname: ${url}`);
+			return false;
+		}
+
+		if (resolvedAddresses.some((resolved) => this.isBlockedAddress(resolved))) {
+			logger.debug(`Blocked internal/private target: ${url}`);
+			return false;
+		}
+
+		return true;
+	}
+
+	private tryParseUrl(url: string): URL | undefined {
 		try {
-			const parsedUrl = new URL(url);
-			const hostname = parsedUrl.hostname.toLowerCase();
-
-			if (this.isLocalhost(hostname)) {
-				logger.debug(`Blocked localhost URL: ${url}`);
-				return false;
-			}
-
-			if (this.isPrivateIp(hostname)) {
-				logger.debug(`Blocked private IP URL: ${url}`);
-				return false;
-			}
-
-			if (this.isLocalDomain(hostname)) {
-				logger.debug(`Blocked local domain URL: ${url}`);
-				return false;
-			}
-
-			return true;
+			return new URL(url);
 		} catch (error) {
 			logger.warn(`Invalid URL format: ${url}`, error);
-			return false;
+			return undefined;
 		}
 	}
 
-	private isLocalhost(hostname: string): boolean {
-		return this.localhostPatterns.some((pattern) => hostname === pattern);
-	}
-
-	private isPrivateIp(hostname: string): boolean {
-		const ipMatch = hostname.match(
-			/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
-		);
-		if (!ipMatch) {
-			return false;
+	private async resolveSafely(hostname: string): Promise<DnsLookupResult[]> {
+		try {
+			return await this.resolveHostname(hostname);
+		} catch (error) {
+			logger.debug(`DNS resolution failed for ${hostname}`, error);
+			return [];
 		}
-
-		const ip = hostname;
-		return this.privateIpRanges.some((range) =>
-			this.isIpInRange(ip, range.start, range.end)
-		);
 	}
 
-	private isIpInRange(ip: string, start: string, end: string): boolean {
-		const ipNum = this.ipToNumber(ip);
-		const startNum = this.ipToNumber(start);
-		const endNum = this.ipToNumber(end);
-		return ipNum >= startNum && ipNum <= endNum;
+	private isBlockedAddress({ address, family }: DnsLookupResult): boolean {
+		return this.blockedAddresses.check(address, family === 6 ? 'ipv6' : 'ipv4');
 	}
 
-	private ipToNumber(ip: string): number {
-		return (
-			ip
-				.split('.')
-				.reduce((acc, octet) => (acc << 8) + Number.parseInt(octet, 10), 0) >>>
-			0
-		);
+	private stripBrackets(hostname: string): string {
+		return hostname.startsWith('[') && hostname.endsWith(']')
+			? hostname.slice(1, -1)
+			: hostname;
+	}
+
+	private isIpLiteral(hostname: string): boolean {
+		return isIP(hostname) !== 0;
+	}
+
+	private isFullyQualified(hostname: string): boolean {
+		return hostname.includes('.');
 	}
 
 	private isLocalDomain(hostname: string): boolean {
