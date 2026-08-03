@@ -5,7 +5,9 @@ import type { LinkResource } from '@/lib/api/types';
 import { useDeleteLink } from '@/hooks/use_delete_link';
 import { useCollections } from '@/hooks/use_collections';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
+import { useContextMenu } from '@/hooks/use_context_menu';
 import { KebabMenu } from '@/components/common/kebab_menu';
+import { ContextMenu } from '@/components/common/context_menu';
 import { EditLinkModal } from '@/components/links/edit_link_modal';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
@@ -18,6 +20,7 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	const instanceUrl = useInstanceUrl();
 	const { collections } = useCollections();
 	const deleteLink = useDeleteLink();
+	const contextMenu = useContextMenu();
 	const faviconUrl = instanceUrl
 		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
@@ -25,7 +28,13 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	// storage — the redirect is what counts the click.
 	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
 
+	const handleCopyLink = () => {
+		contextMenu.closeMenu();
+		void navigator.clipboard.writeText(link.url);
+	};
+
 	const handleEdit = () => {
+		contextMenu.closeMenu();
 		const call = Modal.call({
 			title: 'Edit link',
 			children: (
@@ -39,6 +48,7 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	};
 
 	const handleDelete = () => {
+		contextMenu.closeMenu();
 		void ConfirmModal.call({
 			title: 'Delete link',
 			children: `Delete "${link.name}"? This can't be undone.`,
@@ -49,7 +59,10 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	};
 
 	return (
-		<div className="group flex items-center gap-0.5 rounded-md hover:bg-white/50 dark:hover:bg-gray-800/50">
+		<div
+			onContextMenu={contextMenu.handleContextMenu}
+			className="group relative flex items-center rounded-md hover:bg-white/50 dark:hover:bg-gray-800/50"
+		>
 			<a
 				href={href}
 				target="_blank"
@@ -72,16 +85,16 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 				{link.collectionIds.length > 1 && (
 					<span
 						title={`In ${link.collectionIds.length} collections`}
-						className="flex-shrink-0 rounded bg-gray-200 px-1 text-xs text-gray-500 dark:bg-gray-700 dark:text-gray-400"
+						className="flex-shrink-0 rounded bg-gray-200 px-1 text-xs text-gray-500 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0 dark:bg-gray-700 dark:text-gray-400"
 					>
 						{link.collectionIds.length}
 					</span>
 				)}
 				{link.favorite && (
-					<div className="i-ant-design-star-filled h-3.5 w-3.5 flex-shrink-0 text-yellow-500" />
+					<div className="i-ant-design-star-filled h-3.5 w-3.5 flex-shrink-0 text-yellow-500 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0" />
 				)}
 			</a>
-			<div className="flex-shrink-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100">
+			<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center py-1 pl-2 pr-1 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
 				<KebabMenu label={`Actions for ${link.name}`}>
 					<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
 						Edit
@@ -95,6 +108,27 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 					</KebabMenuItem>
 				</KebabMenu>
 			</div>
+			<ContextMenu
+				isVisible={contextMenu.isVisible}
+				shouldRender={contextMenu.shouldRender}
+				menuPosition={contextMenu.menuPosition}
+				menuContentRef={contextMenu.menuContentRef}
+				onBackdropClick={contextMenu.closeMenu}
+			>
+				<KebabMenuItem icon="i-octicon-copy-16" onClick={handleCopyLink}>
+					Copy link
+				</KebabMenuItem>
+				<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
+					Edit
+				</KebabMenuItem>
+				<KebabMenuItem
+					icon="i-ion-trash-outline"
+					onClick={handleDelete}
+					isDanger
+				>
+					Delete
+				</KebabMenuItem>
+			</ContextMenu>
 		</div>
 	);
 }
