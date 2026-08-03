@@ -164,7 +164,7 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 	return (
 		<div className="space-y-4">
-			<div className="relative">
+			<div className="relative mt-1">
 				<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
 					<div className="i-ion-search w-5 h-5 text-gray-400" />
 				</div>
