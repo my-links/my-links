@@ -11,6 +11,11 @@ server.errorHandler(() => import('#exceptions/handler'));
  * The server middleware stack runs middleware on all the HTTP
  * requests, even if there is no route registered for
  * the request URL.
+ *
+ * Shield sits here rather than on the router stack so that error pages carry
+ * the same security headers as routed ones, and it brings the session along
+ * because its CSRF guard reads from it. Static files never reach either:
+ * `static_middleware` only calls `next()` when no file matched.
  */
 server.use([
 	() => import('#middleware/container_bindings_middleware'),
@@ -19,6 +24,8 @@ server.use([
 	() => import('@adonisjs/cors/cors_middleware'),
 	() => import('@adonisjs/vite/vite_middleware'),
 	() => import('#middleware/inertia_middleware'),
+	() => import('@adonisjs/session/session_middleware'),
+	() => import('@adonisjs/shield/shield_middleware'),
 ]);
 
 /**
@@ -27,8 +34,6 @@ server.use([
  */
 router.use([
 	() => import('@adonisjs/core/bodyparser_middleware'),
-	() => import('@adonisjs/session/session_middleware'),
-	() => import('@adonisjs/shield/shield_middleware'),
 	() => import('@adonisjs/auth/initialize_auth_middleware'),
 	() => import('#middleware/auth/silent_auth_middleware'),
 	() => import('#middleware/user/update_user_last_seen_middleware'),
