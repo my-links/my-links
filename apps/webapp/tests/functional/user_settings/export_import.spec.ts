@@ -13,11 +13,18 @@ import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ExportImportService } from '#services/user/export_import_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { CollectionLinkService } from '#services/collections/collection_link_service';
 
 function buildService() {
+	const collectionLinkService = new CollectionLinkService();
 	return new ExportImportService(
-		new CollectionService(new SyncJournalService(), new ActivityEventService()),
-		new ActivityEventService()
+		new CollectionService(
+			new SyncJournalService(),
+			new ActivityEventService(),
+			collectionLinkService
+		),
+		new ActivityEventService(),
+		collectionLinkService
 	);
 }
 

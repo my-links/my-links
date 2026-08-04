@@ -10,6 +10,7 @@ import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { Visibility } from '#enums/collections/visibility';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { CollectionLinkService } from '#services/collections/collection_link_service';
 import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
@@ -25,7 +26,8 @@ type CollectionPayload = {
 export class CollectionService {
 	constructor(
 		protected readonly syncJournalService: SyncJournalService,
-		protected readonly activityEventService: ActivityEventService
+		protected readonly activityEventService: ActivityEventService,
+		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
 	async getAccessibleCollectionByIdWithLinks(
@@ -44,7 +46,9 @@ export class CollectionService {
 				});
 			})
 			.preload('links', (q) => {
-				q.orderBy('name', 'asc').preload('collections');
+				q.orderBy('collection_link.position', 'asc')
+					.orderBy('links.name', 'asc')
+					.preload('collections');
 			})
 			.preload('author')
 			.firstOrFail();
@@ -72,9 +76,14 @@ export class CollectionService {
 
 	async createCollection(payload: CollectionPayload) {
 		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		const position = await this.getNextCollectionPosition(
+			userId,
+			payload.visibility
+		);
 		const collection = await Collection.create({
 			...payload,
 			authorId: userId,
+			position,
 		});
 
 		await this.activityEventService.record({
@@ -100,8 +109,17 @@ export class CollectionService {
 			.firstOrFail();
 
 		const wasPublic = collection.visibility === Visibility.PUBLIC;
+		const visibilityChanged = collection.visibility !== payload.visibility;
 
 		collection.merge(payload);
+
+		if (visibilityChanged) {
+			collection.position = await this.getNextCollectionPosition(
+				userId,
+				payload.visibility
+			);
+		}
+
 		await collection.save();
 
 		if (wasPublic && payload.visibility === Visibility.PRIVATE) {
@@ -148,9 +166,11 @@ export class CollectionService {
 			if (orphanedLinkIds.length > 0) {
 				const defaultCollection =
 					await this.getOrCreateDefaultCollection(userId);
-				await defaultCollection
-					.related('links')
-					.attach(orphanedLinkIds, transaction);
+				await this.collectionLinkService.attachLinksAtEnd(
+					defaultCollection,
+					orphanedLinkIds,
+					transaction
+				);
 			}
 
 			await Collection.query({ client: transaction })
@@ -193,6 +213,11 @@ export class CollectionService {
 			return existingDefaultCollection;
 		}
 
+		const position = await this.getNextCollectionPosition(
+			userId,
+			Visibility.PRIVATE,
+			client
+		);
 		const defaultCollection = await Collection.create(
 			{
 				name: DEFAULT_COLLECTION_NAME,
@@ -201,6 +226,7 @@ export class CollectionService {
 				icon: null,
 				authorId: userId,
 				isDefault: true,
+				position,
 			},
 			{ client }
 		);
@@ -224,7 +250,9 @@ export class CollectionService {
 			.where('id', id)
 			.andWhere('visibility', Visibility.PUBLIC)
 			.preload('links', (q) => {
-				q.orderBy('name', 'asc').preload('collections');
+				q.orderBy('collection_link.position', 'asc')
+					.orderBy('links.name', 'asc')
+					.preload('collections');
 			})
 			.preload('author')
 			.orderBy('name', 'asc')
@@ -235,6 +263,7 @@ export class CollectionService {
 		return await Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PUBLIC)
+			.orderBy('position', 'asc')
 			.orderBy('name', 'asc');
 	}
 
@@ -242,17 +271,28 @@ export class CollectionService {
 		return await Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PRIVATE)
+			.orderBy('position', 'asc')
 			.orderBy('name', 'asc');
 	}
 
+	/**
+	 * An explicit join, not `whereHas`, because the follower's position on
+	 * `collection_followers` has to be readable for the `orderBy` below —
+	 * an EXISTS subquery can't expose it.
+	 */
 	async getFollowedCollections(userId: User['id']) {
 		return await Collection.query()
-			.whereHas('followers', (query) => {
-				query.where('users.id', userId);
-			})
-			.andWhere('visibility', Visibility.PUBLIC)
+			.select('collections.*')
+			.innerJoin(
+				'collection_followers',
+				'collection_followers.collection_id',
+				'collections.id'
+			)
+			.where('collection_followers.user_id', userId)
+			.andWhere('collections.visibility', Visibility.PUBLIC)
 			.preload('author')
-			.orderBy('name', 'asc');
+			.orderBy('collection_followers.position', 'asc')
+			.orderBy('collections.name', 'asc');
 	}
 
 	async isFollowingCollection(
@@ -274,8 +314,11 @@ export class CollectionService {
 			.firstOrFail();
 
 		const user = await User.findOrFail(userId);
+		const position = await this.getNextFollowerPosition(userId);
 
-		await collection.related('followers').attach([user.id]);
+		await collection.related('followers').attach({
+			[user.id]: { position },
+		});
 
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.COLLECTION_FOLLOWED,
@@ -311,6 +354,33 @@ export class CollectionService {
 		return context.response.redirect().toRoute('collection.show', {
 			id: collectionId,
 		});
+	}
+
+	private async getNextCollectionPosition(
+		authorId: User['id'],
+		visibility: Visibility,
+		client?: TransactionClientContract
+	): Promise<number> {
+		const query = client ? client.from('collections') : db.from('collections');
+		const row = await query
+			.where('author_id', authorId)
+			.andWhere('visibility', visibility)
+			.max('position as max_position')
+			.first();
+
+		const maxPosition = row?.max_position;
+		return typeof maxPosition === 'number' ? maxPosition + 1 : 0;
+	}
+
+	private async getNextFollowerPosition(userId: User['id']): Promise<number> {
+		const row = await db
+			.from('collection_followers')
+			.where('user_id', userId)
+			.max('position as max_position')
+			.first();
+
+		const maxPosition = row?.max_position;
+		return typeof maxPosition === 'number' ? maxPosition + 1 : 0;
 	}
 
 	private getAuthContext() {

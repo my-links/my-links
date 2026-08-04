@@ -60,18 +60,20 @@ export class AuthAccessTokenSchema extends BaseModel {
 }
 
 export class CollectionFollowerSchema extends BaseModel {
-  static $columns = ['collectionId', 'createdAt', 'userId'] as const
+  static $columns = ['collectionId', 'createdAt', 'position', 'userId'] as const
   $columns = CollectionFollowerSchema.$columns
   @column({ isPrimary: true })
   declare collectionId: number
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()
+  declare position: number
+  @column()
   declare userId: number
 }
 
 export class CollectionLinkSchema extends BaseModel {
-  static $columns = ['collectionId', 'createdAt', 'linkId'] as const
+  static $columns = ['collectionId', 'createdAt', 'linkId', 'position'] as const
   $columns = CollectionLinkSchema.$columns
   @column({ isPrimary: true })
   declare collectionId: number
@@ -79,10 +81,12 @@ export class CollectionLinkSchema extends BaseModel {
   declare createdAt: DateTime
   @column()
   declare linkId: number
+  @column()
+  declare position: number
 }
 
 export class CollectionSchema extends BaseModel {
-  static $columns = ['authorId', 'createdAt', 'description', 'icon', 'id', 'isDefault', 'name', 'updatedAt', 'visibility'] as const
+  static $columns = ['authorId', 'createdAt', 'description', 'icon', 'id', 'isDefault', 'name', 'position', 'updatedAt', 'visibility'] as const
   $columns = CollectionSchema.$columns
   @column()
   declare authorId: number | null
@@ -98,6 +102,8 @@ export class CollectionSchema extends BaseModel {
   declare isDefault: boolean
   @column()
   declare name: string
+  @column()
+  declare position: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
   @column()

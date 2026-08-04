@@ -9,6 +9,7 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { CollectionLinkService } from '#services/collections/collection_link_service';
 
 type ExportLink = {
 	name: string;
@@ -55,7 +56,8 @@ type LinkToCreate = { link: ImportLink; collectionIndexes: number[] };
 export class ExportImportService {
 	constructor(
 		protected readonly collectionService: CollectionService,
-		protected readonly activityEventService: ActivityEventService
+		protected readonly activityEventService: ActivityEventService,
+		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
 	async exportUserData(userId: User['id']): Promise<ExportData> {
@@ -138,7 +140,12 @@ export class ExportImportService {
 					createdCollections,
 					transaction
 				);
-				await link.related('collections').attach(collectionIds, transaction);
+				const attachments =
+					await this.collectionLinkService.buildPositionedAttachments(
+						collectionIds,
+						transaction
+					);
+				await link.related('collections').attach(attachments, transaction);
 			}
 
 			await this.activityEventService.record(
