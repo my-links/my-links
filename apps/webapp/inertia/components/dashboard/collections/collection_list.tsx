@@ -1,22 +1,12 @@
-import { usePage } from '@inertiajs/react';
-import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
-import { PageProps } from '@adonisjs/inertia/types';
 
+import { COLLECTION_SECTION } from '~/lib/dnd/dnd_types';
 import { CollapsibleSection } from './collapsible_section';
-
-type CollectionWithLinks = Data.Collection.Variants['withLinks'];
-
-interface PagePropsWithCollections extends PageProps {
-	followedCollections: CollectionWithLinks[];
-	myPublicCollections: CollectionWithLinks[];
-	myPrivateCollections: CollectionWithLinks[];
-}
+import { useDashboardDndCollections } from '~/components/dashboard/dnd/dashboard_dnd_provider';
 
 export function CollectionList() {
-	const { props } = usePage<PagePropsWithCollections>();
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
-		props;
+		useDashboardDndCollections();
 
 	const sectionsCount = [
 		followedCollections.length > 0,
@@ -31,16 +21,19 @@ export function CollectionList() {
 				<CollapsibleSection
 					title={<Trans>Followed Collections</Trans>}
 					collections={followedCollections}
+					section={COLLECTION_SECTION.FOLLOWED}
 					canCollapse={canCollapse}
 				/>
 				<CollapsibleSection
 					title={<Trans>My Public Collections</Trans>}
 					collections={myPublicCollections}
+					section={COLLECTION_SECTION.PUBLIC}
 					canCollapse={canCollapse}
 				/>
 				<CollapsibleSection
 					title={<Trans>My Private Collections</Trans>}
 					collections={myPrivateCollections}
+					section={COLLECTION_SECTION.PRIVATE}
 					canCollapse={canCollapse}
 					alwaysShow
 				/>

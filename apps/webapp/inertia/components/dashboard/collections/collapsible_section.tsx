@@ -1,15 +1,21 @@
 import clsx from 'clsx';
 import type { Data } from '@generated/data';
 import { ReactNode, useState } from 'react';
+import {
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
-import { CollectionItem } from './collection_item';
+import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { CollectionFavoriteItem } from './collection_favorite_item';
+import { SortableCollectionItem } from './sortable_collection_item';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
 interface CollapsibleSectionProps {
 	title: ReactNode;
 	collections: CollectionWithLinks[];
+	section: CollectionSection;
 	canCollapse?: boolean;
 	alwaysShow?: boolean;
 }
@@ -17,6 +23,7 @@ interface CollapsibleSectionProps {
 export function CollapsibleSection({
 	title,
 	collections,
+	section,
 	canCollapse = true,
 	alwaysShow = false,
 }: Readonly<CollapsibleSectionProps>) {
@@ -57,9 +64,18 @@ export function CollapsibleSection({
 			{isExpanded && (
 				<div className="space-y-1">
 					{alwaysShow && <CollectionFavoriteItem />}
-					{collections.map((collection) => (
-						<CollectionItem key={collection.id} collection={collection} />
-					))}
+					<SortableContext
+						items={collections.map((collection) => collection.id)}
+						strategy={verticalListSortingStrategy}
+					>
+						{collections.map((collection) => (
+							<SortableCollectionItem
+								key={collection.id}
+								collection={collection}
+								section={section}
+							/>
+						))}
+					</SortableContext>
 				</div>
 			)}
 		</div>
