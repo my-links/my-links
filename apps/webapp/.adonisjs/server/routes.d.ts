@@ -75,6 +75,8 @@ export type ScannedRoutes = {
     'link.create': { paramsTuple?: []; params?: {} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
@@ -170,6 +172,7 @@ export type ScannedRoutes = {
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
+    'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -184,6 +187,7 @@ export type ScannedRoutes = {
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

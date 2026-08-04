@@ -35,6 +35,17 @@ router
 			.as('link.toggle-favorite');
 
 		router
+			.put('/:id/collection', [controllers.links.MoveLink, 'execute'])
+			.as('link.move-to-collection');
+
+		router
+			.post('/:id/collections', [
+				controllers.links.AddLinkToCollection,
+				'execute',
+			])
+			.as('link.add-to-collection');
+
+		router
 			.delete('/:id', [controllers.links.DeleteLink, 'execute'])
 			.as('link.delete');
 	})

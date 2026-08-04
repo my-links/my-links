@@ -79,9 +79,11 @@ export const controllers = {
   HealthChecks: () => import('#controllers/health_checks_controller'),
   Home: () => import('#controllers/home_controller'),
   links: {
+    AddLinkToCollection: () => import('#controllers/links/add_link_to_collection_controller'),
     CreateLink: () => import('#controllers/links/create_link_controller'),
     DeleteLink: () => import('#controllers/links/delete_link_controller'),
     GetLinks: () => import('#controllers/links/get_links_controller'),
+    MoveLink: () => import('#controllers/links/move_link_controller'),
     ToggleFavorite: () => import('#controllers/links/toggle_favorite_controller'),
     UpdateLink: () => import('#controllers/links/update_link_controller'),
     VisitLink: () => import('#controllers/links/visit_link_controller'),

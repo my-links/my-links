@@ -432,6 +432,18 @@ const routes = {
     tokens: [{"old":"/links/:id/favorite","type":0,"val":"links","end":""},{"old":"/links/:id/favorite","type":1,"val":"id","end":""},{"old":"/links/:id/favorite","type":0,"val":"favorite","end":""}],
     types: placeholder as Registry['link.toggle-favorite']['types'],
   },
+  'link.move-to-collection': {
+    methods: ["PUT"],
+    pattern: '/links/:id/collection',
+    tokens: [{"old":"/links/:id/collection","type":0,"val":"links","end":""},{"old":"/links/:id/collection","type":1,"val":"id","end":""},{"old":"/links/:id/collection","type":0,"val":"collection","end":""}],
+    types: placeholder as Registry['link.move-to-collection']['types'],
+  },
+  'link.add-to-collection': {
+    methods: ["POST"],
+    pattern: '/links/:id/collections',
+    tokens: [{"old":"/links/:id/collections","type":0,"val":"links","end":""},{"old":"/links/:id/collections","type":1,"val":"id","end":""},{"old":"/links/:id/collections","type":0,"val":"collections","end":""}],
+    types: placeholder as Registry['link.add-to-collection']['types'],
+  },
   'link.delete': {
     methods: ["DELETE"],
     pattern: '/links/:id',

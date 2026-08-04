@@ -118,6 +118,8 @@ export interface ApiDefinition {
     create: typeof routes['link.create']
     edit: typeof routes['link.edit']
     toggleFavorite: typeof routes['link.toggle-favorite']
+    moveToCollection: typeof routes['link.move-to-collection']
+    addToCollection: typeof routes['link.add-to-collection']
     delete: typeof routes['link.delete']
   }
 }
