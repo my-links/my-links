@@ -6,7 +6,10 @@ import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import { AUTH_PROVIDER } from '#constants/auth';
 import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
-import { backfillGoogleOauthAuths } from '#database/backfills/google_oauth_backfill';
+import {
+	backfillGoogleOauthAuths,
+	revertGoogleOauthAuthsBackfill,
+} from '#database/backfills/google_oauth_backfill';
 
 const LEGACY_PROVIDER_USER_ID = '109876543210987654321';
 
@@ -97,6 +100,31 @@ test.group('Google users backfill', (group) => {
 
 		const oauthAuths = await OauthAuth.query().where('userId', legacyUser.id);
 		assert.lengthOf(oauthAuths, 1);
+	});
+
+	test('should give the provider user id back to the account on revert', async ({
+		assert,
+	}) => {
+		const legacyUser = await createLegacyGoogleUser(LEGACY_PROVIDER_USER_ID);
+		await backfillGoogleOauthAuths(db.connection());
+
+		await revertGoogleOauthAuthsBackfill(db.connection());
+
+		const { rows } = await db.rawQuery(
+			`SELECT provider_id, provider_type FROM users WHERE id = :userId`,
+			{ userId: legacyUser.id }
+		);
+		assert.equal(rows[0].provider_id, LEGACY_PROVIDER_USER_ID);
+	});
+
+	test('should drop the oauth identity on revert', async ({ assert }) => {
+		const legacyUser = await createLegacyGoogleUser(LEGACY_PROVIDER_USER_ID);
+		await backfillGoogleOauthAuths(db.connection());
+
+		await revertGoogleOauthAuthsBackfill(db.connection());
+
+		const oauthAuths = await OauthAuth.query().where('userId', legacyUser.id);
+		assert.lengthOf(oauthAuths, 0);
 	});
 });
 

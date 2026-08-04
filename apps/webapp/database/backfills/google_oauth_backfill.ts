@@ -28,9 +28,20 @@ export async function backfillGoogleOauthAuths(
 	);
 }
 
+// Runs after the legacy columns are back: the rollback reverts newest first.
 export async function revertGoogleOauthAuthsBackfill(
 	client: QueryClientContract
 ): Promise<void> {
+	await client.rawQuery(
+		`UPDATE users
+		 SET provider_id = oauth_auths.provider_user_id,
+		     provider_type = :provider
+		 FROM oauth_auths
+		 WHERE oauth_auths.user_id = users.id
+		   AND oauth_auths.provider = :provider`,
+		{ provider: AUTH_PROVIDER.GOOGLE }
+	);
+
 	await client
 		.from('oauth_auths')
 		.where('provider', AUTH_PROVIDER.GOOGLE)
