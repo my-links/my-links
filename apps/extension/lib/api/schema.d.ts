@@ -557,7 +557,6 @@ export interface components {
 				syncDelta: boolean;
 			};
 			isHealthy: boolean;
-			version: string;
 		};
 		SyncRenderResponse: {
 			collections: {

@@ -1,15 +1,6 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { healthChecks } from '#start/health';
-
-const packageJsonPath = fileURLToPath(
-	new URL('../../../../package.json', import.meta.url)
-);
-const { version } = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
-	version: string;
-};
 
 /**
  * Capability flags let API clients (the browser extension in particular)
@@ -30,7 +21,6 @@ export default class HealthController {
 		const report = await healthChecks.run();
 		const result = {
 			isHealthy: report.isHealthy,
-			version,
 			capabilities,
 		};
 
