@@ -859,6 +859,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'link.move-to-collection': {
+    methods: ["PUT"]
+    pattern: '/links/:id/collection'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/move_link_validator').moveLinkValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/move_link_validator').moveLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/move_link_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/move_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'link.add-to-collection': {
+    methods: ["POST"]
+    pattern: '/links/:id/collections'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/add_link_to_collection_validator').addLinkToCollectionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/add_link_to_collection_validator').addLinkToCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/add_link_to_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/add_link_to_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'link.delete': {
     methods: ["DELETE"]
     pattern: '/links/:id'

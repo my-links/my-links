@@ -2,10 +2,15 @@ import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
-import type Link from '#models/link';
+import Link from '#models/link';
+import type User from '#models/user';
 import { idSetsMatch } from '#lib/id_set';
-import type Collection from '#models/collection';
+import Collection from '#models/collection';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
+import { ActivityEventService } from '#services/activity/activity_event_service';
+import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
 import InvalidCollectionMembershipException from '#exceptions/collections/invalid_collection_membership_exception';
 
 const COLLECTION_LINK_TABLE = 'collection_link';
@@ -18,7 +23,10 @@ type PositionedAttachment = { position: number };
  */
 @inject()
 export class CollectionLinkService {
-	constructor(private readonly syncJournalService: SyncJournalService) {}
+	constructor(
+		private readonly syncJournalService: SyncJournalService,
+		private readonly activityEventService: ActivityEventService
+	) {}
 
 	async getNextLinkPosition(
 		collectionId: Collection['id'],
@@ -80,6 +88,135 @@ export class CollectionLinkService {
 			);
 			await this.syncJournalService.markLinksChanged(linkIds, transaction);
 		});
+	}
+
+	async moveLinkBetweenCollections(
+		userId: User['id'],
+		linkId: Link['id'],
+		fromCollectionId: Collection['id'],
+		toCollectionId: Collection['id']
+	): Promise<void> {
+		if (fromCollectionId === toCollectionId) {
+			return;
+		}
+
+		const link = await this.findOwnedLink(userId, linkId);
+		await this.assertOwnsCollections(userId, [
+			fromCollectionId,
+			toCollectionId,
+		]);
+		await this.assertLinkInCollection(linkId, fromCollectionId);
+
+		await db.transaction(async (transaction) => {
+			await link.related('collections').detach([fromCollectionId], transaction);
+			const position = await this.getNextLinkPosition(
+				toCollectionId,
+				transaction
+			);
+			await link
+				.related('collections')
+				.attach({ [toCollectionId]: { position } }, transaction);
+			await this.syncJournalService.markLinksChanged([linkId], transaction);
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.LINK_UPDATED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.LINK,
+					subjectId: linkId,
+					metadata: { fromCollectionId, toCollectionId },
+				},
+				transaction
+			);
+		});
+	}
+
+	async addLinkToCollection(
+		userId: User['id'],
+		linkId: Link['id'],
+		collectionId: Collection['id']
+	): Promise<void> {
+		const link = await this.findOwnedLink(userId, linkId);
+		await this.assertOwnsCollections(userId, [collectionId]);
+
+		if (await this.isLinkInCollection(linkId, collectionId)) {
+			return;
+		}
+
+		await db.transaction(async (transaction) => {
+			const position = await this.getNextLinkPosition(
+				collectionId,
+				transaction
+			);
+			await link
+				.related('collections')
+				.attach({ [collectionId]: { position } }, transaction);
+			await this.syncJournalService.markLinksChanged([linkId], transaction);
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.LINK_UPDATED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.LINK,
+					subjectId: linkId,
+					metadata: { collectionId },
+				},
+				transaction
+			);
+		});
+	}
+
+	private async findOwnedLink(
+		userId: User['id'],
+		linkId: Link['id']
+	): Promise<Link> {
+		const link = await Link.query()
+			.where('id', linkId)
+			.andWhere('author_id', userId)
+			.first();
+
+		if (!link) {
+			throw new ForeignCollectionException(
+				'The link does not belong to the authenticated user'
+			);
+		}
+
+		return link;
+	}
+
+	private async assertOwnsCollections(
+		userId: User['id'],
+		collectionIds: Collection['id'][]
+	): Promise<void> {
+		const owned = await Collection.query()
+			.where('author_id', userId)
+			.whereIn('id', collectionIds);
+
+		if (owned.length !== new Set(collectionIds).size) {
+			throw new ForeignCollectionException(
+				'One or more collections do not belong to the authenticated user'
+			);
+		}
+	}
+
+	private async assertLinkInCollection(
+		linkId: Link['id'],
+		collectionId: Collection['id']
+	): Promise<void> {
+		if (!(await this.isLinkInCollection(linkId, collectionId))) {
+			throw new InvalidCollectionMembershipException(
+				'The link is not in the source collection'
+			);
+		}
+	}
+
+	private async isLinkInCollection(
+		linkId: Link['id'],
+		collectionId: Collection['id']
+	): Promise<boolean> {
+		const row = await this.selectFrom(undefined)
+			.where('collection_id', collectionId)
+			.andWhere('link_id', linkId)
+			.first();
+		return row != null;
 	}
 
 	private async assertLinkSetMatches(

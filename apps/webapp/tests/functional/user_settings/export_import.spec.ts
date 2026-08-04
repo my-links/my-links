@@ -17,7 +17,8 @@ import { CollectionLinkService } from '#services/collections/collection_link_ser
 
 function buildService() {
 	const collectionLinkService = new CollectionLinkService(
-		new SyncJournalService()
+		new SyncJournalService(),
+		new ActivityEventService()
 	);
 	return new ExportImportService(
 		new CollectionService(
