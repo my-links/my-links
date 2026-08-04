@@ -9,25 +9,15 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
-
-async function createCollection(user: User, name: string) {
-	return Collection.create({
-		name,
-		description: null,
-		visibility: Visibility.PRIVATE,
-		icon: null,
-		authorId: user.id,
-	});
-}
+import { createCollection } from '#tests/factories/collection_factory';
+import {
+	createLink,
+	attachLinkToCollection,
+} from '#tests/factories/link_factory';
 
 async function createLinkIn(user: User, collection: Collection, name: string) {
-	const link = await Link.create({
-		name,
-		url: 'https://example.com',
-		favorite: false,
-		authorId: user.id,
-	});
-	await link.related('collections').attach([collection.id]);
+	const link = await createLink({ author: user, name });
+	await attachLinkToCollection(link, collection);
 	return link;
 }
 
@@ -96,7 +86,7 @@ test.group('Link activity journal', (group) => {
 
 	test('should journal an update', async ({ client, assert }) => {
 		const user = await createUser({ emailPrefix: 'activity-link-update' });
-		const collection = await createCollection(user, 'Work');
+		const collection = await createCollection({ author: user, name: 'Work' });
 		const link = await createLinkIn(user, collection, 'Original name');
 
 		await client
@@ -120,7 +110,7 @@ test.group('Link activity journal', (group) => {
 
 	test('should journal a deletion', async ({ client, assert }) => {
 		const user = await createUser({ emailPrefix: 'activity-link-delete' });
-		const collection = await createCollection(user, 'Work');
+		const collection = await createCollection({ author: user, name: 'Work' });
 		const link = await createLinkIn(user, collection, 'Doomed');
 
 		await client
@@ -144,7 +134,7 @@ test.group('Link activity journal', (group) => {
 		const intruder = await createUser({
 			emailPrefix: 'activity-link-intruder',
 		});
-		const collection = await createCollection(owner, 'Work');
+		const collection = await createCollection({ author: owner, name: 'Work' });
 		const link = await createLinkIn(owner, collection, 'Not yours');
 
 		await client
@@ -165,7 +155,7 @@ test.group('Link activity journal', (group) => {
 		assert,
 	}) => {
 		const user = await createUser({ emailPrefix: 'activity-link-favorite' });
-		const collection = await createCollection(user, 'Work');
+		const collection = await createCollection({ author: user, name: 'Work' });
 		const link = await createLinkIn(user, collection, 'Pin me');
 
 		await client
@@ -223,7 +213,7 @@ test.group('Collection activity journal', (group) => {
 		const user = await createUser({
 			emailPrefix: 'activity-collection-update',
 		});
-		const collection = await createCollection(user, 'Work');
+		const collection = await createCollection({ author: user, name: 'Work' });
 
 		await client
 			.put(`/collections/${collection.id}`)
@@ -250,7 +240,7 @@ test.group('Collection activity journal', (group) => {
 		const user = await createUser({
 			emailPrefix: 'activity-collection-delete',
 		});
-		const collection = await createCollection(user, 'Work');
+		const collection = await createCollection({ author: user, name: 'Work' });
 		await createLinkIn(user, collection, 'Homeless soon');
 
 		await client
@@ -277,7 +267,10 @@ test.group('Collection activity journal', (group) => {
 		const follower = await createUser({
 			emailPrefix: 'activity-collection-follower',
 		});
-		const collection = await createCollection(owner, 'Public reads');
+		const collection = await createCollection({
+			author: owner,
+			name: 'Public reads',
+		});
 		collection.visibility = Visibility.PUBLIC;
 		await collection.save();
 

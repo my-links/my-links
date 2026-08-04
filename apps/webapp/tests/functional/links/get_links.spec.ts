@@ -1,8 +1,8 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import Link from '#models/link';
 import { createUser } from '#tests/factories/user_factory';
+import { createLink } from '#tests/factories/link_factory';
 
 test.group('Get links', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
@@ -22,19 +22,15 @@ test.group('Get links', (group) => {
 		const owner = await createUser();
 		const stranger = await createUser();
 
-		await Link.create({
+		await createLink({
+			author: owner,
 			name: 'My link',
-			description: null,
 			url: 'https://example.com/mine',
-			favorite: false,
-			authorId: owner.id,
 		});
-		await Link.create({
+		await createLink({
+			author: stranger,
 			name: "Stranger's link",
-			description: null,
 			url: 'https://example.com/theirs',
-			favorite: false,
-			authorId: stranger.id,
 		});
 
 		const response = await client.get('/links').loginAs(owner);
