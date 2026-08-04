@@ -1,15 +1,27 @@
 import { Trans } from '@lingui/react/macro';
 
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useLayoutStore } from '~/stores/layout_store';
 import { FilterList } from '~/components/common/filter_list';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { LinkList } from '~/components/dashboard/links/link_list';
+import { SortableLinkList } from '~/components/dashboard/links/sortable_link_list';
+import { useDashboardDndCollections } from '~/components/dashboard/dnd/dashboard_dnd_provider';
 
 export function CollectionViewContent() {
 	const isMobile = useIsMobile();
+	const { layout } = useLayoutStore('dashboard');
 	const { activeCollection } = useDashboardProps();
+	const { activeCollectionLinks } = useDashboardDndCollections();
 	const links = activeCollection?.links ?? [];
 	const isOwner = activeCollection?.isOwner !== false;
+	const effectiveLayout = isMobile ? 'list' : layout;
+	const canReorderLinks =
+		!!activeCollection &&
+		isOwner &&
+		effectiveLayout !== 'masonry' &&
+		!isMobile &&
+		links.length > 0;
 
 	return (
 		<>
@@ -50,7 +62,15 @@ export function CollectionViewContent() {
 				{!isMobile && <FilterList layoutStoreKey="dashboard" />}
 			</div>
 
-			<LinkList links={links} />
+			{canReorderLinks && activeCollection ? (
+				<SortableLinkList
+					links={activeCollectionLinks}
+					collectionId={activeCollection.id}
+					layout={effectiveLayout}
+				/>
+			) : (
+				<LinkList links={links} />
+			)}
 		</>
 	);
 }

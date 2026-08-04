@@ -1,9 +1,11 @@
 import { CSS } from '@dnd-kit/utilities';
 import type { Data } from '@generated/data';
+import { useDndContext } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 
 import { CollectionItem } from './collection_item';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { isLinkDragData } from '~/lib/dnd/drag_data';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 
 interface SortableCollectionItemProps {
@@ -16,6 +18,13 @@ export function SortableCollectionItem({
 	section,
 }: Readonly<SortableCollectionItemProps>) {
 	const isMobile = useIsMobile();
+	const { active } = useDndContext();
+	const isOwner = collection.isOwner !== false;
+	// A followed collection isn't a legal drop target for a link — collision
+	// detection already excludes it, this is the belt-and-suspenders guard.
+	const isLinkDraggedOverForeignCollection =
+		isLinkDragData(active?.data.current) && !isOwner;
+
 	const {
 		attributes,
 		listeners,
@@ -26,8 +35,10 @@ export function SortableCollectionItem({
 		isDragging,
 	} = useSortable({
 		id: collection.id,
-		data: { kind: 'collection', collectionId: collection.id, section },
-		disabled: isMobile,
+		data: { kind: 'collection', collectionId: collection.id, section, isOwner },
+		disabled: isMobile
+			? true
+			: { droppable: isLinkDraggedOverForeignCollection },
 		// The card is a navigating <a>, not a button — role stays "link" so
 		// screen readers keep announcing it as one.
 		attributes: { role: 'link' },

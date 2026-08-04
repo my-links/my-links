@@ -11,4 +11,13 @@ export type CollectionDragData = {
 	kind: 'collection';
 	collectionId: number;
 	section: CollectionSection;
+	isOwner: boolean;
 };
+
+export type LinkDragData = {
+	kind: 'link';
+	linkId: number;
+	collectionId: number;
+};
+
+export type DragData = CollectionDragData | LinkDragData;

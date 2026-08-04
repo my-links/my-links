@@ -2,22 +2,33 @@ import clsx from 'clsx';
 import { useRef } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
+import type {
+	DraggableAttributes,
+	DraggableSyntheticListeners,
+} from '@dnd-kit/core';
 
 import { urlFor } from '~/lib/tuyau';
 import { LinkFavicon } from './link_favicon';
 import { hasCollectionIds } from '~/lib/link';
 import { LinkControls, LinkControlsRef } from './link_controls';
+import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 
 interface LinkItemProps {
 	link: Data.Link;
 	hideMenu?: boolean;
 	layout?: 'grid' | 'list' | 'compact' | 'masonry';
+	dragAttributes?: DraggableAttributes;
+	dragListeners?: DraggableSyntheticListeners;
+	setActivatorNodeRef?: (element: HTMLElement | null) => void;
 }
 
 export function LinkItem({
 	link,
 	hideMenu = false,
 	layout = 'grid',
+	dragAttributes,
+	dragListeners,
+	setActivatorNodeRef,
 }: Readonly<LinkItemProps>) {
 	const { name, url, description } = link;
 	const showFavoriteIcon = !hideMenu && 'favorite' in link && link.favorite;
@@ -27,6 +38,10 @@ export function LinkItem({
 	const linkControlsRef = useRef<LinkControlsRef>(null);
 
 	const handleClick = (e: React.MouseEvent) => {
+		if (shouldSuppressClick()) {
+			e.preventDefault();
+			return;
+		}
 		if (
 			!hideMenu &&
 			(e.target as HTMLElement).closest('[data-link-controls]')
@@ -52,6 +67,7 @@ export function LinkItem({
 
 	return (
 		<a
+			ref={setActivatorNodeRef}
 			href={visitUrl}
 			target="_blank"
 			rel="noreferrer"
@@ -67,6 +83,8 @@ export function LinkItem({
 				isCompact && 'p-3'
 			)}
 			title={url}
+			{...dragAttributes}
+			{...dragListeners}
 		>
 			<div className="flex items-start gap-3 flex-row">
 				<div className="flex items-start gap-3 flex-1 min-w-0">
