@@ -3,21 +3,9 @@ import { test } from '@japa/runner';
 import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import type User from '#models/user';
-import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
+import { createCollection } from '#tests/factories/collection_factory';
 import { TOMBSTONE_RETENTION_DAYS } from '#services/sync/sync_service';
-
-async function createCollection(user: User, name: string) {
-	return Collection.create({
-		name,
-		description: null,
-		visibility: Visibility.PRIVATE,
-		icon: null,
-		authorId: user.id,
-	});
-}
 
 /**
  * Rewinds a row's `updated_at` instead of sleeping in the test: the endpoint
@@ -43,7 +31,7 @@ test.group('API sync — full snapshot', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const work = await createCollection(user, 'Work');
+		const work = await createCollection({ author: user, name: 'Work' });
 
 		await client
 			.post('/api/v1/links')
@@ -77,7 +65,7 @@ test.group('API sync — full snapshot', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		await createCollection(user, 'Work');
+		await createCollection({ author: user, name: 'Work' });
 
 		const expiredCursor = DateTime.now()
 			.minus({ days: TOMBSTONE_RETENTION_DAYS + 1 })
@@ -115,9 +103,9 @@ test.group('API sync — incremental delta', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const stale = await createCollection(user, 'Stale');
+		const stale = await createCollection({ author: user, name: 'Stale' });
 		await backdateUpdatedAt('collections', stale.id, { hours: 1 });
-		const fresh = await createCollection(user, 'Fresh');
+		const fresh = await createCollection({ author: user, name: 'Fresh' });
 
 		const response = await client
 			.get('/api/v1/sync')
@@ -138,7 +126,7 @@ test.group('API sync — incremental delta', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const work = await createCollection(user, 'Work');
+		const work = await createCollection({ author: user, name: 'Work' });
 
 		const createResponse = await client
 			.post('/api/v1/links')
@@ -176,8 +164,8 @@ test.group('API sync — incremental delta', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const work = await createCollection(user, 'Work');
-		const reading = await createCollection(user, 'Reading');
+		const work = await createCollection({ author: user, name: 'Work' });
+		const reading = await createCollection({ author: user, name: 'Reading' });
 
 		const createResponse = await client
 			.post('/api/v1/links')
@@ -218,7 +206,7 @@ test.group('API sync — incremental delta', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const work = await createCollection(user, 'Work');
+		const work = await createCollection({ author: user, name: 'Work' });
 
 		const createResponse = await client
 			.post('/api/v1/links')

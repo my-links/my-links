@@ -1,10 +1,13 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import Link from '#models/link';
-import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
+import { createCollection } from '#tests/factories/collection_factory';
+import {
+	createLink,
+	attachLinkToCollection,
+} from '#tests/factories/link_factory';
 
 test.group('Shared collection — page', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
@@ -14,20 +17,13 @@ test.group('Shared collection — page', (group) => {
 		assert,
 	}) => {
 		const owner = await createUser();
-		const collection = await Collection.create({
+		const collection = await createCollection({
+			author: owner,
 			name: 'Public reads',
-			description: null,
 			visibility: Visibility.PUBLIC,
-			icon: null,
-			authorId: owner.id,
 		});
-		const link = await Link.create({
-			name: 'Shared link',
-			url: 'https://example.com',
-			favorite: false,
-			authorId: owner.id,
-		});
-		await link.related('collections').attach([collection.id]);
+		const link = await createLink({ author: owner, name: 'Shared link' });
+		await attachLinkToCollection(link, collection);
 
 		// No `.withInertia()` on purpose — this is the plain browser request
 		// path that triggers server-side React rendering, which is where
