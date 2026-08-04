@@ -572,7 +572,7 @@ msgstr "Find it in a search, not a scroll"
 msgid "Follow"
 msgstr "Follow"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:23
+#: inertia/components/dashboard/collections/collection_list.tsx:22
 #: inertia/lib/dnd/dnd_announcements.ts:10
 msgid "Followed Collections"
 msgstr "Followed Collections"
@@ -727,12 +727,12 @@ msgstr "Made by"
 msgid "Mark the address as confirmed"
 msgstr "Mark the address as confirmed"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:35
+#: inertia/components/dashboard/collections/collection_list.tsx:34
 #: inertia/lib/dnd/dnd_announcements.ts:14
 msgid "My Private Collections"
 msgstr "My Private Collections"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:29
+#: inertia/components/dashboard/collections/collection_list.tsx:28
 #: inertia/lib/dnd/dnd_announcements.ts:12
 msgid "My Public Collections"
 msgstr "My Public Collections"
@@ -924,11 +924,6 @@ msgstr "Remove"
 #: inertia/components/dashboard/links/link_controls.tsx:157
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
-
-#. placeholder {0}: collection.name
-#: inertia/components/dashboard/collections/sortable_collection_item.tsx:52
-msgid "Reorder {0}"
-msgstr "Reorder {0}"
 
 #: inertia/lib/dnd/dnd_announcements.ts:40
 #: inertia/lib/dnd/dnd_announcements.ts:45
