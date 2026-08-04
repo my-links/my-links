@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Trans } from '@lingui/react/macro';
+import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { DragOverlay, useDndContext } from '@dnd-kit/core';
 
 import { useDashboardDndCollections } from './dashboard_dnd_provider';
@@ -8,6 +9,9 @@ import { isCollectionDragData, isLinkDragData } from '~/lib/dnd/drag_data';
 interface DashboardDragOverlayProps {
 	isShiftPressed: boolean;
 }
+
+// Module-level so the array reference never changes across renders.
+const OVERLAY_MODIFIERS = [restrictToWindowEdges];
 
 export function DashboardDragOverlay({
 	isShiftPressed,
@@ -30,7 +34,7 @@ export function DashboardDragOverlay({
 		].find((item) => item.id === activeData.collectionId);
 
 		return (
-			<DragOverlay>
+			<DragOverlay modifiers={OVERLAY_MODIFIERS}>
 				{collection ? (
 					<div className="flex items-center gap-3 px-4 py-2 rounded-md bg-white dark:bg-gray-800 shadow-lg border border-gray-200/50 dark:border-gray-700/50">
 						{collection.icon ? (
@@ -57,7 +61,7 @@ export function DashboardDragOverlay({
 			overData.collectionId !== activeData.collectionId;
 
 		return (
-			<DragOverlay>
+			<DragOverlay modifiers={OVERLAY_MODIFIERS}>
 				{link ? (
 					<div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200/50 dark:border-gray-700/50 max-w-xs">
 						<span className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">
@@ -81,5 +85,5 @@ export function DashboardDragOverlay({
 		);
 	}
 
-	return <DragOverlay>{null}</DragOverlay>;
+	return <DragOverlay modifiers={OVERLAY_MODIFIERS}>{null}</DragOverlay>;
 }
