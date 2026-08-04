@@ -45,9 +45,9 @@
   </script>
 
   @stack('dumper')
-  @viteReactRefresh()
+  @viteReactRefresh({ nonce: cspNonce })
   @inertiaHead()
-  @vite(['inertia/app.tsx', `inertia/pages/${page.component}.tsx`])
+  @vite(['inertia/app.tsx', `inertia/pages/${page.component}.tsx`], { nonce: cspNonce })
 </head>
 
 <body>

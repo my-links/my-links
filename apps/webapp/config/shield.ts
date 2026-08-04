@@ -10,13 +10,12 @@ const shieldConfig = defineConfig({
 		enabled: true,
 		directives: {
 			defaultSrc: ["'self'"],
-			// The Vite dev server injects its HMR client and React Fast Refresh
-			// through inline/eval'd scripts on a different origin — only
-			// relaxed outside production, where the built assets are self-hosted
-			// and the one inline script (theme bootstrap) carries a nonce.
+			// React Fast Refresh eval's its runtime, so only that relaxation is
+			// lifted outside production. Every inline script carries the nonce,
+			// which browsers would otherwise ignore in favour of 'unsafe-inline'.
 			scriptSrc: app.inProduction
 				? ["'self'", '@nonce']
-				: ["'self'", '@nonce', "'unsafe-eval'", "'unsafe-inline'"],
+				: ["'self'", '@nonce', "'unsafe-eval'"],
 			styleSrc: ["'self'", "'unsafe-inline'"],
 			imgSrc: ["'self'", 'data:'],
 			fontSrc: ["'self'", 'data:'],
