@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import { useRef } from 'react';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { useRef, type ReactNode } from 'react';
 import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
 
@@ -12,13 +12,17 @@ import {
 
 interface CollectionItemProps {
 	collection: Data.Collection;
+	dragHandle?: ReactNode;
 }
 
 interface PagePropsWithActiveCollection extends PageProps {
 	activeCollection?: Data.Collection | null;
 }
 
-export function CollectionItem({ collection }: Readonly<CollectionItemProps>) {
+export function CollectionItem({
+	collection,
+	dragHandle,
+}: Readonly<CollectionItemProps>) {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
 	const isActive = collection.id === activeCollection?.id;
@@ -43,6 +47,7 @@ export function CollectionItem({ collection }: Readonly<CollectionItemProps>) {
 			onContextMenu={handleContextMenu}
 			title={collection.name}
 		>
+			{dragHandle}
 			{collection.icon ? (
 				<span className="text-lg flex-shrink-0 w-5 h-5 flex items-center justify-center">
 					{collection.icon}
