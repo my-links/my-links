@@ -23,6 +23,9 @@ export interface ApiDefinition {
   collection: {
     create: typeof routes['collection.create']
     favorites: typeof routes['collection.favorites']
+    reorderOwned: typeof routes['collection.reorder-owned']
+    reorderFollowed: typeof routes['collection.reorder-followed']
+    reorderLinks: typeof routes['collection.reorder-links']
     show: typeof routes['collection.show']
     edit: typeof routes['collection.edit']
     delete: typeof routes['collection.delete']

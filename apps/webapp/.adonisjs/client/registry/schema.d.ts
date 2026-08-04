@@ -199,6 +199,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favorites/show_favorites_controller').default['render']>>>
     }
   }
+  'collection.reorder-owned': {
+    methods: ["PUT"]
+    pattern: '/collections/owned/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_collections_validator').reorderCollectionsValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_collections_validator').reorderCollectionsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/reorder_owned_collections_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_owned_collections_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'collection.reorder-followed': {
+    methods: ["PUT"]
+    pattern: '/collections/followed/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_followed_collections_validator').reorderFollowedCollectionsValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_followed_collections_validator').reorderFollowedCollectionsValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/reorder_followed_collections_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_followed_collections_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'collection.reorder-links': {
+    methods: ["PUT"]
+    pattern: '/collections/:id/links/reorder'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_collection_links_validator').reorderCollectionLinksValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_collection_links_validator').reorderCollectionLinksValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/reorder_collection_links_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_collection_links_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'collection.show': {
     methods: ["GET","HEAD"]
     pattern: '/collections/:id'

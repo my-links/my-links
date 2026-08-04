@@ -16,6 +16,27 @@ router
 					.as('collection.favorites');
 
 				router
+					.put('/owned/reorder', [
+						controllers.collections.ReorderOwnedCollections,
+						'execute',
+					])
+					.as('collection.reorder-owned');
+
+				router
+					.put('/followed/reorder', [
+						controllers.collections.ReorderFollowedCollections,
+						'execute',
+					])
+					.as('collection.reorder-followed');
+
+				router
+					.put('/:id/links/reorder', [
+						controllers.collections.ReorderCollectionLinks,
+						'execute',
+					])
+					.as('collection.reorder-links');
+
+				router
 					.get('/:id', [controllers.collections.ShowCollection, 'render'])
 					.as('collection.show');
 
