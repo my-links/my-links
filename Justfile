@@ -23,7 +23,7 @@ compile:
 format:
 	@pnpm run format
 
-_dev:
+_dev: _drop-stale-assets
 	@docker compose --env-file {{ webapp_env_file }} down
 	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} pull
 	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} up -d --wait --remove-orphans
@@ -40,12 +40,14 @@ prod:
 test-unit:
 	@cd {{ webapp_path }} && node ace test unit
 
-test-functional:
+# A leftover public/assets makes the app read a production manifest and fail
+_drop-stale-assets:
+	@rm -rf {{ webapp_path }}/public/assets
+
+test-functional: _drop-stale-assets
 	@cd {{ webapp_path }} && node ace test functional
 
-# Browser suite — drops public/assets first, a leftover one makes the app read a production manifest and fail
-test-e2e:
-	@rm -rf {{ webapp_path }}/public/assets
+test-e2e: _drop-stale-assets
 	@cd {{ webapp_path }} && pnpm run test:browser
 
 test: _dev test-unit test-functional test-e2e
