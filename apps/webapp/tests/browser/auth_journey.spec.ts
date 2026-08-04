@@ -62,16 +62,19 @@ type FieldValues = Readonly<Record<string, string>>;
  * commit is silently wiped, even if it looked "filled" for the fifty
  * milliseconds beforehand. Nothing in the DOM announces when hydration is
  * done, so the whole form is filled and re-checked as one batch, and redone
- * from scratch if any field lost its value: the first pass may straddle the
- * commit, but by the second one hydration is certainly finished and every
- * `onChange` is live.
+ * from scratch if any field lost its value.
+ *
+ * Surviving DOM values are not enough on their own: the commit can still land
+ * after the check and wipe them. Both forms keep their submit button disabled
+ * while any field is empty, so an enabled button is the one observable proof
+ * that React's own state — not just the DOM — holds what was typed.
  */
 async function fillFormOnceHydrated(
 	page: Page,
 	fields: FieldValues
 ): Promise<void> {
 	const entries = Object.entries(fields);
-	const maxAttempts = 10;
+	const maxAttempts = 20;
 
 	for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
 		for (const [name, value] of entries) {
@@ -86,8 +89,11 @@ async function fillFormOnceHydrated(
 					(await page.locator(`input[name="${name}"]`).inputValue()) === value
 			)
 		);
+		const isSubmitEnabled = await page
+			.locator('button[type="submit"]')
+			.isEnabled();
 
-		if (survived.every(Boolean)) {
+		if (survived.every(Boolean) && isSubmitEnabled) {
 			return;
 		}
 	}
