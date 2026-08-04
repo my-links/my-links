@@ -13,6 +13,7 @@ import {
 import { Visibility } from '~/types/visibility';
 import { COLLECTION_SECTION } from '~/lib/dnd/dnd_types';
 import { isCollectionDragData } from '~/lib/dnd/drag_data';
+import { armDragClickGuard } from '~/lib/dnd/drag_click_guard';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardDragOverlay } from './dashboard_drag_overlay';
 import { useReorderCollections } from '~/hooks/use_reorder_collections';
@@ -69,6 +70,8 @@ export function DashboardDndProvider({
 	);
 
 	const handleDragEnd = (event: DragEndEvent) => {
+		armDragClickGuard();
+
 		const { active, over } = event;
 		if (!over || active.id === over.id) {
 			return;
@@ -108,6 +111,7 @@ export function DashboardDndProvider({
 				collisionDetection={dashboardCollisionDetection}
 				accessibility={{ announcements: createCollectionDndAnnouncements() }}
 				onDragEnd={handleDragEnd}
+				onDragCancel={armDragClickGuard}
 			>
 				{children}
 				<DashboardDragOverlay />

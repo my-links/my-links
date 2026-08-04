@@ -39,9 +39,14 @@ export function SortableCollectionItem({
 	};
 
 	return (
-		<div ref={setNodeRef} style={style}>
+		<div
+			ref={setNodeRef}
+			style={style}
+			className={isMobile ? undefined : 'cursor-grab active:cursor-grabbing'}
+		>
 			<CollectionItem
 				collection={collection}
+				dragListeners={isMobile ? undefined : listeners}
 				dragHandle={
 					isMobile ? null : (
 						<DragHandle

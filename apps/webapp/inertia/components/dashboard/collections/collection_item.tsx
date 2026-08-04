@@ -1,10 +1,12 @@
 import clsx from 'clsx';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
-import { useRef, type ReactNode } from 'react';
 import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
+import { useRef, type MouseEvent, type ReactNode } from 'react';
+import type { DraggableSyntheticListeners } from '@dnd-kit/core';
 
+import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 import {
 	CollectionControls,
 	CollectionControlsRef,
@@ -13,6 +15,7 @@ import {
 interface CollectionItemProps {
 	collection: Data.Collection;
 	dragHandle?: ReactNode;
+	dragListeners?: DraggableSyntheticListeners;
 }
 
 interface PagePropsWithActiveCollection extends PageProps {
@@ -22,15 +25,22 @@ interface PagePropsWithActiveCollection extends PageProps {
 export function CollectionItem({
 	collection,
 	dragHandle,
+	dragListeners,
 }: Readonly<CollectionItemProps>) {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
 	const isActive = collection.id === activeCollection?.id;
 	const collectionControlsRef = useRef<CollectionControlsRef>(null);
 
-	const handleContextMenu = (e: React.MouseEvent) => {
+	const handleContextMenu = (e: MouseEvent) => {
 		e.preventDefault();
 		collectionControlsRef.current?.openContextMenu(e.clientX, e.clientY);
+	};
+
+	const handleClick = (e: MouseEvent) => {
+		if (shouldSuppressClick()) {
+			e.preventDefault();
+		}
 	};
 
 	return (
@@ -45,7 +55,9 @@ export function CollectionItem({
 					'bg-blue-100/50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
 			)}
 			onContextMenu={handleContextMenu}
+			onClick={handleClick}
 			title={collection.name}
+			{...dragListeners}
 		>
 			{dragHandle}
 			{collection.icon ? (
