@@ -29,8 +29,7 @@ export default class extends BaseSchema {
 		});
 
 		this.schema.alterTable(this.tableName, (table) => {
-			// Restored nullable: the dropped values are gone, so the original
-			// NOT NULL could not be satisfied.
+			// Nullable: refilled from oauth_auths, but credentials accounts have none.
 			table.string('provider_id').nullable();
 			table.enum('provider_type', LEGACY_PROVIDER_TYPES).nullable();
 			table.json('token').nullable();
