@@ -2,9 +2,12 @@ import clsx from 'clsx';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Link } from '@adonisjs/inertia/react';
+import { useRef, type MouseEvent } from 'react';
 import { PageProps } from '@adonisjs/inertia/types';
-import { useRef, type MouseEvent, type ReactNode } from 'react';
-import type { DraggableSyntheticListeners } from '@dnd-kit/core';
+import type {
+	DraggableAttributes,
+	DraggableSyntheticListeners,
+} from '@dnd-kit/core';
 
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 import {
@@ -14,8 +17,9 @@ import {
 
 interface CollectionItemProps {
 	collection: Data.Collection;
-	dragHandle?: ReactNode;
+	dragAttributes?: DraggableAttributes;
 	dragListeners?: DraggableSyntheticListeners;
+	setActivatorNodeRef?: (element: HTMLElement | null) => void;
 }
 
 interface PagePropsWithActiveCollection extends PageProps {
@@ -24,8 +28,9 @@ interface PagePropsWithActiveCollection extends PageProps {
 
 export function CollectionItem({
 	collection,
-	dragHandle,
+	dragAttributes,
 	dragListeners,
+	setActivatorNodeRef,
 }: Readonly<CollectionItemProps>) {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
@@ -45,6 +50,7 @@ export function CollectionItem({
 
 	return (
 		<Link
+			ref={setActivatorNodeRef}
 			route="collection.show"
 			routeParams={{ id: collection.id }}
 			className={clsx(
@@ -57,9 +63,9 @@ export function CollectionItem({
 			onContextMenu={handleContextMenu}
 			onClick={handleClick}
 			title={collection.name}
+			{...dragAttributes}
 			{...dragListeners}
 		>
-			{dragHandle}
 			{collection.icon ? (
 				<span className="text-lg flex-shrink-0 w-5 h-5 flex items-center justify-center">
 					{collection.icon}

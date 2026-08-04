@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import { CSS } from '@dnd-kit/utilities';
 import type { Data } from '@generated/data';
 import { useSortable } from '@dnd-kit/sortable';
@@ -6,7 +5,6 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CollectionItem } from './collection_item';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
-import { DragHandle } from '~/components/dashboard/dnd/drag_handle';
 
 interface SortableCollectionItemProps {
 	collection: Data.Collection;
@@ -30,6 +28,9 @@ export function SortableCollectionItem({
 		id: collection.id,
 		data: { kind: 'collection', collectionId: collection.id, section },
 		disabled: isMobile,
+		// The card is a navigating <a>, not a button — role stays "link" so
+		// screen readers keep announcing it as one.
+		attributes: { role: 'link' },
 	});
 
 	const style = {
@@ -46,17 +47,9 @@ export function SortableCollectionItem({
 		>
 			<CollectionItem
 				collection={collection}
+				dragAttributes={isMobile ? undefined : attributes}
 				dragListeners={isMobile ? undefined : listeners}
-				dragHandle={
-					isMobile ? null : (
-						<DragHandle
-							attributes={attributes}
-							listeners={listeners}
-							setActivatorNodeRef={setActivatorNodeRef}
-							label={t`Reorder ${collection.name}`}
-						/>
-					)
-				}
+				setActivatorNodeRef={isMobile ? undefined : setActivatorNodeRef}
 			/>
 		</div>
 	);
