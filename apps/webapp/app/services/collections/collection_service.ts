@@ -1,9 +1,11 @@
+import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
+import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
@@ -11,6 +13,9 @@ import { Visibility } from '#enums/collections/visibility';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
+import NotFollowingCollectionException from '#exceptions/collections/not_following_collection_exception';
+import InvalidCollectionMembershipException from '#exceptions/collections/invalid_collection_membership_exception';
 import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
@@ -354,6 +359,90 @@ export class CollectionService {
 		return context.response.redirect().toRoute('collection.show', {
 			id: collectionId,
 		});
+	}
+
+	async reorderOwnedCollections(
+		visibility: Visibility,
+		collectionIds: Collection['id'][]
+	): Promise<void> {
+		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		await this.assertOwnedCollectionIds(userId, visibility, collectionIds);
+
+		// `NOW()` freezes to transaction start under the tests' wrapped
+		// transaction, so the timestamp is computed here instead.
+		await db.rawQuery(
+			`UPDATE collections AS target
+			 SET position = ordered.rank - 1, updated_at = ?
+			 FROM UNNEST(?::int[]) WITH ORDINALITY AS ordered(id, rank)
+			 WHERE target.id = ordered.id`,
+			[DateTime.now().toJSDate(), collectionIds]
+		);
+	}
+
+	async reorderFollowedCollections(
+		collectionIds: Collection['id'][]
+	): Promise<void> {
+		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		await this.assertFollowedCollectionIds(userId, collectionIds);
+
+		await db.rawQuery(
+			`UPDATE collection_followers AS target
+			 SET position = ordered.rank - 1
+			 FROM UNNEST(?::int[]) WITH ORDINALITY AS ordered(collection_id, rank)
+			 WHERE target.user_id = ? AND target.collection_id = ordered.collection_id`,
+			[collectionIds, userId]
+		);
+	}
+
+	/**
+	 * Ownership violation (422) and a stale/incomplete payload (409) are
+	 * different failures — the client should retry the latter after a
+	 * reload, not treat it as a permissions error.
+	 */
+	private async assertOwnedCollectionIds(
+		userId: User['id'],
+		visibility: Visibility,
+		collectionIds: Collection['id'][]
+	): Promise<void> {
+		const ownedCollections = await Collection.query()
+			.where('author_id', userId)
+			.whereIn('id', collectionIds);
+
+		if (ownedCollections.length !== new Set(collectionIds).size) {
+			throw new ForeignCollectionException(
+				'One or more collections do not belong to the authenticated user'
+			);
+		}
+
+		const currentSectionIds = (
+			await Collection.query()
+				.where('author_id', userId)
+				.andWhere('visibility', visibility)
+				.select('id')
+		).map((collection) => collection.id);
+
+		if (!idSetsMatch(currentSectionIds, collectionIds)) {
+			throw new InvalidCollectionMembershipException(
+				'The submitted collections do not match the current section'
+			);
+		}
+	}
+
+	private async assertFollowedCollectionIds(
+		userId: User['id'],
+		collectionIds: Collection['id'][]
+	): Promise<void> {
+		const currentRows = await db
+			.from('collection_followers')
+			.where('user_id', userId)
+			.select('collection_id');
+		const currentIds = currentRows.map((row) => row.collection_id as number);
+
+		if (!idSetsMatch(currentIds, collectionIds)) {
+			throw new NotFollowingCollectionException(
+				'The submitted collections are not all followed by the authenticated user'
+			);
+		}
 	}
 
 	private async getNextCollectionPosition(

@@ -20,6 +20,9 @@ export type ScannedRoutes = {
     'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
+    'collection.reorder-owned': { paramsTuple?: []; params?: {} }
+    'collection.reorder-followed': { paramsTuple?: []; params?: {} }
+    'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -172,6 +175,9 @@ export type ScannedRoutes = {
     'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PUT: {
+    'collection.reorder-owned': { paramsTuple?: []; params?: {} }
+    'collection.reorder-followed': { paramsTuple?: []; params?: {} }
+    'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auth.password.change': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

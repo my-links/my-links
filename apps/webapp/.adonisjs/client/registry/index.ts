@@ -102,6 +102,24 @@ const routes = {
     tokens: [{"old":"/collections/favorites","type":0,"val":"collections","end":""},{"old":"/collections/favorites","type":0,"val":"favorites","end":""}],
     types: placeholder as Registry['collection.favorites']['types'],
   },
+  'collection.reorder-owned': {
+    methods: ["PUT"],
+    pattern: '/collections/owned/reorder',
+    tokens: [{"old":"/collections/owned/reorder","type":0,"val":"collections","end":""},{"old":"/collections/owned/reorder","type":0,"val":"owned","end":""},{"old":"/collections/owned/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['collection.reorder-owned']['types'],
+  },
+  'collection.reorder-followed': {
+    methods: ["PUT"],
+    pattern: '/collections/followed/reorder',
+    tokens: [{"old":"/collections/followed/reorder","type":0,"val":"collections","end":""},{"old":"/collections/followed/reorder","type":0,"val":"followed","end":""},{"old":"/collections/followed/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['collection.reorder-followed']['types'],
+  },
+  'collection.reorder-links': {
+    methods: ["PUT"],
+    pattern: '/collections/:id/links/reorder',
+    tokens: [{"old":"/collections/:id/links/reorder","type":0,"val":"collections","end":""},{"old":"/collections/:id/links/reorder","type":1,"val":"id","end":""},{"old":"/collections/:id/links/reorder","type":0,"val":"links","end":""},{"old":"/collections/:id/links/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['collection.reorder-links']['types'],
+  },
   'collection.show': {
     methods: ["GET","HEAD"],
     pattern: '/collections/:id',

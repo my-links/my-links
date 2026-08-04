@@ -16,7 +16,9 @@ import { ActivityEventService } from '#services/activity/activity_event_service'
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 
 function buildService() {
-	const collectionLinkService = new CollectionLinkService();
+	const collectionLinkService = new CollectionLinkService(
+		new SyncJournalService()
+	);
 	return new ExportImportService(
 		new CollectionService(
 			new SyncJournalService(),
