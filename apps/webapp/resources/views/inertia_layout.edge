@@ -19,7 +19,7 @@
   />
   <title inertia>MyLinks</title>
 
-	<script>
+	<script nonce="{{ cspNonce }}">
     (function() {
       const savedTheme = localStorage.getItem('theme');
       const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
