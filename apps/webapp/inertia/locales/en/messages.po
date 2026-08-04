@@ -105,6 +105,10 @@ msgstr "Activity journal"
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
+#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:76
+msgid "Add"
+msgstr "Add"
+
 #: inertia/pages/home.tsx:67
 msgid "Add a link from the app or straight from your browser with the extension. One click, and it's kept."
 msgstr "Add a link from the app or straight from your browser with the extension. One click, and it's kept."
@@ -238,12 +242,12 @@ msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection managed by <0>{0}</0>"
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:32
+#: inertia/lib/dnd/dnd_announcements.ts:36
 msgid "Collection moved within {0}."
 msgstr "Collection moved within {0}."
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:42
+#: inertia/lib/dnd/dnd_announcements.ts:53
 msgid "Collection order updated in {0}."
 msgstr "Collection order updated in {0}."
 
@@ -353,7 +357,7 @@ msgstr "Create token"
 msgid "Create your account"
 msgstr "Create your account"
 
-#: inertia/components/dashboard/links/link_list.tsx:37
+#: inertia/components/dashboard/links/link_list.tsx:41
 msgid "Create your first link to get started"
 msgstr "Create your first link to get started"
 
@@ -362,7 +366,7 @@ msgid "Created at"
 msgstr "Created at"
 
 #. placeholder {0}: activeCollection.author.fullname
-#: inertia/components/dashboard/views/collection_view_content.tsx:41
+#: inertia/components/dashboard/views/collection_view_content.tsx:53
 msgid "Created by <0>{0}</0>"
 msgstr "Created by <0>{0}</0>"
 
@@ -632,7 +636,7 @@ msgstr "ID"
 msgid "Import"
 msgstr "Import"
 
-#: inertia/components/dashboard/links/link_item.tsx:86
+#: inertia/components/dashboard/links/link_item.tsx:104
 msgid "In {collectionCount} collections"
 msgstr "In {collectionCount} collections"
 
@@ -681,7 +685,7 @@ msgstr "Last updated: {date}"
 msgid "Last used at"
 msgstr "Last used at"
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:29
+#: inertia/components/dashboard/views/collection_view_content.tsx:41
 #: inertia/components/dashboard/views/favorites_view_content.tsx:24
 msgid "link"
 msgstr "link"
@@ -690,12 +694,28 @@ msgstr "link"
 msgid "Link"
 msgstr "Link"
 
+#: inertia/lib/dnd/dnd_announcements.ts:61
+msgid "Link filed into another collection."
+msgstr "Link filed into another collection."
+
+#: inertia/lib/dnd/dnd_announcements.ts:43
+msgid "Link moved."
+msgstr "Link moved."
+
+#: inertia/lib/dnd/dnd_announcements.ts:63
+msgid "Link order updated."
+msgstr "Link order updated."
+
+#: inertia/lib/dnd/dnd_announcements.ts:41
+msgid "Link over another collection."
+msgstr "Link over another collection."
+
 #. placeholder {0}: formatDate(googleLink.linkedAt)
 #: inertia/components/user_settings/auth_methods.tsx:90
 msgid "Linked on {0}"
 msgstr "Linked on {0}"
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:31
+#: inertia/components/dashboard/views/collection_view_content.tsx:43
 #: inertia/components/dashboard/views/favorites_view_content.tsx:26
 msgid "links"
 msgstr "links"
@@ -726,6 +746,10 @@ msgstr "Made by"
 #: inertia/components/admin/users/account_actions.tsx:101
 msgid "Mark the address as confirmed"
 msgstr "Mark the address as confirmed"
+
+#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:76
+msgid "Move"
+msgstr "Move"
 
 #: inertia/components/dashboard/collections/collection_list.tsx:34
 #: inertia/lib/dnd/dnd_announcements.ts:14
@@ -809,7 +833,7 @@ msgstr "No collection selected. This link goes to your Inbox."
 msgid "No collections match your search."
 msgstr "No collections match your search."
 
-#: inertia/components/dashboard/links/link_list.tsx:34
+#: inertia/components/dashboard/links/link_list.tsx:38
 #: inertia/components/shared/link_list.tsx:22
 msgid "No links yet"
 msgstr "No links yet"
@@ -877,9 +901,13 @@ msgid "Personal Data"
 msgstr "Personal Data"
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:25
+#: inertia/lib/dnd/dnd_announcements.ts:23
 msgid "Picked up collection in {0}."
 msgstr "Picked up collection in {0}."
+
+#: inertia/lib/dnd/dnd_announcements.ts:26
+msgid "Picked up link."
+msgstr "Picked up link."
 
 #: inertia/components/common/navigation/footer_links.tsx:35
 msgid "Privacy"
@@ -925,8 +953,9 @@ msgstr "Remove"
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
-#: inertia/lib/dnd/dnd_announcements.ts:40
-#: inertia/lib/dnd/dnd_announcements.ts:45
+#: inertia/lib/dnd/dnd_announcements.ts:51
+#: inertia/lib/dnd/dnd_announcements.ts:57
+#: inertia/lib/dnd/dnd_announcements.ts:68
 msgid "Reorder cancelled."
 msgstr "Reorder cancelled."
 

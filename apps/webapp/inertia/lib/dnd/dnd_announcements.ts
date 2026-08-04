@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import type { Announcements } from '@dnd-kit/core';
 
-import { isCollectionDragData } from './drag_data';
+import { isCollectionDragData, isLinkDragData } from './drag_data';
 import { COLLECTION_SECTION, type CollectionSection } from './dnd_types';
 
 function sectionLabel(section: CollectionSection): string {
@@ -15,31 +15,60 @@ function sectionLabel(section: CollectionSection): string {
 	}
 }
 
-export function createCollectionDndAnnouncements(): Announcements {
+export function createDashboardDndAnnouncements(): Announcements {
 	return {
 		onDragStart({ active }) {
 			const data = active.data.current;
-			if (!isCollectionDragData(data)) {
-				return undefined;
+			if (isCollectionDragData(data)) {
+				return t`Picked up collection in ${sectionLabel(data.section)}.`;
 			}
-			return t`Picked up collection in ${sectionLabel(data.section)}.`;
+			if (isLinkDragData(data)) {
+				return t`Picked up link.`;
+			}
+			return undefined;
 		},
 		onDragOver({ active, over }) {
 			const data = active.data.current;
-			if (!isCollectionDragData(data) || !over) {
+			if (!over) {
 				return undefined;
 			}
-			return t`Collection moved within ${sectionLabel(data.section)}.`;
+			if (isCollectionDragData(data)) {
+				return t`Collection moved within ${sectionLabel(data.section)}.`;
+			}
+			if (isLinkDragData(data)) {
+				const overData = over.data.current;
+				if (
+					isCollectionDragData(overData) &&
+					overData.collectionId !== data.collectionId
+				) {
+					return t`Link over another collection.`;
+				}
+				return t`Link moved.`;
+			}
+			return undefined;
 		},
 		onDragEnd({ active, over }) {
 			const data = active.data.current;
-			if (!isCollectionDragData(data)) {
-				return undefined;
+			if (isCollectionDragData(data)) {
+				if (!over) {
+					return t`Reorder cancelled.`;
+				}
+				return t`Collection order updated in ${sectionLabel(data.section)}.`;
 			}
-			if (!over) {
-				return t`Reorder cancelled.`;
+			if (isLinkDragData(data)) {
+				if (!over) {
+					return t`Reorder cancelled.`;
+				}
+				const overData = over.data.current;
+				if (
+					isCollectionDragData(overData) &&
+					overData.collectionId !== data.collectionId
+				) {
+					return t`Link filed into another collection.`;
+				}
+				return t`Link order updated.`;
 			}
-			return t`Collection order updated in ${sectionLabel(data.section)}.`;
+			return undefined;
 		},
 		onDragCancel() {
 			return t`Reorder cancelled.`;
