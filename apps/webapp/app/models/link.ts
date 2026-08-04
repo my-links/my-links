@@ -31,6 +31,7 @@ export default class Link extends AppBaseModel {
 		relatedKey: 'id',
 		pivotForeignKey: 'link_id',
 		pivotRelatedForeignKey: 'collection_id',
+		pivotColumns: ['position'],
 		pivotTimestamps: {
 			createdAt: 'created_at',
 			updatedAt: false,

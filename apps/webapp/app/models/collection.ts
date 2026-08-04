@@ -23,6 +23,9 @@ export default class Collection extends AppBaseModel {
 	declare isDefault: boolean;
 
 	@column()
+	declare position: number;
+
+	@column()
 	declare authorId: number;
 
 	@belongsTo(() => User, { foreignKey: 'authorId' })
@@ -34,6 +37,7 @@ export default class Collection extends AppBaseModel {
 		relatedKey: 'id',
 		pivotForeignKey: 'collection_id',
 		pivotRelatedForeignKey: 'link_id',
+		pivotColumns: ['position'],
 		pivotTimestamps: {
 			createdAt: 'created_at',
 			updatedAt: false,
@@ -47,6 +51,7 @@ export default class Collection extends AppBaseModel {
 		relatedKey: 'id',
 		pivotForeignKey: 'collection_id',
 		pivotRelatedForeignKey: 'user_id',
+		pivotColumns: ['position'],
 		pivotTimestamps: {
 			createdAt: 'created_at',
 			updatedAt: false,

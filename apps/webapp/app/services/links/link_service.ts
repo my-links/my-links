@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import { HttpContext } from '@adonisjs/core/http';
+import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import Link from '#models/link';
 import Collection from '#models/collection';
@@ -9,6 +10,7 @@ import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { CollectionLinkService } from '#services/collections/collection_link_service';
 import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
 
 type LinkPayload = {
@@ -24,7 +26,8 @@ export class LinkService {
 	constructor(
 		protected readonly collectionService: CollectionService,
 		protected readonly syncJournalService: SyncJournalService,
-		protected readonly activityEventService: ActivityEventService
+		protected readonly activityEventService: ActivityEventService,
+		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
 	async createLink(payload: LinkPayload) {
@@ -40,9 +43,12 @@ export class LinkService {
 				{ ...linkAttributes, authorId: userId },
 				{ client: transaction }
 			);
-			await createdLink
-				.related('collections')
-				.attach(resolvedCollectionIds, transaction);
+			const attachments =
+				await this.collectionLinkService.buildPositionedAttachments(
+					resolvedCollectionIds,
+					transaction
+				);
+			await createdLink.related('collections').attach(attachments, transaction);
 			await this.activityEventService.record(
 				{
 					type: ACTIVITY_EVENT_TYPE.LINK_CREATED,
@@ -76,9 +82,11 @@ export class LinkService {
 					collectionIds,
 					userId
 				);
-				await link
-					.related('collections')
-					.sync(resolvedCollectionIds, true, transaction);
+				await this.replaceLinkCollections(
+					link,
+					resolvedCollectionIds,
+					transaction
+				);
 				await this.syncJournalService.markLinksChanged([id], transaction);
 			}
 
@@ -117,6 +125,46 @@ export class LinkService {
 		const defaultCollection =
 			await this.collectionService.getOrCreateDefaultCollection(userId);
 		return [defaultCollection.id];
+	}
+
+	/**
+	 * Replaces membership without disturbing positions of collections the
+	 * link stays in — Lucid's `sync()` attaches new rows with no position,
+	 * which would silently drop them to the top of the collection.
+	 */
+	private async replaceLinkCollections(
+		link: Link,
+		collectionIds: number[],
+		transaction: TransactionClientContract
+	): Promise<void> {
+		const currentCollections = await link
+			.related('collections')
+			.query()
+			.useTransaction(transaction);
+		const currentCollectionIds = currentCollections.map(
+			(collection) => collection.id
+		);
+
+		const targetIds = new Set(collectionIds);
+		const currentIds = new Set(currentCollectionIds);
+
+		const toDetach = currentCollectionIds.filter((cid) => !targetIds.has(cid));
+		const toAttach = collectionIds.filter((cid) => !currentIds.has(cid));
+
+		if (toDetach.length > 0) {
+			await link.related('collections').detach(toDetach, transaction);
+		}
+
+		if (toAttach.length === 0) {
+			return;
+		}
+
+		const attachments =
+			await this.collectionLinkService.buildPositionedAttachments(
+				toAttach,
+				transaction
+			);
+		await link.related('collections').attach(attachments, transaction);
 	}
 
 	async deleteLink(id: number) {

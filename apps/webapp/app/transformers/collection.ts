@@ -49,6 +49,7 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 	withOwnLinks() {
 		return {
 			...this.toObject(),
+			position: this.resource.position,
 			links: LinkTransformer.transform(
 				this.whenLoaded(this.resource.links)
 			)?.useVariant('withCollections'),
