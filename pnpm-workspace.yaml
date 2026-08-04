@@ -1,6 +1,14 @@
 packages:
   - 'apps/*'
 
+# Both ranges are dev/build-tooling-only transitives (ts-morph via
+# @adonisjs/assembler, vite via the extension's build chain) — never
+# reach the served runtime — but the fix is a same-major patch bump,
+# so there is no reason not to take it.
+overrides:
+  brace-expansion@>=5.0.0 <5.0.9: '>=5.0.9'
+  esbuild@>=0.27.3 <0.28.1: '>=0.28.1'
+
 # @adonisjs/inertia type-imports from 'vite' without declaring it as a
 # peerDependency, so pnpm falls back to a single shared hoisted 'vite'
 # across the whole workspace. Now that apps/extension pulls in a newer
