@@ -236,7 +236,7 @@ msgstr "Effacer"
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:62
+#: inertia/components/dashboard/collections/collapsible_section.tsx:91
 msgid "Collapse"
 msgstr "Réduire"
 
@@ -541,7 +541,7 @@ msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconn
 msgid "Everything else signed in on this account will be signed out."
 msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:63
+#: inertia/components/dashboard/collections/collapsible_section.tsx:92
 msgid "Expand"
 msgstr "Développer"
 
@@ -584,7 +584,7 @@ msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 msgid "Follow"
 msgstr "Suivre"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:32
+#: inertia/components/dashboard/collections/collection_list.tsx:35
 #: inertia/lib/dnd/dnd_announcements.ts:10
 msgid "Followed Collections"
 msgstr "Collections suivies"
@@ -759,20 +759,20 @@ msgstr "Marquer l'adresse comme confirmée"
 msgid "Move"
 msgstr "Déplacer"
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:94
-msgid "Move section down"
-msgstr "Déplacer la section vers le bas"
+#: inertia/components/dashboard/collections/collapsible_section.tsx:136
+msgid "Move down"
+msgstr "Descendre"
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:86
-msgid "Move section up"
-msgstr "Déplacer la section vers le haut"
+#: inertia/components/dashboard/collections/collapsible_section.tsx:129
+msgid "Move up"
+msgstr "Monter"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:40
+#: inertia/components/dashboard/collections/collection_list.tsx:43
 #: inertia/lib/dnd/dnd_announcements.ts:14
 msgid "My Private Collections"
 msgstr "Mes collections privées"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:36
+#: inertia/components/dashboard/collections/collection_list.tsx:39
 #: inertia/lib/dnd/dnd_announcements.ts:12
 msgid "My Public Collections"
 msgstr "Mes collections publiques"
@@ -1027,6 +1027,10 @@ msgstr ""
 #: inertia/components/dashboard/search/search_button.tsx:17
 msgid "Search..."
 msgstr "Rechercher..."
+
+#: inertia/components/dashboard/collections/collapsible_section.tsx:115
+msgid "Section options"
+msgstr "Options de la section"
 
 #: inertia/pages/dashboard.tsx:157
 msgid "Select a collection to view its links"

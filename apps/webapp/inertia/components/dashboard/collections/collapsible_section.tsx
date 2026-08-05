@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import type { Data } from '@generated/data';
 import { ReactNode, useState } from 'react';
 import { IconButton } from '@minimalstuff/ui';
@@ -8,9 +9,12 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { useContextMenu } from '~/hooks/use_context_menu';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { CollectionFavoriteItem } from './collection_favorite_item';
 import { SortableCollectionItem } from './sortable_collection_item';
+import { ContextMenu } from '~/components/common/context_menu/context_menu';
+import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
@@ -38,15 +42,40 @@ export function CollapsibleSection({
 	onMoveDown,
 }: Readonly<CollapsibleSectionProps>) {
 	const [isExpanded, setIsExpanded] = useState(true);
+	const {
+		menuPosition,
+		shouldRender,
+		isVisible,
+		menuRef,
+		menuContentRef,
+		toggleMenu,
+		closeMenu,
+		handleContextMenu,
+	} = useContextMenu();
 
 	if (collections.length === 0 && !alwaysShow) {
 		return null;
 	}
 
 	const shouldShowCollapse = canCollapse;
+
+	const handleMoveUp = () => {
+		closeMenu();
+		onMoveUp();
+	};
+
+	const handleMoveDown = () => {
+		closeMenu();
+		onMoveDown();
+	};
+
 	return (
 		<div className="mb-2">
-			<div className="flex items-center justify-between w-full px-2 py-1.5 mb-1 rounded transition-colors gap-1">
+			<div
+				ref={menuRef}
+				onContextMenu={handleContextMenu}
+				className="flex items-center justify-between w-full px-2 py-1.5 mb-1 rounded transition-colors gap-1 group"
+			>
 				<button
 					onClick={() => shouldShowCollapse && setIsExpanded(!isExpanded)}
 					disabled={!shouldShowCollapse}
@@ -76,24 +105,37 @@ export function CollapsibleSection({
 						/>
 					)}
 				</button>
-				<div className="flex items-center gap-0.5 flex-shrink-0">
-					<IconButton
+				<IconButton
+					icon="i-mdi-dots-vertical"
+					size="sm"
+					onClick={(e) => {
+						e.stopPropagation();
+						toggleMenu(e);
+					}}
+					aria-label={t`Section options`}
+					className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
+				/>
+				<ContextMenu
+					isVisible={isVisible}
+					shouldRender={shouldRender}
+					menuPosition={menuPosition}
+					menuContentRef={menuContentRef}
+				>
+					<ContextMenuItem
 						icon="i-ant-design-up-outlined"
-						size="sm"
-						variant="ghost"
+						onClick={handleMoveUp}
 						disabled={!canMoveUp}
-						onClick={onMoveUp}
-						aria-label={t`Move section up`}
-					/>
-					<IconButton
+					>
+						<Trans>Move up</Trans>
+					</ContextMenuItem>
+					<ContextMenuItem
 						icon="i-ant-design-down-outlined"
-						size="sm"
-						variant="ghost"
+						onClick={handleMoveDown}
 						disabled={!canMoveDown}
-						onClick={onMoveDown}
-						aria-label={t`Move section down`}
-					/>
-				</div>
+					>
+						<Trans>Move down</Trans>
+					</ContextMenuItem>
+				</ContextMenu>
 			</div>
 			{isExpanded && (
 				<div className="space-y-1">
