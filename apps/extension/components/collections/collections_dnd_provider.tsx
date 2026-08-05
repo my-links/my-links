@@ -13,6 +13,7 @@ import { useCollections } from '@/hooks/use_collections';
 import { isCollectionDragData } from '@/lib/dnd/drag_data';
 import { visibilityForSection } from '@/lib/dnd/dnd_types';
 import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
+import { CollectionsDragOverlay } from './collections_drag_overlay';
 import { useReorderCollections } from '@/hooks/use_reorder_collections';
 import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
 import { collectionsDndCollisionDetection } from '@/lib/dnd/collision_detection';
@@ -85,6 +86,7 @@ export function CollectionsDndProvider({
 			onDragCancel={armDragClickGuard}
 		>
 			{children}
+			<CollectionsDragOverlay />
 		</DndContext>
 	);
 }
