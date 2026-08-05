@@ -18,6 +18,24 @@ router
 		router
 			.delete('/:id', [controllers.api.collections.DeleteCollection, 'execute'])
 			.as('api-collections.delete');
+		router
+			.put('/owned/reorder', [
+				controllers.api.collections.ReorderOwnedCollections,
+				'execute',
+			])
+			.as('api-collections.reorder-owned');
+		router
+			.put('/followed/reorder', [
+				controllers.api.collections.ReorderFollowedCollections,
+				'execute',
+			])
+			.as('api-collections.reorder-followed');
+		router
+			.put('/:id/links/reorder', [
+				controllers.api.collections.ReorderCollectionLinks,
+				'execute',
+			])
+			.as('api-collections.reorder-links');
 	})
 	.prefix('/api/v1/collections')
 	.middleware([middleware.auth({ guards: ['api'] }), apiThrottle]);

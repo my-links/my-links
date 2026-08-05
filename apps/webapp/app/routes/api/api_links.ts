@@ -15,6 +15,15 @@ router
 		router
 			.delete('/:id', [controllers.api.links.DeleteLink, 'execute'])
 			.as('api-links.delete');
+		router
+			.put('/:id/collection', [controllers.api.links.MoveLink, 'execute'])
+			.as('api-links.move-to-collection');
+		router
+			.post('/:id/collections', [
+				controllers.api.links.AddLinkToCollection,
+				'execute',
+			])
+			.as('api-links.add-to-collection');
 	})
 	.prefix('/api/v1/links')
 	.middleware([middleware.auth({ guards: ['api'] }), apiThrottle]);
