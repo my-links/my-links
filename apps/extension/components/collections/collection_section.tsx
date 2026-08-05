@@ -1,9 +1,13 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
-import { useSortable } from '@dnd-kit/sortable';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { IconButton, Modal, ConfirmModal } from '@minimalstuff/ui';
+import {
+	SortableContext,
+	useSortable,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
 import { LinkRow } from './link_row';
 import { useCollections } from '@/hooks/use_collections';
@@ -193,7 +197,18 @@ export function CollectionSection({
 					{links.length === 0 ? (
 						<p className="px-2 py-1 text-xs text-gray-400">No links yet.</p>
 					) : (
-						links.map((link) => <LinkRow key={link.id} link={link} />)
+						<SortableContext
+							items={links.map((link) => link.id)}
+							strategy={verticalListSortingStrategy}
+						>
+							{links.map((link) => (
+								<LinkRow
+									key={link.id}
+									link={link}
+									collectionId={collection.id}
+								/>
+							))}
+						</SortableContext>
 					)}
 				</div>
 			)}

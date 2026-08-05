@@ -2,13 +2,16 @@ import { describe, expect, it } from 'vitest';
 
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import {
+	addLinkToCollectionInTree,
 	findLinkByUrl,
 	getDefaultCollectionId,
 	insertCollectionIntoTree,
 	insertLinkIntoTree,
+	moveLinkBetweenCollectionsInTree,
 	removeCollectionFromTree,
 	removeLinkFromTree,
 	reorderCollectionsInTree,
+	reorderLinksInTree,
 	replaceCollectionInTree,
 	replaceLinkInTree,
 } from '@/lib/collections_tree';
@@ -208,6 +211,91 @@ describe('reorderCollectionsInTree', () => {
 		const result = reorderCollectionsInTree(collections, 'PRIVATE', [1]);
 
 		expect(result[0].position).toBe(0);
+	});
+});
+
+describe('reorderLinksInTree', () => {
+	it('should resequence the matching collection to the submitted id order', () => {
+		const first = buildLink({ id: 10, name: 'First' });
+		const second = buildLink({ id: 20, name: 'Second' });
+		const collections = [buildCollection({ id: 1, links: [first, second] })];
+
+		const result = reorderLinksInTree(collections, 1, [20, 10]);
+
+		expect(result[0].links).toEqual([second, first]);
+	});
+
+	it('should leave other collections untouched', () => {
+		const link = buildLink({ id: 10 });
+		const collections = [
+			buildCollection({ id: 1, links: [link] }),
+			buildCollection({ id: 2, links: [] }),
+		];
+
+		const result = reorderLinksInTree(collections, 1, [10]);
+
+		expect(result[1].links).toEqual([]);
+	});
+});
+
+describe('moveLinkBetweenCollectionsInTree', () => {
+	it('should detach from the source and attach to the target', () => {
+		const link = buildLink({ id: 10, collectionIds: [1] });
+		const collections = [
+			buildCollection({ id: 1, links: [link] }),
+			buildCollection({ id: 2, links: [] }),
+		];
+
+		const result = moveLinkBetweenCollectionsInTree(collections, 10, 1, 2);
+
+		expect(result[0].links).toEqual([]);
+		expect(result[1].links).toEqual([{ ...link, collectionIds: [2] }]);
+	});
+
+	it('should no-op when the link is not in the source collection', () => {
+		const collections = [
+			buildCollection({ id: 1, links: [] }),
+			buildCollection({ id: 2, links: [] }),
+		];
+
+		const result = moveLinkBetweenCollectionsInTree(collections, 999, 1, 2);
+
+		expect(result).toEqual(collections);
+	});
+});
+
+describe('addLinkToCollectionInTree', () => {
+	it('should attach the link to the target without detaching it from the source', () => {
+		const link = buildLink({ id: 10, collectionIds: [1] });
+		const collections = [
+			buildCollection({ id: 1, links: [link] }),
+			buildCollection({ id: 2, links: [] }),
+		];
+
+		const result = addLinkToCollectionInTree(collections, 10, 2);
+
+		expect(result[0].links).toEqual([link]);
+		expect(result[1].links).toEqual([{ ...link, collectionIds: [1, 2] }]);
+	});
+
+	it('should be a no-op when the link is already in the target collection', () => {
+		const link = buildLink({ id: 10, collectionIds: [1, 2] });
+		const collections = [
+			buildCollection({ id: 1, links: [link] }),
+			buildCollection({ id: 2, links: [link] }),
+		];
+
+		const result = addLinkToCollectionInTree(collections, 10, 2);
+
+		expect(result).toEqual(collections);
+	});
+
+	it('should no-op when the link does not exist anywhere in the tree', () => {
+		const collections = [buildCollection({ id: 1, links: [] })];
+
+		const result = addLinkToCollectionInTree(collections, 999, 1);
+
+		expect(result).toEqual(collections);
 	});
 });
 

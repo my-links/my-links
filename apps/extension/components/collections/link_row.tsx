@@ -1,4 +1,7 @@
+import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/sortable';
 import { Modal, ConfirmModal } from '@minimalstuff/ui';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 
 import { LinkFavicon } from './link_favicon';
 import type { LinkResource } from '@/lib/api/types';
@@ -8,15 +11,17 @@ import { useInstanceUrl } from '@/hooks/use_instance_url';
 import { useContextMenu } from '@/hooks/use_context_menu';
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { ContextMenu } from '@/components/common/context_menu';
+import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import { EditLinkModal } from '@/components/links/edit_link_modal';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
 
 interface LinkRowProps {
 	link: LinkResource;
+	collectionId: number;
 }
 
-export function LinkRow({ link }: Readonly<LinkRowProps>) {
+export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 	const instanceUrl = useInstanceUrl();
 	const { collections } = useCollections();
 	const deleteLink = useDeleteLink();
@@ -27,6 +32,29 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 	// Falls back to the raw target only until `instanceUrl` hydrates from
 	// storage — the redirect is what counts the click.
 	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		setActivatorNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({
+		id: link.id,
+		data: { kind: 'link', linkId: link.id, collectionId },
+		// Overrides dnd-kit's default `role: 'button'` — wrong on an `<a>` that
+		// actually navigates.
+		attributes: { role: 'link' },
+	});
+
+	const handleClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+		// A real DOM click still fires on mouseup after a whole-card drag —
+		// suppressed here so it doesn't also navigate the link.
+		if (shouldSuppressClick()) {
+			event.preventDefault();
+		}
+	};
 
 	const handleCopyLink = () => {
 		contextMenu.closeMenu();
@@ -60,15 +88,25 @@ export function LinkRow({ link }: Readonly<LinkRowProps>) {
 
 	return (
 		<div
+			ref={setNodeRef}
 			onContextMenu={contextMenu.handleContextMenu}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.5 : undefined,
+			}}
 			className="group relative flex items-center rounded-md hover:bg-white/50 dark:hover:bg-gray-800/50"
 		>
 			<a
+				ref={setActivatorNodeRef}
+				{...attributes}
+				{...listeners}
 				href={href}
 				target="_blank"
 				rel="noreferrer"
 				title={link.url}
-				className="flex min-w-0 flex-1 items-center gap-2 px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300"
+				onClick={handleClick}
+				className="flex min-w-0 flex-1 cursor-grab items-center gap-2 px-2 py-1.5 text-sm text-gray-700 active:cursor-grabbing dark:text-gray-300"
 			>
 				{faviconUrl &&
 					instanceUrl && (

@@ -116,6 +116,113 @@ export function removeCollectionFromTree(
 	return collections.filter((collection) => collection.id !== collectionId);
 }
 
+/**
+ * Links carry no pivot `position` field (unlike collections) — the array
+ * order returned by the server already *is* the order, so reordering means
+ * resequencing the matching collection's `links` array to the submitted id
+ * list, same contract as `reorderCollectionLinks` on the server.
+ */
+export function reorderLinksInTree(
+	collections: CollectionWithLinks[],
+	collectionId: number,
+	linkIds: number[]
+): CollectionWithLinks[] {
+	return collections.map((collection) => {
+		if (collection.id !== collectionId) {
+			return collection;
+		}
+		const linksById = new Map(
+			(collection.links ?? []).map((link) => [link.id, link])
+		);
+		const reordered = linkIds
+			.map((linkId) => linksById.get(linkId))
+			.filter((link): link is LinkResource => link !== undefined);
+		return { ...collection, links: reordered };
+	});
+}
+
+/**
+ * Detach from the source collection, attach to the target — mirrors the
+ * server's move semantics, never duplicates the `links` row. Only the two
+ * collections involved are patched; a third collection also holding this
+ * link keeps a stale `collectionIds` until the resync that follows every
+ * mutation (see `useCollectionsMutation`) corrects it.
+ */
+export function moveLinkBetweenCollectionsInTree(
+	collections: CollectionWithLinks[],
+	linkId: number,
+	fromCollectionId: number,
+	toCollectionId: number
+): CollectionWithLinks[] {
+	const sourceCollection = collections.find(
+		(collection) => collection.id === fromCollectionId
+	);
+	const movedLink = sourceCollection?.links?.find((link) => link.id === linkId);
+	if (!movedLink) {
+		return collections;
+	}
+
+	const nextLink = {
+		...movedLink,
+		collectionIds: movedLink.collectionIds
+			.filter((id) => id !== fromCollectionId)
+			.concat(toCollectionId),
+	};
+
+	return collections.map((collection) => {
+		if (collection.id === fromCollectionId) {
+			return {
+				...collection,
+				links: (collection.links ?? []).filter((link) => link.id !== linkId),
+			};
+		}
+		if (collection.id === toCollectionId) {
+			return { ...collection, links: [...(collection.links ?? []), nextLink] };
+		}
+		return collection;
+	});
+}
+
+/**
+ * Shift+drop: attach to the target collection without detaching from the
+ * source. Idempotent — a double drop (or a stale drag re-fired) must not
+ * insert the link twice, matching the server's no-op-if-already-present rule.
+ */
+export function addLinkToCollectionInTree(
+	collections: CollectionWithLinks[],
+	linkId: number,
+	collectionId: number
+): CollectionWithLinks[] {
+	const existingLink = collections
+		.flatMap((collection) => collection.links ?? [])
+		.find((link) => link.id === linkId);
+	if (!existingLink) {
+		return collections;
+	}
+
+	const targetCollection = collections.find(
+		(collection) => collection.id === collectionId
+	);
+	const alreadyPresent =
+		targetCollection?.links?.some((link) => link.id === linkId) ?? false;
+	if (alreadyPresent) {
+		return collections;
+	}
+
+	const nextLink = {
+		...existingLink,
+		collectionIds: existingLink.collectionIds.includes(collectionId)
+			? existingLink.collectionIds
+			: [...existingLink.collectionIds, collectionId],
+	};
+
+	return collections.map((collection) =>
+		collection.id === collectionId
+			? { ...collection, links: [...(collection.links ?? []), nextLink] }
+			: collection
+	);
+}
+
 export function findLinkByUrl(
 	collections: CollectionWithLinks[],
 	url: string
