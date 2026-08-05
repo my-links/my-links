@@ -26,7 +26,7 @@ export function useCollections(): UseCollectionsReturn {
 
 	const query = useQuery({
 		queryKey: COLLECTIONS_QUERY_KEY,
-		queryFn: fetchCollections,
+		queryFn: async () => (await fetchCollections()).collections,
 		staleTime: Infinity,
 	});
 

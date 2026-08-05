@@ -1,6 +1,5 @@
 import { storage } from 'wxt/utils/storage';
 
-import type { CollectionWithLinks } from '@/lib/api/types';
 import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
 import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
 import {
@@ -15,6 +14,10 @@ import {
 	INITIAL_SYNC_BACKOFF_STATE,
 	type SyncBackoffState,
 } from '@/lib/sync/backoff';
+import type {
+	CollectionWithLinks,
+	FollowedCollectionWithLinks,
+} from '@/lib/api/types';
 
 const LOCAL_DEV_INSTANCE_URL = 'http://localhost:3333';
 const PUBLIC_INSTANCE_URL = 'https://mylinks.app';
@@ -35,11 +38,13 @@ export const apiTokenStorage = storage.defineItem<string | null>(
 
 export interface CollectionsCache {
 	collections: CollectionWithLinks[];
+	followedCollections: FollowedCollectionWithLinks[];
 	fetchedAt: number;
 }
 
 const EMPTY_COLLECTIONS_CACHE: CollectionsCache = {
 	collections: [],
+	followedCollections: [],
 	fetchedAt: 0,
 };
 

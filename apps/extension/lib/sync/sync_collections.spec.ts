@@ -23,7 +23,10 @@ beforeEach(() => {
 
 describe('syncCollections', () => {
 	it('should cache the fetched collections and reset backoff on success', async () => {
-		mockedFetchCollections.mockResolvedValue([]);
+		mockedFetchCollections.mockResolvedValue({
+			collections: [],
+			followedCollections: [],
+		});
 
 		await syncCollections();
 
@@ -64,7 +67,10 @@ describe('syncCollections', () => {
 
 	it('should clear the invalid-token flag once a sync succeeds', async () => {
 		await authInvalidStorage.setValue(true);
-		mockedFetchCollections.mockResolvedValue([]);
+		mockedFetchCollections.mockResolvedValue({
+			collections: [],
+			followedCollections: [],
+		});
 
 		await syncCollections();
 
@@ -83,7 +89,9 @@ describe('syncCollections', () => {
 	});
 
 	it('should not run two syncs concurrently', async () => {
-		let resolveFetch: (collections: []) => void = () => {};
+		let resolveFetch: (
+			collections: Awaited<ReturnType<typeof fetchCollections>>
+		) => void = () => {};
 		mockedFetchCollections.mockImplementation(
 			() =>
 				new Promise((resolve) => {
@@ -95,7 +103,7 @@ describe('syncCollections', () => {
 		const secondSync = syncCollections();
 
 		await vi.waitFor(() => expect(mockedFetchCollections).toHaveBeenCalled());
-		resolveFetch([]);
+		resolveFetch({ collections: [], followedCollections: [] });
 		await Promise.all([firstSync, secondSync]);
 
 		expect(mockedFetchCollections).toHaveBeenCalledTimes(1);

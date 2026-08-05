@@ -35,9 +35,10 @@ export async function syncCollections(): Promise<void> {
 		}
 
 		try {
-			const collections = await fetchCollections();
+			const { collections, followedCollections } = await fetchCollections();
 			await collectionsCacheStorage.setValue({
 				collections,
+				followedCollections,
 				fetchedAt: Date.now(),
 			});
 			await syncBackoffStorage.setValue(INITIAL_SYNC_BACKOFF_STATE);
