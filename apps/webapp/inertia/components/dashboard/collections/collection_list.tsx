@@ -16,6 +16,7 @@ type SectionConfig = {
 	title: ReactNode;
 	collections: CollectionWithLinks[];
 	alwaysShow?: boolean;
+	showFavoriteItem?: boolean;
 };
 
 export function CollectionList() {
@@ -23,17 +24,11 @@ export function CollectionList() {
 		useDashboardDndCollections();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
 
-	const sectionsCount = [
-		followedCollections.length > 0,
-		myPublicCollections.length > 0,
-		myPrivateCollections.length > 0,
-	].filter(Boolean).length;
-	const canCollapse = sectionsCount > 1;
-
 	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
 		[COLLECTION_SECTION.FOLLOWED]: {
 			title: <Trans>Followed Collections</Trans>,
 			collections: followedCollections,
+			alwaysShow: true,
 		},
 		[COLLECTION_SECTION.PUBLIC]: {
 			title: <Trans>My Public Collections</Trans>,
@@ -43,8 +38,14 @@ export function CollectionList() {
 			title: <Trans>My Private Collections</Trans>,
 			collections: myPrivateCollections,
 			alwaysShow: true,
+			showFavoriteItem: true,
 		},
 	};
+
+	const renderedSectionsCount = Object.values(sectionsByKey).filter(
+		(section) => section.alwaysShow ?? section.collections.length > 0
+	).length;
+	const canCollapse = renderedSectionsCount > 1;
 
 	return (
 		<div className="flex flex-col h-full">
@@ -57,6 +58,7 @@ export function CollectionList() {
 						section={section}
 						canCollapse={canCollapse}
 						alwaysShow={sectionsByKey[section].alwaysShow}
+						showFavoriteItem={sectionsByKey[section].showFavoriteItem}
 						canMoveUp={index > 0}
 						canMoveDown={index < order.length - 1}
 						onMoveUp={() => moveSectionUp(section)}
