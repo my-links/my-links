@@ -312,6 +312,33 @@ export class CollectionService {
 			.orderBy('collections.name', 'asc');
 	}
 
+	/**
+	 * Same as `getFollowedCollections`, plus each collection's links —
+	 * the extension renders a followed collection's contents directly on
+	 * fetch, unlike the webapp sidebar which only loads links once a
+	 * specific collection is opened.
+	 */
+	async getFollowedCollectionsWithLinks(userId: User['id']) {
+		return await Collection.query()
+			.select('collections.*')
+			.innerJoin(
+				'collection_followers',
+				'collection_followers.collection_id',
+				'collections.id'
+			)
+			.where('collection_followers.user_id', userId)
+			.andWhere('collections.visibility', Visibility.PUBLIC)
+			.preload('author')
+			.preload('links', (q) => {
+				q.orderBy('collection_link.position', 'asc').orderBy(
+					'links.name',
+					'asc'
+				);
+			})
+			.orderBy('collection_followers.position', 'asc')
+			.orderBy('collections.name', 'asc');
+	}
+
 	async isFollowingCollection(
 		collectionId: Collection['id'],
 		userId: User['id']

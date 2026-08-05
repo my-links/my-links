@@ -4,11 +4,14 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
-import { createCollection } from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
+import {
+	createCollection,
+	followCollection,
+} from '#tests/factories/collection_factory';
 
 async function setCollectionPosition(collectionId: number, position: number) {
 	await db.from('collections').where('id', collectionId).update({ position });
@@ -23,6 +26,18 @@ async function setLinkPosition(
 		.from('collection_link')
 		.where('collection_id', collectionId)
 		.andWhere('link_id', linkId)
+		.update({ position });
+}
+
+async function setFollowerPosition(
+	collectionId: number,
+	userId: number,
+	position: number
+) {
+	await db
+		.from('collection_followers')
+		.where('collection_id', collectionId)
+		.andWhere('user_id', userId)
 		.update({ position });
 }
 
@@ -100,6 +115,140 @@ test.group('API get collections — order', (group) => {
 		assert.deepEqual(
 			match?.links.map((link) => link.id),
 			[linkB.id, linkA.id]
+		);
+	});
+});
+
+test.group('API get collections — followed', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should list followed public collections, ordered by the follower’s position, marked as not owned', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'followed-owner' });
+		const follower = await createUser({ emailPrefix: 'followed-follower' });
+		const first = await createCollection({
+			author: owner,
+			name: 'First',
+			visibility: Visibility.PUBLIC,
+		});
+		const second = await createCollection({
+			author: owner,
+			name: 'Second',
+			visibility: Visibility.PUBLIC,
+		});
+		await followCollection(first, follower);
+		await followCollection(second, follower);
+		await setFollowerPosition(first.id, follower.id, 1);
+		await setFollowerPosition(second.id, follower.id, 0);
+
+		const response = await client
+			.get('/api/v1/collections')
+			.withGuard('api')
+			.loginAs(follower);
+
+		response.assertStatus(200);
+		const followedCollections = (
+			response.body() as {
+				followedCollections: Array<{ id: number; isOwner: boolean }>;
+			}
+		).followedCollections;
+
+		assert.deepEqual(
+			followedCollections.map((collection) => collection.id),
+			[second.id, first.id]
+		);
+		assert.isTrue(
+			followedCollections.every((collection) => !collection.isOwner)
+		);
+	});
+
+	test('should order a followed collection’s links by the author’s position, without exposing collection membership', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'followed-links-owner' });
+		const follower = await createUser({
+			emailPrefix: 'followed-links-follower',
+		});
+		const collection = await createCollection({
+			author: owner,
+			name: 'Reading',
+			visibility: Visibility.PUBLIC,
+		});
+		const linkA = await createLink({
+			author: owner,
+			name: 'A',
+			url: 'https://a.example.com',
+		});
+		const linkB = await createLink({
+			author: owner,
+			name: 'B',
+			url: 'https://b.example.com',
+		});
+		await attachLinkToCollection(linkA, collection);
+		await attachLinkToCollection(linkB, collection);
+		await setLinkPosition(collection.id, linkA.id, 1);
+		await setLinkPosition(collection.id, linkB.id, 0);
+		await followCollection(collection, follower);
+
+		const response = await client
+			.get('/api/v1/collections')
+			.withGuard('api')
+			.loginAs(follower);
+
+		response.assertStatus(200);
+		const followedCollections = (
+			response.body() as {
+				followedCollections: Array<{
+					id: number;
+					links: Array<{ id: number; collectionIds?: number[] }>;
+				}>;
+			}
+		).followedCollections;
+		const match = followedCollections.find(
+			(entry) => entry.id === collection.id
+		);
+
+		assert.deepEqual(
+			match?.links.map((link) => link.id),
+			[linkB.id, linkA.id]
+		);
+		assert.isUndefined(match?.links[0]?.collectionIds);
+	});
+
+	test('should exclude a collection that turned private after being followed', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'followed-private-owner' });
+		const follower = await createUser({
+			emailPrefix: 'followed-private-follower',
+		});
+		const collection = await createCollection({
+			author: owner,
+			name: 'No longer public',
+			visibility: Visibility.PUBLIC,
+		});
+		await followCollection(collection, follower);
+		await db
+			.from('collections')
+			.where('id', collection.id)
+			.update({ visibility: Visibility.PRIVATE });
+
+		const response = await client
+			.get('/api/v1/collections')
+			.withGuard('api')
+			.loginAs(follower);
+
+		response.assertStatus(200);
+		const followedCollections = (
+			response.body() as { followedCollections: Array<{ id: number }> }
+		).followedCollections;
+
+		assert.isFalse(
+			followedCollections.some((entry) => entry.id === collection.id)
 		);
 	});
 });

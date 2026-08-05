@@ -8,11 +8,23 @@ import { CollectionService } from '#services/collections/collection_service';
 export default class GetCollectionsController {
 	constructor(protected readonly collectionService: CollectionService) {}
 
-	async render({ serialize }: HttpContext) {
+	async render({ auth, response, serialize }: HttpContext) {
 		const collections =
 			await this.collectionService.getCollectionsForAuthenticatedUser();
-		return serialize(
+		const followedCollections =
+			await this.collectionService.getFollowedCollectionsWithLinks(
+				auth.getUserOrFail().id
+			);
+
+		const { data } = await serialize(
 			CollectionTransformer.transform(collections).useVariant('withOwnLinks')
 		);
+		const followedData = await serialize.withoutWrapping(
+			CollectionTransformer.transform(followedCollections).useVariant(
+				'withLinks'
+			)
+		);
+
+		return response.json({ data, followedCollections: followedData });
 	}
 }
