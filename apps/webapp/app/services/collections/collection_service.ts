@@ -64,13 +64,25 @@ export class CollectionService {
 		};
 	}
 
+	/**
+	 * Backs `GET /api/v1/collections` (the extension). Collections and links
+	 * are each ordered within their own `position` scope, same as the sidebar
+	 * — `position` is scoped `(author_id, visibility)` for collections and
+	 * `(collection_id)` for the pivot, so this cannot produce one merged
+	 * global order, only two internally-consistent ones. The client sorts
+	 * public/private into their own sections using `visibility`, already on
+	 * every collection.
+	 */
 	async getCollectionsForAuthenticatedUser() {
 		const context = this.getAuthContext();
 		return await Collection.query()
 			.where('author_id', context.auth.getUserOrFail().id)
+			.orderBy('position', 'asc')
 			.orderBy('name', 'asc')
 			.preload('links', (q) => {
-				q.orderBy('favorite', 'desc').preload('collections');
+				q.orderBy('collection_link.position', 'asc')
+					.orderBy('links.name', 'asc')
+					.preload('collections');
 			});
 	}
 
