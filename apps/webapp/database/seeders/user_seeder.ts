@@ -19,12 +19,15 @@ const SEEDED_USERS_COUNT = 25;
  */
 const ADMIN_EMAIL = 'admin@example.com';
 const ADMIN_PASSWORD = '^bW4zyz3Tidjqe';
+const USER_EMAIL = 'user@example.com';
+const USER_PASSWORD = '^bW4zyz3Tidjqe';
 
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
 		await this.seedAdmin();
+		await this.seedUser();
 
 		const users = faker.helpers.multiple(() => createRandomUser(), {
 			count: SEEDED_USERS_COUNT,
@@ -36,10 +39,6 @@ export default class extends BaseSeeder {
 		);
 	}
 
-	/**
-	 * Upserted rather than created, so re-seeding a database that already has
-	 * the account resets its password instead of failing on the unique email.
-	 */
 	private async seedAdmin(): Promise<void> {
 		const admin = await User.updateOrCreate(
 			{ email: ADMIN_EMAIL },
@@ -55,6 +54,24 @@ export default class extends BaseSeeder {
 		await PasswordAuth.updateOrCreate(
 			{ userId: admin.id },
 			{ password: ADMIN_PASSWORD, passwordChangedAt: DateTime.now() }
+		);
+	}
+
+	private async seedUser(): Promise<void> {
+		const user = await User.updateOrCreate(
+			{ email: USER_EMAIL },
+			{
+				name: 'User',
+				nickName: 'user',
+				avatarUrl: null,
+				isAdmin: false,
+				emailVerifiedAt: DateTime.now(),
+			}
+		);
+
+		await PasswordAuth.updateOrCreate(
+			{ userId: user.id },
+			{ password: USER_PASSWORD, passwordChangedAt: DateTime.now() }
 		);
 	}
 }
