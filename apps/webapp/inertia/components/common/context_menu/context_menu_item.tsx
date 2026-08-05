@@ -6,16 +6,18 @@ interface ContextMenuItemProps {
 	onClick: (e: MouseEvent<HTMLButtonElement>) => void;
 	children: ReactNode;
 	variant?: 'default' | 'danger';
+	disabled?: boolean;
 }
 
 const ITEM_BASE_CLASSES =
-	'w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700';
+	'w-full flex items-center gap-2 px-4 py-2 text-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent';
 
 export const ContextMenuItem = ({
 	icon,
 	onClick,
 	children,
 	variant = 'default',
+	disabled = false,
 }: Readonly<ContextMenuItemProps>) => (
 	<button
 		onClick={(e) => {
@@ -23,6 +25,7 @@ export const ContextMenuItem = ({
 			e.stopPropagation();
 			onClick(e);
 		}}
+		disabled={disabled}
 		className={clsx(
 			ITEM_BASE_CLASSES,
 			variant === 'danger'
