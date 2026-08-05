@@ -43,6 +43,8 @@ export function CollectionSection({
 	} = useSortable({
 		id: collection.id,
 		data: { kind: 'collection', collectionId: collection.id, section },
+		// Default layout-change animation scales rows to old/new height on reorder — wrong for wildly variable collapsed/expanded heights.
+		animateLayoutChanges: () => false,
 	});
 
 	const handleToggle = () => {
