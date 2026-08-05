@@ -105,7 +105,7 @@ msgstr "Journal d'activité"
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
-#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:76
+#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:88
 msgid "Add"
 msgstr "Ajouter"
 
@@ -236,6 +236,10 @@ msgstr "Effacer"
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
 
+#: inertia/components/dashboard/collections/collapsible_section.tsx:62
+msgid "Collapse"
+msgstr "Réduire"
+
 #. placeholder {0}: activeCollection.author?.fullname
 #: inertia/pages/shared.tsx:100
 msgid "Collection managed by <0>{0}</0>"
@@ -247,7 +251,7 @@ msgid "Collection moved within {0}."
 msgstr "Collection déplacée dans {0}."
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:53
+#: inertia/lib/dnd/dnd_announcements.ts:56
 msgid "Collection order updated in {0}."
 msgstr "Ordre des collections mis à jour dans {0}."
 
@@ -537,6 +541,10 @@ msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconn
 msgid "Everything else signed in on this account will be signed out."
 msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 
+#: inertia/components/dashboard/collections/collapsible_section.tsx:63
+msgid "Expand"
+msgstr "Développer"
+
 #: inertia/components/api_tokens/api_tokens.tsx:145
 #: inertia/components/user_settings/sessions.tsx:79
 msgid "Expires at"
@@ -576,7 +584,7 @@ msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 msgid "Follow"
 msgstr "Suivre"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:22
+#: inertia/components/dashboard/collections/collection_list.tsx:32
 #: inertia/lib/dnd/dnd_announcements.ts:10
 msgid "Followed Collections"
 msgstr "Collections suivies"
@@ -694,19 +702,19 @@ msgstr "lien"
 msgid "Link"
 msgstr "Lier"
 
-#: inertia/lib/dnd/dnd_announcements.ts:61
+#: inertia/lib/dnd/dnd_announcements.ts:67
 msgid "Link filed into another collection."
 msgstr "Lien classé dans une autre collection."
 
-#: inertia/lib/dnd/dnd_announcements.ts:43
+#: inertia/lib/dnd/dnd_announcements.ts:46
 msgid "Link moved."
 msgstr "Lien déplacé."
 
-#: inertia/lib/dnd/dnd_announcements.ts:63
+#: inertia/lib/dnd/dnd_announcements.ts:69
 msgid "Link order updated."
 msgstr "Ordre des liens mis à jour."
 
-#: inertia/lib/dnd/dnd_announcements.ts:41
+#: inertia/lib/dnd/dnd_announcements.ts:44
 msgid "Link over another collection."
 msgstr "Lien au-dessus d'une autre collection."
 
@@ -747,16 +755,24 @@ msgstr "Créé par"
 msgid "Mark the address as confirmed"
 msgstr "Marquer l'adresse comme confirmée"
 
-#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:76
+#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:88
 msgid "Move"
 msgstr "Déplacer"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:34
+#: inertia/components/dashboard/collections/collapsible_section.tsx:94
+msgid "Move section down"
+msgstr "Déplacer la section vers le bas"
+
+#: inertia/components/dashboard/collections/collapsible_section.tsx:86
+msgid "Move section up"
+msgstr "Déplacer la section vers le haut"
+
+#: inertia/components/dashboard/collections/collection_list.tsx:40
 #: inertia/lib/dnd/dnd_announcements.ts:14
 msgid "My Private Collections"
 msgstr "Mes collections privées"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:28
+#: inertia/components/dashboard/collections/collection_list.tsx:36
 #: inertia/lib/dnd/dnd_announcements.ts:12
 msgid "My Public Collections"
 msgstr "Mes collections publiques"
@@ -953,9 +969,9 @@ msgstr "Supprimer"
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
 
-#: inertia/lib/dnd/dnd_announcements.ts:51
-#: inertia/lib/dnd/dnd_announcements.ts:57
-#: inertia/lib/dnd/dnd_announcements.ts:68
+#: inertia/lib/dnd/dnd_announcements.ts:54
+#: inertia/lib/dnd/dnd_announcements.ts:60
+#: inertia/lib/dnd/dnd_announcements.ts:74
 msgid "Reorder cancelled."
 msgstr "Réorganisation annulée."
 
