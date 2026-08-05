@@ -4,6 +4,8 @@ import { createExtensionApiClient } from '@/lib/api/client';
 export class CreateLinkError extends Error {}
 export class UpdateLinkError extends Error {}
 export class DeleteLinkError extends Error {}
+export class MoveLinkError extends Error {}
+export class AddLinkToCollectionError extends Error {}
 
 export interface CreateLinkInput {
 	name: string;
@@ -63,5 +65,38 @@ export async function deleteLink(linkId: number): Promise<void> {
 
 	if (error) {
 		throw new DeleteLinkError('Failed to delete the link.');
+	}
+}
+
+export async function moveLinkToCollection(
+	linkId: number,
+	fromCollectionId: number,
+	toCollectionId: number
+): Promise<void> {
+	const client = await createExtensionApiClient();
+	const { error } = await client.PUT('/api/v1/links/{id}/collection', {
+		params: { path: { id: linkId } },
+		body: { fromCollectionId, toCollectionId },
+	});
+
+	if (error) {
+		throw new MoveLinkError('Failed to move the link.');
+	}
+}
+
+export async function addLinkToCollection(
+	linkId: number,
+	collectionId: number
+): Promise<void> {
+	const client = await createExtensionApiClient();
+	const { error } = await client.POST('/api/v1/links/{id}/collections', {
+		params: { path: { id: linkId } },
+		body: { collectionId },
+	});
+
+	if (error) {
+		throw new AddLinkToCollectionError(
+			'Failed to add the link to the collection.'
+		);
 	}
 }

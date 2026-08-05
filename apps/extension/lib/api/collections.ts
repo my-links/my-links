@@ -10,6 +10,7 @@ export class CreateCollectionError extends Error {}
 export class UpdateCollectionError extends Error {}
 export class DeleteCollectionError extends Error {}
 export class ReorderCollectionsError extends Error {}
+export class ReorderCollectionLinksError extends Error {}
 
 /**
  * The instance rejected the API token (deleted or expired) — distinct from a
@@ -111,5 +112,20 @@ export async function reorderCollections(
 
 	if (error) {
 		throw new ReorderCollectionsError('Failed to reorder collections.');
+	}
+}
+
+export async function reorderCollectionLinks(
+	collectionId: number,
+	linkIds: number[]
+): Promise<void> {
+	const client = await createExtensionApiClient();
+	const { error } = await client.PUT('/api/v1/collections/{id}/links/reorder', {
+		params: { path: { id: collectionId } },
+		body: { linkIds },
+	});
+
+	if (error) {
+		throw new ReorderCollectionLinksError('Failed to reorder links.');
 	}
 }

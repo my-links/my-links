@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { ReactNode } from 'react';
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import {
@@ -7,14 +8,19 @@ import {
 	useSensor,
 	useSensors,
 	type DragEndEvent,
+	type DragStartEvent,
 } from '@dnd-kit/core';
 
 import { useCollections } from '@/hooks/use_collections';
-import { isCollectionDragData } from '@/lib/dnd/drag_data';
 import { visibilityForSection } from '@/lib/dnd/dnd_types';
+import { useReorderLinks } from '@/hooks/use_reorder_links';
+import { useShiftModifier } from '@/hooks/use_shift_modifier';
 import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
 import { CollectionsDragOverlay } from './collections_drag_overlay';
 import { useReorderCollections } from '@/hooks/use_reorder_collections';
+import { isCollectionDragData, isLinkDragData } from '@/lib/dnd/drag_data';
+import { useAddLinkToCollection } from '@/hooks/use_add_link_to_collection';
+import { useMoveLinkToCollection } from '@/hooks/use_move_link_to_collection';
 import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
 import { collectionsDndCollisionDetection } from '@/lib/dnd/collision_detection';
 
@@ -40,12 +46,30 @@ export function CollectionsDndProvider({
 }: Readonly<CollectionsDndProviderProps>) {
 	const { collections } = useCollections();
 	const reorderCollections = useReorderCollections();
+	const reorderLinks = useReorderLinks();
+	const moveLinkToCollection = useMoveLinkToCollection();
+	const addLinkToCollection = useAddLinkToCollection();
+	const [activeDragKind, setActiveDragKind] = useState<
+		'collection' | 'link' | null
+	>(null);
+	const { isShiftPressed, isShiftPressedRef } = useShiftModifier(
+		activeDragKind === 'link'
+	);
 	const sensors = useSensors(
 		useSensor(PointerSensor, POINTER_SENSOR_OPTIONS),
 		useSensor(KeyboardSensor, KEYBOARD_SENSOR_OPTIONS)
 	);
 
-	const handleDragEnd = (event: DragEndEvent) => {
+	const handleDragStart = (event: DragStartEvent) => {
+		const data = event.active.data.current;
+		if (isCollectionDragData(data)) {
+			setActiveDragKind('collection');
+		} else if (isLinkDragData(data)) {
+			setActiveDragKind('link');
+		}
+	};
+
+	const handleCollectionDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		if (!over || active.id === over.id) return;
 
@@ -72,9 +96,66 @@ export function CollectionsDndProvider({
 		});
 	};
 
-	const handleDragEndWithGuard = (event: DragEndEvent) => {
+	const handleLinkDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+		if (!over) return;
+
+		const activeData = active.data.current;
+		if (!isLinkDragData(activeData)) return;
+
+		const overData = over.data.current;
+
+		if (isCollectionDragData(overData)) {
+			if (overData.collectionId === activeData.collectionId) return;
+			if (isShiftPressedRef.current) {
+				addLinkToCollection.mutate({
+					linkId: activeData.linkId,
+					collectionId: overData.collectionId,
+				});
+			} else {
+				moveLinkToCollection.mutate({
+					linkId: activeData.linkId,
+					fromCollectionId: activeData.collectionId,
+					toCollectionId: overData.collectionId,
+				});
+			}
+			return;
+		}
+
+		if (isLinkDragData(overData) && active.id !== over.id) {
+			const collection = collections.find(
+				(item) => item.id === activeData.collectionId
+			);
+			const links = collection?.links ?? [];
+			const activeIndex = links.findIndex(
+				(link) => link.id === activeData.linkId
+			);
+			const overIndex = links.findIndex((link) => link.id === overData.linkId);
+			if (activeIndex === -1 || overIndex === -1) return;
+
+			const reordered = arrayMove(links, activeIndex, overIndex);
+			reorderLinks.mutate({
+				collectionId: activeData.collectionId,
+				linkIds: reordered.map((link) => link.id),
+			});
+		}
+	};
+
+	const handleDragEnd = (event: DragEndEvent) => {
 		armDragClickGuard();
-		handleDragEnd(event);
+		setActiveDragKind(null);
+
+		const activeData = event.active.data.current;
+		if (isCollectionDragData(activeData)) {
+			handleCollectionDragEnd(event);
+		} else if (isLinkDragData(activeData)) {
+			handleLinkDragEnd(event);
+		}
+	};
+
+	const handleDragCancel = () => {
+		armDragClickGuard();
+		setActiveDragKind(null);
 	};
 
 	return (
@@ -82,11 +163,12 @@ export function CollectionsDndProvider({
 			sensors={sensors}
 			collisionDetection={collectionsDndCollisionDetection}
 			accessibility={{ announcements: ANNOUNCEMENTS }}
-			onDragEnd={handleDragEndWithGuard}
-			onDragCancel={armDragClickGuard}
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+			onDragCancel={handleDragCancel}
 		>
 			{children}
-			<CollectionsDragOverlay />
+			<CollectionsDragOverlay isShiftPressed={isShiftPressed} />
 		</DndContext>
 	);
 }
