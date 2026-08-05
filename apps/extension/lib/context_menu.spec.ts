@@ -134,6 +134,7 @@ describe('handleContextMenuClick', () => {
 					description: null,
 					visibility: 'PRIVATE',
 					icon: null,
+					position: 0,
 					links: [
 						{
 							id: 1,

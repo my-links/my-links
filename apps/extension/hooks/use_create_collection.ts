@@ -19,6 +19,10 @@ function toOptimisticCollection(input: CollectionInput): CollectionWithLinks {
 		description: input.description,
 		visibility: input.visibility,
 		icon: input.icon ?? null,
+		// Placeholder — a new collection is appended (insertCollectionIntoTree),
+		// and the resync that always follows a mutation overwrites this with the
+		// server's real value before anything reads it for ordering.
+		position: 0,
 		links: [],
 	};
 }
