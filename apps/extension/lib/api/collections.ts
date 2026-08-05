@@ -2,6 +2,7 @@ import { createExtensionApiClient } from '@/lib/api/client';
 import type {
 	CollectionVisibility,
 	CollectionWithLinks,
+	FollowedCollectionWithLinks,
 } from '@/lib/api/types';
 
 export class FetchCollectionsError extends Error {}
@@ -25,7 +26,12 @@ export interface CollectionInput {
 	icon?: string | null;
 }
 
-export async function fetchCollections(): Promise<CollectionWithLinks[]> {
+export interface FetchedCollections {
+	collections: CollectionWithLinks[];
+	followedCollections: FollowedCollectionWithLinks[];
+}
+
+export async function fetchCollections(): Promise<FetchedCollections> {
 	const client = await createExtensionApiClient();
 	const {
 		data: collectionsResponse,
@@ -46,7 +52,10 @@ export async function fetchCollections(): Promise<CollectionWithLinks[]> {
 		);
 	}
 
-	return collectionsResponse.data;
+	return {
+		collections: collectionsResponse.data,
+		followedCollections: collectionsResponse.followedCollections,
+	};
 }
 
 export async function createCollection(

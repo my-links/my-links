@@ -527,6 +527,38 @@ export interface components {
 				updatedAt: string;
 				visibility: components['schemas']['Visibility'];
 			}[];
+			followedCollections: {
+				author?: {
+					avatarUrl: string | null;
+					createdAt: string;
+					fullname: string;
+					id: number;
+					isAdmin: boolean;
+					updatedAt: string;
+				};
+				authorId: number;
+				createdAt: string;
+				description: string | null;
+				icon: string | null;
+				id: number;
+				isDefault: boolean;
+				isOwner: boolean;
+				links?: {
+					authorId: number;
+					clicks: number;
+					createdAt: string;
+					description: string | null;
+					favorite: boolean;
+					id: number;
+					lastClickedAt: string | null;
+					name: string;
+					updatedAt: string;
+					url: string;
+				}[];
+				name: string;
+				updatedAt: string;
+				visibility: components['schemas']['Visibility'];
+			}[];
 		};
 		GetFavoriteLinksRenderResponse: {
 			data: {

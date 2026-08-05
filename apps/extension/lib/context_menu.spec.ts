@@ -122,6 +122,7 @@ describe('handleContextMenuClick', () => {
 	it('should skip creation and not resync when the URL is already saved', async () => {
 		await collectionsCacheStorage.setValue({
 			fetchedAt: Date.now(),
+			followedCollections: [],
 			collections: [
 				{
 					id: 1,
