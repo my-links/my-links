@@ -3,6 +3,8 @@ import { Trans } from '@lingui/react/macro';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { DragOverlay, useDndContext } from '@dnd-kit/core';
 
+import { useLayoutStore } from '~/stores/layout_store';
+import { LinkItem } from '~/components/dashboard/links/link_item';
 import { useDashboardDndCollections } from './dashboard_dnd_provider';
 import { isCollectionDragData, isLinkDragData } from '~/lib/dnd/drag_data';
 
@@ -17,6 +19,7 @@ export function DashboardDragOverlay({
 	isShiftPressed,
 }: Readonly<DashboardDragOverlayProps>) {
 	const { active, over } = useDndContext();
+	const { layout } = useLayoutStore('dashboard');
 	const {
 		followedCollections,
 		myPublicCollections,
@@ -59,18 +62,24 @@ export function DashboardDragOverlay({
 		const isOverAnotherCollection =
 			isCollectionDragData(overData) &&
 			overData.collectionId !== activeData.collectionId;
+		// Matches the card's own width so the overlay doesn't fall back to
+		// whatever intrinsic width LinkItem gets outside of its grid/compact
+		// column — a plain pill here was the actual bug: it looked the same
+		// in every layout instead of mirroring the one being dragged from.
+		const width = active.rect.current.initial?.width;
 
 		return (
 			<DragOverlay modifiers={OVERLAY_MODIFIERS}>
 				{link ? (
-					<div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white dark:bg-gray-800 shadow-lg border border-gray-200/50 dark:border-gray-700/50 max-w-xs">
-						<span className="truncate text-sm font-medium text-gray-900 dark:text-gray-100">
-							{link.name}
-						</span>
+					<div
+						className="relative shadow-lg"
+						style={width ? { width } : undefined}
+					>
+						<LinkItem link={link} layout={layout} hideMenu />
 						{isOverAnotherCollection && (
 							<span
 								className={clsx(
-									'flex-shrink-0 rounded px-1.5 py-0.5 text-xs font-medium',
+									'absolute -top-2 -right-2 rounded px-1.5 py-0.5 text-xs font-medium shadow',
 									isShiftPressed
 										? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'
 										: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300'
