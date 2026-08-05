@@ -1,3 +1,4 @@
+import { buildReorderOperation } from '@/lib/bookmarks/ordering';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import type { BookmarkOperation } from '@/lib/bookmarks/operations';
 import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
@@ -129,35 +130,13 @@ export function buildPinnedReorder(
 	barChildren: BookmarkNode[],
 	mapping: BookmarkMapping
 ): BookmarkOperation[] {
-	const presentNodeIds = new Set(barChildren.map((child) => child.id));
-	const rankedNodeIds = desiredBookmarks
+	const desiredNodeIds = desiredBookmarks
 		.map((bookmark) =>
 			getMappedBookmarkId(mapping, buildPinnedLinkKey(bookmark.linkId))
 		)
-		.filter(
-			(nodeId): nodeId is string =>
-				nodeId !== undefined && presentNodeIds.has(nodeId)
-		);
+		.filter((nodeId): nodeId is string => nodeId !== undefined);
 
-	const actualOrder = barChildren
-		.filter((child) => rankedNodeIds.includes(child.id))
-		.map((child) => child.id);
-
-	const isAlreadyOrdered =
-		actualOrder.length === rankedNodeIds.length &&
-		actualOrder.every((nodeId, index) => nodeId === rankedNodeIds[index]);
-
-	if (isAlreadyOrdered) {
-		return [];
-	}
-
-	return [
-		{
-			kind: 'reorder-pinned',
-			parentNodeId: barId,
-			nodeIdsInOrder: rankedNodeIds,
-		},
-	];
+	return buildReorderOperation(desiredNodeIds, barId, barChildren);
 }
 
 function toDesiredBookmark(link: LinkResource): DesiredBookmark {
