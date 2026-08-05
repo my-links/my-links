@@ -24,6 +24,7 @@ interface CollapsibleSectionProps {
 	section: CollectionSection;
 	canCollapse?: boolean;
 	alwaysShow?: boolean;
+	showFavoriteItem?: boolean;
 	canMoveUp: boolean;
 	canMoveDown: boolean;
 	onMoveUp: () => void;
@@ -36,6 +37,7 @@ export function CollapsibleSection({
 	section,
 	canCollapse = true,
 	alwaysShow = false,
+	showFavoriteItem = false,
 	canMoveUp,
 	canMoveDown,
 	onMoveUp,
@@ -139,7 +141,7 @@ export function CollapsibleSection({
 			</div>
 			{isExpanded && (
 				<div className="space-y-1">
-					{alwaysShow && <CollectionFavoriteItem />}
+					{showFavoriteItem && <CollectionFavoriteItem />}
 					<SortableContext
 						items={collections.map((collection) => collection.id)}
 						strategy={verticalListSortingStrategy}
