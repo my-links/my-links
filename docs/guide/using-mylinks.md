@@ -17,6 +17,14 @@ A link has a name, an optional description, a URL, and the collections it belong
 
 Opening a link goes through a redirect that counts the click. Clicks are what rank your most-used links first — the more you actually open something, the higher it surfaces.
 
+## Reordering
+
+Drag a collection in the sidebar, or a link inside a collection, to set your own order — it persists across reloads. Only a collection's author can reorder its links; followers see the author's order.
+
+Dropping a link on a collection in the sidebar moves it there, removing it from the collection you dragged it from. Hold **Shift** while dropping to add it to the target collection instead of moving it, leaving the source untouched.
+
+From the keyboard: focus a draggable card, press Space to pick it up, the arrow keys to move it, Space again to drop it, or Escape to cancel.
+
 ## Search
 
 Full-text search covers both collections and links, matching on name and URL. It is available from anywhere in the app, and from the browser extension's panel with a keyboard shortcut — see [Browser extension](/guide/browser-extension).
