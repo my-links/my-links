@@ -162,8 +162,8 @@ async function applyOperation(
 		case 'move-node':
 			await api.move(operation.nodeId, { parentId: operation.parentNodeId });
 			return NO_MAPPING_RESULT;
-		case 'reorder-pinned':
-			await reorderPinned(api, operation);
+		case 'reorder-children':
+			await reorderChildren(api, operation);
 			return NO_MAPPING_RESULT;
 	}
 }
@@ -257,9 +257,9 @@ async function createBookmark(
  * so placing node `n` only lands correctly once nodes `0..n-1` already sit
  * where they belong.
  */
-async function reorderPinned(
+async function reorderChildren(
 	api: BookmarksApi,
-	operation: Extract<BookmarkOperation, { kind: 'reorder-pinned' }>
+	operation: Extract<BookmarkOperation, { kind: 'reorder-children' }>
 ): Promise<void> {
 	for (const [index, nodeId] of operation.nodeIdsInOrder.entries()) {
 		await api.move(nodeId, { parentId: operation.parentNodeId, index });

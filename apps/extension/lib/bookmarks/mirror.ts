@@ -10,9 +10,9 @@ import { createCoalescingRunner } from '@/lib/coalescing_runner';
 import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
 import { fingerprintServerChanges } from '@/lib/bookmarks/change_fingerprint';
 import {
-	withMappedBookmark,
-	type BookmarkMapping,
-} from '@/lib/bookmarks/mapping';
+	buildFolderReorder,
+	buildLinkReorder,
+} from '@/lib/bookmarks/collection_order';
 import {
 	applyBookmarkOperations,
 	MAX_CONCURRENT_BOOKMARK_WRITES,
@@ -22,6 +22,11 @@ import {
 	buildLinkKey,
 	type DesiredBookmark,
 } from '@/lib/bookmarks/desired_tree';
+import {
+	getMappedFolderId,
+	withMappedBookmark,
+	type BookmarkMapping,
+} from '@/lib/bookmarks/mapping';
 import {
 	getBrowserBookmarksApi,
 	type BookmarkNode,
@@ -194,6 +199,12 @@ async function runMirrorPass(): Promise<void> {
 	if (wasRecomputed) {
 		await applyPinnedOrder(api, barId, pinnedFavorites, applyResult.mapping);
 	}
+	await applyCollectionOrder(
+		api,
+		collectionsFolderId,
+		collectionsCache.collections,
+		applyResult.mapping
+	);
 
 	// The snapshot is what tells the next pass which side moved, so it may
 	// only advance on a pass that fully landed. A write that failed leaves it
@@ -335,6 +346,55 @@ async function applyPinnedOrder(
 
 	if (reorderOperations.length > 0) {
 		await applyBookmarkOperations(api, barId, reorderOperations, mapping);
+	}
+}
+
+/**
+ * Unlike the pinned bar, there is no local ranking to protect — server
+ * `position` is the only source of order here, and the extension has no UI of
+ * its own to compete with it, so this runs every pass rather than being
+ * throttled to a recompute.
+ */
+async function applyCollectionOrder(
+	api: BookmarksApi,
+	collectionsFolderId: string,
+	collections: CollectionWithLinks[],
+	mapping: BookmarkMapping
+): Promise<void> {
+	const [collectionsFolder] = await api.getSubTree(collectionsFolderId);
+	const folderChildren = collectionsFolder?.children ?? [];
+	const folderNodeById = new Map(folderChildren.map((node) => [node.id, node]));
+
+	const operations = [
+		...buildFolderReorder(
+			collections,
+			collectionsFolderId,
+			folderChildren,
+			mapping
+		),
+		...collections.flatMap((collection) => {
+			const folderNodeId = getMappedFolderId(mapping, collection.id);
+			const folderNode = folderNodeId
+				? folderNodeById.get(folderNodeId)
+				: undefined;
+			return folderNode
+				? buildLinkReorder(
+						collection,
+						folderNode.id,
+						folderNode.children ?? [],
+						mapping
+					)
+				: [];
+		}),
+	];
+
+	if (operations.length > 0) {
+		await applyBookmarkOperations(
+			api,
+			collectionsFolderId,
+			operations,
+			mapping
+		);
 	}
 }
 

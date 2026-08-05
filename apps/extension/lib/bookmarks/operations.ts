@@ -53,9 +53,15 @@ export type BookmarkOperation =
 	/**
 	 * Ordering is one operation carrying the whole ranking rather than a move
 	 * per node: each move renumbers its siblings, so independently computed
-	 * indexes would land in the wrong final order.
+	 * indexes would land in the wrong final order. Parent-agnostic — used for
+	 * the pinned bar, the collections folder, and the links inside one
+	 * collection folder alike.
 	 */
-	| { kind: 'reorder-pinned'; parentNodeId: string; nodeIdsInOrder: string[] };
+	| {
+			kind: 'reorder-children';
+			parentNodeId: string;
+			nodeIdsInOrder: string[];
+	  };
 
 /**
  * A node on the bar is a link's pin; one inside a collection folder is its

@@ -166,7 +166,7 @@ describe('buildPinnedReorder', () => {
 
 		expect(operations).toEqual([
 			{
-				kind: 'reorder-pinned',
+				kind: 'reorder-children',
 				parentNodeId: barId,
 				nodeIdsInOrder: ['p2', 'p1'],
 			},
