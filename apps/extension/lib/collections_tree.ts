@@ -1,4 +1,8 @@
-import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
+import type {
+	CollectionVisibility,
+	CollectionWithLinks,
+	LinkResource,
+} from '@/lib/api/types';
 
 /**
  * Pure read/write helpers over the collections tree held in TanStack Query's
@@ -81,6 +85,28 @@ export function replaceCollectionInTree(
 	return collections.map((collection) =>
 		collection.id === collectionId ? { ...collection, ...patch } : collection
 	);
+}
+
+/**
+ * Takes the already-final ordered id list (post-`arrayMove`, not a pair of
+ * indices) — the server's `assertOwnedCollectionIds` requires the exact,
+ * complete id set for the section on every reorder call, so there is no
+ * partial-move variant to compute here, only a full assignment of
+ * `0..n-1` to the matching visibility. Collections outside `visibility` are
+ * left untouched.
+ */
+export function reorderCollectionsInTree(
+	collections: CollectionWithLinks[],
+	visibility: CollectionVisibility,
+	collectionIds: number[]
+): CollectionWithLinks[] {
+	return collections.map((collection) => {
+		if (collection.visibility !== visibility) {
+			return collection;
+		}
+		const position = collectionIds.indexOf(collection.id);
+		return position === -1 ? collection : { ...collection, position };
+	});
 }
 
 export function removeCollectionFromTree(

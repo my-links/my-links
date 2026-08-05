@@ -9,6 +9,7 @@ export class FetchCollectionsError extends Error {}
 export class CreateCollectionError extends Error {}
 export class UpdateCollectionError extends Error {}
 export class DeleteCollectionError extends Error {}
+export class ReorderCollectionsError extends Error {}
 
 /**
  * The instance rejected the API token (deleted or expired) — distinct from a
@@ -96,5 +97,19 @@ export async function deleteCollection(collectionId: number): Promise<void> {
 
 	if (error) {
 		throw new DeleteCollectionError('Failed to delete the collection.');
+	}
+}
+
+export async function reorderCollections(
+	visibility: CollectionVisibility,
+	collectionIds: number[]
+): Promise<void> {
+	const client = await createExtensionApiClient();
+	const { error } = await client.PUT('/api/v1/collections/owned/reorder', {
+		body: { visibility, collectionIds },
+	});
+
+	if (error) {
+		throw new ReorderCollectionsError('Failed to reorder collections.');
 	}
 }

@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/sortable';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { IconButton, Modal, ConfirmModal } from '@minimalstuff/ui';
 
@@ -10,24 +12,43 @@ import type { CollectionWithLinks } from '@/lib/api/types';
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { EditCollectionModal } from './edit_collection_modal';
 import { ContextMenu } from '@/components/common/context_menu';
+import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import { useDeleteCollection } from '@/hooks/use_delete_collection';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { CreateLinkModal } from '@/components/links/create_link_modal';
+import type { CollectionSection as CollectionDndSection } from '@/lib/dnd/dnd_types';
 
 interface CollectionSectionProps {
 	collection: CollectionWithLinks;
+	section: CollectionDndSection;
 }
 
 export function CollectionSection({
 	collection,
+	section,
 }: Readonly<CollectionSectionProps>) {
 	const [isExpanded, setIsExpanded] = useState(true);
 	const { collections } = useCollections();
 	const deleteCollection = useDeleteCollection();
 	const contextMenu = useContextMenu();
 	const links = collection.links ?? [];
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		setActivatorNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({
+		id: collection.id,
+		data: { kind: 'collection', collectionId: collection.id, section },
+	});
 
-	const handleToggle = () => setIsExpanded((previous) => !previous);
+	const handleToggle = () => {
+		if (shouldSuppressClick()) return;
+		setIsExpanded((previous) => !previous);
+	};
 
 	const handleContextMenu = (event: ReactMouseEvent) => {
 		if (collection.isDefault) return;
@@ -72,15 +93,26 @@ export function CollectionSection({
 	};
 
 	return (
-		<div className="group mb-1">
+		<div
+			ref={setNodeRef}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.5 : undefined,
+			}}
+			className="group mb-1"
+		>
 			<div
 				onContextMenu={handleContextMenu}
 				className="relative flex w-full items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50"
 			>
 				<button
+					ref={setActivatorNodeRef}
+					{...attributes}
+					{...listeners}
 					onClick={handleToggle}
 					aria-expanded={isExpanded}
-					className="flex min-w-0 flex-1 items-center gap-2 text-left"
+					className="flex min-w-0 flex-1 cursor-grab items-center gap-2 text-left active:cursor-grabbing"
 				>
 					<div
 						className={clsx(
