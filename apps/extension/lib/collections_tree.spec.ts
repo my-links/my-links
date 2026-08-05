@@ -8,6 +8,7 @@ import {
 	insertLinkIntoTree,
 	removeCollectionFromTree,
 	removeLinkFromTree,
+	reorderCollectionsInTree,
 	replaceCollectionInTree,
 	replaceLinkInTree,
 } from '@/lib/collections_tree';
@@ -162,6 +163,51 @@ describe('replaceCollectionInTree', () => {
 
 		expect(result[0].name).toBe('New name');
 		expect(result[1].name).toBe('Untouched');
+	});
+});
+
+describe('reorderCollectionsInTree', () => {
+	it('should assign the submitted order as positions within the matching visibility', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE', position: 0 }),
+			buildCollection({ id: 2, visibility: 'PRIVATE', position: 1 }),
+		];
+
+		const result = reorderCollectionsInTree(collections, 'PRIVATE', [2, 1]);
+
+		expect(result.find((c) => c.id === 2)?.position).toBe(0);
+		expect(result.find((c) => c.id === 1)?.position).toBe(1);
+	});
+
+	it('should leave collections from the other visibility untouched', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE', position: 0 }),
+			buildCollection({ id: 2, visibility: 'PUBLIC', position: 5 }),
+		];
+
+		const result = reorderCollectionsInTree(collections, 'PRIVATE', [1]);
+
+		expect(result.find((c) => c.id === 2)?.position).toBe(5);
+	});
+
+	it('should no-op on an id not present in collectionIds', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE', position: 3 }),
+		];
+
+		const result = reorderCollectionsInTree(collections, 'PRIVATE', [999]);
+
+		expect(result[0].position).toBe(3);
+	});
+
+	it('should handle a single-collection section', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE', position: 4 }),
+		];
+
+		const result = reorderCollectionsInTree(collections, 'PRIVATE', [1]);
+
+		expect(result[0].position).toBe(0);
 	});
 });
 

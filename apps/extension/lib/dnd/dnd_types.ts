@@ -1,3 +1,5 @@
+import type { CollectionVisibility } from '@/lib/api/types';
+
 export const COLLECTION_SECTION = {
 	PUBLIC: 'public',
 	PRIVATE: 'private',
@@ -5,6 +7,28 @@ export const COLLECTION_SECTION = {
 
 export type CollectionSection =
 	(typeof COLLECTION_SECTION)[keyof typeof COLLECTION_SECTION];
+
+const VISIBILITY_BY_SECTION: Record<CollectionSection, CollectionVisibility> = {
+	[COLLECTION_SECTION.PUBLIC]: 'PUBLIC',
+	[COLLECTION_SECTION.PRIVATE]: 'PRIVATE',
+};
+
+const SECTION_BY_VISIBILITY: Record<CollectionVisibility, CollectionSection> = {
+	PUBLIC: COLLECTION_SECTION.PUBLIC,
+	PRIVATE: COLLECTION_SECTION.PRIVATE,
+};
+
+export function visibilityForSection(
+	section: CollectionSection
+): CollectionVisibility {
+	return VISIBILITY_BY_SECTION[section];
+}
+
+export function sectionForVisibility(
+	visibility: CollectionVisibility
+): CollectionSection {
+	return SECTION_BY_VISIBILITY[visibility];
+}
 
 /**
  * No `isOwner` field, unlike the webapp source this was ported from —
