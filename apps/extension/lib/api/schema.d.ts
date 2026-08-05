@@ -62,6 +62,84 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
+	'/api/v1/collections/followed/reorder': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody: {
+				content: {
+					'application/json': components['schemas']['ReorderFollowedCollectionsProps'];
+				};
+			};
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['ReorderFollowedCollectionsExecuteResponse'];
+					};
+				};
+			};
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/api/v1/collections/owned/reorder': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody: {
+				content: {
+					'application/json': components['schemas']['ReorderCollectionsProps'];
+				};
+			};
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['ReorderOwnedCollectionsExecuteResponse'];
+					};
+				};
+			};
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	'/api/v1/collections/{id}': {
 		parameters: {
 			query?: never;
@@ -119,6 +197,47 @@ export interface paths {
 				};
 			};
 		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/api/v1/collections/{id}/links/reorder': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					id: string | number;
+				};
+				cookie?: never;
+			};
+			requestBody: {
+				content: {
+					'application/json': components['schemas']['ReorderCollectionLinksProps'];
+				};
+			};
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['ReorderCollectionLinksExecuteResponse'];
+					};
+				};
+			};
+		};
+		post?: never;
+		delete?: never;
 		options?: never;
 		head?: never;
 		patch?: never;
@@ -295,6 +414,88 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
+	'/api/v1/links/{id}/collection': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					id: string | number;
+				};
+				cookie?: never;
+			};
+			requestBody: {
+				content: {
+					'application/json': components['schemas']['MoveLinkProps'];
+				};
+			};
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['MoveLinkExecuteResponse'];
+					};
+				};
+			};
+		};
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	'/api/v1/links/{id}/collections': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path: {
+					id: string | number;
+				};
+				cookie?: never;
+			};
+			requestBody: {
+				content: {
+					'application/json': components['schemas']['AddLinkToCollectionProps'];
+				};
+			};
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['AddLinkToCollectionExecuteResponse'];
+					};
+				};
+			};
+		};
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	'/api/v1/sync': {
 		parameters: {
 			query?: never;
@@ -408,6 +609,12 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
 	schemas: {
+		AddLinkToCollectionExecuteResponse: {
+			message: string;
+		};
+		AddLinkToCollectionProps: {
+			collectionId: string | number;
+		};
 		ApiTokenRenderResponse: {
 			message: string;
 		};
@@ -591,6 +798,32 @@ export interface components {
 				syncDelta: boolean;
 			};
 			isHealthy: boolean;
+		};
+		MoveLinkExecuteResponse: {
+			message: string;
+		};
+		MoveLinkProps: {
+			fromCollectionId: string | number;
+			toCollectionId: string | number;
+		};
+		ReorderCollectionLinksExecuteResponse: {
+			message: string;
+		};
+		ReorderCollectionLinksProps: {
+			linkIds: (string | number)[];
+		};
+		ReorderCollectionsProps: {
+			collectionIds: (string | number)[];
+			visibility: components['schemas']['Visibility'];
+		};
+		ReorderFollowedCollectionsExecuteResponse: {
+			message: string;
+		};
+		ReorderFollowedCollectionsProps: {
+			collectionIds: (string | number)[];
+		};
+		ReorderOwnedCollectionsExecuteResponse: {
+			message: string;
 		};
 		SyncRenderResponse: {
 			collections: {
