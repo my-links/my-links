@@ -20,15 +20,20 @@ export const controllers = {
       CreateCollection: () => import('#controllers/api/collections/create_collection_controller'),
       DeleteCollection: () => import('#controllers/api/collections/delete_collection_controller'),
       GetCollections: () => import('#controllers/api/collections/get_collections_controller'),
+      ReorderCollectionLinks: () => import('#controllers/api/collections/reorder_collection_links_controller'),
+      ReorderFollowedCollections: () => import('#controllers/api/collections/reorder_followed_collections_controller'),
+      ReorderOwnedCollections: () => import('#controllers/api/collections/reorder_owned_collections_controller'),
       UpdateCollection: () => import('#controllers/api/collections/update_collection_controller'),
     },
     health: {
       Health: () => import('#controllers/api/health/health_controller'),
     },
     links: {
+      AddLinkToCollection: () => import('#controllers/api/links/add_link_to_collection_controller'),
       CreateLink: () => import('#controllers/api/links/create_link_controller'),
       DeleteLink: () => import('#controllers/api/links/delete_link_controller'),
       GetFavoriteLinks: () => import('#controllers/api/links/get_favorite_links_controller'),
+      MoveLink: () => import('#controllers/api/links/move_link_controller'),
       UpdateLink: () => import('#controllers/api/links/update_link_controller'),
     },
     sync: {

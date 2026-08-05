@@ -360,6 +360,24 @@ const routes = {
     tokens: [{"old":"/api/v1/collections/:id","type":0,"val":"api","end":""},{"old":"/api/v1/collections/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/collections/:id","type":0,"val":"collections","end":""},{"old":"/api/v1/collections/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['api-collections.delete']['types'],
   },
+  'api-collections.reorder-owned': {
+    methods: ["PUT"],
+    pattern: '/api/v1/collections/owned/reorder',
+    tokens: [{"old":"/api/v1/collections/owned/reorder","type":0,"val":"api","end":""},{"old":"/api/v1/collections/owned/reorder","type":0,"val":"v1","end":""},{"old":"/api/v1/collections/owned/reorder","type":0,"val":"collections","end":""},{"old":"/api/v1/collections/owned/reorder","type":0,"val":"owned","end":""},{"old":"/api/v1/collections/owned/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['api-collections.reorder-owned']['types'],
+  },
+  'api-collections.reorder-followed': {
+    methods: ["PUT"],
+    pattern: '/api/v1/collections/followed/reorder',
+    tokens: [{"old":"/api/v1/collections/followed/reorder","type":0,"val":"api","end":""},{"old":"/api/v1/collections/followed/reorder","type":0,"val":"v1","end":""},{"old":"/api/v1/collections/followed/reorder","type":0,"val":"collections","end":""},{"old":"/api/v1/collections/followed/reorder","type":0,"val":"followed","end":""},{"old":"/api/v1/collections/followed/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['api-collections.reorder-followed']['types'],
+  },
+  'api-collections.reorder-links': {
+    methods: ["PUT"],
+    pattern: '/api/v1/collections/:id/links/reorder',
+    tokens: [{"old":"/api/v1/collections/:id/links/reorder","type":0,"val":"api","end":""},{"old":"/api/v1/collections/:id/links/reorder","type":0,"val":"v1","end":""},{"old":"/api/v1/collections/:id/links/reorder","type":0,"val":"collections","end":""},{"old":"/api/v1/collections/:id/links/reorder","type":1,"val":"id","end":""},{"old":"/api/v1/collections/:id/links/reorder","type":0,"val":"links","end":""},{"old":"/api/v1/collections/:id/links/reorder","type":0,"val":"reorder","end":""}],
+    types: placeholder as Registry['api-collections.reorder-links']['types'],
+  },
   'api-favorites.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/links/favorites',
@@ -389,6 +407,18 @@ const routes = {
     pattern: '/api/v1/links/:id',
     tokens: [{"old":"/api/v1/links/:id","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['api-links.delete']['types'],
+  },
+  'api-links.move-to-collection': {
+    methods: ["PUT"],
+    pattern: '/api/v1/links/:id/collection',
+    tokens: [{"old":"/api/v1/links/:id/collection","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id/collection","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id/collection","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id/collection","type":1,"val":"id","end":""},{"old":"/api/v1/links/:id/collection","type":0,"val":"collection","end":""}],
+    types: placeholder as Registry['api-links.move-to-collection']['types'],
+  },
+  'api-links.add-to-collection': {
+    methods: ["POST"],
+    pattern: '/api/v1/links/:id/collections',
+    tokens: [{"old":"/api/v1/links/:id/collections","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id/collections","type":1,"val":"id","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"collections","end":""}],
+    types: placeholder as Registry['api-links.add-to-collection']['types'],
   },
   'api-sync.delta': {
     methods: ["GET","HEAD"],

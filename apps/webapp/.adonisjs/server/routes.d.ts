@@ -63,11 +63,16 @@ export type ScannedRoutes = {
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-collections.reorder-owned': { paramsTuple?: []; params?: {} }
+    'api-collections.reorder-followed': { paramsTuple?: []; params?: {} }
+    'api-collections.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-links.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -171,6 +176,7 @@ export type ScannedRoutes = {
     'auth.email.change': { paramsTuple?: []; params?: {} }
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
+    'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.create': { paramsTuple?: []; params?: {} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -184,7 +190,11 @@ export type ScannedRoutes = {
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'auth.password.change': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-collections.reorder-owned': { paramsTuple?: []; params?: {} }
+    'api-collections.reorder-followed': { paramsTuple?: []; params?: {} }
+    'api-collections.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-links.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

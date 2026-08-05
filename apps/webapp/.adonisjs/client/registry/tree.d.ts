@@ -94,6 +94,9 @@ export interface ApiDefinition {
     create: typeof routes['api-collections.create']
     update: typeof routes['api-collections.update']
     delete: typeof routes['api-collections.delete']
+    reorderOwned: typeof routes['api-collections.reorder-owned']
+    reorderFollowed: typeof routes['api-collections.reorder-followed']
+    reorderLinks: typeof routes['api-collections.reorder-links']
   }
   apiFavorites: {
     index: typeof routes['api-favorites.index']
@@ -105,6 +108,8 @@ export interface ApiDefinition {
     create: typeof routes['api-links.create']
     update: typeof routes['api-links.update']
     delete: typeof routes['api-links.delete']
+    moveToCollection: typeof routes['api-links.move-to-collection']
+    addToCollection: typeof routes['api-links.add-to-collection']
   }
   apiSync: {
     delta: typeof routes['api-sync.delta']
