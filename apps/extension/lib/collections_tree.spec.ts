@@ -43,6 +43,7 @@ function buildCollection(
 		description: null,
 		visibility: 'PRIVATE',
 		icon: null,
+		position: 0,
 		links: [],
 		...overrides,
 	};
@@ -118,6 +119,20 @@ describe('replaceLinkInTree', () => {
 		expect(result[0].links).toEqual([]);
 		expect(result[1].links).toEqual([movedLink]);
 		expect(result[2].links).toEqual([movedLink]);
+	});
+
+	it('should keep the link at its index when collectionIds is unchanged', () => {
+		const before = buildLink({ id: 10, name: 'Before' });
+		const target = buildLink({ id: 20, name: 'Target' });
+		const after = buildLink({ id: 30, name: 'After' });
+		const collections = [
+			buildCollection({ id: 1, links: [before, target, after] }),
+		];
+
+		const editedTarget = { ...target, name: 'Renamed' };
+		const result = replaceLinkInTree(collections, 20, editedTarget);
+
+		expect(result[0].links).toEqual([before, editedTarget, after]);
 	});
 });
 

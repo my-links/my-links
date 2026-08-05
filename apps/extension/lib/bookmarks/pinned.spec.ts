@@ -48,6 +48,7 @@ function buildCollection(links: LinkResource[]): CollectionWithLinks {
 		description: null,
 		visibility: 'PRIVATE',
 		icon: null,
+		position: 0,
 		links,
 	};
 }

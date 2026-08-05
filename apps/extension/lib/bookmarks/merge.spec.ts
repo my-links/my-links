@@ -58,6 +58,7 @@ class FakeServer {
 			description: null,
 			visibility: 'PRIVATE',
 			icon: null,
+			position: 0,
 		});
 	}
 

@@ -443,6 +443,7 @@ export interface components {
 					url: string;
 				}[];
 				name: string;
+				position: number;
 				updatedAt: string;
 				visibility: components['schemas']['Visibility'];
 			};
@@ -522,6 +523,7 @@ export interface components {
 					url: string;
 				}[];
 				name: string;
+				position: number;
 				updatedAt: string;
 				visibility: components['schemas']['Visibility'];
 			}[];

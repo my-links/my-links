@@ -29,12 +29,41 @@ export function removeLinkFromTree(
 	}));
 }
 
+/**
+ * Splices `nextLink` in at its current index for every collection it was
+ * already in, instead of dropping and re-appending it — a remove+insert would
+ * shove an edited link to the bottom of its collection(s) on every save, even
+ * when the edit never touched `collectionIds`. Only a collection newly gained
+ * gets an append; only one newly lost gets the entry dropped.
+ */
 export function replaceLinkInTree(
 	collections: CollectionWithLinks[],
 	linkId: number,
 	nextLink: LinkResource
 ): CollectionWithLinks[] {
-	return insertLinkIntoTree(removeLinkFromTree(collections, linkId), nextLink);
+	return collections.map((collection) => {
+		const links = collection.links ?? [];
+		const index = links.findIndex((link) => link.id === linkId);
+		const belongs = nextLink.collectionIds.includes(collection.id);
+
+		if (index === -1) {
+			return belongs
+				? { ...collection, links: [...links, nextLink] }
+				: collection;
+		}
+
+		if (!belongs) {
+			return {
+				...collection,
+				links: [...links.slice(0, index), ...links.slice(index + 1)],
+			};
+		}
+
+		return {
+			...collection,
+			links: [...links.slice(0, index), nextLink, ...links.slice(index + 1)],
+		};
+	});
 }
 
 export function insertCollectionIntoTree(
