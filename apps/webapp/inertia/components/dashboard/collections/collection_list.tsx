@@ -1,12 +1,27 @@
+import type { ReactNode } from 'react';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
-import { COLLECTION_SECTION } from '~/lib/dnd/dnd_types';
 import { CollapsibleSection } from './collapsible_section';
+import { useSectionOrderStore } from '~/stores/section_order_store';
+import {
+	COLLECTION_SECTION,
+	type CollectionSection,
+} from '~/lib/dnd/dnd_types';
 import { useDashboardDndCollections } from '~/components/dashboard/dnd/dashboard_dnd_provider';
+
+type CollectionWithLinks = Data.Collection.Variants['withLinks'];
+
+type SectionConfig = {
+	title: ReactNode;
+	collections: CollectionWithLinks[];
+	alwaysShow?: boolean;
+};
 
 export function CollectionList() {
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
 		useDashboardDndCollections();
+	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
 
 	const sectionsCount = [
 		followedCollections.length > 0,
@@ -15,28 +30,39 @@ export function CollectionList() {
 	].filter(Boolean).length;
 	const canCollapse = sectionsCount > 1;
 
+	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
+		[COLLECTION_SECTION.FOLLOWED]: {
+			title: <Trans>Followed Collections</Trans>,
+			collections: followedCollections,
+		},
+		[COLLECTION_SECTION.PUBLIC]: {
+			title: <Trans>My Public Collections</Trans>,
+			collections: myPublicCollections,
+		},
+		[COLLECTION_SECTION.PRIVATE]: {
+			title: <Trans>My Private Collections</Trans>,
+			collections: myPrivateCollections,
+			alwaysShow: true,
+		},
+	};
+
 	return (
 		<div className="flex flex-col h-full">
 			<div className="flex-1 overflow-y-auto space-y-1 px-2">
-				<CollapsibleSection
-					title={<Trans>Followed Collections</Trans>}
-					collections={followedCollections}
-					section={COLLECTION_SECTION.FOLLOWED}
-					canCollapse={canCollapse}
-				/>
-				<CollapsibleSection
-					title={<Trans>My Public Collections</Trans>}
-					collections={myPublicCollections}
-					section={COLLECTION_SECTION.PUBLIC}
-					canCollapse={canCollapse}
-				/>
-				<CollapsibleSection
-					title={<Trans>My Private Collections</Trans>}
-					collections={myPrivateCollections}
-					section={COLLECTION_SECTION.PRIVATE}
-					canCollapse={canCollapse}
-					alwaysShow
-				/>
+				{order.map((section, index) => (
+					<CollapsibleSection
+						key={section}
+						title={sectionsByKey[section].title}
+						collections={sectionsByKey[section].collections}
+						section={section}
+						canCollapse={canCollapse}
+						alwaysShow={sectionsByKey[section].alwaysShow}
+						canMoveUp={index > 0}
+						canMoveDown={index < order.length - 1}
+						onMoveUp={() => moveSectionUp(section)}
+						onMoveDown={() => moveSectionDown(section)}
+					/>
+				))}
 			</div>
 		</div>
 	);

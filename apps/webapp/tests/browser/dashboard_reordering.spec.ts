@@ -7,11 +7,14 @@ import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { createCollection } from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
+import {
+	createCollection,
+	followCollection,
+} from '#tests/factories/collection_factory';
 import {
 	createUser,
 	verifyUserEmail,
@@ -80,6 +83,18 @@ async function dragOnto(
 	if (shift) {
 		await page.keyboard.up('Shift');
 	}
+}
+
+function sectionContainer(page: Page, heading: string): Locator {
+	return page.locator('div.mb-2', { hasText: heading });
+}
+
+async function headingY(page: Page, heading: string): Promise<number> {
+	const box = await page.getByText(heading, { exact: true }).boundingBox();
+	if (!box) {
+		throw new Error(`Heading "${heading}" not found`);
+	}
+	return box.y;
 }
 
 function isRequestFor(method: string, urlFragment: string) {
@@ -266,5 +281,61 @@ test.group('Dashboard reordering (browser)', (group) => {
 			[source.id, target.id]
 		);
 		assert.lengthOf(linkRows, 1);
+	});
+
+	test('should reorder sidebar sections with the move buttons and persist across reload', async ({
+		visit,
+		assert,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'browser-section-owner' });
+		const user = await createUser({ emailPrefix: 'browser-reorder-sections' });
+		await verifyUserEmail(user);
+		await setUserPassword(user, PASSWORD);
+
+		await createCollection({
+			author: user,
+			name: 'Owned Public',
+			visibility: Visibility.PUBLIC,
+		});
+		const followed = await createCollection({
+			author: owner,
+			name: 'Followed Public',
+			visibility: Visibility.PUBLIC,
+		});
+		await followCollection(followed, user);
+
+		const page = await visit(LOGIN_PATH);
+		await loginAsUser(page, user.email, PASSWORD);
+
+		const FOLLOWED_HEADING = 'Followed Collections';
+		const PUBLIC_HEADING = 'My Public Collections';
+		const PRIVATE_HEADING = 'My Private Collections';
+
+		await page.getByText(PRIVATE_HEADING).waitFor();
+
+		const initialFollowedY = await headingY(page, FOLLOWED_HEADING);
+		const initialPublicY = await headingY(page, PUBLIC_HEADING);
+		const initialPrivateY = await headingY(page, PRIVATE_HEADING);
+		assert.isBelow(initialFollowedY, initialPublicY);
+		assert.isBelow(initialPublicY, initialPrivateY);
+
+		await sectionContainer(page, PUBLIC_HEADING)
+			.getByRole('button', { name: 'Move section up' })
+			.click();
+
+		const reorderedPublicY = await headingY(page, PUBLIC_HEADING);
+		const reorderedFollowedY = await headingY(page, FOLLOWED_HEADING);
+		const reorderedPrivateY = await headingY(page, PRIVATE_HEADING);
+		assert.isBelow(reorderedPublicY, reorderedFollowedY);
+		assert.isBelow(reorderedFollowedY, reorderedPrivateY);
+
+		await page.reload();
+		await page.getByText(PRIVATE_HEADING).waitFor();
+
+		const persistedPublicY = await headingY(page, PUBLIC_HEADING);
+		const persistedFollowedY = await headingY(page, FOLLOWED_HEADING);
+		const persistedPrivateY = await headingY(page, PRIVATE_HEADING);
+		assert.isBelow(persistedPublicY, persistedFollowedY);
+		assert.isBelow(persistedFollowedY, persistedPrivateY);
 	});
 });
