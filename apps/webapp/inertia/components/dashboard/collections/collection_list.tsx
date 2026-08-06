@@ -62,10 +62,6 @@ export function CollectionList({
 
 	return (
 		<div className="flex flex-col h-full" data-tour="collections-list">
-			<div className="px-2 pt-1 pb-2 border-b border-gray-200/50 dark:border-gray-700/50">
-				<CollectionFavoriteItem />
-			</div>
-
 			<div className="flex items-center justify-between gap-2 px-2 py-1">
 				<Button
 					variant="subtle"
@@ -98,6 +94,11 @@ export function CollectionList({
 					</div>
 				)}
 			</div>
+
+			<div className="px-2 pt-1 pb-2">
+				<CollectionFavoriteItem />
+			</div>
+
 			<div className="flex-1 overflow-y-auto space-y-1 px-2">
 				{order.map((section, index) => (
 					<CollapsibleSection
