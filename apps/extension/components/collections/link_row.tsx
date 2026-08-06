@@ -5,6 +5,7 @@ import type { MouseEvent as ReactMouseEvent } from 'react';
 
 import { LinkFavicon } from './link_favicon';
 import type { LinkResource } from '@/lib/api/types';
+import { linkSortableId } from '@/lib/dnd/dnd_types';
 import { useDeleteLink } from '@/hooks/use_delete_link';
 import { useCollections } from '@/hooks/use_collections';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
@@ -41,7 +42,7 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 		transition,
 		isDragging,
 	} = useSortable({
-		id: link.id,
+		id: linkSortableId(link.id),
 		data: { kind: 'link', linkId: link.id, collectionId },
 		// Overrides dnd-kit's default `role: 'button'` — wrong on an `<a>` that
 		// actually navigates.

@@ -20,7 +20,11 @@ import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import { useDeleteCollection } from '@/hooks/use_delete_collection';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { CreateLinkModal } from '@/components/links/create_link_modal';
-import type { CollectionSection as CollectionDndSection } from '@/lib/dnd/dnd_types';
+import {
+	collectionSortableId,
+	linkSortableId,
+	type CollectionSection as CollectionDndSection,
+} from '@/lib/dnd/dnd_types';
 
 interface CollectionSectionProps {
 	collection: CollectionWithLinks;
@@ -45,7 +49,7 @@ export function CollectionSection({
 		transition,
 		isDragging,
 	} = useSortable({
-		id: collection.id,
+		id: collectionSortableId(collection.id),
 		data: { kind: 'collection', collectionId: collection.id, section },
 		// Default layout-change animation scales rows to old/new height on reorder — wrong for wildly variable collapsed/expanded heights.
 		animateLayoutChanges: () => false,
@@ -198,7 +202,7 @@ export function CollectionSection({
 						<p className="px-2 py-1 text-xs text-gray-400">No links yet.</p>
 					) : (
 						<SortableContext
-							items={links.map((link) => link.id)}
+							items={links.map((link) => linkSortableId(link.id))}
 							strategy={verticalListSortingStrategy}
 						>
 							{links.map((link) => (

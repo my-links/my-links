@@ -4,11 +4,11 @@ import {
 } from '@dnd-kit/sortable';
 
 import { useCollections } from '@/hooks/use_collections';
-import { COLLECTION_SECTION } from '@/lib/dnd/dnd_types';
 import { CollectionSection } from './collection_section';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { CollectionsDndProvider } from './collections_dnd_provider';
 import { FollowedCollectionsGroup } from './followed_collections_group';
+import { COLLECTION_SECTION, collectionSortableId } from '@/lib/dnd/dnd_types';
 
 function byPosition(a: CollectionWithLinks, b: CollectionWithLinks) {
 	return a.position - b.position;
@@ -49,7 +49,9 @@ export function CollectionTree() {
 								Private
 							</p>
 							<SortableContext
-								items={privateCollections.map((collection) => collection.id)}
+								items={privateCollections.map((collection) =>
+									collectionSortableId(collection.id)
+								)}
 								strategy={verticalListSortingStrategy}
 							>
 								{privateCollections.map((collection) => (
@@ -68,7 +70,9 @@ export function CollectionTree() {
 								Public
 							</p>
 							<SortableContext
-								items={publicCollections.map((collection) => collection.id)}
+								items={publicCollections.map((collection) =>
+									collectionSortableId(collection.id)
+								)}
 								strategy={verticalListSortingStrategy}
 							>
 								{publicCollections.map((collection) => (
