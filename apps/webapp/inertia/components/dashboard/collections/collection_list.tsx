@@ -10,7 +10,7 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { CollapsibleSection } from './collapsible_section';
 import { useSectionOrderStore } from '~/stores/section_order_store';
 import { CollectionFavoriteItem } from './collection_favorite_item';
-import { useSectionCollapseStore } from '~/stores/section_collapse_store';
+import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import {
 	COLLECTION_SECTION,
 	type CollectionSection,
@@ -35,7 +35,7 @@ export function CollectionList({
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
 		useDashboardDndCollections();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
-	const { collapseAll, expandAll } = useSectionCollapseStore();
+	const { toggleSidebar } = useDashboardLayoutStore();
 	const isMobile = useIsMobile();
 
 	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
@@ -63,35 +63,28 @@ export function CollectionList({
 	return (
 		<div className="flex flex-col h-full" data-tour="collections-list">
 			<div className="flex items-center justify-between gap-2 px-2 py-1">
-				<Button
-					variant="subtle"
-					size="sm"
-					onClick={() => onCreateCollection()}
-					data-tour="create-collection"
-				>
-					<Trans>
-						Create collection{' '}
-						{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
-					</Trans>
-				</Button>
+				{!isMobile && (
+					<Button
+						variant="subtle"
+						size="sm"
+						onClick={() => onCreateCollection()}
+						data-tour="create-collection"
+						fullWidth
+					>
+						<Trans>
+							Create collection <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
+						</Trans>
+					</Button>
+				)}
 
-				{canCollapse && (
-					<div className="flex items-center gap-0.5">
-						<IconButton
-							icon="i-mdi-unfold-less-horizontal"
-							size="sm"
-							variant="ghost"
-							onClick={() => collapseAll()}
-							aria-label={t`Collapse all`}
-						/>
-						<IconButton
-							icon="i-mdi-unfold-more-horizontal"
-							size="sm"
-							variant="ghost"
-							onClick={() => expandAll()}
-							aria-label={t`Expand all`}
-						/>
-					</div>
+				{isMobile && (
+					<IconButton
+						icon="i-ant-design-close-outlined"
+						onClick={toggleSidebar}
+						aria-label={t`Close sidebar`}
+						variant="ghost"
+						className="ml-auto"
+					/>
 				)}
 			</div>
 
