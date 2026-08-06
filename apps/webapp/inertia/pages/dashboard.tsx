@@ -127,7 +127,7 @@ export default function Dashboard() {
 					{sidebarOpen && (
 						<ResizableSidebar>
 							<aside className="h-full border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col">
-								<CollectionList />
+								<CollectionList onCreateCollection={handleCreateCollection} />
 							</aside>
 						</ResizableSidebar>
 					)}

@@ -11,7 +11,6 @@ import {
 
 import { useContextMenu } from '~/hooks/use_context_menu';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
-import { CollectionFavoriteItem } from './collection_favorite_item';
 import { SortableCollectionItem } from './sortable_collection_item';
 import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
@@ -25,7 +24,6 @@ interface CollapsibleSectionProps {
 	section: CollectionSection;
 	canCollapse?: boolean;
 	alwaysShow?: boolean;
-	showFavoriteItem?: boolean;
 	canMoveUp: boolean;
 	canMoveDown: boolean;
 	onMoveUp: () => void;
@@ -38,7 +36,6 @@ export function CollapsibleSection({
 	section,
 	canCollapse = true,
 	alwaysShow = false,
-	showFavoriteItem = false,
 	canMoveUp,
 	canMoveDown,
 	onMoveUp,
@@ -145,7 +142,6 @@ export function CollapsibleSection({
 			</div>
 			{isExpanded && (
 				<div className="space-y-1">
-					{showFavoriteItem && <CollectionFavoriteItem />}
 					<SortableContext
 						items={collections.map((collection) => collection.id)}
 						strategy={verticalListSortingStrategy}
