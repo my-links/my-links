@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Button } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Head, router } from '@inertiajs/react';
@@ -77,19 +78,13 @@ export default function SharedPage({
 					{auth.isAuthenticated && !activeCollection.isOwner && (
 						<div className="ml-4">
 							{isFollowing ? (
-								<button
-									onClick={() => void handleUnfollow()}
-									className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-								>
+								<Button color="danger" onClick={() => void handleUnfollow()}>
 									<Trans>Unfollow</Trans>
-								</button>
+								</Button>
 							) : (
-								<button
-									onClick={() => void handleFollow()}
-									className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-								>
+								<Button color="primary" onClick={() => void handleFollow()}>
 									<Trans>Follow</Trans>
-								</button>
+								</Button>
 							)}
 						</div>
 					)}
