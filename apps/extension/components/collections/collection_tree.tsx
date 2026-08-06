@@ -42,7 +42,11 @@ function byPosition(a: CollectionWithLinks, b: CollectionWithLinks) {
 
 export function CollectionTree() {
 	const { collections, isLoading, error } = useCollections();
-	const { followedCollections } = useFollowedCollections();
+	const {
+		followedCollections,
+		isLoading: isFollowedLoading,
+		error: followedError,
+	} = useFollowedCollections();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrder();
 	const {
 		state: collapseState,
@@ -54,11 +58,11 @@ export function CollectionTree() {
 		expandAll,
 	} = useCollectionCollapse();
 
-	if (isLoading || !isCollapseStateHydrated) {
+	if (isLoading || isFollowedLoading || !isCollapseStateHydrated) {
 		return <p className="p-4 text-sm text-gray-500">Loading collections…</p>;
 	}
 
-	if (error) {
+	if (error || followedError) {
 		return (
 			<p className="p-4 text-sm text-red-500">
 				Couldn't load collections. Check your connection.
