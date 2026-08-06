@@ -240,24 +240,24 @@ msgstr "Choisissez un nouveau mot de passe"
 msgid "Clear"
 msgstr "Effacer"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:107
+#: inertia/components/dashboard/headers/dashboard_header.tsx:88
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
+
+#: inertia/components/dashboard/collections/collection_list.tsx:84
+msgid "Close sidebar"
+msgstr "Fermer la barre latérale"
 
 #: inertia/components/tour/tour_tooltip.tsx:35
 msgid "Close tour"
 msgstr "Fermer la visite"
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:94
+#: inertia/components/dashboard/collections/collapsible_section.tsx:92
 msgid "Collapse"
 msgstr "Réduire"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:85
-msgid "Collapse all"
-msgstr "Tout réduire"
-
 #. placeholder {0}: activeCollection.author?.fullname
-#: inertia/pages/shared.tsx:100
+#: inertia/pages/shared.tsx:95
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection gérée par <0>{0}</0>"
 
@@ -319,7 +319,7 @@ msgstr "Les cookies utilisés sur MyLinks sont essentiels pour assurer le bon fo
 msgid "Copied"
 msgstr "Copié"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:108
+#: inertia/components/dashboard/headers/dashboard_header.tsx:89
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -351,10 +351,14 @@ msgid "Create a new API token to access the API"
 msgstr "Créez un nouveau jeton API pour accéder à l'API"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
-#: inertia/components/dashboard/collections/collection_list.tsx:72
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:103
 msgid "Create collection {0}"
 msgstr "Créer une collection {0}"
+
+#. placeholder {0}: KEYS.OPEN_CREATE_COLLECTION_KEY
+#: inertia/components/dashboard/collections/collection_list.tsx:74
+msgid "Create collection <0>{0}</0>"
+msgstr "Créer une collection <0>{0}</0>"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:77
@@ -560,13 +564,9 @@ msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconn
 msgid "Everything else signed in on this account will be signed out."
 msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:95
+#: inertia/components/dashboard/collections/collapsible_section.tsx:93
 msgid "Expand"
 msgstr "Développer"
-
-#: inertia/components/dashboard/collections/collection_list.tsx:92
-msgid "Expand all"
-msgstr "Tout déplier"
 
 #: inertia/components/api_tokens/api_tokens.tsx:145
 #: inertia/components/user_settings/sessions.tsx:79
@@ -604,7 +604,7 @@ msgstr "Favoris"
 msgid "Find it in a search, not a scroll"
 msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 
-#: inertia/pages/shared.tsx:91
+#: inertia/pages/shared.tsx:86
 msgid "Follow"
 msgstr "Suivre"
 
@@ -807,11 +807,11 @@ msgstr "Marquer l'adresse comme confirmée"
 msgid "Move"
 msgstr "Déplacer"
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:139
+#: inertia/components/dashboard/collections/collapsible_section.tsx:144
 msgid "Move down"
 msgstr "Descendre"
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:132
+#: inertia/components/dashboard/collections/collapsible_section.tsx:137
 msgid "Move up"
 msgstr "Monter"
 
@@ -1090,7 +1090,7 @@ msgstr "Rechercher des collections"
 msgid "Search..."
 msgstr "Rechercher..."
 
-#: inertia/components/dashboard/collections/collapsible_section.tsx:118
+#: inertia/components/dashboard/collections/collapsible_section.tsx:123
 msgid "Section options"
 msgstr "Options de la section"
 
@@ -1329,9 +1329,9 @@ msgstr "Saisissez-le à nouveau"
 msgid "Unconfirmed"
 msgstr "Non confirmée"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:124
+#: inertia/components/dashboard/headers/dashboard_header.tsx:121
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:134
-#: inertia/pages/shared.tsx:84
+#: inertia/pages/shared.tsx:82
 msgid "Unfollow"
 msgstr "Ne plus suivre"
 
