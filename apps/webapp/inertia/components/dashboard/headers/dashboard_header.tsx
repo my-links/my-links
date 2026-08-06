@@ -41,7 +41,7 @@ export function DashboardHeader({
 
 	const handleShareCollection = async () => {
 		if (!activeCollection?.id) return;
-		const url = urlFor('shared', { id: activeCollection.id });
+		const url = `${window.location.origin}${urlFor('shared', { id: activeCollection.id })}`;
 		await navigator.clipboard.writeText(url);
 	};
 
