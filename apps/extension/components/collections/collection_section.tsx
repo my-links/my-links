@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { IconButton, Modal, ConfirmModal } from '@minimalstuff/ui';
@@ -29,13 +28,16 @@ import {
 interface CollectionSectionProps {
 	collection: CollectionWithLinks;
 	section: CollectionDndSection;
+	isExpanded: boolean;
+	onToggle: () => void;
 }
 
 export function CollectionSection({
 	collection,
 	section,
+	isExpanded,
+	onToggle,
 }: Readonly<CollectionSectionProps>) {
-	const [isExpanded, setIsExpanded] = useState(true);
 	const { collections } = useCollections();
 	const deleteCollection = useDeleteCollection();
 	const contextMenu = useContextMenu();
@@ -62,7 +64,7 @@ export function CollectionSection({
 
 	const handleToggle = () => {
 		if (shouldSuppressClick()) return;
-		setIsExpanded((previous) => !previous);
+		onToggle();
 	};
 
 	const handleContextMenu = (event: ReactMouseEvent) => {

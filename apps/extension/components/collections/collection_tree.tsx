@@ -10,8 +10,13 @@ import type { CollectionWithLinks } from '@/lib/api/types';
 import { CollapsibleSection } from './collapsible_section';
 import { useSectionOrder } from '@/hooks/use_section_order';
 import { CollectionsDndProvider } from './collections_dnd_provider';
+import { useCollectionCollapse } from '@/hooks/use_collection_collapse';
 import { useFollowedCollections } from '@/hooks/use_followed_collections';
 import { FollowedCollectionSection } from './followed_collection_section';
+import {
+	isSectionExpanded,
+	isCollectionExpanded,
+} from '@/lib/collection_collapse';
 import {
 	COLLECTION_SECTION,
 	collectionSortableId,
@@ -30,17 +35,6 @@ const SECTION_ICON: Record<CollectionDndSection, string> = {
 	[COLLECTION_SECTION.PRIVATE]: 'i-ant-design-lock-outlined',
 };
 
-/**
- * Followed defaults collapsed — a follower opens the extension for their own
- * links far more often than someone else's, and a large followed collection
- * shouldn't push those below the fold on every open.
- */
-const SECTION_DEFAULT_EXPANDED: Record<CollectionDndSection, boolean> = {
-	[COLLECTION_SECTION.FOLLOWED]: false,
-	[COLLECTION_SECTION.PUBLIC]: true,
-	[COLLECTION_SECTION.PRIVATE]: true,
-};
-
 function byPosition(a: CollectionWithLinks, b: CollectionWithLinks) {
 	return a.position - b.position;
 }
@@ -49,8 +43,15 @@ export function CollectionTree() {
 	const { collections, isLoading, error } = useCollections();
 	const { followedCollections } = useFollowedCollections();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrder();
+	const {
+		state: collapseState,
+		isHydrated: isCollapseStateHydrated,
+		toggleSection,
+		toggleSectionRecursive,
+		toggleCollection,
+	} = useCollectionCollapse();
 
-	if (isLoading) {
+	if (isLoading || !isCollapseStateHydrated) {
 		return <p className="p-4 text-sm text-gray-500">Loading collections…</p>;
 	}
 
@@ -84,13 +85,22 @@ export function CollectionTree() {
 			return null;
 		}
 
+		const sectionCollectionIds = sectionCollections.map(
+			(collection) => collection.id
+		);
+
 		return (
 			<CollapsibleSection
 				key={section}
 				title={SECTION_TITLE[section]}
 				icon={SECTION_ICON[section]}
 				count={sectionCollections.length}
-				defaultExpanded={SECTION_DEFAULT_EXPANDED[section]}
+				isExpanded={isSectionExpanded(collapseState, section)}
+				onToggle={(isRecursive) =>
+					isRecursive
+						? toggleSectionRecursive(section, sectionCollectionIds)
+						: toggleSection(section)
+				}
 				canMoveUp={index > 0}
 				canMoveDown={index < order.length - 1}
 				onMoveUp={() => moveSectionUp(section)}
@@ -107,6 +117,11 @@ export function CollectionTree() {
 								<FollowedCollectionSection
 									key={collection.id}
 									collection={collection}
+									isExpanded={isCollectionExpanded(
+										collapseState,
+										collection.id
+									)}
+									onToggle={() => toggleCollection(collection.id)}
 								/>
 							))
 						: (sectionCollections as CollectionWithLinks[]).map(
@@ -115,6 +130,11 @@ export function CollectionTree() {
 										key={collection.id}
 										collection={collection}
 										section={section}
+										isExpanded={isCollectionExpanded(
+											collapseState,
+											collection.id
+										)}
+										onToggle={() => toggleCollection(collection.id)}
 									/>
 								)
 							)}
