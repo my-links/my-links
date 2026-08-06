@@ -2,6 +2,7 @@ import { Trans } from '@lingui/react/macro';
 import { ConfirmModal, IconButton } from '@minimalstuff/ui';
 
 import { formatDate } from '~/lib/format';
+import { Badge } from '~/components/common/badge';
 import { useSessions } from '~/hooks/use_sessions';
 import { NaContent } from '~/components/common/na_content';
 import { DataTable } from '~/components/common/data_table/data_table';
@@ -58,7 +59,16 @@ export function Sessions() {
 							header: <Trans>ID</Trans>,
 							cellClassName:
 								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
-							render: (session) => session.sessionId,
+							render: (session) => (
+								<span className="flex items-center gap-2">
+									{session.sessionId}
+									{session.isCurrent && (
+										<Badge variant="success" size="xs">
+											<Trans>Current</Trans>
+										</Badge>
+									)}
+								</span>
+							),
 						},
 						{
 							key: 'ip',

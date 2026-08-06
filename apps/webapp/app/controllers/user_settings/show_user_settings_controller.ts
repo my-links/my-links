@@ -18,7 +18,7 @@ export default class ShowUserSettingsController {
 		protected readonly mailConfigService: MailConfigService
 	) {}
 
-	public async render({ auth, inertia }: HttpContext) {
+	public async render({ auth, inertia, session }: HttpContext) {
 		const user = await auth.authenticate();
 		const tokens = await this.apiTokenService.getTokens(user);
 		const sessions = await this.sessionService.getSessions(user);
@@ -48,7 +48,7 @@ export default class ShowUserSettingsController {
 					identifier: token.identifier,
 				};
 			}),
-			sessions: UserSessionTransformer.transform(sessions),
+			sessions: UserSessionTransformer.transform(sessions, session.sessionId),
 		});
 	}
 }
