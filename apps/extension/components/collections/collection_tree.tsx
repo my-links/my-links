@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { IconButton } from '@minimalstuff/ui';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
@@ -49,6 +50,8 @@ export function CollectionTree() {
 		toggleSection,
 		toggleSectionRecursive,
 		toggleCollection,
+		collapseAll,
+		expandAll,
 	} = useCollectionCollapse();
 
 	if (isLoading || !isCollapseStateHydrated) {
@@ -144,18 +147,40 @@ export function CollectionTree() {
 	};
 
 	const isEmpty = collections.length === 0 && followedCollections.length === 0;
+	const allCollectionIds = [
+		...collections.map((collection) => collection.id),
+		...followedCollections.map((collection) => collection.id),
+	];
 
 	return (
 		<div className="flex-1 overflow-y-auto px-2 py-1">
 			{isEmpty ? (
 				<p className="p-4 text-sm text-gray-500">No collections yet.</p>
 			) : (
-				<CollectionsDndProvider>
-					{/* Scoped off DndContext's own DOM parent — it injects hidden a11y sibling divs that would otherwise pick up a stray divide-y border too. */}
-					<div className="divide-y divide-gray-200 space-y-1 dark:divide-gray-700">
-						{order.map((section, index) => renderSection(section, index))}
+				<>
+					<div className="flex items-center justify-end gap-0.5 pb-1">
+						<IconButton
+							icon="i-mdi-unfold-less-horizontal"
+							size="sm"
+							variant="ghost"
+							onClick={() => collapseAll(order, allCollectionIds)}
+							aria-label="Collapse all"
+						/>
+						<IconButton
+							icon="i-mdi-unfold-more-horizontal"
+							size="sm"
+							variant="ghost"
+							onClick={() => expandAll(order, allCollectionIds)}
+							aria-label="Expand all"
+						/>
 					</div>
-				</CollectionsDndProvider>
+					<CollectionsDndProvider>
+						{/* Scoped off DndContext's own DOM parent — it injects hidden a11y sibling divs that would otherwise pick up a stray divide-y border too. */}
+						<div className="divide-y divide-gray-200 space-y-1 dark:divide-gray-700">
+							{order.map((section, index) => renderSection(section, index))}
+						</div>
+					</CollectionsDndProvider>
+				</>
 			)}
 		</div>
 	);
