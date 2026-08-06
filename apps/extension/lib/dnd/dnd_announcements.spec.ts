@@ -54,6 +54,14 @@ describe('createCollectionsDndAnnouncements', () => {
 		expect(message).toBe('Link filed into another collection.');
 	});
 
+	it('should announce a link filed into another collection when dropped on a link row of that collection', () => {
+		const message = announcements.onDragEnd?.({
+			active: buildActive({ kind: 'link', linkId: 1, collectionId: 1 }),
+			over: buildOver({ kind: 'link', linkId: 2, collectionId: 2 }),
+		});
+		expect(message).toBe('Link filed into another collection.');
+	});
+
 	it('should announce a plain link reorder on drag end when over is the same collection', () => {
 		const message = announcements.onDragEnd?.({
 			active: buildActive({ kind: 'link', linkId: 1, collectionId: 1 }),
