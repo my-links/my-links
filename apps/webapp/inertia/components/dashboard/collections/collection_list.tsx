@@ -1,9 +1,12 @@
 import type { ReactNode } from 'react';
+import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
+import { IconButton } from '@minimalstuff/ui';
 
 import { CollapsibleSection } from './collapsible_section';
 import { useSectionOrderStore } from '~/stores/section_order_store';
+import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 import {
 	COLLECTION_SECTION,
 	type CollectionSection,
@@ -23,6 +26,7 @@ export function CollectionList() {
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
 		useDashboardDndCollections();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
+	const { collapseAll, expandAll } = useSectionCollapseStore();
 
 	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
 		[COLLECTION_SECTION.FOLLOWED]: {
@@ -49,6 +53,24 @@ export function CollectionList() {
 
 	return (
 		<div className="flex flex-col h-full">
+			{canCollapse && (
+				<div className="flex items-center justify-end gap-0.5 px-2 pt-1">
+					<IconButton
+						icon="i-mdi-unfold-less-horizontal"
+						size="sm"
+						variant="ghost"
+						onClick={() => collapseAll()}
+						aria-label={t`Collapse all`}
+					/>
+					<IconButton
+						icon="i-mdi-unfold-more-horizontal"
+						size="sm"
+						variant="ghost"
+						onClick={() => expandAll()}
+						aria-label={t`Expand all`}
+					/>
+				</div>
+			)}
 			<div className="flex-1 overflow-y-auto space-y-1 px-2">
 				{order.map((section, index) => (
 					<CollapsibleSection
