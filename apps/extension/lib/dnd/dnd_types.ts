@@ -49,3 +49,19 @@ export type LinkDragData = {
 };
 
 export type DragData = CollectionDragData | LinkDragData;
+
+/**
+ * Collections and links are separate tables with their own auto-increment
+ * ids, so raw ids collide inside the single `<DndContext>` that holds both.
+ * dnd-kit keys its draggable and droppable registries by id, meaning the
+ * last-mounted of a colliding pair silently evicts the other. Namespacing
+ * keeps both registrable; handlers read `active.data`/`over.data` rather
+ * than parsing these back.
+ */
+export function collectionSortableId(collectionId: number): string {
+	return `collection-${collectionId}`;
+}
+
+export function linkSortableId(linkId: number): string {
+	return `link-${linkId}`;
+}

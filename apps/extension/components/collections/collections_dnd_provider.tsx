@@ -71,10 +71,14 @@ export function CollectionsDndProvider({
 
 	const handleCollectionDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
-		if (!over || active.id === over.id) return;
+		if (!over) return;
 
 		const activeData = active.data.current;
-		if (!isCollectionDragData(activeData)) return;
+		const overData = over.data.current;
+		if (!isCollectionDragData(activeData) || !isCollectionDragData(overData)) {
+			return;
+		}
+		if (activeData.collectionId === overData.collectionId) return;
 
 		const visibility = visibilityForSection(activeData.section);
 		const sectionCollections = collections
@@ -82,10 +86,10 @@ export function CollectionsDndProvider({
 			.sort((a, b) => a.position - b.position);
 
 		const activeIndex = sectionCollections.findIndex(
-			(collection) => collection.id === active.id
+			(collection) => collection.id === activeData.collectionId
 		);
 		const overIndex = sectionCollections.findIndex(
-			(collection) => collection.id === over.id
+			(collection) => collection.id === overData.collectionId
 		);
 		if (activeIndex === -1 || overIndex === -1) return;
 
@@ -122,7 +126,7 @@ export function CollectionsDndProvider({
 			return;
 		}
 
-		if (isLinkDragData(overData) && active.id !== over.id) {
+		if (isLinkDragData(overData) && overData.linkId !== activeData.linkId) {
 			const collection = collections.find(
 				(item) => item.id === activeData.collectionId
 			);
