@@ -8,6 +8,7 @@ import { Trans } from '@lingui/react/macro';
 import useShortcut from '~/hooks/use_shortcut';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { DashboardTour } from '~/components/tour/dashboard_tour';
 import { SearchModal } from '~/components/dashboard/modals/search_modal';
 import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
 import { CreateLinkModal } from '~/components/dashboard/modals/create_link_modal';
@@ -120,6 +121,7 @@ export default function Dashboard() {
 	return (
 		<>
 			{pageTitle && <Head title={pageTitle} />}
+			<DashboardTour />
 			<DashboardDndProvider>
 				<div className="flex h-full w-full">
 					{sidebarOpen && (
