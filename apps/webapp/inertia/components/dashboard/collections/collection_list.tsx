@@ -2,10 +2,14 @@ import type { ReactNode } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
-import { IconButton } from '@minimalstuff/ui';
+import { Button, IconButton } from '@minimalstuff/ui';
 
+import { KEYS } from '~/consts/keys';
+import { Kbd } from '~/components/common/kbd';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { CollapsibleSection } from './collapsible_section';
 import { useSectionOrderStore } from '~/stores/section_order_store';
+import { CollectionFavoriteItem } from './collection_favorite_item';
 import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 import {
 	COLLECTION_SECTION,
@@ -19,14 +23,20 @@ type SectionConfig = {
 	title: ReactNode;
 	collections: CollectionWithLinks[];
 	alwaysShow?: boolean;
-	showFavoriteItem?: boolean;
 };
 
-export function CollectionList() {
+interface CollectionListProps {
+	onCreateCollection: () => void;
+}
+
+export function CollectionList({
+	onCreateCollection,
+}: Readonly<CollectionListProps>) {
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
 		useDashboardDndCollections();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
 	const { collapseAll, expandAll } = useSectionCollapseStore();
+	const isMobile = useIsMobile();
 
 	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
 		[COLLECTION_SECTION.FOLLOWED]: {
@@ -42,7 +52,6 @@ export function CollectionList() {
 			title: <Trans>My Private Collections</Trans>,
 			collections: myPrivateCollections,
 			alwaysShow: true,
-			showFavoriteItem: true,
 		},
 	};
 
@@ -53,24 +62,42 @@ export function CollectionList() {
 
 	return (
 		<div className="flex flex-col h-full" data-tour="collections-list">
-			{canCollapse && (
-				<div className="flex items-center justify-end gap-0.5 px-2 pt-1">
-					<IconButton
-						icon="i-mdi-unfold-less-horizontal"
-						size="sm"
-						variant="ghost"
-						onClick={() => collapseAll()}
-						aria-label={t`Collapse all`}
-					/>
-					<IconButton
-						icon="i-mdi-unfold-more-horizontal"
-						size="sm"
-						variant="ghost"
-						onClick={() => expandAll()}
-						aria-label={t`Expand all`}
-					/>
-				</div>
-			)}
+			<div className="px-2 pt-1 pb-2 border-b border-gray-200/50 dark:border-gray-700/50">
+				<CollectionFavoriteItem />
+			</div>
+
+			<div className="flex items-center justify-between gap-2 px-2 py-1">
+				<Button
+					variant="subtle"
+					size="sm"
+					onClick={onCreateCollection}
+					data-tour="create-collection"
+				>
+					<Trans>
+						Create collection{' '}
+						{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
+					</Trans>
+				</Button>
+
+				{canCollapse && (
+					<div className="flex items-center gap-0.5">
+						<IconButton
+							icon="i-mdi-unfold-less-horizontal"
+							size="sm"
+							variant="ghost"
+							onClick={() => collapseAll()}
+							aria-label={t`Collapse all`}
+						/>
+						<IconButton
+							icon="i-mdi-unfold-more-horizontal"
+							size="sm"
+							variant="ghost"
+							onClick={() => expandAll()}
+							aria-label={t`Expand all`}
+						/>
+					</div>
+				)}
+			</div>
 			<div className="flex-1 overflow-y-auto space-y-1 px-2">
 				{order.map((section, index) => (
 					<CollapsibleSection
@@ -80,7 +107,6 @@ export function CollectionList() {
 						section={section}
 						canCollapse={canCollapse}
 						alwaysShow={sectionsByKey[section].alwaysShow}
-						showFavoriteItem={sectionsByKey[section].showFavoriteItem}
 						canMoveUp={index > 0}
 						canMoveDown={index < order.length - 1}
 						onMoveUp={() => moveSectionUp(section)}
