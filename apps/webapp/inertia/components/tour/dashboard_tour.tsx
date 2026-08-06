@@ -16,6 +16,16 @@ import { TourWelcomeModal } from '~/components/tour/tour_welcome_modal';
 
 const steps: Step[] = [
 	{
+		target: '[data-tour="favorites"]',
+		title: <Trans>Favorites</Trans>,
+		content: (
+			<Trans>Links you star show up here, across every collection.</Trans>
+		),
+		placement: 'right',
+		// Only this step skips its beacon; a global skipBeacon caused a render loop.
+		skipBeacon: true,
+	},
+	{
 		target: '[data-tour="collections-list"]',
 		title: <Trans>Your collections</Trans>,
 		content: (
@@ -26,8 +36,6 @@ const steps: Step[] = [
 			</Trans>
 		),
 		placement: 'right',
-		// Only this step skips its beacon; a global skipBeacon caused a render loop.
-		skipBeacon: true,
 	},
 	{
 		target: '[data-tour="header-search"]',
@@ -50,13 +58,7 @@ const steps: Step[] = [
 		target: '[data-tour="create-collection"]',
 		title: <Trans>Create a collection</Trans>,
 		content: <Trans>Group related links together, public or private.</Trans>,
-		placement: 'bottom',
-	},
-	{
-		target: '[data-tour="create-link"]',
-		title: <Trans>Create a link</Trans>,
-		content: <Trans>Save a new link to the active collection.</Trans>,
-		placement: 'bottom',
+		placement: 'right',
 	},
 ];
 
