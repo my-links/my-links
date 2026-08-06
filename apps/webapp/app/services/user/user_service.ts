@@ -100,6 +100,9 @@ export class UserService {
 			.withCount('links', (query) => {
 				query.as('totalLinks');
 			})
+			.withCount('followedCollections', (query) => {
+				query.as('totalFollowedCollections');
+			})
 			.withAggregate('auditEvents', (query) => {
 				query
 					.where('type', AUTH_EVENT_TYPE.LOGIN_SUCCEEDED)

@@ -30,6 +30,9 @@ export default class UserTransformer extends BaseTransformer<User> {
 			lastSeenAt: this.resource.lastSeenAt?.toString(),
 			linksCount: Number(this.resource.$extras.totalLinks),
 			collectionsCount: Number(this.resource.$extras.totalCollections),
+			followedCollectionsCount: Number(
+				this.resource.$extras.totalFollowedCollections
+			),
 		};
 	}
 }

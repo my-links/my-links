@@ -209,6 +209,19 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						),
 					},
 					{
+						key: 'followedCollectionsCount',
+						header: <Trans>Followed</Trans>,
+						sortKey: 'followedCollectionsCount',
+						cellClassName:
+							'px-6 py-4 text-sm text-gray-900 dark:text-white text-center',
+						render: (user) => (
+							<span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 font-medium">
+								<i className="i-mdi-star w-4 h-4" />
+								{user.followedCollectionsCount}
+							</span>
+						),
+					},
+					{
 						key: 'linksCount',
 						header: <Trans>Links</Trans>,
 						sortKey: 'linksCount',
