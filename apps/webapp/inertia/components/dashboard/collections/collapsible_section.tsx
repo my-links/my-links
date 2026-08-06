@@ -1,8 +1,8 @@
 import clsx from 'clsx';
+import { ReactNode } from 'react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import type { Data } from '@generated/data';
-import { ReactNode, useState } from 'react';
 import { IconButton } from '@minimalstuff/ui';
 import {
 	SortableContext,
@@ -13,6 +13,7 @@ import { useContextMenu } from '~/hooks/use_context_menu';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { CollectionFavoriteItem } from './collection_favorite_item';
 import { SortableCollectionItem } from './sortable_collection_item';
+import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 import { ContextMenu } from '~/components/common/context_menu/context_menu';
 import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 
@@ -43,7 +44,10 @@ export function CollapsibleSection({
 	onMoveUp,
 	onMoveDown,
 }: Readonly<CollapsibleSectionProps>) {
-	const [isExpanded, setIsExpanded] = useState(true);
+	const isExpanded = useSectionCollapseStore(
+		(state) => state.expanded[section]
+	);
+	const toggleSection = useSectionCollapseStore((state) => state.toggleSection);
 	const {
 		menuPosition,
 		shouldRender,
@@ -79,7 +83,7 @@ export function CollapsibleSection({
 				className="flex items-center justify-between w-full px-2 py-1.5 mb-1 rounded transition-colors gap-1 group"
 			>
 				<button
-					onClick={() => shouldShowCollapse && setIsExpanded(!isExpanded)}
+					onClick={() => shouldShowCollapse && toggleSection(section)}
 					disabled={!shouldShowCollapse}
 					className={clsx(
 						'flex items-center gap-1.5 flex-1 min-w-0 rounded transition-colors',
