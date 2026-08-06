@@ -20,6 +20,10 @@ import type {
 	CollectionWithLinks,
 	FollowedCollectionWithLinks,
 } from '@/lib/api/types';
+import {
+	DEFAULT_COLLECTION_COLLAPSE_STATE,
+	type CollectionCollapseState,
+} from '@/lib/collection_collapse';
 
 const LOCAL_DEV_INSTANCE_URL = 'http://localhost:3333';
 const PUBLIC_INSTANCE_URL = 'https://mylinks.app';
@@ -69,6 +73,15 @@ export const sectionOrderStorage = storage.defineItem<CollectionSection[]>(
 	'local:sectionOrder',
 	{ fallback: DEFAULT_SECTION_ORDER }
 );
+
+/**
+ * Which sections/collections are expanded — a per-device display preference,
+ * never sent to the server (same choice made for `sectionOrderStorage`).
+ */
+export const collectionCollapseStorage =
+	storage.defineItem<CollectionCollapseState>('local:collectionCollapse', {
+		fallback: DEFAULT_COLLECTION_COLLAPSE_STATE,
+	});
 
 export const syncBackoffStorage = storage.defineItem<SyncBackoffState>(
 	'local:syncBackoff',

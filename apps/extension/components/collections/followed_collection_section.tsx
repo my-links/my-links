@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
 
@@ -10,6 +9,8 @@ import { COLLECTION_SECTION, collectionSortableId } from '@/lib/dnd/dnd_types';
 
 interface FollowedCollectionSectionProps {
 	collection: FollowedCollectionWithLinks;
+	isExpanded: boolean;
+	onToggle: () => void;
 }
 
 /**
@@ -22,8 +23,9 @@ interface FollowedCollectionSectionProps {
  */
 export function FollowedCollectionSection({
 	collection,
+	isExpanded,
+	onToggle,
 }: Readonly<FollowedCollectionSectionProps>) {
-	const [isExpanded, setIsExpanded] = useState(true);
 	const links = collection.links ?? [];
 	const {
 		attributes,
@@ -45,7 +47,7 @@ export function FollowedCollectionSection({
 
 	const handleToggle = () => {
 		if (shouldSuppressClick()) return;
-		setIsExpanded((previous) => !previous);
+		onToggle();
 	};
 
 	return (

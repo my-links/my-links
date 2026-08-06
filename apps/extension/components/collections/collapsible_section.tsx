@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 import { useContextMenu } from '@/hooks/use_context_menu';
@@ -11,7 +10,8 @@ interface CollapsibleSectionProps {
 	title: string;
 	icon: string;
 	count: number;
-	defaultExpanded?: boolean;
+	isExpanded: boolean;
+	onToggle: (isRecursive: boolean) => void;
 	canMoveUp: boolean;
 	canMoveDown: boolean;
 	onMoveUp: () => void;
@@ -34,14 +34,14 @@ export function CollapsibleSection({
 	title,
 	icon,
 	count,
-	defaultExpanded = true,
+	isExpanded,
+	onToggle,
 	canMoveUp,
 	canMoveDown,
 	onMoveUp,
 	onMoveDown,
 	children,
 }: Readonly<CollapsibleSectionProps>) {
-	const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 	const contextMenu = useContextMenu();
 
 	const handleMoveUp = () => {
@@ -61,7 +61,7 @@ export function CollapsibleSection({
 				className="group flex items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50"
 			>
 				<button
-					onClick={() => setIsExpanded((previous) => !previous)}
+					onClick={(event) => onToggle(event.shiftKey)}
 					aria-expanded={isExpanded}
 					className="flex min-w-0 flex-1 items-center gap-2 text-left"
 				>
