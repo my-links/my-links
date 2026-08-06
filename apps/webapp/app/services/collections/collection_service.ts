@@ -15,6 +15,7 @@ import { ActivityEventService } from '#services/activity/activity_event_service'
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
 import NotFollowingCollectionException from '#exceptions/collections/not_following_collection_exception';
+import CannotFollowOwnCollectionException from '#exceptions/collections/cannot_follow_own_collection_exception';
 import InvalidCollectionMembershipException from '#exceptions/collections/invalid_collection_membership_exception';
 import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
 
@@ -356,6 +357,12 @@ export class CollectionService {
 			.where('id', collectionId)
 			.andWhere('visibility', Visibility.PUBLIC)
 			.firstOrFail();
+
+		if (collection.authorId === userId) {
+			throw new CannotFollowOwnCollectionException(
+				'A collection cannot be followed by its own author'
+			);
+		}
 
 		const user = await User.findOrFail(userId);
 		const position = await this.getNextFollowerPosition(userId);
