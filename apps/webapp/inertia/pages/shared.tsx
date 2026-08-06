@@ -74,7 +74,7 @@ export default function SharedPage({
 							</p>
 						)}
 					</div>
-					{auth.isAuthenticated && (
+					{auth.isAuthenticated && !activeCollection.isOwner && (
 						<div className="ml-4">
 							{isFollowing ? (
 								<button
