@@ -83,6 +83,23 @@ export function DashboardHeader({
 						</Tooltip>
 					)}
 
+					{!isMobile && activeCollection?.visibility === Visibility.PUBLIC && (
+						<Tooltip
+							content={<Trans>Click to copy link</Trans>}
+							temporaryContent={<Trans>Copied!</Trans>}
+							showOnClick
+							position="bottom"
+						>
+							<IconButton
+								icon="i-ant-design-share-alt-outlined"
+								onClick={() => void handleShareCollection()}
+								aria-label="Share collection"
+								variant="outline"
+								size="md"
+							/>
+						</Tooltip>
+					)}
+
 					{isMobile && (
 						<DashboardQuickAction
 							onCreateLink={onCreateLink}
@@ -98,34 +115,13 @@ export function DashboardHeader({
 					)}
 				</div>
 
-				{!isMobile &&
-					(activeCollection?.visibility === Visibility.PUBLIC ||
-						(!isFavorite && activeCollection?.isOwner === false)) && (
-						<div className="w-full flex items-center gap-2 flex-wrap">
-							{activeCollection?.visibility === Visibility.PUBLIC && (
-								<Tooltip
-									content={<Trans>Click to copy link</Trans>}
-									temporaryContent={<Trans>Copied!</Trans>}
-									showOnClick
-									position="bottom"
-								>
-									<IconButton
-										icon="i-ant-design-share-alt-outlined"
-										onClick={() => void handleShareCollection()}
-										aria-label="Share collection"
-										variant="outline"
-										size="md"
-									/>
-								</Tooltip>
-							)}
-
-							{!isFavorite && activeCollection?.isOwner === false && (
-								<Button color="danger" onClick={handleUnfollow}>
-									<Trans>Unfollow</Trans>
-								</Button>
-							)}
-						</div>
-					)}
+				{!isMobile && !isFavorite && activeCollection?.isOwner === false && (
+					<div className="w-full flex items-center gap-2 flex-wrap">
+						<Button color="danger" onClick={handleUnfollow}>
+							<Trans>Unfollow</Trans>
+						</Button>
+					</div>
+				)}
 			</div>
 
 			{collectionDescription && (
