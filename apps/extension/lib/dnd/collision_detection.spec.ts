@@ -103,6 +103,65 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 		expect(collisions.map((c) => c.id)).not.toContain('public-a');
 		expect(collisions[0]?.id).toBe('private-b');
 	});
+
+	it('should target the collection under the pointer rather than the one whose center is closest', () => {
+		const active = buildActive('private-active', {
+			kind: 'collection',
+			collectionId: 1,
+			section: 'private',
+		});
+		// Expanded: its rect covers its own link rows, pushing its center far up.
+		const expanded = buildContainer(
+			'expanded',
+			{ kind: 'collection', collectionId: 2, section: 'private' },
+			rect(0, 0, 100, 300)
+		);
+		const collapsed = buildContainer(
+			'collapsed',
+			{ kind: 'collection', collectionId: 3, section: 'private' },
+			rect(0, 300, 100, 30)
+		);
+
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [expanded, collapsed],
+				collisionRect: rect(0, 250, 100, 30),
+				pointerCoordinates: { x: 50, y: 260 },
+			})
+		);
+
+		expect(collisions[0]?.id).toBe('expanded');
+	});
+
+	it('should fall back to center distance for keyboard drags, which carry no pointer', () => {
+		const active = buildActive('private-active', {
+			kind: 'collection',
+			collectionId: 1,
+			section: 'private',
+		});
+		const near = buildContainer(
+			'near',
+			{ kind: 'collection', collectionId: 2, section: 'private' },
+			rect(0, 0, 100, 20)
+		);
+		const far = buildContainer(
+			'far',
+			{ kind: 'collection', collectionId: 3, section: 'private' },
+			rect(0, 200, 100, 20)
+		);
+
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [near, far],
+				collisionRect: rect(0, 10, 100, 20),
+				pointerCoordinates: null,
+			})
+		);
+
+		expect(collisions[0]?.id).toBe('near');
+	});
 });
 
 describe('collectionsDndCollisionDetection — dragging a link', () => {
