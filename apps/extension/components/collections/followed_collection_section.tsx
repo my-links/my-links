@@ -6,6 +6,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { FollowedLinkRow } from './followed_link_row';
 import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import type { FollowedCollectionWithLinks } from '@/lib/api/types';
+import { COLLECTION_SECTION, collectionSortableId } from '@/lib/dnd/dnd_types';
 
 interface FollowedCollectionSectionProps {
 	collection: FollowedCollectionWithLinks;
@@ -14,9 +15,10 @@ interface FollowedCollectionSectionProps {
 /**
  * Read-only counterpart to `CollectionSection` — no add-link button, no
  * kebab menu (rename/delete belong to the author, not a follower). Sortable
- * within its own isolated `DndContext` (see `FollowedCollectionsGroup`) —
- * followed collections only reorder among themselves, never interact with
- * the owned-collections/links drag context.
+ * within the shared `CollectionsDndProvider` like owned collections, but
+ * `isOwner: false` keeps it out of bounds as a link-drop target (see
+ * `collision_detection.ts`), and its `section` (`followed`) keeps it from
+ * ever colliding with a public/private collection during reorder.
  */
 export function FollowedCollectionSection({
 	collection,
@@ -31,7 +33,13 @@ export function FollowedCollectionSection({
 		transition,
 		isDragging,
 	} = useSortable({
-		id: collection.id,
+		id: collectionSortableId(collection.id),
+		data: {
+			kind: 'collection',
+			collectionId: collection.id,
+			section: COLLECTION_SECTION.FOLLOWED,
+			isOwner: false,
+		},
 		animateLayoutChanges: () => false,
 	});
 

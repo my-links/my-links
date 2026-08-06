@@ -3,6 +3,7 @@ import { DragOverlay, useDndContext } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 
 import { useCollections } from '@/hooks/use_collections';
+import { useFollowedCollections } from '@/hooks/use_followed_collections';
 import {
 	collectionIdForDropTarget,
 	isCollectionDragData,
@@ -20,12 +21,13 @@ export function CollectionsDragOverlay({
 }: Readonly<CollectionsDragOverlayProps>) {
 	const { active, over } = useDndContext();
 	const { collections } = useCollections();
+	const { followedCollections } = useFollowedCollections();
 	const activeData = active?.data.current;
 
 	if (active && isCollectionDragData(activeData)) {
-		const draggedCollection = collections.find(
-			(collection) => collection.id === activeData.collectionId
-		);
+		const draggedCollection = (
+			activeData.isOwner ? collections : followedCollections
+		).find((collection) => collection.id === activeData.collectionId);
 
 		return (
 			<DragOverlay modifiers={OVERLAY_MODIFIERS}>

@@ -1,5 +1,7 @@
 import { storage } from 'wxt/utils/storage';
 
+import { DEFAULT_SECTION_ORDER } from '@/lib/section_order';
+import type { CollectionSection } from '@/lib/dnd/dnd_types';
 import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
 import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
 import {
@@ -56,6 +58,16 @@ const EMPTY_COLLECTIONS_CACHE: CollectionsCache = {
 export const collectionsCacheStorage = storage.defineItem<CollectionsCache>(
 	'local:collectionsCache',
 	{ fallback: EMPTY_COLLECTIONS_CACHE }
+);
+
+/**
+ * Which order the Followed/Public/Private sections render in — a per-device
+ * display preference, never sent to the server (same choice the webapp made
+ * for its own section order, kept in `localStorage` there).
+ */
+export const sectionOrderStorage = storage.defineItem<CollectionSection[]>(
+	'local:sectionOrder',
+	{ fallback: DEFAULT_SECTION_ORDER }
 );
 
 export const syncBackoffStorage = storage.defineItem<SyncBackoffState>(

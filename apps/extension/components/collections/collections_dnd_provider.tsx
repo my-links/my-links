@@ -17,11 +17,17 @@ import { useShiftModifier } from '@/hooks/use_shift_modifier';
 import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
 import { CollectionsDragOverlay } from './collections_drag_overlay';
 import { useReorderCollections } from '@/hooks/use_reorder_collections';
+import { useFollowedCollections } from '@/hooks/use_followed_collections';
 import { useAddLinkToCollection } from '@/hooks/use_add_link_to_collection';
-import { visibilityForSection, type LinkDragData } from '@/lib/dnd/dnd_types';
 import { useMoveLinkToCollection } from '@/hooks/use_move_link_to_collection';
 import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
 import { collectionsDndCollisionDetection } from '@/lib/dnd/collision_detection';
+import { useReorderFollowedCollections } from '@/hooks/use_reorder_followed_collections';
+import {
+	COLLECTION_SECTION,
+	visibilityForSection,
+	type LinkDragData,
+} from '@/lib/dnd/dnd_types';
 import {
 	collectionIdForDropTarget,
 	isCollectionDragData,
@@ -49,7 +55,9 @@ export function CollectionsDndProvider({
 	children,
 }: Readonly<CollectionsDndProviderProps>) {
 	const { collections } = useCollections();
+	const { followedCollections } = useFollowedCollections();
 	const reorderCollections = useReorderCollections();
+	const reorderFollowedCollections = useReorderFollowedCollections();
 	const reorderLinks = useReorderLinks();
 	const moveLinkToCollection = useMoveLinkToCollection();
 	const addLinkToCollection = useAddLinkToCollection();
@@ -83,6 +91,22 @@ export function CollectionsDndProvider({
 			return;
 		}
 		if (activeData.collectionId === overData.collectionId) return;
+
+		if (activeData.section === COLLECTION_SECTION.FOLLOWED) {
+			const activeIndex = followedCollections.findIndex(
+				(collection) => collection.id === activeData.collectionId
+			);
+			const overIndex = followedCollections.findIndex(
+				(collection) => collection.id === overData.collectionId
+			);
+			if (activeIndex === -1 || overIndex === -1) return;
+
+			const reordered = arrayMove(followedCollections, activeIndex, overIndex);
+			reorderFollowedCollections.mutate({
+				collectionIds: reordered.map((collection) => collection.id),
+			});
+			return;
+		}
 
 		const visibility = visibilityForSection(activeData.section);
 		const sectionCollections = collections

@@ -30,6 +30,7 @@ describe('createCollectionsDndAnnouncements', () => {
 				kind: 'collection',
 				collectionId: 1,
 				section: 'private',
+				isOwner: true,
 			}),
 		});
 		expect(message).toBe('Picked up collection in My Private Collections.');
@@ -49,6 +50,7 @@ describe('createCollectionsDndAnnouncements', () => {
 				kind: 'collection',
 				collectionId: 2,
 				section: 'private',
+				isOwner: true,
 			}),
 		});
 		expect(message).toBe('Link filed into another collection.');
@@ -76,6 +78,7 @@ describe('createCollectionsDndAnnouncements', () => {
 				kind: 'collection',
 				collectionId: 1,
 				section: 'public',
+				isOwner: true,
 			}),
 			over: null,
 		});
