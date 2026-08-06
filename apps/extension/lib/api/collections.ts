@@ -115,6 +115,21 @@ export async function reorderCollections(
 	}
 }
 
+export async function reorderFollowedCollections(
+	collectionIds: number[]
+): Promise<void> {
+	const client = await createExtensionApiClient();
+	const { error } = await client.PUT('/api/v1/collections/followed/reorder', {
+		body: { collectionIds },
+	});
+
+	if (error) {
+		throw new ReorderCollectionsError(
+			'Failed to reorder followed collections.'
+		);
+	}
+}
+
 export async function reorderCollectionLinks(
 	collectionId: number,
 	linkIds: number[]

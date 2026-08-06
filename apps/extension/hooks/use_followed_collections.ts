@@ -15,13 +15,14 @@ interface UseFollowedCollectionsReturn {
 }
 
 /**
- * Same read-only pattern as `useCollections` — the background worker is the
- * sole network caller, this hook only mirrors `collectionsCacheStorage` into
- * its own query cache. Kept as a separate query key rather than folded into
- * `useCollections`'s `CollectionWithLinks[]` cache entry: every mutation hook
- * (`useCollectionsMutation` and friends) reads that entry as a plain array of
- * owned collections for its optimistic tree updates, and followed
- * collections are never mutated from the extension.
+ * Same read-only-fetch pattern as `useCollections` — the background worker is
+ * the sole network caller, this hook only mirrors `collectionsCacheStorage`
+ * into its own query cache. Kept as a separate query key rather than folded
+ * into `useCollections`'s `CollectionWithLinks[]` cache entry: every owned
+ * mutation hook (`useCollectionsMutation` and friends) reads that entry as a
+ * plain array of owned collections for its optimistic tree updates, and the
+ * shape differs (no `position`, no link `collectionIds`, see types.ts).
+ * `useReorderFollowedCollections` is the one mutation hook against this cache.
  */
 export function useFollowedCollections(): UseFollowedCollectionsReturn {
 	const queryClient = useQueryClient();

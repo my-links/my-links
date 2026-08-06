@@ -31,10 +31,12 @@ export function sectionForVisibility(
 }
 
 /**
- * No `isOwner` field, unlike the webapp source this was ported from —
- * followed collections never register as draggable/droppable in the
- * extension panel (they render outside the DndContext entirely), so every
- * `CollectionDragData` instance is owned by construction.
+ * No `isOwner` field, unlike the webapp source this was ported from — this
+ * drag data only ever describes an owned collection. Followed collections
+ * are sortable too, but through a separate, isolated `DndContext` in
+ * `FollowedCollectionsGroup` that doesn't use this drag-data protocol at all
+ * (plain collection ids as sortable ids, no `CollisionDetection` override
+ * needed since it only ever holds one kind of sortable item).
  */
 export type CollectionDragData = {
 	kind: 'collection';
