@@ -52,7 +52,7 @@ export function CollectionList() {
 	const canCollapse = renderedSectionsCount > 1;
 
 	return (
-		<div className="flex flex-col h-full">
+		<div className="flex flex-col h-full" data-tour="collections-list">
 			{canCollapse && (
 				<div className="flex items-center justify-end gap-0.5 px-2 pt-1">
 					<IconButton
