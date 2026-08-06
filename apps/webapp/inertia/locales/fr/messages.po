@@ -250,7 +250,7 @@ msgstr "Réduire"
 
 #: inertia/components/dashboard/collections/collection_list.tsx:63
 msgid "Collapse all"
-msgstr ""
+msgstr "Tout réduire"
 
 #. placeholder {0}: activeCollection.author?.fullname
 #: inertia/pages/shared.tsx:100
@@ -476,7 +476,7 @@ msgstr "Appareil"
 
 #: inertia/pages/home.tsx:44
 msgid "Documentation"
-msgstr ""
+msgstr "Documentation"
 
 #: inertia/components/tour/tour_tooltip.tsx:60
 msgid "Done"
@@ -565,7 +565,7 @@ msgstr "Développer"
 
 #: inertia/components/dashboard/collections/collection_list.tsx:70
 msgid "Expand all"
-msgstr ""
+msgstr "Tout déplier"
 
 #: inertia/components/api_tokens/api_tokens.tsx:145
 #: inertia/components/user_settings/sessions.tsx:79
@@ -889,7 +889,7 @@ msgstr "Aucune collection sélectionnée. Ce lien ira dans votre Inbox."
 
 #: inertia/components/dashboard/forms/form_link_content.tsx:145
 msgid "No collections match your search."
-msgstr ""
+msgstr "Aucune collection ne correspond à votre recherche."
 
 #: inertia/components/dashboard/links/link_list.tsx:38
 #: inertia/components/shared/link_list.tsx:22
@@ -1074,7 +1074,7 @@ msgstr "Rechercher"
 #: inertia/components/dashboard/forms/form_link_content.tsx:117
 #: inertia/components/dashboard/forms/form_link_content.tsx:118
 msgid "Search collections"
-msgstr ""
+msgstr "Rechercher des collections"
 
 #: inertia/components/dashboard/search/search_button.tsx:22
 msgid "Search..."
