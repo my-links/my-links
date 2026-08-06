@@ -29,6 +29,18 @@ export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 			}
 		);
 
+		// An expanded collection's rect spans all of its links, so its center can
+		// sit hundreds of pixels from the row being aimed at: what the pointer is
+		// actually over beats center distance, which only serves keyboard drags
+		// (no pointer coordinates) and the gaps between sections.
+		const pointerHits = pointerWithin({
+			...args,
+			droppableContainers: sameSectionContainers,
+		});
+		if (pointerHits.length > 0) {
+			return pointerHits;
+		}
+
 		return closestCenter({
 			...args,
 			droppableContainers: sameSectionContainers,
