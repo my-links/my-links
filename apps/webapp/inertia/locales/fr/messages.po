@@ -89,11 +89,11 @@ msgstr "Comptes"
 
 #: inertia/components/admin/users/users_table.tsx:276
 #: inertia/components/api_tokens/api_tokens.tsx:161
-#: inertia/components/user_settings/sessions.tsx:91
+#: inertia/components/user_settings/sessions.tsx:101
 msgid "Actions"
 msgstr "Actions"
 
-#: inertia/components/user_settings/sessions.tsx:34
+#: inertia/components/user_settings/sessions.tsx:35
 msgid "Active sessions"
 msgstr "Sessions actives"
 
@@ -172,7 +172,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action ne peut
 msgid "Are you sure you want to revoke this token?"
 msgstr "Êtes-vous sûr de vouloir révoquer ce jeton ?"
 
-#: inertia/components/user_settings/sessions.tsx:20
+#: inertia/components/user_settings/sessions.tsx:21
 msgid "Are you sure you want to sign out this session?"
 msgstr "Êtes-vous sûr de vouloir déconnecter cette session ?"
 
@@ -211,7 +211,7 @@ msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:92
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:21
-#: inertia/components/user_settings/sessions.tsx:24
+#: inertia/components/user_settings/sessions.tsx:25
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -395,6 +395,10 @@ msgstr "Créé le"
 msgid "Created by <0>{0}</0>"
 msgstr "Créé par <0>{0}</0>"
 
+#: inertia/components/user_settings/sessions.tsx:67
+msgid "Current"
+msgstr "Actuelle"
+
 #: inertia/pages/auth/sudo.tsx:51
 msgid "Current password"
 msgstr "Mot de passe actuel"
@@ -476,7 +480,7 @@ msgstr "Description"
 msgid "Details"
 msgstr "Détails"
 
-#: inertia/components/user_settings/sessions.tsx:72
+#: inertia/components/user_settings/sessions.tsx:82
 msgid "Device"
 msgstr "Appareil"
 
@@ -569,7 +573,7 @@ msgid "Expand"
 msgstr "Développer"
 
 #: inertia/components/api_tokens/api_tokens.tsx:145
-#: inertia/components/user_settings/sessions.tsx:79
+#: inertia/components/user_settings/sessions.tsx:89
 msgid "Expires at"
 msgstr "Expire le"
 
@@ -671,7 +675,7 @@ msgid "Icon"
 msgstr "Icône"
 
 #: inertia/components/api_tokens/api_tokens.tsx:124
-#: inertia/components/user_settings/sessions.tsx:58
+#: inertia/components/user_settings/sessions.tsx:59
 msgid "ID"
 msgstr "ID"
 
@@ -700,7 +704,7 @@ msgstr "Dans {value, plural, one {# minute} other {# minutes}}"
 msgid "In less than a minute"
 msgstr "Dans moins d'une minute"
 
-#: inertia/components/user_settings/sessions.tsx:65
+#: inertia/components/user_settings/sessions.tsx:75
 msgid "IP"
 msgstr "IP"
 
@@ -889,7 +893,7 @@ msgstr "Suivant ({currentStep}/{size})"
 msgid "No account yet? <0>Create one</0>"
 msgstr "Pas encore de compte ? <0>Créez-en un</0>"
 
-#: inertia/components/user_settings/sessions.tsx:40
+#: inertia/components/user_settings/sessions.tsx:41
 msgid "No active sessions"
 msgstr "Aucune session active"
 
@@ -1162,11 +1166,11 @@ msgstr "Se connecter"
 msgid "Sign in to reach your collections"
 msgstr "Connectez-vous pour retrouver vos collections"
 
-#: inertia/components/user_settings/sessions.tsx:23
+#: inertia/components/user_settings/sessions.tsx:24
 msgid "Sign out"
 msgstr "Déconnecter"
 
-#: inertia/components/user_settings/sessions.tsx:17
+#: inertia/components/user_settings/sessions.tsx:18
 msgid "Sign out session"
 msgstr "Déconnecter la session"
 
