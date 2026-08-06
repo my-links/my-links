@@ -66,7 +66,7 @@ export function CollectionList({
 				<Button
 					variant="subtle"
 					size="sm"
-					onClick={onCreateCollection}
+					onClick={() => onCreateCollection()}
 					data-tour="create-collection"
 				>
 					<Trans>
