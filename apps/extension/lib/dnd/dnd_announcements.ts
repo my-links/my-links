@@ -13,6 +13,8 @@ import {
 
 function sectionLabel(section: CollectionSection): string {
 	switch (section) {
+		case COLLECTION_SECTION.FOLLOWED:
+			return 'Followed Collections';
 		case COLLECTION_SECTION.PUBLIC:
 			return 'My Public Collections';
 		case COLLECTION_SECTION.PRIVATE:

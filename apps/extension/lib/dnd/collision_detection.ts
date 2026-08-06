@@ -12,10 +12,10 @@ import { isCollectionDragData, isLinkDragData } from './drag_data';
  * Innermost first matters because a collection's droppable node wraps its
  * link rows: checking collection containers first made every hover over a
  * sibling row resolve to the surrounding collection, so an in-collection
- * reorder could never be expressed. Every registered collection container
- * here is owned — followed collections sort within their own separate
- * `DndContext` (see `FollowedCollectionsGroup`), so this collision detection
- * never sees them.
+ * reorder could never be expressed. A link only ever considers *owned*
+ * collection containers — a followed collection isn't a legal drop target,
+ * the follower doesn't manage its contents (see `isOwner` on
+ * `CollectionDragData`).
  */
 export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 	const activeData = args.active.data.current;
@@ -61,8 +61,11 @@ export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 			return linkHits;
 		}
 
-		const collectionContainers = args.droppableContainers.filter((container) =>
-			isCollectionDragData(container.data.current)
+		const collectionContainers = args.droppableContainers.filter(
+			(container) => {
+				const containerData = container.data.current;
+				return isCollectionDragData(containerData) && containerData.isOwner;
+			}
 		);
 		const collectionHits = pointerWithin({
 			...args,

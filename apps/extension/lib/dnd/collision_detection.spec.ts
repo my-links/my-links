@@ -72,20 +72,31 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 			kind: 'collection',
 			collectionId: 1,
 			section: 'private',
+			isOwner: true,
 		});
 		const privateA = buildContainer(
 			'private-a',
-			{ kind: 'collection', collectionId: 2, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 0, 20, 20)
 		);
 		const privateB = buildContainer(
 			'private-b',
-			{ kind: 'collection', collectionId: 3, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 3,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(80, 0, 20, 20)
 		);
 		const publicA = buildContainer(
 			'public-a',
-			{ kind: 'collection', collectionId: 4, section: 'public' },
+			{ kind: 'collection', collectionId: 4, section: 'public', isOwner: true },
 			rect(40, 0, 20, 20)
 		);
 
@@ -109,16 +120,27 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 			kind: 'collection',
 			collectionId: 1,
 			section: 'private',
+			isOwner: true,
 		});
 		// Expanded: its rect covers its own link rows, pushing its center far up.
 		const expanded = buildContainer(
 			'expanded',
-			{ kind: 'collection', collectionId: 2, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 0, 100, 300)
 		);
 		const collapsed = buildContainer(
 			'collapsed',
-			{ kind: 'collection', collectionId: 3, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 3,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 300, 100, 30)
 		);
 
@@ -139,15 +161,26 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 			kind: 'collection',
 			collectionId: 1,
 			section: 'private',
+			isOwner: true,
 		});
 		const near = buildContainer(
 			'near',
-			{ kind: 'collection', collectionId: 2, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 0, 100, 20)
 		);
 		const far = buildContainer(
 			'far',
-			{ kind: 'collection', collectionId: 3, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 3,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 200, 100, 20)
 		);
 
@@ -175,7 +208,12 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 		});
 		const collectionX = buildContainer(
 			'collection-x',
-			{ kind: 'collection', collectionId: 1, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 1,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 0, 100, 100)
 		);
 		const linkY = buildContainer(
@@ -205,7 +243,12 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 		});
 		const collectionX = buildContainer(
 			'collection-x',
-			{ kind: 'collection', collectionId: 2, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(0, 0, 100, 100)
 		);
 		const linkY = buildContainer(
@@ -267,7 +310,12 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 		});
 		const collectionX = buildContainer(
 			'collection-x',
-			{ kind: 'collection', collectionId: 2, section: 'private' },
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'private',
+				isOwner: true,
+			},
 			rect(200, 200, 100, 100)
 		);
 		const linkY = buildContainer(
@@ -295,15 +343,15 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 	});
 });
 
-describe('collectionsDndCollisionDetection — followed collections never registered', () => {
-	it('should ignore a container with no drag data, as a non-draggable followed-collection row would leave behind', () => {
+describe('collectionsDndCollisionDetection — malformed containers', () => {
+	it('should ignore a container with no drag data at all', () => {
 		const active = buildActive('link-active', {
 			kind: 'link',
 			linkId: 1,
 			collectionId: 1,
 		});
-		const followedRow = buildContainer(
-			'followed-row',
+		const emptyRow = buildContainer(
+			'empty-row',
 			undefined,
 			rect(0, 0, 100, 100)
 		);
@@ -316,12 +364,53 @@ describe('collectionsDndCollisionDetection — followed collections never regist
 		const collisions = collectionsDndCollisionDetection(
 			buildArgs({
 				active,
-				containers: [followedRow, linkY],
+				containers: [emptyRow, linkY],
 				collisionRect: rect(5, 5, 10, 10),
 				pointerCoordinates: { x: 10, y: 10 },
 			})
 		);
 
-		expect(collisions.map((c) => c.id)).not.toContain('followed-row');
+		expect(collisions.map((c) => c.id)).not.toContain('empty-row');
+	});
+});
+
+describe('collectionsDndCollisionDetection — dragging a link over a followed collection', () => {
+	it('should never target a followed (non-owned) collection as a drop target', () => {
+		const active = buildActive('link-active', {
+			kind: 'link',
+			linkId: 1,
+			collectionId: 1,
+		});
+		const followedCollection = buildContainer(
+			'followed-collection',
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'followed',
+				isOwner: false,
+			},
+			rect(0, 0, 100, 100)
+		);
+		const ownedCollection = buildContainer(
+			'owned-collection',
+			{
+				kind: 'collection',
+				collectionId: 3,
+				section: 'private',
+				isOwner: true,
+			},
+			rect(200, 200, 100, 100)
+		);
+
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [followedCollection, ownedCollection],
+				collisionRect: rect(5, 5, 10, 10),
+				pointerCoordinates: { x: 10, y: 10 },
+			})
+		);
+
+		expect(collisions.map((c) => c.id)).not.toContain('followed-collection');
 	});
 });

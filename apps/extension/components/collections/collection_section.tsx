@@ -50,7 +50,12 @@ export function CollectionSection({
 		isDragging,
 	} = useSortable({
 		id: collectionSortableId(collection.id),
-		data: { kind: 'collection', collectionId: collection.id, section },
+		data: {
+			kind: 'collection',
+			collectionId: collection.id,
+			section,
+			isOwner: true,
+		},
 		// Default layout-change animation scales rows to old/new height on reorder — wrong for wildly variable collapsed/expanded heights.
 		animateLayoutChanges: () => false,
 	});
