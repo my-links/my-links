@@ -1,6 +1,7 @@
 import type {
 	CollectionVisibility,
 	CollectionWithLinks,
+	FollowedCollectionWithLinks,
 	LinkResource,
 } from '@/lib/api/types';
 
@@ -107,6 +108,26 @@ export function reorderCollectionsInTree(
 		const position = collectionIds.indexOf(collection.id);
 		return position === -1 ? collection : { ...collection, position };
 	});
+}
+
+/**
+ * Followed collections carry no `position` field (see types.ts) — same
+ * contract as `reorderLinksInTree`, the submitted id list already is the new
+ * order, so reordering means resequencing the array to match it.
+ */
+export function reorderFollowedCollectionsInTree(
+	collections: FollowedCollectionWithLinks[],
+	collectionIds: number[]
+): FollowedCollectionWithLinks[] {
+	const collectionsById = new Map(
+		collections.map((collection) => [collection.id, collection])
+	);
+	return collectionIds
+		.map((collectionId) => collectionsById.get(collectionId))
+		.filter(
+			(collection): collection is FollowedCollectionWithLinks =>
+				collection !== undefined
+		);
 }
 
 export function removeCollectionFromTree(

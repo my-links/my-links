@@ -1,18 +1,75 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import {
+	DndContext,
+	KeyboardSensor,
+	PointerSensor,
+	useSensor,
+	useSensors,
+	type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+	arrayMove,
+	SortableContext,
+	sortableKeyboardCoordinates,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 
+import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
 import { FollowedCollectionSection } from './followed_collection_section';
 import { useFollowedCollections } from '@/hooks/use_followed_collections';
+import { useReorderFollowedCollections } from '@/hooks/use_reorder_followed_collections';
+
+/**
+ * Module-level, not inline literals — see the identical constant in
+ * `collections_dnd_provider.tsx`: a new object reference on every render
+ * resets dnd-kit's sensor activation state mid-drag.
+ */
+const POINTER_SENSOR_OPTIONS = { activationConstraint: { distance: 8 } };
+const KEYBOARD_SENSOR_OPTIONS = {
+	coordinateGetter: sortableKeyboardCoordinates,
+};
 
 /**
  * Collapsed by default — a follower opens the extension for their own
  * links far more often than someone else's, and a large followed collection
  * shouldn't push those below the fold on every open. Hidden entirely when
  * the user follows nothing, same as the other empty states in this tree.
+ *
+ * Runs its own isolated `DndContext` rather than joining
+ * `CollectionsDndProvider` — followed collections only ever reorder among
+ * themselves (no cross-drop into owned collections, no link dragging), so
+ * the shared collision detection tuned for that owned-collection/link
+ * interplay doesn't apply here.
  */
 export function FollowedCollectionsGroup() {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const { followedCollections } = useFollowedCollections();
+	const reorderFollowedCollections = useReorderFollowedCollections();
+	const sensors = useSensors(
+		useSensor(PointerSensor, POINTER_SENSOR_OPTIONS),
+		useSensor(KeyboardSensor, KEYBOARD_SENSOR_OPTIONS)
+	);
+
+	const handleDragEnd = (event: DragEndEvent) => {
+		armDragClickGuard();
+
+		const { active, over } = event;
+		if (!over || active.id === over.id) return;
+
+		const activeIndex = followedCollections.findIndex(
+			(collection) => collection.id === active.id
+		);
+		const overIndex = followedCollections.findIndex(
+			(collection) => collection.id === over.id
+		);
+		if (activeIndex === -1 || overIndex === -1) return;
+
+		const reordered = arrayMove(followedCollections, activeIndex, overIndex);
+		reorderFollowedCollections.mutate({
+			collectionIds: reordered.map((collection) => collection.id),
+		});
+	};
 
 	if (followedCollections.length === 0) {
 		return null;
@@ -41,12 +98,19 @@ export function FollowedCollectionsGroup() {
 			</button>
 			{isExpanded && (
 				<div className="ml-1 space-y-0.5">
-					{followedCollections.map((collection) => (
-						<FollowedCollectionSection
-							key={collection.id}
-							collection={collection}
-						/>
-					))}
+					<DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+						<SortableContext
+							items={followedCollections.map((collection) => collection.id)}
+							strategy={verticalListSortingStrategy}
+						>
+							{followedCollections.map((collection) => (
+								<FollowedCollectionSection
+									key={collection.id}
+									collection={collection}
+								/>
+							))}
+						</SortableContext>
+					</DndContext>
 				</div>
 			)}
 		</div>

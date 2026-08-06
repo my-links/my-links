@@ -1,7 +1,10 @@
 import clsx from 'clsx';
 import { useState } from 'react';
+import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from '@dnd-kit/sortable';
 
 import { FollowedLinkRow } from './followed_link_row';
+import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import type { FollowedCollectionWithLinks } from '@/lib/api/types';
 
 interface FollowedCollectionSectionProps {
@@ -10,20 +13,49 @@ interface FollowedCollectionSectionProps {
 
 /**
  * Read-only counterpart to `CollectionSection` — no add-link button, no
- * kebab menu (rename/delete belong to the author, not a follower).
+ * kebab menu (rename/delete belong to the author, not a follower). Sortable
+ * within its own isolated `DndContext` (see `FollowedCollectionsGroup`) —
+ * followed collections only reorder among themselves, never interact with
+ * the owned-collections/links drag context.
  */
 export function FollowedCollectionSection({
 	collection,
 }: Readonly<FollowedCollectionSectionProps>) {
 	const [isExpanded, setIsExpanded] = useState(true);
 	const links = collection.links ?? [];
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({
+		id: collection.id,
+		animateLayoutChanges: () => false,
+	});
+
+	const handleToggle = () => {
+		if (shouldSuppressClick()) return;
+		setIsExpanded((previous) => !previous);
+	};
 
 	return (
-		<div className="mb-1">
+		<div
+			ref={setNodeRef}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.5 : undefined,
+			}}
+			className="mb-1"
+		>
 			<button
-				onClick={() => setIsExpanded((previous) => !previous)}
+				{...attributes}
+				{...listeners}
+				onClick={handleToggle}
 				aria-expanded={isExpanded}
-				className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left hover:bg-white/50 dark:hover:bg-gray-800/50"
+				className="flex w-full cursor-grab items-center gap-2 rounded-md px-2 py-1.5 text-left active:cursor-grabbing hover:bg-white/50 dark:hover:bg-gray-800/50"
 			>
 				<div
 					className={clsx(
