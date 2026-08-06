@@ -138,6 +138,9 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 			</a>
 			<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center py-1 pl-2 pr-1 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
 				<KebabMenu label={`Actions for ${link.name}`}>
+					<KebabMenuItem icon="i-octicon-copy-16" onClick={handleCopyLink}>
+						Copy link
+					</KebabMenuItem>
 					<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
 						Edit
 					</KebabMenuItem>
