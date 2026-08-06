@@ -38,8 +38,8 @@ export default function Dashboard() {
 
 	const isFavorite = !activeCollection?.id;
 
-	const hasActiveContent =
-		!!activeCollection || (favoriteLinks?.length ?? 0) > 0;
+	// Both controllers always send `activeCollection` (object or `null`); only an unset prop should hit the placeholder.
+	const hasActiveContent = activeCollection !== undefined;
 
 	const handleCreateCollection = (message?: string) => {
 		const call = Modal.call({
