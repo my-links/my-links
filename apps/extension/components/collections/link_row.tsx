@@ -107,6 +107,9 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 				rel="noreferrer"
 				title={link.url}
 				onClick={handleClick}
+				// Anchors are natively draggable: Chrome's own link drag would race
+				// the pointer sensor and drop the gesture.
+				draggable={false}
 				className="flex min-w-0 flex-1 cursor-grab items-center gap-2 px-2 py-1.5 text-sm text-gray-700 active:cursor-grabbing dark:text-gray-300"
 			>
 				{faviconUrl &&

@@ -25,6 +25,7 @@ export function LinkFavicon({
 				height={FAVICON_SIZE_PX}
 				alt="URL favicon not found"
 				decoding="async"
+				draggable={false}
 				className="flex-shrink-0 rounded"
 			/>
 		);
@@ -38,6 +39,7 @@ export function LinkFavicon({
 			height={FAVICON_SIZE_PX}
 			alt="URL favicon"
 			decoding="async"
+			draggable={false}
 			className="flex-shrink-0 rounded"
 		/>
 	);
