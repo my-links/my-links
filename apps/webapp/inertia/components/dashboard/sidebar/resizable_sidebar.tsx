@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { IconButton } from '@minimalstuff/ui';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { useIsMobile } from '~/hooks/use_is_mobile';
@@ -12,8 +11,7 @@ interface ResizableSidebarProps {
 export function ResizableSidebar({
 	children,
 }: Readonly<ResizableSidebarProps>) {
-	const { sidebarWidth, setSidebarWidth, toggleSidebar } =
-		useDashboardLayoutStore();
+	const { sidebarWidth, setSidebarWidth } = useDashboardLayoutStore();
 	const [isResizing, setIsResizing] = useState(false);
 	const isMobile = useIsMobile();
 	const sidebarRef = useRef<HTMLDivElement>(null);
@@ -66,14 +64,6 @@ export function ResizableSidebar({
 			style={{ width: isMobile ? '100%' : `${sidebarWidth}px` }}
 		>
 			{children}
-			<div className="block md:hidden flex-shrink-0 absolute right-2 top-2">
-				<IconButton
-					icon="i-ant-design-menu-outlined"
-					onClick={toggleSidebar}
-					aria-label="Toggle sidebar"
-					variant="outline"
-				/>
-			</div>
 			<div
 				onMouseDown={handleMouseDown}
 				className={clsx(
