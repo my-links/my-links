@@ -21,10 +21,10 @@ export class SessionService {
 		return sessions;
 	}
 
-	createAuthSession(user: User) {
+	async createAuthSession(user: User): Promise<void> {
 		const ctx = HttpContext.getOrFail();
 		ctx.session.regenerate();
-		void ctx.session.tag(String(user.id));
+		await ctx.session.tag(String(user.id));
 
 		const userAgent = ctx.request.header('user-agent');
 		const parsedUserAgent = this.uaParserService.parse(userAgent);
@@ -74,6 +74,14 @@ export class SessionService {
 	}
 
 	async revokeSession(user: User, sessionId: string): Promise<void> {
+		const ctx = HttpContext.getOrFail();
+
+		// Deleting the row directly wouldn't sign out the request that's running it.
+		if (sessionId === ctx.session.sessionId) {
+			await ctx.auth.use('web').logout();
+			return;
+		}
+
 		const session = await UserSession.query()
 			.where('userId', String(user.id))
 			.where('id', sessionId)

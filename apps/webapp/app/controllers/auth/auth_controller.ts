@@ -170,7 +170,7 @@ export default class AuthController {
 		const user = await this.oauthAccountService.authenticate(identity);
 
 		await ctx.auth.use('web').login(user);
-		this.sessionService.createAuthSession(user);
+		await this.sessionService.createAuthSession(user);
 
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
