@@ -62,6 +62,20 @@ async function submitCredentials(
 	await page.locator('button[type="submit"]').click();
 }
 
+// The dashboard tour's welcome modal offers itself to any account that
+// hasn't completed it, and sits on top of everything a fresh login lands
+// on — blocking the logout click this journey makes right after signing in.
+// Seed the tour store's persisted flag before the app boots so it never
+// renders.
+async function skipDashboardTour(page: Page): Promise<void> {
+	await page.addInitScript(() => {
+		localStorage.setItem(
+			'tour-preferences',
+			JSON.stringify({ state: { hasCompletedDashboardTour: true }, version: 0 })
+		);
+	});
+}
+
 test.group('Auth journey (browser)', (group) => {
 	// Shared across every local run, including manual poking through
 	// mailpit's own UI — a search scoped to a unique recipient is not enough
@@ -78,6 +92,7 @@ test.group('Auth journey (browser)', (group) => {
 		// 1. On an empty instance, registration is open and Google is not
 		// configured for this suite — the home page offers only credentials.
 		const page = await visit(HOME_PATH);
+		await skipDashboardTour(page);
 		await page.assertExists('a[href="/register"]');
 		await page.assertNotExists('a[href="/auth/google"]');
 

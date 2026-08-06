@@ -32,6 +32,19 @@ const PASSWORD = 'correct-horse-battery-staple';
 const DRAG_STEPS = 15;
 const DRAG_STEP_DELAY_MS = 20;
 
+// The dashboard tour's welcome modal offers itself to any account that
+// hasn't completed it, and sits on top of everything a fresh login lands
+// on — blocking the very first click these specs make. Seed the tour
+// store's persisted flag before the app boots so it never renders.
+async function skipDashboardTour(page: Page): Promise<void> {
+	await page.addInitScript(() => {
+		localStorage.setItem(
+			'tour-preferences',
+			JSON.stringify({ state: { hasCompletedDashboardTour: true }, version: 0 })
+		);
+	});
+}
+
 async function loginAsUser(
 	page: Page,
 	email: string,
@@ -41,6 +54,7 @@ async function loginAsUser(
 	// several specs in this suite log in for real — a shared address would let
 	// one test's attempt spend another's budget.
 	await page.setExtraHTTPHeaders({ 'x-forwarded-for': nextClientAddress() });
+	await skipDashboardTour(page);
 	await page.goto(LOGIN_PATH);
 	await fillFormOnceHydrated(page, { email, password });
 	await page.locator('button[type="submit"]').click();
@@ -319,6 +333,12 @@ test.group('Dashboard reordering (browser)', (group) => {
 		assert.isBelow(initialFollowedY, initialPublicY);
 		assert.isBelow(initialPublicY, initialPrivateY);
 
+		// The options button sits in a `pointer-events-none` overlay that only
+		// flips to `auto` on `.group:hover`, so hovering it directly fails the
+		// same actionability check its click would. Hovering the heading text
+		// instead — a plain descendant of the same `.group`, away from the
+		// overlay — establishes the hover state first, then the click lands.
+		await page.getByText(PUBLIC_HEADING, { exact: true }).hover();
 		await sectionContainer(page, PUBLIC_HEADING)
 			.getByRole('button', { name: 'Section options' })
 			.click();
