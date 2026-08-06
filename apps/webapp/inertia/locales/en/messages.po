@@ -121,7 +121,7 @@ msgstr "Add an email and password sign-in to this account, alongside the methods
 msgid "Add another sign-in method before removing this one"
 msgstr "Add another sign-in method before removing this one"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:150
+#: inertia/components/dashboard/collections/collection_controls.tsx:153
 msgid "Add link"
 msgstr "Add link"
 
@@ -252,7 +252,7 @@ msgstr "Close tour"
 msgid "Collapse"
 msgstr "Collapse"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:89
+#: inertia/components/dashboard/collections/collection_list.tsx:85
 msgid "Collapse all"
 msgstr "Collapse all"
 
@@ -336,12 +336,12 @@ msgstr "Copy link"
 msgid "Create"
 msgstr "Create"
 
-#: inertia/components/tour/dashboard_tour.tsx:57
+#: inertia/components/tour/dashboard_tour.tsx:59
 #: inertia/pages/dashboard.tsx:46
 msgid "Create a collection"
 msgstr "Create a collection"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:55
+#: inertia/components/dashboard/collections/collection_controls.tsx:56
 #: inertia/pages/dashboard.tsx:89
 msgid "Create a link"
 msgstr "Create a link"
@@ -351,7 +351,7 @@ msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
-#: inertia/components/dashboard/collections/collection_list.tsx:76
+#: inertia/components/dashboard/collections/collection_list.tsx:72
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:103
 msgid "Create collection {0}"
 msgstr "Create collection {0}"
@@ -425,7 +425,7 @@ msgstr "Data Use"
 msgid "Delete"
 msgstr "Delete"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:81
+#: inertia/components/dashboard/collections/collection_controls.tsx:82
 #: inertia/pages/dashboard.tsx:79
 msgid "Delete a collection"
 msgstr "Delete a collection"
@@ -446,7 +446,7 @@ msgstr "Delete Account"
 msgid "Delete accounts"
 msgstr "Delete accounts"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:165
+#: inertia/components/dashboard/collections/collection_controls.tsx:168
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:124
 msgid "Delete collection"
 msgstr "Delete collection"
@@ -461,8 +461,8 @@ msgstr "Delete selected"
 msgid "Demote to member"
 msgstr "Demote to member"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:77
-#: inertia/components/dashboard/forms/form_collection_content.tsx:81
+#: inertia/components/dashboard/forms/form_collection_content.tsx:85
+#: inertia/components/dashboard/forms/form_collection_content.tsx:89
 #: inertia/components/dashboard/forms/form_link_content.tsx:90
 #: inertia/components/dashboard/forms/form_link_content.tsx:94
 msgid "Description"
@@ -497,7 +497,7 @@ msgstr "Download JSON"
 msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Drop in a link. Get back a bookmark you'll find again."
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:68
+#: inertia/components/dashboard/collections/collection_controls.tsx:69
 #: inertia/pages/dashboard.tsx:64
 msgid "Edit a collection"
 msgstr "Edit a collection"
@@ -507,7 +507,7 @@ msgstr "Edit a collection"
 msgid "Edit a link"
 msgstr "Edit a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:158
+#: inertia/components/dashboard/collections/collection_controls.tsx:161
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:117
 msgid "Edit collection"
 msgstr "Edit collection"
@@ -564,7 +564,7 @@ msgstr "Everything else signed in on this account will be signed out."
 msgid "Expand"
 msgstr "Expand"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:96
+#: inertia/components/dashboard/collections/collection_list.tsx:92
 msgid "Expand all"
 msgstr "Expand all"
 
@@ -617,7 +617,7 @@ msgstr "Followed"
 msgid "Followed Collections"
 msgstr "Followed Collections"
 
-#: inertia/components/tour/dashboard_tour.tsx:30
+#: inertia/components/tour/dashboard_tour.tsx:32
 msgid "Followed, public and private collections live here. Drag a collection to reorder it, or collapse/expand a whole section with the buttons at the top."
 msgstr "Followed, public and private collections live here. Drag a collection to reorder it, or collapse/expand a whole section with the buttons at the top."
 
@@ -658,7 +658,7 @@ msgstr "Google"
 msgid "Group links by project or topic, keep some private and make others public. Your call, per collection."
 msgstr "Group links by project or topic, keep some private and make others public. Your call, per collection."
 
-#: inertia/components/tour/dashboard_tour.tsx:58
+#: inertia/components/tour/dashboard_tour.tsx:60
 msgid "Group related links together, public or private."
 msgstr "Group related links together, public or private."
 
@@ -666,7 +666,7 @@ msgstr "Group related links together, public or private."
 msgid "Hello"
 msgstr "Hello"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:40
+#: inertia/components/dashboard/forms/form_collection_content.tsx:48
 msgid "Icon"
 msgstr "Icon"
 
@@ -708,7 +708,7 @@ msgstr "IP"
 msgid "Jump straight to a link by name or URL instead of hunting through years of folders."
 msgstr "Jump straight to a link by name or URL instead of hunting through years of folders."
 
-#: inertia/components/tour/dashboard_tour.tsx:41
+#: inertia/components/tour/dashboard_tour.tsx:43
 msgid "Jump to any link across every collection."
 msgstr "Jump to any link across every collection."
 
@@ -746,7 +746,7 @@ msgstr "Link"
 msgid "Link filed into another collection."
 msgstr "Link filed into another collection."
 
-#: inertia/components/tour/dashboard_tour.tsx:46
+#: inertia/components/tour/dashboard_tour.tsx:48
 msgid "Link layout"
 msgstr "Link layout"
 
@@ -778,7 +778,7 @@ msgstr "links"
 msgid "Links"
 msgstr "Links"
 
-#: inertia/components/tour/dashboard_tour.tsx:21
+#: inertia/components/tour/dashboard_tour.tsx:22
 msgid "Links you star show up here, across every collection."
 msgstr "Links you star show up here, across every collection."
 
@@ -855,8 +855,8 @@ msgstr "MyLinks turns scattered tabs into collections you can search, share and 
 
 #: inertia/components/admin/users/users_table.tsx:161
 #: inertia/components/api_tokens/api_tokens.tsx:131
-#: inertia/components/dashboard/forms/form_collection_content.tsx:63
-#: inertia/components/dashboard/forms/form_collection_content.tsx:68
+#: inertia/components/dashboard/forms/form_collection_content.tsx:71
+#: inertia/components/dashboard/forms/form_collection_content.tsx:76
 #: inertia/components/dashboard/forms/form_link_content.tsx:58
 #: inertia/components/dashboard/forms/form_link_content.tsx:63
 #: inertia/pages/auth/register.tsx:68
@@ -940,6 +940,10 @@ msgstr "Older"
 msgid "Once you delete your account, there is no going back. Please be certain."
 msgstr "Once you delete your account, there is no going back. Please be certain."
 
+#: inertia/components/dashboard/forms/form_collection_content.tsx:32
+msgid "Only you can see this collection"
+msgstr "Only you can see this collection"
+
 #: inertia/components/auth/google_sign_in_action.tsx:9
 #: inertia/pages/auth/sudo.tsx:81
 msgid "or"
@@ -985,7 +989,7 @@ msgstr "Privacy"
 msgid "Privacy Policy of MyLinks"
 msgstr "Privacy Policy of MyLinks"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:29
+#: inertia/components/dashboard/forms/form_collection_content.tsx:31
 msgid "Private"
 msgstr "Private"
 
@@ -995,7 +999,7 @@ msgstr "Private"
 msgid "Promote to administrator"
 msgstr "Promote to administrator"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:30
+#: inertia/components/dashboard/forms/form_collection_content.tsx:36
 msgid "Public"
 msgstr "Public"
 
@@ -1013,7 +1017,7 @@ msgstr "Register"
 msgid "Remembered it? <0>Sign in</0>"
 msgstr "Remembered it? <0>Sign in</0>"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:56
+#: inertia/components/dashboard/forms/form_collection_content.tsx:64
 msgid "Remove"
 msgstr "Remove"
 
@@ -1072,7 +1076,7 @@ msgstr "Run it yourself"
 msgid "Save it before the tab closes"
 msgstr "Save it before the tab closes"
 
-#: inertia/components/tour/dashboard_tour.tsx:40
+#: inertia/components/tour/dashboard_tour.tsx:42
 #: inertia/pages/dashboard.tsx:96
 msgid "Search"
 msgstr "Search"
@@ -1207,7 +1211,7 @@ msgstr "Status"
 msgid "Subject"
 msgstr "Subject"
 
-#: inertia/components/tour/dashboard_tour.tsx:48
+#: inertia/components/tour/dashboard_tour.tsx:50
 msgid "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 msgstr "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 
@@ -1243,7 +1247,7 @@ msgstr "The collected data is neither resold nor used for purposes other than in
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:104
+#: inertia/components/dashboard/forms/form_collection_content.tsx:37
 msgid "The content will be visible to everyone"
 msgstr "The content will be visible to everyone"
 
@@ -1366,7 +1370,7 @@ msgstr "User agent"
 msgid "User Rights"
 msgstr "User Rights"
 
-#: inertia/components/dashboard/forms/form_collection_content.tsx:94
+#: inertia/components/dashboard/forms/form_collection_content.tsx:101
 msgid "Visibility"
 msgstr "Visibility"
 
@@ -1419,7 +1423,7 @@ msgstr "you@example.com"
 msgid "Your address still needs confirming. We can send the link again."
 msgstr "Your address still needs confirming. We can send the link again."
 
-#: inertia/components/tour/dashboard_tour.tsx:28
+#: inertia/components/tour/dashboard_tour.tsx:30
 msgid "Your collections"
 msgstr "Your collections"
 

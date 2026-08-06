@@ -26,8 +26,16 @@ export const FormCollectionContent = ({
 	const handleRemoveIcon = () => setData('icon', null);
 
 	const visibilityOptions = [
-		{ value: Visibility.PRIVATE, label: t`Private` },
-		{ value: Visibility.PUBLIC, label: t`Public` },
+		{
+			value: Visibility.PRIVATE,
+			label: t`Private`,
+			description: t`Only you can see this collection`,
+		},
+		{
+			value: Visibility.PUBLIC,
+			label: t`Public`,
+			description: t`The content will be visible to everyone`,
+		},
 	];
 
 	return (
@@ -89,22 +97,15 @@ export const FormCollectionContent = ({
 				readOnly={disableInputs}
 			/>
 
-			<div>
-				<RadioOptions
-					label={<Trans>Visibility</Trans>}
-					options={visibilityOptions}
-					value={data.visibility}
-					onChange={(value) => setData('visibility', value as Visibility)}
-					orientation="horizontal"
-					disabled={disableInputs}
-					required
-				/>
-				{data.visibility === Visibility.PUBLIC && (
-					<p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-						<Trans>The content will be visible to everyone</Trans>
-					</p>
-				)}
-			</div>
+			<RadioOptions
+				label={<Trans>Visibility</Trans>}
+				options={visibilityOptions}
+				value={data.visibility}
+				onChange={(value) => setData('visibility', value as Visibility)}
+				orientation="horizontal"
+				disabled={disableInputs}
+				required
+			/>
 		</div>
 	);
 };
