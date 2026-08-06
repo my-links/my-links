@@ -11,14 +11,20 @@ import { FormLinkContent } from '~/components/dashboard/forms/form_link_content'
 
 interface CreateLinkModalProps {
 	onClose: () => void;
+	collectionId?: number;
 }
 
-export function CreateLinkModal({ onClose }: Readonly<CreateLinkModalProps>) {
+export function CreateLinkModal({
+	onClose,
+	collectionId,
+}: Readonly<CreateLinkModalProps>) {
 	const { activeCollection, allCollections } = useDashboardProps();
-	// Pre-check the collection being viewed, unless it's the Inbox (the "no
-	// collection" fallback) — leaving the boxes empty already lands there.
-	const seededCollectionIds =
-		activeCollection && !activeCollection.isDefault
+	// Pre-check the requested collection, falling back to the collection
+	// being viewed, unless it's the Inbox (the "no collection" fallback) —
+	// leaving the boxes empty already lands there.
+	const seededCollectionIds = collectionId
+		? [collectionId]
+		: activeCollection && !activeCollection.isDefault
 			? [activeCollection.id]
 			: [];
 	const { data, setData, submit, processing, errors } = useForm<FormLinkData>({

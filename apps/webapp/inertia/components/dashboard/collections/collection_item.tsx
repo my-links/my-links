@@ -54,7 +54,7 @@ export function CollectionItem({
 			route="collection.show"
 			routeParams={{ id: collection.id }}
 			className={clsx(
-				'flex items-center gap-3 px-4 py-2 rounded-md transition-colors group',
+				'relative flex items-center gap-3 px-4 py-2 rounded-md transition-colors group',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
 				isActive &&
