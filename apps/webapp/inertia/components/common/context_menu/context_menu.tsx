@@ -38,7 +38,7 @@ export const ContextMenu = ({
 			<div
 				ref={menuContentRef}
 				className={clsx(
-					'w-48 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 z-[999] py-1 transition-opacity duration-200',
+					'min-w-48 w-max max-w-xs bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 z-[999] py-1 transition-opacity duration-200',
 					isVisible ? 'opacity-100' : 'opacity-0'
 				)}
 				style={{
