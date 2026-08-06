@@ -4,10 +4,8 @@ import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton } from '@minimalstuff/ui';
 
-import { KEYS } from '~/consts/keys';
 import { urlFor } from '~/lib/tuyau';
 import { Visibility } from '~/types/app';
-import { Kbd } from '~/components/common/kbd';
 import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { Tooltip } from '~/components/common/tooltip';
@@ -100,86 +98,34 @@ export function DashboardHeader({
 					)}
 				</div>
 
-				{!isMobile && (
-					<div className="w-full flex items-center justify-between gap-2 flex-wrap">
-						<div className="flex items-center gap-2 flex-wrap">
+				{!isMobile &&
+					(activeCollection?.visibility === Visibility.PUBLIC ||
+						(!isFavorite && activeCollection?.isOwner === false)) && (
+						<div className="w-full flex items-center gap-2 flex-wrap">
 							{activeCollection?.visibility === Visibility.PUBLIC && (
-								<>
-									<Tooltip
-										content={<Trans>Click to copy link</Trans>}
-										temporaryContent={<Trans>Copied!</Trans>}
-										showOnClick
-										position="bottom"
-									>
-										<IconButton
-											icon="i-ant-design-share-alt-outlined"
-											onClick={() => void handleShareCollection()}
-											aria-label="Share collection"
-											variant="outline"
-											size="md"
-										/>
-									</Tooltip>
-									<div className="w-px h-6 bg-gray-300 dark:bg-gray-600" />
-								</>
-							)}
-
-							<Button
-								variant="subtle"
-								size="sm"
-								onClick={() => onCreateCollection()}
-								data-tour="create-collection"
-							>
-								<Trans>
-									Create collection{' '}
-									{!isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>}
-								</Trans>
-							</Button>
-
-							{!isFavorite &&
-								activeCollection?.isOwner !== false &&
-								!activeCollection?.isDefault && (
-									<>
-										<Button
-											variant="ghost"
-											size="sm"
-											onClick={onEditCollection}
-										>
-											<Trans>Edit collection</Trans>
-										</Button>
-										<Button
-											variant="ghost"
-											size="sm"
-											onClick={onDeleteCollection}
-											className="text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
-										>
-											<Trans>Delete collection</Trans>
-										</Button>
-									</>
-								)}
-						</div>
-
-						<div className="flex items-center gap-2 flex-wrap">
-							{activeCollection?.isOwner !== false && (
-								<Button
-									color="primary"
-									size="sm"
-									onClick={onCreateLink}
-									data-tour="create-link"
+								<Tooltip
+									content={<Trans>Click to copy link</Trans>}
+									temporaryContent={<Trans>Copied!</Trans>}
+									showOnClick
+									position="bottom"
 								>
-									<Trans>
-										Create link{' '}
-										{!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
-									</Trans>
-								</Button>
+									<IconButton
+										icon="i-ant-design-share-alt-outlined"
+										onClick={() => void handleShareCollection()}
+										aria-label="Share collection"
+										variant="outline"
+										size="md"
+									/>
+								</Tooltip>
 							)}
+
 							{!isFavorite && activeCollection?.isOwner === false && (
 								<Button color="danger" onClick={handleUnfollow}>
 									<Trans>Unfollow</Trans>
 								</Button>
 							)}
 						</div>
-					</div>
-				)}
+					)}
 			</div>
 
 			{collectionDescription && (
