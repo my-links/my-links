@@ -77,16 +77,14 @@ export function CollapsibleSection({
 			<div
 				ref={menuRef}
 				onContextMenu={handleContextMenu}
-				className="flex items-center justify-between w-full px-2 py-1.5 mb-1 rounded transition-colors gap-1 group"
+				className="relative flex items-center w-full mb-1 rounded transition-colors gap-1 group hover:bg-white/50 dark:hover:bg-gray-800/50"
 			>
 				<button
 					onClick={() => shouldShowCollapse && toggleSection(section)}
 					disabled={!shouldShowCollapse}
 					className={clsx(
-						'flex items-center gap-1.5 flex-1 min-w-0 rounded transition-colors',
-						shouldShowCollapse &&
-							'hover:bg-white/50 dark:hover:bg-gray-800/50 cursor-pointer',
-						!shouldShowCollapse && 'cursor-default'
+						'flex items-center gap-1.5 flex-1 min-w-0 rounded transition-colors py-2 px-4',
+						shouldShowCollapse ? 'cursor-pointer' : 'cursor-default'
 					)}
 					aria-label={
 						shouldShowCollapse
@@ -108,16 +106,23 @@ export function CollapsibleSection({
 						/>
 					)}
 				</button>
-				<IconButton
-					icon="i-mdi-dots-vertical"
-					size="sm"
-					onClick={(e) => {
-						e.stopPropagation();
-						toggleMenu(e);
-					}}
-					aria-label={t`Section options`}
-					className="opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-				/>
+				<div
+					className={clsx(
+						'pointer-events-none absolute inset-y-0 right-0 flex items-center py-1 pl-8 pr-4',
+						'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
+						'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'
+					)}
+				>
+					<IconButton
+						icon="i-mdi-dots-vertical"
+						size="sm"
+						onClick={(e) => {
+							e.stopPropagation();
+							toggleMenu(e);
+						}}
+						aria-label={t`Section options`}
+					/>
+				</div>
 				<ContextMenu
 					isVisible={isVisible}
 					shouldRender={shouldRender}
