@@ -12,17 +12,21 @@ import {
 } from '@dnd-kit/core';
 
 import { useCollections } from '@/hooks/use_collections';
-import { visibilityForSection } from '@/lib/dnd/dnd_types';
 import { useReorderLinks } from '@/hooks/use_reorder_links';
 import { useShiftModifier } from '@/hooks/use_shift_modifier';
 import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
 import { CollectionsDragOverlay } from './collections_drag_overlay';
 import { useReorderCollections } from '@/hooks/use_reorder_collections';
-import { isCollectionDragData, isLinkDragData } from '@/lib/dnd/drag_data';
 import { useAddLinkToCollection } from '@/hooks/use_add_link_to_collection';
+import { visibilityForSection, type LinkDragData } from '@/lib/dnd/dnd_types';
 import { useMoveLinkToCollection } from '@/hooks/use_move_link_to_collection';
 import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
 import { collectionsDndCollisionDetection } from '@/lib/dnd/collision_detection';
+import {
+	collectionIdForDropTarget,
+	isCollectionDragData,
+	isLinkDragData,
+} from '@/lib/dnd/drag_data';
 
 /**
  * Module-level, not inline literals: `useSensor` memoizes on `[sensor,
@@ -100,6 +104,45 @@ export function CollectionsDndProvider({
 		});
 	};
 
+	const fileLinkIntoCollection = (
+		activeData: LinkDragData,
+		toCollectionId: number
+	) => {
+		if (isShiftPressedRef.current) {
+			addLinkToCollection.mutate({
+				linkId: activeData.linkId,
+				collectionId: toCollectionId,
+			});
+			return;
+		}
+		moveLinkToCollection.mutate({
+			linkId: activeData.linkId,
+			fromCollectionId: activeData.collectionId,
+			toCollectionId,
+		});
+	};
+
+	const reorderLinksWithinCollection = (
+		activeData: LinkDragData,
+		overLinkId: number
+	) => {
+		const collection = collections.find(
+			(item) => item.id === activeData.collectionId
+		);
+		const links = collection?.links ?? [];
+		const activeIndex = links.findIndex(
+			(link) => link.id === activeData.linkId
+		);
+		const overIndex = links.findIndex((link) => link.id === overLinkId);
+		if (activeIndex === -1 || overIndex === -1) return;
+
+		const reordered = arrayMove(links, activeIndex, overIndex);
+		reorderLinks.mutate({
+			collectionId: activeData.collectionId,
+			linkIds: reordered.map((link) => link.id),
+		});
+	};
+
 	const handleLinkDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		if (!over) return;
@@ -108,40 +151,16 @@ export function CollectionsDndProvider({
 		if (!isLinkDragData(activeData)) return;
 
 		const overData = over.data.current;
+		const overCollectionId = collectionIdForDropTarget(overData);
+		if (overCollectionId === undefined) return;
 
-		if (isCollectionDragData(overData)) {
-			if (overData.collectionId === activeData.collectionId) return;
-			if (isShiftPressedRef.current) {
-				addLinkToCollection.mutate({
-					linkId: activeData.linkId,
-					collectionId: overData.collectionId,
-				});
-			} else {
-				moveLinkToCollection.mutate({
-					linkId: activeData.linkId,
-					fromCollectionId: activeData.collectionId,
-					toCollectionId: overData.collectionId,
-				});
-			}
+		if (overCollectionId !== activeData.collectionId) {
+			fileLinkIntoCollection(activeData, overCollectionId);
 			return;
 		}
 
 		if (isLinkDragData(overData) && overData.linkId !== activeData.linkId) {
-			const collection = collections.find(
-				(item) => item.id === activeData.collectionId
-			);
-			const links = collection?.links ?? [];
-			const activeIndex = links.findIndex(
-				(link) => link.id === activeData.linkId
-			);
-			const overIndex = links.findIndex((link) => link.id === overData.linkId);
-			if (activeIndex === -1 || overIndex === -1) return;
-
-			const reordered = arrayMove(links, activeIndex, overIndex);
-			reorderLinks.mutate({
-				collectionId: activeData.collectionId,
-				linkIds: reordered.map((link) => link.id),
-			});
+			reorderLinksWithinCollection(activeData, overData.linkId);
 		}
 	};
 

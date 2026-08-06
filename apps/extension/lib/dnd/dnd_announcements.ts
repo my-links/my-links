@@ -1,7 +1,15 @@
 import type { Announcements } from '@dnd-kit/core';
 
-import { isCollectionDragData, isLinkDragData } from './drag_data';
-import { COLLECTION_SECTION, type CollectionSection } from './dnd_types';
+import {
+	COLLECTION_SECTION,
+	type CollectionSection,
+	type LinkDragData,
+} from './dnd_types';
+import {
+	collectionIdForDropTarget,
+	isCollectionDragData,
+	isLinkDragData,
+} from './drag_data';
 
 function sectionLabel(section: CollectionSection): string {
 	switch (section) {
@@ -10,6 +18,17 @@ function sectionLabel(section: CollectionSection): string {
 		case COLLECTION_SECTION.PRIVATE:
 			return 'My Private Collections';
 	}
+}
+
+function isFilingIntoAnotherCollection(
+	activeData: LinkDragData,
+	overData: unknown
+): boolean {
+	const overCollectionId = collectionIdForDropTarget(overData);
+	return (
+		overCollectionId !== undefined &&
+		overCollectionId !== activeData.collectionId
+	);
 }
 
 export function createCollectionsDndAnnouncements(): Announcements {
@@ -33,11 +52,7 @@ export function createCollectionsDndAnnouncements(): Announcements {
 				return `Collection moved within ${sectionLabel(data.section)}.`;
 			}
 			if (isLinkDragData(data)) {
-				const overData = over.data.current;
-				if (
-					isCollectionDragData(overData) &&
-					overData.collectionId !== data.collectionId
-				) {
+				if (isFilingIntoAnotherCollection(data, over.data.current)) {
 					return 'Link over another collection.';
 				}
 				return 'Link moved.';
@@ -56,11 +71,7 @@ export function createCollectionsDndAnnouncements(): Announcements {
 				if (!over) {
 					return 'Reorder cancelled.';
 				}
-				const overData = over.data.current;
-				if (
-					isCollectionDragData(overData) &&
-					overData.collectionId !== data.collectionId
-				) {
+				if (isFilingIntoAnotherCollection(data, over.data.current)) {
 					return 'Link filed into another collection.';
 				}
 				return 'Link order updated.';

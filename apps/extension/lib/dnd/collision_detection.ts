@@ -6,10 +6,14 @@ import { isCollectionDragData, isLinkDragData } from './drag_data';
 /**
  * Restricts collision candidates by what's actually being dragged: a
  * collection can only land in its own section (a cross-section drop would be
- * an implicit visibility change, rejected server-side anyway); a link checks
- * collection containers first (every registered one is owned — followed
- * collections never register as droppable, see dnd_types.ts) and falls back
- * to its own link list for in-collection reordering.
+ * an implicit visibility change, rejected server-side anyway); a link picks
+ * the innermost target under the pointer, then falls back to its own list.
+ *
+ * Innermost first matters because a collection's droppable node wraps its
+ * link rows: checking collection containers first made every hover over a
+ * sibling row resolve to the surrounding collection, so an in-collection
+ * reorder could never be expressed. Every registered collection container is
+ * owned — followed collections never register as droppable, see dnd_types.ts.
  */
 export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 	const activeData = args.active.data.current;
@@ -32,6 +36,17 @@ export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 	}
 
 	if (isLinkDragData(activeData)) {
+		const linkContainers = args.droppableContainers.filter((container) =>
+			isLinkDragData(container.data.current)
+		);
+		const linkHits = pointerWithin({
+			...args,
+			droppableContainers: linkContainers,
+		});
+		if (linkHits.length > 0) {
+			return linkHits;
+		}
+
 		const collectionContainers = args.droppableContainers.filter((container) =>
 			isCollectionDragData(container.data.current)
 		);
@@ -43,10 +58,19 @@ export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 			return collectionHits;
 		}
 
-		const linkContainers = args.droppableContainers.filter((container) =>
-			isLinkDragData(container.data.current)
-		);
-		return closestCenter({ ...args, droppableContainers: linkContainers });
+		// Pointer outside every container: the only sane guess is the dragged
+		// link's own list, never a foreign collection it merely drifted near.
+		const siblingLinkContainers = linkContainers.filter((container) => {
+			const containerData = container.data.current;
+			return (
+				isLinkDragData(containerData) &&
+				containerData.collectionId === activeData.collectionId
+			);
+		});
+		return closestCenter({
+			...args,
+			droppableContainers: siblingLinkContainers,
+		});
 	}
 
 	return closestCenter(args);

@@ -106,7 +106,39 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 });
 
 describe('collectionsDndCollisionDetection — dragging a link', () => {
-	it('should prefer a collection container the pointer is within over any link container', () => {
+	// A collection's droppable node wraps its own link rows, so every hover
+	// over a sibling row is geometrically inside the parent collection too.
+	it('should target the link row under the pointer over the collection containing it', () => {
+		const active = buildActive('link-active', {
+			kind: 'link',
+			linkId: 1,
+			collectionId: 1,
+		});
+		const collectionX = buildContainer(
+			'collection-x',
+			{ kind: 'collection', collectionId: 1, section: 'private' },
+			rect(0, 0, 100, 100)
+		);
+		const linkY = buildContainer(
+			'link-y',
+			{ kind: 'link', linkId: 2, collectionId: 1 },
+			rect(0, 40, 100, 20)
+		);
+
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [collectionX, linkY],
+				collisionRect: rect(0, 45, 100, 20),
+				pointerCoordinates: { x: 50, y: 50 },
+			})
+		);
+
+		expect(collisions[0]?.id).toBe('link-y');
+		expect(collisions.map((c) => c.id)).not.toContain('collection-x');
+	});
+
+	it('should target the collection when the pointer is inside it but on none of its link rows', () => {
 		const active = buildActive('link-active', {
 			kind: 'link',
 			linkId: 1,
@@ -119,16 +151,16 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 		);
 		const linkY = buildContainer(
 			'link-y',
-			{ kind: 'link', linkId: 2, collectionId: 1 },
-			rect(10, 10, 20, 20)
+			{ kind: 'link', linkId: 2, collectionId: 2 },
+			rect(0, 80, 100, 20)
 		);
 
 		const collisions = collectionsDndCollisionDetection(
 			buildArgs({
 				active,
 				containers: [collectionX, linkY],
-				collisionRect: rect(45, 45, 10, 10),
-				pointerCoordinates: { x: 50, y: 50 },
+				collisionRect: rect(0, 5, 100, 20),
+				pointerCoordinates: { x: 50, y: 10 },
 			})
 		);
 
@@ -136,7 +168,39 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 		expect(collisions.map((c) => c.id)).not.toContain('link-y');
 	});
 
-	it('should fall back to the closest link container when the pointer is over no collection', () => {
+	it('should never fall back to a link from another collection when the pointer is outside every container', () => {
+		const active = buildActive('link-active', {
+			kind: 'link',
+			linkId: 1,
+			collectionId: 1,
+		});
+		const siblingLink = buildContainer(
+			'sibling-link',
+			{ kind: 'link', linkId: 2, collectionId: 1 },
+			rect(0, 0, 20, 20)
+		);
+		const foreignLink = buildContainer(
+			'foreign-link',
+			{ kind: 'link', linkId: 3, collectionId: 2 },
+			rect(0, 40, 20, 20)
+		);
+
+		// Closer to the foreign link, which a drift past the collection's own
+		// bounds must not turn into an unasked-for move.
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [siblingLink, foreignLink],
+				collisionRect: rect(0, 35, 20, 20),
+				pointerCoordinates: { x: 200, y: 200 },
+			})
+		);
+
+		expect(collisions.map((c) => c.id)).not.toContain('foreign-link');
+		expect(collisions[0]?.id).toBe('sibling-link');
+	});
+
+	it('should fall back to the closest link container when the pointer is over no container at all', () => {
 		const active = buildActive('link-active', {
 			kind: 'link',
 			linkId: 1,
@@ -163,7 +227,7 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 				active,
 				containers: [collectionX, linkY, linkZ],
 				collisionRect: rect(45, 0, 20, 20),
-				pointerCoordinates: { x: 5, y: 5 },
+				pointerCoordinates: { x: 500, y: 500 },
 			})
 		);
 

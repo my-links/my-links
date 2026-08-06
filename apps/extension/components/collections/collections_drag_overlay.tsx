@@ -3,7 +3,11 @@ import { DragOverlay, useDndContext } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 
 import { useCollections } from '@/hooks/use_collections';
-import { isCollectionDragData, isLinkDragData } from '@/lib/dnd/drag_data';
+import {
+	collectionIdForDropTarget,
+	isCollectionDragData,
+	isLinkDragData,
+} from '@/lib/dnd/drag_data';
 
 const OVERLAY_MODIFIERS = [restrictToWindowEdges];
 
@@ -49,10 +53,10 @@ export function CollectionsDragOverlay({
 		const draggedLink = collections
 			.flatMap((collection) => collection.links ?? [])
 			.find((link) => link.id === activeData.linkId);
-		const overData = over?.data.current;
+		const overCollectionId = collectionIdForDropTarget(over?.data.current);
 		const isOverAnotherCollection =
-			isCollectionDragData(overData) &&
-			overData.collectionId !== activeData.collectionId;
+			overCollectionId !== undefined &&
+			overCollectionId !== activeData.collectionId;
 
 		return (
 			<DragOverlay modifiers={OVERLAY_MODIFIERS}>
