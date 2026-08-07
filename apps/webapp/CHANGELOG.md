@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.0.1](https://github.com/my-links/my-links/compare/webapp-v5.0.0...webapp-v5.0.1) (2026-08-07)
+
+### Bug Fixes
+
+* **ci:** use match type for docker tag extraction from release tag ([5668940](https://github.com/my-links/my-links/commit/56689401ac98a14c00b42d14a2dd605632a7888e))
+
 ## [5.0.0](https://github.com/my-links/my-links/compare/4.3.4...webapp-v5.0.0) (2026-08-07)
 
 ### Features
