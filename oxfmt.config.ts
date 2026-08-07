@@ -12,5 +12,6 @@ export default minimalstuffPreset({
 		'**/.adonisjs/**',
 		'apps/webapp/bin/*',
 		'apps/webapp/database/schema.ts',
+		'**/CHANGELOG.md',
 	],
 });
