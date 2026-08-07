@@ -3,6 +3,7 @@ export const PROJECT_DESCRIPTION =
 	'Another bookmark manager that lets you manage and share your favorite links in an intuitive interface';
 export const PROJECT_URL = 'https://www.mylinks.app';
 export const PROJECT_DOCS_URL = 'https://docs.mylinks.app';
+export const PROJECT_CHANGELOG_URL = `${PROJECT_DOCS_URL}/changelog`;
 export const PROJECT_REPO_GITHUB_URL = 'https://github.com/my-links/my-links';
 export const PROJECT_EXTENSION_URL =
 	'https://chromewebstore.google.com/detail/mylinks/agkmlplihacolkakgeccnbhphnepphma';

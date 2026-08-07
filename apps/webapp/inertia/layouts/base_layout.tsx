@@ -16,6 +16,7 @@ import type { Locale } from '~/types/i18n';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { FlashMessages } from '~/components/common/flash_messages';
+import { AnnouncementBanner } from '~/components/common/announcement_banner';
 
 interface BaseLayoutProps {
 	children: React.ReactNode;
@@ -43,6 +44,7 @@ export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
 		<I18nProvider i18n={i18n}>
 			<TuyauProvider client={tuyauClient}>
 				<ModalProvider />
+				<AnnouncementBanner />
 				<FlashMessages />
 				{children}
 			</TuyauProvider>
