@@ -10,7 +10,7 @@ on:
 
 env:
   NODE_VERSION: 24.14.0
-  PNPM_VERSION: 11.0.9
+  PNPM_VERSION: 11.18.0
 
 permissions:
   contents: read
