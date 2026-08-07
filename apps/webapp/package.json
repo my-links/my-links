@@ -1,6 +1,6 @@
 {
 	"name": "@my-links/webapp",
-	"version": "4.3.4",
+	"version": "5.0.0",
 	"private": true,
 	"license": "GPL-3.0-only",
 	"type": "module",
