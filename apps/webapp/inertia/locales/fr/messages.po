@@ -484,6 +484,10 @@ msgstr "Détails"
 msgid "Device"
 msgstr "Appareil"
 
+#: inertia/components/common/announcement_banner.tsx:44
+msgid "Dismiss"
+msgstr "Fermer"
+
 #: inertia/pages/home.tsx:44
 msgid "Documentation"
 msgstr "Documentation"
@@ -880,6 +884,10 @@ msgstr "Nouveau mot de passe"
 msgid "New token created"
 msgstr "Nouveau jeton créé"
 
+#: inertia/components/common/announcement_banner.tsx:30
+msgid "New version {majorVersion} is here."
+msgstr "La version {majorVersion} est arrivée."
+
 #: inertia/components/admin/activity_events/activity_journal_pagination.tsx:25
 #: inertia/components/admin/auth_events/journal_pagination.tsx:25
 msgid "Newer"
@@ -1097,6 +1105,10 @@ msgstr "Rechercher..."
 #: inertia/components/dashboard/collections/collapsible_section.tsx:123
 msgid "Section options"
 msgstr "Options de la section"
+
+#: inertia/components/common/announcement_banner.tsx:37
+msgid "See what's new"
+msgstr "Voir les nouveautés"
 
 #: inertia/components/tour/tour_welcome_modal.tsx:21
 msgid "See where your collections, search and the main actions live. It only takes a minute."
