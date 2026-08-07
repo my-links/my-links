@@ -11,6 +11,7 @@ export default defineConfig({
 
 	themeConfig: {
 		logo: '/logo-light.svg',
+		siteTitle: false,
 
 		nav: [
 			{ text: 'Guide', link: '/guide/introduction' },
