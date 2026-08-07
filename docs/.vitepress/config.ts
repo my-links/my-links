@@ -16,6 +16,7 @@ export default defineConfig({
 			{ text: 'Guide', link: '/guide/introduction' },
 			{ text: 'Self-hosting', link: '/self-hosting/docker' },
 			{ text: 'API reference', link: '/api/' },
+			{ text: 'Changelog', link: '/changelog' },
 			{ text: 'Contributing', link: '/contributing' },
 			{ text: 'mylinks.app', link: 'https://www.mylinks.app' },
 		],
