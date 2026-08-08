@@ -8,6 +8,7 @@ import { urlFor } from '~/lib/tuyau';
 import { formatDate } from '~/lib/format';
 import { NaContent } from '~/components/common/na_content';
 import { ClientOnly } from '~/components/common/client_only';
+import { UserIdentity } from '~/components/common/user_identity';
 import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
 import { UserBadgeRole } from '~/components/common/user_badge_role';
 import { DataTable } from '~/components/common/data_table/data_table';
@@ -163,12 +164,10 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						cellClassName:
 							'px-6 py-4 text-sm font-medium text-gray-900 dark:text-white',
 						render: (user) => (
-							<div className="flex items-center gap-3">
-								<div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-xs font-semibold">
-									{user.fullname.charAt(0).toUpperCase()}
-								</div>
-								<span>{user.fullname}</span>
-							</div>
+							<UserIdentity
+								fullname={user.fullname}
+								avatarUrl={user.avatarUrl}
+							/>
 						),
 					},
 					{

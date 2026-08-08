@@ -16,7 +16,7 @@ type JournalLine = {
 	readonly type: string;
 	readonly subjectType: string | null;
 	readonly subjectId: number | null;
-	readonly email: string | null;
+	readonly fullname: string | null;
 };
 
 async function createAdmin(): Promise<User> {
@@ -79,7 +79,7 @@ test.group('Admin activity journal', (group) => {
 			.loginAs(administrator);
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
-		assert.equal(events[0]?.email, account.email);
+		assert.equal(events[0]?.fullname, account.fullname);
 		assert.equal(events[0]?.subjectType, AUDIT_SUBJECT_TYPE.LINK);
 		assert.equal(events[0]?.subjectId, 4102);
 	});

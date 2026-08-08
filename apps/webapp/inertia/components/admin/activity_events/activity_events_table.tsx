@@ -4,6 +4,7 @@ import { Trans } from '@lingui/react/macro';
 import { formatDate } from '~/lib/format';
 import { NaContent } from '~/components/common/na_content';
 import { ClientOnly } from '~/components/common/client_only';
+import { UserIdentity } from '~/components/common/user_identity';
 import { DataTable } from '~/components/common/data_table/data_table';
 import { AuthEventTypeBadge } from '~/components/admin/auth_events/auth_event_type_badge';
 
@@ -69,18 +70,25 @@ export const ActivityEventsTable = ({
 				render: (event) => describeMetadata(event),
 			},
 			{
-				key: 'email',
+				key: 'fullname',
 				header: <Trans>Account</Trans>,
 				cellClassName:
 					'px-6 py-3 text-sm text-gray-900 dark:text-white whitespace-nowrap',
-				render: (event) => event.email ?? <NaContent />,
+				render: (event) => (
+					<UserIdentity fullname={event.fullname} avatarUrl={event.avatarUrl} />
+				),
 			},
 			{
-				key: 'actorEmail',
+				key: 'actorFullname',
 				header: <Trans>Done by</Trans>,
 				cellClassName:
 					'px-6 py-3 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap',
-				render: (event) => event.actorEmail ?? <NaContent />,
+				render: (event) => (
+					<UserIdentity
+						fullname={event.actorFullname}
+						avatarUrl={event.actorAvatarUrl}
+					/>
+				),
 			},
 			{
 				key: 'ip',

@@ -14,8 +14,8 @@ const FAVORITES_ROUTE = '/collections/favorites';
 
 type JournalLine = {
 	readonly type: string;
-	readonly email: string | null;
-	readonly actorEmail: string | null;
+	readonly fullname: string | null;
+	readonly actorFullname: string | null;
 	readonly ip: string | null;
 };
 
@@ -71,7 +71,7 @@ test.group('Admin authentication journal', (group) => {
 			.loginAs(administrator);
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
-		assert.equal(events[0]?.email, account.email);
+		assert.equal(events[0]?.fullname, account.fullname);
 	});
 
 	test('should name the administrator behind an action taken on somebody else', async ({
@@ -92,7 +92,7 @@ test.group('Admin authentication journal', (group) => {
 			.loginAs(administrator);
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
-		assert.equal(events[0]?.actorEmail, administrator.email);
+		assert.equal(events[0]?.actorFullname, administrator.fullname);
 	});
 
 	test('should leave the actor empty for something an account did itself', async ({
@@ -112,7 +112,7 @@ test.group('Admin authentication journal', (group) => {
 			.loginAs(administrator);
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
-		assert.isNull(events[0]?.actorEmail);
+		assert.isNull(events[0]?.actorFullname);
 	});
 
 	test('should hand over one page at a time', async ({ assert, client }) => {
