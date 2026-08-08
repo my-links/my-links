@@ -46,6 +46,7 @@ export default class ShowUserSettingsController {
 				return {
 					...token.toJSON(),
 					identifier: token.identifier,
+					createdAt: token.createdAt?.toString(),
 				};
 			}),
 			sessions: UserSessionTransformer.transform(sessions, session.sessionId),
