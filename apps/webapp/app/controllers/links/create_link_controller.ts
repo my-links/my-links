@@ -2,26 +2,20 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { LinkService } from '#services/links/link_service';
-import { CollectionService } from '#services/collections/collection_service';
 import { createLinkValidator } from '#validators/links/create_link_validator';
 
 @inject()
 export default class CreateLinkController {
-	constructor(
-		protected readonly linkService: LinkService,
-		protected readonly collectionsService: CollectionService
-	) {}
+	constructor(protected readonly linkService: LinkService) {}
 
-	async execute({ request }: HttpContext) {
+	async execute({ request, response }: HttpContext) {
 		const { collectionIds, ...payload } =
 			await request.validateUsing(createLinkValidator);
 
-		const link = await this.linkService.createLink({
+		await this.linkService.createLink({
 			...payload,
 			collectionIds,
 		});
-		return this.collectionsService.redirectToCollectionId(
-			link.collections[0].id
-		);
+		return response.redirect().back();
 	}
 }
