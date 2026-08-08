@@ -85,6 +85,18 @@ export function Sessions() {
 							render: (session) => session.browser?.name ?? <NaContent />,
 						},
 						{
+							key: 'createdAt',
+							header: <Trans>Created at</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (session) =>
+								session.createdAt ? (
+									formatDate(session.createdAt)
+								) : (
+									<NaContent />
+								),
+						},
+						{
 							key: 'expiresAt',
 							header: <Trans>Expires at</Trans>,
 							cellClassName:

@@ -10,6 +10,7 @@ export type ApiToken = {
 	token: string | undefined;
 	name: string | null;
 	type: 'bearer';
+	createdAt: string | null;
 	lastUsedAt: string | null;
 	expiresAt: string | null;
 	abilities: string[];

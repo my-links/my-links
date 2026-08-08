@@ -141,6 +141,14 @@ export function ApiTokens() {
 							render: (token) => generateTokenRow(token) ?? <NaContent />,
 						},
 						{
+							key: 'createdAt',
+							header: <Trans>Created at</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) =>
+								token.createdAt ? formatDate(token.createdAt) : <NaContent />,
+						},
+						{
 							key: 'expiresAt',
 							header: <Trans>Expires at</Trans>,
 							cellClassName:
