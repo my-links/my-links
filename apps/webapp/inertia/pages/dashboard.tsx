@@ -143,7 +143,10 @@ export default function Dashboard() {
 							onOpenSearch={handleOpenSearch}
 						/>
 
-						<div className="flex-1 overflow-y-auto md:p-6 scrollbar-gutter-stable">
+						<div
+							className="flex-1 overflow-y-auto md:p-6 scrollbar-gutter-stable"
+							scroll-region=""
+						>
 							{hasActiveContent ? (
 								<>
 									{activeCollection ? (
