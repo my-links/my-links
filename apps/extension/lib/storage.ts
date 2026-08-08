@@ -42,6 +42,16 @@ export const apiTokenStorage = storage.defineItem<string | null>(
 	{ fallback: null }
 );
 
+/**
+ * Whether opening a new tab shows the collections workspace. On by default;
+ * turning it off leaves new tabs blank instead, since browsers give
+ * extensions no way to hand the native new tab page back at runtime.
+ */
+export const newTabOverrideStorage = storage.defineItem<boolean>(
+	'local:newTabOverrideEnabled',
+	{ fallback: true }
+);
+
 export interface CollectionsCache {
 	collections: CollectionWithLinks[];
 	followedCollections: FollowedCollectionWithLinks[];
