@@ -120,13 +120,6 @@ export function ApiTokens() {
 					headerCellClassName="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
 					columns={[
 						{
-							key: 'id',
-							header: <Trans>ID</Trans>,
-							cellClassName:
-								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
-							render: (token) => token.identifier,
-						},
-						{
 							key: 'name',
 							header: <Trans>Name</Trans>,
 							cellClassName:

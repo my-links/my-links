@@ -55,22 +55,6 @@ export function Sessions() {
 					headerCellClassName="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
 					columns={[
 						{
-							key: 'id',
-							header: <Trans>ID</Trans>,
-							cellClassName:
-								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
-							render: (session) => (
-								<span className="flex items-center gap-2">
-									{session.sessionId}
-									{session.isCurrent && (
-										<Badge variant="success" size="xs">
-											<Trans>Current</Trans>
-										</Badge>
-									)}
-								</span>
-							),
-						},
-						{
 							key: 'ip',
 							header: <Trans>IP</Trans>,
 							cellClassName:
@@ -82,7 +66,16 @@ export function Sessions() {
 							header: <Trans>Device</Trans>,
 							cellClassName:
 								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
-							render: (session) => session.browser?.name ?? <NaContent />,
+							render: (session) => (
+								<span className="flex items-center gap-2">
+									{session.browser?.name ?? <NaContent />}
+									{session.isCurrent && (
+										<Badge variant="success" size="xs">
+											<Trans>Current</Trans>
+										</Badge>
+									)}
+								</span>
+							),
 						},
 						{
 							key: 'createdAt',
