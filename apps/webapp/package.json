@@ -32,7 +32,7 @@
 		"build": "node ace build",
 		"dev": "node ace serve --hmr",
 		"test": "node ace test unit functional",
-		"test:browser": "SMTP_HOST=localhost SMTP_PORT=1025 MAIL_FROM_ADDRESS=test@my-links.localhost MAIL_FROM_NAME=MyLinks node ace test browser",
+		"test:browser": "SMTP_HOST=localhost SMTP_PORT=1025 MAIL_FROM_ADDRESS=test@my-links.localhost MAIL_FROM_NAME=MyLinks node ace test browser --no-clear",
 		"typecheck": "tsc --noEmit",
 		"check": "pnpm run typecheck",
 		"release": "release-it",

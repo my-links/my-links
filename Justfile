@@ -37,15 +37,15 @@ prod:
 	@docker compose --env-file {{ webapp_env_file }} pull
 	@docker compose --env-file {{ webapp_env_file }} up -d --build --wait --remove-orphans
 
-test-unit:
-	@cd {{ webapp_path }} && node ace test unit
-
 # A leftover public/assets makes the app read a production manifest and fail
 _drop-stale-assets:
 	@rm -rf {{ webapp_path }}/public/assets
 
+test-unit:
+	@cd {{ webapp_path }} && node ace test unit --no-clear
+
 test-functional: _drop-stale-assets
-	@cd {{ webapp_path }} && node ace test functional
+	@cd {{ webapp_path }} && node ace test functional --no-clear
 
 test-e2e: _drop-stale-assets
 	@cd {{ webapp_path }} && pnpm run test:browser
