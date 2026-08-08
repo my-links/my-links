@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Input, ThemeToggle } from '@minimalstuff/ui';
+import { Button, Input, Switch, ThemeToggle } from '@minimalstuff/ui';
 
 import { connectToInstance, disconnectFromInstance } from '@/lib/api/auth';
 import { BookmarkMirrorSection } from '@/components/bookmarks/bookmark_mirror_section';
@@ -7,6 +7,7 @@ import {
 	apiTokenStorage,
 	DEFAULT_INSTANCE_URL,
 	instanceUrlStorage,
+	newTabOverrideStorage,
 } from '@/lib/storage';
 
 type ConnectionStatus =
@@ -19,6 +20,7 @@ function App() {
 	const [instanceUrlInput, setInstanceUrlInput] =
 		useState(DEFAULT_INSTANCE_URL);
 	const [status, setStatus] = useState<ConnectionStatus>({ kind: 'idle' });
+	const [isNewTabEnabled, setIsNewTabEnabled] = useState(true);
 
 	useEffect(() => {
 		void Promise.all([
@@ -30,7 +32,13 @@ function App() {
 				setStatus({ kind: 'connected', instanceUrl: storedInstanceUrl });
 			}
 		});
+		void newTabOverrideStorage.getValue().then(setIsNewTabEnabled);
 	}, []);
+
+	const handleNewTabToggle = async (isEnabled: boolean) => {
+		setIsNewTabEnabled(isEnabled);
+		await newTabOverrideStorage.setValue(isEnabled);
+	};
 
 	const handleConnect = async () => {
 		setStatus({ kind: 'connecting' });
@@ -61,6 +69,13 @@ function App() {
 					<h1 className="text-lg font-semibold">MyLinks</h1>
 					<ThemeToggle size="sm" />
 				</div>
+
+				<Switch
+					label="Open on new tab"
+					description="Show the collections workspace when you open a new tab."
+					checked={isNewTabEnabled}
+					onChange={(event) => void handleNewTabToggle(event.target.checked)}
+				/>
 
 				<Input
 					label="Instance URL"
