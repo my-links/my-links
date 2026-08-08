@@ -10,6 +10,52 @@ export function normalizeInstanceUrl(rawInstanceUrl: string): string {
 	return new URL(rawInstanceUrl.trim()).origin;
 }
 
+function withWwwPrefix(origin: string): string | null {
+	const url = new URL(origin);
+	if (url.hostname.startsWith('www.')) {
+		return null;
+	}
+	url.hostname = `www.${url.hostname}`;
+	return url.origin;
+}
+
+/**
+ * `redirect: 'error'` instead of the default `'follow'`: a cross-origin 30x
+ * carries no CORS headers of its own, so the browser blocks it as a CORS
+ * failure before it ever reaches the final response — following it is not an
+ * option here, only detecting it is.
+ */
+async function answersDirectly(origin: string): Promise<boolean> {
+	try {
+		await fetch(`${origin}/api/v1/health`, { redirect: 'error' });
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+/**
+ * A typed origin can redirect to a different one (apex to `www` is the
+ * common case) and that redirect is opaque to `fetch`, so this tries the
+ * typed origin first and falls back to its `www` sibling before giving up —
+ * whichever answers without redirecting is the one every later request,
+ * bearer token included, must target directly.
+ */
+export async function resolveCanonicalOrigin(origin: string): Promise<string> {
+	if (await answersDirectly(origin)) {
+		return origin;
+	}
+
+	const wwwOrigin = withWwwPrefix(origin);
+	if (wwwOrigin && (await answersDirectly(wwwOrigin))) {
+		return wwwOrigin;
+	}
+
+	throw new ExtensionAuthError(
+		'Could not reach the instance. Check the URL and try again.'
+	);
+}
+
 export function extractTokenFromAuthCallback(
 	callbackUrl: string
 ): string | null {
@@ -26,7 +72,9 @@ export function extractTokenFromAuthCallback(
  * only reuses the browser API that OAuth flows also happen to use.
  */
 export async function connectToInstance(rawInstanceUrl: string): Promise<void> {
-	const instanceUrl = normalizeInstanceUrl(rawInstanceUrl);
+	const instanceUrl = await resolveCanonicalOrigin(
+		normalizeInstanceUrl(rawInstanceUrl)
+	);
 
 	const granted = await browser.permissions.request({
 		origins: [`${instanceUrl}/*`],
