@@ -1,8 +1,10 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
+	ExtensionAuthError,
 	extractTokenFromAuthCallback,
 	normalizeInstanceUrl,
+	resolveCanonicalOrigin,
 } from '@/lib/api/auth';
 
 describe('normalizeInstanceUrl', () => {
@@ -26,6 +28,60 @@ describe('normalizeInstanceUrl', () => {
 
 	it('should throw when the input is not a valid URL', () => {
 		expect(() => normalizeInstanceUrl('not-a-url')).toThrow();
+	});
+});
+
+describe('resolveCanonicalOrigin', () => {
+	afterEach(() => {
+		vi.unstubAllGlobals();
+	});
+
+	it('should return the typed origin when it answers directly', async () => {
+		vi.stubGlobal('fetch', vi.fn().mockResolvedValue({}));
+
+		await expect(
+			resolveCanonicalOrigin('https://mylinks.example.com')
+		).resolves.toBe('https://mylinks.example.com');
+	});
+
+	it('should fall back to the www sibling when the typed origin redirects', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi
+				.fn()
+				.mockImplementation((input: string) =>
+					input.startsWith('https://www.')
+						? Promise.resolve({})
+						: Promise.reject(new TypeError('Failed to fetch'))
+				)
+		);
+
+		await expect(
+			resolveCanonicalOrigin('https://mylinks.example.com')
+		).resolves.toBe('https://www.mylinks.example.com');
+	});
+
+	it('should not retry a www origin that already redirects', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
+		);
+
+		await expect(
+			resolveCanonicalOrigin('https://www.mylinks.example.com')
+		).rejects.toThrow(ExtensionAuthError);
+		expect(fetch).toHaveBeenCalledTimes(1);
+	});
+
+	it('should throw an ExtensionAuthError when neither origin answers', async () => {
+		vi.stubGlobal(
+			'fetch',
+			vi.fn().mockRejectedValue(new TypeError('Failed to fetch'))
+		);
+
+		await expect(
+			resolveCanonicalOrigin('https://mylinks.example.com')
+		).rejects.toThrow(ExtensionAuthError);
 	});
 });
 
