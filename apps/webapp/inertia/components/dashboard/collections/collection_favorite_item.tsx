@@ -17,6 +17,7 @@ export function CollectionFavoriteItem() {
 	return (
 		<Link
 			route="collection.favorites"
+			preserveScroll
 			data-tour="favorites"
 			className={clsx(
 				'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',

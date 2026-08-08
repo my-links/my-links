@@ -92,7 +92,7 @@ export function CollectionList({
 				<CollectionFavoriteItem />
 			</div>
 
-			<div className="flex-1 overflow-y-auto space-y-1 px-2">
+			<div className="flex-1 overflow-y-auto space-y-1 px-2" scroll-region="">
 				{order.map((section, index) => (
 					<CollapsibleSection
 						key={section}

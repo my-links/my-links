@@ -53,6 +53,7 @@ export function CollectionItem({
 			ref={setActivatorNodeRef}
 			route="collection.show"
 			routeParams={{ id: collection.id }}
+			preserveScroll
 			className={clsx(
 				'relative flex items-center gap-3 px-4 py-2 rounded-md transition-colors group',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
