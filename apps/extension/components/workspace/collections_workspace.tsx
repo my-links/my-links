@@ -7,6 +7,7 @@ import {
 } from '@minimalstuff/ui';
 
 import { SearchPanel } from '@/components/search/search_panel';
+import { RefreshButton } from '@/components/common/refresh_button';
 import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
 import { SyncStatusBadge } from '@/components/common/sync_status_badge';
 import { QuickAddButton } from '@/components/quick_add/quick_add_button';
@@ -61,6 +62,7 @@ export function CollectionsWorkspace() {
 				<div className="flex flex-shrink-0 items-center gap-1">
 					<QuickAddButton />
 					<NewCollectionButton />
+					<RefreshButton />
 					<IconButton
 						icon="i-ant-design-setting-outlined"
 						aria-label="Open settings"
