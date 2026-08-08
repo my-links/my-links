@@ -41,16 +41,16 @@ prod:
 _drop-stale-assets:
 	@rm -rf {{ webapp_path }}/public/assets
 
-test-unit:
-	@cd {{ webapp_path }} && node ace test unit --no-clear
-
-test-functional: _drop-stale-assets
-	@cd {{ webapp_path }} && node ace test functional --no-clear
+# unit and functional share one boot: no DB/port/env conflict between them.
+# browser stays separate: it sets SMTP_HOST for mailpit, which functional's
+# "without outgoing mail" tests rely on being unset.
+test-unit-functional: _drop-stale-assets
+	@cd {{ webapp_path }} && node ace test unit functional --no-clear
 
 test-e2e: _drop-stale-assets
 	@cd {{ webapp_path }} && pnpm run test:browser
 
-test: _dev test-unit test-functional test-e2e
+test: _dev test-unit-functional test-e2e
 
 # Build the image cd.yml ships, so a broken Dockerfile fails before the tag and the release exist
 build-image:
