@@ -19,12 +19,16 @@ import { armDragClickGuard } from '~/lib/dnd/drag_click_guard';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardDragOverlay } from './dashboard_drag_overlay';
 import { useReorderCollections } from '~/hooks/use_reorder_collections';
-import { isCollectionDragData, isLinkDragData } from '~/lib/dnd/drag_data';
 import { dashboardCollisionDetection } from '~/lib/dnd/collision_detection';
 import { useAddLinkToCollection } from '~/hooks/use_add_link_to_collection';
 import { useMoveLinkToCollection } from '~/hooks/use_move_link_to_collection';
 import { createDashboardDndAnnouncements } from '~/lib/dnd/dnd_announcements';
 import { useReorderFollowedCollections } from '~/hooks/use_reorder_followed_collections';
+import {
+	isCollectionDragData,
+	isLinkDropTargetData,
+	isLinkDragData,
+} from '~/lib/dnd/drag_data';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
@@ -143,7 +147,7 @@ export function DashboardDndProvider({
 		if (isLinkDragData(activeData)) {
 			const overData = over.data.current;
 
-			if (isCollectionDragData(overData)) {
+			if (isLinkDropTargetData(overData)) {
 				if (overData.collectionId === activeData.collectionId) {
 					return;
 				}

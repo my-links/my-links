@@ -12,14 +12,15 @@ import {
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
 import {
-	createCollection,
-	followCollection,
-} from '#tests/factories/collection_factory';
-import {
 	createUser,
 	verifyUserEmail,
 	setUserPassword,
 } from '#tests/factories/user_factory';
+import {
+	createInbox,
+	createCollection,
+	followCollection,
+} from '#tests/factories/collection_factory';
 
 const LOGIN_PATH = '/login';
 const FAVORITES_PATH = '/collections/favorites';
@@ -238,6 +239,86 @@ test.group('Dashboard reordering (browser)', (group) => {
 			[target.id]
 		);
 		assert.lengthOf(linkRows, 1);
+	});
+
+	test('should pin the Inbox outside the private collections section', async ({
+		visit,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'browser-inbox-pinned' });
+		await verifyUserEmail(user);
+		await setUserPassword(user, PASSWORD);
+		await createInbox(user);
+		await createCollection({
+			author: user,
+			name: 'Alpha Collection',
+			visibility: Visibility.PRIVATE,
+		});
+
+		const page = await visit(LOGIN_PATH);
+		await loginAsUser(page, user.email, PASSWORD);
+
+		const inboxCard = page.getByTitle('Inbox', { exact: true });
+		await inboxCard.waitFor();
+		const privateSection = sectionContainer(page, 'My Private Collections');
+		await privateSection
+			.getByTitle('Alpha Collection', { exact: true })
+			.waitFor();
+
+		assert.equal(
+			await privateSection.getByTitle('Inbox', { exact: true }).count(),
+			0
+		);
+	});
+
+	test('should move a link dropped onto the pinned Inbox', async ({
+		visit,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'browser-inbox-drop' });
+		await verifyUserEmail(user);
+		await setUserPassword(user, PASSWORD);
+
+		const inbox = await createInbox(user);
+		const source = await createCollection({
+			author: user,
+			name: 'Source Collection',
+			visibility: Visibility.PRIVATE,
+		});
+		const link = await createLink({
+			author: user,
+			name: 'Filed Link',
+			url: 'https://example.com/browser-inbox-drop',
+		});
+		await attachLinkToCollection(link, source);
+
+		const page = await visit(LOGIN_PATH);
+		await loginAsUser(page, user.email, PASSWORD);
+		await page.goto(`/collections/${source.id}`);
+
+		const linkCard = page.getByTitle(link.url, { exact: true });
+		const inboxCard = page.getByTitle('Inbox', { exact: true });
+		await linkCard.waitFor();
+		await inboxCard.waitFor();
+
+		await dragOntoAndWaitFor(
+			page,
+			linkCard,
+			inboxCard,
+			'PUT',
+			`/links/${link.id}/collection`
+		);
+		await page.waitForLoadState('networkidle');
+
+		const memberships = await db
+			.from('collection_link')
+			.where('link_id', link.id)
+			.select('collection_id');
+
+		assert.deepEqual(
+			memberships.map((row) => row.collection_id),
+			[inbox.id]
+		);
 	});
 
 	test('should add a dropped link to the target collection when Shift is held, keeping the source', async ({

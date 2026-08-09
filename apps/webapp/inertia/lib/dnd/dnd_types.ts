@@ -14,10 +14,20 @@ export type CollectionDragData = {
 	isOwner: boolean;
 };
 
+/**
+ * The pinned Inbox drop zone. It carries no `section` because it belongs to
+ * none: a dragged collection may only land among its own section's items, and
+ * the Inbox sits outside all of them. Links still drop onto it.
+ */
+export type InboxDropData = {
+	kind: 'inbox';
+	collectionId: number;
+};
+
 export type LinkDragData = {
 	kind: 'link';
 	linkId: number;
 	collectionId: number;
 };
 
-export type DragData = CollectionDragData | LinkDragData;
+export type DragData = CollectionDragData | InboxDropData | LinkDragData;
