@@ -1,8 +1,12 @@
 import { t } from '@lingui/core/macro';
 import type { Announcements } from '@dnd-kit/core';
 
-import { isCollectionDragData, isLinkDragData } from './drag_data';
 import { COLLECTION_SECTION, type CollectionSection } from './dnd_types';
+import {
+	isCollectionDragData,
+	isLinkDropTargetData,
+	isLinkDragData,
+} from './drag_data';
 
 function sectionLabel(section: CollectionSection): string {
 	switch (section) {
@@ -38,7 +42,7 @@ export function createDashboardDndAnnouncements(): Announcements {
 			if (isLinkDragData(data)) {
 				const overData = over.data.current;
 				if (
-					isCollectionDragData(overData) &&
+					isLinkDropTargetData(overData) &&
 					overData.collectionId !== data.collectionId
 				) {
 					return t`Link over another collection.`;
@@ -61,7 +65,7 @@ export function createDashboardDndAnnouncements(): Announcements {
 				}
 				const overData = over.data.current;
 				if (
-					isCollectionDragData(overData) &&
+					isLinkDropTargetData(overData) &&
 					overData.collectionId !== data.collectionId
 				) {
 					return t`Link filed into another collection.`;

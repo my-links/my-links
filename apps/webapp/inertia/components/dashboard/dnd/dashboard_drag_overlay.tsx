@@ -6,7 +6,11 @@ import { DragOverlay, useDndContext } from '@dnd-kit/core';
 import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '~/components/dashboard/links/link_item';
 import { useDashboardDndCollections } from './dashboard_dnd_provider';
-import { isCollectionDragData, isLinkDragData } from '~/lib/dnd/drag_data';
+import {
+	isCollectionDragData,
+	isLinkDropTargetData,
+	isLinkDragData,
+} from '~/lib/dnd/drag_data';
 
 interface DashboardDragOverlayProps {
 	isShiftPressed: boolean;
@@ -60,7 +64,7 @@ export function DashboardDragOverlay({
 		);
 		const overData = over?.data.current;
 		const isOverAnotherCollection =
-			isCollectionDragData(overData) &&
+			isLinkDropTargetData(overData) &&
 			overData.collectionId !== activeData.collectionId;
 		// Matches the card's own width so the overlay doesn't fall back to
 		// whatever intrinsic width LinkItem gets outside of its grid/compact

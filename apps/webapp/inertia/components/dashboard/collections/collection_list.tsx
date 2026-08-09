@@ -8,6 +8,8 @@ import { KEYS } from '~/consts/keys';
 import { Kbd } from '~/components/common/kbd';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { CollapsibleSection } from './collapsible_section';
+import { CollectionInboxItem } from './collection_inbox_item';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useSectionOrderStore } from '~/stores/section_order_store';
 import { CollectionFavoriteItem } from './collection_favorite_item';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
@@ -34,6 +36,7 @@ export function CollectionList({
 }: Readonly<CollectionListProps>) {
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
 		useDashboardDndCollections();
+	const { inboxCollection } = useDashboardProps();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
 	const { toggleSidebar } = useDashboardLayoutStore();
 	const isMobile = useIsMobile();
@@ -88,8 +91,11 @@ export function CollectionList({
 				)}
 			</div>
 
-			<div className="px-2 pt-1 pb-2">
+			<div className="px-2 pt-1 pb-2 space-y-1">
 				<CollectionFavoriteItem />
+				{inboxCollection && (
+					<CollectionInboxItem collection={inboxCollection} />
+				)}
 			</div>
 
 			<div className="flex-1 overflow-y-auto space-y-1 px-2" scroll-region="">
