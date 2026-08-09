@@ -5,7 +5,10 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
-import { createCollection } from '#tests/factories/collection_factory';
+import {
+	createInbox,
+	createCollection,
+} from '#tests/factories/collection_factory';
 
 async function collectionUpdatedAt(collectionId: number) {
 	const row = await db.from('collections').where('id', collectionId).first();
@@ -92,6 +95,70 @@ test.group('Reorder owned collections', (group) => {
 			publicOrder.map((collection) => collection.id),
 			[publicFirst.id, publicSecond.id]
 		);
+	});
+
+	test('should accept a payload that leaves the Inbox out', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'reorder-inbox' });
+		await createInbox(user);
+		const first = await createCollection({ author: user, name: 'A' });
+		const second = await createCollection({ author: user, name: 'B' });
+
+		const response = await client
+			.put('/collections/owned/reorder')
+			.json({
+				visibility: Visibility.PRIVATE,
+				collectionIds: [second.id, first.id],
+			})
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		response.assertStatus(302);
+	});
+
+	test('should leave the Inbox out of the reordered positions', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'reorder-inbox' });
+		const inbox = await createInbox(user);
+		const first = await createCollection({ author: user, name: 'A' });
+		const second = await createCollection({ author: user, name: 'B' });
+
+		await client
+			.put('/collections/owned/reorder')
+			.json({
+				visibility: Visibility.PRIVATE,
+				collectionIds: [second.id, first.id],
+			})
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		const reorderedInbox = await Collection.findOrFail(inbox.id);
+		assert.equal(reorderedInbox.position, inbox.position);
+	});
+
+	test('should reject a payload that includes the Inbox', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'reorder-inbox' });
+		const inbox = await createInbox(user);
+		const collection = await createCollection({ author: user, name: 'A' });
+
+		const response = await client
+			.put('/collections/owned/reorder')
+			.json({
+				visibility: Visibility.PRIVATE,
+				collectionIds: [collection.id, inbox.id],
+			})
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		response.assertStatus(409);
 	});
 
 	test('should reject a collection owned by another user', async ({

@@ -283,12 +283,29 @@ export class CollectionService {
 			.orderBy('name', 'asc');
 	}
 
+	/**
+	 * The Inbox is deliberately absent: the sidebar pins it on its own, above
+	 * the sections the user orders. `getDefaultCollection` serves it instead.
+	 */
 	async getMyPrivateCollections(userId: User['id']) {
 		return await Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('is_default', false)
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc');
+	}
+
+	/**
+	 * Read-only counterpart to `getOrCreateDefaultCollection`: rendering the
+	 * dashboard must not write. Registration and the backfill are what
+	 * guarantee the row exists.
+	 */
+	async getDefaultCollection(userId: User['id']): Promise<Collection | null> {
+		return await Collection.query()
+			.where('author_id', userId)
+			.andWhere('is_default', true)
+			.first();
 	}
 
 	/**
@@ -458,10 +475,14 @@ export class CollectionService {
 			);
 		}
 
+		// Mirrors `getMyPrivateCollections`: the Inbox is pinned outside the
+		// sortable sections, so the client never submits it and counting it here
+		// would reject every private reorder as incomplete.
 		const currentSectionIds = (
 			await Collection.query()
 				.where('author_id', userId)
 				.andWhere('visibility', visibility)
+				.andWhere('is_default', false)
 				.select('id')
 		).map((collection) => collection.id);
 

@@ -26,6 +26,7 @@ export interface DashboardProps {
 	followedCollections?: Data.Collection[];
 	myPublicCollections?: Data.Collection[];
 	myPrivateCollections?: Data.Collection[];
+	inboxCollection?: Data.Collection | null;
 	activeCollection?: Data.Collection.Variants['withLinks'] | null;
 	favoriteLinks?: Data.Link[];
 }

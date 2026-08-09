@@ -9,28 +9,32 @@ export const useDashboardProps = () => {
 		followedCollections = [],
 		myPublicCollections = [],
 		myPrivateCollections = [],
+		inboxCollection = null,
 		activeCollection = null,
 		favoriteLinks = [],
 	} = usePage<PageProps & DashboardProps>().props;
 
-	const allCollections = useMemo(
+	// The sidebar pins the Inbox on its own, but everything that reasons about
+	// where a link lives still has to see it as one of the user's collections.
+	const myCollections = useMemo(
 		() => [
-			...followedCollections,
 			...myPublicCollections,
 			...myPrivateCollections,
+			...(inboxCollection ? [inboxCollection] : []),
 		],
-		[followedCollections, myPublicCollections, myPrivateCollections]
+		[myPublicCollections, myPrivateCollections, inboxCollection]
 	);
 
-	const myCollections = useMemo(
-		() => [...myPublicCollections, ...myPrivateCollections],
-		[myPublicCollections, myPrivateCollections]
+	const allCollections = useMemo(
+		() => [...followedCollections, ...myCollections],
+		[followedCollections, myCollections]
 	);
 
 	return {
 		followedCollections,
 		myPublicCollections,
 		myPrivateCollections,
+		inboxCollection,
 		myCollections,
 		allCollections,
 		activeCollection,
