@@ -27,11 +27,13 @@ export default class ShowCollectionController {
 			followedCollections,
 			myPublicCollections,
 			myPrivateCollections,
+			inboxCollection,
 			accessibleCollectionResult,
 		] = await Promise.all([
 			this.collectionService.getFollowedCollections(userId),
 			this.collectionService.getMyPublicCollections(userId),
 			this.collectionService.getMyPrivateCollections(userId),
+			this.collectionService.getDefaultCollection(userId),
 			this.collectionService.getAccessibleCollectionByIdWithLinks(
 				collectionId,
 				userId
@@ -43,6 +45,9 @@ export default class ShowCollectionController {
 			myPublicCollections: CollectionTransformer.transform(myPublicCollections),
 			myPrivateCollections:
 				CollectionTransformer.transform(myPrivateCollections),
+			inboxCollection: inboxCollection
+				? CollectionTransformer.transform(inboxCollection)
+				: null,
 			favoriteLinks: null,
 			activeCollection: CollectionTransformer.transform(
 				accessibleCollectionResult.collection
