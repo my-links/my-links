@@ -3,6 +3,7 @@ import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
+import Collection from '#models/collection';
 import { AUTH_PROVIDER } from '#constants/auth';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
@@ -40,6 +41,22 @@ test.group('OAuth accounts — email normalization', (group) => {
 		);
 
 		assert.equal(user.email, NORMALIZED_EMAIL);
+	});
+
+	test('should open an Inbox for an account created on first sight', async ({
+		assert,
+	}) => {
+		const oauthAccountService = await app.container.make(OauthAccountService);
+
+		const user = await oauthAccountService.authenticate(
+			googleIdentity(MIXED_CASE_EMAIL)
+		);
+
+		const inbox = await Collection.query()
+			.where('author_id', user.id)
+			.andWhere('is_default', true)
+			.first();
+		assert.isNotNull(inbox);
 	});
 
 	test('should refuse an address an existing account already holds in another case', async ({

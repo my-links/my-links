@@ -6,6 +6,7 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 import User from '#models/user';
 import { UserService } from '#services/user/user_service';
 import { PasswordHasher } from '#services/auth/password_hasher';
+import { CollectionService } from '#services/collections/collection_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 
 export type RegistrationRequest = {
@@ -30,7 +31,8 @@ export class RegistrationService {
 	constructor(
 		protected readonly registrationPolicyService: RegistrationPolicyService,
 		protected readonly userService: UserService,
-		protected readonly passwordHasher: PasswordHasher
+		protected readonly passwordHasher: PasswordHasher,
+		protected readonly collectionService: CollectionService
 	) {}
 
 	/**
@@ -93,10 +95,11 @@ export class RegistrationService {
 	}
 
 	/**
-	 * The single writer, shared by both paths. The account and its password are
-	 * one write: a `users` row without a `password_auths` row is an account
-	 * nobody — not even its owner — can sign in to, and nothing would ever
-	 * repair it.
+	 * The single writer, shared by both paths. The account, its password and its
+	 * Inbox are one write: a `users` row without a `password_auths` row is an
+	 * account nobody — not even its owner — can sign in to, and one without an
+	 * Inbox has nowhere to file a link saved outside any collection. Nothing
+	 * would ever repair either.
 	 */
 	private async createAccount(
 		trx: TransactionClientContract,
@@ -106,6 +109,7 @@ export class RegistrationService {
 		const user = await User.create(identity, { client: trx });
 
 		await user.related('passwordAuth').create({ password });
+		await this.collectionService.getOrCreateDefaultCollection(user.id, trx);
 
 		return user;
 	}

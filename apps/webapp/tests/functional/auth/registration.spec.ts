@@ -4,6 +4,7 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
+import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { REGISTRATION_BURST_TIER } from '#start/limiter';
@@ -117,6 +118,22 @@ test.group('Registration — a brand new instance', (group) => {
 		assert.isNotNull(registeredUser.passwordAuth);
 	});
 
+	test('should open an Inbox for the new account', async ({
+		assert,
+		client,
+	}) => {
+		const email = nextEmail();
+
+		await submitRegistration(client, email);
+
+		const registeredUser = await User.findByOrFail('email', email);
+		const inbox = await Collection.query()
+			.where('author_id', registeredUser.id)
+			.andWhere('is_default', true)
+			.first();
+		assert.isNotNull(inbox);
+	});
+
 	test('should leave the new account unverified', async ({
 		assert,
 		client,
@@ -166,10 +183,13 @@ test.group('Registration — a brand new instance', (group) => {
 		await submitRegistration(client, email);
 
 		const registeredUser = await User.findByOrFail('email', email);
+		// Registration journals the account's Inbox too, so the row has to be
+		// asked for by type rather than taken as the account's only one.
 		const event = await AuditEvent.query()
 			.where('userId', registeredUser.id)
-			.firstOrFail();
-		assert.equal(event.type, AUTH_EVENT_TYPE.REGISTERED);
+			.andWhere('type', AUTH_EVENT_TYPE.REGISTERED)
+			.first();
+		assert.isNotNull(event);
 	});
 
 	test('should make the very first account an administrator', async ({

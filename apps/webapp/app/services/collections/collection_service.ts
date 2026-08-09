@@ -21,6 +21,9 @@ import CannotDeleteDefaultCollectionException from '#exceptions/collections/cann
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
 
+// The Inbox is pinned in the sidebar, outside the sortable sections, so it never competes for a rank with the collections the user orders.
+const DEFAULT_COLLECTION_POSITION = 0;
+
 type CollectionPayload = {
 	name: string;
 	description: string | null;
@@ -231,11 +234,6 @@ export class CollectionService {
 			return existingDefaultCollection;
 		}
 
-		const position = await this.getNextCollectionPosition(
-			userId,
-			Visibility.PRIVATE,
-			client
-		);
 		const defaultCollection = await Collection.create(
 			{
 				name: DEFAULT_COLLECTION_NAME,
@@ -244,7 +242,7 @@ export class CollectionService {
 				icon: null,
 				authorId: userId,
 				isDefault: true,
-				position,
+				position: DEFAULT_COLLECTION_POSITION,
 			},
 			{ client }
 		);
@@ -500,6 +498,7 @@ export class CollectionService {
 		const row = await query
 			.where('author_id', authorId)
 			.andWhere('visibility', visibility)
+			.andWhere('is_default', false)
 			.max('position as max_position')
 			.first();
 
