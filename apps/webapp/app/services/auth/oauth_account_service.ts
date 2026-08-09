@@ -6,6 +6,7 @@ import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
+import { CollectionService } from '#services/collections/collection_service';
 import OauthAuthenticationRefusedException, {
 	OAUTH_REFUSAL_REASON,
 } from '#exceptions/auth/oauth_authentication_refused_exception';
@@ -26,7 +27,10 @@ export type OauthIdentity = {
 
 @inject()
 export class OauthAccountService {
-	constructor(protected readonly userService: UserService) {}
+	constructor(
+		protected readonly userService: UserService,
+		protected readonly collectionService: CollectionService
+	) {}
 
 	/**
 	 * Resolves an OAuth identity to the account it belongs to, creating that
@@ -144,6 +148,7 @@ export class OauthAccountService {
 				providerUserId: identity.providerUserId,
 				linkedAt: DateTime.now(),
 			});
+			await this.collectionService.getOrCreateDefaultCollection(user.id, trx);
 
 			return user;
 		});

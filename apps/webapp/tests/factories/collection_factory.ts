@@ -4,6 +4,8 @@ import { Visibility } from '#enums/collections/visibility';
 
 const DEFAULT_COLLECTION_NAME = 'Test collection';
 
+const INBOX_NAME = 'Inbox';
+
 type CollectionAttributes = {
 	readonly author: User;
 	readonly name?: string;
@@ -21,6 +23,22 @@ export async function createCollection({
 		visibility,
 		icon: null,
 		authorId: author.id,
+	});
+}
+
+/**
+ * The Inbox registration opens with every account. `createUser` writes the row
+ * directly and skips that, so a spec about the Inbox has to ask for one.
+ */
+export async function createInbox(author: User): Promise<Collection> {
+	return Collection.create({
+		name: INBOX_NAME,
+		description: null,
+		visibility: Visibility.PRIVATE,
+		icon: null,
+		authorId: author.id,
+		isDefault: true,
+		position: 0,
 	});
 }
 
