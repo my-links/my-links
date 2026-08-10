@@ -1,5 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 
+import { Visibility } from '~/types/visibility';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
 import { FilterList } from '~/components/common/filter_list';
@@ -15,6 +16,10 @@ export function CollectionViewContent() {
 	const { activeCollectionLinks } = useDashboardDndCollections();
 	const links = activeCollection?.links ?? [];
 	const isOwner = activeCollection?.isOwner !== false;
+	const isPublic = activeCollection?.visibility === Visibility.PUBLIC;
+	const followersCount = activeCollection?.followersCount ?? 0;
+	const hasLinksMeta = links.length > 0;
+	const hasFollowersMeta = isPublic && followersCount > 0;
 	const effectiveLayout = isMobile ? 'list' : layout;
 	const canReorderLinks =
 		!!activeCollection &&
@@ -34,7 +39,7 @@ export function CollectionViewContent() {
 						{activeCollection?.name}
 					</h1>
 					<div className="mt-1 flex items-center gap-2">
-						{links.length > 0 && (
+						{hasLinksMeta && (
 							<p className="text-sm text-gray-500 dark:text-gray-400">
 								{links.length}{' '}
 								{links.length === 1 ? (
@@ -44,9 +49,24 @@ export function CollectionViewContent() {
 								)}
 							</p>
 						)}
+						{hasFollowersMeta && (
+							<>
+								{hasLinksMeta && (
+									<span className="text-gray-400 dark:text-gray-600">•</span>
+								)}
+								<p className="text-sm text-gray-500 dark:text-gray-400">
+									{followersCount}{' '}
+									{followersCount === 1 ? (
+										<Trans>follower</Trans>
+									) : (
+										<Trans>followers</Trans>
+									)}
+								</p>
+							</>
+						)}
 						{!isOwner && activeCollection?.author && (
 							<>
-								{links.length > 0 && (
+								{(hasLinksMeta || hasFollowersMeta) && (
 									<span className="text-gray-400 dark:text-gray-600">•</span>
 								)}
 								<p className="text-sm text-gray-500 dark:text-gray-400">

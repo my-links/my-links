@@ -61,6 +61,9 @@ export class CollectionService {
 					.preload('collections');
 			})
 			.preload('author')
+			.withCount('followers', (query) => {
+				query.as('followersCount');
+			})
 			.firstOrFail();
 
 		return {
@@ -283,6 +286,9 @@ export class CollectionService {
 					.preload('collections');
 			})
 			.preload('author')
+			.withCount('followers', (query) => {
+				query.as('followersCount');
+			})
 			.orderBy('name', 'asc')
 			.firstOrFail();
 	}

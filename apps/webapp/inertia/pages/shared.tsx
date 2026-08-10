@@ -91,11 +91,26 @@ export default function SharedPage({
 				</div>
 
 				<div className="flex items-center justify-between">
-					<p className="text-sm text-gray-500 dark:text-gray-400">
-						<Trans>
-							Collection managed by <b>{activeCollection.author?.fullname}</b>
-						</Trans>
-					</p>
+					<div className="flex items-center gap-2">
+						<p className="text-sm text-gray-500 dark:text-gray-400">
+							<Trans>
+								Collection managed by <b>{activeCollection.author?.fullname}</b>
+							</Trans>
+						</p>
+						{!!activeCollection.followersCount && (
+							<>
+								<span className="text-gray-400 dark:text-gray-600">•</span>
+								<p className="text-sm text-gray-500 dark:text-gray-400">
+									{activeCollection.followersCount}{' '}
+									{activeCollection.followersCount === 1 ? (
+										<Trans>follower</Trans>
+									) : (
+										<Trans>followers</Trans>
+									)}
+								</p>
+							</>
+						)}
+					</div>
 
 					{!isMobile && <FilterList layoutStoreKey="shared" />}
 				</div>

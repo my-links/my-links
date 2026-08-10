@@ -24,6 +24,10 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 				this.resource.$extras.linksCount !== undefined,
 				() => Number(this.resource.$extras.linksCount)
 			),
+			followersCount: this.when(
+				this.resource.$extras.followersCount !== undefined,
+				() => Number(this.resource.$extras.followersCount)
+			),
 			createdAt: this.resource.createdAt?.toString(),
 			updatedAt: this.resource.updatedAt?.toString(),
 		};
