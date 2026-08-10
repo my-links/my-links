@@ -54,6 +54,11 @@ function App() {
 		}
 	};
 
+	const handleConnectSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		void handleConnect();
+	};
+
 	const handleDisconnect = async () => {
 		await disconnectFromInstance();
 		setStatus({ kind: 'idle' });
@@ -77,38 +82,41 @@ function App() {
 					onChange={(event) => void handleNewTabToggle(event.target.checked)}
 				/>
 
-				<Input
-					label="Instance URL"
-					type="url"
-					value={instanceUrlInput}
-					onChange={(event) => setInstanceUrlInput(event.target.value)}
-					placeholder="https://mylinks.example.com"
-					disabled={isConnecting || isConnected}
-				/>
+				<form className="flex flex-col gap-4" onSubmit={handleConnectSubmit}>
+					<Input
+						label="Instance URL"
+						type="url"
+						value={instanceUrlInput}
+						onChange={(event) => setInstanceUrlInput(event.target.value)}
+						placeholder="https://mylinks.example.com"
+						disabled={isConnecting || isConnected}
+					/>
 
-				{isConnected ? (
-					<>
-						<p className="text-sm text-green-700 dark:text-green-400">
-							Connected to {status.instanceUrl}
-						</p>
+					{isConnected ? (
+						<>
+							<p className="text-sm text-green-700 dark:text-green-400">
+								Connected to {status.instanceUrl}
+							</p>
+							<Button
+								type="button"
+								color="neutral"
+								variant="outline"
+								onClick={() => void handleDisconnect()}
+							>
+								Disconnect
+							</Button>
+						</>
+					) : (
 						<Button
-							color="neutral"
-							variant="outline"
-							onClick={() => void handleDisconnect()}
+							type="submit"
+							color="primary"
+							loading={isConnecting}
+							disabled={isConnecting}
 						>
-							Disconnect
+							{isConnecting ? 'Connecting…' : 'Connect'}
 						</Button>
-					</>
-				) : (
-					<Button
-						color="primary"
-						loading={isConnecting}
-						disabled={isConnecting}
-						onClick={() => void handleConnect()}
-					>
-						{isConnecting ? 'Connecting…' : 'Connect'}
-					</Button>
-				)}
+					)}
+				</form>
 
 				{status.kind === 'error' && (
 					<p className="text-sm text-red-700 dark:text-red-400">
