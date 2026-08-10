@@ -92,7 +92,10 @@ export function CollectionSectionBody({
 		contextMenu.closeMenu();
 		void ConfirmModal.call({
 			title: 'Delete collection',
-			children: `Delete "${collection.name}" and all its links? This can't be undone.`,
+			children:
+				links.length > 0
+					? `Delete "${collection.name}" and its ${links.length} link${links.length === 1 ? '' : 's'}? This can't be undone.`
+					: `Delete "${collection.name}"? This can't be undone.`,
 			confirmLabel: 'Delete',
 			confirmColor: 'red',
 			onConfirm: () => deleteCollection.mutate(collection.id),

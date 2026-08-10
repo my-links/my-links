@@ -649,6 +649,7 @@ export interface components {
 					updatedAt: string;
 					url: string;
 				}[];
+				linksCount?: number;
 				name: string;
 				position: number;
 				updatedAt: string;
@@ -729,6 +730,7 @@ export interface components {
 					updatedAt: string;
 					url: string;
 				}[];
+				linksCount?: number;
 				name: string;
 				position: number;
 				updatedAt: string;
@@ -762,6 +764,7 @@ export interface components {
 					updatedAt: string;
 					url: string;
 				}[];
+				linksCount?: number;
 				name: string;
 				updatedAt: string;
 				visibility: components['schemas']['Visibility'];
@@ -842,6 +845,7 @@ export interface components {
 				id: number;
 				isDefault: boolean;
 				isOwner: boolean;
+				linksCount?: number;
 				name: string;
 				updatedAt: string;
 				visibility: components['schemas']['Visibility'];
