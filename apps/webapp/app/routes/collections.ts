@@ -16,6 +16,10 @@ router
 					.as('collection.favorites');
 
 				router
+					.get('/inbox', [controllers.collections.ShowInbox, 'render'])
+					.as('collection.inbox');
+
+				router
 					.put('/owned/reorder', [
 						controllers.collections.ReorderOwnedCollections,
 						'execute',

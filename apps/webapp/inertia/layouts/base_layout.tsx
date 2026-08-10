@@ -27,7 +27,7 @@ export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
 
 	usePageTransition({
 		querySelector: '[data-page-transition]',
-		ignorePatterns: [/^\/collections\/(favorites|\d+)$/],
+		ignorePatterns: [/^\/collections\/(favorites|inbox|\d+)$/],
 	});
 
 	const locale = useMemo(() => {

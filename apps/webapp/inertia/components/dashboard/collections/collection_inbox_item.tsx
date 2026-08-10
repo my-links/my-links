@@ -37,8 +37,7 @@ export function CollectionInboxItem({
 	return (
 		<div ref={setNodeRef}>
 			<Link
-				route="collection.show"
-				routeParams={{ id: collection.id }}
+				route="collection.inbox"
 				preserveScroll
 				className={clsx(
 					'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',

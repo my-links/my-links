@@ -102,6 +102,12 @@ const routes = {
     tokens: [{"old":"/collections/favorites","type":0,"val":"collections","end":""},{"old":"/collections/favorites","type":0,"val":"favorites","end":""}],
     types: placeholder as Registry['collection.favorites']['types'],
   },
+  'collection.inbox': {
+    methods: ["GET","HEAD"],
+    pattern: '/collections/inbox',
+    tokens: [{"old":"/collections/inbox","type":0,"val":"collections","end":""},{"old":"/collections/inbox","type":0,"val":"inbox","end":""}],
+    types: placeholder as Registry['collection.inbox']['types'],
+  },
   'collection.reorder-owned': {
     methods: ["PUT"],
     pattern: '/collections/owned/reorder',

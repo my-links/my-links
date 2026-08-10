@@ -20,6 +20,7 @@ export type ScannedRoutes = {
     'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
+    'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.reorder-owned': { paramsTuple?: []; params?: {} }
     'collection.reorder-followed': { paramsTuple?: []; params?: {} }
     'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -95,6 +96,7 @@ export type ScannedRoutes = {
     'admin.authEvents': { paramsTuple?: []; params?: {} }
     'admin.activityEvents': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
+    'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
@@ -131,6 +133,7 @@ export type ScannedRoutes = {
     'admin.authEvents': { paramsTuple?: []; params?: {} }
     'admin.activityEvents': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
+    'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
