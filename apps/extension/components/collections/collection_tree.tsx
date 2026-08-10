@@ -9,6 +9,7 @@ import { useCollections } from '@/hooks/use_collections';
 import { CollectionSection } from './collection_section';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { CollapsibleSection } from './collapsible_section';
+import { PinnedInboxSection } from './pinned_inbox_section';
 import { useSectionOrder } from '@/hooks/use_section_order';
 import { CollectionsDndProvider } from './collections_dnd_provider';
 import { useCollectionCollapse } from '@/hooks/use_collection_collapse';
@@ -70,8 +71,14 @@ export function CollectionTree() {
 		);
 	}
 
+	const inboxCollection = collections.find(
+		(collection) => collection.isDefault
+	);
 	const privateCollections = collections
-		.filter((collection) => collection.visibility === 'PRIVATE')
+		.filter(
+			(collection) =>
+				collection.visibility === 'PRIVATE' && !collection.isDefault
+		)
 		.sort(byPosition);
 	const publicCollections = collections
 		.filter((collection) => collection.visibility === 'PUBLIC')
@@ -150,7 +157,10 @@ export function CollectionTree() {
 		);
 	};
 
-	const isEmpty = collections.length === 0 && followedCollections.length === 0;
+	const isEmpty =
+		!inboxCollection &&
+		collections.length === 0 &&
+		followedCollections.length === 0;
 	const allCollectionIds = [
 		...collections.map((collection) => collection.id),
 		...followedCollections.map((collection) => collection.id),
@@ -181,6 +191,16 @@ export function CollectionTree() {
 					<CollectionsDndProvider>
 						{/* Scoped off DndContext's own DOM parent — it injects hidden a11y sibling divs that would otherwise pick up a stray divide-y border too. */}
 						<div className="divide-y divide-gray-200 space-y-1 dark:divide-gray-700">
+							{inboxCollection && (
+								<PinnedInboxSection
+									collection={inboxCollection}
+									isExpanded={isCollectionExpanded(
+										collapseState,
+										inboxCollection.id
+									)}
+									onToggle={() => toggleCollection(inboxCollection.id)}
+								/>
+							)}
 							{order.map((section, index) => renderSection(section, index))}
 						</div>
 					</CollectionsDndProvider>

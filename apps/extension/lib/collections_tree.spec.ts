@@ -14,6 +14,7 @@ import {
 	reorderLinksInTree,
 	replaceCollectionInTree,
 	replaceLinkInTree,
+	sectionCollectionsForReorder,
 } from '@/lib/collections_tree';
 
 function buildLink(overrides: Partial<LinkResource> = {}): LinkResource {
@@ -329,6 +330,42 @@ describe('findLinkByUrl', () => {
 		expect(
 			findLinkByUrl(collections, 'https://missing.example')
 		).toBeUndefined();
+	});
+});
+
+describe('sectionCollectionsForReorder', () => {
+	it('should exclude the Inbox from its own visibility', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE', isDefault: true }),
+			buildCollection({ id: 2, visibility: 'PRIVATE', isDefault: false }),
+		];
+
+		const result = sectionCollectionsForReorder(collections, 'PRIVATE');
+
+		expect(result.map((collection) => collection.id)).toEqual([2]);
+	});
+
+	it('should leave collections from the other visibility out', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE' }),
+			buildCollection({ id: 2, visibility: 'PUBLIC' }),
+		];
+
+		const result = sectionCollectionsForReorder(collections, 'PRIVATE');
+
+		expect(result.map((collection) => collection.id)).toEqual([1]);
+	});
+
+	it('should order by position', () => {
+		const collections = [
+			buildCollection({ id: 1, visibility: 'PRIVATE', position: 2 }),
+			buildCollection({ id: 2, visibility: 'PRIVATE', position: 0 }),
+			buildCollection({ id: 3, visibility: 'PRIVATE', position: 1 }),
+		];
+
+		const result = sectionCollectionsForReorder(collections, 'PRIVATE');
+
+		expect(result.map((collection) => collection.id)).toEqual([2, 3, 1]);
 	});
 });
 

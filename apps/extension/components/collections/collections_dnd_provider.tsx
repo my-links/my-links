@@ -16,6 +16,7 @@ import { useReorderLinks } from '@/hooks/use_reorder_links';
 import { useShiftModifier } from '@/hooks/use_shift_modifier';
 import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
 import { CollectionsDragOverlay } from './collections_drag_overlay';
+import { sectionCollectionsForReorder } from '@/lib/collections_tree';
 import { useReorderCollections } from '@/hooks/use_reorder_collections';
 import { useFollowedCollections } from '@/hooks/use_followed_collections';
 import { useAddLinkToCollection } from '@/hooks/use_add_link_to_collection';
@@ -109,9 +110,10 @@ export function CollectionsDndProvider({
 		}
 
 		const visibility = visibilityForSection(activeData.section);
-		const sectionCollections = collections
-			.filter((collection) => collection.visibility === visibility)
-			.sort((a, b) => a.position - b.position);
+		const sectionCollections = sectionCollectionsForReorder(
+			collections,
+			visibility
+		);
 
 		const activeIndex = sectionCollections.findIndex(
 			(collection) => collection.id === activeData.collectionId
