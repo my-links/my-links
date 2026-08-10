@@ -166,6 +166,33 @@ test.group('Move link between collections', (group) => {
 		assert.lengthOf(pivotRows, 1);
 	});
 
+	test('should not duplicate the pivot row when the link is already in the target', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser();
+		const source = await createCollection({ author: user, name: 'Source' });
+		const target = await createCollection({ author: user, name: 'Target' });
+		const link = await createLink({ author: user, name: 'Duplicated' });
+		await attachLinkToCollection(link, source);
+		await attachLinkToCollection(link, target);
+
+		const response = await client
+			.put(`/links/${link.id}/collection`)
+			.json({ fromCollectionId: source.id, toCollectionId: target.id })
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		response.assertStatus(302);
+
+		const pivotRows = await db
+			.from('collection_link')
+			.where('link_id', link.id);
+		assert.lengthOf(pivotRows, 1);
+		assert.equal(pivotRows[0].collection_id, target.id);
+	});
+
 	test('should bump links.updated_at', async ({ client, assert }) => {
 		const user = await createUser();
 		const source = await createCollection({ author: user, name: 'Source' });

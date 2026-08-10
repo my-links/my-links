@@ -109,13 +109,17 @@ export class CollectionLinkService {
 
 		await db.transaction(async (transaction) => {
 			await link.related('collections').detach([fromCollectionId], transaction);
-			const position = await this.getNextLinkPosition(
-				toCollectionId,
-				transaction
-			);
-			await link
-				.related('collections')
-				.attach({ [toCollectionId]: { position } }, transaction);
+
+			if (!(await this.isLinkInCollection(linkId, toCollectionId))) {
+				const position = await this.getNextLinkPosition(
+					toCollectionId,
+					transaction
+				);
+				await link
+					.related('collections')
+					.attach({ [toCollectionId]: { position } }, transaction);
+			}
+
 			await this.syncJournalService.markLinksChanged([linkId], transaction);
 			await this.activityEventService.record(
 				{
