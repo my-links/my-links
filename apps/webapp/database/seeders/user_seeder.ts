@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon';
 import { faker } from '@faker-js/faker';
+import app from '@adonisjs/core/services/app';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
 
 import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import { AUTH_PROVIDER } from '#constants/auth';
 import PasswordAuth from '#models/password_auth';
+import { CollectionService } from '#services/collections/collection_service';
 
 const SEEDED_USERS_COUNT = 25;
 
@@ -26,8 +28,8 @@ export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
-		await this.seedAdmin();
-		await this.seedUser();
+		const admin = await this.seedAdmin();
+		const user = await this.seedUser();
 
 		const users = faker.helpers.multiple(() => createRandomUser(), {
 			count: SEEDED_USERS_COUNT,
@@ -35,11 +37,25 @@ export default class extends BaseSeeder {
 		const createdUsers = await User.createMany(users);
 
 		await OauthAuth.createMany(
-			createdUsers.map((user) => createRandomGoogleIdentity(user))
+			createdUsers.map((randomUser) => createRandomGoogleIdentity(randomUser))
 		);
+
+		await this.seedInboxes([admin, user, ...createdUsers]);
 	}
 
-	private async seedAdmin(): Promise<void> {
+	/**
+	 * These accounts are written straight through the model, so they miss the
+	 * Inbox `RegistrationService` opens with every real signup.
+	 */
+	private async seedInboxes(users: User[]): Promise<void> {
+		const collectionService = await app.container.make(CollectionService);
+
+		for (const user of users) {
+			await collectionService.getOrCreateDefaultCollection(user.id);
+		}
+	}
+
+	private async seedAdmin(): Promise<User> {
 		const admin = await User.updateOrCreate(
 			{ email: ADMIN_EMAIL },
 			{
@@ -55,9 +71,11 @@ export default class extends BaseSeeder {
 			{ userId: admin.id },
 			{ password: ADMIN_PASSWORD, passwordChangedAt: DateTime.now() }
 		);
+
+		return admin;
 	}
 
-	private async seedUser(): Promise<void> {
+	private async seedUser(): Promise<User> {
 		const user = await User.updateOrCreate(
 			{ email: USER_EMAIL },
 			{
@@ -73,6 +91,8 @@ export default class extends BaseSeeder {
 			{ userId: user.id },
 			{ password: USER_PASSWORD, passwordChangedAt: DateTime.now() }
 		);
+
+		return user;
 	}
 }
 
