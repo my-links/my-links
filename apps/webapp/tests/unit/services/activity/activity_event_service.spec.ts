@@ -9,8 +9,19 @@ import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { createUser } from '#tests/factories/user_factory';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 
+/**
+ * `listRecent` and `pruneBefore` work over the whole journal, so whatever a
+ * developer's database was already carrying counts against these assertions.
+ * The delete is safe because every test here runs inside a rolled back
+ * transaction.
+ */
+async function emptyJournal(): Promise<void> {
+	await AuditEvent.query().delete();
+}
+
 test.group('Activity event service', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.setup(() => emptyJournal());
 
 	test('should write a row with no address when called outside a request', async ({
 		assert,
