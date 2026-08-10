@@ -23,6 +23,10 @@ compile:
 format:
 	@pnpm run format
 
+update:
+	@npx --yes npm-check-updates --format group --interactive -p pnpm --workspaces
+	@pnpm install
+
 _dev: _drop-stale-assets
 	@docker compose --env-file {{ webapp_env_file }} down
 	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} pull
