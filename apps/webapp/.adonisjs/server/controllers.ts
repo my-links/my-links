@@ -69,6 +69,7 @@ export const controllers = {
     ReorderFollowedCollections: () => import('#controllers/collections/reorder_followed_collections_controller'),
     ReorderOwnedCollections: () => import('#controllers/collections/reorder_owned_collections_controller'),
     ShowCollection: () => import('#controllers/collections/show_collection_controller'),
+    ShowInbox: () => import('#controllers/collections/show_inbox_controller'),
     UnfollowCollection: () => import('#controllers/collections/unfollow_collection_controller'),
     UpdateCollection: () => import('#controllers/collections/update_collection_controller'),
   },

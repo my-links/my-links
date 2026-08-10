@@ -199,6 +199,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favorites/show_favorites_controller').default['render']>>>
     }
   }
+  'collection.inbox': {
+    methods: ["GET","HEAD"]
+    pattern: '/collections/inbox'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/show_inbox_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/show_inbox_controller').default['render']>>>
+    }
+  }
   'collection.reorder-owned': {
     methods: ["PUT"]
     pattern: '/collections/owned/reorder'
