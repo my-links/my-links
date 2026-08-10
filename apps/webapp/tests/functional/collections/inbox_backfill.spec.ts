@@ -6,12 +6,17 @@ import type User from '#models/user';
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
-import { createInbox } from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
 import {
+	createInbox,
+	createCollection,
+	followCollection,
+} from '#tests/factories/collection_factory';
+import {
+	makeInboxesPrivate,
 	backfillMissingInboxCollections,
 	revertMissingInboxCollectionsBackfill,
 } from '#database/backfills/inbox_backfill';
@@ -70,6 +75,56 @@ test.group('Inbox backfill', (group) => {
 
 		const inboxes = await inboxesOf(user);
 		assert.lengthOf(inboxes, 1);
+	});
+
+	test('should close an Inbox an instance had shared', async ({ assert }) => {
+		const user = await createUser({ emailPrefix: 'inbox-backfill' });
+		const inbox = await createInbox(user);
+		await db
+			.from('collections')
+			.where('id', inbox.id)
+			.update({ visibility: Visibility.PUBLIC });
+
+		await makeInboxesPrivate(db.connection());
+
+		const closed = await Collection.findOrFail(inbox.id);
+		assert.equal(closed.visibility, Visibility.PRIVATE);
+	});
+
+	test('should drop the followers a shared Inbox had handed out', async ({
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'inbox-backfill' });
+		const follower = await createUser({ emailPrefix: 'inbox-backfill-fan' });
+		const inbox = await createInbox(user);
+		await db
+			.from('collections')
+			.where('id', inbox.id)
+			.update({ visibility: Visibility.PUBLIC });
+		await followCollection(inbox, follower);
+
+		await makeInboxesPrivate(db.connection());
+
+		const followers = await db
+			.from('collection_followers')
+			.where('collection_id', inbox.id);
+		assert.isEmpty(followers);
+	});
+
+	test('should leave an ordinary public collection shared', async ({
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'inbox-backfill' });
+		const shared = await createCollection({
+			author: user,
+			name: 'Shared',
+			visibility: Visibility.PUBLIC,
+		});
+
+		await makeInboxesPrivate(db.connection());
+
+		const untouched = await Collection.findOrFail(shared.id);
+		assert.equal(untouched.visibility, Visibility.PUBLIC);
 	});
 
 	test('should drop an empty Inbox on rollback', async ({ assert }) => {

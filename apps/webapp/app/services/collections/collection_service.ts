@@ -135,10 +135,12 @@ export class CollectionService {
 
 		// The Inbox is pinned outside the ordered sections, and those are built
 		// per visibility — a public one would show up twice and make every
-		// reorder of the public section fail as incomplete.
-		if (collection.isDefault && visibilityChanged) {
+		// reorder of the public section fail as incomplete. Only the sharing
+		// direction is refused: an Inbox made public before this rule existed
+		// has to keep its way back.
+		if (collection.isDefault && payload.visibility === Visibility.PUBLIC) {
 			throw new CannotShareDefaultCollectionException(
-				'The default collection cannot change visibility'
+				'The default collection cannot be made public'
 			);
 		}
 

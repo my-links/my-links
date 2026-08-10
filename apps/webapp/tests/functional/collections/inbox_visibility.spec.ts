@@ -1,10 +1,14 @@
 import { test } from '@japa/runner';
+import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
-import { createInbox } from '#tests/factories/collection_factory';
+import {
+	createInbox,
+	followCollection,
+} from '#tests/factories/collection_factory';
 
 /**
  * The sidebar builds its ordered sections per visibility and pins the Inbox
@@ -54,6 +58,64 @@ test.group('Inbox visibility', (group) => {
 
 		const unchanged = await Collection.findOrFail(inbox.id);
 		assert.equal(unchanged.visibility, Visibility.PRIVATE);
+	});
+
+	test('should let an Inbox shared before the rule go back to private', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'inbox-visibility' });
+		const inbox = await createInbox(user);
+		await db
+			.from('collections')
+			.where('id', inbox.id)
+			.update({ visibility: Visibility.PUBLIC });
+
+		await client
+			.put(`/collections/${inbox.id}`)
+			.json({
+				name: inbox.name,
+				description: null,
+				visibility: Visibility.PRIVATE,
+				icon: null,
+			})
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		const closed = await Collection.findOrFail(inbox.id);
+		assert.equal(closed.visibility, Visibility.PRIVATE);
+	});
+
+	test('should drop the followers when a shared Inbox goes back to private', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'inbox-visibility' });
+		const follower = await createUser({ emailPrefix: 'inbox-follower' });
+		const inbox = await createInbox(user);
+		await db
+			.from('collections')
+			.where('id', inbox.id)
+			.update({ visibility: Visibility.PUBLIC });
+		await followCollection(inbox, follower);
+
+		await client
+			.put(`/collections/${inbox.id}`)
+			.json({
+				name: inbox.name,
+				description: null,
+				visibility: Visibility.PRIVATE,
+				icon: null,
+			})
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		const followers = await db
+			.from('collection_followers')
+			.where('collection_id', inbox.id);
+		assert.isEmpty(followers);
 	});
 
 	test('should still accept a rename of the Inbox', async ({
