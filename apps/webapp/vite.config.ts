@@ -13,8 +13,8 @@ export default defineConfig({
 		lingui(),
 		UnoCSS(`${import.meta.dirname}/../../uno.config.ts`),
 		adonisjs({
-			entrypoints: ['inertia/app.tsx'],
-			serverEntrypoints: ['inertia/ssr.tsx'],
+			entryPoints: ['inertia/app.tsx'],
+			serverEntryPoints: ['inertia/ssr.tsx'],
 			reload: ['resources/views/**/*.edge'],
 		}),
 	],

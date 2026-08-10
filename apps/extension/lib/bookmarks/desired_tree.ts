@@ -54,7 +54,12 @@ export function parseLinkKey(
 ): { collectionId: number; linkId: number } | undefined {
 	const [collectionId, linkId] = linkKey.split(':').map(Number);
 
-	if (!Number.isInteger(collectionId) || !Number.isInteger(linkId)) {
+	if (
+		collectionId === undefined ||
+		linkId === undefined ||
+		!Number.isInteger(collectionId) ||
+		!Number.isInteger(linkId)
+	) {
 		return undefined;
 	}
 	return { collectionId, linkId };

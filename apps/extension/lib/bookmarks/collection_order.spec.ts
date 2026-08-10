@@ -157,14 +157,13 @@ describe('collection and link order applied to a real tree', () => {
 		};
 
 		// Server order puts Reading before Work, and link 20 before link 10.
-		const collections = [
-			buildCollection({ id: 2, name: 'Reading' }),
-			buildCollection({
-				id: 1,
-				name: 'Work',
-				links: [buildLink({ id: 20 }), buildLink({ id: 10 })],
-			}),
-		];
+		const readingCollection = buildCollection({ id: 2, name: 'Reading' });
+		const workCollection = buildCollection({
+			id: 1,
+			name: 'Work',
+			links: [buildLink({ id: 20 }), buildLink({ id: 10 })],
+		});
+		const collections = [readingCollection, workCollection];
 
 		async function childrenOf(id: string) {
 			const [node] = await api.getSubTree(id);
@@ -185,7 +184,7 @@ describe('collection and link order applied to a real tree', () => {
 		);
 
 		const linkReorder = buildLinkReorder(
-			collections[1],
+			workCollection,
 			workFolderId,
 			await childrenOf(workFolderId),
 			afterFolderReorder

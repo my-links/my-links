@@ -699,15 +699,14 @@ function releaseUnclaimedNodes(
 ): BookmarkOperation[] {
 	return present
 		.filter((mapped) => !claimedNodeIds.has(mapped.nodeId))
-		.map(
-			(mapped): BookmarkOperation =>
-				mapped.actualCollectionId === undefined
-					? { kind: 'forget-bookmark', linkKey: mapped.linkKey }
-					: {
-							kind: 'remove-bookmark',
-							nodeId: mapped.nodeId,
-							linkKey: mapped.linkKey,
-						}
+		.map((mapped): BookmarkOperation =>
+			mapped.actualCollectionId === undefined
+				? { kind: 'forget-bookmark', linkKey: mapped.linkKey }
+				: {
+						kind: 'remove-bookmark',
+						nodeId: mapped.nodeId,
+						linkKey: mapped.linkKey,
+					}
 		);
 }
 
@@ -716,12 +715,10 @@ function forgetVanishedNodes(
 ): BookmarkOperation[] {
 	return mappedNodes
 		.filter((mapped) => mapped.node === undefined)
-		.map(
-			(mapped): BookmarkOperation => ({
-				kind: 'forget-bookmark',
-				linkKey: mapped.linkKey,
-			})
-		);
+		.map((mapped): BookmarkOperation => ({
+			kind: 'forget-bookmark',
+			linkKey: mapped.linkKey,
+		}));
 }
 
 // ---------------------------------------------------------------------------

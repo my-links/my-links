@@ -21,7 +21,11 @@ export async function runWithConcurrencyLimit<TResult>(
 		while (nextTaskIndex < tasks.length) {
 			const taskIndex = nextTaskIndex;
 			nextTaskIndex += 1;
-			results[taskIndex] = await tasks[taskIndex]();
+			const task = tasks[taskIndex];
+			if (!task) {
+				continue;
+			}
+			results[taskIndex] = await task();
 		}
 	};
 
