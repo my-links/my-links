@@ -1,6 +1,8 @@
 packages:
   - 'apps/*'
 
+minimumReleaseAge: 1440
+
 # Both ranges are dev/build-tooling-only transitives (ts-morph via
 # @adonisjs/assembler, vite via the extension's build chain) — never
 # reach the served runtime — but the fix is a same-major patch bump,
@@ -36,6 +38,3 @@ allowBuilds:
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
-minimumReleaseAgeExclude:
-  - '@minimalstuff/ui@2.1.1'
-  - '@types/luxon@3.7.3'
