@@ -17,6 +17,7 @@ import ForeignCollectionException from '#exceptions/links/foreign_collection_exc
 import NotFollowingCollectionException from '#exceptions/collections/not_following_collection_exception';
 import CannotFollowOwnCollectionException from '#exceptions/collections/cannot_follow_own_collection_exception';
 import InvalidCollectionMembershipException from '#exceptions/collections/invalid_collection_membership_exception';
+import CannotShareDefaultCollectionException from '#exceptions/collections/cannot_share_default_collection_exception';
 import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
@@ -131,6 +132,15 @@ export class CollectionService {
 
 		const wasPublic = collection.visibility === Visibility.PUBLIC;
 		const visibilityChanged = collection.visibility !== payload.visibility;
+
+		// The Inbox is pinned outside the ordered sections, and those are built
+		// per visibility — a public one would show up twice and make every
+		// reorder of the public section fail as incomplete.
+		if (collection.isDefault && visibilityChanged) {
+			throw new CannotShareDefaultCollectionException(
+				'The default collection cannot change visibility'
+			);
+		}
 
 		collection.merge(payload);
 
