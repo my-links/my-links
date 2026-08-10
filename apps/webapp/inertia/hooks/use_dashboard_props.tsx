@@ -17,7 +17,11 @@ export const useDashboardProps = () => {
 	// The sidebar pins the Inbox on its own, but everything that reasons about
 	// where a link lives still has to see it as one of the user's collections.
 	const myCollections = useMemo(
-		() => [...myPublicCollections, ...myPrivateCollections, inboxCollection],
+		() => [
+			...myPublicCollections,
+			...myPrivateCollections,
+			...(inboxCollection ? [inboxCollection] : []),
+		],
 		[myPublicCollections, myPrivateCollections, inboxCollection]
 	);
 
