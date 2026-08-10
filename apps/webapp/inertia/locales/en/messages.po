@@ -78,8 +78,8 @@ msgstr "4.2 Warranties"
 msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:73
-#: inertia/components/admin/auth_events/auth_events_table.tsx:40
+#: inertia/components/admin/activity_events/activity_events_table.tsx:74
+#: inertia/components/admin/auth_events/auth_events_table.tsx:41
 msgid "Account"
 msgstr "Account"
 
@@ -87,9 +87,9 @@ msgstr "Account"
 msgid "Accounts"
 msgstr "Accounts"
 
-#: inertia/components/admin/users/users_table.tsx:276
-#: inertia/components/api_tokens/api_tokens.tsx:161
-#: inertia/components/user_settings/sessions.tsx:101
+#: inertia/components/admin/users/users_table.tsx:275
+#: inertia/components/api_tokens/api_tokens.tsx:162
+#: inertia/components/user_settings/sessions.tsx:106
 msgid "Actions"
 msgstr "Actions"
 
@@ -105,7 +105,7 @@ msgstr "Activity journal"
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
-#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:88
+#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:92
 msgid "Add"
 msgstr "Add"
 
@@ -129,8 +129,8 @@ msgstr "Add link"
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:87
-#: inertia/components/admin/auth_events/auth_events_table.tsx:54
+#: inertia/components/admin/activity_events/activity_events_table.tsx:95
+#: inertia/components/admin/auth_events/auth_events_table.tsx:62
 msgid "Address"
 msgstr "Address"
 
@@ -156,7 +156,11 @@ msgstr "An unexpected error occurred."
 msgid "API Tokens"
 msgstr "API Tokens"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:46
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:52
+msgid "Are you sure you want to delete this collection and {linksCount, plural, one {its # link} other {its # links}}?"
+msgstr "Are you sure you want to delete this collection and {linksCount, plural, one {its # link} other {its # links}}?"
+
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:54
 msgid "Are you sure you want to delete this collection?"
 msgstr "Are you sure you want to delete this collection?"
 
@@ -200,12 +204,12 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 
 #: inertia/components/admin/users/account_actions.tsx:45
 #: inertia/components/admin/users/account_actions.tsx:74
-#: inertia/components/admin/users/users_table.tsx:67
+#: inertia/components/admin/users/users_table.tsx:68
 #: inertia/components/api_tokens/api_tokens.tsx:53
 #: inertia/components/api_tokens/create_token_modal.tsx:51
 #: inertia/components/dashboard/modals/create_collection_modal.tsx:59
 #: inertia/components/dashboard/modals/create_link_modal.tsx:73
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:63
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:72
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:65
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:67
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:92
@@ -236,7 +240,7 @@ msgstr "Changes to the Terms"
 msgid "Choose a new password"
 msgstr "Choose a new password"
 
-#: inertia/components/admin/users/users_table.tsx:125
+#: inertia/components/admin/users/users_table.tsx:126
 msgid "Clear"
 msgstr "Clear"
 
@@ -244,7 +248,7 @@ msgstr "Clear"
 msgid "Click to copy link"
 msgstr "Click to copy link"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:84
+#: inertia/components/dashboard/collections/collection_list.tsx:87
 msgid "Close sidebar"
 msgstr "Close sidebar"
 
@@ -262,16 +266,16 @@ msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection managed by <0>{0}</0>"
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:36
+#: inertia/lib/dnd/dnd_announcements.ts:40
 msgid "Collection moved within {0}."
 msgstr "Collection moved within {0}."
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:56
+#: inertia/lib/dnd/dnd_announcements.ts:60
 msgid "Collection order updated in {0}."
 msgstr "Collection order updated in {0}."
 
-#: inertia/components/admin/users/users_table.tsx:200
+#: inertia/components/admin/users/users_table.tsx:199
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:85
 msgid "Collections"
 msgstr "Collections"
@@ -336,13 +340,13 @@ msgstr "Copy link"
 msgid "Create"
 msgstr "Create"
 
-#: inertia/components/tour/dashboard_tour.tsx:59
-#: inertia/pages/dashboard.tsx:46
+#: inertia/components/tour/dashboard_tour.tsx:70
+#: inertia/pages/dashboard.tsx:49
 msgid "Create a collection"
 msgstr "Create a collection"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:56
-#: inertia/pages/dashboard.tsx:89
+#: inertia/pages/dashboard.tsx:92
 msgid "Create a link"
 msgstr "Create a link"
 
@@ -356,7 +360,7 @@ msgid "Create collection {0}"
 msgstr "Create collection {0}"
 
 #. placeholder {0}: KEYS.OPEN_CREATE_COLLECTION_KEY
-#: inertia/components/dashboard/collections/collection_list.tsx:74
+#: inertia/components/dashboard/collections/collection_list.tsx:77
 msgid "Create collection <0>{0}</0>"
 msgstr "Create collection <0>{0}</0>"
 
@@ -386,7 +390,9 @@ msgstr "Create your account"
 msgid "Create your first link to get started"
 msgstr "Create your first link to get started"
 
-#: inertia/components/admin/users/users_table.tsx:239
+#: inertia/components/admin/users/users_table.tsx:238
+#: inertia/components/api_tokens/api_tokens.tsx:138
+#: inertia/components/user_settings/sessions.tsx:82
 msgid "Created at"
 msgstr "Created at"
 
@@ -395,7 +401,7 @@ msgstr "Created at"
 msgid "Created by <0>{0}</0>"
 msgstr "Created by <0>{0}</0>"
 
-#: inertia/components/user_settings/sessions.tsx:67
+#: inertia/components/user_settings/sessions.tsx:74
 msgid "Current"
 msgstr "Current"
 
@@ -403,7 +409,7 @@ msgstr "Current"
 msgid "Current password"
 msgstr "Current password"
 
-#: inertia/pages/dashboard.tsx:112
+#: inertia/pages/dashboard.tsx:115
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -427,14 +433,14 @@ msgstr "Data Storage"
 msgid "Data Use"
 msgstr "Data Use"
 
-#: inertia/components/admin/users/users_table.tsx:66
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:72
+#: inertia/components/admin/users/users_table.tsx:67
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:81
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:74
 msgid "Delete"
 msgstr "Delete"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:82
-#: inertia/pages/dashboard.tsx:79
+#: inertia/pages/dashboard.tsx:82
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
@@ -450,7 +456,7 @@ msgstr "Delete a link"
 msgid "Delete Account"
 msgstr "Delete Account"
 
-#: inertia/components/admin/users/users_table.tsx:58
+#: inertia/components/admin/users/users_table.tsx:59
 msgid "Delete accounts"
 msgstr "Delete accounts"
 
@@ -459,7 +465,7 @@ msgstr "Delete accounts"
 msgid "Delete collection"
 msgstr "Delete collection"
 
-#: inertia/components/admin/users/users_table.tsx:115
+#: inertia/components/admin/users/users_table.tsx:116
 msgid "Delete selected"
 msgstr "Delete selected"
 
@@ -476,15 +482,15 @@ msgstr "Demote to member"
 msgid "Description"
 msgstr "Description"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:66
+#: inertia/components/admin/activity_events/activity_events_table.tsx:67
 msgid "Details"
 msgstr "Details"
 
-#: inertia/components/user_settings/sessions.tsx:82
+#: inertia/components/user_settings/sessions.tsx:66
 msgid "Device"
 msgstr "Device"
 
-#: inertia/components/common/announcement_banner.tsx:44
+#: inertia/components/common/announcement_banner.tsx:45
 msgid "Dismiss"
 msgstr "Dismiss"
 
@@ -496,8 +502,8 @@ msgstr "Documentation"
 msgid "Done"
 msgstr "Done"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:80
-#: inertia/components/admin/auth_events/auth_events_table.tsx:47
+#: inertia/components/admin/activity_events/activity_events_table.tsx:83
+#: inertia/components/admin/auth_events/auth_events_table.tsx:50
 msgid "Done by"
 msgstr "Done by"
 
@@ -510,7 +516,7 @@ msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Drop in a link. Get back a bookmark you'll find again."
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:69
-#: inertia/pages/dashboard.tsx:64
+#: inertia/pages/dashboard.tsx:67
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
@@ -524,7 +530,7 @@ msgstr "Edit a link"
 msgid "Edit collection"
 msgstr "Edit collection"
 
-#: inertia/components/admin/users/users_table.tsx:183
+#: inertia/components/admin/users/users_table.tsx:182
 #: inertia/pages/auth/forgot_password.tsx:44
 #: inertia/pages/auth/login.tsx:64
 #: inertia/pages/auth/register.tsx:82
@@ -547,8 +553,8 @@ msgstr "Enabled"
 msgid "Enter token name"
 msgstr "Enter token name"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:53
-#: inertia/components/admin/auth_events/auth_events_table.tsx:34
+#: inertia/components/admin/activity_events/activity_events_table.tsx:54
+#: inertia/components/admin/auth_events/auth_events_table.tsx:35
 msgid "Event"
 msgstr "Event"
 
@@ -576,8 +582,8 @@ msgstr "Everything else signed in on this account will be signed out."
 msgid "Expand"
 msgstr "Expand"
 
-#: inertia/components/api_tokens/api_tokens.tsx:145
-#: inertia/components/user_settings/sessions.tsx:89
+#: inertia/components/api_tokens/api_tokens.tsx:146
+#: inertia/components/user_settings/sessions.tsx:94
 msgid "Expires at"
 msgstr "Expires at"
 
@@ -597,14 +603,14 @@ msgstr "Export all your collections and links, or import them from a JSON file"
 msgid "Export everything, any time"
 msgstr "Export everything, any time"
 
-#: inertia/components/dashboard/collections/collection_favorite_item.tsx:37
+#: inertia/components/dashboard/collections/collection_favorite_item.tsx:38
 #: inertia/components/dashboard/forms/form_link_content.tsx:163
 msgid "Favorite"
 msgstr "Favorite"
 
 #: inertia/components/dashboard/views/favorites_view_content.tsx:18
 #: inertia/components/tour/dashboard_tour.tsx:20
-#: inertia/pages/dashboard.tsx:109
+#: inertia/pages/dashboard.tsx:112
 msgid "Favorites"
 msgstr "Favorites"
 
@@ -616,16 +622,16 @@ msgstr "Find it in a search, not a scroll"
 msgid "Follow"
 msgstr "Follow"
 
-#: inertia/components/admin/users/users_table.tsx:213
+#: inertia/components/admin/users/users_table.tsx:212
 msgid "Followed"
 msgstr "Followed"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:43
-#: inertia/lib/dnd/dnd_announcements.ts:10
+#: inertia/components/dashboard/collections/collection_list.tsx:46
+#: inertia/lib/dnd/dnd_announcements.ts:14
 msgid "Followed Collections"
 msgstr "Followed Collections"
 
-#: inertia/components/tour/dashboard_tour.tsx:32
+#: inertia/components/tour/dashboard_tour.tsx:43
 msgid "Followed, public and private collections live here. Drag a collection to reorder it, or collapse/expand a whole section with the buttons at the top."
 msgstr "Followed, public and private collections live here. Drag a collection to reorder it, or collapse/expand a whole section with the buttons at the top."
 
@@ -666,7 +672,7 @@ msgstr "Google"
 msgid "Group links by project or topic, keep some private and make others public. Your call, per collection."
 msgstr "Group links by project or topic, keep some private and make others public. Your call, per collection."
 
-#: inertia/components/tour/dashboard_tour.tsx:60
+#: inertia/components/tour/dashboard_tour.tsx:71
 msgid "Group related links together, public or private."
 msgstr "Group related links together, public or private."
 
@@ -677,11 +683,6 @@ msgstr "Hello"
 #: inertia/components/dashboard/forms/form_collection_content.tsx:48
 msgid "Icon"
 msgstr "Icon"
-
-#: inertia/components/api_tokens/api_tokens.tsx:124
-#: inertia/components/user_settings/sessions.tsx:59
-msgid "ID"
-msgstr "ID"
 
 #: inertia/components/user_settings/export_import.tsx:97
 #: inertia/components/user_settings/export_import.tsx:144
@@ -708,7 +709,11 @@ msgstr "In {value, plural, one {# minute} other {# minutes}}"
 msgid "In less than a minute"
 msgstr "In less than a minute"
 
-#: inertia/components/user_settings/sessions.tsx:75
+#: inertia/components/tour/dashboard_tour.tsx:30
+msgid "Inbox"
+msgstr "Inbox"
+
+#: inertia/components/user_settings/sessions.tsx:59
 msgid "IP"
 msgstr "IP"
 
@@ -716,7 +721,7 @@ msgstr "IP"
 msgid "Jump straight to a link by name or URL instead of hunting through years of folders."
 msgstr "Jump straight to a link by name or URL instead of hunting through years of folders."
 
-#: inertia/components/tour/dashboard_tour.tsx:43
+#: inertia/components/tour/dashboard_tour.tsx:54
 msgid "Jump to any link across every collection."
 msgstr "Jump to any link across every collection."
 
@@ -724,11 +729,11 @@ msgstr "Jump to any link across every collection."
 msgid "Just now"
 msgstr "Just now"
 
-#: inertia/components/admin/users/users_table.tsx:250
+#: inertia/components/admin/users/users_table.tsx:249
 msgid "Last seen at"
 msgstr "Last seen at"
 
-#: inertia/components/admin/users/users_table.tsx:261
+#: inertia/components/admin/users/users_table.tsx:260
 msgid "Last sign-in"
 msgstr "Last sign-in"
 
@@ -737,7 +742,7 @@ msgstr "Last sign-in"
 msgid "Last updated: {date}"
 msgstr "Last updated: {date}"
 
-#: inertia/components/api_tokens/api_tokens.tsx:153
+#: inertia/components/api_tokens/api_tokens.tsx:154
 msgid "Last used at"
 msgstr "Last used at"
 
@@ -750,23 +755,23 @@ msgstr "link"
 msgid "Link"
 msgstr "Link"
 
-#: inertia/lib/dnd/dnd_announcements.ts:67
+#: inertia/lib/dnd/dnd_announcements.ts:71
 msgid "Link filed into another collection."
 msgstr "Link filed into another collection."
 
-#: inertia/components/tour/dashboard_tour.tsx:48
+#: inertia/components/tour/dashboard_tour.tsx:59
 msgid "Link layout"
 msgstr "Link layout"
 
-#: inertia/lib/dnd/dnd_announcements.ts:46
+#: inertia/lib/dnd/dnd_announcements.ts:50
 msgid "Link moved."
 msgstr "Link moved."
 
-#: inertia/lib/dnd/dnd_announcements.ts:69
+#: inertia/lib/dnd/dnd_announcements.ts:73
 msgid "Link order updated."
 msgstr "Link order updated."
 
-#: inertia/lib/dnd/dnd_announcements.ts:44
+#: inertia/lib/dnd/dnd_announcements.ts:48
 msgid "Link over another collection."
 msgstr "Link over another collection."
 
@@ -780,11 +785,15 @@ msgstr "Linked on {0}"
 msgid "links"
 msgstr "links"
 
-#: inertia/components/admin/users/users_table.tsx:226
+#: inertia/components/admin/users/users_table.tsx:225
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:70
 #: inertia/components/dashboard/search/search_link_results.tsx:21
 msgid "Links"
 msgstr "Links"
+
+#: inertia/components/tour/dashboard_tour.tsx:32
+msgid "Links saved without picking a collection land here. It's yours by default and always stays pinned."
+msgstr "Links saved without picking a collection land here. It's yours by default and always stays pinned."
 
 #: inertia/components/tour/dashboard_tour.tsx:22
 msgid "Links you star show up here, across every collection."
@@ -811,7 +820,7 @@ msgstr "Made by"
 msgid "Mark the address as confirmed"
 msgstr "Mark the address as confirmed"
 
-#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:88
+#: inertia/components/dashboard/dnd/dashboard_drag_overlay.tsx:92
 msgid "Move"
 msgstr "Move"
 
@@ -823,13 +832,13 @@ msgstr "Move down"
 msgid "Move up"
 msgstr "Move up"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:52
-#: inertia/lib/dnd/dnd_announcements.ts:14
+#: inertia/components/dashboard/collections/collection_list.tsx:55
+#: inertia/lib/dnd/dnd_announcements.ts:18
 msgid "My Private Collections"
 msgstr "My Private Collections"
 
-#: inertia/components/dashboard/collections/collection_list.tsx:48
-#: inertia/lib/dnd/dnd_announcements.ts:12
+#: inertia/components/dashboard/collections/collection_list.tsx:51
+#: inertia/lib/dnd/dnd_announcements.ts:16
 msgid "My Public Collections"
 msgstr "My Public Collections"
 
@@ -861,8 +870,8 @@ msgstr "MyLinks reserves the right to terminate or suspend your access to the se
 msgid "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 msgstr "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 
-#: inertia/components/admin/users/users_table.tsx:161
-#: inertia/components/api_tokens/api_tokens.tsx:131
+#: inertia/components/admin/users/users_table.tsx:162
+#: inertia/components/api_tokens/api_tokens.tsx:124
 #: inertia/components/dashboard/forms/form_collection_content.tsx:71
 #: inertia/components/dashboard/forms/form_collection_content.tsx:76
 #: inertia/components/dashboard/forms/form_link_content.tsx:58
@@ -934,12 +943,12 @@ msgstr "Not linked"
 msgid "Not set — use the form below to add one"
 msgstr "Not set — use the form below to add one"
 
-#: inertia/components/admin/users/users_table.tsx:285
+#: inertia/components/admin/users/users_table.tsx:284
 msgid "Nothing found"
 msgstr "Nothing found"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:97
-#: inertia/components/admin/auth_events/auth_events_table.tsx:71
+#: inertia/components/admin/activity_events/activity_events_table.tsx:105
+#: inertia/components/admin/auth_events/auth_events_table.tsx:79
 msgid "Nothing has happened yet"
 msgstr "Nothing has happened yet"
 
@@ -961,7 +970,7 @@ msgstr "Only you can see this collection"
 msgid "or"
 msgstr "or"
 
-#: inertia/pages/dashboard.tsx:162
+#: inertia/pages/dashboard.tsx:168
 msgid "Or create a new collection to get started"
 msgstr "Or create a new collection to get started"
 
@@ -985,11 +994,11 @@ msgid "Personal Data"
 msgstr "Personal Data"
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:23
+#: inertia/lib/dnd/dnd_announcements.ts:27
 msgid "Picked up collection in {0}."
 msgstr "Picked up collection in {0}."
 
-#: inertia/lib/dnd/dnd_announcements.ts:26
+#: inertia/lib/dnd/dnd_announcements.ts:30
 msgid "Picked up link."
 msgstr "Picked up link."
 
@@ -1037,9 +1046,9 @@ msgstr "Remove"
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
-#: inertia/lib/dnd/dnd_announcements.ts:54
-#: inertia/lib/dnd/dnd_announcements.ts:60
-#: inertia/lib/dnd/dnd_announcements.ts:74
+#: inertia/lib/dnd/dnd_announcements.ts:58
+#: inertia/lib/dnd/dnd_announcements.ts:64
+#: inertia/lib/dnd/dnd_announcements.ts:78
 msgid "Reorder cancelled."
 msgstr "Reorder cancelled."
 
@@ -1076,7 +1085,7 @@ msgstr "Revoke access"
 msgid "Revoke every session and token"
 msgstr "Revoke every session and token"
 
-#: inertia/components/admin/users/users_table.tsx:176
+#: inertia/components/admin/users/users_table.tsx:175
 msgid "Role"
 msgstr "Role"
 
@@ -1088,8 +1097,8 @@ msgstr "Run it yourself"
 msgid "Save it before the tab closes"
 msgstr "Save it before the tab closes"
 
-#: inertia/components/tour/dashboard_tour.tsx:42
-#: inertia/pages/dashboard.tsx:96
+#: inertia/components/tour/dashboard_tour.tsx:53
+#: inertia/pages/dashboard.tsx:99
 msgid "Search"
 msgstr "Search"
 
@@ -1114,7 +1123,7 @@ msgstr "See what's new"
 msgid "See where your collections, search and the main actions live. It only takes a minute."
 msgstr "See where your collections, search and the main actions live. It only takes a minute."
 
-#: inertia/pages/dashboard.tsx:159
+#: inertia/pages/dashboard.tsx:165
 msgid "Select a collection to view its links"
 msgstr "Select a collection to view its links"
 
@@ -1186,7 +1195,7 @@ msgstr "Sign out"
 msgid "Sign out session"
 msgstr "Sign out session"
 
-#: inertia/components/admin/users/users_table.tsx:192
+#: inertia/components/admin/users/users_table.tsx:191
 #: inertia/components/user_settings/auth_methods.tsx:46
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
@@ -1223,11 +1232,11 @@ msgstr "Start typing to search..."
 msgid "Status"
 msgstr "Status"
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:59
+#: inertia/components/admin/activity_events/activity_events_table.tsx:60
 msgid "Subject"
 msgstr "Subject"
 
-#: inertia/components/tour/dashboard_tour.tsx:50
+#: inertia/components/tour/dashboard_tour.tsx:61
 msgid "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 msgstr "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 
@@ -1311,7 +1320,7 @@ msgstr "To access certain features of MyLinks, you will need to create a user ac
 msgid "To create personalized collections and links and associate them with their author, we collect the following information:"
 msgstr "To create personalized collections and links and associate them with their author, we collect the following information:"
 
-#: inertia/components/api_tokens/api_tokens.tsx:138
+#: inertia/components/api_tokens/api_tokens.tsx:131
 msgid "Token"
 msgstr "Token"
 
@@ -1331,7 +1340,7 @@ msgstr "Total Links"
 msgid "Total Users"
 msgstr "Total Users"
 
-#: inertia/components/admin/users/users_table.tsx:288
+#: inertia/components/admin/users/users_table.tsx:287
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
 
@@ -1378,7 +1387,7 @@ msgstr "Use of the Service"
 msgid "User"
 msgstr "User"
 
-#: inertia/components/admin/auth_events/auth_events_table.tsx:61
+#: inertia/components/admin/auth_events/auth_events_table.tsx:69
 msgid "User agent"
 msgstr "User agent"
 
@@ -1402,8 +1411,8 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 
-#: inertia/components/admin/activity_events/activity_events_table.tsx:43
-#: inertia/components/admin/auth_events/auth_events_table.tsx:24
+#: inertia/components/admin/activity_events/activity_events_table.tsx:44
+#: inertia/components/admin/auth_events/auth_events_table.tsx:25
 msgid "When"
 msgstr "When"
 
@@ -1412,7 +1421,7 @@ msgid "You are about to change something that protects your account, so we ask o
 msgstr "You are about to change something that protects your account, so we ask once more who you are."
 
 #. placeholder {0}: targetIds.length
-#: inertia/components/admin/users/users_table.tsx:60
+#: inertia/components/admin/users/users_table.tsx:61
 msgid "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 msgstr "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 
@@ -1439,7 +1448,7 @@ msgstr "you@example.com"
 msgid "Your address still needs confirming. We can send the link again."
 msgstr "Your address still needs confirming. We can send the link again."
 
-#: inertia/components/tour/dashboard_tour.tsx:30
+#: inertia/components/tour/dashboard_tour.tsx:41
 msgid "Your collections"
 msgstr "Your collections"
 

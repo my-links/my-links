@@ -291,6 +291,9 @@ export class CollectionService {
 		return await Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PUBLIC)
+			.withCount('links', (query) => {
+				query.as('linksCount');
+			})
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc');
 	}
@@ -304,6 +307,9 @@ export class CollectionService {
 			.where('author_id', userId)
 			.andWhere('visibility', Visibility.PRIVATE)
 			.andWhere('is_default', false)
+			.withCount('links', (query) => {
+				query.as('linksCount');
+			})
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc');
 	}
