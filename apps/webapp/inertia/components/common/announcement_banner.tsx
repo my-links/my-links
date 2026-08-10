@@ -5,6 +5,7 @@ import { IconButton } from '@minimalstuff/ui';
 import type { PageProps } from '@adonisjs/inertia/types';
 
 import { PROJECT_CHANGELOG_URL } from '~/consts/project';
+import { ClientOnly } from '~/components/common/client_only';
 import { useAnnouncementStore } from '~/stores/announcement_store';
 
 function getMajorVersion(appVersion: string): number {
@@ -12,6 +13,14 @@ function getMajorVersion(appVersion: string): number {
 }
 
 export function AnnouncementBanner() {
+	return (
+		<ClientOnly>
+			<AnnouncementBannerContent />
+		</ClientOnly>
+	);
+}
+
+function AnnouncementBannerContent() {
 	const { appVersion } = usePage<PageProps & { appVersion: string }>().props;
 	const dismissedMajorVersion = useAnnouncementStore(
 		(state) => state.dismissedMajorVersion
