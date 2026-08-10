@@ -1,6 +1,10 @@
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
-import EmojiPickerReact, { EmojiClickData, Theme } from 'emoji-picker-react';
+import EmojiPickerReact, {
+	EmojiClickData,
+	EmojiStyle,
+	Theme,
+} from 'emoji-picker-react';
 
 import { useClickOutside } from '~/hooks/use_click_outside';
 
@@ -51,6 +55,7 @@ export function EmojiPicker({
 					<EmojiPickerReact
 						onEmojiClick={handleEmojiClick}
 						theme={Theme.AUTO}
+						emojiStyle={EmojiStyle.NATIVE}
 						width={300}
 						height={350}
 					/>
