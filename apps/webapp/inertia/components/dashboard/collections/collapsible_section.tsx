@@ -60,7 +60,8 @@ export function CollapsibleSection({
 		return null;
 	}
 
-	const shouldShowCollapse = canCollapse;
+	const isEmpty = collections.length === 0;
+	const shouldShowCollapse = canCollapse && !isEmpty;
 
 	const handleMoveUp = () => {
 		closeMenu();
@@ -73,7 +74,7 @@ export function CollapsibleSection({
 	};
 
 	return (
-		<div className="mb-2">
+		<div className={clsx('mb-2', isEmpty && 'opacity-40')}>
 			<div
 				ref={menuRef}
 				onContextMenu={handleContextMenu}
