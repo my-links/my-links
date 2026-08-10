@@ -264,3 +264,22 @@ export function getDefaultCollectionId(
 ): number | undefined {
 	return collections.find((collection) => collection.isDefault)?.id;
 }
+
+/**
+ * The owned collections a private/public reorder actually operates over,
+ * ordered by position. The Inbox is excluded: it's pinned outside every
+ * sortable section (see `collection_tree.tsx`), and the server excludes it
+ * from that section's owned-id set the same way — submitting it here would
+ * fail the reorder's exact-match check as an unrecognised id.
+ */
+export function sectionCollectionsForReorder(
+	collections: CollectionWithLinks[],
+	visibility: CollectionVisibility
+): CollectionWithLinks[] {
+	return collections
+		.filter(
+			(collection) =>
+				collection.visibility === visibility && !collection.isDefault
+		)
+		.sort((a, b) => a.position - b.position);
+}

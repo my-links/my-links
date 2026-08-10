@@ -374,6 +374,67 @@ describe('collectionsDndCollisionDetection — malformed containers', () => {
 	});
 });
 
+describe('collectionsDndCollisionDetection — the pinned Inbox', () => {
+	it('should accept a dropped link', () => {
+		const active = buildActive('link-active', {
+			kind: 'link',
+			linkId: 1,
+			collectionId: 1,
+		});
+		const inbox = buildContainer(
+			'inbox',
+			{ kind: 'inbox', collectionId: 4 },
+			rect(0, 0, 100, 100)
+		);
+
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [inbox],
+				collisionRect: rect(5, 5, 10, 10),
+				pointerCoordinates: { x: 10, y: 10 },
+			})
+		);
+
+		expect(collisions.map((c) => c.id)).toContain('inbox');
+	});
+
+	it('should never be a candidate while a collection is being reordered', () => {
+		const active = buildActive('private-active', {
+			kind: 'collection',
+			collectionId: 1,
+			section: 'private',
+			isOwner: true,
+		});
+		const inbox = buildContainer(
+			'inbox',
+			{ kind: 'inbox', collectionId: 4 },
+			rect(0, 0, 100, 100)
+		);
+		const privateA = buildContainer(
+			'private-a',
+			{
+				kind: 'collection',
+				collectionId: 2,
+				section: 'private',
+				isOwner: true,
+			},
+			rect(200, 200, 20, 20)
+		);
+
+		const collisions = collectionsDndCollisionDetection(
+			buildArgs({
+				active,
+				containers: [inbox, privateA],
+				collisionRect: rect(5, 5, 10, 10),
+				pointerCoordinates: { x: 10, y: 10 },
+			})
+		);
+
+		expect(collisions.map((c) => c.id)).not.toContain('inbox');
+	});
+});
+
 describe('collectionsDndCollisionDetection — dragging a link over a followed collection', () => {
 	it('should never target a followed (non-owned) collection as a drop target', () => {
 		const active = buildActive('link-active', {

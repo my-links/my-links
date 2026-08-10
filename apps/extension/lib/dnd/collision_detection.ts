@@ -1,7 +1,11 @@
 import type { CollisionDetection } from '@dnd-kit/core';
 import { closestCenter, pointerWithin } from '@dnd-kit/core';
 
-import { isCollectionDragData, isLinkDragData } from './drag_data';
+import {
+	isCollectionDragData,
+	isInboxDropData,
+	isLinkDragData,
+} from './drag_data';
 
 /**
  * Restricts collision candidates by what's actually being dragged: a
@@ -64,6 +68,9 @@ export const collectionsDndCollisionDetection: CollisionDetection = (args) => {
 		const collectionContainers = args.droppableContainers.filter(
 			(container) => {
 				const containerData = container.data.current;
+				if (isInboxDropData(containerData)) {
+					return true;
+				}
 				return isCollectionDragData(containerData) && containerData.isOwner;
 			}
 		);
