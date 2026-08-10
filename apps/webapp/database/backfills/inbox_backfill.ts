@@ -35,6 +35,35 @@ export async function backfillMissingInboxCollections(
 }
 
 /**
+ * Brings back any Inbox shared before `updateCollection` started refusing it,
+ * and drops the subscriptions that sharing handed out.
+ *
+ * A public Inbox is both a privacy problem — it is where every link saved
+ * without a collection lands — and a broken sidebar: it would be drawn pinned
+ * and inside the public section at once.
+ */
+export async function makeInboxesPrivate(
+	client: QueryClientContract
+): Promise<void> {
+	await client.rawQuery(
+		`DELETE FROM collection_followers
+		 USING collections
+		 WHERE collection_followers.collection_id = collections.id
+		   AND collections.is_default
+		   AND collections.visibility <> :visibility::collection_visibility`,
+		{ visibility: Visibility.PRIVATE }
+	);
+
+	await client.rawQuery(
+		`UPDATE collections
+		 SET visibility = :visibility::collection_visibility, updated_at = NOW()
+		 WHERE is_default
+		   AND visibility <> :visibility::collection_visibility`,
+		{ visibility: Visibility.PRIVATE }
+	);
+}
+
+/**
  * Only empty Inboxes are removed: this migration cannot tell the ones it created
  * from the ones that already existed, and dropping a full one would take its
  * links with it through the pivot's `ON DELETE CASCADE`.
