@@ -67,7 +67,7 @@ export function CollapsibleSection({
 				>
 					<div
 						className={clsx(
-							'i-ant-design-down-outlined h-3 w-3 flex-shrink-0 text-gray-500 transition-transform',
+							'i-ant-design-caret-down-filled h-3 w-3 flex-shrink-0 opacity-25 text-gray-500 transition-transform',
 							!isExpanded && '-rotate-90'
 						)}
 					/>

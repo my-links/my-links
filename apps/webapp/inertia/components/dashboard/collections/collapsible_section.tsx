@@ -100,8 +100,8 @@ export function CollapsibleSection({
 					{shouldShowCollapse && (
 						<div
 							className={clsx(
-								'i-ant-design-down-outlined w-3.5 h-3.5 flex-shrink-0 transition-transform text-gray-600 dark:text-gray-400',
-								!isExpanded && 'transform rotate-180'
+								'i-ant-design-caret-down-filled w-3.5 h-3.5 flex-shrink-0 opacity-25 transition-transform text-gray-600 dark:text-gray-400',
+								!isExpanded && 'transform rotate-90'
 							)}
 						/>
 					)}
