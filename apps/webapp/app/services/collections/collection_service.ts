@@ -297,18 +297,6 @@ export class CollectionService {
 	}
 
 	/**
-	 * Read-only counterpart to `getOrCreateDefaultCollection`: rendering the
-	 * dashboard must not write. Registration and the backfill are what
-	 * guarantee the row exists.
-	 */
-	async getDefaultCollection(userId: User['id']): Promise<Collection | null> {
-		return await Collection.query()
-			.where('author_id', userId)
-			.andWhere('is_default', true)
-			.first();
-	}
-
-	/**
 	 * An explicit join, not `whereHas`, because the follower's position on
 	 * `collection_followers` has to be readable for the `orderBy` below —
 	 * an EXISTS subquery can't expose it.

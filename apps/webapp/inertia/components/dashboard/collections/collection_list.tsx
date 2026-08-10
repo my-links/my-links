@@ -93,9 +93,7 @@ export function CollectionList({
 
 			<div className="px-2 pt-1 pb-2 space-y-1">
 				<CollectionFavoriteItem />
-				{inboxCollection && (
-					<CollectionInboxItem collection={inboxCollection} />
-				)}
+				<CollectionInboxItem collection={inboxCollection} />
 			</div>
 
 			<div className="flex-1 overflow-y-auto space-y-1 px-2" scroll-region="">

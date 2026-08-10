@@ -26,7 +26,9 @@ export interface DashboardProps {
 	followedCollections?: Data.Collection[];
 	myPublicCollections?: Data.Collection[];
 	myPrivateCollections?: Data.Collection[];
-	inboxCollection?: Data.Collection | null;
+	// Not optional: every account has an Inbox, and both controllers that render
+	// this page open one on read for the accounts that somehow don't.
+	inboxCollection: Data.Collection;
 	activeCollection?: Data.Collection.Variants['withLinks'] | null;
 	favoriteLinks?: Data.Link[];
 }

@@ -174,9 +174,12 @@ test.group('Dashboard reordering (browser)', (group) => {
 		);
 		await page.waitForLoadState('networkidle');
 
+		// Same scope the sidebar sorts: the pinned Inbox the dashboard opened on
+		// first render is not part of the reordered section.
 		const ordered = await Collection.query()
 			.where('author_id', user.id)
 			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('is_default', false)
 			.orderBy('position', 'asc');
 
 		assert.deepEqual(

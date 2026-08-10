@@ -1,6 +1,7 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
+import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
@@ -68,7 +69,7 @@ test.group('Inbox sidebar props', (group) => {
 		assert.equal(inboxCollection.id, inbox.id);
 	});
 
-	test('should send no Inbox for an account that has none', async ({
+	test('should open an Inbox for an account that has none', async ({
 		assert,
 		client,
 	}) => {
@@ -81,7 +82,33 @@ test.group('Inbox sidebar props', (group) => {
 			.loginAs(user);
 
 		const { inboxCollection } = inertiaPageProps(response);
-		assert.isNull(inboxCollection);
+		const inbox = await Collection.query()
+			.where('author_id', user.id)
+			.andWhere('is_default', true)
+			.firstOrFail();
+		assert.equal(inboxCollection.id, inbox.id);
+	});
+
+	test('should reuse the Inbox it opened on a later render', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'inbox-props' });
+		const collection = await createCollection({ author: user, name: 'A' });
+
+		await client
+			.get(`/collections/${collection.id}`)
+			.withInertia()
+			.loginAs(user);
+		await client
+			.get(`/collections/${collection.id}`)
+			.withInertia()
+			.loginAs(user);
+
+		const inboxes = await Collection.query()
+			.where('author_id', user.id)
+			.andWhere('is_default', true);
+		assert.lengthOf(inboxes, 1);
 	});
 
 	test('should leave the public collections untouched', async ({

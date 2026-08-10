@@ -33,7 +33,7 @@ export default class ShowCollectionController {
 			this.collectionService.getFollowedCollections(userId),
 			this.collectionService.getMyPublicCollections(userId),
 			this.collectionService.getMyPrivateCollections(userId),
-			this.collectionService.getDefaultCollection(userId),
+			this.collectionService.getOrCreateDefaultCollection(userId),
 			this.collectionService.getAccessibleCollectionByIdWithLinks(
 				collectionId,
 				userId
@@ -45,9 +45,7 @@ export default class ShowCollectionController {
 			myPublicCollections: CollectionTransformer.transform(myPublicCollections),
 			myPrivateCollections:
 				CollectionTransformer.transform(myPrivateCollections),
-			inboxCollection: inboxCollection
-				? CollectionTransformer.transform(inboxCollection)
-				: null,
+			inboxCollection: CollectionTransformer.transform(inboxCollection),
 			favoriteLinks: null,
 			activeCollection: CollectionTransformer.transform(
 				accessibleCollectionResult.collection
