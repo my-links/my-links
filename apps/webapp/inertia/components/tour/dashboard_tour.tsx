@@ -26,6 +26,17 @@ const steps: Step[] = [
 		skipBeacon: true,
 	},
 	{
+		target: '[data-tour="inbox"]',
+		title: <Trans>Inbox</Trans>,
+		content: (
+			<Trans>
+				Links saved without picking a collection land here. It's yours by
+				default and always stays pinned.
+			</Trans>
+		),
+		placement: 'right',
+	},
+	{
 		target: '[data-tour="collections-list"]',
 		title: <Trans>Your collections</Trans>,
 		content: (
