@@ -50,6 +50,7 @@ export function CollectionList({
 		[COLLECTION_SECTION.PUBLIC]: {
 			title: <Trans>My Public Collections</Trans>,
 			collections: myPublicCollections,
+			alwaysShow: true,
 		},
 		[COLLECTION_SECTION.PRIVATE]: {
 			title: <Trans>My Private Collections</Trans>,
