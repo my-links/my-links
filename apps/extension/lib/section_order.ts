@@ -14,8 +14,14 @@ function swapAt<TItem>(
 	indexA: number,
 	indexB: number
 ): TItem[] {
+	const itemA = items[indexA];
+	const itemB = items[indexB];
+	if (itemA === undefined || itemB === undefined) {
+		return items;
+	}
 	const next = [...items];
-	[next[indexA], next[indexB]] = [next[indexB], next[indexA]];
+	next[indexA] = itemB;
+	next[indexB] = itemA;
 	return next;
 }
 

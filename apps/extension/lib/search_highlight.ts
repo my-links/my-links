@@ -24,6 +24,9 @@ export function splitIntoHighlightSegments(
 	for (let rangeIndex = 0; rangeIndex < ranges.length; rangeIndex += 2) {
 		const start = ranges[rangeIndex];
 		const end = ranges[rangeIndex + 1];
+		if (start === undefined || end === undefined) {
+			continue;
+		}
 
 		if (start > cursor) {
 			segments.push({ text: text.slice(cursor, start), isMatch: false });

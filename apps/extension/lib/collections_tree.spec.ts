@@ -17,6 +17,14 @@ import {
 	sectionCollectionsForReorder,
 } from '@/lib/collections_tree';
 
+function at<TItem>(items: readonly TItem[], index: number): TItem {
+	const item = items[index];
+	if (item === undefined) {
+		throw new Error(`Expected an item at index ${index}`);
+	}
+	return item;
+}
+
 function buildLink(overrides: Partial<LinkResource> = {}): LinkResource {
 	return {
 		id: 1,
@@ -64,8 +72,8 @@ describe('insertLinkIntoTree', () => {
 
 		const result = insertLinkIntoTree(collections, link);
 
-		expect(result[0].links).toEqual([]);
-		expect(result[1].links).toEqual([link]);
+		expect(at(result, 0).links).toEqual([]);
+		expect(at(result, 1).links).toEqual([link]);
 	});
 
 	it('should append the link to every collection listed in collectionIds', () => {
@@ -78,9 +86,9 @@ describe('insertLinkIntoTree', () => {
 
 		const result = insertLinkIntoTree(collections, link);
 
-		expect(result[0].links).toEqual([link]);
-		expect(result[1].links).toEqual([]);
-		expect(result[2].links).toEqual([link]);
+		expect(at(result, 0).links).toEqual([link]);
+		expect(at(result, 1).links).toEqual([]);
+		expect(at(result, 2).links).toEqual([link]);
 	});
 });
 
@@ -91,7 +99,7 @@ describe('removeLinkFromTree', () => {
 
 		const result = removeLinkFromTree(collections, 10);
 
-		expect(result[0].links).toEqual([]);
+		expect(at(result, 0).links).toEqual([]);
 	});
 });
 
@@ -106,8 +114,8 @@ describe('replaceLinkInTree', () => {
 		const movedLink = { ...link, collectionIds: [2] };
 		const result = replaceLinkInTree(collections, 10, movedLink);
 
-		expect(result[0].links).toEqual([]);
-		expect(result[1].links).toEqual([movedLink]);
+		expect(at(result, 0).links).toEqual([]);
+		expect(at(result, 1).links).toEqual([movedLink]);
 	});
 
 	it('should fan out the link across every collection in its new set', () => {
@@ -121,9 +129,9 @@ describe('replaceLinkInTree', () => {
 		const movedLink = { ...link, collectionIds: [2, 3] };
 		const result = replaceLinkInTree(collections, 10, movedLink);
 
-		expect(result[0].links).toEqual([]);
-		expect(result[1].links).toEqual([movedLink]);
-		expect(result[2].links).toEqual([movedLink]);
+		expect(at(result, 0).links).toEqual([]);
+		expect(at(result, 1).links).toEqual([movedLink]);
+		expect(at(result, 2).links).toEqual([movedLink]);
 	});
 
 	it('should keep the link at its index when collectionIds is unchanged', () => {
@@ -137,7 +145,7 @@ describe('replaceLinkInTree', () => {
 		const editedTarget = { ...target, name: 'Renamed' };
 		const result = replaceLinkInTree(collections, 20, editedTarget);
 
-		expect(result[0].links).toEqual([before, editedTarget, after]);
+		expect(at(result, 0).links).toEqual([before, editedTarget, after]);
 	});
 });
 
@@ -165,8 +173,8 @@ describe('replaceCollectionInTree', () => {
 			name: 'New name',
 		});
 
-		expect(result[0].name).toBe('New name');
-		expect(result[1].name).toBe('Untouched');
+		expect(at(result, 0).name).toBe('New name');
+		expect(at(result, 1).name).toBe('Untouched');
 	});
 });
 
@@ -201,7 +209,7 @@ describe('reorderCollectionsInTree', () => {
 
 		const result = reorderCollectionsInTree(collections, 'PRIVATE', [999]);
 
-		expect(result[0].position).toBe(3);
+		expect(at(result, 0).position).toBe(3);
 	});
 
 	it('should handle a single-collection section', () => {
@@ -211,7 +219,7 @@ describe('reorderCollectionsInTree', () => {
 
 		const result = reorderCollectionsInTree(collections, 'PRIVATE', [1]);
 
-		expect(result[0].position).toBe(0);
+		expect(at(result, 0).position).toBe(0);
 	});
 });
 
@@ -223,7 +231,7 @@ describe('reorderLinksInTree', () => {
 
 		const result = reorderLinksInTree(collections, 1, [20, 10]);
 
-		expect(result[0].links).toEqual([second, first]);
+		expect(at(result, 0).links).toEqual([second, first]);
 	});
 
 	it('should leave other collections untouched', () => {
@@ -235,7 +243,7 @@ describe('reorderLinksInTree', () => {
 
 		const result = reorderLinksInTree(collections, 1, [10]);
 
-		expect(result[1].links).toEqual([]);
+		expect(at(result, 1).links).toEqual([]);
 	});
 });
 
@@ -249,8 +257,8 @@ describe('moveLinkBetweenCollectionsInTree', () => {
 
 		const result = moveLinkBetweenCollectionsInTree(collections, 10, 1, 2);
 
-		expect(result[0].links).toEqual([]);
-		expect(result[1].links).toEqual([{ ...link, collectionIds: [2] }]);
+		expect(at(result, 0).links).toEqual([]);
+		expect(at(result, 1).links).toEqual([{ ...link, collectionIds: [2] }]);
 	});
 
 	it('should no-op when the link is not in the source collection', () => {
@@ -275,8 +283,8 @@ describe('addLinkToCollectionInTree', () => {
 
 		const result = addLinkToCollectionInTree(collections, 10, 2);
 
-		expect(result[0].links).toEqual([link]);
-		expect(result[1].links).toEqual([{ ...link, collectionIds: [1, 2] }]);
+		expect(at(result, 0).links).toEqual([link]);
+		expect(at(result, 1).links).toEqual([{ ...link, collectionIds: [1, 2] }]);
 	});
 
 	it('should be a no-op when the link is already in the target collection', () => {
