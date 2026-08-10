@@ -2,6 +2,7 @@ import { Button } from '@minimalstuff/ui';
 import { useForm } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
+import { plural, t } from '@lingui/core/macro';
 
 import { urlFor } from '~/lib/tuyau';
 import { Visibility } from '~/types/app';
@@ -20,6 +21,9 @@ export function DeleteCollectionModal({
 }: Readonly<DeleteCollectionModalProps>) {
 	const { activeCollection } = useDashboardProps();
 	const targetCollection = collection ?? activeCollection;
+	const linksCount = collection
+		? collection.linksCount
+		: activeCollection?.links?.length;
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			icon: targetCollection?.icon ?? null,
@@ -43,7 +47,11 @@ export function DeleteCollectionModal({
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4">
 			<p className="text-sm text-red-600 dark:text-red-400">
-				<Trans>Are you sure you want to delete this collection?</Trans>
+				{typeof linksCount === 'number' && linksCount > 0 ? (
+					t`Are you sure you want to delete this collection and ${plural(linksCount, { one: 'its # link', other: 'its # links' })}?`
+				) : (
+					<Trans>Are you sure you want to delete this collection?</Trans>
+				)}
 			</p>
 
 			<FormCollectionContent

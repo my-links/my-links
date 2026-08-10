@@ -20,6 +20,10 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 			isDefault: this.resource.isDefault,
 			author: UserTransformer.transform(this.whenLoaded(this.resource.author)),
 			isOwner,
+			linksCount: this.when(
+				this.resource.$extras.linksCount !== undefined,
+				() => Number(this.resource.$extras.linksCount)
+			),
 			createdAt: this.resource.createdAt?.toString(),
 			updatedAt: this.resource.updatedAt?.toString(),
 		};
