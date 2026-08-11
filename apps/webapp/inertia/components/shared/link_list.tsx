@@ -5,6 +5,12 @@ import { Trans } from '@lingui/react/macro';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '../dashboard/links/link_item';
+import {
+	getLinkContainerClassName,
+	getLinkContainerStyle,
+	getLinkItemWrapperClassName,
+	getLinkItemWrapperStyle,
+} from '~/lib/link_layout';
 
 interface SharedLinkListProps {
 	links: Data.Link[];
@@ -26,25 +32,17 @@ export function SharedLinkList({ links }: Readonly<SharedLinkListProps>) {
 	}
 
 	const effectiveLayout = isMobile ? 'list' : layout;
-	const isGrid = effectiveLayout === 'grid';
-	const isList = effectiveLayout === 'list';
-	const isCompact = effectiveLayout === 'compact';
-	const isMasonry = effectiveLayout === 'masonry';
 
 	return (
 		<div
-			className={clsx(
-				'w-full',
-				isGrid && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4',
-				isList && 'space-y-3',
-				isCompact && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3',
-				isMasonry && 'columns-1 md:columns-2 lg:columns-3 gap-4'
-			)}
+			className={clsx('w-full', getLinkContainerClassName(effectiveLayout))}
+			style={getLinkContainerStyle(effectiveLayout)}
 		>
 			{links.map((link) => (
 				<div
 					key={link.id}
-					className={clsx(isMasonry && 'break-inside-avoid mb-4')}
+					className={getLinkItemWrapperClassName(effectiveLayout)}
+					style={getLinkItemWrapperStyle(effectiveLayout)}
 				>
 					<LinkItem link={link} layout={effectiveLayout} />
 				</div>

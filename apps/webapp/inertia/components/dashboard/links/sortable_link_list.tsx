@@ -8,7 +8,10 @@ import {
 
 import type { Layout } from '~/stores/layout_store';
 import { SortableLinkItem } from './sortable_link_item';
-import { getLinkContainerClassName } from '~/lib/link_layout';
+import {
+	getLinkContainerClassName,
+	getLinkContainerStyle,
+} from '~/lib/link_layout';
 
 interface SortableLinkListProps {
 	links: Data.Link[];
@@ -26,7 +29,10 @@ export function SortableLinkList({
 
 	return (
 		<SortableContext items={links.map((link) => link.id)} strategy={strategy}>
-			<div className={clsx('w-full', getLinkContainerClassName(layout))}>
+			<div
+				className={clsx('w-full', getLinkContainerClassName(layout))}
+				style={getLinkContainerStyle(layout)}
+			>
 				{links.map((link) => (
 					<SortableLinkItem
 						key={link.id}

@@ -5,7 +5,10 @@ import { useSortable } from '@dnd-kit/sortable';
 
 import { LinkItem } from './link_item';
 import type { Layout } from '~/stores/layout_store';
-import { getLinkItemWrapperClassName } from '~/lib/link_layout';
+import {
+	getLinkItemWrapperClassName,
+	getLinkItemWrapperStyle,
+} from '~/lib/link_layout';
 
 interface SortableLinkItemProps {
 	link: Data.Link;
@@ -33,6 +36,7 @@ export function SortableLinkItem({
 	});
 
 	const style = {
+		...getLinkItemWrapperStyle(layout),
 		transform: CSS.Transform.toString(transform),
 		transition,
 		opacity: isDragging ? 0.5 : 1,

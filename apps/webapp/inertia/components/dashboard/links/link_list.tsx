@@ -9,7 +9,9 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
 import {
 	getLinkContainerClassName,
+	getLinkContainerStyle,
 	getLinkItemWrapperClassName,
+	getLinkItemWrapperStyle,
 } from '~/lib/link_layout';
 
 interface PagePropsWithLinks extends PageProps {
@@ -47,11 +49,15 @@ export function LinkList({ links: linksProp }: LinkListProps = {}) {
 	const effectiveLayout = isMobile ? 'list' : layout;
 
 	return (
-		<div className={clsx('w-full', getLinkContainerClassName(effectiveLayout))}>
+		<div
+			className={clsx('w-full', getLinkContainerClassName(effectiveLayout))}
+			style={getLinkContainerStyle(effectiveLayout)}
+		>
 			{links.map((link) => (
 				<div
 					key={link.id}
 					className={getLinkItemWrapperClassName(effectiveLayout)}
+					style={getLinkItemWrapperStyle(effectiveLayout)}
 				>
 					<LinkItem link={link} layout={effectiveLayout} />
 				</div>
