@@ -41,21 +41,14 @@ export const AuthEventsTable = ({ events }: Readonly<AuthEventsTableProps>) => (
 				header: <Trans>Account</Trans>,
 				cellClassName:
 					'px-6 py-3 text-sm text-gray-900 dark:text-white whitespace-nowrap',
-				render: (event) => (
-					<UserIdentity fullname={event.fullname} avatarUrl={event.avatarUrl} />
-				),
+				render: (event) => <UserIdentity fullname={event.fullname} />,
 			},
 			{
 				key: 'actorFullname',
 				header: <Trans>Done by</Trans>,
 				cellClassName:
 					'px-6 py-3 text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap',
-				render: (event) => (
-					<UserIdentity
-						fullname={event.actorFullname}
-						avatarUrl={event.actorAvatarUrl}
-					/>
-				),
+				render: (event) => <UserIdentity fullname={event.actorFullname} />,
 			},
 			{
 				key: 'ip',
