@@ -7,6 +7,12 @@ import Collection from '#models/collection';
 import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 
+function assertNotNull<TValue>(
+	value: TValue
+): asserts value is NonNullable<TValue> {
+	if (value === null) throw new Error('Expected value not to be null');
+}
+
 async function createLinkIn(user: User, visibility: Visibility) {
 	const collection = await Collection.create({
 		name: `Collection ${visibility}`,
@@ -55,11 +61,13 @@ test.group('Link visit redirect', (group) => {
 	}) => {
 		const user = await createUser();
 		const link = await createLinkIn(user, Visibility.PRIVATE);
+		assertNotNull(link.updatedAt);
 		const updatedAtBeforeVisit = link.updatedAt.toMillis();
 
 		await client.get(`/l/${link.id}`).loginAs(user).redirects(0);
 
 		const visited = await Link.findOrFail(link.id);
+		assertNotNull(visited.updatedAt);
 		assert.equal(visited.updatedAt.toMillis(), updatedAtBeforeVisit);
 	});
 

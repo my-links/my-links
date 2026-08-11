@@ -3,27 +3,12 @@ import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
 import Link from '#models/link';
 import User from '#models/user';
-import AppBaseModel from '#models/app_base_model';
+import { CollectionSchema } from '#database/schema';
 import { Visibility } from '#enums/collections/visibility';
 
-export default class Collection extends AppBaseModel {
-	@column()
-	declare name: string;
-
-	@column()
-	declare description: string | null;
-
+export default class Collection extends CollectionSchema {
 	@column()
 	declare visibility: Visibility;
-
-	@column()
-	declare icon: string | null;
-
-	@column()
-	declare isDefault: boolean;
-
-	@column()
-	declare position: number;
 
 	@column()
 	declare authorId: number;

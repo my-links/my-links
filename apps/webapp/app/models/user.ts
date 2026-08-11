@@ -17,27 +17,12 @@ import Link from '#models/link';
 import OauthAuth from '#models/oauth_auth';
 import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
+import { UserSchema } from '#database/schema';
 import PasswordAuth from '#models/password_auth';
-import AppBaseModel from '#models/app_base_model';
 
-export default class User extends AppBaseModel {
-	@column()
-	declare email: string;
-
-	@column()
-	declare name: string;
-
+export default class User extends UserSchema {
 	@column()
 	declare nickName: string; // public username
-
-	@column()
-	declare avatarUrl: string | null;
-
-	@column()
-	declare isAdmin: boolean;
-
-	@column.dateTime()
-	declare emailVerifiedAt: DateTime | null;
 
 	@hasOne(() => PasswordAuth)
 	declare passwordAuth: HasOne<typeof PasswordAuth>;
