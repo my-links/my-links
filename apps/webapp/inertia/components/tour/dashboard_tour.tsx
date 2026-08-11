@@ -13,6 +13,7 @@ import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { TourTooltip } from '~/components/tour/tour_tooltip';
 import { TourWelcomeModal } from '~/components/tour/tour_welcome_modal';
+import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 const steps: Step[] = [
 	{
@@ -83,6 +84,7 @@ export function DashboardTour() {
 		stopTour,
 	} = useTourStore();
 	const isMobile = useIsMobile();
+	const sidebarOpen = useDashboardLayoutStore((state) => state.sidebarOpen);
 
 	const shouldOfferTour = !isMobile && !hasCompletedDashboardTour && !run;
 
@@ -92,7 +94,7 @@ export function DashboardTour() {
 				<TourWelcomeModal onStart={startTour} onSkip={stopTour} />
 			)}
 			<Joyride
-				run={!isMobile && run}
+				run={!isMobile && sidebarOpen && run}
 				stepIndex={stepIndex}
 				steps={steps}
 				onEvent={(data: EventData) => {
