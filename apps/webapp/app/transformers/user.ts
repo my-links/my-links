@@ -7,7 +7,7 @@ import { toIsoTimestamp } from '#lib/database/aggregate_timestamp';
 export default class UserTransformer extends BaseTransformer<User> {
 	toObject() {
 		return {
-			...this.pick(this.resource, ['id', 'fullname', 'avatarUrl', 'isAdmin']),
+			...this.pick(this.resource, ['id', 'fullname', 'isAdmin']),
 			createdAt: this.resource.createdAt?.toString(),
 			updatedAt: this.resource.updatedAt?.toString(),
 		};

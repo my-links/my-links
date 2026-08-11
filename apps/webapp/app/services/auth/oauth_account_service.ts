@@ -22,7 +22,6 @@ export type OauthIdentity = {
 	readonly isEmailVerified: boolean;
 	readonly name: string;
 	readonly nickName: string;
-	readonly avatarUrl: string | null;
 };
 
 @inject()
@@ -120,7 +119,6 @@ export class OauthAccountService {
 		user.merge({
 			name: identity.name,
 			nickName: identity.nickName,
-			avatarUrl: identity.avatarUrl,
 		});
 
 		return user.save();
@@ -136,7 +134,6 @@ export class OauthAccountService {
 					email,
 					name: identity.name,
 					nickName: identity.nickName,
-					avatarUrl: identity.avatarUrl,
 					isAdmin: await this.userService.isNextAccountAdmin(trx),
 					emailVerifiedAt: DateTime.now(),
 				},

@@ -236,10 +236,8 @@ export class UserSessionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['avatarUrl', 'createdAt', 'email', 'emailVerifiedAt', 'id', 'isAdmin', 'lastSeenAt', 'name', 'nickName', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'emailVerifiedAt', 'id', 'isAdmin', 'lastSeenAt', 'name', 'nickName', 'updatedAt'] as const
   $columns = UserSchema.$columns
-  @column()
-  declare avatarUrl: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
   @column()

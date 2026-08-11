@@ -7,7 +7,6 @@ import { AUTH_PROVIDER, type AuthProvider } from '#constants/auth';
 
 const DEFAULT_EMAIL_PREFIX = 'user';
 const DEFAULT_NAME = 'Test User';
-const DEFAULT_AVATAR_URL = 'https://example.com/avatar.png';
 
 let userCounter = 0;
 
@@ -30,7 +29,6 @@ export async function createUser({
 	return User.create({
 		email: `${emailPrefix}-${Date.now()}-${userCounter}@example.com`,
 		name,
-		avatarUrl: DEFAULT_AVATAR_URL,
 	});
 }
 

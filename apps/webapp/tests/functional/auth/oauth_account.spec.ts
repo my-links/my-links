@@ -24,7 +24,6 @@ function googleIdentity(email: string): OauthIdentity {
 		isEmailVerified: true,
 		name: 'Ada Lovelace',
 		nickName: 'ada',
-		avatarUrl: null,
 	};
 }
 

@@ -105,7 +105,6 @@ export default class AuthController {
 			isEmailVerified: googleUser.emailVerificationState === 'verified',
 			name: googleUser.name,
 			nickName: googleUser.nickName,
-			avatarUrl: googleUser.avatarUrl,
 		};
 
 		const signedInUser = ctx.auth.user;
