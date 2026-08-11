@@ -41,7 +41,6 @@ function googleIdentity(): OauthIdentity {
 		isEmailVerified: true,
 		name: 'Ada Lovelace',
 		nickName: 'ada',
-		avatarUrl: null,
 	};
 }
 

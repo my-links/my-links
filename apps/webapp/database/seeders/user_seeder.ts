@@ -61,7 +61,6 @@ export default class extends BaseSeeder {
 			{
 				name: 'Admin',
 				nickName: 'admin',
-				avatarUrl: null,
 				isAdmin: true,
 				emailVerifiedAt: DateTime.now(),
 			}
@@ -81,7 +80,6 @@ export default class extends BaseSeeder {
 			{
 				name: 'User',
 				nickName: 'user',
-				avatarUrl: null,
 				isAdmin: false,
 				emailVerifiedAt: DateTime.now(),
 			}
@@ -101,7 +99,6 @@ export function createRandomUser() {
 		email: faker.internet.email().toLowerCase(),
 		name: faker.internet.username(),
 		nickName: faker.internet.displayName(),
-		avatarUrl: faker.image.avatar(),
 		isAdmin: false,
 		emailVerifiedAt: DateTime.now(),
 	};
