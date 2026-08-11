@@ -25,7 +25,7 @@ export function AdminTabs() {
 		clsx(TAB_CLASS, component === page ? ACTIVE_TAB_CLASS : INACTIVE_TAB_CLASS);
 
 	return (
-		<nav className="flex items-center gap-2 overflow-x-auto border-b border-gray-200 dark:border-gray-700 mb-6">
+		<nav className="flex items-center gap-2 overflow-x-auto overflow-y-hidden border-b border-gray-200 dark:border-gray-700 mb-6">
 			<Link
 				route="admin.dashboard"
 				className={clsx(tabClassFor(ACCOUNTS_PAGE), 'whitespace-nowrap')}
