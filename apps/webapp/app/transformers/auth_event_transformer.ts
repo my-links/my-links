@@ -16,9 +16,7 @@ export default class AuthEventTransformer extends BaseTransformer<AuditEvent> {
 		return {
 			...this.pick(this.resource, ['id', 'type', 'ip', 'userAgent']),
 			fullname: this.resource.user?.fullname ?? null,
-			avatarUrl: this.resource.user?.avatarUrl ?? null,
 			actorFullname: this.resource.actor?.fullname ?? null,
-			actorAvatarUrl: this.resource.actor?.avatarUrl ?? null,
 			createdAt: this.resource.createdAt?.toString(),
 		};
 	}

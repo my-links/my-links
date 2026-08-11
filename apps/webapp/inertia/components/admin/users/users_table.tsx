@@ -163,12 +163,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						sortKey: 'fullname',
 						cellClassName:
 							'px-6 py-4 text-sm font-medium text-gray-900 dark:text-white',
-						render: (user) => (
-							<UserIdentity
-								fullname={user.fullname}
-								avatarUrl={user.avatarUrl}
-							/>
-						),
+						render: (user) => <UserIdentity fullname={user.fullname} />,
 					},
 					{
 						key: 'role',

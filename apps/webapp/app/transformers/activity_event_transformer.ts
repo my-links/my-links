@@ -22,9 +22,7 @@ export default class ActivityEventTransformer extends BaseTransformer<AuditEvent
 				'userAgent',
 			]),
 			fullname: this.resource.user?.fullname ?? null,
-			avatarUrl: this.resource.user?.avatarUrl ?? null,
 			actorFullname: this.resource.actor?.fullname ?? null,
-			actorAvatarUrl: this.resource.actor?.avatarUrl ?? null,
 			createdAt: this.resource.createdAt?.toString(),
 		};
 	}
