@@ -6,6 +6,7 @@ import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
 
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 interface CollectionInboxItemProps {
 	collection: Data.Collection;
@@ -27,12 +28,21 @@ export function CollectionInboxItem({
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const isMobile = useIsMobile();
 	const isActive = collection.id === props.activeCollection?.id;
+	const setSidebarOpen = useDashboardLayoutStore(
+		(state) => state.setSidebarOpen
+	);
 
 	const { setNodeRef } = useDroppable({
 		id: collection.id,
 		disabled: isMobile,
 		data: { kind: 'inbox', collectionId: collection.id },
 	});
+
+	const handleClick = () => {
+		if (isMobile) {
+			setSidebarOpen(false);
+		}
+	};
 
 	return (
 		<div ref={setNodeRef}>
@@ -48,6 +58,7 @@ export function CollectionInboxItem({
 						'bg-blue-100/50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
 				)}
 				title={collection.name}
+				onClick={handleClick}
 			>
 				<div className="w-5 h-5 flex-shrink-0 i-ant-design-inbox-outlined" />
 				<span className="truncate flex-1">{collection.name}</span>

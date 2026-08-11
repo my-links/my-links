@@ -9,7 +9,9 @@ import type {
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
 
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
+import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import {
 	CollectionControls,
 	CollectionControlsRef,
@@ -36,6 +38,10 @@ export function CollectionItem({
 	const activeCollection = props.activeCollection;
 	const isActive = collection.id === activeCollection?.id;
 	const collectionControlsRef = useRef<CollectionControlsRef>(null);
+	const isMobile = useIsMobile();
+	const setSidebarOpen = useDashboardLayoutStore(
+		(state) => state.setSidebarOpen
+	);
 
 	const handleContextMenu = (e: MouseEvent) => {
 		e.preventDefault();
@@ -45,6 +51,10 @@ export function CollectionItem({
 	const handleClick = (e: MouseEvent) => {
 		if (shouldSuppressClick()) {
 			e.preventDefault();
+			return;
+		}
+		if (isMobile) {
+			setSidebarOpen(false);
 		}
 	};
 
