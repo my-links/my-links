@@ -1,27 +1,6 @@
 import { useFlashMessages } from '~/hooks/use_flash_messages';
-
-const TONE_CLASSNAMES = {
-	error:
-		'bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-900 text-red-700 dark:text-red-300',
-	success:
-		'bg-green-50 dark:bg-green-950/40 border-green-200 dark:border-green-900 text-green-700 dark:text-green-300',
-} as const;
-
-type FlashMessageProps = {
-	readonly tone: keyof typeof TONE_CLASSNAMES;
-	readonly message: string;
-};
-
-function FlashMessage({ tone, message }: Readonly<FlashMessageProps>) {
-	return (
-		<p
-			role={tone === 'error' ? 'alert' : 'status'}
-			className={`rounded-lg border px-4 py-3 text-sm shadow-sm ${TONE_CLASSNAMES[tone]}`}
-		>
-			{message}
-		</p>
-	);
-}
+import { FlashMessage } from '~/components/common/flash_message';
+import { useDismissibleFlashMessage } from '~/hooks/use_dismissible_flash_message';
 
 /**
  * Renders whatever the server flashed for this request. Refusals raised as
@@ -31,15 +10,29 @@ function FlashMessage({ tone, message }: Readonly<FlashMessageProps>) {
  */
 export function FlashMessages() {
 	const { error, success } = useFlashMessages();
+	const errorMessage = useDismissibleFlashMessage(error);
+	const successMessage = useDismissibleFlashMessage(success);
 
-	if (!error && !success) {
+	if (!errorMessage.visibleMessage && !successMessage.visibleMessage) {
 		return null;
 	}
 
 	return (
 		<div className="fixed inset-x-0 top-4 z-50 mx-auto flex w-full max-w-md flex-col gap-2 px-4">
-			{error && <FlashMessage tone="error" message={error} />}
-			{success && <FlashMessage tone="success" message={success} />}
+			{errorMessage.visibleMessage && (
+				<FlashMessage
+					tone="error"
+					message={errorMessage.visibleMessage}
+					onDismiss={errorMessage.dismiss}
+				/>
+			)}
+			{successMessage.visibleMessage && (
+				<FlashMessage
+					tone="success"
+					message={successMessage.visibleMessage}
+					onDismiss={successMessage.dismiss}
+				/>
+			)}
 		</div>
 	);
 }
