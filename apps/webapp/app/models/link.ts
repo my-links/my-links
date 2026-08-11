@@ -1,30 +1,11 @@
-import type { DateTime } from 'luxon';
 import { belongsTo, column, manyToMany } from '@adonisjs/lucid/orm';
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
 import User from '#models/user';
 import Collection from '#models/collection';
-import AppBaseModel from '#models/app_base_model';
+import { LinkSchema } from '#database/schema';
 
-export default class Link extends AppBaseModel {
-	@column()
-	declare name: string;
-
-	@column()
-	declare description: string | null;
-
-	@column()
-	declare url: string;
-
-	@column()
-	declare favorite: boolean;
-
-	@column()
-	declare clicks: number;
-
-	@column.dateTime()
-	declare lastClickedAt: DateTime | null;
-
+export default class Link extends LinkSchema {
 	@manyToMany(() => Collection, {
 		pivotTable: 'collection_link',
 		localKey: 'id',

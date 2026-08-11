@@ -1,8 +1,6 @@
-import { DateTime } from 'luxon';
 import crypto from 'node:crypto';
 import encryption from '@adonisjs/core/services/encryption';
 import {
-	BaseModel,
 	beforeCreate,
 	CamelCaseNamingStrategy,
 	column,
@@ -10,27 +8,14 @@ import {
 } from '@adonisjs/lucid/orm';
 
 import type { SessionData } from '#types/session';
+import { UserSessionSchema } from '#database/schema';
 
-export default class UserSession extends BaseModel {
-	static readonly table = 'user_sessions';
+export default class UserSession extends UserSessionSchema {
 	static readonly namingStrategy = new CamelCaseNamingStrategy();
 	static readonly selfAssignPrimaryKey = true;
 
-	@column({ isPrimary: true })
-	declare id: string;
-
-	@column()
-	declare data: string;
-	// In database, the data is serialized as a signed JSON string
-
 	@column()
 	declare userId: string;
-
-	@column.dateTime({ autoCreate: true })
-	declare createdAt: DateTime;
-
-	@column.dateTime()
-	declare expiresAt: DateTime;
 
 	@computed()
 	get publicId() {
@@ -46,6 +31,7 @@ export default class UserSession extends BaseModel {
 
 	@computed()
 	get client(): SessionData | null {
+		// In database, the data is serialized as a signed JSON string
 		const parsed = JSON.parse(this.data) as {
 			message?: { client?: SessionData };
 		};
