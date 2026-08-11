@@ -622,16 +622,16 @@ export interface components {
 		CreateCollectionExecuteResponse: {
 			collection: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
 				description: string | null;
+				followersCount?: number;
 				icon: string | null;
 				id: number;
 				isDefault: boolean;
@@ -646,13 +646,13 @@ export interface components {
 					id: number;
 					lastClickedAt: string | null;
 					name: string;
-					updatedAt: string;
+					updatedAt?: string;
 					url: string;
 				}[];
 				linksCount?: number;
 				name: string;
 				position: number;
-				updatedAt: string;
+				updatedAt?: string;
 				visibility: components['schemas']['Visibility'];
 			};
 			message: string;
@@ -673,12 +673,11 @@ export interface components {
 		CreateLinkExecuteResponse: {
 			link: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				clicks: number;
@@ -689,7 +688,7 @@ export interface components {
 				id: number;
 				lastClickedAt: string | null;
 				name: string;
-				updatedAt: string;
+				updatedAt?: string;
 				url: string;
 			};
 			message: string;
@@ -703,16 +702,16 @@ export interface components {
 		GetCollectionsRenderResponse: {
 			data: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
 				description: string | null;
+				followersCount?: number;
 				icon: string | null;
 				id: number;
 				isDefault: boolean;
@@ -727,27 +726,27 @@ export interface components {
 					id: number;
 					lastClickedAt: string | null;
 					name: string;
-					updatedAt: string;
+					updatedAt?: string;
 					url: string;
 				}[];
 				linksCount?: number;
 				name: string;
 				position: number;
-				updatedAt: string;
+				updatedAt?: string;
 				visibility: components['schemas']['Visibility'];
 			}[];
 			followedCollections: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
 				description: string | null;
+				followersCount?: number;
 				icon: string | null;
 				id: number;
 				isDefault: boolean;
@@ -761,24 +760,23 @@ export interface components {
 					id: number;
 					lastClickedAt: string | null;
 					name: string;
-					updatedAt: string;
+					updatedAt?: string;
 					url: string;
 				}[];
 				linksCount?: number;
 				name: string;
-				updatedAt: string;
+				updatedAt?: string;
 				visibility: components['schemas']['Visibility'];
 			}[];
 		};
 		GetFavoriteLinksRenderResponse: {
 			data: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				clicks: number;
@@ -789,7 +787,7 @@ export interface components {
 				id: number;
 				lastClickedAt: string | null;
 				name: string;
-				updatedAt: string;
+				updatedAt?: string;
 				url: string;
 			}[];
 		};
@@ -831,23 +829,23 @@ export interface components {
 		SyncRenderResponse: {
 			collections: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
 				description: string | null;
+				followersCount?: number;
 				icon: string | null;
 				id: number;
 				isDefault: boolean;
 				isOwner: boolean;
 				linksCount?: number;
 				name: string;
-				updatedAt: string;
+				updatedAt?: string;
 				visibility: components['schemas']['Visibility'];
 			}[];
 			deletedCollectionIds: number[];
@@ -855,12 +853,11 @@ export interface components {
 			isFullSync: boolean;
 			links: {
 				author?: {
-					avatarUrl: string | null;
 					createdAt: string;
 					fullname: string;
 					id: number;
 					isAdmin: boolean;
-					updatedAt: string;
+					updatedAt?: string;
 				};
 				authorId: number;
 				clicks: number;
@@ -871,7 +868,7 @@ export interface components {
 				id: number;
 				lastClickedAt: string | null;
 				name: string;
-				updatedAt: string;
+				updatedAt?: string;
 				url: string;
 			}[];
 			syncedAt: string;
