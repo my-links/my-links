@@ -56,9 +56,9 @@ export class CollectionService {
 				});
 			})
 			.preload('links', (q) => {
-				q.orderBy('collection_link.position', 'asc')
-					.orderBy('links.name', 'asc')
-					.preload('collections');
+				q.apply((scopes) => scopes.orderedInCollection()).preload(
+					'collections'
+				);
 			})
 			.preload('author')
 			.withCount('followers', (query) => {
@@ -88,9 +88,9 @@ export class CollectionService {
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc')
 			.preload('links', (q) => {
-				q.orderBy('collection_link.position', 'asc')
-					.orderBy('links.name', 'asc')
-					.preload('collections');
+				q.apply((scopes) => scopes.orderedInCollection()).preload(
+					'collections'
+				);
 			});
 	}
 
@@ -281,9 +281,9 @@ export class CollectionService {
 			.where('id', id)
 			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.preload('links', (q) => {
-				q.orderBy('collection_link.position', 'asc')
-					.orderBy('links.name', 'asc')
-					.preload('collections');
+				q.apply((scopes) => scopes.orderedInCollection()).preload(
+					'collections'
+				);
 			})
 			.preload('author')
 			.withCount('followers', (query) => {
@@ -358,10 +358,7 @@ export class CollectionService {
 			.andWhere('collections.visibility', VISIBILITY.PUBLIC)
 			.preload('author')
 			.preload('links', (q) => {
-				q.orderBy('collection_link.position', 'asc').orderBy(
-					'links.name',
-					'asc'
-				);
+				q.apply((scopes) => scopes.orderedInCollection());
 			})
 			.orderBy('collection_followers.position', 'asc')
 			.orderBy('collections.name', 'asc');
