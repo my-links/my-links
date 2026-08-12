@@ -1,8 +1,8 @@
 import type { Data } from '@generated/data';
 
 import { urlFor } from '~/lib/tuyau';
-import type { Visibility } from '~/types/visibility';
 import { useOptimisticOrder } from './use_optimistic_order';
+import type { Visibility } from '~/components/dashboard/forms/form_collection_content';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

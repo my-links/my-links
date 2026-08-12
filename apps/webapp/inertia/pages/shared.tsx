@@ -5,7 +5,7 @@ import { Trans } from '@lingui/react/macro';
 import { Head, router } from '@inertiajs/react';
 
 import { useAuth } from '~/hooks/use_auth';
-import { InertiaProps } from '~/types/inertia';
+import { InertiaProps } from '~/lib/inertia_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { FilterList } from '~/components/common/filter_list';
 import { SharedLinkList } from '~/components/shared/link_list';

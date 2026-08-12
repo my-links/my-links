@@ -5,9 +5,3 @@ import { type JSONDataTypes } from '@adonisjs/core/types/transformers';
 export type InertiaProps<T extends JSONDataTypes = {}> = PropsWithChildren<
 	Data.SharedProps & T
 >;
-
-export type InertiaSuccessDetail = {
-	page?: { url?: string };
-};
-
-export type InertiaSuccessEvent = CustomEvent<InertiaSuccessDetail>;

@@ -5,7 +5,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { InertiaProps } from '~/types/inertia';
+import { InertiaProps } from '~/lib/inertia_props';
 import SmallContentLayout from '~/layouts/small_content';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { usePasswordRecovery } from '~/hooks/use_password_recovery';

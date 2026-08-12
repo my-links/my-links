@@ -1,7 +1,8 @@
 import { i18n } from '@lingui/core';
 
-import type { Locale } from '~/types/i18n';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/consts/i18n';
+
+export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 /**
  * We do a dynamic import of just the catalog that we need

@@ -2,9 +2,8 @@ import ReactDOMServer from 'react-dom/server';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 
-import { Locale } from '~/types/i18n';
-import { dynamicActivate } from '~/i18n';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
+import { dynamicActivate, type Locale } from '~/i18n';
 import { DefaultLayout } from '~/layouts/default_layout';
 
 export default async function render(page: any) {

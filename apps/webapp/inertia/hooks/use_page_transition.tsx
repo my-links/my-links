@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 
-import { InertiaSuccessEvent } from '~/types/inertia';
 import {
 	getCurrentPathAndSearch,
 	getUrlPathname,
@@ -8,6 +7,12 @@ import {
 } from '~/lib/navigation';
 
 const PAGE_TRANSITION_CLASS = 'page-transition-enter';
+
+type InertiaSuccessDetail = {
+	page?: { url?: string };
+};
+
+type InertiaSuccessEvent = CustomEvent<InertiaSuccessDetail>;
 
 type Pattern = string | RegExp;
 

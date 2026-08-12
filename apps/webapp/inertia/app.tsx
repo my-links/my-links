@@ -3,10 +3,9 @@ import { createInertiaApp } from '@inertiajs/react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 
-import type { Locale } from '~/types/i18n';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
-import { dynamicActivate } from './i18n/index';
 import { PROJECT_NAME } from '~/consts/project';
+import { dynamicActivate, type Locale } from '~/i18n';
 import { DefaultLayout } from '~/layouts/default_layout';
 
 void createInertiaApp({

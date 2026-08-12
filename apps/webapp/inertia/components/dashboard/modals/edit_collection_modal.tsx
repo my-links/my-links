@@ -5,9 +5,11 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
-import { FormCollectionData } from '~/types/collection_form';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
+import {
+	FormCollectionContent,
+	type FormCollectionData,
+} from '~/components/dashboard/forms/form_collection_content';
 
 interface EditCollectionModalProps {
 	onClose: () => void;

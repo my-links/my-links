@@ -4,8 +4,10 @@ import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
-import { FormCollectionData } from '~/types/collection_form';
-import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
+import {
+	FormCollectionContent,
+	type FormCollectionData,
+} from '~/components/dashboard/forms/form_collection_content';
 
 interface CreateCollectionModalProps {
 	onClose: () => void;
