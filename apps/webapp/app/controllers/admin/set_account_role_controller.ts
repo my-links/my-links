@@ -4,11 +4,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 import type User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
-import { resolveRequestOrigin } from '#lib/request_origin';
 import { ACCOUNT_ROLE, type AccountRole } from '#constants/account';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { accountRoleValidator } from '#validators/admin/account_role_validator';
-import { accountTargetValidator } from '#validators/admin/account_target_validator';
+import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
+import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
 
 export const ROLE_CHANGED_MESSAGES = {
 	[ACCOUNT_ROLE.ADMINISTRATOR]: 'That account is now an administrator',
@@ -30,23 +30,21 @@ export default class SetAccountRoleController {
 	) {}
 
 	async execute(ctx: HttpContext) {
-		const { id } = await ctx.request.validateUsing(accountTargetValidator, {
-			data: ctx.params,
-		});
+		const { account, administrator } = await resolveAdminActionTarget(
+			ctx,
+			this.userService
+		);
 		const { role } = await ctx.request.validateUsing(accountRoleValidator);
-		const administrator = ctx.auth.getUserOrFail();
-		const account = await this.userService.findAccountOrFail(id);
 
 		await this.applyRole(account, role);
 
-		await this.authEventService.recordAdminAction({
+		await recordAdminAction(ctx, this.authEventService, {
 			type:
 				role === ACCOUNT_ROLE.ADMINISTRATOR
 					? AUTH_EVENT_TYPE.ROLE_PROMOTED
 					: AUTH_EVENT_TYPE.ROLE_DEMOTED,
-			userId: account.id,
-			actorId: administrator.id,
-			...resolveRequestOrigin(ctx),
+			account,
+			administrator,
 		});
 
 		ctx.session.flash('success', ROLE_CHANGED_MESSAGES[role]);

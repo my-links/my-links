@@ -3,10 +3,10 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
-import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { AccountAccessService } from '#services/auth/account_access_service';
-import { accountTargetValidator } from '#validators/admin/account_target_validator';
+import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
+import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
 
 export const ACCESS_REVOKED_MESSAGE =
 	'Every session and extension token of that account has been revoked';
@@ -27,19 +27,17 @@ export default class RevokeAccountAccessController {
 	) {}
 
 	async execute(ctx: HttpContext) {
-		const { id } = await ctx.request.validateUsing(accountTargetValidator, {
-			data: ctx.params,
-		});
-		const administrator = ctx.auth.getUserOrFail();
-		const account = await this.userService.findAccountOrFail(id);
+		const { account, administrator } = await resolveAdminActionTarget(
+			ctx,
+			this.userService
+		);
 
 		await this.accountAccessService.revokeAllExcept(account, null);
 
-		await this.authEventService.recordAdminAction({
+		await recordAdminAction(ctx, this.authEventService, {
 			type: AUTH_EVENT_TYPE.ACCESS_REVOKED,
-			userId: account.id,
-			actorId: administrator.id,
-			...resolveRequestOrigin(ctx),
+			account,
+			administrator,
 		});
 
 		ctx.session.flash('success', ACCESS_REVOKED_MESSAGE);

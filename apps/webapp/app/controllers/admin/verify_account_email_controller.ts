@@ -3,10 +3,10 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
-import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { accountTargetValidator } from '#validators/admin/account_target_validator';
+import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
+import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
 
 export const EMAIL_MARKED_VERIFIED_MESSAGE = 'That address is now confirmed';
 export const EMAIL_ALREADY_VERIFIED_MESSAGE =
@@ -26,11 +26,10 @@ export default class VerifyAccountEmailController {
 	) {}
 
 	async execute(ctx: HttpContext) {
-		const { id } = await ctx.request.validateUsing(accountTargetValidator, {
-			data: ctx.params,
-		});
-		const administrator = ctx.auth.getUserOrFail();
-		const account = await this.userService.findAccountOrFail(id);
+		const { account, administrator } = await resolveAdminActionTarget(
+			ctx,
+			this.userService
+		);
 
 		const wasConfirmed =
 			await this.emailVerificationService.markVerified(account);
@@ -40,11 +39,10 @@ export default class VerifyAccountEmailController {
 			return ctx.response.redirect().back();
 		}
 
-		await this.authEventService.recordAdminAction({
+		await recordAdminAction(ctx, this.authEventService, {
 			type: AUTH_EVENT_TYPE.EMAIL_VERIFIED,
-			userId: account.id,
-			actorId: administrator.id,
-			...resolveRequestOrigin(ctx),
+			account,
+			administrator,
 		});
 
 		ctx.session.flash('success', EMAIL_MARKED_VERIFIED_MESSAGE);

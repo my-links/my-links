@@ -4,10 +4,10 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
 import { MailService } from '#services/mail/mail_service';
-import { resolveRequestOrigin } from '#lib/request_origin';
 import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { accountTargetValidator } from '#validators/admin/account_target_validator';
+import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
+import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
 import PasswordResetUnavailableException from '#exceptions/auth/password_reset_unavailable_exception';
 
 export const PASSWORD_RESET_SENT_MESSAGE = 'A reset link is on its way';
@@ -35,19 +35,17 @@ export default class SendAccountPasswordResetController {
 			throw new PasswordResetUnavailableException();
 		}
 
-		const { id } = await ctx.request.validateUsing(accountTargetValidator, {
-			data: ctx.params,
-		});
-		const administrator = ctx.auth.getUserOrFail();
-		const account = await this.userService.findAccountOrFail(id);
+		const { account, administrator } = await resolveAdminActionTarget(
+			ctx,
+			this.userService
+		);
 
 		await this.passwordService.mailResetLink(account);
 
-		await this.authEventService.recordAdminAction({
+		await recordAdminAction(ctx, this.authEventService, {
 			type: AUTH_EVENT_TYPE.PASSWORD_RESET_REQUESTED,
-			userId: account.id,
-			actorId: administrator.id,
-			...resolveRequestOrigin(ctx),
+			account,
+			administrator,
 		});
 
 		ctx.session.flash('success', PASSWORD_RESET_SENT_MESSAGE);
