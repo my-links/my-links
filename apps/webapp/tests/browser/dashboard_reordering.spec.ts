@@ -4,7 +4,7 @@ import type { Locator, Page, Response } from 'playwright';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import {
@@ -149,12 +149,12 @@ test.group('Dashboard reordering (browser)', (group) => {
 		const first = await createCollection({
 			author: user,
 			name: 'Alpha Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const second = await createCollection({
 			author: user,
 			name: 'Bravo Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 
 		const page = await visit(LOGIN_PATH);
@@ -178,7 +178,7 @@ test.group('Dashboard reordering (browser)', (group) => {
 		// first render is not part of the reordered section.
 		const ordered = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.andWhere('is_default', false)
 			.orderBy('position', 'asc');
 
@@ -199,12 +199,12 @@ test.group('Dashboard reordering (browser)', (group) => {
 		const source = await createCollection({
 			author: user,
 			name: 'Source Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const target = await createCollection({
 			author: user,
 			name: 'Target Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const link = await createLink({
 			author: user,
@@ -255,7 +255,7 @@ test.group('Dashboard reordering (browser)', (group) => {
 		await createCollection({
 			author: user,
 			name: 'Alpha Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 
 		const page = await visit(LOGIN_PATH);
@@ -286,7 +286,7 @@ test.group('Dashboard reordering (browser)', (group) => {
 		const source = await createCollection({
 			author: user,
 			name: 'Source Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const link = await createLink({
 			author: user,
@@ -335,12 +335,12 @@ test.group('Dashboard reordering (browser)', (group) => {
 		const source = await createCollection({
 			author: user,
 			name: 'Source Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const target = await createCollection({
 			author: user,
 			name: 'Target Collection',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const link = await createLink({
 			author: user,
@@ -393,12 +393,12 @@ test.group('Dashboard reordering (browser)', (group) => {
 		await createCollection({
 			author: user,
 			name: 'Owned Public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const followed = await createCollection({
 			author: owner,
 			name: 'Followed Public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		await followCollection(followed, user);
 

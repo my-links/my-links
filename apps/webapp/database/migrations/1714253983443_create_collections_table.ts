@@ -1,6 +1,6 @@
 import { BaseSchema } from '@adonisjs/lucid/schema';
 
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { defaultTableFields } from '#database/default_table_fields';
 
 export default class CreateCollectionTable extends BaseSchema {
@@ -20,13 +20,13 @@ export default class CreateCollectionTable extends BaseSchema {
 			table.string('name', 254).notNullable();
 			table.string('description', 254).nullable();
 			table
-				.enum('visibility', Object.values(Visibility), {
+				.enum('visibility', Object.values(VISIBILITY), {
 					useNative: true,
 					enumName: this.visibilityEnumName,
 					existingType: false,
 				})
 				.nullable()
-				.defaultTo(Visibility.PRIVATE);
+				.defaultTo(VISIBILITY.PRIVATE);
 			table
 				.integer('next_id')
 				.references('id')

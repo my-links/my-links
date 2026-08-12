@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { createCollection } from '#tests/factories/collection_factory';
 
@@ -26,7 +26,7 @@ test.group('Follow collection', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'Own public collection',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		const response = await client
@@ -48,7 +48,7 @@ test.group('Follow collection', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'Public collection',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		await client

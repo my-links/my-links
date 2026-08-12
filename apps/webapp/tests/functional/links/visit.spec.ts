@@ -4,8 +4,8 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
+import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 
 function assertNotNull<TValue>(
 	value: TValue
@@ -40,7 +40,7 @@ test.group('Link visit redirect', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const link = await createLinkIn(user, Visibility.PRIVATE);
+		const link = await createLinkIn(user, VISIBILITY.PRIVATE);
 
 		const response = await client
 			.get(`/l/${link.id}`)
@@ -60,7 +60,7 @@ test.group('Link visit redirect', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const link = await createLinkIn(user, Visibility.PRIVATE);
+		const link = await createLinkIn(user, VISIBILITY.PRIVATE);
 		assertNotNull(link.updatedAt);
 		const updatedAtBeforeVisit = link.updatedAt.toMillis();
 
@@ -76,7 +76,7 @@ test.group('Link visit redirect', (group) => {
 		assert,
 	}) => {
 		const user = await createUser();
-		const link = await createLinkIn(user, Visibility.PUBLIC);
+		const link = await createLinkIn(user, VISIBILITY.PUBLIC);
 
 		const response = await client.get(`/l/${link.id}`).redirects(0);
 
@@ -91,7 +91,7 @@ test.group('Link visit redirect', (group) => {
 	}) => {
 		const owner = await createUser();
 		const stranger = await createUser();
-		const link = await createLinkIn(owner, Visibility.PRIVATE);
+		const link = await createLinkIn(owner, VISIBILITY.PRIVATE);
 
 		const response = await client
 			.get(`/l/${link.id}`)

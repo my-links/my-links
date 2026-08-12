@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/react/macro';
 
-import { Visibility } from '~/types/visibility';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
 import { FilterList } from '~/components/common/filter_list';
@@ -16,7 +15,7 @@ export function CollectionViewContent() {
 	const { activeCollectionLinks } = useDashboardDndCollections();
 	const links = activeCollection?.links ?? [];
 	const isOwner = activeCollection?.isOwner !== false;
-	const isPublic = activeCollection?.visibility === Visibility.PUBLIC;
+	const isPublic = activeCollection?.visibility === 'PUBLIC';
 	const followersCount = activeCollection?.followersCount ?? 0;
 	const hasLinksMeta = links.length > 0;
 	const hasFollowersMeta = isPublic && followersCount > 0;

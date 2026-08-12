@@ -9,8 +9,8 @@ import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { Visibility } from '#enums/collections/visibility';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
+import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
@@ -49,7 +49,7 @@ export class CollectionService {
 			.where((query) => {
 				query.where('author_id', userId).orWhere((subQuery) => {
 					subQuery
-						.where('visibility', Visibility.PUBLIC)
+						.where('visibility', VISIBILITY.PUBLIC)
 						.whereHas('followers', (followerQuery) => {
 							followerQuery.where('users.id', userId);
 						});
@@ -133,7 +133,7 @@ export class CollectionService {
 			.andWhere('author_id', userId)
 			.firstOrFail();
 
-		const wasPublic = collection.visibility === Visibility.PUBLIC;
+		const wasPublic = collection.visibility === VISIBILITY.PUBLIC;
 		const visibilityChanged = collection.visibility !== payload.visibility;
 
 		// The Inbox is pinned outside the ordered sections, and those are built
@@ -141,7 +141,7 @@ export class CollectionService {
 		// reorder of the public section fail as incomplete. Only the sharing
 		// direction is refused: an Inbox made public before this rule existed
 		// has to keep its way back.
-		if (collection.isDefault && payload.visibility === Visibility.PUBLIC) {
+		if (collection.isDefault && payload.visibility === VISIBILITY.PUBLIC) {
 			throw new CannotShareDefaultCollectionException(
 				'The default collection cannot be made public'
 			);
@@ -158,7 +158,7 @@ export class CollectionService {
 
 		await collection.save();
 
-		if (wasPublic && payload.visibility === Visibility.PRIVATE) {
+		if (wasPublic && payload.visibility === VISIBILITY.PRIVATE) {
 			await this.removeAllFollowers(id);
 		}
 
@@ -253,7 +253,7 @@ export class CollectionService {
 			{
 				name: DEFAULT_COLLECTION_NAME,
 				description: null,
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				icon: null,
 				authorId: userId,
 				isDefault: true,
@@ -279,7 +279,7 @@ export class CollectionService {
 	getPublicCollectionById(id: Collection['id']) {
 		return Collection.query()
 			.where('id', id)
-			.andWhere('visibility', Visibility.PUBLIC)
+			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.preload('links', (q) => {
 				q.orderBy('collection_link.position', 'asc')
 					.orderBy('links.name', 'asc')
@@ -296,7 +296,7 @@ export class CollectionService {
 	async getMyPublicCollections(userId: User['id']) {
 		return await Collection.query()
 			.where('author_id', userId)
-			.andWhere('visibility', Visibility.PUBLIC)
+			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.withCount('links', (query) => {
 				query.as('linksCount');
 			})
@@ -311,7 +311,7 @@ export class CollectionService {
 	async getMyPrivateCollections(userId: User['id']) {
 		return await Collection.query()
 			.where('author_id', userId)
-			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.andWhere('is_default', false)
 			.withCount('links', (query) => {
 				query.as('linksCount');
@@ -334,7 +334,7 @@ export class CollectionService {
 				'collections.id'
 			)
 			.where('collection_followers.user_id', userId)
-			.andWhere('collections.visibility', Visibility.PUBLIC)
+			.andWhere('collections.visibility', VISIBILITY.PUBLIC)
 			.preload('author')
 			.orderBy('collection_followers.position', 'asc')
 			.orderBy('collections.name', 'asc');
@@ -355,7 +355,7 @@ export class CollectionService {
 				'collections.id'
 			)
 			.where('collection_followers.user_id', userId)
-			.andWhere('collections.visibility', Visibility.PUBLIC)
+			.andWhere('collections.visibility', VISIBILITY.PUBLIC)
 			.preload('author')
 			.preload('links', (q) => {
 				q.orderBy('collection_link.position', 'asc').orderBy(
@@ -382,7 +382,7 @@ export class CollectionService {
 	async followCollection(collectionId: Collection['id'], userId: User['id']) {
 		const collection = await Collection.query()
 			.where('id', collectionId)
-			.andWhere('visibility', Visibility.PUBLIC)
+			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.firstOrFail();
 
 		if (collection.authorId === userId) {

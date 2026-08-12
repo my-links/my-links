@@ -661,7 +661,8 @@ export interface components {
 			description: string | null;
 			icon?: string | null;
 			name: string;
-			visibility: components['schemas']['Visibility'];
+			/** @enum {string} */
+			visibility: 'PRIVATE' | 'PUBLIC';
 		};
 		CreateLinkApiProps: {
 			collectionIds?: (string | number)[] | null;
@@ -815,7 +816,8 @@ export interface components {
 		};
 		ReorderCollectionsProps: {
 			collectionIds: (string | number)[];
-			visibility: components['schemas']['Visibility'];
+			/** @enum {string} */
+			visibility: 'PRIVATE' | 'PUBLIC';
 		};
 		ReorderFollowedCollectionsExecuteResponse: {
 			message: string;
@@ -880,7 +882,8 @@ export interface components {
 			description: string | null;
 			icon?: string | null;
 			name: string;
-			visibility: components['schemas']['Visibility'];
+			/** @enum {string} */
+			visibility: 'PRIVATE' | 'PUBLIC';
 		};
 		UpdateLinkExecuteResponse: {
 			message: string;

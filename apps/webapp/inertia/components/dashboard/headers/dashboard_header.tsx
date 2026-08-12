@@ -5,7 +5,6 @@ import { Trans } from '@lingui/react/macro';
 import { Button, IconButton } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { Visibility } from '~/types/app';
 import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { Tooltip } from '~/components/common/tooltip';
@@ -83,7 +82,7 @@ export function DashboardHeader({
 						</Tooltip>
 					)}
 
-					{!isMobile && activeCollection?.visibility === Visibility.PUBLIC && (
+					{!isMobile && activeCollection?.visibility === 'PUBLIC' && (
 						<Tooltip
 							content={<Trans>Click to copy link</Trans>}
 							temporaryContent={<Trans>Copied!</Trans>}

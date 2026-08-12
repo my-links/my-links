@@ -4,7 +4,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import type User from '#models/user';
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import {
 	createLink,
@@ -49,7 +49,7 @@ test.group('Inbox backfill', (group) => {
 		await backfillMissingInboxCollections(db.connection());
 
 		const [inbox] = await inboxesOf(user);
-		assert.equal(inbox.visibility, Visibility.PRIVATE);
+		assert.equal(inbox.visibility, VISIBILITY.PRIVATE);
 	});
 
 	test('should leave an account that already has an Inbox untouched', async ({
@@ -83,12 +83,12 @@ test.group('Inbox backfill', (group) => {
 		await db
 			.from('collections')
 			.where('id', inbox.id)
-			.update({ visibility: Visibility.PUBLIC });
+			.update({ visibility: VISIBILITY.PUBLIC });
 
 		await makeInboxesPrivate(db.connection());
 
 		const closed = await Collection.findOrFail(inbox.id);
-		assert.equal(closed.visibility, Visibility.PRIVATE);
+		assert.equal(closed.visibility, VISIBILITY.PRIVATE);
 	});
 
 	test('should drop the followers a shared Inbox had handed out', async ({
@@ -100,7 +100,7 @@ test.group('Inbox backfill', (group) => {
 		await db
 			.from('collections')
 			.where('id', inbox.id)
-			.update({ visibility: Visibility.PUBLIC });
+			.update({ visibility: VISIBILITY.PUBLIC });
 		await followCollection(inbox, follower);
 
 		await makeInboxesPrivate(db.connection());
@@ -118,13 +118,13 @@ test.group('Inbox backfill', (group) => {
 		const shared = await createCollection({
 			author: user,
 			name: 'Shared',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		await makeInboxesPrivate(db.connection());
 
 		const untouched = await Collection.findOrFail(shared.id);
-		assert.equal(untouched.visibility, Visibility.PUBLIC);
+		assert.equal(untouched.visibility, VISIBILITY.PUBLIC);
 	});
 
 	test('should drop an empty Inbox on rollback', async ({ assert }) => {

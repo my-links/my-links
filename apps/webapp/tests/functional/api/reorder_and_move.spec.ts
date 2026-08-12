@@ -3,7 +3,7 @@ import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import {
 	createLink,
@@ -28,7 +28,7 @@ test.group('API reorder owned collections', (group) => {
 		const response = await client
 			.put('/api/v1/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [second.id, first.id],
 			})
 			.withGuard('api')
@@ -38,7 +38,7 @@ test.group('API reorder owned collections', (group) => {
 
 		const ordered = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.orderBy('position', 'asc');
 		assert.deepEqual(
 			ordered.map((collection) => collection.id),
@@ -60,7 +60,7 @@ test.group('API reorder owned collections', (group) => {
 		const response = await client
 			.put('/api/v1/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [own.id, foreign.id],
 			})
 			.withGuard('api')
@@ -79,7 +79,7 @@ test.group('API reorder owned collections', (group) => {
 		const response = await client
 			.put('/api/v1/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [first.id],
 			})
 			.withGuard('api')
@@ -105,12 +105,12 @@ test.group('API reorder followed collections', (group) => {
 		const first = await createCollection({
 			author: owner,
 			name: 'First',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const second = await createCollection({
 			author: owner,
 			name: 'Second',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		for (const collection of [first, second]) {
 			await client
@@ -148,12 +148,12 @@ test.group('API reorder followed collections', (group) => {
 		const followed = await createCollection({
 			author: owner,
 			name: 'Followed',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const notFollowed = await createCollection({
 			author: owner,
 			name: 'Not followed',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		await client
 			.post(`/collections/${followed.id}/follow`)
@@ -231,7 +231,7 @@ test.group('API reorder collection links', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'Shared',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const link = await createLink({ author: owner, name: 'Link' });
 		await attachLinkToCollection(link, collection);

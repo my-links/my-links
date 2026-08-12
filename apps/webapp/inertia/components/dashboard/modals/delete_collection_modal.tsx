@@ -5,7 +5,6 @@ import { Trans } from '@lingui/react/macro';
 import { plural, t } from '@lingui/core/macro';
 
 import { urlFor } from '~/lib/tuyau';
-import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
@@ -29,7 +28,7 @@ export function DeleteCollectionModal({
 			icon: targetCollection?.icon ?? null,
 			name: targetCollection?.name ?? '',
 			description: targetCollection?.description ?? '',
-			visibility: targetCollection?.visibility ?? Visibility.PRIVATE,
+			visibility: targetCollection?.visibility ?? 'PRIVATE',
 		});
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

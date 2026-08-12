@@ -3,7 +3,7 @@ import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { createCollection } from '#tests/factories/collection_factory';
 import {
@@ -44,7 +44,7 @@ test.group('Collection ordering — collections', (group) => {
 			.json({
 				name: 'Second',
 				description: null,
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 			})
 			.withCsrfToken()
 			.loginAs(user)
@@ -52,7 +52,7 @@ test.group('Collection ordering — collections', (group) => {
 
 		const collections = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.orderBy('position', 'asc');
 
 		assert.lengthOf(collections, 2);
@@ -69,12 +69,12 @@ test.group('Collection ordering — collections', (group) => {
 		await createCollection({
 			author: user,
 			name: 'Existing public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const moving = await createCollection({
 			author: user,
 			name: 'Moving',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 
 		await client
@@ -82,7 +82,7 @@ test.group('Collection ordering — collections', (group) => {
 			.json({
 				name: 'Moving',
 				description: null,
-				visibility: Visibility.PUBLIC,
+				visibility: VISIBILITY.PUBLIC,
 			})
 			.withCsrfToken()
 			.loginAs(user)
@@ -91,11 +91,11 @@ test.group('Collection ordering — collections', (group) => {
 		const updated = await Collection.findOrFail(moving.id);
 		const existingPublic = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PUBLIC)
+			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.andWhereNot('id', moving.id)
 			.firstOrFail();
 
-		assert.equal(updated.visibility, Visibility.PUBLIC);
+		assert.equal(updated.visibility, VISIBILITY.PUBLIC);
 		assert.isAbove(updated.position, existingPublic.position);
 	});
 
@@ -108,12 +108,12 @@ test.group('Collection ordering — collections', (group) => {
 		const firstPublic = await createCollection({
 			author: owner,
 			name: 'First public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const secondPublic = await createCollection({
 			author: owner,
 			name: 'Second public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		await client

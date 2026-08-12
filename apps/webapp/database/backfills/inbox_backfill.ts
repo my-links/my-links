@@ -1,6 +1,6 @@
 import type { QueryClientContract } from '@adonisjs/lucid/types/database';
 
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 
 const INBOX_NAME = 'Inbox';
 const INBOX_POSITION = 0;
@@ -28,7 +28,7 @@ export async function backfillMissingInboxCollections(
 		 )`,
 		{
 			name: INBOX_NAME,
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 			position: INBOX_POSITION,
 		}
 	);
@@ -51,7 +51,7 @@ export async function makeInboxesPrivate(
 		 WHERE collection_followers.collection_id = collections.id
 		   AND collections.is_default
 		   AND collections.visibility <> :visibility::collection_visibility`,
-		{ visibility: Visibility.PRIVATE }
+		{ visibility: VISIBILITY.PRIVATE }
 	);
 
 	await client.rawQuery(
@@ -59,7 +59,7 @@ export async function makeInboxesPrivate(
 		 SET visibility = :visibility::collection_visibility, updated_at = NOW()
 		 WHERE is_default
 		   AND visibility <> :visibility::collection_visibility`,
-		{ visibility: Visibility.PRIVATE }
+		{ visibility: VISIBILITY.PRIVATE }
 	);
 }
 

@@ -7,7 +7,7 @@ import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ExportImportService } from '#services/user/export_import_service';
@@ -35,7 +35,7 @@ async function createCollection(user: User, name: string) {
 	return Collection.create({
 		name,
 		description: null,
-		visibility: Visibility.PRIVATE,
+		visibility: VISIBILITY.PRIVATE,
 		icon: null,
 		authorId: user.id,
 	});

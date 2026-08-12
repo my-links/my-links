@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import {
@@ -120,7 +120,7 @@ test.group('Inbox sidebar props', (group) => {
 		const publicCollection = await createCollection({
 			author: user,
 			name: 'Public A',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		const response = await client
