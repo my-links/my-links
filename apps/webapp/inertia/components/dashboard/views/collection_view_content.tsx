@@ -2,9 +2,9 @@ import { Trans } from '@lingui/react/macro';
 
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
+import { LinkList } from '~/components/common/link_list';
 import { FilterList } from '~/components/common/filter_list';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { LinkList } from '~/components/dashboard/links/link_list';
 import { SortableLinkList } from '~/components/dashboard/links/sortable_link_list';
 import { useDashboardDndCollections } from '~/components/dashboard/dnd/dashboard_dnd_provider';
 
@@ -88,7 +88,11 @@ export function CollectionViewContent() {
 					layout={effectiveLayout}
 				/>
 			) : (
-				<LinkList links={links} />
+				<LinkList
+					links={links}
+					layoutStoreKey="dashboard"
+					emptyStateHint={<Trans>Create your first link to get started</Trans>}
+				/>
 			)}
 		</>
 	);

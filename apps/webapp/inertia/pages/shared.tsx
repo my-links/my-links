@@ -7,8 +7,8 @@ import { Head, router } from '@inertiajs/react';
 import { useAuth } from '~/hooks/use_auth';
 import { InertiaProps } from '~/lib/inertia_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { LinkList } from '~/components/common/link_list';
 import { FilterList } from '~/components/common/filter_list';
-import { SharedLinkList } from '~/components/shared/link_list';
 
 type SharedPageProps = InertiaProps<{
 	activeCollection: Data.Collection.Variants['withLinks'];
@@ -115,7 +115,10 @@ export default function SharedPage({
 					{!isMobile && <FilterList layoutStoreKey="shared" />}
 				</div>
 
-				<SharedLinkList links={activeCollection.links ?? []} />
+				<LinkList
+					links={activeCollection.links ?? []}
+					layoutStoreKey="shared"
+				/>
 			</div>
 		</>
 	);
