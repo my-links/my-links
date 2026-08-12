@@ -4,9 +4,9 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { MailService } from '#services/mail/mail_service';
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { emailAddressValidator } from '#validators/auth/email_address_validator';
+import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
 import PasswordResetUnavailableException from '#exceptions/auth/password_reset_unavailable_exception';
 
 /**
@@ -20,7 +20,7 @@ export const PASSWORD_RESET_REQUEST_MESSAGE =
 @inject()
 export default class RequestPasswordResetController {
 	constructor(
-		protected readonly passwordService: PasswordService,
+		protected readonly passwordResetLinkService: PasswordResetLinkService,
 		protected readonly authEventService: AuthEventService,
 		protected readonly mailService: MailService
 	) {}
@@ -36,7 +36,7 @@ export default class RequestPasswordResetController {
 
 		const { email } = await ctx.request.validateUsing(emailAddressValidator);
 
-		await this.passwordService.requestReset(email);
+		await this.passwordResetLinkService.requestReset(email);
 
 		// Journaled without resolving the account, unlike a failed sign-in: the
 		// address is attacker-supplied here, and looking it up to attribute the

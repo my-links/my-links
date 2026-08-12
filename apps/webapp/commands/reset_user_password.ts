@@ -7,6 +7,7 @@ import AccountCommand from '#commands/_account_command';
 import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { newPasswordValidator } from '#validators/auth/new_password_validator';
+import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
 
 export const NEW_PASSWORD_PROMPT = 'New password';
 export const NEW_PASSWORD_CONFIRMATION_PROMPT = 'Confirm the new password';
@@ -27,13 +28,18 @@ export default class ResetUserPassword extends AccountCommand {
 	@inject()
 	async run(
 		passwordService: PasswordService,
-		authEventService: AuthEventService
+		authEventService: AuthEventService,
+		passwordResetLinkService: PasswordResetLinkService
 	): Promise<void> {
 		const account = await this.loadAccount(this.email);
 		if (!account) return;
 
 		if (this.link) {
-			await this.printResetLink(account, passwordService, authEventService);
+			await this.printResetLink(
+				account,
+				passwordResetLinkService,
+				authEventService
+			);
 
 			return;
 		}
@@ -48,11 +54,11 @@ export default class ResetUserPassword extends AccountCommand {
 	 */
 	private async printResetLink(
 		account: User,
-		passwordService: PasswordService,
+		passwordResetLinkService: PasswordResetLinkService,
 		authEventService: AuthEventService
 	): Promise<void> {
 		const { url, expiresInHours } =
-			await passwordService.issueResetLink(account);
+			await passwordResetLinkService.issueResetLink(account);
 
 		await authEventService.recordConsoleAction(
 			AUTH_EVENT_TYPE.PASSWORD_RESET_REQUESTED,
