@@ -82,7 +82,7 @@ export default defineConfig({
 		},
 
 		footer: {
-			message: 'Released under the GPLv3 License.',
+			message: 'Released under the AGPLv3 License.',
 			copyright: 'MyLinks is free and open-source software.',
 		},
 	},

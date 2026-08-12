@@ -2,7 +2,7 @@
 	"name": "my-links-monorepo",
 	"version": "0.0.0",
 	"private": true,
-	"license": "GPL-3.0-only",
+	"license": "AGPL-3.0-only",
 	"type": "module",
 	"scripts": {
 		"dev:webapp": "pnpm --filter @my-links/webapp dev",
