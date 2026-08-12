@@ -1,3 +1,4 @@
+import { toast } from 'sonner';
 import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
 import { Modal, ConfirmModal } from '@minimalstuff/ui';
@@ -59,7 +60,10 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 
 	const handleCopyLink = () => {
 		contextMenu.closeMenu();
-		void navigator.clipboard.writeText(link.url);
+		void navigator.clipboard
+			.writeText(link.url)
+			.then(() => toast.success('Link copied'))
+			.catch(() => toast.error('Could not copy link'));
 	};
 
 	const handleEdit = () => {

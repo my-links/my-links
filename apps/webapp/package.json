@@ -85,6 +85,7 @@
 		"react-dom": "^19.2.8",
 		"react-joyride": "3.1.0",
 		"reflect-metadata": "^0.2.2",
+		"sonner": "^2.0.8",
 		"ua-parser-js": "^2.0.10",
 		"zustand": "^5.0.14"
 	},
