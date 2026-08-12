@@ -1,5 +1,7 @@
 import type { PropsWithChildren } from 'react';
 
+import { cn } from '~/lib/cn';
+
 interface SortableThProps extends PropsWithChildren {
 	reversed: boolean;
 	sorted: boolean;
@@ -28,7 +30,11 @@ export function SortableTh({
 				</span>
 				<div className="w-4 h-4 flex items-center justify-center flex-shrink-0">
 					<i
-						className={`${iconClass} w-4 h-4 block text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors ${sorted ? 'text-blue-600 dark:text-blue-400' : ''}`}
+						className={cn(
+							iconClass,
+							'w-4 h-4 block text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-colors',
+							sorted && 'text-blue-600 dark:text-blue-400'
+						)}
 					/>
 				</div>
 			</button>

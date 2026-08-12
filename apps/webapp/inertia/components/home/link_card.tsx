@@ -1,3 +1,4 @@
+import { cn } from '~/lib/cn';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
 
 interface LinkCardProps {
@@ -16,7 +17,10 @@ export function LinkCard({ url, title, icon }: Readonly<LinkCardProps>) {
 		>
 			{icon ? (
 				<span
-					className={`${icon} w-8 h-8 flex-shrink-0 block transform-gpu text-ink dark:text-ink-dark`}
+					className={cn(
+						icon,
+						'w-8 h-8 flex-shrink-0 block transform-gpu text-ink dark:text-ink-dark'
+					)}
 				/>
 			) : (
 				<LinkFavicon url={url} size={32} />

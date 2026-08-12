@@ -1,3 +1,5 @@
+import { cn } from '~/lib/cn';
+
 interface AuthEventTypeBadgeProps {
 	type: string;
 }
@@ -22,11 +24,12 @@ export const AuthEventTypeBadge = ({
 	type,
 }: Readonly<AuthEventTypeBadgeProps>) => (
 	<span
-		className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-mono ${
+		className={cn(
+			'inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-mono',
 			REFUSAL_MARKERS.some((marker) => type.includes(marker))
 				? REFUSAL_CLASS
 				: NEUTRAL_CLASS
-		}`}
+		)}
 	>
 		{type}
 	</span>

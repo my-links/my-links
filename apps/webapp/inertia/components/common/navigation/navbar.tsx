@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link } from '@adonisjs/inertia/react';
 import { ThemeToggle } from '@minimalstuff/ui';
 
+import { cn } from '~/lib/cn';
 import { useAuth } from '~/hooks/use_auth';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 import { MadeBy } from '~/components/common/navigation/made_by';
@@ -135,18 +136,20 @@ export function Navbar() {
 					aria-expanded={isMobileMenuOpen}
 				>
 					<i
-						className={`${
-							isMobileMenuOpen ? 'i-mdi-close' : 'i-mdi-menu'
-						} h-6 w-6 block`}
+						className={cn(
+							isMobileMenuOpen ? 'i-mdi-close' : 'i-mdi-menu',
+							'h-6 w-6 block'
+						)}
 					/>
 				</button>
 			</div>
 			<div
-				className={`md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-b-lg shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
+				className={cn(
+					'md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-b-lg shadow-lg transition-all duration-300 ease-in-out overflow-hidden',
 					isMobileMenuOpen
 						? 'opacity-100 translate-y-0 max-h-screen'
 						: 'opacity-0 -translate-y-4 max-h-0 pointer-events-none'
-				}`}
+				)}
 			>
 				<div className="py-4 px-4 min-h-[calc(100vh-122px)] flex flex-col">
 					<div className="space-y-4">

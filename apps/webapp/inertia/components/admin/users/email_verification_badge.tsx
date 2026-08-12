@@ -1,5 +1,7 @@
 import { Trans } from '@lingui/react/macro';
 
+import { cn } from '~/lib/cn';
+
 interface EmailVerificationBadgeProps {
 	emailVerifiedAt: string | null;
 }
@@ -18,12 +20,16 @@ export const EmailVerificationBadge = ({
 	emailVerifiedAt,
 }: Readonly<EmailVerificationBadgeProps>) => (
 	<span
-		className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
+		className={cn(
+			'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium',
 			emailVerifiedAt ? CONFIRMED_CLASS : UNCONFIRMED_CLASS
-		}`}
+		)}
 	>
 		<i
-			className={`w-3.5 h-3.5 ${emailVerifiedAt ? 'i-mdi-check-circle' : 'i-mdi-alert-circle'}`}
+			className={cn(
+				'w-3.5 h-3.5',
+				emailVerifiedAt ? 'i-mdi-check-circle' : 'i-mdi-alert-circle'
+			)}
 		/>
 		{emailVerifiedAt ? <Trans>Confirmed</Trans> : <Trans>Unconfirmed</Trans>}
 	</span>

@@ -1,3 +1,4 @@
+import { cn } from '~/lib/cn';
 import { getVariantClass } from '~/lib/color';
 
 interface BadgeProps {
@@ -12,7 +13,11 @@ export const Badge = ({
 	size = 'sm',
 }: Readonly<BadgeProps>) => (
 	<span
-		className={`inline-flex items-center gap-1 px-3 py-1 rounded-md text-${size} ${getVariantClass(variant)}`}
+		className={cn(
+			'inline-flex items-center gap-1 px-3 py-1 rounded-md',
+			`text-${size}`,
+			getVariantClass(variant)
+		)}
 	>
 		{children}
 	</span>
