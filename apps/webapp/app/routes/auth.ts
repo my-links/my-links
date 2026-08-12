@@ -14,6 +14,8 @@ import {
 
 const ROUTES_PREFIX = '/auth';
 
+const guestOnly = middleware.guest({ redirectTo: 'collection.favorites' });
+
 router
 	.group(() => {
 		router.get('/login', [controllers.auth.Login, 'render']).as('auth.login');
@@ -54,7 +56,7 @@ router
 			.as('auth.verification.resend')
 			.use(verificationResendThrottles);
 	})
-	.use(middleware.guest({ redirectTo: 'collection.favorites' }));
+	.use(guestOnly);
 
 // Open to guests and to signed-in users alike: a confirmation link is followed
 // from a mailbox, and whether its owner happens to have a session at that
@@ -104,7 +106,7 @@ router
 	.get('/google', [controllers.auth.Auth, 'google'])
 	.as('auth')
 	.prefix(ROUTES_PREFIX)
-	.use(middleware.guest({ redirectTo: 'collection.favorites' }));
+	.use(guestOnly);
 
 // Deliberately not behind `guest`: this single callback lands both a sign-in
 // and the identity confirmation that a signed-in account without a password
