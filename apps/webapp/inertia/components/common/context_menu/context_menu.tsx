@@ -1,6 +1,7 @@
-import clsx from 'clsx';
 import { createPortal } from 'react-dom';
 import { ReactNode, RefObject } from 'react';
+
+import { cn } from '~/lib/cn';
 
 interface MenuPosition {
 	x: number;
@@ -37,7 +38,7 @@ export const ContextMenu = ({
 			)}
 			<div
 				ref={menuContentRef}
-				className={clsx(
+				className={cn(
 					'min-w-48 w-max max-w-xs bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-lg border border-gray-200/50 dark:border-gray-700/50 z-[999] py-1 transition-opacity duration-200',
 					isVisible ? 'opacity-100' : 'opacity-0'
 				)}

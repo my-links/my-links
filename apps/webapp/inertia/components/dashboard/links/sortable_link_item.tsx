@@ -1,8 +1,8 @@
-import clsx from 'clsx';
 import { CSS } from '@dnd-kit/utilities';
 import type { Data } from '@generated/data';
 import { useSortable } from '@dnd-kit/sortable';
 
+import { cn } from '~/lib/cn';
 import { LinkItem } from './link_item';
 import type { Layout } from '~/stores/layout_store';
 import {
@@ -46,7 +46,7 @@ export function SortableLinkItem({
 		<div
 			ref={setNodeRef}
 			style={style}
-			className={clsx(
+			className={cn(
 				getLinkItemWrapperClassName(layout),
 				'cursor-grab active:cursor-grabbing'
 			)}

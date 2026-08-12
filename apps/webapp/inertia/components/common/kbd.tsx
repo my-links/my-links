@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '~/lib/cn';
 
 interface KbdProps {
 	children: React.ReactNode;
@@ -7,7 +7,7 @@ interface KbdProps {
 
 export const Kbd = ({ children, className }: Readonly<KbdProps>) => (
 	<kbd
-		className={clsx(
+		className={cn(
 			'inline-flex items-center px-2 py-0.5 text-xs font-semibold',
 			'text-gray-500 dark:text-gray-400',
 			'bg-gray-100 dark:bg-gray-700',

@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Link } from '@adonisjs/inertia/react';
@@ -9,6 +8,7 @@ import type {
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
 
+import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
@@ -64,7 +64,7 @@ export function CollectionItem({
 			route="collection.show"
 			routeParams={{ id: collection.id }}
 			preserveScroll
-			className={clsx(
+			className={cn(
 				'relative flex items-center gap-3 px-4 py-2 rounded-md transition-colors group',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
@@ -85,7 +85,7 @@ export function CollectionItem({
 				<div className="w-5 h-5 flex-shrink-0 i-ant-design-inbox-outlined" />
 			) : (
 				<div
-					className={clsx(
+					className={cn(
 						'w-5 h-5 flex-shrink-0',
 						isActive
 							? 'i-ant-design-folder-open-filled'

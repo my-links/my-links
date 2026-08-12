@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
+import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '../dashboard/links/link_item';
@@ -35,7 +35,7 @@ export function SharedLinkList({ links }: Readonly<SharedLinkListProps>) {
 
 	return (
 		<div
-			className={clsx('w-full', getLinkContainerClassName(effectiveLayout))}
+			className={cn('w-full', getLinkContainerClassName(effectiveLayout))}
 			style={getLinkContainerStyle(effectiveLayout)}
 		>
 			{links.map((link) => (

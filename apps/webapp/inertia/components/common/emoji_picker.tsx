@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useRef, useState } from 'react';
 import EmojiPickerReact, {
 	EmojiClickData,
@@ -6,6 +5,7 @@ import EmojiPickerReact, {
 	Theme,
 } from 'emoji-picker-react';
 
+import { cn } from '~/lib/cn';
 import { useClickOutside } from '~/hooks/use_click_outside';
 
 const DEFAULT_EMOJI = '📁';
@@ -41,7 +41,7 @@ export function EmojiPicker({
 				type="button"
 				onClick={() => setShowEmojiPicker(!showEmojiPicker)}
 				disabled={disabled}
-				className={clsx(
+				className={cn(
 					'w-12 h-12 flex items-center justify-center text-2xl border rounded-lg bg-white dark:bg-gray-800 transition-colors',
 					disabled
 						? 'border-gray-300 dark:border-gray-600 cursor-not-allowed'

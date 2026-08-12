@@ -1,9 +1,10 @@
-import clsx from 'clsx';
 import { useState } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
+
+import { cn } from '~/lib/cn';
 
 export type FormLinkData = {
 	name: string;
@@ -129,7 +130,7 @@ export const FormLinkContent = ({
 				<div
 					role="group"
 					aria-labelledby="collections-label"
-					className={clsx(
+					className={cn(
 						'space-y-2 max-h-48 overflow-y-auto rounded-lg border p-3',
 						collectionsError
 							? 'border-red-500 dark:border-red-500'

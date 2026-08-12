@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { cn } from '~/lib/cn';
 
 interface LifecycleSectionProps {
 	verb: string;
@@ -22,7 +22,7 @@ export function LifecycleSection({
 			<div className="flex-shrink-0 w-12 flex flex-col items-center">
 				<div className="w-12 h-12 rounded-lg border border-rule dark:border-rule-dark bg-paper dark:bg-ink flex items-center justify-center">
 					<span
-						className={clsx(icon, 'w-6 h-6 text-brand dark:text-brand-dark')}
+						className={cn(icon, 'w-6 h-6 text-brand dark:text-brand-dark')}
 					/>
 				</div>
 				{!isLast && (

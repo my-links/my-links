@@ -1,8 +1,8 @@
-import clsx from 'clsx';
 import { Trans } from '@lingui/react/macro';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { DragOverlay, useDndContext } from '@dnd-kit/core';
 
+import { cn } from '~/lib/cn';
 import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '~/components/dashboard/links/link_item';
 import { useDashboardDndCollections } from './dashboard_dnd_provider';
@@ -82,7 +82,7 @@ export function DashboardDragOverlay({
 						<LinkItem link={link} layout={layout} hideMenu />
 						{isOverAnotherCollection && (
 							<span
-								className={clsx(
+								className={cn(
 									'absolute -top-2 -right-2 rounded px-1.5 py-0.5 text-xs font-medium shadow',
 									isShiftPressed
 										? 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300'

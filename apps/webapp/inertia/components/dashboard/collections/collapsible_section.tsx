@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
@@ -9,6 +8,7 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { cn } from '~/lib/cn';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { SortableCollectionItem } from './sortable_collection_item';
@@ -74,7 +74,7 @@ export function CollapsibleSection({
 	};
 
 	return (
-		<div className={clsx('mb-2', isEmpty && 'opacity-40')}>
+		<div className={cn('mb-2', isEmpty && 'opacity-40')}>
 			<div
 				ref={menuRef}
 				onContextMenu={handleContextMenu}
@@ -83,7 +83,7 @@ export function CollapsibleSection({
 				<button
 					onClick={() => shouldShowCollapse && toggleSection(section)}
 					disabled={!shouldShowCollapse}
-					className={clsx(
+					className={cn(
 						'flex items-center gap-1.5 flex-1 min-w-0 rounded transition-colors py-2 px-4',
 						shouldShowCollapse ? 'cursor-pointer' : 'cursor-default'
 					)}
@@ -100,7 +100,7 @@ export function CollapsibleSection({
 					</span>
 					{shouldShowCollapse && (
 						<div
-							className={clsx(
+							className={cn(
 								'i-ant-design-caret-down-filled w-3.5 h-3.5 flex-shrink-0 opacity-25 transition-transform text-gray-600 dark:text-gray-400',
 								!isExpanded && 'transform rotate-90'
 							)}
@@ -108,7 +108,7 @@ export function CollapsibleSection({
 					)}
 				</button>
 				<div
-					className={clsx(
+					className={cn(
 						'pointer-events-none absolute inset-y-0 right-0 flex items-center py-1 pl-8 pr-4',
 						'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
 						'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'

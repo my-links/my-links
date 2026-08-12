@@ -1,9 +1,9 @@
-import clsx from 'clsx';
 import { t } from '@lingui/core/macro';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton } from '@minimalstuff/ui';
 
+import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
 import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
@@ -54,7 +54,7 @@ export function DashboardHeader({
 
 	return (
 		<header
-			className={clsx(
+			className={cn(
 				'md:border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
 				!sidebarOpen || isMobile ? 'pl-0' : 'pl-4'
 			)}

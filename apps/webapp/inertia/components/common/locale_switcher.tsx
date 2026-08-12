@@ -1,6 +1,6 @@
-import cx from 'clsx';
 import { useLingui } from '@lingui/react';
 
+import { cn } from '~/lib/cn';
 import { SUPPORTED_LOCALES } from '~/consts/i18n';
 import { dynamicActivate, persistLocale, type Locale } from '~/i18n/index';
 
@@ -28,7 +28,7 @@ export function LocaleSwitcher() {
 				<button
 					key={locale}
 					onClick={() => void handleLocaleChange(locale)}
-					className={cx(
+					className={cn(
 						'px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer flex items-center justify-center',
 						i18n.locale === locale
 							? 'bg-white dark:bg-gray-600 shadow-sm'
@@ -36,7 +36,7 @@ export function LocaleSwitcher() {
 					)}
 					aria-label={`Switch to ${LOCALE_LABELS[locale]}`}
 				>
-					<div className={`${LOCALE_FLAG_CLASSES[locale]} w-5 h-5`} />
+					<div className={cn(LOCALE_FLAG_CLASSES[locale], 'w-5 h-5')} />
 				</button>
 			))}
 		</div>

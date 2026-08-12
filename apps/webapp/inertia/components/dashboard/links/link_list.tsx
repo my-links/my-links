@@ -1,9 +1,9 @@
-import clsx from 'clsx';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { PageProps } from '@adonisjs/inertia/types';
 
+import { cn } from '~/lib/cn';
 import { LinkItem } from './link_item';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
@@ -50,7 +50,7 @@ export function LinkList({ links: linksProp }: Readonly<LinkListProps> = {}) {
 
 	return (
 		<div
-			className={clsx('w-full', getLinkContainerClassName(effectiveLayout))}
+			className={cn('w-full', getLinkContainerClassName(effectiveLayout))}
 			style={getLinkContainerStyle(effectiveLayout)}
 		>
 			{links.map((link) => (

@@ -1,10 +1,10 @@
-import clsx from 'clsx';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
 
+import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
@@ -32,7 +32,7 @@ export function CollectionFavoriteItem() {
 			route="collection.favorites"
 			preserveScroll
 			data-tour="favorites"
-			className={clsx(
+			className={cn(
 				'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
@@ -43,7 +43,7 @@ export function CollectionFavoriteItem() {
 			onClick={handleClick}
 		>
 			<div
-				className={clsx(
+				className={cn(
 					'w-5 h-5 flex-shrink-0',
 					isActive ? 'i-tabler-star-filled' : 'i-tabler-star'
 				)}

@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import type { Data } from '@generated/data';
 import {
 	SortableContext,
@@ -6,6 +5,7 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { cn } from '~/lib/cn';
 import type { Layout } from '~/stores/layout_store';
 import { SortableLinkItem } from './sortable_link_item';
 import {
@@ -30,7 +30,7 @@ export function SortableLinkList({
 	return (
 		<SortableContext items={links.map((link) => link.id)} strategy={strategy}>
 			<div
-				className={clsx('w-full', getLinkContainerClassName(layout))}
+				className={cn('w-full', getLinkContainerClassName(layout))}
 				style={getLinkContainerStyle(layout)}
 			>
 				{links.map((link) => (

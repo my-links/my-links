@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-
+import { cn } from '~/lib/cn';
 import { Layout, useLayoutStore } from '~/stores/layout_store';
 
 const layoutOptions: Array<{
@@ -40,7 +39,7 @@ export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 				<button
 					key={option.value}
 					onClick={() => setLayout(option.value)}
-					className={clsx(
+					className={cn(
 						'cursor-pointer p-2 rounded transition-colors',
 						layout === option.value
 							? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
@@ -49,7 +48,7 @@ export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 					title={option.label}
 					aria-label={option.label}
 				>
-					<div className={clsx(option.icon, 'w-5 h-5')} />
+					<div className={cn(option.icon, 'w-5 h-5')} />
 				</button>
 			))}
 		</div>
