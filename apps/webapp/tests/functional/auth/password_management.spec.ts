@@ -443,7 +443,7 @@ test.group('Password — asking for a reset link', (group) => {
 		assert.lengthOf(outstandingTokens, 1);
 	});
 
-	test('should answer 429 once the burst quota is spent', async ({
+	test('should flash a message and redirect back once the burst quota is spent', async ({
 		client,
 	}) => {
 		const clientAddress = nextClientAddress();
@@ -464,7 +464,7 @@ test.group('Password — asking for a reset link', (group) => {
 		}
 		const response = await attempt();
 
-		response.assertStatus(429);
+		response.assertFlashMessage('error', 'Too many requests');
 	});
 });
 

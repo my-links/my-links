@@ -302,7 +302,7 @@ test.group('Email verification — confirming the address', (group) => {
 test.group('Email verification — throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should answer 429 once the burst quota is spent', async ({
+	test('should flash a message and redirect back once the burst quota is spent', async ({
 		client,
 	}) => {
 		const clientAddress = nextClientAddress();
@@ -321,6 +321,6 @@ test.group('Email verification — throttling', (group) => {
 		}
 		const response = await attempt();
 
-		response.assertStatus(429);
+		response.assertFlashMessage('error', 'Too many requests');
 	});
 });

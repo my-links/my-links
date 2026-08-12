@@ -245,7 +245,7 @@ test.group('Email change — asking for one', (group) => {
 		response.assertHeader('location', SUDO_PATH);
 	});
 
-	test('should answer 429 once the burst quota is spent', async ({
+	test('should flash a message and redirect back once the burst quota is spent', async ({
 		client,
 	}) => {
 		const user = await createUser({ emailPrefix: 'email-change-throttle' });
@@ -269,7 +269,7 @@ test.group('Email change — asking for one', (group) => {
 		}
 		const response = await attempt();
 
-		response.assertStatus(429);
+		response.assertFlashMessage('error', 'Too many requests');
 	});
 });
 
