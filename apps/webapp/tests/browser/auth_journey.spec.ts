@@ -17,6 +17,9 @@ import {
 	extractLinkFromMail,
 } from '#tests/helpers/mailpit';
 
+const SUCCESS_TOAST_SELECTOR = '[data-sonner-toast][data-type="success"]';
+const ERROR_TOAST_SELECTOR = '[data-sonner-toast][data-type="error"]';
+
 const HOME_PATH = '/';
 const LOGIN_PATH = '/login';
 const REGISTER_PATH = '/register';
@@ -106,13 +109,13 @@ test.group('Auth journey (browser)', (group) => {
 		await page.locator('button[type="submit"]').click();
 
 		await page.assertPath(LOGIN_PATH);
-		await page.assertVisible('[role="status"]');
+		await page.assertVisible(SUCCESS_TOAST_SELECTOR);
 
 		// The phase 8b gate: the right password on an unconfirmed address
 		// still refuses, and says so without pretending it was wrong.
 		await submitCredentials(page, email, VALID_PASSWORD);
 		await page.assertPath(LOGIN_PATH);
-		await page.assertText('[role="alert"]', UNVERIFIED_EMAIL_MESSAGE);
+		await page.assertText(ERROR_TOAST_SELECTOR, UNVERIFIED_EMAIL_MESSAGE);
 
 		// 2. mailpit received the link `mail.sendLater()` queued.
 		const verificationMail = await waitForMailTo(email);
@@ -125,7 +128,7 @@ test.group('Auth journey (browser)', (group) => {
 		// 3. Following it confirms the address.
 		await page.goto(verificationPath);
 		await page.assertPath(LOGIN_PATH);
-		await page.assertText('[role="status"]', CONFIRMED_MESSAGE);
+		await page.assertText(SUCCESS_TOAST_SELECTOR, CONFIRMED_MESSAGE);
 
 		// 4. Sign in, then out, then in again.
 		await submitCredentials(page, email, VALID_PASSWORD);
@@ -154,7 +157,7 @@ test.group('Auth journey (browser)', (group) => {
 		// readable page instead of re-confirming or crashing.
 		await page.goto(verificationPath);
 		await page.assertPath(HOME_PATH);
-		await page.assertText('[role="alert"]', INVALID_LINK_MESSAGE);
+		await page.assertText(ERROR_TOAST_SELECTOR, INVALID_LINK_MESSAGE);
 	});
 
 	test('should refuse an expired verification link onto a readable page', async ({
@@ -173,6 +176,6 @@ test.group('Auth journey (browser)', (group) => {
 		const page = await visit(`${VERIFICATION_PATH_PREFIX}${secret.release()}`);
 
 		await page.assertPath(HOME_PATH);
-		await page.assertText('[role="alert"]', INVALID_LINK_MESSAGE);
+		await page.assertText(ERROR_TOAST_SELECTOR, INVALID_LINK_MESSAGE);
 	});
 });
