@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { Trans } from '@lingui/react/macro';
+import { ConfirmModal } from '@minimalstuff/ui';
 // react-joyride pinned to 3.1.0: 3.2.0 causes an infinite render loop on mount with React 19.2.8.
 import {
 	ACTIONS,
@@ -12,7 +14,6 @@ import {
 import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { TourTooltip } from '~/components/tour/tour_tooltip';
-import { TourWelcomeModal } from '~/components/tour/tour_welcome_modal';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 const steps: Step[] = [
@@ -85,14 +86,29 @@ export function DashboardTour() {
 	} = useTourStore();
 	const isMobile = useIsMobile();
 	const sidebarOpen = useDashboardLayoutStore((state) => state.sidebarOpen);
+	const hasOfferedTourRef = useRef(false);
 
 	const shouldOfferTour = !isMobile && !hasCompletedDashboardTour && !run;
 
+	useEffect(() => {
+		if (hasOfferedTourRef.current || !shouldOfferTour) return;
+		hasOfferedTourRef.current = true;
+
+		void ConfirmModal.call({
+			title: <Trans>Take a quick tour?</Trans>,
+			children: (
+				<Trans>
+					See where your collections, search and the main actions live. It only
+					takes a minute.
+				</Trans>
+			),
+			confirmLabel: <Trans>Start tour</Trans>,
+			cancelLabel: <Trans>Skip</Trans>,
+		}).then((confirmed) => (confirmed ? startTour() : stopTour()));
+	}, [shouldOfferTour, startTour, stopTour]);
+
 	return (
 		<>
-			{shouldOfferTour && (
-				<TourWelcomeModal onStart={startTour} onSkip={stopTour} />
-			)}
 			<Joyride
 				run={!isMobile && sidebarOpen && run}
 				stepIndex={stepIndex}

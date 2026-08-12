@@ -148,7 +148,7 @@ msgstr "Administrateur"
 msgid "Admin Dashboard"
 msgstr "Tableau de bord administrateur"
 
-#: inertia/components/status/global_status.tsx:50
+#: inertia/components/status/global_status.tsx:46
 msgid "All services are operational"
 msgstr "Tous les services sont opérationnels"
 
@@ -357,7 +357,7 @@ msgstr "Copier le lien"
 msgid "Create"
 msgstr "Créer"
 
-#: inertia/components/tour/dashboard_tour.tsx:71
+#: inertia/components/tour/dashboard_tour.tsx:72
 #: inertia/pages/dashboard.tsx:49
 msgid "Create a collection"
 msgstr "Créer une collection"
@@ -403,7 +403,8 @@ msgstr "Créer un jeton"
 msgid "Create your account"
 msgstr "Créez votre compte"
 
-#: inertia/components/dashboard/links/link_list.tsx:43
+#: inertia/components/dashboard/views/collection_view_content.tsx:94
+#: inertia/components/dashboard/views/favorites_view_content.tsx:38
 msgid "Create your first link to get started"
 msgstr "Créez votre premier lien pour commencer"
 
@@ -633,7 +634,7 @@ msgstr "Exportez toutes vos collections et liens, ou importez-les depuis un fich
 msgid "Export everything, any time"
 msgstr "Exportez tout, à tout moment"
 
-#: inertia/components/status/global_status.tsx:44
+#: inertia/components/status/global_status.tsx:41
 #: inertia/lib/health.ts:22
 msgid "Failing"
 msgstr "Défaillant"
@@ -644,7 +645,7 @@ msgid "Favorite"
 msgstr "Favoris"
 
 #: inertia/components/dashboard/views/favorites_view_content.tsx:18
-#: inertia/components/tour/dashboard_tour.tsx:21
+#: inertia/components/tour/dashboard_tour.tsx:22
 #: inertia/pages/dashboard.tsx:112
 msgid "Favorites"
 msgstr "Favoris"
@@ -666,7 +667,7 @@ msgstr "Suivies"
 msgid "Followed Collections"
 msgstr "Collections suivies"
 
-#: inertia/components/tour/dashboard_tour.tsx:44
+#: inertia/components/tour/dashboard_tour.tsx:45
 msgid "Followed, public and private collections live here. Drag a collection to reorder it, or collapse/expand a whole section with the buttons at the top."
 msgstr "Vos collections suivies, publiques et privées sont ici. Faites glisser une collection pour la réordonner, ou repliez/dépliez toute une section avec les boutons en haut."
 
@@ -729,7 +730,7 @@ msgstr "Grille"
 msgid "Group links by project or topic, keep some private and make others public. Your call, per collection."
 msgstr "Regroupez vos liens par projet ou par thème, gardez-en certains privés et rendez d'autres publics. À vous de choisir, collection par collection."
 
-#: inertia/components/tour/dashboard_tour.tsx:72
+#: inertia/components/tour/dashboard_tour.tsx:73
 msgid "Group related links together, public or private."
 msgstr "Regroupez des liens similaires, en public ou en privé."
 
@@ -770,7 +771,7 @@ msgstr "Dans {value, plural, one {# minute} other {# minutes}}"
 msgid "In less than a minute"
 msgstr "Dans moins d'une minute"
 
-#: inertia/components/tour/dashboard_tour.tsx:31
+#: inertia/components/tour/dashboard_tour.tsx:32
 msgid "Inbox"
 msgstr ""
 
@@ -782,7 +783,7 @@ msgstr "IP"
 msgid "Jump straight to a link by name or URL instead of hunting through years of folders."
 msgstr "Accédez directement à un lien par son nom ou son URL, sans fouiller des années de dossiers."
 
-#: inertia/components/tour/dashboard_tour.tsx:55
+#: inertia/components/tour/dashboard_tour.tsx:56
 msgid "Jump to any link across every collection."
 msgstr "Accédez rapidement à n'importe quel lien, toutes collections confondues."
 
@@ -820,7 +821,7 @@ msgstr "Lier"
 msgid "Link filed into another collection."
 msgstr "Lien classé dans une autre collection."
 
-#: inertia/components/tour/dashboard_tour.tsx:60
+#: inertia/components/tour/dashboard_tour.tsx:61
 msgid "Link layout"
 msgstr "Disposition des liens"
 
@@ -852,11 +853,11 @@ msgstr "liens"
 msgid "Links"
 msgstr "Liens"
 
-#: inertia/components/tour/dashboard_tour.tsx:33
+#: inertia/components/tour/dashboard_tour.tsx:34
 msgid "Links saved without picking a collection land here. It's yours by default and always stays pinned."
 msgstr ""
 
-#: inertia/components/tour/dashboard_tour.tsx:23
+#: inertia/components/tour/dashboard_tour.tsx:24
 msgid "Links you star show up here, across every collection."
 msgstr "Les liens que vous avez mis en favori apparaissent ici, toutes collections confondues."
 
@@ -991,8 +992,7 @@ msgstr "Aucune collection sélectionnée. Ce lien ira dans votre Inbox."
 msgid "No collections match your search."
 msgstr "Aucune collection ne correspond à votre recherche."
 
-#: inertia/components/dashboard/links/link_list.tsx:40
-#: inertia/components/shared/link_list.tsx:28
+#: inertia/components/common/link_list.tsx:35
 msgid "No links yet"
 msgstr "Aucun lien pour le moment"
 
@@ -1030,7 +1030,7 @@ msgstr "Plus anciens"
 msgid "Once you delete your account, there is no going back. Please be certain."
 msgstr "Une fois que vous avez supprimé votre compte, il n'y a pas de retour en arrière. Veuillez être certain."
 
-#: inertia/components/status/global_status.tsx:52
+#: inertia/components/status/global_status.tsx:48
 msgid "One or more services are experiencing issues"
 msgstr "Un ou plusieurs services rencontrent des problèmes"
 
@@ -1038,7 +1038,7 @@ msgstr "Un ou plusieurs services rencontrent des problèmes"
 msgid "Only you can see this collection"
 msgstr "Vous seul pouvez voir cette collection"
 
-#: inertia/components/status/global_status.tsx:42
+#: inertia/components/status/global_status.tsx:41
 #: inertia/lib/health.ts:21
 msgid "Operational"
 msgstr "Opérationnel"
@@ -1187,7 +1187,7 @@ msgstr "Hébergez-le vous-même"
 msgid "Save it before the tab closes"
 msgstr "Enregistrez-le avant de fermer l'onglet"
 
-#: inertia/components/tour/dashboard_tour.tsx:54
+#: inertia/components/tour/dashboard_tour.tsx:55
 #: inertia/pages/dashboard.tsx:99
 msgid "Search"
 msgstr "Rechercher"
@@ -1209,7 +1209,7 @@ msgstr "Options de la section"
 msgid "See what's new"
 msgstr "Voir les nouveautés"
 
-#: inertia/components/tour/tour_welcome_modal.tsx:21
+#: inertia/components/tour/dashboard_tour.tsx:98
 msgid "See where your collections, search and the main actions live. It only takes a minute."
 msgstr "Découvrez où se trouvent vos collections, la recherche et les actions principales. Ça ne prend qu'une minute."
 
@@ -1294,7 +1294,7 @@ msgstr "Déconnecter la session"
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
-#: inertia/components/tour/tour_welcome_modal.tsx:28
+#: inertia/components/tour/dashboard_tour.tsx:104
 msgid "Skip"
 msgstr "Ignorer"
 
@@ -1314,7 +1314,7 @@ msgstr "Rassemblez vos liens au même endroit"
 msgid "Start for free"
 msgstr "Commencer gratuitement"
 
-#: inertia/components/tour/tour_welcome_modal.tsx:31
+#: inertia/components/tour/dashboard_tour.tsx:103
 msgid "Start tour"
 msgstr "Démarrer la visite"
 
@@ -1330,7 +1330,7 @@ msgstr "Statut"
 msgid "Subject"
 msgstr "Sujet"
 
-#: inertia/components/tour/dashboard_tour.tsx:62
+#: inertia/components/tour/dashboard_tour.tsx:63
 msgid "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 msgstr "Basculez entre liste, grille, mosaïque et compact. Vous pouvez aussi faire glisser un lien pour le réordonner dans sa collection."
 
@@ -1338,7 +1338,7 @@ msgstr "Basculez entre liste, grille, mosaïque et compact. Vous pouvez aussi fa
 msgid "System Status"
 msgstr "Statut du système"
 
-#: inertia/components/tour/tour_welcome_modal.tsx:18
+#: inertia/components/tour/dashboard_tour.tsx:96
 msgid "Take a quick tour?"
 msgstr "Faire une visite rapide ?"
 
@@ -1550,7 +1550,7 @@ msgstr "vous@exemple.com"
 msgid "Your address still needs confirming. We can send the link again."
 msgstr "Votre adresse doit encore être confirmée. Nous pouvons vous renvoyer le lien."
 
-#: inertia/components/tour/dashboard_tour.tsx:42
+#: inertia/components/tour/dashboard_tour.tsx:43
 msgid "Your collections"
 msgstr "Vos collections"
 
