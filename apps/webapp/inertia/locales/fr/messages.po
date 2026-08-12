@@ -521,7 +521,6 @@ msgid "Disk space"
 msgstr "Espace disque"
 
 #: inertia/components/common/announcement_banner.tsx:54
-#: inertia/components/common/flash_message.tsx:39
 msgid "Dismiss"
 msgstr "Fermer"
 
@@ -1209,7 +1208,7 @@ msgstr "Options de la section"
 msgid "See what's new"
 msgstr "Voir les nouveautés"
 
-#: inertia/components/tour/dashboard_tour.tsx:98
+#: inertia/components/tour/dashboard_tour.tsx:100
 msgid "See where your collections, search and the main actions live. It only takes a minute."
 msgstr "Découvrez où se trouvent vos collections, la recherche et les actions principales. Ça ne prend qu'une minute."
 
@@ -1294,7 +1293,7 @@ msgstr "Déconnecter la session"
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
-#: inertia/components/tour/dashboard_tour.tsx:104
+#: inertia/components/tour/dashboard_tour.tsx:106
 msgid "Skip"
 msgstr "Ignorer"
 
@@ -1314,7 +1313,7 @@ msgstr "Rassemblez vos liens au même endroit"
 msgid "Start for free"
 msgstr "Commencer gratuitement"
 
-#: inertia/components/tour/dashboard_tour.tsx:103
+#: inertia/components/tour/dashboard_tour.tsx:105
 msgid "Start tour"
 msgstr "Démarrer la visite"
 
@@ -1338,7 +1337,7 @@ msgstr "Basculez entre liste, grille, mosaïque et compact. Vous pouvez aussi fa
 msgid "System Status"
 msgstr "Statut du système"
 
-#: inertia/components/tour/dashboard_tour.tsx:96
+#: inertia/components/tour/dashboard_tour.tsx:98
 msgid "Take a quick tour?"
 msgstr "Faire une visite rapide ?"
 

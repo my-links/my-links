@@ -14,8 +14,8 @@ import { tuyauClient } from '~/lib/tuyau';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { dynamicActivate, type Locale } from '~/i18n';
 import { Toaster } from '~/components/common/toaster';
+import { useFlashToast } from '~/hooks/use_flash_toast';
 import { usePageTransition } from '~/hooks/use_page_transition';
-import { FlashMessages } from '~/components/common/flash_messages';
 import { AnnouncementBanner } from '~/components/common/announcement_banner';
 
 interface BaseLayoutProps {
@@ -25,6 +25,7 @@ interface BaseLayoutProps {
 export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
 	const { props } = usePage<PageProps & { locale: Locale }>();
 
+	useFlashToast();
 	usePageTransition({
 		querySelector: '[data-page-transition]',
 		ignorePatterns: [/^\/collections\/(favorites|inbox|\d+)$/],
@@ -46,7 +47,6 @@ export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
 				<ModalProvider />
 				<Toaster />
 				<AnnouncementBanner />
-				<FlashMessages />
 				{children}
 			</TuyauProvider>
 		</I18nProvider>

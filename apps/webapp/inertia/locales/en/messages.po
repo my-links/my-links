@@ -521,7 +521,6 @@ msgid "Disk space"
 msgstr "Disk space"
 
 #: inertia/components/common/announcement_banner.tsx:54
-#: inertia/components/common/flash_message.tsx:39
 msgid "Dismiss"
 msgstr "Dismiss"
 
@@ -1209,7 +1208,7 @@ msgstr "Section options"
 msgid "See what's new"
 msgstr "See what's new"
 
-#: inertia/components/tour/dashboard_tour.tsx:98
+#: inertia/components/tour/dashboard_tour.tsx:100
 msgid "See where your collections, search and the main actions live. It only takes a minute."
 msgstr "See where your collections, search and the main actions live. It only takes a minute."
 
@@ -1294,7 +1293,7 @@ msgstr "Sign out session"
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
-#: inertia/components/tour/dashboard_tour.tsx:104
+#: inertia/components/tour/dashboard_tour.tsx:106
 msgid "Skip"
 msgstr "Skip"
 
@@ -1314,7 +1313,7 @@ msgstr "Start collecting your links in one place"
 msgid "Start for free"
 msgstr "Start for free"
 
-#: inertia/components/tour/dashboard_tour.tsx:103
+#: inertia/components/tour/dashboard_tour.tsx:105
 msgid "Start tour"
 msgstr "Start tour"
 
@@ -1338,7 +1337,7 @@ msgstr "Switch between list, grid, masonry and compact. You can also drag a link
 msgid "System Status"
 msgstr "System Status"
 
-#: inertia/components/tour/dashboard_tour.tsx:96
+#: inertia/components/tour/dashboard_tour.tsx:98
 msgid "Take a quick tour?"
 msgstr "Take a quick tour?"
 
