@@ -3,20 +3,13 @@ import { useEffect } from 'react';
 
 import { useFlashMessages } from '~/hooks/use_flash_messages';
 
-/**
- * Surfaces whatever the server flashed for this request as a toast. Refusals
- * raised as self-handling exceptions — `E_INVALID_CREDENTIALS` and ours —
- * land in the `error` bag without a controller writing a line, and this is
- * what makes them visible.
- */
+/** Surfaces whatever the server flashed as a toast, including self-handling exceptions like `E_INVALID_CREDENTIALS`. */
 export function useFlashToast(): void {
-	const { error, success } = useFlashMessages();
+	const flash = useFlashMessages();
 
+	// Depends on the flash object, not the strings, so a repeated message (e.g. throttled twice) still refires.
 	useEffect(() => {
-		if (error) toast.error(error);
-	}, [error]);
-
-	useEffect(() => {
-		if (success) toast.success(success);
-	}, [success]);
+		if (flash.error) toast.error(flash.error);
+		if (flash.success) toast.success(flash.success);
+	}, [flash]);
 }
