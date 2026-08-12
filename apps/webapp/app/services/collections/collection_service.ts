@@ -130,7 +130,7 @@ export class CollectionService {
 		const userId = this.getAuthContext().auth.getUserOrFail().id;
 		const collection = await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', userId)
+			.apply((scopes) => scopes.ownedBy(userId))
 			.firstOrFail();
 
 		const wasPublic = collection.visibility === VISIBILITY.PUBLIC;
@@ -177,7 +177,7 @@ export class CollectionService {
 		const userId = context.auth.getUserOrFail().id;
 		const collection = await Collection.query()
 			.where('id', id)
-			.andWhere('author_id', userId)
+			.apply((scopes) => scopes.ownedBy(userId))
 			.preload('links', (linksQuery) => {
 				linksQuery.preload('collections');
 			})
@@ -211,7 +211,7 @@ export class CollectionService {
 
 			await Collection.query({ client: transaction })
 				.where('id', id)
-				.andWhere('author_id', userId)
+				.apply((scopes) => scopes.ownedBy(userId))
 				.delete();
 
 			await this.syncJournalService.markLinksChanged(
