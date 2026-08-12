@@ -83,9 +83,8 @@ export class CollectionService {
 	 * every collection.
 	 */
 	async getCollectionsForAuthenticatedUser() {
-		const context = this.getAuthContext();
 		return await Collection.query()
-			.where('author_id', context.auth.getUserOrFail().id)
+			.where('author_id', this.getAuthenticatedUserId())
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc')
 			.preload('links', (q) => {
@@ -101,7 +100,7 @@ export class CollectionService {
 	}
 
 	async createCollection(payload: CollectionPayload) {
-		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		const userId = this.getAuthenticatedUserId();
 		const position = await this.getNextCollectionPosition(
 			userId,
 			payload.visibility
@@ -128,7 +127,7 @@ export class CollectionService {
 	 * (`GET /api/v1/sync`).
 	 */
 	async updateCollection(id: Collection['id'], payload: CollectionPayload) {
-		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		const userId = this.getAuthenticatedUserId();
 		const collection = await Collection.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
@@ -174,8 +173,7 @@ export class CollectionService {
 	}
 
 	async deleteCollection(id: Collection['id']) {
-		const context = this.getAuthContext();
-		const userId = context.auth.getUserOrFail().id;
+		const userId = this.getAuthenticatedUserId();
 		const collection = await Collection.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
@@ -425,18 +423,11 @@ export class CollectionService {
 			.delete();
 	}
 
-	redirectToCollectionId(collectionId: Collection['id']) {
-		const context = this.getAuthContext();
-		return context.response.redirect().toRoute('collection.show', {
-			id: collectionId,
-		});
-	}
-
 	async reorderOwnedCollections(
 		visibility: Visibility,
 		collectionIds: Collection['id'][]
 	): Promise<void> {
-		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		const userId = this.getAuthenticatedUserId();
 		await this.assertOwnedCollectionIds(userId, visibility, collectionIds);
 
 		// `NOW()` freezes to transaction start under the tests' wrapped
@@ -452,7 +443,7 @@ export class CollectionService {
 	async reorderFollowedCollections(
 		collectionIds: Collection['id'][]
 	): Promise<void> {
-		const userId = this.getAuthContext().auth.getUserOrFail().id;
+		const userId = this.getAuthenticatedUserId();
 		await this.assertFollowedCollectionIds(userId, collectionIds);
 
 		await reorderByRank(db, {
@@ -546,7 +537,7 @@ export class CollectionService {
 		return typeof maxPosition === 'number' ? maxPosition + 1 : 0;
 	}
 
-	private getAuthContext() {
-		return HttpContext.getOrFail();
+	private getAuthenticatedUserId(): User['id'] {
+		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}
 }
