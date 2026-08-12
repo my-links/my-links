@@ -44,13 +44,6 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 
 		return {
 			errors: ctx.inertia.always(this.getValidationErrors(ctx)),
-			// `error` is the key AdonisJS' own self-handling exceptions flash
-			// (E_INVALID_CREDENTIALS, E_UNAUTHORIZED_ACCESS), so following it
-			// means a refusal reaches the client without any code of ours.
-			flash: ctx.inertia.always({
-				error: this.getFlashMessage(ctx, 'error'),
-				success: this.getFlashMessage(ctx, 'success'),
-			}),
 			token: session?.flashMessages.get('token'),
 			auth: ctx.inertia.always(userAuth),
 			authProviders: ctx.inertia.always({
@@ -74,6 +67,14 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
 			appVersion: packageJson.version,
+		};
+	}
+
+	/** First-class flash bag; `error` is also what AdonisJS' self-handling exceptions (E_INVALID_CREDENTIALS) flash. */
+	flash(ctx: HttpContext) {
+		return {
+			error: this.getFlashMessage(ctx, 'error'),
+			success: this.getFlashMessage(ctx, 'success'),
 		};
 	}
 
