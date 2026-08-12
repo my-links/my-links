@@ -1,3 +1,5 @@
+import { Trans } from '@lingui/react/macro';
+
 import { cn } from '~/lib/cn';
 import { Badge } from '~/components/common/badge';
 import { getHealthStatusIcon, getHealthStatusVariant } from '~/lib/health';
@@ -33,16 +35,18 @@ export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
 				<div className="flex-1">
 					<div className="flex items-center gap-3 mb-2">
 						<h2 className="text-2xl text-gray-900 dark:text-white">
-							Statut global
+							<Trans>Global status</Trans>
 						</h2>
 						<Badge variant={overallVariant}>
-							{isHealthy ? 'Opérationnel' : 'Défaillant'}
+							{isHealthy ? <Trans>Operational</Trans> : <Trans>Failing</Trans>}
 						</Badge>
 					</div>
 					<p className="text-gray-600 dark:text-gray-400">
-						{isHealthy
-							? 'Tous les services sont opérationnels'
-							: 'Un ou plusieurs services rencontrent des problèmes'}
+						{isHealthy ? (
+							<Trans>All services are operational</Trans>
+						) : (
+							<Trans>One or more services are experiencing issues</Trans>
+						)}
 					</p>
 				</div>
 			</div>

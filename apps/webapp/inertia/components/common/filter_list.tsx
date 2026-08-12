@@ -1,28 +1,32 @@
+import { t } from '@lingui/core/macro';
+
 import { cn } from '~/lib/cn';
 import { Layout, useLayoutStore } from '~/stores/layout_store';
 
-const layoutOptions: Array<{
+function getLayoutOptions(): Array<{
 	value: Layout;
 	icon: string;
 	label: string;
-}> = [
-	{
-		value: 'list',
-		icon: 'i-ant-design-unordered-list-outlined',
-		label: 'List',
-	},
-	{ value: 'grid', icon: 'i-ant-design-appstore-outlined', label: 'Grid' },
-	{
-		value: 'masonry',
-		icon: 'i-ant-design-pic-center-outlined',
-		label: 'Masonry',
-	},
-	{
-		value: 'compact',
-		icon: 'i-ant-design-compress-outlined',
-		label: 'Compact',
-	},
-] as const;
+}> {
+	return [
+		{
+			value: 'list',
+			icon: 'i-ant-design-unordered-list-outlined',
+			label: t`List`,
+		},
+		{ value: 'grid', icon: 'i-ant-design-appstore-outlined', label: t`Grid` },
+		{
+			value: 'masonry',
+			icon: 'i-ant-design-pic-center-outlined',
+			label: t`Masonry`,
+		},
+		{
+			value: 'compact',
+			icon: 'i-ant-design-compress-outlined',
+			label: t`Compact`,
+		},
+	];
+}
 
 interface FilterListProps {
 	layoutStoreKey: string;
@@ -30,6 +34,8 @@ interface FilterListProps {
 
 export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 	const { layout, setLayout } = useLayoutStore(layoutStoreKey);
+	const layoutOptions = getLayoutOptions();
+
 	return (
 		<div
 			data-tour="link-layout"

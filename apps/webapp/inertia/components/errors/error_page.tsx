@@ -1,3 +1,4 @@
+import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
 
 interface ErrorPageProps {
@@ -26,7 +27,9 @@ export const ErrorPage = ({
 				route="home"
 				className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
 			>
-				<span>Go to Home</span>
+				<span>
+					<Trans>Go to Home</Trans>
+				</span>
 			</Link>
 		</div>
 	</div>
