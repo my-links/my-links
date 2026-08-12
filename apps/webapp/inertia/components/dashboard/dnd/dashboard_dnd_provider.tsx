@@ -44,6 +44,10 @@ const KEYBOARD_SENSOR_OPTIONS = {
 	coordinateGetter: sortableKeyboardCoordinates,
 };
 
+// Stable reference: an inline `[]` fallback below would change identity every
+// render and retrigger useOptimisticOrder's sync effect forever.
+const EMPTY_LINKS: Data.Link[] = [];
+
 type DashboardDndContextValue = {
 	followedCollections: CollectionWithLinks[];
 	myPublicCollections: CollectionWithLinks[];
@@ -80,7 +84,7 @@ export function DashboardDndProvider({
 	const privateCollections = useReorderCollections('PRIVATE', serverPrivate);
 	const reorderLinks = useReorderLinks(
 		activeCollection?.id ?? 0,
-		activeCollection?.links ?? []
+		activeCollection?.links ?? EMPTY_LINKS
 	);
 	const moveLinkToCollection = useMoveLinkToCollection();
 	const addLinkToCollection = useAddLinkToCollection();
