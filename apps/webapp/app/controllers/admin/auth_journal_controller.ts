@@ -3,7 +3,8 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { AuthEventService } from '#services/auth/auth_event_service';
 import AuthEventTransformer from '#transformers/auth_event_transformer';
-import { authJournalPageValidator } from '#validators/admin/auth_journal_page_validator';
+import { journalPageMeta } from '#controllers/admin/actions/journal_page_meta';
+import { journalPageValidator } from '#validators/admin/journal_page_validator';
 
 const FIRST_PAGE = 1;
 
@@ -19,18 +20,15 @@ export default class AuthJournalController {
 	constructor(protected readonly authEventService: AuthEventService) {}
 
 	async render({ inertia, request }: HttpContext) {
-		const { page } = await request.validateUsing(authJournalPageValidator, {
+		const { page } = await request.validateUsing(journalPageValidator, {
 			data: request.qs(),
 		});
 
 		const events = await this.authEventService.listRecent(page ?? FIRST_PAGE);
-		const { currentPage, lastPage, total } = events.getMeta();
 
 		return inertia.render('admin/auth_journal', {
 			events: AuthEventTransformer.transform(events.all()),
-			currentPage: Number(currentPage),
-			lastPage: Number(lastPage),
-			totalEvents: Number(total),
+			...journalPageMeta(events),
 		});
 	}
 }
