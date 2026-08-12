@@ -22,3 +22,10 @@ export const AUDIT_SUBJECT_TYPE = {
 
 export type AuditSubjectType =
 	(typeof AUDIT_SUBJECT_TYPE)[keyof typeof AUDIT_SUBJECT_TYPE];
+
+/**
+ * How many lines a journal hands over at a time — shared by both the
+ * activity and the authentication journal, since both paginate the same
+ * `audit_events` table.
+ */
+export const AUDIT_JOURNAL_PAGE_SIZE = 50;

@@ -5,9 +5,9 @@ import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { createUser } from '#tests/factories/user_factory';
+import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import { recordAuthEvent } from '#tests/factories/auth_event_factory';
-import { AUTH_JOURNAL_PAGE_SIZE } from '#services/auth/auth_event_service';
 
 const AUTH_JOURNAL_ROUTE = '/admin/auth-events';
 const FAVORITES_ROUTE = '/collections/favorites';
@@ -118,7 +118,7 @@ test.group('Admin authentication journal', (group) => {
 	test('should hand over one page at a time', async ({ assert, client }) => {
 		const administrator = await createAdmin();
 		const account = await createUser({ emailPrefix: 'journal-paging' });
-		for (let index = 0; index <= AUTH_JOURNAL_PAGE_SIZE; index += 1) {
+		for (let index = 0; index <= AUDIT_JOURNAL_PAGE_SIZE; index += 1) {
 			await recordAuthEvent({
 				user: account,
 				type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
@@ -131,13 +131,13 @@ test.group('Admin authentication journal', (group) => {
 			.loginAs(administrator);
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
-		assert.lengthOf(events, AUTH_JOURNAL_PAGE_SIZE);
+		assert.lengthOf(events, AUDIT_JOURNAL_PAGE_SIZE);
 	});
 
 	test('should report how many pages the journal holds', async ({ client }) => {
 		const administrator = await createAdmin();
 		const account = await createUser({ emailPrefix: 'journal-pages' });
-		for (let index = 0; index <= AUTH_JOURNAL_PAGE_SIZE; index += 1) {
+		for (let index = 0; index <= AUDIT_JOURNAL_PAGE_SIZE; index += 1) {
 			await recordAuthEvent({
 				user: account,
 				type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
