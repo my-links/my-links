@@ -5,6 +5,11 @@
 
 export const controllers = {
   admin: {
+    actions: {
+      JournalPageMeta: () => import('#controllers/admin/actions/journal_page_meta'),
+      RecordAdminAction: () => import('#controllers/admin/actions/record_admin_action'),
+      ResolveAdminActionTarget: () => import('#controllers/admin/actions/resolve_admin_action_target'),
+    },
     ActivityJournal: () => import('#controllers/admin/activity_journal_controller'),
     Admin: () => import('#controllers/admin/admin_controller'),
     AuthJournal: () => import('#controllers/admin/auth_journal_controller'),
