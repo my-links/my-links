@@ -103,7 +103,7 @@ router
 	.use(tokenVerificationThrottles);
 
 router
-	.get('/google', [controllers.auth.Auth, 'google'])
+	.get('/google', [controllers.auth.GoogleAuth, 'execute'])
 	.as('auth')
 	.prefix(ROUTES_PREFIX)
 	.use(guestOnly);
@@ -113,12 +113,12 @@ router
 // has to make. The callback URL is fixed in the provider's configuration, so a
 // second route would mean every self-hoster registering a second redirect URI.
 router
-	.get('/callback', [controllers.auth.Auth, 'callbackAuth'])
+	.get('/callback', [controllers.auth.OauthCallback, 'execute'])
 	.as('auth.callback')
 	.prefix(ROUTES_PREFIX);
 
 router
-	.get('/logout', [controllers.auth.Auth, 'logout'])
+	.get('/logout', [controllers.auth.Logout, 'execute'])
 	.as('auth.logout')
 	.prefix(ROUTES_PREFIX)
 	.use(middleware.auth());

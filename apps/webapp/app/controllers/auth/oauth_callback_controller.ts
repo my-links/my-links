@@ -7,7 +7,6 @@ import type User from '#models/user';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { SessionService } from '#services/user/session_service';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
-import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import type { OauthIntent } from '#services/auth/oauth_intent_service';
@@ -45,8 +44,17 @@ const ABORTED_ROUND_TRIP_ROUTE = {
 
 const PROVIDER_LINKED_MESSAGE = 'That sign-in method has been added';
 
+/**
+ * The single landing route for every Google round trip, because the
+ * callback URL is fixed in the provider's own configuration — a second one
+ * would mean every self-hoster registering a second redirect URI.
+ *
+ * What the returning identity means is therefore decided here: it opens a
+ * session, confirms one, or joins a second sign-in method to an account —
+ * whichever the departing request armed.
+ */
 @inject()
-export default class AuthController {
+export default class OauthCallbackController {
 	constructor(
 		protected readonly sessionService: SessionService,
 		protected readonly sudoModeService: SudoModeService,
@@ -57,31 +65,10 @@ export default class AuthController {
 		protected readonly googleAuthConfigService: GoogleAuthConfigService
 	) {}
 
-	private assertGoogleAuthEnabled() {
+	async execute(ctx: HttpContext) {
 		if (!this.googleAuthConfigService.isEnabled) {
 			throw new GoogleAuthDisabledException();
 		}
-	}
-
-	async google(ctx: HttpContext) {
-		this.assertGoogleAuthEnabled();
-
-		const redirectUrl = await ctx.ally.use('google').redirectUrl();
-
-		return redirectToOauthProvider(ctx, redirectUrl);
-	}
-
-	/**
-	 * The single landing route for every Google round trip, because the
-	 * callback URL is fixed in the provider's own configuration — a second one
-	 * would mean every self-hoster registering a second redirect URI.
-	 *
-	 * What the returning identity means is therefore decided here: it opens a
-	 * session, confirms one, or joins a second sign-in method to an account —
-	 * whichever the departing request armed.
-	 */
-	async callbackAuth(ctx: HttpContext) {
-		this.assertGoogleAuthEnabled();
 
 		const google = ctx.ally.use('google');
 		// Disarmed first, so an abandoned or failed round trip cannot leave the
@@ -228,13 +215,5 @@ export default class AuthController {
 		}
 
 		return null;
-	}
-
-	async logout({ auth, response, session }: HttpContext) {
-		await auth.use('web').logout();
-		session.clear();
-		session.flash('success', 'Successfully disconnected');
-		logger.info(`[${auth.user?.email}] disconnected successfully`);
-		response.redirectToNamedRoute('home');
 	}
 }
