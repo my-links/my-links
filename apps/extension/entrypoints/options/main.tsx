@@ -5,10 +5,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App.tsx';
+import { RootElementNotFoundError } from '@/lib/mount_app';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
-	throw new Error('Root element not found');
+	throw new RootElementNotFoundError();
 }
 
 ReactDOM.createRoot(rootElement).render(

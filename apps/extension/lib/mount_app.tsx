@@ -6,6 +6,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { collectionsCacheStorage } from '@/lib/storage';
 import { COLLECTIONS_QUERY_KEY } from '@/hooks/use_collections';
 
+export class RootElementNotFoundError extends Error {
+	constructor() {
+		super('Root element not found');
+	}
+}
+
 /**
  * Shared by every entrypoint that renders `CollectionsWorkspace` (sidepanel,
  * newtab): hydrates a fresh `QueryClient` from the last known-good snapshot
@@ -18,7 +24,7 @@ export async function mountCollectionsApp(
 ): Promise<void> {
 	const rootElement = document.getElementById('root');
 	if (!rootElement) {
-		throw new Error('Root element not found');
+		throw new RootElementNotFoundError();
 	}
 
 	const queryClient = new QueryClient();
