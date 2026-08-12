@@ -1,5 +1,59 @@
 # Changelog
 
+## [5.1.0](https://github.com/my-links/my-links/compare/webapp-v5.0.1...webapp-v5.1.0) (2026-08-12)
+
+### Features
+
+* add themed sonner toast layer to webapp and extension ([eda74f8](https://github.com/my-links/my-links/commit/eda74f88b12406cc586dc81a97e0574d06404e5f))
+* **extension:** add manual refresh button ([7bfced2](https://github.com/my-links/my-links/commit/7bfced2bc2141b5fa51e50d8652a41441b9193cf))
+* **extension:** make new tab override optional ([843a4ba](https://github.com/my-links/my-links/commit/843a4ba719afdf129fea9d2a193c16b978e7f066))
+* **extension:** pin the inbox above the sortable sections ([f9faa0b](https://github.com/my-links/my-links/commit/f9faa0bf87d9fe18ba7d745dccc96429a89256fe))
+* **extension:** show link count when confirming collection deletion ([c714d1e](https://github.com/my-links/my-links/commit/c714d1e0682d4a1f691c4eedc86766965214f97b))
+* **webapp:** adapt link grid columns to available space ([f60df6a](https://github.com/my-links/my-links/commit/f60df6aa7b3b66675be72c049c3737ffeded4341))
+* **webapp:** add the inbox to the dashboard tour ([ff06d65](https://github.com/my-links/my-links/commit/ff06d6524bacee49b57ca2ddf7d9eef8595e928c))
+* **webapp:** allow dismissing flash messages ([536ecfb](https://github.com/my-links/my-links/commit/536ecfb6c7a97f6e13a87a61434ff95a0ac0c5ac))
+* **webapp:** give the inbox its own named route ([c9bd428](https://github.com/my-links/my-links/commit/c9bd4282ef8e3f0df3c9c32062c6bbfa1c6d2097))
+* **webapp:** open an inbox with every account ([fa28cff](https://github.com/my-links/my-links/commit/fa28cff15bf17f0d22a40448d197e50563ef89ac))
+* **webapp:** pin the inbox beside the favorites ([b139ee6](https://github.com/my-links/my-links/commit/b139ee645c6763ea632249edf434c6dd0d7fe4d5))
+* **webapp:** show avatar and display name in admin logs instead of email ([99677ce](https://github.com/my-links/my-links/commit/99677ceabdfed96ddc42f180a558833bcbb94041))
+* **webapp:** show creation date for sessions and api tokens ([e20c14c](https://github.com/my-links/my-links/commit/e20c14c6e4edaae85cf99160940993a5c8504fb0))
+* **webapp:** show follower count on collection view and shared page ([ca80e59](https://github.com/my-links/my-links/commit/ca80e598932a017bb0d950f9116df645a93b9493))
+* **webapp:** show link count when deleting a collection ([6fddbee](https://github.com/my-links/my-links/commit/6fddbee8a6879a299cc5d1ec0f7039af837f2f66))
+
+### Bug Fixes
+
+* **ci:** align pnpm action-setup version with packageManager field ([1896533](https://github.com/my-links/my-links/commit/1896533eabc1b4cc38e78530086eaf37278dc438))
+* **ci:** align remaining workflows' pnpm version with packageManager field ([5b7f296](https://github.com/my-links/my-links/commit/5b7f2961908a8b6fea7cd36b74352b737b5ccf2c))
+* **collections:** use distinct caret icon and correct collapse direction ([2ffb3d6](https://github.com/my-links/my-links/commit/2ffb3d6ba2aa25b4cc118bbe7fa935e9f1340d8e))
+* **extension:** drop entries pulled in only by regenerated api types ([28e18d5](https://github.com/my-links/my-links/commit/28e18d577f12be704bde0a76a72bd2ef3dca72f1))
+* **extension:** resolve canonical instance origin before connecting ([2013885](https://github.com/my-links/my-links/commit/2013885f847f6b42568c03a3efa145202edd2577))
+* **extension:** scope changelog commits to apps/extension path ([a136eb8](https://github.com/my-links/my-links/commit/a136eb81ab08ab15967ed738961eddc12fb4651f))
+* **extension:** set explicit manifest name ([c99277c](https://github.com/my-links/my-links/commit/c99277ca2d085a6e2908ee2fe04b26ddbe97650e))
+* **extension:** submit instance URL form on Enter key ([4ddcefa](https://github.com/my-links/my-links/commit/4ddcefa08e26cd672af191206efcdb8d7b417627))
+* **lint-staged:** exclude generated .adonisjs files from oxlint ([a914379](https://github.com/my-links/my-links/commit/a9143794ef0ca45e0c7d9aec866f2da23a082c9e))
+* **webapp:** close sidebar on collection click in mobile ([26d66fc](https://github.com/my-links/my-links/commit/26d66fc1023a013b6c6137bf17c47051a9e04ee9))
+* **webapp:** correct copy-pasted admin page titles and add Head tags ([aa71902](https://github.com/my-links/my-links/commit/aa71902c4557333ff995bbd9ea53a98f2a15f175))
+* **webapp:** dim empty collection sections instead of hiding them ([0593779](https://github.com/my-links/my-links/commit/0593779f797091134e36aaed1fa62b3aa1285428))
+* **webapp:** drop OAuth avatar images blocked by CSP img-src ([ecdb3c4](https://github.com/my-links/my-links/commit/ecdb3c4d08d76cff46e2c94a5b06e0e360faae7e))
+* **webapp:** exclude missing inbox collection from myCollections ([abf18b5](https://github.com/my-links/my-links/commit/abf18b562e91281ae4d79a41403df94feb6f28ba))
+* **webapp:** flash and redirect back on auth throttle instead of a raw 429 ([b1c4f97](https://github.com/my-links/my-links/commit/b1c4f97d210f445f56fc9209a7a42bd0d2f5b99f))
+* **webapp:** let a shared inbox be made private again ([e3b70e7](https://github.com/my-links/my-links/commit/e3b70e7022d50f9dcc0a11061ba127492917d633))
+* **webapp:** move flash to Inertia's first-class flash bag ([785bf9a](https://github.com/my-links/my-links/commit/785bf9a55e2eecf1c36ec0e887dffbdeae747796))
+* **webapp:** open an inbox for seeded accounts too ([230c2dc](https://github.com/my-links/my-links/commit/230c2dcfa3985c01a8bd8c5a7e6e53b4979138d2))
+* **webapp:** open sidebar before starting guided tour ([196477f](https://github.com/my-links/my-links/commit/196477fef53b183d6f7528323e6aa13e7722848a))
+* **webapp:** preserve scroll position on collection navigation ([b9d225b](https://github.com/my-links/my-links/commit/b9d225bd99b33832e8df72e42889d21f088723c4))
+* **webapp:** prevent duplicate pivot row when moving link into a collection that already has it ([0b39b98](https://github.com/my-links/my-links/commit/0b39b98a5035c85f4cac2b151826166e6f666bd2))
+* **webapp:** prevent vertical scrollbar on admin tabs overflow ([7a984a3](https://github.com/my-links/my-links/commit/7a984a3a33ce5e978c4ca89381f3f7baa85cbb9a))
+* **webapp:** redirect back after create/update link instead of collection view ([af47852](https://github.com/my-links/my-links/commit/af47852cdbf2e33200c2d8465eef0b86388c320f))
+* **webapp:** refire the flash toast when the same message repeats ([d8c6248](https://github.com/my-links/my-links/commit/d8c6248b2b6bf85645402abed71cf5b80e764e23))
+* **webapp:** refuse to change the inbox visibility ([944188a](https://github.com/my-links/my-links/commit/944188a16f8fe56ef0a7d1042b80d8cdd336caea))
+* **webapp:** remove avatar from privacy policy data list ([b6c689d](https://github.com/my-links/my-links/commit/b6c689db7e4d55f92a238726611bebac61f54765))
+* **webapp:** render announcement banner client-only to avoid SSR flash ([17dcabe](https://github.com/my-links/my-links/commit/17dcabeaab50a8a838066f748f1279fc67f61750))
+* **webapp:** render collection emoji picker with native glyphs ([8ce41f2](https://github.com/my-links/my-links/commit/8ce41f235b73c0485e09632eec68153274531952))
+* **webapp:** stabilize empty-array fallbacks to stop dnd sync effect loop ([a4474b3](https://github.com/my-links/my-links/commit/a4474b367b649abfb0949a4c439e91c010114a12))
+* **webapp:** stop exposing raw session and token IDs in settings UI ([12a83e2](https://github.com/my-links/my-links/commit/12a83e23c2a0dcaf0a93e06cb2f64fb20fd272ec))
+* **webapp:** stop japa clearing terminal between test suites ([6e9de7c](https://github.com/my-links/my-links/commit/6e9de7cd4329b17fb8c9143082c825e77a09914c))
+
 ## [5.0.1](https://github.com/my-links/my-links/compare/webapp-v5.0.0...webapp-v5.0.1) (2026-08-07)
 
 ### Bug Fixes
