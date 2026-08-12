@@ -6,7 +6,6 @@
 
 * add themed sonner toast layer to webapp and extension ([eda74f8](https://github.com/my-links/my-links/commit/eda74f88b12406cc586dc81a97e0574d06404e5f))
 * allow saving a link without picking a collection ([56ab133](https://github.com/my-links/my-links/commit/56ab133f1c729f2eaa0ebb8a891950f415de6fe9))
-* **api:** expose a delta sync feed with deletion tombstones ([cedbe88](https://github.com/my-links/my-links/commit/cedbe88eecba8c7aaee239580cbd7efacc516415))
 * badge links that belong to more than one collection ([be20929](https://github.com/my-links/my-links/commit/be2092964013fd40ecb69d43b0c86003099dd539))
 * **extension:** add collapse all / expand all sidebar buttons ([d100d37](https://github.com/my-links/my-links/commit/d100d37cb39323de9902beeacb7bad228cd16e24))
 * **extension:** add CRUD API client and optimistic tree helpers ([6a70cf2](https://github.com/my-links/my-links/commit/6a70cf2886be24018fa8e8ad57e5b9b95aecef17))
@@ -49,7 +48,6 @@
 * **links:** count clicks through a single /l/:id redirect ([97a46d3](https://github.com/my-links/my-links/commit/97a46d313f49c6dc27b5b45df1da990b7fab73f7))
 * make the default collection read-only and implicit ([e3d9433](https://github.com/my-links/my-links/commit/e3d943364ae3f033a0b2e345fb42e26bd6e8f084))
 * **webapp,extension:** use distinct icon for inbox collection ([269c047](https://github.com/my-links/my-links/commit/269c0475ca23ef3aafac61381c014921e6be784d))
-* **webapp:** drop server-side search ([372638c](https://github.com/my-links/my-links/commit/372638c1de2c3c2b001e60f7e3755df484b596b9))
 
 ### Bug Fixes
 
@@ -78,4 +76,3 @@
 * **modal:** resolve promise self-reference cycle on Modal.end(call) ([4d9692a](https://github.com/my-links/my-links/commit/4d9692a7dd032ba8f295e4a111696c982e7640ed))
 * stop the extension from reordering an edited link to the end ([828132a](https://github.com/my-links/my-links/commit/828132af319b28b788d30b65cb4a0aa248e822a5))
 * **webapp:** replace auth.user! with auth.getUserOrFail() ([1effdb8](https://github.com/my-links/my-links/commit/1effdb875197ae6670b50b3631f4094677983a95))
-* **webapp:** stop leaking the app version on /api/v1/health ([2235e17](https://github.com/my-links/my-links/commit/2235e17ffae52be2263a60a8960d04d0dd28b89a))
