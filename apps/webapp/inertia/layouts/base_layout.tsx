@@ -10,10 +10,9 @@ import { ModalProvider } from '@minimalstuff/ui';
 import { PageProps } from '@adonisjs/inertia/types';
 import { TuyauProvider } from '@adonisjs/inertia/react';
 
-import { dynamicActivate } from '~/i18n';
 import { tuyauClient } from '~/lib/tuyau';
-import type { Locale } from '~/types/i18n';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
+import { dynamicActivate, type Locale } from '~/i18n';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { FlashMessages } from '~/components/common/flash_messages';
 import { AnnouncementBanner } from '~/components/common/announcement_banner';

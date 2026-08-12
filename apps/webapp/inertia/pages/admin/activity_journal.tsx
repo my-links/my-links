@@ -2,7 +2,7 @@ import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans, useLingui } from '@lingui/react/macro';
 
-import { InertiaProps } from '~/types/inertia';
+import { InertiaProps } from '~/lib/inertia_props';
 import { AdminTabs } from '~/components/admin/admin_tabs';
 import { ActivityEventsTable } from '~/components/admin/activity_events/activity_events_table';
 import { ActivityJournalPagination } from '~/components/admin/activity_events/activity_journal_pagination';

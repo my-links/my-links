@@ -5,7 +5,7 @@ import { Head, useForm } from '@inertiajs/react';
 import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { InertiaProps } from '~/types/inertia';
+import { InertiaProps } from '~/lib/inertia_props';
 import SmallContentLayout from '~/layouts/small_content';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';

@@ -1,10 +1,18 @@
 import { t } from '@lingui/core/macro';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input, RadioOptions, Textarea } from '@minimalstuff/ui';
 
-import type { Visibility } from '~/types/visibility';
-import { FormCollectionData } from '~/types/collection_form';
 import { EmojiPicker } from '~/components/common/emoji_picker';
+
+export type Visibility = Data.Collection['visibility'];
+
+export type FormCollectionData = {
+	name: string;
+	description: string | null;
+	visibility: Visibility;
+	icon: string | null;
+};
 
 interface FormCollectionContentProps {
 	data: FormCollectionData;

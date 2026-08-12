@@ -5,10 +5,12 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
-import { FormLinkData } from '~/types/link_form';
 import { isValidHttpUrl } from '~/lib/navigation';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { FormLinkContent } from '~/components/dashboard/forms/form_link_content';
+import {
+	FormLinkContent,
+	type FormLinkData,
+} from '~/components/dashboard/forms/form_link_content';
 
 interface EditLinkModalProps {
 	link: Data.Link.Variants['withCollections'];

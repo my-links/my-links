@@ -5,7 +5,13 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 
-import { FormLinkData } from '~/types/link_form';
+export type FormLinkData = {
+	name: string;
+	description: string | null;
+	url: string;
+	favorite: boolean;
+	collectionIds: Data.Collection['id'][];
+};
 
 const COLLECTION_SEARCH_THRESHOLD = 6;
 

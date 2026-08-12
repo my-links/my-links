@@ -1,9 +1,8 @@
 import cx from 'clsx';
 import { useLingui } from '@lingui/react';
 
-import { Locale } from '~/types/i18n';
 import { SUPPORTED_LOCALES } from '~/consts/i18n';
-import { dynamicActivate, persistLocale } from '~/i18n/index';
+import { dynamicActivate, persistLocale, type Locale } from '~/i18n/index';
 
 const LOCALE_LABELS: Record<Locale, string> = {
 	en: 'EN',
