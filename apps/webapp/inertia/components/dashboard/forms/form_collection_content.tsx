@@ -2,7 +2,7 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input, RadioOptions, Textarea } from '@minimalstuff/ui';
 
-import { Visibility } from '~/types/app';
+import type { Visibility } from '~/types/visibility';
 import { FormCollectionData } from '~/types/collection_form';
 import { EmojiPicker } from '~/components/common/emoji_picker';
 
@@ -27,12 +27,12 @@ export const FormCollectionContent = ({
 
 	const visibilityOptions = [
 		{
-			value: Visibility.PRIVATE,
+			value: 'PRIVATE',
 			label: t`Private`,
 			description: t`Only you can see this collection`,
 		},
 		{
-			value: Visibility.PUBLIC,
+			value: 'PUBLIC',
 			label: t`Public`,
 			description: t`The content will be visible to everyone`,
 		},

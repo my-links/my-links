@@ -3,7 +3,7 @@ import { test } from '@japa/runner';
 import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import {
@@ -58,7 +58,7 @@ test.group('Reorder collection links', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'Shared',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const link = await createLink({ author: owner, name: 'Link' });
 		await attachLinkToCollection(link, collection);
@@ -142,7 +142,7 @@ test.group('Reorder collection links', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'Shared',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const first = await createLink({ author: owner, name: 'First' });
 		const second = await createLink({ author: owner, name: 'Second' });

@@ -3,7 +3,7 @@ import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import {
 	createInbox,
@@ -30,7 +30,7 @@ test.group('Reorder owned collections', (group) => {
 		const response = await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [third.id, first.id, second.id],
 			})
 			.withCsrfToken()
@@ -41,7 +41,7 @@ test.group('Reorder owned collections', (group) => {
 
 		const ordered = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.orderBy('position', 'asc');
 
 		assert.deepEqual(
@@ -58,28 +58,28 @@ test.group('Reorder owned collections', (group) => {
 		const privateFirst = await createCollection({
 			author: user,
 			name: 'Private A',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const privateSecond = await createCollection({
 			author: user,
 			name: 'Private B',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const publicFirst = await createCollection({
 			author: user,
 			name: 'Public A',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const publicSecond = await createCollection({
 			author: user,
 			name: 'Public B',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [privateSecond.id, privateFirst.id],
 			})
 			.withCsrfToken()
@@ -88,7 +88,7 @@ test.group('Reorder owned collections', (group) => {
 
 		const publicOrder = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PUBLIC)
+			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.orderBy('position', 'asc');
 
 		assert.deepEqual(
@@ -108,7 +108,7 @@ test.group('Reorder owned collections', (group) => {
 		const response = await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [second.id, first.id],
 			})
 			.withCsrfToken()
@@ -130,7 +130,7 @@ test.group('Reorder owned collections', (group) => {
 		await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [second.id, first.id],
 			})
 			.withCsrfToken()
@@ -151,7 +151,7 @@ test.group('Reorder owned collections', (group) => {
 		const response = await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [collection.id, inbox.id],
 			})
 			.withCsrfToken()
@@ -175,7 +175,7 @@ test.group('Reorder owned collections', (group) => {
 		const response = await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [own.id, foreign.id],
 			})
 			.withCsrfToken()
@@ -195,7 +195,7 @@ test.group('Reorder owned collections', (group) => {
 		const response = await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [first.id],
 			})
 			.withCsrfToken()
@@ -212,18 +212,18 @@ test.group('Reorder owned collections', (group) => {
 		const privateOne = await createCollection({
 			author: user,
 			name: 'Private',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const publicOne = await createCollection({
 			author: user,
 			name: 'Public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 
 		const response = await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [privateOne.id, publicOne.id],
 			})
 			.withCsrfToken()
@@ -245,7 +245,7 @@ test.group('Reorder owned collections', (group) => {
 		await client
 			.put('/collections/owned/reorder')
 			.json({
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				collectionIds: [second.id, first.id],
 			})
 			.withCsrfToken()
@@ -261,7 +261,7 @@ test.group('Reorder owned collections', (group) => {
 		const first = await createCollection({ author: user, name: 'A' });
 		const second = await createCollection({ author: user, name: 'B' });
 		const payload = {
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 			collectionIds: [second.id, first.id],
 		};
 
@@ -282,7 +282,7 @@ test.group('Reorder owned collections', (group) => {
 
 		const ordered = await Collection.query()
 			.where('author_id', user.id)
-			.andWhere('visibility', Visibility.PRIVATE)
+			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.orderBy('position', 'asc');
 		assert.deepEqual(
 			ordered.map((collection) => collection.id),

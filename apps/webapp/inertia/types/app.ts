@@ -1,10 +1,5 @@
 import type { Data } from '@generated/data';
 
-export enum Visibility {
-	PUBLIC = 'PUBLIC',
-	PRIVATE = 'PRIVATE',
-}
-
 export type ApiToken = {
 	identifier: number;
 	token: string | undefined;

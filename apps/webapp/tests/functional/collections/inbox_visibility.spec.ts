@@ -3,7 +3,7 @@ import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import {
 	createInbox,
@@ -27,7 +27,7 @@ test.group('Inbox visibility', (group) => {
 			.json({
 				name: inbox.name,
 				description: null,
-				visibility: Visibility.PUBLIC,
+				visibility: VISIBILITY.PUBLIC,
 				icon: null,
 			})
 			.withCsrfToken()
@@ -49,7 +49,7 @@ test.group('Inbox visibility', (group) => {
 			.json({
 				name: inbox.name,
 				description: null,
-				visibility: Visibility.PUBLIC,
+				visibility: VISIBILITY.PUBLIC,
 				icon: null,
 			})
 			.withCsrfToken()
@@ -57,7 +57,7 @@ test.group('Inbox visibility', (group) => {
 			.redirects(0);
 
 		const unchanged = await Collection.findOrFail(inbox.id);
-		assert.equal(unchanged.visibility, Visibility.PRIVATE);
+		assert.equal(unchanged.visibility, VISIBILITY.PRIVATE);
 	});
 
 	test('should let an Inbox shared before the rule go back to private', async ({
@@ -69,14 +69,14 @@ test.group('Inbox visibility', (group) => {
 		await db
 			.from('collections')
 			.where('id', inbox.id)
-			.update({ visibility: Visibility.PUBLIC });
+			.update({ visibility: VISIBILITY.PUBLIC });
 
 		await client
 			.put(`/collections/${inbox.id}`)
 			.json({
 				name: inbox.name,
 				description: null,
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				icon: null,
 			})
 			.withCsrfToken()
@@ -84,7 +84,7 @@ test.group('Inbox visibility', (group) => {
 			.redirects(0);
 
 		const closed = await Collection.findOrFail(inbox.id);
-		assert.equal(closed.visibility, Visibility.PRIVATE);
+		assert.equal(closed.visibility, VISIBILITY.PRIVATE);
 	});
 
 	test('should drop the followers when a shared Inbox goes back to private', async ({
@@ -97,7 +97,7 @@ test.group('Inbox visibility', (group) => {
 		await db
 			.from('collections')
 			.where('id', inbox.id)
-			.update({ visibility: Visibility.PUBLIC });
+			.update({ visibility: VISIBILITY.PUBLIC });
 		await followCollection(inbox, follower);
 
 		await client
@@ -105,7 +105,7 @@ test.group('Inbox visibility', (group) => {
 			.json({
 				name: inbox.name,
 				description: null,
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				icon: null,
 			})
 			.withCsrfToken()
@@ -130,7 +130,7 @@ test.group('Inbox visibility', (group) => {
 			.json({
 				name: 'Later',
 				description: null,
-				visibility: Visibility.PRIVATE,
+				visibility: VISIBILITY.PRIVATE,
 				icon: null,
 			})
 			.withCsrfToken()

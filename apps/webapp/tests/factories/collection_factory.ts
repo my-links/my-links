@@ -1,6 +1,6 @@
 import type User from '#models/user';
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 
 const DEFAULT_COLLECTION_NAME = 'Test collection';
 
@@ -15,7 +15,7 @@ type CollectionAttributes = {
 export async function createCollection({
 	author,
 	name = DEFAULT_COLLECTION_NAME,
-	visibility = Visibility.PRIVATE,
+	visibility = VISIBILITY.PRIVATE,
 }: CollectionAttributes): Promise<Collection> {
 	return Collection.create({
 		name,
@@ -34,7 +34,7 @@ export async function createInbox(author: User): Promise<Collection> {
 	return Collection.create({
 		name: INBOX_NAME,
 		description: null,
-		visibility: Visibility.PRIVATE,
+		visibility: VISIBILITY.PRIVATE,
 		icon: null,
 		authorId: author.id,
 		isDefault: true,

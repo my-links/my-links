@@ -2,7 +2,6 @@ import { Trans } from '@lingui/react/macro';
 import { Button, IconButton, Modal } from '@minimalstuff/ui';
 
 import { KEYS } from '~/consts/keys';
-import { Visibility } from '~/types/app';
 import { Kbd } from '~/components/common/kbd';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
@@ -84,7 +83,7 @@ function QuickActionsContent({
 				<div className="text-sm text-gray-500 dark:text-gray-400">
 					<Trans>Collections</Trans>
 				</div>
-				{activeCollection?.visibility === Visibility.PUBLIC && (
+				{activeCollection?.visibility === 'PUBLIC' && (
 					<Button
 						color="primary"
 						onClick={() => handleQuickAction(onHandleShareCollection)}

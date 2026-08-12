@@ -11,7 +11,6 @@ import {
 	type DragStartEvent,
 } from '@dnd-kit/core';
 
-import { Visibility } from '~/types/visibility';
 import { COLLECTION_SECTION } from '~/lib/dnd/dnd_types';
 import { useReorderLinks } from '~/hooks/use_reorder_links';
 import { useShiftModifier } from '~/hooks/use_shift_modifier';
@@ -77,14 +76,8 @@ export function DashboardDndProvider({
 	} = useDashboardProps();
 
 	const followed = useReorderFollowedCollections(serverFollowed);
-	const publicCollections = useReorderCollections(
-		Visibility.PUBLIC,
-		serverPublic
-	);
-	const privateCollections = useReorderCollections(
-		Visibility.PRIVATE,
-		serverPrivate
-	);
+	const publicCollections = useReorderCollections('PUBLIC', serverPublic);
+	const privateCollections = useReorderCollections('PRIVATE', serverPrivate);
 	const reorderLinks = useReorderLinks(
 		activeCollection?.id ?? 0,
 		activeCollection?.links ?? []

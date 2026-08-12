@@ -4,7 +4,7 @@ import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 import Link from '#models/link';
 import User from '#models/user';
 import { CollectionSchema } from '#database/schema';
-import { Visibility } from '#enums/collections/visibility';
+import type { Visibility } from '#enums/collections/visibility';
 
 export default class Collection extends CollectionSchema {
 	@column()

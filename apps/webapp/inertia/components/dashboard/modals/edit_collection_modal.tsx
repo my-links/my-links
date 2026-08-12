@@ -5,7 +5,6 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
-import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
@@ -25,7 +24,7 @@ export function EditCollectionModal({
 		useForm<FormCollectionData>({
 			name: targetCollection?.name ?? '',
 			description: targetCollection?.description ?? '',
-			visibility: targetCollection?.visibility ?? Visibility.PRIVATE,
+			visibility: targetCollection?.visibility ?? 'PRIVATE',
 			icon: targetCollection?.icon ?? null,
 		});
 

@@ -3,7 +3,7 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders';
 
 import User from '#models/user';
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 
 const COLLECTIONS_PER_USER = 10;
 
@@ -31,7 +31,7 @@ function createRandomCollection(authorId: User['id']) {
 	return {
 		name: faker.lorem.words({ min: 1, max: 5 }),
 		description: faker.lorem.sentences({ min: 0, max: 3 }),
-		visibility: Visibility.PRIVATE,
+		visibility: VISIBILITY.PRIVATE,
 		authorId,
 	};
 }

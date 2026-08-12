@@ -4,14 +4,14 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 
 async function createCollection(user: User, name: string) {
 	return Collection.create({
 		name,
 		description: null,
-		visibility: Visibility.PRIVATE,
+		visibility: VISIBILITY.PRIVATE,
 		icon: null,
 		authorId: user.id,
 	});

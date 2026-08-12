@@ -4,7 +4,6 @@ import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
-import { Visibility } from '~/types/app';
 import { FormCollectionData } from '~/types/collection_form';
 import { FormCollectionContent } from '~/components/dashboard/forms/form_collection_content';
 
@@ -21,7 +20,7 @@ export function CreateCollectionModal({
 		useForm<FormCollectionData>({
 			name: '',
 			description: '',
-			visibility: Visibility.PRIVATE,
+			visibility: 'PRIVATE',
 			icon: null,
 		});
 

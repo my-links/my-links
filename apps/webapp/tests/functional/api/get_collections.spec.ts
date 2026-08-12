@@ -2,7 +2,7 @@ import { test } from '@japa/runner';
 import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import {
 	createLink,
@@ -52,12 +52,12 @@ test.group('API get collections — order', (group) => {
 		const privateA = await createCollection({
 			author: user,
 			name: 'A',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		const privateB = await createCollection({
 			author: user,
 			name: 'B',
-			visibility: Visibility.PRIVATE,
+			visibility: VISIBILITY.PRIVATE,
 		});
 		await setCollectionPosition(privateA.id, 1);
 		await setCollectionPosition(privateB.id, 0);
@@ -131,12 +131,12 @@ test.group('API get collections — followed', (group) => {
 		const first = await createCollection({
 			author: owner,
 			name: 'First',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const second = await createCollection({
 			author: owner,
 			name: 'Second',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		await followCollection(first, follower);
 		await followCollection(second, follower);
@@ -175,7 +175,7 @@ test.group('API get collections — followed', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'Reading',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		const linkA = await createLink({
 			author: owner,
@@ -229,13 +229,13 @@ test.group('API get collections — followed', (group) => {
 		const collection = await createCollection({
 			author: owner,
 			name: 'No longer public',
-			visibility: Visibility.PUBLIC,
+			visibility: VISIBILITY.PUBLIC,
 		});
 		await followCollection(collection, follower);
 		await db
 			.from('collections')
 			.where('id', collection.id)
-			.update({ visibility: Visibility.PRIVATE });
+			.update({ visibility: VISIBILITY.PRIVATE });
 
 		const response = await client
 			.get('/api/v1/collections')
