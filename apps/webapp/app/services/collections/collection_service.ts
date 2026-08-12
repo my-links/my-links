@@ -7,6 +7,7 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 import User from '#models/user';
 import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
+import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
@@ -440,13 +441,12 @@ export class CollectionService {
 
 		// `NOW()` freezes to transaction start under the tests' wrapped
 		// transaction, so the timestamp is computed here instead.
-		await db.rawQuery(
-			`UPDATE collections AS target
-			 SET position = ordered.rank - 1, updated_at = ?
-			 FROM UNNEST(?::int[]) WITH ORDINALITY AS ordered(id, rank)
-			 WHERE target.id = ordered.id`,
-			[DateTime.now().toJSDate(), collectionIds]
-		);
+		await reorderByRank(db, {
+			table: 'collections',
+			rankedColumn: 'id',
+			ids: collectionIds,
+			touchedAt: DateTime.now().toJSDate(),
+		});
 	}
 
 	async reorderFollowedCollections(
@@ -455,13 +455,12 @@ export class CollectionService {
 		const userId = this.getAuthContext().auth.getUserOrFail().id;
 		await this.assertFollowedCollectionIds(userId, collectionIds);
 
-		await db.rawQuery(
-			`UPDATE collection_followers AS target
-			 SET position = ordered.rank - 1
-			 FROM UNNEST(?::int[]) WITH ORDINALITY AS ordered(collection_id, rank)
-			 WHERE target.user_id = ? AND target.collection_id = ordered.collection_id`,
-			[collectionIds, userId]
-		);
+		await reorderByRank(db, {
+			table: 'collection_followers',
+			rankedColumn: 'collection_id',
+			ids: collectionIds,
+			extraWhere: { column: 'user_id', value: userId },
+		});
 	}
 
 	/**
