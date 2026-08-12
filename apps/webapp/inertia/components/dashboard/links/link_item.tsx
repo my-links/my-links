@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { useRef } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
@@ -7,6 +6,7 @@ import type {
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
 
+import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
 import { LinkFavicon } from './link_favicon';
 import { hasCollectionIds } from '~/lib/link';
@@ -73,7 +73,7 @@ export function LinkItem({
 			rel="noreferrer"
 			onClick={handleClick}
 			onContextMenu={handleContextMenu}
-			className={clsx(
+			className={cn(
 				'block rounded-lg border',
 				'bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm',
 				'border-gray-200/50 dark:border-gray-700/50',
@@ -92,7 +92,7 @@ export function LinkItem({
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center gap-2 mb-1">
 							<h3
-								className={clsx(
+								className={cn(
 									'font-medium text-blue-600 dark:text-blue-400 truncate',
 									isCompact ? 'text-sm' : 'text-base'
 								)}
@@ -112,7 +112,7 @@ export function LinkItem({
 							)}
 						</div>
 						<p
-							className={clsx(
+							className={cn(
 								'text-gray-500 dark:text-gray-400 truncate',
 								isCompact ? 'text-xs' : 'text-sm'
 							)}
@@ -129,7 +129,7 @@ export function LinkItem({
 			</div>
 			{description && !isCompact && (
 				<p
-					className={clsx(
+					className={cn(
 						'mt-3 text-sm text-gray-600 dark:text-gray-400',
 						'line-clamp-3 break-words whitespace-pre-line'
 					)}

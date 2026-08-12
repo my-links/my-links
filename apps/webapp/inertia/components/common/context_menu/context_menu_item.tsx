@@ -1,5 +1,6 @@
-import clsx from 'clsx';
 import { MouseEvent, ReactNode } from 'react';
+
+import { cn } from '~/lib/cn';
 
 interface ContextMenuItemProps {
 	icon: string;
@@ -26,14 +27,14 @@ export const ContextMenuItem = ({
 			onClick(e);
 		}}
 		disabled={disabled}
-		className={clsx(
+		className={cn(
 			ITEM_BASE_CLASSES,
 			variant === 'danger'
 				? 'text-red-600 dark:text-red-400'
 				: 'text-gray-700 dark:text-gray-300'
 		)}
 	>
-		<div className={clsx('w-4 h-4', icon)} />
+		<div className={cn('w-4 h-4', icon)} />
 		{children}
 	</button>
 );

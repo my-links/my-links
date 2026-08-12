@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import type { CSSProperties, ReactNode } from 'react';
 
+import { cn } from '~/lib/cn';
 import { SortableTh } from '~/components/common/data_table/sortable_th';
 
 export type DataTableColumn<TData> = {
@@ -62,7 +62,7 @@ export function DataTable<TData>({
 
 	return (
 		<div
-			className={clsx(
+			className={cn(
 				'flex-1 overflow-auto',
 				bordered && 'rounded-lg border border-gray-200 dark:border-gray-700',
 				containerClassName
@@ -70,14 +70,14 @@ export function DataTable<TData>({
 			style={containerStyle}
 		>
 			<table
-				className={clsx(
+				className={cn(
 					'w-full border-collapse',
 					minWidthClassName ?? 'min-w-[760px]',
 					tableClassName
 				)}
 			>
 				<thead
-					className={clsx(
+					className={cn(
 						'bg-gray-50 dark:bg-gray-900/50 sticky top-0 z-10 border-b border-gray-200 dark:border-gray-700',
 						theadClassName
 					)}
@@ -104,7 +104,7 @@ export function DataTable<TData>({
 							return (
 								<th
 									key={column.key}
-									className={clsx(
+									className={cn(
 										'px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400',
 										headerCellClassName
 									)}
@@ -116,7 +116,7 @@ export function DataTable<TData>({
 					</tr>
 				</thead>
 				<tbody
-					className={clsx(
+					className={cn(
 						'bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700',
 						tbodyClassName
 					)}

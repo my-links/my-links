@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import { Data } from '@generated/data';
 
+import { cn } from '~/lib/cn';
 import type { FuzzyMatch } from '~/lib/fuzzy_links';
 import { Highlight } from '~/components/common/highlight';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
@@ -26,7 +26,7 @@ export const SearchLinkResult = ({
 			type="button"
 			data-result-index={resultIndex}
 			onClick={() => handleResultClick(link)}
-			className={clsx(
+			className={cn(
 				'w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3',
 				isSelected
 					? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20 shadow-sm'

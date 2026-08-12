@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
@@ -6,6 +5,7 @@ import { PageProps } from '@adonisjs/inertia/types';
 import { IconButton, Modal } from '@minimalstuff/ui';
 import { forwardRef, MouseEvent, useImperativeHandle } from 'react';
 
+import { cn } from '~/lib/cn';
 import { useContextMenu } from '~/hooks/use_context_menu';
 import { CreateLinkModal } from '../modals/create_link_modal';
 import { EditCollectionModal } from '../modals/edit_collection_modal';
@@ -106,7 +106,7 @@ export const CollectionControls = forwardRef<
 
 	return (
 		<div
-			className={clsx(
+			className={cn(
 				'pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-8 pr-2',
 				'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
 				'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'

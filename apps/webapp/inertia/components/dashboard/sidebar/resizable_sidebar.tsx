@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
+import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
@@ -56,7 +56,7 @@ export function ResizableSidebar({
 	return (
 		<div
 			ref={sidebarRef}
-			className={clsx(
+			className={cn(
 				'relative flex-shrink-0 flex flex-col',
 				'md:relative',
 				'fixed inset-0 md:inset-auto z-50 md:z-auto'
@@ -66,7 +66,7 @@ export function ResizableSidebar({
 			{children}
 			<div
 				onMouseDown={handleMouseDown}
-				className={clsx(
+				className={cn(
 					'absolute top-0 right-0 w-1 h-full cursor-col-resize',
 					'hover:bg-blue-500/50 transition-colors',
 					isResizing && 'bg-blue-500',
