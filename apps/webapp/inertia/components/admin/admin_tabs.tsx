@@ -34,14 +34,14 @@ export function AdminTabs() {
 				<Trans>Accounts</Trans>
 			</Link>
 			<Link
-				route="admin.authEvents"
+				route="admin.auth-events"
 				className={clsx(tabClassFor(JOURNAL_PAGE), 'whitespace-nowrap')}
 			>
 				<i className="i-mdi-history w-4 h-4" />
 				<Trans>Authentication journal</Trans>
 			</Link>
 			<Link
-				route="admin.activityEvents"
+				route="admin.activity-events"
 				className={clsx(
 					tabClassFor(ACTIVITY_JOURNAL_PAGE),
 					'whitespace-nowrap'

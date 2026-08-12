@@ -91,7 +91,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/status_controller').default['render']>>>
     }
   }
-  'admin.authEvents': {
+  'admin.auth-events': {
     methods: ["GET","HEAD"]
     pattern: '/admin/auth-events'
     types: {
@@ -103,7 +103,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/auth_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.activityEvents': {
+  'admin.activity-events': {
     methods: ["GET","HEAD"]
     pattern: '/admin/activity-events'
     types: {
@@ -115,7 +115,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.users.bulkDelete': {
+  'admin.users.bulk-delete': {
     methods: ["POST"]
     pattern: '/admin/users/bulk-delete'
     types: {
@@ -127,7 +127,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/bulk_delete_users_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.users.sendPasswordReset': {
+  'admin.users.send-password-reset': {
     methods: ["POST"]
     pattern: '/admin/users/:id/password-reset'
     types: {
@@ -139,7 +139,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/send_account_password_reset_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.users.revokeAccess': {
+  'admin.users.revoke-access': {
     methods: ["POST"]
     pattern: '/admin/users/:id/revoke-access'
     types: {
@@ -151,7 +151,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/revoke_account_access_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.users.verifyEmail': {
+  'admin.users.verify-email': {
     methods: ["POST"]
     pattern: '/admin/users/:id/verify-email'
     types: {
@@ -163,7 +163,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/verify_account_email_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'admin.users.setRole': {
+  'admin.users.set-role': {
     methods: ["PATCH"]
     pattern: '/admin/users/:id/role'
     types: {

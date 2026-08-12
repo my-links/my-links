@@ -12,7 +12,7 @@ const LINK_CLASS =
 	'inline-flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-300 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors';
 
 const journalPageUrl = (page: number) =>
-	`${urlFor('admin.authEvents')}?page=${page}`;
+	`${urlFor('admin.auth-events')}?page=${page}`;
 
 export const JournalPagination = ({
 	currentPage,

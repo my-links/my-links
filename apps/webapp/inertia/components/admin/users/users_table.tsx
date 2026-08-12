@@ -69,7 +69,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			confirmColor: 'red',
 			onConfirm: async () => {
 				setIsDeleting(true);
-				const bulkDeleteUrl = urlFor('admin.users.bulkDelete');
+				const bulkDeleteUrl = urlFor('admin.users.bulk-delete');
 				router.post(
 					bulkDeleteUrl,
 					{ userIds: targetIds },

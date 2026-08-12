@@ -12,43 +12,43 @@ router
 
 		router
 			.get('/auth-events', [controllers.admin.AuthJournal, 'render'])
-			.as('admin.authEvents');
+			.as('admin.auth-events');
 
 		router
 			.get('/activity-events', [controllers.admin.ActivityJournal, 'render'])
-			.as('admin.activityEvents');
+			.as('admin.activity-events');
 
 		router
 			.post('/users/bulk-delete', [
 				controllers.admin.BulkDeleteUsers,
 				'execute',
 			])
-			.as('admin.users.bulkDelete');
+			.as('admin.users.bulk-delete');
 
 		router
 			.post('/users/:id/password-reset', [
 				controllers.admin.SendAccountPasswordReset,
 				'execute',
 			])
-			.as('admin.users.sendPasswordReset');
+			.as('admin.users.send-password-reset');
 
 		router
 			.post('/users/:id/revoke-access', [
 				controllers.admin.RevokeAccountAccess,
 				'execute',
 			])
-			.as('admin.users.revokeAccess');
+			.as('admin.users.revoke-access');
 
 		router
 			.post('/users/:id/verify-email', [
 				controllers.admin.VerifyAccountEmail,
 				'execute',
 			])
-			.as('admin.users.verifyEmail');
+			.as('admin.users.verify-email');
 
 		router
 			.patch('/users/:id/role', [controllers.admin.SetAccountRole, 'execute'])
-			.as('admin.users.setRole');
+			.as('admin.users.set-role');
 	})
 	.middleware([middleware.auth(), middleware.admin()])
 	.prefix('/admin');
