@@ -9,7 +9,7 @@ interface StatusProps {
 	checks: Data.StatusReportCheck[];
 }
 
-const Status = ({ isHealthy, checks }: StatusProps) => (
+const Status = ({ isHealthy, checks }: Readonly<StatusProps>) => (
 	<>
 		<Head title="Statut du système" />
 		<div className="space-y-6 overflow-y-auto">

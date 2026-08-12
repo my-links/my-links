@@ -23,7 +23,7 @@ interface LinkListProps {
 	links?: Data.Link[];
 }
 
-export function LinkList({ links: linksProp }: LinkListProps = {}) {
+export function LinkList({ links: linksProp }: Readonly<LinkListProps> = {}) {
 	const { props } = usePage<PagePropsWithLinks>();
 	const { layout } = useLayoutStore('dashboard');
 	const isMobile = useIsMobile();

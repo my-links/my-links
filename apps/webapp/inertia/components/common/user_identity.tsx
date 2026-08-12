@@ -8,7 +8,7 @@ type UserIdentityProps = {
  * A row whose account has since been deleted has no `fullname` left to show —
  * that case renders as `NaContent`, not an empty avatar.
  */
-export const UserIdentity = ({ fullname }: UserIdentityProps) => {
+export const UserIdentity = ({ fullname }: Readonly<UserIdentityProps>) => {
 	if (!fullname) return <NaContent />;
 
 	return (

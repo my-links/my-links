@@ -26,7 +26,7 @@ type PageProps = InertiaProps<{
 	unconfirmedEmail: string | null;
 }>;
 
-function LoginPage({ unconfirmedEmail }: PageProps) {
+function LoginPage({ unconfirmedEmail }: Readonly<PageProps>) {
 	const { isGoogleEnabled } = useAuthProviders();
 	const { isOpen: isRegistrationOpen } = useRegistrationPolicy();
 	const { isEnabled: isPasswordRecoveryEnabled } = usePasswordRecovery();

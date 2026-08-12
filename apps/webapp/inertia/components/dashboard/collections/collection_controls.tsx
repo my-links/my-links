@@ -30,7 +30,7 @@ interface PagePropsWithActiveCollection extends PageProps {
 
 export const CollectionControls = forwardRef<
 	CollectionControlsRef,
-	CollectionControlsProps
+	Readonly<CollectionControlsProps>
 >(({ collection }, ref) => {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;

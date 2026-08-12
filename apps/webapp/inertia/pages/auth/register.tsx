@@ -25,7 +25,7 @@ type PageProps = InertiaProps<{
 	minimumPasswordLength: number;
 }>;
 
-function RegisterPage({ minimumPasswordLength }: PageProps) {
+function RegisterPage({ minimumPasswordLength }: Readonly<PageProps>) {
 	const { isGoogleEnabled } = useAuthProviders();
 	const { data, setData, submit, processing, errors } =
 		useForm<RegisterFormData>({
