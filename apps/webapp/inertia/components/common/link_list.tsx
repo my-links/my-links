@@ -1,10 +1,11 @@
+import type { ReactNode } from 'react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
-import { LinkItem } from '../dashboard/links/link_item';
+import { LinkItem } from '~/components/dashboard/links/link_item';
 import {
 	getLinkContainerClassName,
 	getLinkContainerStyle,
@@ -12,12 +13,18 @@ import {
 	getLinkItemWrapperStyle,
 } from '~/lib/link_layout';
 
-interface SharedLinkListProps {
+interface LinkListProps {
 	links: Data.Link[];
+	layoutStoreKey: string;
+	emptyStateHint?: ReactNode;
 }
 
-export function SharedLinkList({ links }: Readonly<SharedLinkListProps>) {
-	const { layout } = useLayoutStore('shared');
+export function LinkList({
+	links,
+	layoutStoreKey,
+	emptyStateHint,
+}: Readonly<LinkListProps>) {
+	const { layout } = useLayoutStore(layoutStoreKey);
 	const isMobile = useIsMobile();
 
 	if (links.length === 0) {
@@ -27,6 +34,11 @@ export function SharedLinkList({ links }: Readonly<SharedLinkListProps>) {
 				<p className="text-gray-500 dark:text-gray-400 mb-2">
 					<Trans>No links yet</Trans>
 				</p>
+				{emptyStateHint && (
+					<p className="text-sm text-gray-400 dark:text-gray-500">
+						{emptyStateHint}
+					</p>
+				)}
 			</div>
 		);
 	}

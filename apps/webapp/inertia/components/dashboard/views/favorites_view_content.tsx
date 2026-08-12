@@ -1,9 +1,9 @@
 import { Trans } from '@lingui/react/macro';
 
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { LinkList } from '~/components/common/link_list';
 import { FilterList } from '~/components/common/filter_list';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { LinkList } from '~/components/dashboard/links/link_list';
 
 export function FavoritesViewContent() {
 	const { favoriteLinks } = useDashboardProps();
@@ -32,7 +32,11 @@ export function FavoritesViewContent() {
 				{!isMobile && <FilterList layoutStoreKey="dashboard" />}
 			</div>
 
-			<LinkList links={favoriteLinks} />
+			<LinkList
+				links={favoriteLinks}
+				layoutStoreKey="dashboard"
+				emptyStateHint={<Trans>Create your first link to get started</Trans>}
+			/>
 		</>
 	);
 }
