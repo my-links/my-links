@@ -4,9 +4,9 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
 import { MailService } from '#services/mail/mail_service';
-import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
+import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
 import PasswordResetUnavailableException from '#exceptions/auth/password_reset_unavailable_exception';
 
@@ -25,7 +25,7 @@ export const PASSWORD_RESET_SENT_MESSAGE = 'A reset link is on its way';
 export default class SendAccountPasswordResetController {
 	constructor(
 		protected readonly userService: UserService,
-		protected readonly passwordService: PasswordService,
+		protected readonly passwordResetLinkService: PasswordResetLinkService,
 		protected readonly authEventService: AuthEventService,
 		protected readonly mailService: MailService
 	) {}
@@ -40,7 +40,7 @@ export default class SendAccountPasswordResetController {
 			this.userService
 		);
 
-		await this.passwordService.mailResetLink(account);
+		await this.passwordResetLinkService.mailResetLink(account);
 
 		await recordAdminAction(ctx, this.authEventService, {
 			type: AUTH_EVENT_TYPE.PASSWORD_RESET_REQUESTED,
