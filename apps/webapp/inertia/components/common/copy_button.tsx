@@ -1,5 +1,7 @@
 import { ReactNode, useState } from 'react';
 
+const COPIED_INDICATOR_TIMEOUT = 2_000;
+
 interface CopyButtonProps {
 	value: string;
 	children: (props: {
@@ -15,7 +17,7 @@ export function CopyButton({ value, children }: Readonly<CopyButtonProps>) {
 		try {
 			await navigator.clipboard.writeText(value);
 			setCopied(true);
-			setTimeout(() => setCopied(false), 2000);
+			setTimeout(() => setCopied(false), COPIED_INDICATOR_TIMEOUT);
 		} catch (err) {
 			console.error('Failed to copy:', err);
 		}
