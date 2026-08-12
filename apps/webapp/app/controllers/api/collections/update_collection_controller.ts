@@ -2,25 +2,16 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { CollectionService } from '#services/collections/collection_service';
-import { updateCollectionValidator } from '#validators/collections/update_collection_validator';
+import { updateCollectionAction } from '#controllers/collections/actions/update_collection_action';
 
 @inject()
 export default class UpdateCollectionController {
 	constructor(protected readonly collectionService: CollectionService) {}
 
-	async execute({ request, response }: HttpContext) {
-		const {
-			params: { id: collectionId },
-			...payload
-		} = await request.validateUsing(updateCollectionValidator);
+	async execute(ctx: HttpContext) {
+		await updateCollectionAction(ctx, this.collectionService);
 
-		await this.collectionService.updateCollection(collectionId, {
-			name: payload.name,
-			description: payload.description,
-			visibility: payload.visibility,
-			icon: payload.icon ?? null,
-		});
-		return response.json({
+		return ctx.response.json({
 			message: 'Collection updated successfully',
 		});
 	}

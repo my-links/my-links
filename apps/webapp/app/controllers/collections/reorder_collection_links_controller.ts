@@ -1,9 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import Collection from '#models/collection';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
-import { reorderCollectionLinksValidator } from '#validators/collections/reorder_collection_links_validator';
+import { reorderCollectionLinksAction } from '#controllers/collections/actions/reorder_collection_links_action';
 
 @inject()
 export default class ReorderCollectionLinksController {
@@ -11,21 +10,9 @@ export default class ReorderCollectionLinksController {
 		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
-	async execute({ request, response, auth }: HttpContext) {
-		const {
-			params: { id: collectionId },
-			linkIds,
-		} = await request.validateUsing(reorderCollectionLinksValidator);
+	async execute(ctx: HttpContext) {
+		await reorderCollectionLinksAction(ctx, this.collectionLinkService);
 
-		const collection = await Collection.query()
-			.where('id', collectionId)
-			.andWhere('author_id', auth.getUserOrFail().id)
-			.firstOrFail();
-
-		await this.collectionLinkService.reorderLinksInCollection(
-			collection,
-			linkIds
-		);
-		return response.redirect().back();
+		return ctx.response.redirect().back();
 	}
 }

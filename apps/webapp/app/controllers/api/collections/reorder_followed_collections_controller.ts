@@ -2,18 +2,15 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { CollectionService } from '#services/collections/collection_service';
-import { reorderFollowedCollectionsValidator } from '#validators/collections/reorder_followed_collections_validator';
+import { reorderFollowedCollectionsAction } from '#controllers/collections/actions/reorder_followed_collections_action';
 
 @inject()
 export default class ReorderFollowedCollectionsController {
 	constructor(protected readonly collectionService: CollectionService) {}
 
-	async execute({ request, response }: HttpContext) {
-		const { collectionIds } = await request.validateUsing(
-			reorderFollowedCollectionsValidator
-		);
+	async execute(ctx: HttpContext) {
+		await reorderFollowedCollectionsAction(ctx, this.collectionService);
 
-		await this.collectionService.reorderFollowedCollections(collectionIds);
-		return response.json({ message: 'Collections reordered successfully' });
+		return ctx.response.json({ message: 'Collections reordered successfully' });
 	}
 }
