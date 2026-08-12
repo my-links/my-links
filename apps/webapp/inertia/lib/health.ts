@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 
 type HealthCheckStatus = Data.StatusReportCheck['status'];
@@ -17,9 +18,9 @@ export function getHealthStatusIcon(status: HealthCheckStatus): string {
 }
 
 export function getHealthStatusLabel(status: HealthCheckStatus): string {
-	if (status === 'ok') return 'Opérationnel';
-	if (status === 'error') return 'Défaillant';
-	return 'Avertissement';
+	if (status === 'ok') return t`Operational`;
+	if (status === 'error') return t`Failing`;
+	return t`Warning`;
 }
 
 export function getHealthStatusColorClass(status: HealthCheckStatus): string {
@@ -35,37 +36,37 @@ export function getHealthServiceDisplayName(name: string): string {
 		normalizedName.includes('disk space') ||
 		normalizedName === 'disk_space'
 	) {
-		return 'Espace disque';
+		return t`Disk space`;
 	}
 	if (
 		normalizedName.includes('heap memory') ||
 		normalizedName === 'heap_memory'
 	) {
-		return 'Mémoire heap';
+		return t`Heap memory`;
 	}
 	if (normalizedName.includes('rss') || normalizedName === 'resource_memory') {
-		return 'Mémoire RSS';
+		return t`RSS memory`;
 	}
 	if (
 		normalizedName.includes('db connection count') ||
 		normalizedName === 'db_connection_count'
 	) {
-		return 'Connexions base de données';
+		return t`Database connections`;
 	}
 	if (
 		normalizedName.includes('db connection') &&
 		!normalizedName.includes('count')
 	) {
-		return 'Connexion base de données';
+		return t`Database connection`;
 	}
 	if (
 		normalizedName.includes('redis memory') ||
 		normalizedName.includes('memory consumption')
 	) {
-		return 'Utilisation mémoire Redis';
+		return t`Redis memory usage`;
 	}
 	if (normalizedName.includes('redis')) {
-		return 'Redis';
+		return t`Redis`;
 	}
 
 	return name
