@@ -2,7 +2,7 @@
 	"name": "@my-links/webapp",
 	"version": "5.0.1",
 	"private": true,
-	"license": "GPL-3.0-only",
+	"license": "AGPL-3.0-only",
 	"type": "module",
 	"imports": {
 		"#adonis/api": "./.adonisjs/api.ts",

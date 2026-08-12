@@ -41,4 +41,4 @@ Contributing to MyLinks itself? See [Contributing](https://docs.mylinks.app/cont
 
 ## License
 
-This project is licensed under the [GPLv3 License](./LICENSE).
+This project is licensed under the [AGPLv3 License](./LICENSE).
