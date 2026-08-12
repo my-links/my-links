@@ -29,4 +29,14 @@ export default class Link extends LinkSchema {
 	static ownedBy = scope((query, userId: User['id']) => {
 		query.where('author_id', userId);
 	});
+
+	/**
+	 * How a collection's links are ordered wherever they're preloaded
+	 * through the `collection_link` pivot.
+	 */
+	static orderedInCollection = scope((query) => {
+		query
+			.orderBy('collection_link.position', 'asc')
+			.orderBy('links.name', 'asc');
+	});
 }
