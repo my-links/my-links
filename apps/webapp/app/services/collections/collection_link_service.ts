@@ -6,6 +6,7 @@ import Link from '#models/link';
 import type User from '#models/user';
 import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
+import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
@@ -79,13 +80,12 @@ export class CollectionLinkService {
 		await this.assertLinkSetMatches(collection.id, linkIds);
 
 		await db.transaction(async (transaction) => {
-			await transaction.rawQuery(
-				`UPDATE collection_link AS target
-				 SET position = ordered.rank - 1
-				 FROM UNNEST(?::int[]) WITH ORDINALITY AS ordered(link_id, rank)
-				 WHERE target.collection_id = ? AND target.link_id = ordered.link_id`,
-				[linkIds, collection.id]
-			);
+			await reorderByRank(transaction, {
+				table: 'collection_link',
+				rankedColumn: 'link_id',
+				ids: linkIds,
+				extraWhere: { column: 'collection_id', value: collection.id },
+			});
 			await this.syncJournalService.markLinksChanged(linkIds, transaction);
 		});
 	}
