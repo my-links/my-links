@@ -179,12 +179,12 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/collections'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
+      body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/create_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/create_collection_controller').default['execute']>>>
     }
   }
   'collection.favorites': {
@@ -215,36 +215,36 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/collections/owned/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_collections_validator').reorderCollectionsValidator)>>
+      body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_collections_validator').reorderCollectionsValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/reorder_owned_collections_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_owned_collections_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_owned_collections_controller').default['execute']>>>
     }
   }
   'collection.reorder-followed': {
     methods: ["PUT"]
     pattern: '/collections/followed/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_followed_collections_validator').reorderFollowedCollectionsValidator)>>
+      body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_followed_collections_validator').reorderFollowedCollectionsValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/reorder_followed_collections_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_followed_collections_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_followed_collections_controller').default['execute']>>>
     }
   }
   'collection.reorder-links': {
     methods: ["PUT"]
     pattern: '/collections/:id/links/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_collection_links_validator').reorderCollectionLinksValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_collection_links_validator').reorderCollectionLinksValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/reorder_collection_links_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_collection_links_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_collection_links_controller').default['execute']>>>
     }
   }
   'collection.show': {
@@ -263,24 +263,24 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/collections/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/update_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/update_collection_controller').default['execute']>>>
     }
   }
   'collection.delete': {
     methods: ["DELETE"]
     pattern: '/collections/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/delete_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/delete_collection_controller').default['execute']>>>
     }
   }
   'collection.follow': {
@@ -695,72 +695,72 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/api/v1/collections'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
+      body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/create_collection_validator').createCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/create_collection_controller').default['execute']>>>
     }
   }
   'api-collections.update': {
     methods: ["PUT"]
     pattern: '/api/v1/collections/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/update_collection_validator').updateCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/update_collection_controller').default['execute']>>>
     }
   }
   'api-collections.delete': {
     methods: ["DELETE"]
     pattern: '/api/v1/collections/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/delete_collection_validator').deleteCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/delete_collection_controller').default['execute']>>>
     }
   }
   'api-collections.reorder-owned': {
     methods: ["PUT"]
     pattern: '/api/v1/collections/owned/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_collections_validator').reorderCollectionsValidator)>>
+      body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_collections_validator').reorderCollectionsValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_owned_collections_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_owned_collections_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_owned_collections_controller').default['execute']>>>
     }
   }
   'api-collections.reorder-followed': {
     methods: ["PUT"]
     pattern: '/api/v1/collections/followed/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_followed_collections_validator').reorderFollowedCollectionsValidator)>>
+      body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_followed_collections_validator').reorderFollowedCollectionsValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_followed_collections_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_followed_collections_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_followed_collections_controller').default['execute']>>>
     }
   }
   'api-collections.reorder-links': {
     methods: ["PUT"]
     pattern: '/api/v1/collections/:id/links/reorder'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/collections/reorder_collection_links_validator').reorderCollectionLinksValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/collections/reorder_collection_links_validator').reorderCollectionLinksValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_collection_links_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_collection_links_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/reorder_collection_links_controller').default['execute']>>>
     }
   }
   'api-favorites.index': {
@@ -803,48 +803,48 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/api/v1/links/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/update_link_controller').default['execute']>>>
     }
   }
   'api-links.delete': {
     methods: ["DELETE"]
     pattern: '/api/v1/links/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/delete_link_controller').default['execute']>>>
     }
   }
   'api-links.move-to-collection': {
     methods: ["PUT"]
     pattern: '/api/v1/links/:id/collection'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/move_link_validator').moveLinkValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/move_link_validator').moveLinkValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/move_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/move_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/move_link_controller').default['execute']>>>
     }
   }
   'api-links.add-to-collection': {
     methods: ["POST"]
     pattern: '/api/v1/links/:id/collections'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/add_link_to_collection_validator').addLinkToCollectionValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/add_link_to_collection_validator').addLinkToCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/add_link_to_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/add_link_to_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/add_link_to_collection_controller').default['execute']>>>
     }
   }
   'api-sync.delta': {
@@ -911,12 +911,12 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/links/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/update_link_validator').updateLinkValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/update_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/update_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/update_link_controller').default['execute']>>>
     }
   }
   'link.toggle-favorite': {
@@ -935,36 +935,36 @@ export interface Registry {
     methods: ["PUT"]
     pattern: '/links/:id/collection'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/move_link_validator').moveLinkValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/move_link_validator').moveLinkValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/move_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/move_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/move_link_controller').default['execute']>>>
     }
   }
   'link.add-to-collection': {
     methods: ["POST"]
     pattern: '/links/:id/collections'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/add_link_to_collection_validator').addLinkToCollectionValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/add_link_to_collection_validator').addLinkToCollectionValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/add_link_to_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/add_link_to_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/add_link_to_collection_controller').default['execute']>>>
     }
   }
   'link.delete': {
     methods: ["DELETE"]
     pattern: '/links/:id'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/links/delete_link_validator').deleteLinkValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>>
     }
   }
 }

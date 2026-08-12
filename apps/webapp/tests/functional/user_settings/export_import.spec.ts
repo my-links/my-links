@@ -14,6 +14,7 @@ import { ExportImportService } from '#services/user/export_import_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 function buildService() {
 	const collectionLinkService = new CollectionLinkService(
@@ -24,7 +25,8 @@ function buildService() {
 		new CollectionService(
 			new SyncJournalService(),
 			new ActivityEventService(),
-			collectionLinkService
+			collectionLinkService,
+			new CollectionFollowerService(new ActivityEventService())
 		),
 		new ActivityEventService(),
 		collectionLinkService

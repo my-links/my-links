@@ -3,16 +3,20 @@ import { HttpContext } from '@adonisjs/core/http';
 
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
+import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 @inject()
 export default class GetCollectionsController {
-	constructor(protected readonly collectionService: CollectionService) {}
+	constructor(
+		protected readonly collectionService: CollectionService,
+		protected readonly collectionFollowerService: CollectionFollowerService
+	) {}
 
 	async render({ auth, response, serialize }: HttpContext) {
 		const collections =
 			await this.collectionService.getCollectionsForAuthenticatedUser();
 		const followedCollections =
-			await this.collectionService.getFollowedCollectionsWithLinks(
+			await this.collectionFollowerService.getFollowedCollectionsWithLinks(
 				auth.getUserOrFail().id
 			);
 
