@@ -1,7 +1,7 @@
 import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import type { RequestOrigin } from '#lib/request_origin';
-import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
+import { paginateAuditJournal } from '#lib/audit_journal_query';
 import { AUTH_EVENT_TYPE, type AuthEventType } from '#constants/auth';
 
 export type AuthEventRecord = RequestOrigin & {
@@ -35,24 +35,13 @@ export class AuthEventService {
 	}
 
 	/**
-	 * The journal, newest first, one page at a time.
-	 *
-	 * Both accounts are preloaded because every line names them; reading them
-	 * row by row would be two round trips per line rendered.
+	 * The journal, newest first, one page at a time. Mirrors
+	 * `ActivityEventService.listRecent`.
 	 */
 	listRecent(page: number) {
-		return (
-			AuditEvent.query()
-				.whereNull('subjectType')
-				.preload('user')
-				.preload('actor')
-				.orderBy('createdAt', 'desc')
-				// Events written in the same transaction share a timestamp, so the
-				// date alone does not order them and a page boundary would be free to
-				// show the same row twice.
-				.orderBy('id', 'desc')
-				.paginate(page, AUDIT_JOURNAL_PAGE_SIZE)
-		);
+		return paginateAuditJournal(page, (query) => {
+			query.whereNull('subjectType');
+		});
 	}
 
 	/**

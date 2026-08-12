@@ -4,12 +4,10 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import AuditEvent from '#models/audit_event';
 import type { RequestOrigin } from '#lib/request_origin';
+import type { AuditSubjectType } from '#constants/audit';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import type { ActivityEventType } from '#constants/activity';
-import {
-	AUDIT_JOURNAL_PAGE_SIZE,
-	type AuditSubjectType,
-} from '#constants/audit';
+import { paginateAuditJournal } from '#lib/audit_journal_query';
 
 /**
  * Something a user or an administrator did to a collection, a link, or an
@@ -64,13 +62,9 @@ export class ActivityEventService {
 	 * `AuthEventService.listRecent`.
 	 */
 	listRecent(page: number) {
-		return AuditEvent.query()
-			.whereNotNull('subjectType')
-			.preload('user')
-			.preload('actor')
-			.orderBy('createdAt', 'desc')
-			.orderBy('id', 'desc')
-			.paginate(page, AUDIT_JOURNAL_PAGE_SIZE);
+		return paginateAuditJournal(page, (query) => {
+			query.whereNotNull('subjectType');
+		});
 	}
 
 	/**
