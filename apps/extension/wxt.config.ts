@@ -27,6 +27,7 @@ export default defineConfig({
 		),
 	},
 	manifest: ({ browser, manifestVersion }) => ({
+		name: 'MyLinks',
 		// `sidePanel` is added automatically by WXT because of the `sidepanel`
 		// entrypoint (which becomes `sidebar_action` on Firefox).
 		// `contextMenus`/`notifications` back the quick-capture flow (Phase 2).
