@@ -13,6 +13,7 @@ import { TuyauProvider } from '@adonisjs/inertia/react';
 import { tuyauClient } from '~/lib/tuyau';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { dynamicActivate, type Locale } from '~/i18n';
+import { Toaster } from '~/components/common/toaster';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { FlashMessages } from '~/components/common/flash_messages';
 import { AnnouncementBanner } from '~/components/common/announcement_banner';
@@ -43,6 +44,7 @@ export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
 		<I18nProvider i18n={i18n}>
 			<TuyauProvider client={tuyauClient}>
 				<ModalProvider />
+				<Toaster />
 				<AnnouncementBanner />
 				<FlashMessages />
 				{children}

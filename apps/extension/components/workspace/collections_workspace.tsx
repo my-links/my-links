@@ -6,6 +6,7 @@ import {
 	ThemeToggle,
 } from '@minimalstuff/ui';
 
+import { Toaster } from '@/components/common/toaster';
 import { SearchPanel } from '@/components/search/search_panel';
 import { RefreshButton } from '@/components/common/refresh_button';
 import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
@@ -54,6 +55,7 @@ export function CollectionsWorkspace() {
 	return (
 		<main className="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 			<ModalProvider />
+			<Toaster />
 			<div className="flex items-center justify-between gap-2 p-4 pb-2">
 				<div className="flex min-w-0 items-center gap-2">
 					<p className="text-sm truncate">Connected to {instanceUrl}.</p>
