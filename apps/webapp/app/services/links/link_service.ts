@@ -71,7 +71,7 @@ export class LinkService {
 		await db.transaction(async (transaction) => {
 			const link = await Link.query({ client: transaction })
 				.where('id', id)
-				.andWhere('author_id', userId)
+				.apply((scopes) => scopes.ownedBy(userId))
 				.firstOrFail();
 
 			link.merge(linkAttributes);
@@ -173,7 +173,7 @@ export class LinkService {
 		await db.transaction(async (transaction) => {
 			const link = await Link.query({ client: transaction })
 				.where('id', id)
-				.andWhere('author_id', userId)
+				.apply((scopes) => scopes.ownedBy(userId))
 				.first();
 
 			if (!link) {
@@ -197,7 +197,7 @@ export class LinkService {
 	async getLinkById(id: Link['id'], userId: Link['id']) {
 		return await Link.query()
 			.where('id', id)
-			.andWhere('author_id', userId)
+			.apply((scopes) => scopes.ownedBy(userId))
 			.preload('collections')
 			.firstOrFail();
 	}
@@ -211,7 +211,7 @@ export class LinkService {
 		const userId = this.getAuthenticatedUserId();
 		const link = await Link.query()
 			.where('id', id)
-			.andWhere('author_id', userId)
+			.apply((scopes) => scopes.ownedBy(userId))
 			.firstOrFail();
 
 		link.favorite = favorite;

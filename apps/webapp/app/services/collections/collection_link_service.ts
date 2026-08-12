@@ -174,7 +174,7 @@ export class CollectionLinkService {
 	): Promise<Link> {
 		const link = await Link.query()
 			.where('id', linkId)
-			.andWhere('author_id', userId)
+			.apply((scopes) => scopes.ownedBy(userId))
 			.first();
 
 		if (!link) {

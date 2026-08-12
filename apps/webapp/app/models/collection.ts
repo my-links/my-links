@@ -1,4 +1,4 @@
-import { belongsTo, column, manyToMany } from '@adonisjs/lucid/orm';
+import { belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm';
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
 import Link from '#models/link';
@@ -43,4 +43,8 @@ export default class Collection extends CollectionSchema {
 		},
 	})
 	declare followers: ManyToMany<typeof User>;
+
+	static ownedBy = scope((query, userId: User['id']) => {
+		query.where('author_id', userId);
+	});
 }
