@@ -1,8 +1,7 @@
 import router from '@adonisjs/core/services/router';
 
-import { middleware } from '#start/kernel';
-import { apiThrottle } from '#start/limiter';
 import { controllers } from '#generated/controllers';
+import { apiMiddleware } from '#routes/api/api_middleware';
 
 router
 	.group(() => {
@@ -11,4 +10,4 @@ router
 			.as('api-favorites.index');
 	})
 	.prefix('/api/v1/links/favorites')
-	.middleware([middleware.auth({ guards: ['api'] }), apiThrottle]);
+	.middleware(apiMiddleware);
