@@ -7,6 +7,8 @@ import React, {
 	useState,
 } from 'react';
 
+import { cn } from '~/lib/cn';
+
 type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
 interface TooltipProps {
@@ -121,12 +123,15 @@ export function Tooltip({
 			{isVisible && !disabled && (
 				<div
 					ref={tooltipRef}
-					className={`absolute z-50 px-3 py-1.5 text-sm text-white dark:text-gray-900 bg-gray-900 dark:bg-gray-100 rounded-lg shadow-lg whitespace-nowrap pointer-events-none ${positionClasses[position]}`}
+					className={cn(
+						'absolute z-50 px-3 py-1.5 text-sm text-white dark:text-gray-900 bg-gray-900 dark:bg-gray-100 rounded-lg shadow-lg whitespace-nowrap pointer-events-none',
+						positionClasses[position]
+					)}
 					role="tooltip"
 				>
 					{displayContent}
 					<div
-						className={`absolute w-0 h-0 border-4 ${arrowClasses[position]}`}
+						className={cn('absolute w-0 h-0 border-4', arrowClasses[position])}
 					/>
 				</div>
 			)}

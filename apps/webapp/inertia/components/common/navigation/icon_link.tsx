@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { Link } from '@adonisjs/inertia/react';
 
+import { cn } from '~/lib/cn';
+
 interface IconLinkProps {
 	href: string;
 	icon: string;
@@ -20,10 +22,10 @@ export const IconLink = ({
 	children,
 	external = false,
 	onClick,
-	className = '',
+	className,
 	fullWidth = false,
 }: Readonly<IconLinkProps>) => {
-	const combinedClassName = `${baseClassName} ${fullWidth ? 'w-full' : ''} ${className}`;
+	const combinedClassName = cn(baseClassName, fullWidth && 'w-full', className);
 
 	if (external) {
 		return (
@@ -34,7 +36,7 @@ export const IconLink = ({
 				className={combinedClassName}
 				onClick={onClick}
 			>
-				<i className={`${icon} h-5 min-w-5 block transform-gpu`} />
+				<i className={cn(icon, 'h-5 min-w-5 block transform-gpu')} />
 				<span>{children}</span>
 			</a>
 		);
@@ -42,7 +44,7 @@ export const IconLink = ({
 
 	return (
 		<Link href={href} className={combinedClassName} onClick={onClick}>
-			<i className={`${icon} h-5 min-w-5 block transform-gpu`} />
+			<i className={cn(icon, 'h-5 min-w-5 block transform-gpu')} />
 			<span>{children}</span>
 		</Link>
 	);

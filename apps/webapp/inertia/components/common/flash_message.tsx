@@ -1,6 +1,8 @@
 import { t } from '@lingui/core/macro';
 import { IconButton } from '@minimalstuff/ui';
 
+import { cn } from '~/lib/cn';
+
 const TONE_CLASSNAMES = {
 	error:
 		'bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-900 text-red-700 dark:text-red-300',
@@ -23,7 +25,10 @@ export const FlashMessage = ({
 }: Readonly<FlashMessageProps>) => (
 	<div
 		role={tone === 'error' ? 'alert' : 'status'}
-		className={`flex items-start gap-2 rounded-lg border px-4 py-3 text-sm shadow-sm ${TONE_CLASSNAMES[tone]}`}
+		className={cn(
+			'flex items-start gap-2 rounded-lg border px-4 py-3 text-sm shadow-sm',
+			TONE_CLASSNAMES[tone]
+		)}
 	>
 		<p className="flex-1">{message}</p>
 		<IconButton

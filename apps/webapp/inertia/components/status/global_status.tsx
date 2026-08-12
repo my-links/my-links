@@ -1,3 +1,4 @@
+import { cn } from '~/lib/cn';
 import { Badge } from '~/components/common/badge';
 import { getHealthStatusIcon, getHealthStatusVariant } from '~/lib/health';
 
@@ -12,19 +13,22 @@ export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
 
 	return (
 		<div
-			className={`bg-white dark:bg-gray-800 rounded-lg p-8 border-2 ${
+			className={cn(
+				'bg-white dark:bg-gray-800 rounded-lg p-8 border-2',
 				isHealthy
 					? 'border-green-200 dark:border-green-800'
 					: 'border-red-200 dark:border-red-800'
-			}`}
+			)}
 		>
 			<div className="flex items-center gap-4">
 				<i
-					className={`${overallIcon} text-4xl ${
+					className={cn(
+						overallIcon,
+						'text-4xl',
 						isHealthy
 							? 'text-green-600 dark:text-green-400'
 							: 'text-red-600 dark:text-red-400'
-					}`}
+					)}
 				/>
 				<div className="flex-1">
 					<div className="flex items-center gap-3 mb-2">

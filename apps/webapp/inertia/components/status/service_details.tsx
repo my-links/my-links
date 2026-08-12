@@ -1,5 +1,6 @@
 import type { Data } from '@generated/data';
 
+import { cn } from '~/lib/cn';
 import { Badge } from '~/components/common/badge';
 import { ThresholdDisplay } from '~/components/status/threshold_display';
 import {
@@ -28,7 +29,7 @@ export const ServiceDetails = ({ checks }: Readonly<ServiceDetailsProps>) => (
 						key={check.name}
 						className="flex items-start gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
 					>
-						<i className={`${icon} text-2xl mt-1 ${statusColor}`} />
+						<i className={cn(icon, 'text-2xl mt-1', statusColor)} />
 						<div className="flex-1 min-w-0">
 							<div className="flex items-center gap-3 mb-1">
 								<h3 className="text-lg font-medium text-gray-900 dark:text-white">
