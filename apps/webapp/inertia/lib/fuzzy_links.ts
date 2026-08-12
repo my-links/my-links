@@ -45,12 +45,12 @@ function extractNameRanges(
 		rangeStartIndex += 2
 	) {
 		const start = matchRanges[rangeStartIndex];
+		const end = matchRanges[rangeStartIndex + 1];
 
-		if (start >= nameLength) {
+		if (start === undefined || end === undefined || start >= nameLength) {
 			continue;
 		}
 
-		const end = matchRanges[rangeStartIndex + 1];
 		nameRanges.push(start, Math.min(end, nameLength));
 	}
 
@@ -104,16 +104,25 @@ export function matchLinks<TLink extends FuzzyLink>(
 
 	const [, info, order] = result;
 
-	return order.map((orderIndex) => {
-		const link = links[info.idx[orderIndex]];
+	return order.flatMap((orderIndex) => {
+		const linkIndex = info.idx[orderIndex];
+		const matchRanges = info.ranges[orderIndex];
+		const link = linkIndex === undefined ? undefined : links[linkIndex];
+
+		if (!link || matchRanges === undefined) {
+			return [];
+		}
+
 		const foldedNameLength = foldAccents(link.name).length;
 		const isFoldLengthPreserving = foldedNameLength === link.name.length;
 
-		return {
-			link,
-			nameRanges: isFoldLengthPreserving
-				? extractNameRanges(info.ranges[orderIndex], foldedNameLength)
-				: [],
-		};
+		return [
+			{
+				link,
+				nameRanges: isFoldLengthPreserving
+					? extractNameRanges(matchRanges, foldedNameLength)
+					: [],
+			},
+		];
 	});
 }
