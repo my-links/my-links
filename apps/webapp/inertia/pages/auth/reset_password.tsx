@@ -17,7 +17,10 @@ type PageProps = InertiaProps<{
 	minimumPasswordLength: number;
 }>;
 
-function ResetPasswordPage({ token, minimumPasswordLength }: PageProps) {
+function ResetPasswordPage({
+	token,
+	minimumPasswordLength,
+}: Readonly<PageProps>) {
 	const { data, setData, submit, processing, errors } =
 		useForm<ResetPasswordFormData>({
 			password: '',

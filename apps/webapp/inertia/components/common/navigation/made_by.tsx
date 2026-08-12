@@ -7,7 +7,7 @@ interface MadeByProps {
 	className?: string;
 }
 
-export const MadeBy = ({ onClick, className = '' }: MadeByProps) => (
+export const MadeBy = ({ onClick, className = '' }: Readonly<MadeByProps>) => (
 	<span className={`flex items-center gap-2 ${className}`}>
 		<Trans>Made by</Trans>
 		<a

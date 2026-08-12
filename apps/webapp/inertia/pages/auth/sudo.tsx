@@ -16,7 +16,10 @@ type PageProps = InertiaProps<{
 	isGoogleConfirmationAvailable: boolean;
 }>;
 
-function SudoPage({ hasPassword, isGoogleConfirmationAvailable }: PageProps) {
+function SudoPage({
+	hasPassword,
+	isGoogleConfirmationAvailable,
+}: Readonly<PageProps>) {
 	const { data, setData, submit, processing, errors } = useForm<SudoFormData>({
 		password: '',
 	});
