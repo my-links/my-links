@@ -2,7 +2,7 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { CollectionLinkService } from '#services/collections/collection_link_service';
-import { addLinkToCollectionValidator } from '#validators/links/add_link_to_collection_validator';
+import { addLinkToCollectionAction } from '#controllers/links/actions/add_link_to_collection_action';
 
 @inject()
 export default class AddLinkToCollectionController {
@@ -10,17 +10,9 @@ export default class AddLinkToCollectionController {
 		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
-	async execute({ request, response, auth }: HttpContext) {
-		const {
-			params: { id: linkId },
-			collectionId,
-		} = await request.validateUsing(addLinkToCollectionValidator);
+	async execute(ctx: HttpContext) {
+		await addLinkToCollectionAction(ctx, this.collectionLinkService);
 
-		await this.collectionLinkService.addLinkToCollection(
-			auth.getUserOrFail().id,
-			linkId,
-			collectionId
-		);
-		return response.redirect().back();
+		return ctx.response.redirect().back();
 	}
 }

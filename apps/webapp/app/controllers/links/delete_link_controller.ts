@@ -2,24 +2,20 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { LinkService } from '#services/links/link_service';
-import { deleteLinkValidator } from '#validators/links/delete_link_validator';
+import { deleteLinkAction } from '#controllers/links/actions/delete_link_action';
 
 @inject()
 export default class DeleteLinkController {
 	constructor(protected linkService: LinkService) {}
 
-	async execute({ request, auth, response }: HttpContext) {
-		const { params } = await request.validateUsing(deleteLinkValidator);
-
-		const link = await this.linkService.getLinkById(
-			params.id,
-			auth.getUserOrFail().id
+	async execute(ctx: HttpContext) {
+		const { primaryCollectionId } = await deleteLinkAction(
+			ctx,
+			this.linkService
 		);
-		const [primaryCollection] = link.collections;
-		await this.linkService.deleteLink(params.id);
 
-		return response.redirect().toRoute('collection.show', {
-			id: primaryCollection.id,
+		return ctx.response.redirect().toRoute('collection.show', {
+			id: primaryCollectionId,
 		});
 	}
 }

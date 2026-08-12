@@ -2,18 +2,16 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { LinkService } from '#services/links/link_service';
-import { updateLinkValidator } from '#validators/links/update_link_validator';
+import { updateLinkAction } from '#controllers/links/actions/update_link_action';
 
 @inject()
 export default class UpdateLinkController {
 	constructor(protected readonly linkService: LinkService) {}
 
-	async execute({ request, response }: HttpContext) {
-		const { params, ...payload } =
-			await request.validateUsing(updateLinkValidator);
+	async execute(ctx: HttpContext) {
+		await updateLinkAction(ctx, this.linkService);
 
-		await this.linkService.updateLink(params.id, payload);
-		return response.json({
+		return ctx.response.json({
 			message: 'Link updated successfully',
 		});
 	}

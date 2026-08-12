@@ -12,10 +12,7 @@ export default class CreateLinkController {
 		const { collectionIds, ...payload } =
 			await request.validateUsing(createLinkValidator);
 
-		await this.linkService.createLink({
-			...payload,
-			collectionIds,
-		});
+		await this.linkService.createLink({ ...payload, collectionIds });
 		return response.redirect().back();
 	}
 }
