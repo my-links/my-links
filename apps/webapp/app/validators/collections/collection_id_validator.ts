@@ -2,6 +2,8 @@ import vine from '@vinejs/vine';
 
 export const collectionIdValidator = vine.create(
 	vine.object({
-		collectionId: vine.number().positive().optional(),
+		params: vine.object({
+			id: vine.number().positive(),
+		}),
 	})
 );
