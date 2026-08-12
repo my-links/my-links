@@ -1,5 +1,11 @@
 # Changelog
 
+## [5.1.1](https://github.com/my-links/my-links/compare/webapp-v5.1.0...webapp-v5.1.1) (2026-08-12)
+
+### Bug Fixes
+
+* **webapp:** target sonner toast markup in auth journey browser spec ([909793f](https://github.com/my-links/my-links/commit/909793f0601f3233d0e8a30b9bc37be9e73d8d0d))
+
 ## [5.1.0](https://github.com/my-links/my-links/compare/webapp-v5.0.1...webapp-v5.1.0) (2026-08-12)
 
 ### Features
