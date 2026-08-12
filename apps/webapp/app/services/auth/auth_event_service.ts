@@ -1,6 +1,7 @@
 import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import type { RequestOrigin } from '#lib/request_origin';
+import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
 import { AUTH_EVENT_TYPE, type AuthEventType } from '#constants/auth';
 
 export type AuthEventRecord = RequestOrigin & {
@@ -22,12 +23,6 @@ export type AdminActionRecord = RequestOrigin & {
 	readonly userId: number;
 	readonly actorId: number;
 };
-
-/**
- * How many lines the journal hands over at a time. `auth_events` only ever
- * grows, so nothing reads it whole.
- */
-export const AUTH_JOURNAL_PAGE_SIZE = 50;
 
 export class AuthEventService {
 	async record({
@@ -56,7 +51,7 @@ export class AuthEventService {
 				// date alone does not order them and a page boundary would be free to
 				// show the same row twice.
 				.orderBy('id', 'desc')
-				.paginate(page, AUTH_JOURNAL_PAGE_SIZE)
+				.paginate(page, AUDIT_JOURNAL_PAGE_SIZE)
 		);
 	}
 

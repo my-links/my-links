@@ -4,9 +4,12 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import AuditEvent from '#models/audit_event';
 import type { RequestOrigin } from '#lib/request_origin';
-import type { AuditSubjectType } from '#constants/audit';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import type { ActivityEventType } from '#constants/activity';
+import {
+	AUDIT_JOURNAL_PAGE_SIZE,
+	type AuditSubjectType,
+} from '#constants/audit';
 
 /**
  * Something a user or an administrator did to a collection, a link, or an
@@ -21,12 +24,6 @@ export type ActivityEventRecord = {
 	readonly subjectId: number;
 	readonly metadata?: Record<string, unknown> | null;
 };
-
-/**
- * How many lines the journal hands over at a time. Mirrors
- * `AUTH_JOURNAL_PAGE_SIZE`.
- */
-export const ACTIVITY_JOURNAL_PAGE_SIZE = 50;
 
 /**
  * How long an activity row is kept before `pruneBefore` removes it.
@@ -73,7 +70,7 @@ export class ActivityEventService {
 			.preload('actor')
 			.orderBy('createdAt', 'desc')
 			.orderBy('id', 'desc')
-			.paginate(page, ACTIVITY_JOURNAL_PAGE_SIZE);
+			.paginate(page, AUDIT_JOURNAL_PAGE_SIZE);
 	}
 
 	/**

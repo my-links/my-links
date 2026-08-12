@@ -6,8 +6,8 @@ import AuditEvent from '#models/audit_event';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { createUser } from '#tests/factories/user_factory';
+import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
-import { ACTIVITY_JOURNAL_PAGE_SIZE } from '#services/activity/activity_event_service';
 
 const ACTIVITY_JOURNAL_ROUTE = '/admin/activity-events';
 const FAVORITES_ROUTE = '/collections/favorites';
@@ -106,7 +106,7 @@ test.group('Admin activity journal', (group) => {
 		const account = await createUser({
 			emailPrefix: 'activity-journal-paging',
 		});
-		for (let index = 0; index <= ACTIVITY_JOURNAL_PAGE_SIZE; index += 1) {
+		for (let index = 0; index <= AUDIT_JOURNAL_PAGE_SIZE; index += 1) {
 			await recordActivityEvent(account);
 		}
 
@@ -116,7 +116,7 @@ test.group('Admin activity journal', (group) => {
 			.loginAs(administrator);
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
-		assert.lengthOf(events, ACTIVITY_JOURNAL_PAGE_SIZE);
+		assert.lengthOf(events, AUDIT_JOURNAL_PAGE_SIZE);
 	});
 
 	test('should send a signed-in visitor without the admin flag back to their collections', async ({
