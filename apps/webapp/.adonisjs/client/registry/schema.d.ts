@@ -254,9 +254,9 @@ export interface Registry {
       body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/collections/collection_id_validator').collectionIdValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/show_collection_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/show_collection_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/show_collection_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'collection.edit': {
@@ -287,24 +287,24 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/collections/:id/follow'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/collection_id_validator').collectionIdValidator)>>
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/collection_id_validator').collectionIdValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/follow_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/follow_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/follow_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'collection.unfollow': {
     methods: ["POST"]
     pattern: '/collections/:id/unfollow'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/collection_id_validator').collectionIdValidator)>>
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/collection_id_validator').collectionIdValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/unfollow_collection_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/unfollow_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/unfollow_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'extension.authorize': {
@@ -555,8 +555,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['google']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['google']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/google_auth_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/google_auth_controller').default['execute']>>>
     }
   }
   'auth.callback': {
@@ -567,8 +567,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['callbackAuth']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['callbackAuth']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/oauth_callback_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/oauth_callback_controller').default['execute']>>>
     }
   }
   'auth.logout': {
@@ -579,8 +579,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/auth_controller').default['logout']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/logout_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/logout_controller').default['execute']>>>
     }
   }
   'auth.sudo': {
