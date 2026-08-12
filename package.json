@@ -47,7 +47,7 @@
 		"vitepress": "^1.6.4"
 	},
 	"lint-staged": {
-		"*.{js,ts,jsx,tsx}": [
+		"!(**/.adonisjs/**)*.{js,ts,jsx,tsx}": [
 			"oxlint --fix --fix-suggestions --fix-dangerously",
 			"oxfmt --write"
 		]
