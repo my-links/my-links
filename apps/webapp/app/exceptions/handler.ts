@@ -1,5 +1,6 @@
 import { errors } from '@adonisjs/lucid';
 import app from '@adonisjs/core/services/app';
+import { errors as limiterErrors } from '@adonisjs/limiter';
 import { ExceptionHandler, type HttpContext } from '@adonisjs/core/http';
 import type {
 	HttpError,
@@ -44,6 +45,22 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 		// asked for, so it keeps its status there.
 		if (error instanceof errors.E_ROW_NOT_FOUND && !this.isApiRequest(ctx)) {
 			return ctx.response.redirectToNamedRoute('collection.favorites');
+		}
+
+		// ThrottleException self-handles as a bare status+text response; flash+redirect instead, like E_INVALID_CREDENTIALS.
+		if (
+			error instanceof limiterErrors.E_TOO_MANY_REQUESTS &&
+			!this.isApiRequest(ctx) &&
+			ctx.session
+		) {
+			ctx.session.flashExcept([
+				'_csrf',
+				'_method',
+				'password',
+				'password_confirmation',
+			]);
+			ctx.session.flash('error', error.getResponseMessage(ctx));
+			return ctx.response.redirect('back', true);
 		}
 
 		return super.handle(error, ctx);

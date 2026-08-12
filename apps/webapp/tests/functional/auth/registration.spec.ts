@@ -335,7 +335,7 @@ test.group('Registration — throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(openRegistration);
 
-	test('should answer 429 once the burst quota is spent', async ({
+	test('should flash a message and redirect back once the burst quota is spent', async ({
 		client,
 	}) => {
 		const clientAddress = nextClientAddress();
@@ -352,6 +352,6 @@ test.group('Registration — throttling', (group) => {
 		}
 		const response = await attempt();
 
-		response.assertStatus(429);
+		response.assertFlashMessage('error', 'Too many requests');
 	});
 });

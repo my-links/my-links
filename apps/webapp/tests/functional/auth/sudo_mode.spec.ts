@@ -367,7 +367,7 @@ test.group('Sudo mode — confirming through Google', (group) => {
 test.group('Sudo mode — throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should answer 429 once the burst quota is spent', async ({
+	test('should flash a message and redirect back once the burst quota is spent', async ({
 		client,
 	}) => {
 		const user = await createUser({ emailPrefix: 'sudo-throttled' });
@@ -391,6 +391,6 @@ test.group('Sudo mode — throttling', (group) => {
 		}
 		const response = await attempt();
 
-		response.assertStatus(429);
+		response.assertFlashMessage('error', 'Too many requests');
 	});
 });
