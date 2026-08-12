@@ -11,13 +11,13 @@ export type ScannedRoutes = {
     'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
-    'admin.authEvents': { paramsTuple?: []; params?: {} }
-    'admin.activityEvents': { paramsTuple?: []; params?: {} }
-    'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
-    'admin.users.sendPasswordReset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.users.revokeAccess': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.users.verifyEmail': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.auth-events': { paramsTuple?: []; params?: {} }
+    'admin.activity-events': { paramsTuple?: []; params?: {} }
+    'admin.users.bulk-delete': { paramsTuple?: []; params?: {} }
+    'admin.users.send-password-reset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.revoke-access': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.verify-email': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.set-role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
@@ -93,8 +93,8 @@ export type ScannedRoutes = {
     'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
-    'admin.authEvents': { paramsTuple?: []; params?: {} }
-    'admin.activityEvents': { paramsTuple?: []; params?: {} }
+    'admin.auth-events': { paramsTuple?: []; params?: {} }
+    'admin.activity-events': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -130,8 +130,8 @@ export type ScannedRoutes = {
     'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
-    'admin.authEvents': { paramsTuple?: []; params?: {} }
-    'admin.activityEvents': { paramsTuple?: []; params?: {} }
+    'admin.auth-events': { paramsTuple?: []; params?: {} }
+    'admin.activity-events': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -160,10 +160,10 @@ export type ScannedRoutes = {
     'link.index': { paramsTuple?: []; params?: {} }
   }
   POST: {
-    'admin.users.bulkDelete': { paramsTuple?: []; params?: {} }
-    'admin.users.sendPasswordReset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.users.revokeAccess': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin.users.verifyEmail': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.bulk-delete': { paramsTuple?: []; params?: {} }
+    'admin.users.send-password-reset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.revoke-access': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.verify-email': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -184,7 +184,7 @@ export type ScannedRoutes = {
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
-    'admin.users.setRole': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.set-role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PUT: {
     'collection.reorder-owned': { paramsTuple?: []; params?: {} }

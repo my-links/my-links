@@ -25,28 +25,28 @@ interface UseAccountActionsReturn {
 export function useAccountActions(): UseAccountActionsReturn {
 	const sendPasswordReset = (accountId: number) =>
 		router.post(
-			urlFor('admin.users.sendPasswordReset', { id: accountId }),
+			urlFor('admin.users.send-password-reset', { id: accountId }),
 			{},
 			{ preserveScroll: true }
 		);
 
 	const markEmailConfirmed = (accountId: number) =>
 		router.post(
-			urlFor('admin.users.verifyEmail', { id: accountId }),
+			urlFor('admin.users.verify-email', { id: accountId }),
 			{},
 			{ preserveScroll: true }
 		);
 
 	const revokeAccess = (accountId: number) =>
 		router.post(
-			urlFor('admin.users.revokeAccess', { id: accountId }),
+			urlFor('admin.users.revoke-access', { id: accountId }),
 			{},
 			{ preserveScroll: true }
 		);
 
 	const setRole = (accountId: number, role: AccountRole) =>
 		router.patch(
-			urlFor('admin.users.setRole', { id: accountId }),
+			urlFor('admin.users.set-role', { id: accountId }),
 			{ role },
 			{ preserveScroll: true }
 		);
