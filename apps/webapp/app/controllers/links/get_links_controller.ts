@@ -10,6 +10,8 @@ export default class GetLinksController {
 
 	public async render({ serialize }: HttpContext) {
 		const links = await this.linkService.getMyLinks();
-		return serialize(LinkTransformer.transform(links));
+		return serialize(
+			LinkTransformer.transform(links).useVariant('withCollections')
+		);
 	}
 }

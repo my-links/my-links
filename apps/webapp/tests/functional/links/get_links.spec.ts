@@ -2,7 +2,11 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import { createUser } from '#tests/factories/user_factory';
-import { createLink } from '#tests/factories/link_factory';
+import { createCollection } from '#tests/factories/collection_factory';
+import {
+	attachLinkToCollection,
+	createLink,
+} from '#tests/factories/link_factory';
 
 test.group('Get links', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
@@ -38,5 +42,23 @@ test.group('Get links', (group) => {
 		response.assertStatus(200);
 		response.assertBodyContains({ data: [{ name: 'My link' }] });
 		response.assertBodyNotContains({ data: [{ name: "Stranger's link" }] });
+	});
+
+	test("should include each link's collection ids", async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser();
+		const collection = await createCollection({ author: owner });
+		const link = await createLink({ author: owner, name: 'My link' });
+		await attachLinkToCollection(link, collection);
+
+		const response = await client.get('/links').loginAs(owner);
+
+		response.assertStatus(200);
+		const { data } = response.body() as {
+			data: Array<{ collectionIds: number[] }>;
+		};
+		assert.deepEqual(data[0].collectionIds, [collection.id]);
 	});
 });

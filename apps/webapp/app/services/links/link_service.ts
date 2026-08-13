@@ -237,12 +237,13 @@ export class LinkService {
 	}
 
 	/**
-	 * Feeds the search modal's client-side matcher, which only reads
-	 * name/description/url — no `preload('collections')` needed here.
+	 * Feeds the search modal's client-side matcher and its link controls
+	 * menu, which needs `collectionIds` to link to a result's collection.
 	 */
 	async getMyLinks() {
 		return await Link.query()
 			.where('author_id', this.getAuthenticatedUserId())
+			.preload('collections')
 			.orderBy('name');
 	}
 
