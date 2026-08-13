@@ -992,10 +992,11 @@ msgid "No collections match your search."
 msgstr "Aucune collection ne correspond à votre recherche."
 
 #: inertia/components/common/link_list.tsx:35
+#: inertia/components/dashboard/modals/search_modal.tsx:124
 msgid "No links yet"
 msgstr "Aucun lien pour le moment"
 
-#: inertia/components/dashboard/modals/search_modal.tsx:110
+#: inertia/components/dashboard/modals/search_modal.tsx:126
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
 
@@ -1316,10 +1317,6 @@ msgstr "Commencer gratuitement"
 #: inertia/components/tour/dashboard_tour.tsx:105
 msgid "Start tour"
 msgstr "Démarrer la visite"
-
-#: inertia/components/dashboard/modals/search_modal.tsx:102
-msgid "Start typing to search..."
-msgstr "Commencez à taper pour rechercher..."
 
 #: inertia/components/common/navigation/footer_links.tsx:21
 msgid "Status"
