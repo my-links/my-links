@@ -1,15 +1,21 @@
+import { useRef } from 'react';
 import { Data } from '@generated/data';
 
 import { cn } from '~/lib/cn';
 import type { FuzzyMatch } from '~/lib/fuzzy_links';
 import { Highlight } from '~/components/common/highlight';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
+import {
+	LinkControls,
+	LinkControlsRef,
+} from '~/components/dashboard/links/link_controls';
 
 interface SearchLinkResultProps {
 	match: FuzzyMatch<Data.Link>;
 	resultIndex: number;
 	isSelected: boolean;
 	handleResultClick: (link: Data.Link) => void;
+	onCloseModal: () => void;
 }
 
 export const SearchLinkResult = ({
@@ -17,8 +23,15 @@ export const SearchLinkResult = ({
 	resultIndex,
 	isSelected,
 	handleResultClick,
+	onCloseModal,
 }: Readonly<SearchLinkResultProps>) => {
 	const { link, nameRanges } = match;
+	const linkControlsRef = useRef<LinkControlsRef>(null);
+
+	const handleContextMenu = (e: React.MouseEvent) => {
+		e.preventDefault();
+		linkControlsRef.current?.openContextMenu(e.clientX, e.clientY);
+	};
 
 	return (
 		<button
@@ -26,6 +39,7 @@ export const SearchLinkResult = ({
 			type="button"
 			data-result-index={resultIndex}
 			onClick={() => handleResultClick(link)}
+			onContextMenu={handleContextMenu}
 			className={cn(
 				'w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 cursor-pointer',
 				isSelected
@@ -41,6 +55,13 @@ export const SearchLinkResult = ({
 				<div className="text-xs text-gray-500 dark:text-gray-400 truncate">
 					{link.url}
 				</div>
+			</div>
+			<div data-link-controls className="self-start">
+				<LinkControls
+					ref={linkControlsRef}
+					link={link}
+					onAction={onCloseModal}
+				/>
 			</div>
 		</button>
 	);

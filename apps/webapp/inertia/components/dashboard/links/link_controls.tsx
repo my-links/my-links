@@ -24,9 +24,15 @@ export interface LinkControlsRef {
 interface LinkControlsProps {
 	ref: React.RefObject<LinkControlsRef | null>;
 	link: Link;
+	/** Notified after a menu item runs its action — lets a host like the search modal close itself. */
+	onAction?: () => void;
 }
 
-export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
+export function LinkControls({
+	link,
+	ref,
+	onAction,
+}: Readonly<LinkControlsProps>) {
 	const { activeCollection, myCollections } = useDashboardProps();
 
 	const isOwner = activeCollection?.isOwner !== false;
@@ -62,6 +68,7 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 	const handleEditLink = () => {
 		closeMenu();
 		if (!linkWithCollections) return;
+		onAction?.();
 		const call = Modal.call({
 			title: <Trans>Edit a link</Trans>,
 			children: (
@@ -76,6 +83,7 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 	const handleDeleteLink = () => {
 		closeMenu();
 		if (!linkWithCollections) return;
+		onAction?.();
 		const call = Modal.call({
 			title: <Trans>Delete a link</Trans>,
 			children: (
@@ -91,6 +99,7 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 		try {
 			await navigator.clipboard.writeText(link.url);
 			closeMenu();
+			onAction?.();
 		} catch (err) {
 			console.error('Failed to copy link:', err);
 		}
@@ -101,7 +110,8 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 			id: link.id,
 		});
 		router.put(toggleFavoriteUrl, { favorite: !link.favorite });
-	}, [link.id, link.favorite]);
+		onAction?.();
+	}, [link.id, link.favorite, onAction]);
 
 	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
@@ -146,6 +156,7 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 						onClick={(e) => {
 							e.stopPropagation();
 							closeMenu();
+							onAction?.();
 						}}
 					>
 						<div className="i-fa6-regular-eye w-4 h-4" />
