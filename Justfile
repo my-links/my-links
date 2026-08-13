@@ -75,3 +75,8 @@ release:
 
 docker-weight:
 	@sh {{ webapp_path }}/scripts/docker-weight.sh
+
+# "ace serve" is the watcher process; it forks "bin/server.ts" as the actual
+# HTTP server, which keeps holding the port if only the watcher is killed.
+kill:
+	@-pkill -f "ace serve|bin/server.ts" && echo "dev server killed" || echo "no dev server running"
