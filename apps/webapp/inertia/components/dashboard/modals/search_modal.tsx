@@ -3,8 +3,8 @@ import { Input } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { tuyauClient } from '~/lib/tuyau';
 import { matchLinks } from '~/lib/fuzzy_links';
+import { tuyauClient, urlFor } from '~/lib/tuyau';
 import useShortcut, { UseShortcutProps } from '~/hooks/use_shortcut';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
 
@@ -79,9 +79,15 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 		setSelectedIndex(DEFAULT_INDEX);
 	}, [results]);
 
+	// Opened through the server redirect rather than straight to `link.url`,
+	// so a click counts the same here as it does from `LinkItem`.
 	const handleResultClick = useCallback(
 		(link: Data.Link) => {
-			window.open(link.url, '_blank', 'noopener,noreferrer');
+			window.open(
+				urlFor('link.visit', { id: link.id }),
+				'_blank',
+				'noopener,noreferrer'
+			);
 			onClose();
 		},
 		[onClose]
