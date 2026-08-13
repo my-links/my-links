@@ -4,7 +4,9 @@ import { Trans } from '@lingui/react/macro';
 import { Button, IconButton } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
+import { KEYS } from '~/consts/keys';
 import { urlFor } from '~/lib/tuyau';
+import { Kbd } from '~/components/common/kbd';
 import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { Tooltip } from '~/components/common/tooltip';
@@ -80,6 +82,14 @@ export function DashboardHeader({
 								color="primary"
 							/>
 						</Tooltip>
+					)}
+
+					{!isMobile && activeCollection?.isOwner !== false && (
+						<Button color="primary" onClick={onCreateLink} variant="subtle">
+							<Trans>
+								Create link <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
+							</Trans>
+						</Button>
 					)}
 
 					{!isMobile && activeCollection?.visibility === 'PUBLIC' && (
