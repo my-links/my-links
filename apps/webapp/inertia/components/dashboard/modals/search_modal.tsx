@@ -135,9 +135,17 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 				results={results}
 				selectedIndex={selectedIndex}
 				handleResultClick={handleResultClick}
+				onCloseModal={onClose}
 			/>
 		);
-	}, [isLoading, searchTerm, results, selectedIndex, handleResultClick]);
+	}, [
+		isLoading,
+		searchTerm,
+		results,
+		selectedIndex,
+		handleResultClick,
+		onClose,
+	]);
 
 	// Shortcuts to navigate the results
 	const commonShortcutOptions = {

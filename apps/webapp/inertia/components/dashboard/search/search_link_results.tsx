@@ -8,12 +8,14 @@ interface SearchLinkResultsProps {
 	results: FuzzyMatch<Data.Link>[];
 	selectedIndex: number;
 	handleResultClick: (link: Data.Link) => void;
+	onCloseModal: () => void;
 }
 
 export const SearchLinkResults = ({
 	results,
 	selectedIndex,
 	handleResultClick,
+	onCloseModal,
 }: Readonly<SearchLinkResultsProps>) => (
 	<div>
 		<h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
@@ -28,6 +30,7 @@ export const SearchLinkResults = ({
 					resultIndex={resultIndex}
 					isSelected={selectedIndex === resultIndex}
 					handleResultClick={handleResultClick}
+					onCloseModal={onCloseModal}
 				/>
 			))}
 		</div>
