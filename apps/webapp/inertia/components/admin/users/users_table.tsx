@@ -2,12 +2,17 @@ import { router } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { ChangeEvent, useState } from 'react';
-import { Button, Checkbox, ConfirmModal, Input } from '@minimalstuff/ui';
+import {
+	Button,
+	Checkbox,
+	ClientOnly,
+	ConfirmModal,
+	Input,
+} from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import { formatDate } from '~/lib/format';
 import { NaContent } from '~/components/common/na_content';
-import { ClientOnly } from '~/components/common/client_only';
 import { UserIdentity } from '~/components/common/user_identity';
 import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
 import { UserBadgeRole } from '~/components/common/user_badge_role';

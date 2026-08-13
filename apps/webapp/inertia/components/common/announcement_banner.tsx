@@ -1,11 +1,10 @@
 import { t } from '@lingui/core/macro';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { IconButton } from '@minimalstuff/ui';
 import type { PageProps } from '@adonisjs/inertia/types';
+import { ClientOnly, IconButton } from '@minimalstuff/ui';
 
 import { PROJECT_CHANGELOG_URL } from '~/consts/project';
-import { ClientOnly } from '~/components/common/client_only';
 import { useAnnouncementStore } from '~/stores/announcement_store';
 
 function getMajorVersion(appVersion: string): number {
