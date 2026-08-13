@@ -3,8 +3,8 @@ import { Input } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { matchLinks } from '~/lib/fuzzy_links';
 import { tuyauClient, urlFor } from '~/lib/tuyau';
+import { matchLinks, type FuzzyMatch } from '~/lib/fuzzy_links';
 import useShortcut, { UseShortcutProps } from '~/hooks/use_shortcut';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
 
@@ -35,6 +35,19 @@ function extractLinks(payload: unknown): Data.Link[] {
 	}
 
 	return [];
+}
+
+/**
+ * When there's no search term yet, show every link sorted by most recent
+ * first, rather than an empty "start typing" placeholder.
+ */
+function toRecentMatches(links: readonly Data.Link[]): FuzzyMatch<Data.Link>[] {
+	return [...links]
+		.sort(
+			(a, b) =>
+				new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+		)
+		.map((link) => ({ link, nameRanges: [] }));
 }
 
 export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
@@ -71,7 +84,10 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 	}, []);
 
 	const results = useMemo(
-		() => matchLinks(links, searchTerm),
+		() =>
+			searchTerm.trim().length === 0
+				? toRecentMatches(links)
+				: matchLinks(links, searchTerm),
 		[links, searchTerm]
 	);
 
@@ -102,18 +118,14 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 			);
 		}
 
-		if (searchTerm.trim().length === 0) {
-			return (
-				<div className="text-center py-8 text-gray-500 dark:text-gray-400">
-					<Trans>Start typing to search...</Trans>
-				</div>
-			);
-		}
-
 		if (results.length === 0) {
 			return (
 				<div className="text-center py-8 text-gray-500 dark:text-gray-400">
-					<Trans>No results found</Trans>
+					{searchTerm.trim().length === 0 ? (
+						<Trans>No links yet</Trans>
+					) : (
+						<Trans>No results found</Trans>
+					)}
 				</div>
 			);
 		}
