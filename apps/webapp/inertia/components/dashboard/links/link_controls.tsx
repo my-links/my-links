@@ -47,12 +47,17 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 		? link
 		: null;
 
+	// Excludes the collection the user is already looking at — "go to the
+	// collection you're viewing" is redundant there, but a link can belong to
+	// other collections too (e.g. from a cross-collection view like search).
 	const linkCollections = useMemo(() => {
 		if (!linkWithCollections) return [];
-		return myCollections.filter((collection) =>
-			linkWithCollections.collectionIds.includes(collection.id)
+		return myCollections.filter(
+			(collection) =>
+				linkWithCollections.collectionIds.includes(collection.id) &&
+				collection.id !== activeCollection?.id
 		);
-	}, [linkWithCollections, myCollections]);
+	}, [linkWithCollections, myCollections, activeCollection]);
 
 	const handleEditLink = () => {
 		closeMenu();
@@ -132,22 +137,21 @@ export function LinkControls({ link, ref }: Readonly<LinkControlsProps>) {
 				menuPosition={menuPosition}
 				menuContentRef={menuContentRef}
 			>
-				{!activeCollection &&
-					linkCollections.map((collection) => (
-						<InertiaLink
-							key={collection.id}
-							route="collection.show"
-							routeParams={{ id: collection.id }}
-							className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-							onClick={(e) => {
-								e.stopPropagation();
-								closeMenu();
-							}}
-						>
-							<div className="i-fa6-regular-eye w-4 h-4" />
-							<Trans>Go to {collection.name}</Trans>
-						</InertiaLink>
-					))}
+				{linkCollections.map((collection) => (
+					<InertiaLink
+						key={collection.id}
+						route="collection.show"
+						routeParams={{ id: collection.id }}
+						className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+						onClick={(e) => {
+							e.stopPropagation();
+							closeMenu();
+						}}
+					>
+						<div className="i-fa6-regular-eye w-4 h-4" />
+						<Trans>Go to {collection.name}</Trans>
+					</InertiaLink>
+				))}
 				{'favorite' in link && (
 					<ContextMenuItem
 						icon={link.favorite ? 'i-mdi-favorite' : 'i-mdi-favorite-border'}
