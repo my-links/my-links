@@ -27,7 +27,7 @@ export const SearchLinkResult = ({
 			data-result-index={resultIndex}
 			onClick={() => handleResultClick(link)}
 			className={cn(
-				'w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3',
+				'w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 cursor-pointer',
 				isSelected
 					? 'border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-900/20 shadow-sm'
 					: 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-300 dark:hover:border-blue-500 hover:shadow-sm'
