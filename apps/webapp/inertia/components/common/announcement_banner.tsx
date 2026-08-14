@@ -48,7 +48,7 @@ function AnnouncementBannerContent() {
 			<IconButton
 				icon="i-ant-design-close-outlined"
 				size="sm"
-				variant="unstyled"
+				unstyled
 				className="text-paper hover:bg-white/10 rounded-md"
 				aria-label={t`Dismiss`}
 				onClick={() => dismiss(majorVersion)}

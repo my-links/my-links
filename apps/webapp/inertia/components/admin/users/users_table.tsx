@@ -71,7 +71,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			),
 			confirmLabel: <Trans>Delete</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: async () => {
 				setIsDeleting(true);
 				const bulkDeleteUrl = urlFor('admin.users.bulk-delete');

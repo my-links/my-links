@@ -97,7 +97,7 @@ export function CollectionSectionBody({
 					? `Delete "${collection.name}" and its ${links.length} link${links.length === 1 ? '' : 's'}? This can't be undone.`
 					: `Delete "${collection.name}"? This can't be undone.`,
 			confirmLabel: 'Delete',
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: () => deleteCollection.mutate(collection.id),
 		});
 	};

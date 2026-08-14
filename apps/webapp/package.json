@@ -61,7 +61,7 @@
 		"@leeoniya/ufuzzy": "^1.0.19",
 		"@lingui/core": "^6.6.0",
 		"@lingui/react": "^6.6.0",
-		"@minimalstuff/ui": "^2.1.1",
+		"@minimalstuff/ui": "^3.0.1",
 		"@outloud/adonis-openapi": "^1.1.1",
 		"@outloud/adonis-openapi-generator": "^1.1.1",
 		"@tuyau/client": "^0.2.10",
