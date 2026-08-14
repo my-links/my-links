@@ -117,8 +117,10 @@ router
 	.as('auth.callback')
 	.prefix(ROUTES_PREFIX);
 
+// POST rather than GET: shield guards POST with CSRF, so a third-party page
+// can no longer sign the visitor out with an <img src="/auth/logout">.
 router
-	.get('/logout', [controllers.auth.Logout, 'execute'])
+	.post('/logout', [controllers.auth.Logout, 'execute'])
 	.as('auth.logout')
 	.prefix(ROUTES_PREFIX)
 	.use(middleware.auth());

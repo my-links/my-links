@@ -572,7 +572,7 @@ export interface Registry {
     }
   }
   'auth.logout': {
-    methods: ["GET","HEAD"]
+    methods: ["POST"]
     pattern: '/auth/logout'
     types: {
       body: {}
