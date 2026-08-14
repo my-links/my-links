@@ -65,7 +65,7 @@ export function CollectionList({
 	const canCollapse = renderedSectionsCount > 1;
 
 	return (
-		<div className="flex flex-col h-full" data-tour="collections-list">
+		<div className="flex flex-col flex-1 min-h-0" data-tour="collections-list">
 			<div className="flex items-center justify-between gap-2 px-2 py-1">
 				{!isMobile && (
 					<Button
@@ -93,6 +93,9 @@ export function CollectionList({
 			</div>
 
 			<div className="px-2 pt-1 pb-2 space-y-1">
+				<p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+					<Trans>Views</Trans>
+				</p>
 				<CollectionFavoriteItem />
 				<CollectionInboxItem collection={inboxCollection} />
 			</div>

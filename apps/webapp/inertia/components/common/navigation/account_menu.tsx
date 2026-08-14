@@ -9,9 +9,11 @@ import {
 	MenuSeparator,
 	Modal,
 	useThemeStore,
+	type MenuSide,
 	type Theme,
 } from '@minimalstuff/ui';
 
+import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
 import { useAuth } from '~/hooks/use_auth';
 import { useTourStore } from '~/stores/tour_store';
@@ -60,16 +62,23 @@ function ThemeMenuItem({
 	);
 }
 
+interface AccountMenuProps {
+	side?: MenuSide;
+}
+
 /**
  * Everything that concerns the account rather than the content: preferences,
- * help, and the way out.
+ * help, and the way out. `side` follows where it is anchored: `top` at the
+ * foot of the sidebar, `bottom` in a header.
  */
-export function AccountMenu() {
+export function AccountMenu({ side = 'top' }: Readonly<AccountMenuProps>) {
 	const auth = useAuth();
 	const { theme, setTheme } = useThemeStore();
 	const { startTour } = useTourStore();
 
 	const fullname = auth.user?.fullname ?? '';
+	const chevronClass =
+		side === 'top' ? 'i-mdi-chevron-up' : 'i-mdi-chevron-down';
 
 	const handleOpenSettings = () => {
 		router.visit(urlFor('user.settings'));
@@ -92,7 +101,7 @@ export function AccountMenu() {
 
 	return (
 		<Menu
-			side="top"
+			side={side}
 			align="start"
 			trigger={
 				<button
@@ -103,7 +112,12 @@ export function AccountMenu() {
 					<span className="flex-1 truncate text-left text-sm font-medium text-gray-900 dark:text-white">
 						{fullname}
 					</span>
-					<i className="i-mdi-chevron-up h-4 w-4 text-gray-500 dark:text-gray-400" />
+					<i
+						className={cn(
+							chevronClass,
+							'h-4 w-4 shrink-0 text-gray-500 dark:text-gray-400'
+						)}
+					/>
 				</button>
 			}
 		>

@@ -7,12 +7,11 @@ import { cn } from '~/lib/cn';
 import { KEYS } from '~/consts/keys';
 import { urlFor } from '~/lib/tuyau';
 import { Kbd } from '~/components/common/kbd';
-import { useTourStore } from '~/stores/tour_store';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { Tooltip } from '~/components/common/tooltip';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { AccountMenu } from '~/components/common/navigation/account_menu';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
-import { SearchButton } from '~/components/dashboard/search/search_button';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
 
 export interface DashboardHeaderProps {
@@ -36,9 +35,11 @@ export function DashboardHeader({
 }: Readonly<DashboardHeaderProps>) {
 	const { activeCollection } = useDashboardProps();
 	const { sidebarOpen } = useDashboardLayoutStore();
-	const { startTour } = useTourStore();
 	const isMobile = useIsMobile();
 	const collectionDescription = activeCollection?.description ?? undefined;
+	// Search and the account menu live in the sidebar; the header carries them
+	// only while it is the sole thing on screen.
+	const isSidebarHidden = !sidebarOpen || isMobile;
 
 	const handleShareCollection = async () => {
 		if (!activeCollection?.id) return;
@@ -58,7 +59,7 @@ export function DashboardHeader({
 		<header
 			className={cn(
 				'md:border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
-				!sidebarOpen || isMobile ? 'pl-0' : 'pl-4'
+				isSidebarHidden ? 'pl-0' : 'pl-4'
 			)}
 		>
 			<div className="flex flex-col justify-between gap-4">
@@ -70,16 +71,13 @@ export function DashboardHeader({
 						variant="outline"
 					/>
 
-					<SearchButton onClick={onOpenSearch} data-tour="header-search" />
-
-					{!isMobile && (
-						<Tooltip content={<Trans>Replay the tour</Trans>} position="bottom">
+					{isSidebarHidden && (
+						<Tooltip content={<Trans>Search</Trans>} position="bottom">
 							<IconButton
-								icon="i-ant-design-question-circle-outlined"
-								onClick={() => startTour()}
-								aria-label={t`Replay the tour`}
-								variant="ghost"
-								color="primary"
+								icon="i-ion-search"
+								onClick={onOpenSearch}
+								aria-label={t`Search`}
+								variant="outline"
 							/>
 						</Tooltip>
 					)}
@@ -121,6 +119,12 @@ export function DashboardHeader({
 							onToggleSidebar={onToggleSidebar}
 							onOpenSearch={onOpenSearch}
 						/>
+					)}
+
+					{isSidebarHidden && (
+						<div className="ml-auto max-w-[200px]">
+							<AccountMenu side="bottom" />
+						</div>
 					)}
 				</div>
 
