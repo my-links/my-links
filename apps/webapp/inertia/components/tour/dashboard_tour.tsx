@@ -18,14 +18,20 @@ import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 const steps: Step[] = [
 	{
+		target: '[data-tour="header-search"]',
+		title: <Trans>Search</Trans>,
+		content: <Trans>Jump to any link across every collection.</Trans>,
+		placement: 'right',
+		// Only this step skips its beacon; a global skipBeacon caused a render loop.
+		skipBeacon: true,
+	},
+	{
 		target: '[data-tour="favorites"]',
 		title: <Trans>Favorites</Trans>,
 		content: (
 			<Trans>Links you star show up here, across every collection.</Trans>
 		),
 		placement: 'right',
-		// Only this step skips its beacon; a global skipBeacon caused a render loop.
-		skipBeacon: true,
 	},
 	{
 		target: '[data-tour="inbox"]',
@@ -49,12 +55,6 @@ const steps: Step[] = [
 			</Trans>
 		),
 		placement: 'right',
-	},
-	{
-		target: '[data-tour="header-search"]',
-		title: <Trans>Search</Trans>,
-		content: <Trans>Jump to any link across every collection.</Trans>,
-		placement: 'bottom',
 	},
 	{
 		target: '[data-tour="link-layout"]',

@@ -11,6 +11,8 @@ import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardTour } from '~/components/tour/dashboard_tour';
 import { SearchModal } from '~/components/dashboard/modals/search_modal';
 import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
+import { SidebarFooter } from '~/components/dashboard/sidebar/sidebar_footer';
+import { SidebarHeader } from '~/components/dashboard/sidebar/sidebar_header';
 import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
 import { CreateLinkModal } from '~/components/dashboard/modals/create_link_modal';
 import { CollectionList } from '~/components/dashboard/collections/collection_list';
@@ -133,7 +135,9 @@ export default function Dashboard() {
 					{sidebarOpen && (
 						<ResizableSidebar>
 							<aside className="h-full border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col">
+								<SidebarHeader onOpenSearch={handleOpenSearch} />
 								<CollectionList onCreateCollection={handleCreateCollection} />
+								<SidebarFooter />
 							</aside>
 						</ResizableSidebar>
 					)}
