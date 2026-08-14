@@ -5,49 +5,63 @@ import { Link } from '@adonisjs/inertia/react';
 import { cn } from '~/lib/cn';
 
 const TAB_CLASS =
-	'flex items-center gap-2 px-4 py-2.5 -mb-px border-b-2 font-medium text-sm transition-colors';
+	'flex items-center gap-2 px-4 py-2.5 -mb-px border-b-2 font-medium text-sm transition-colors whitespace-nowrap';
 const ACTIVE_TAB_CLASS =
 	'border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400';
 const INACTIVE_TAB_CLASS =
 	'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200';
 
-const ACCOUNTS_PAGE = 'admin/dashboard';
-const JOURNAL_PAGE = 'admin/auth_journal';
-const ACTIVITY_JOURNAL_PAGE = 'admin/activity_journal';
+// `page` is the Inertia component name, which the status page renders as
+// `status` rather than `admin/status` despite living behind `/admin`.
+const ADMIN_TABS = [
+	{
+		route: 'admin.dashboard',
+		page: 'admin/dashboard',
+		icon: 'i-mdi-account-group',
+		label: <Trans>Accounts</Trans>,
+	},
+	{
+		route: 'admin.auth-events',
+		page: 'admin/auth_journal',
+		icon: 'i-mdi-history',
+		label: <Trans>Authentication journal</Trans>,
+	},
+	{
+		route: 'admin.activity-events',
+		page: 'admin/activity_journal',
+		icon: 'i-mdi-clipboard-text-clock',
+		label: <Trans>Activity journal</Trans>,
+	},
+	{
+		route: 'admin.status',
+		page: 'status',
+		icon: 'i-mdi-heart-pulse',
+		label: <Trans>Status</Trans>,
+	},
+] as const;
 
 /**
- * The two halves of the admin area. Real links rather than client-side tabs:
- * the journal is paginated server-side, so its page belongs in the URL.
+ * The sections of the admin area. Real links rather than client-side tabs:
+ * the journals are paginated server-side, so their page belongs in the URL.
  */
 export function AdminTabs() {
 	const { component } = usePage();
 
-	const tabClassFor = (page: string) =>
-		cn(TAB_CLASS, component === page ? ACTIVE_TAB_CLASS : INACTIVE_TAB_CLASS);
-
 	return (
 		<nav className="flex items-center gap-2 overflow-x-auto overflow-y-hidden border-b border-gray-200 dark:border-gray-700 mb-6">
-			<Link
-				route="admin.dashboard"
-				className={cn(tabClassFor(ACCOUNTS_PAGE), 'whitespace-nowrap')}
-			>
-				<i className="i-mdi-account-group w-4 h-4" />
-				<Trans>Accounts</Trans>
-			</Link>
-			<Link
-				route="admin.auth-events"
-				className={cn(tabClassFor(JOURNAL_PAGE), 'whitespace-nowrap')}
-			>
-				<i className="i-mdi-history w-4 h-4" />
-				<Trans>Authentication journal</Trans>
-			</Link>
-			<Link
-				route="admin.activity-events"
-				className={cn(tabClassFor(ACTIVITY_JOURNAL_PAGE), 'whitespace-nowrap')}
-			>
-				<i className="i-mdi-clipboard-text-clock w-4 h-4" />
-				<Trans>Activity journal</Trans>
-			</Link>
+			{ADMIN_TABS.map((tab) => (
+				<Link
+					key={tab.route}
+					route={tab.route}
+					className={cn(
+						TAB_CLASS,
+						component === tab.page ? ACTIVE_TAB_CLASS : INACTIVE_TAB_CLASS
+					)}
+				>
+					<i className={cn(tab.icon, 'w-4 h-4')} />
+					{tab.label}
+				</Link>
+			))}
 		</nav>
 	);
 }

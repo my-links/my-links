@@ -9,41 +9,29 @@ type FooterLink = {
 	icon: string;
 	label: React.ReactNode;
 	internal: boolean;
-	admin: boolean;
 };
 
-export const useFooterLinks = () => {
+export const useFooterLinks = (): FooterLink[] => {
 	const { appVersion } = usePage<PageProps & { appVersion: string }>().props;
-	const links: FooterLink[] = [
-		{
-			href: '/admin/status',
-			icon: 'i-mdi-heart-pulse',
-			label: <Trans>Status</Trans>,
-			internal: true,
-			admin: true,
-		},
+
+	return [
 		{
 			href: PROJECT_REPO_GITHUB_URL,
 			icon: 'i-mdi-tag',
 			label: appVersion,
 			internal: false,
-			admin: false,
 		},
 		{
 			href: '/privacy',
 			icon: 'i-mdi-shield-lock',
 			label: <Trans>Privacy</Trans>,
 			internal: true,
-			admin: false,
 		},
 		{
 			href: '/terms',
 			icon: 'i-mdi-file-document',
 			label: <Trans>Terms</Trans>,
 			internal: true,
-			admin: false,
 		},
 	];
-
-	return links;
 };
