@@ -10,6 +10,7 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardTour } from '~/components/tour/dashboard_tour';
 import { SearchModal } from '~/components/dashboard/modals/search_modal';
+import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
 import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
 import { CreateLinkModal } from '~/components/dashboard/modals/create_link_modal';
 import { CollectionList } from '~/components/dashboard/collections/collection_list';
@@ -35,6 +36,8 @@ export interface DashboardProps {
 
 export default function Dashboard() {
 	const { activeCollection, favoriteLinks } = useDashboardProps();
+
+	useRefetchOnTabRefocus();
 
 	const isMobile = useIsMobile();
 	const { sidebarOpen, toggleSidebar } = useDashboardStore();

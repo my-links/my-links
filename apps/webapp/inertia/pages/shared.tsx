@@ -9,6 +9,7 @@ import { InertiaProps } from '~/lib/inertia_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { LinkList } from '~/components/common/link_list';
 import { FilterList } from '~/components/common/filter_list';
+import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
 
 type SharedPageProps = InertiaProps<{
 	activeCollection: Data.Collection.Variants['withLinks'];
@@ -21,6 +22,8 @@ export default function SharedPage({
 }: Readonly<SharedPageProps>) {
 	const auth = useAuth();
 	const isMobile = useIsMobile();
+
+	useRefetchOnTabRefocus();
 
 	const handleFollow = async () => {
 		if (!auth.isAuthenticated) {
