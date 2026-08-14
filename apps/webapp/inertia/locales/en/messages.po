@@ -260,6 +260,10 @@ msgstr "Clear"
 msgid "Click to copy link"
 msgstr "Click to copy link"
 
+#: inertia/consts/shortcuts.tsx:42
+msgid "Close search"
+msgstr "Close search"
+
 #: inertia/components/dashboard/collections/collection_list.tsx:88
 msgid "Close sidebar"
 msgstr "Close sidebar"
@@ -357,11 +361,13 @@ msgid "Create"
 msgstr "Create"
 
 #: inertia/components/tour/dashboard_tour.tsx:72
+#: inertia/consts/shortcuts.tsx:29
 #: inertia/pages/dashboard.tsx:52
 msgid "Create a collection"
 msgstr "Create a collection"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:56
+#: inertia/consts/shortcuts.tsx:26
 #: inertia/pages/dashboard.tsx:95
 msgid "Create a link"
 msgstr "Create a link"
@@ -431,6 +437,7 @@ msgstr "Current"
 msgid "Current password"
 msgstr "Current password"
 
+#: inertia/consts/shortcuts.tsx:23
 #: inertia/pages/dashboard.tsx:118
 msgid "Dashboard"
 msgstr "Dashboard"
@@ -774,6 +781,10 @@ msgstr "In {value, plural, one {# minute} other {# minutes}}"
 msgid "In less than a minute"
 msgstr "In less than a minute"
 
+#: inertia/consts/shortcuts.tsx:35
+msgid "In search"
+msgstr "In search"
+
 #: inertia/components/tour/dashboard_tour.tsx:32
 msgid "Inbox"
 msgstr "Inbox"
@@ -908,6 +919,10 @@ msgstr "Move"
 #: inertia/components/dashboard/collections/collapsible_section.tsx:145
 msgid "Move down"
 msgstr "Move down"
+
+#: inertia/consts/shortcuts.tsx:39
+msgid "Move through results"
+msgstr "Move through results"
 
 #: inertia/components/dashboard/collections/collapsible_section.tsx:138
 msgid "Move up"
@@ -1049,6 +1064,14 @@ msgstr "One or more services are experiencing issues"
 #: inertia/components/dashboard/forms/form_collection_content.tsx:40
 msgid "Only you can see this collection"
 msgstr "Only you can see this collection"
+
+#: inertia/consts/shortcuts.tsx:25
+msgid "Open search"
+msgstr "Open search"
+
+#: inertia/consts/shortcuts.tsx:41
+msgid "Open the selected link"
+msgstr "Open the selected link"
 
 #: inertia/components/status/global_status.tsx:41
 #: inertia/lib/health.ts:21

@@ -260,6 +260,10 @@ msgstr "Effacer"
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
 
+#: inertia/consts/shortcuts.tsx:42
+msgid "Close search"
+msgstr "Fermer la recherche"
+
 #: inertia/components/dashboard/collections/collection_list.tsx:88
 msgid "Close sidebar"
 msgstr "Fermer la barre latérale"
@@ -357,11 +361,13 @@ msgid "Create"
 msgstr "Créer"
 
 #: inertia/components/tour/dashboard_tour.tsx:72
+#: inertia/consts/shortcuts.tsx:29
 #: inertia/pages/dashboard.tsx:52
 msgid "Create a collection"
 msgstr "Créer une collection"
 
 #: inertia/components/dashboard/collections/collection_controls.tsx:56
+#: inertia/consts/shortcuts.tsx:26
 #: inertia/pages/dashboard.tsx:95
 msgid "Create a link"
 msgstr "Créer un lien"
@@ -431,6 +437,7 @@ msgstr "Actuelle"
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
+#: inertia/consts/shortcuts.tsx:23
 #: inertia/pages/dashboard.tsx:118
 msgid "Dashboard"
 msgstr "Tableau de bord"
@@ -774,6 +781,10 @@ msgstr "Dans {value, plural, one {# minute} other {# minutes}}"
 msgid "In less than a minute"
 msgstr "Dans moins d'une minute"
 
+#: inertia/consts/shortcuts.tsx:35
+msgid "In search"
+msgstr "Dans la recherche"
+
 #: inertia/components/tour/dashboard_tour.tsx:32
 msgid "Inbox"
 msgstr ""
@@ -908,6 +919,10 @@ msgstr "Déplacer"
 #: inertia/components/dashboard/collections/collapsible_section.tsx:145
 msgid "Move down"
 msgstr "Descendre"
+
+#: inertia/consts/shortcuts.tsx:39
+msgid "Move through results"
+msgstr "Naviguer dans les résultats"
 
 #: inertia/components/dashboard/collections/collapsible_section.tsx:138
 msgid "Move up"
@@ -1049,6 +1064,14 @@ msgstr "Un ou plusieurs services rencontrent des problèmes"
 #: inertia/components/dashboard/forms/form_collection_content.tsx:40
 msgid "Only you can see this collection"
 msgstr "Vous seul pouvez voir cette collection"
+
+#: inertia/consts/shortcuts.tsx:25
+msgid "Open search"
+msgstr "Ouvrir la recherche"
+
+#: inertia/consts/shortcuts.tsx:41
+msgid "Open the selected link"
+msgstr "Ouvrir le lien sélectionné"
 
 #: inertia/components/status/global_status.tsx:41
 #: inertia/lib/health.ts:21
