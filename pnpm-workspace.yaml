@@ -3,6 +3,13 @@ packages:
 
 minimumReleaseAge: 1440
 
+# 3.0.1 carries the ModalFooter context fix the CRUD modals needed,
+# published same-day by the person who maintains this lib. Exception for
+# this exact version only — the age gate still applies to everything else,
+# including later @minimalstuff/ui releases.
+minimumReleaseAgeExclude:
+  - '@minimalstuff/ui@3.0.1'
+
 # Both ranges are dev/build-tooling-only transitives (ts-morph via
 # @adonisjs/assembler, vite via the extension's build chain) — never
 # reach the served runtime — but the fix is a same-major patch bump,

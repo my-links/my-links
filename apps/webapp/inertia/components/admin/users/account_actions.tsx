@@ -43,7 +43,7 @@ export function AccountActions({ account }: Readonly<AccountActionsProps>) {
 			),
 			confirmLabel: <Trans>Revoke</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: () => revokeAccess(account.id),
 		});
 	};
@@ -72,7 +72,7 @@ export function AccountActions({ account }: Readonly<AccountActionsProps>) {
 			),
 			confirmLabel: <Trans>Confirm</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: account.isAdmin ? 'red' : 'blue',
+			confirmColor: account.isAdmin ? 'danger' : 'primary',
 			onConfirm: () =>
 				setRole(
 					account.id,

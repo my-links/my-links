@@ -23,7 +23,7 @@ export function Sessions() {
 			),
 			confirmLabel: <Trans>Sign out</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: () => revokeSession(sessionId),
 		});
 	};

@@ -50,7 +50,7 @@ export function ApiTokens() {
 			),
 			confirmLabel: <Trans>Revoke</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: () => revokeToken(tokenId),
 		});
 	};

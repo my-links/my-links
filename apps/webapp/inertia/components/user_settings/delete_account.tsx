@@ -19,7 +19,7 @@ export function DeleteAccount() {
 			),
 			confirmLabel: <Trans>Delete Account</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: async () => {
 				const deleteUrl = urlFor('user.settings.delete');
 				router.delete(deleteUrl);

@@ -31,7 +31,7 @@ export function AuthMethods() {
 			),
 			confirmLabel: <Trans>Unlink</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: () =>
 				router.delete(
 					urlFor('auth.provider.unlink', { provider: GOOGLE_PROVIDER })

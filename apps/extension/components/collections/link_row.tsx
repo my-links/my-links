@@ -86,7 +86,7 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 			title: 'Delete link',
 			children: `Delete "${link.name}"? This can't be undone.`,
 			confirmLabel: 'Delete',
-			confirmColor: 'red',
+			confirmColor: 'danger',
 			onConfirm: () => deleteLink.mutate(link.id),
 		});
 	};
