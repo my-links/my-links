@@ -1,10 +1,12 @@
 import { t } from '@lingui/core/macro';
+import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 import { Link } from '@adonisjs/inertia/react';
 import { ThemeToggle } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
+import { urlFor } from '~/lib/tuyau';
 import { useAuth } from '~/hooks/use_auth';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 import { MadeBy } from '~/components/common/navigation/made_by';
@@ -26,6 +28,11 @@ export function Navbar() {
 
 	const closeMobileMenu = () => {
 		setIsMobileMenuOpen(false);
+	};
+
+	const handleLogout = () => {
+		closeMobileMenu();
+		router.post(urlFor('auth.logout'));
 	};
 
 	useEffect(() => {
@@ -116,13 +123,16 @@ export function Navbar() {
 								>
 									<i className="i-mdi-cog text-gray-600 dark:text-gray-400 h-5 min-w-5 block" />
 								</Link>
-								<Link
-									route="auth.logout"
-									className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+								<button
+									type="button"
+									onClick={handleLogout}
+									className="cursor-pointer p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+									aria-label={t`Logout`}
 									title={t`Logout`}
+									data-testid="logout"
 								>
 									<i className="i-mdi-logout text-red-600 dark:text-red-400 h-5 min-w-5 block" />
-								</Link>
+								</button>
 							</div>
 						</>
 					) : (
@@ -203,14 +213,16 @@ export function Navbar() {
 										>
 											<i className="i-mdi-cog text-gray-600 dark:text-gray-400 h-5 min-w-5 block" />
 										</Link>
-										<Link
-											route="auth.logout"
-											className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+										<button
+											type="button"
+											onClick={handleLogout}
+											className="cursor-pointer p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+											aria-label={t`Logout`}
 											title={t`Logout`}
-											onClick={closeMobileMenu}
+											data-testid="logout"
 										>
 											<i className="i-mdi-logout text-red-600 dark:text-red-400 h-5 min-w-5 block" />
-										</Link>
+										</button>
 									</div>
 								</>
 							) : (

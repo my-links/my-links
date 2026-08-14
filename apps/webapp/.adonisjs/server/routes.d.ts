@@ -110,7 +110,6 @@ export type ScannedRoutes = {
     'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
-    'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.sudo': { paramsTuple?: []; params?: {} }
     'auth.sudo.google': { paramsTuple?: []; params?: {} }
     'auth.provider.google.link': { paramsTuple?: []; params?: {} }
@@ -147,7 +146,6 @@ export type ScannedRoutes = {
     'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
-    'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.sudo': { paramsTuple?: []; params?: {} }
     'auth.sudo.google': { paramsTuple?: []; params?: {} }
     'auth.provider.google.link': { paramsTuple?: []; params?: {} }
@@ -174,6 +172,7 @@ export type ScannedRoutes = {
     'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
     'auth.verification.resend': { paramsTuple?: []; params?: {} }
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.sudo.submit': { paramsTuple?: []; params?: {} }
     'auth.password.set': { paramsTuple?: []; params?: {} }
     'auth.email.change': { paramsTuple?: []; params?: {} }

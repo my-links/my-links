@@ -23,7 +23,7 @@ const ERROR_TOAST_SELECTOR = '[data-sonner-toast][data-type="error"]';
 const HOME_PATH = '/';
 const LOGIN_PATH = '/login';
 const REGISTER_PATH = '/register';
-const LOGOUT_PATH = '/auth/logout';
+const LOGOUT_SELECTOR = '[data-testid="logout"]';
 const FAVORITES_PATH = '/collections/favorites';
 const VERIFICATION_PATH_PREFIX = '/verify-email/';
 
@@ -134,9 +134,10 @@ test.group('Auth journey (browser)', (group) => {
 		await submitCredentials(page, email, VALID_PASSWORD);
 		await page.assertPath(FAVORITES_PATH);
 
-		// The desktop and mobile navs both render a logout link; only one is
-		// visible at this viewport, but both are in the DOM.
-		await page.locator(`a[href="${LOGOUT_PATH}"]`).first().click();
+		// The desktop and mobile navs both render a logout control; only one is
+		// visible at this viewport, but both are in the DOM. Logout is a POST,
+		// so this is a button rather than a link.
+		await page.locator(LOGOUT_SELECTOR).first().click();
 		await page.assertPath(HOME_PATH);
 		await page.assertExists('a[href="/login"]');
 
@@ -147,7 +148,7 @@ test.group('Auth journey (browser)', (group) => {
 		// 5. Registration closed the moment the first account landed, and
 		// Google is still off — the home page reflects both. Signed out
 		// first: `/` now redirects a signed-in visitor to their favorites.
-		await page.locator(`a[href="${LOGOUT_PATH}"]`).first().click();
+		await page.locator(LOGOUT_SELECTOR).first().click();
 		await page.assertPath(HOME_PATH);
 		await page.assertNotExists('a[href="/register"]');
 		await page.assertNotExists('a[href="/auth/google"]');

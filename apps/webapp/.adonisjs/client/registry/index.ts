@@ -289,7 +289,7 @@ const routes = {
     types: placeholder as Registry['auth.callback']['types'],
   },
   'auth.logout': {
-    methods: ["GET","HEAD"],
+    methods: ["POST"],
     pattern: '/auth/logout',
     tokens: [{"old":"/auth/logout","type":0,"val":"auth","end":""},{"old":"/auth/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['auth.logout']['types'],
