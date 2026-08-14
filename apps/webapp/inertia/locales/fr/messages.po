@@ -143,6 +143,7 @@ msgstr "Ajouter aux favoris"
 msgid "Address"
 msgstr "Adresse"
 
+#: inertia/components/common/navigation/account_menu.tsx:164
 #: inertia/components/common/user_badge_role.tsx:19
 msgid "Admin"
 msgstr "Administrateur"
@@ -210,6 +211,10 @@ msgstr "Journal d'authentification"
 #: inertia/components/tour/tour_tooltip.tsx:55
 msgid "Back"
 msgstr "Retour"
+
+#: inertia/components/common/navigation/account_menu.tsx:149
+msgid "Browser extension"
+msgstr "Extension navigateur"
 
 #: inertia/pages/terms.tsx:43
 msgid "By accessing MyLinks and using our services, you agree to comply with these Terms and Conditions of Use."
@@ -437,6 +442,10 @@ msgstr "Actuelle"
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
+#: inertia/components/common/navigation/account_menu.tsx:39
+msgid "Dark"
+msgstr "Sombre"
+
 #: inertia/consts/shortcuts.tsx:23
 #: inertia/pages/dashboard.tsx:118
 msgid "Dashboard"
@@ -535,6 +544,7 @@ msgstr "Espace disque"
 msgid "Dismiss"
 msgstr "Fermer"
 
+#: inertia/components/common/navigation/account_menu.tsx:141
 #: inertia/pages/home.tsx:44
 msgid "Documentation"
 msgstr "Documentation"
@@ -748,7 +758,7 @@ msgstr "Regroupez des liens similaires, en public ou en privé."
 msgid "Heap memory"
 msgstr "Mémoire heap"
 
-#: inertia/components/common/navigation/navbar.tsx:106
+#: inertia/components/common/navigation/navbar.tsx:113
 msgid "Hello"
 msgstr "Bonjour"
 
@@ -805,6 +815,11 @@ msgstr "Accédez rapidement à n'importe quel lien, toutes collections confondue
 msgid "Just now"
 msgstr "À l'instant"
 
+#: inertia/components/common/navigation/account_menu.tsx:84
+#: inertia/components/common/navigation/account_menu.tsx:133
+msgid "Keyboard shortcuts"
+msgstr "Raccourcis clavier"
+
 #: inertia/components/user_settings/preferences.tsx:41
 msgid "Language"
 msgstr "Langue"
@@ -829,6 +844,10 @@ msgstr "Dernière mise à jour : {date}"
 #: inertia/components/api_tokens/api_tokens.tsx:153
 msgid "Last used at"
 msgstr "Dernière utilisation"
+
+#: inertia/components/common/navigation/account_menu.tsx:37
+msgid "Light"
+msgstr "Clair"
 
 #: inertia/components/dashboard/views/collection_view_content.tsx:45
 #: inertia/components/dashboard/views/favorites_view_content.tsx:24
@@ -894,8 +913,11 @@ msgstr "Liste"
 msgid "Login"
 msgstr "Connexion"
 
-#: inertia/components/common/navigation/navbar.tsx:122
-#: inertia/components/common/navigation/navbar.tsx:209
+#: inertia/components/common/navigation/account_menu.tsx:168
+#: inertia/components/common/navigation/navbar.tsx:130
+#: inertia/components/common/navigation/navbar.tsx:131
+#: inertia/components/common/navigation/navbar.tsx:220
+#: inertia/components/common/navigation/navbar.tsx:221
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -1178,6 +1200,7 @@ msgstr "Supprimer des favoris"
 msgid "Reorder cancelled."
 msgstr "Réorganisation annulée."
 
+#: inertia/components/common/navigation/account_menu.tsx:130
 #: inertia/components/dashboard/headers/dashboard_header.tsx:76
 #: inertia/components/dashboard/headers/dashboard_header.tsx:80
 msgid "Replay the tour"
@@ -1298,8 +1321,9 @@ msgstr "Définir un mot de passe"
 msgid "Set my password"
 msgstr "Définir mon mot de passe"
 
-#: inertia/components/common/navigation/navbar.tsx:114
-#: inertia/components/common/navigation/navbar.tsx:201
+#: inertia/components/common/navigation/account_menu.tsx:111
+#: inertia/components/common/navigation/navbar.tsx:121
+#: inertia/components/common/navigation/navbar.tsx:211
 #: inertia/pages/user_settings/show.tsx:16
 msgid "Settings"
 msgstr "Paramètres"
@@ -1346,6 +1370,10 @@ msgstr "Ignorer la visite"
 msgid "Sort it into a collection, not a folder"
 msgstr "Rangez-le dans une collection, pas un dossier"
 
+#: inertia/components/common/navigation/account_menu.tsx:157
+msgid "Source code"
+msgstr "Code source"
+
 #: inertia/pages/auth/register.tsx:63
 msgid "Start collecting your links in one place"
 msgstr "Rassemblez vos liens au même endroit"
@@ -1373,6 +1401,10 @@ msgstr "Basculez entre liste, grille, mosaïque et compact. Vous pouvez aussi fa
 #: inertia/components/user_settings/preferences.tsx:47
 msgid "Switch between the light and dark palette."
 msgstr "Basculer entre la palette claire et la palette sombre."
+
+#: inertia/components/common/navigation/account_menu.tsx:40
+msgid "System"
+msgstr "Système"
 
 #: inertia/pages/status.tsx:19
 msgid "System Status"
@@ -1435,6 +1467,7 @@ msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout mome
 msgid "The ways you can prove who you are. At least one has to remain."
 msgstr "Les façons dont vous pouvez prouver votre identité. Il doit en rester au moins une."
 
+#: inertia/components/common/navigation/account_menu.tsx:116
 #: inertia/components/user_settings/preferences.tsx:46
 msgid "Theme"
 msgstr "Thème"
