@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
-import { Button } from '@minimalstuff/ui';
+import { useId, useMemo } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { ModalFooter } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
+import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	FormCollectionContent,
 	type FormCollectionData,
@@ -18,6 +19,7 @@ export function CreateCollectionModal({
 	onClose,
 	message,
 }: Readonly<CreateCollectionModalProps>) {
+	const formId = useId();
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			name: '',
@@ -42,33 +44,24 @@ export function CreateCollectionModal({
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
-			{message && (
-				<div className="text-sm text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-					{message}
-				</div>
-			)}
-			<FormCollectionContent data={data} setData={setData} errors={errors} />
-
-			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-				<Button
-					variant="outline"
-					color="neutral"
-					type="button"
-					onClick={onClose}
-				>
-					<Trans>Cancel</Trans>
-				</Button>
-				<Button type="submit" disabled={isFormDisabled}>
-					{processing && (
-						<span
-							className="i-svg-spinners-3-dots-fade w-4 h-4"
-							aria-hidden="true"
-						/>
-					)}
-					<Trans>Create</Trans>
-				</Button>
-			</div>
-		</form>
+		<>
+			<form id={formId} onSubmit={handleSubmit} className="space-y-4">
+				{message && (
+					<div className="text-sm text-red-600 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+						{message}
+					</div>
+				)}
+				<FormCollectionContent data={data} setData={setData} errors={errors} />
+			</form>
+			<ModalFooter>
+				<ModalFormFooter
+					formId={formId}
+					onCancel={onClose}
+					canSubmit={!isFormDisabled}
+					processing={processing}
+					submitLabel={<Trans>Create</Trans>}
+				/>
+			</ModalFooter>
+		</>
 	);
 }

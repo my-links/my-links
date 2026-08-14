@@ -1,11 +1,12 @@
-import { useMemo } from 'react';
-import { Button } from '@minimalstuff/ui';
+import { useId, useMemo } from 'react';
 import { useForm } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
+import { ModalFooter } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	FormCollectionContent,
 	type FormCollectionData,
@@ -20,6 +21,7 @@ export function EditCollectionModal({
 	onClose,
 	collection,
 }: Readonly<EditCollectionModalProps>) {
+	const formId = useId();
 	const { activeCollection } = useDashboardProps();
 	const targetCollection = collection ?? activeCollection;
 	const { data, setData, put, processing, errors } =
@@ -55,28 +57,19 @@ export function EditCollectionModal({
 	};
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-4">
-			<FormCollectionContent data={data} setData={setData} errors={errors} />
-
-			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-				<Button
-					variant="outline"
-					color="neutral"
-					type="button"
-					onClick={onClose}
-				>
-					<Trans>Cancel</Trans>
-				</Button>
-				<Button type="submit" disabled={!canSubmit}>
-					{processing && (
-						<span
-							className="i-svg-spinners-3-dots-fade w-4 h-4"
-							aria-hidden="true"
-						/>
-					)}
-					<Trans>Update</Trans>
-				</Button>
-			</div>
-		</form>
+		<>
+			<form id={formId} onSubmit={handleSubmit} className="space-y-4">
+				<FormCollectionContent data={data} setData={setData} errors={errors} />
+			</form>
+			<ModalFooter>
+				<ModalFormFooter
+					formId={formId}
+					onCancel={onClose}
+					canSubmit={canSubmit}
+					processing={processing}
+					submitLabel={<Trans>Update</Trans>}
+				/>
+			</ModalFooter>
+		</>
 	);
 }

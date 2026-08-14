@@ -98,7 +98,7 @@ export interface Registry {
       body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/auth_journal_page_validator').authJournalPageValidator)>>
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/journal_page_validator').journalPageValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/auth_journal_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/auth_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
@@ -110,7 +110,7 @@ export interface Registry {
       body: {}
       paramsTuple: []
       params: {}
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/activity_journal_page_validator').activityJournalPageValidator)>>
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/journal_page_validator').journalPageValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
@@ -131,46 +131,46 @@ export interface Registry {
     methods: ["POST"]
     pattern: '/admin/users/:id/password-reset'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/send_account_password_reset_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/send_account_password_reset_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/send_account_password_reset_controller').default['execute']>>>
     }
   }
   'admin.users.revoke-access': {
     methods: ["POST"]
     pattern: '/admin/users/:id/revoke-access'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/revoke_account_access_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/revoke_account_access_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/revoke_account_access_controller').default['execute']>>>
     }
   }
   'admin.users.verify-email': {
     methods: ["POST"]
     pattern: '/admin/users/:id/verify-email'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>>
+      body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>>
+      query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/verify_account_email_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/verify_account_email_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/verify_account_email_controller').default['execute']>>>
     }
   }
   'admin.users.set-role': {
     methods: ["PATCH"]
     pattern: '/admin/users/:id/role'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>|InferInput<(typeof import('#validators/admin/account_role_validator').accountRoleValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/admin/account_role_validator').accountRoleValidator)>>
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/admin/account_target_validator').accountTargetValidator)>|InferInput<(typeof import('#validators/admin/account_role_validator').accountRoleValidator)>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin/account_role_validator').accountRoleValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/set_account_role_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/set_account_role_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
