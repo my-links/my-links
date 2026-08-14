@@ -1,20 +1,14 @@
 import { ThemeToggle } from '@minimalstuff/ui';
 
-import { useAuth } from '~/hooks/use_auth';
 import { MadeBy } from '~/components/common/navigation/made_by';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { useFooterLinks } from '~/components/common/navigation/footer_links';
 
 export function Footer() {
-	const auth = useAuth();
 	const footerLinks = useFooterLinks();
-	const firstRowLinks = footerLinks.filter(
-		(link) => link.internal && (link.admin ? auth.isAdmin : true)
-	);
-	const secondRowLinks = footerLinks.filter(
-		(link) => !link.internal && (link.admin ? auth.isAdmin : true)
-	);
+	const firstRowLinks = footerLinks.filter((link) => link.internal);
+	const secondRowLinks = footerLinks.filter((link) => !link.internal);
 
 	return (
 		<footer className="hidden md:block bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-lg shadow-sm">

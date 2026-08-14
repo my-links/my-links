@@ -2,6 +2,7 @@ import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { useLingui } from '@lingui/react/macro';
 
+import { AdminTabs } from '~/components/admin/admin_tabs';
 import { GlobalStatus } from '~/components/status/global_status';
 import { ServiceDetails } from '~/components/status/service_details';
 
@@ -16,6 +17,7 @@ function Status({ isHealthy, checks }: Readonly<StatusProps>) {
 	return (
 		<>
 			<Head title={t`System Status`} />
+			<AdminTabs />
 			<div className="space-y-6 overflow-y-auto">
 				<GlobalStatus isHealthy={isHealthy} />
 				<ServiceDetails checks={checks} />
