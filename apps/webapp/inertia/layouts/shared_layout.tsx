@@ -20,7 +20,7 @@ export function SharedLayout({ children }: Readonly<SharedLayoutProps>) {
 	return (
 		<BaseLayout>
 			<div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-				<div className="max-w-[1920px] mx-auto p-4 md:p-6">
+				<div className="max-w-[2560px] mx-auto p-4 md:p-6">
 					<div className="h-14 flex items-center justify-between gap-4 mb-6">
 						<Link route="home" className="flex-shrink-0">
 							<img
