@@ -32,10 +32,12 @@ export default defineConfig({
 	},
 	content: {
 		pipeline: {
+			// Vite and WXT each run from their own app root, so the old `src/**` glob matched nothing and plain `.ts` files holding class strings were never scanned.
 			include: [
 				/\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|marko|html)($|\?)/,
-				'src/**/*.{ts,tsx}',
+				/\.ts($|\?)/,
 			],
+			exclude: [/node_modules/, /\.d\.ts($|\?)/],
 		},
 	},
 	rules: [
