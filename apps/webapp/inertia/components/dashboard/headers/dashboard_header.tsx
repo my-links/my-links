@@ -62,7 +62,7 @@ export function DashboardHeader({
 			className={cn(
 				'md:border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
 				// Desktop always has a sidebar to sit beside, expanded or railed.
-				isMobile ? 'pl-0' : 'pl-4'
+				isMobile ? 'pl-0' : 'p-4'
 			)}
 		>
 			<div className="flex flex-col min-[1460px]:flex-row min-[1460px]:items-start justify-between gap-4">

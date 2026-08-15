@@ -24,7 +24,7 @@ export default function AuthJournal({
 	totalEvents,
 }: Readonly<PageProps>) {
 	return (
-		<div className="w-full flex flex-col md:h-full">
+		<div className="w-full flex flex-col md:h-full p-4">
 			<Head title={t`Auth Journal`} />
 
 			<AdminTabs />
