@@ -1,6 +1,6 @@
 import { t } from '@lingui/core/macro';
-import { IconButton } from '@minimalstuff/ui';
 import { Link } from '@adonisjs/inertia/react';
+import { IconButton, Tooltip } from '@minimalstuff/ui';
 
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { SearchButton } from '~/components/dashboard/search/search_button';
@@ -25,7 +25,6 @@ export function SidebarHeader({
 			icon="i-ant-design-menu-outlined"
 			onClick={onToggleSidebar}
 			aria-label={t`Toggle sidebar`}
-			title={t`Toggle sidebar`}
 			variant="ghost"
 		/>
 	);
@@ -33,7 +32,11 @@ export function SidebarHeader({
 	return (
 		<div className="px-2 pt-4 pb-2 space-y-3">
 			{isRail ? (
-				<div className="flex justify-center">{toggleButton}</div>
+				<div className="flex justify-center">
+					<Tooltip content={t`Toggle sidebar`} position="right">
+						{toggleButton}
+					</Tooltip>
+				</div>
 			) : (
 				<div className="flex items-center justify-between gap-2">
 					<Link
@@ -54,14 +57,15 @@ export function SidebarHeader({
 
 			{isRail ? (
 				<div className="flex justify-center">
-					<IconButton
-						icon="i-ion-search"
-						onClick={onOpenSearch}
-						data-tour="header-search"
-						aria-label={t`Search`}
-						title={t`Search`}
-						variant="ghost"
-					/>
+					<Tooltip content={t`Search`} position="right">
+						<IconButton
+							icon="i-ion-search"
+							onClick={onOpenSearch}
+							data-tour="header-search"
+							aria-label={t`Search`}
+							variant="ghost"
+						/>
+					</Tooltip>
 				</div>
 			) : (
 				<SearchButton onClick={onOpenSearch} data-tour="header-search" />

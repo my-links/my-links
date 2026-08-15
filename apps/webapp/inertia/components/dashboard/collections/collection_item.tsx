@@ -1,4 +1,5 @@
 import { usePage } from '@inertiajs/react';
+import { Tooltip } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Link } from '@adonisjs/inertia/react';
 import { useRef, type MouseEvent } from 'react';
@@ -61,7 +62,7 @@ export function CollectionItem({
 		}
 	};
 
-	return (
+	const collectionLink = (
 		<Link
 			ref={setActivatorNodeRef}
 			route="collection.show"
@@ -77,7 +78,7 @@ export function CollectionItem({
 			)}
 			onContextMenu={handleContextMenu}
 			onClick={handleClick}
-			title={collection.name}
+			title={isRail ? undefined : collection.name}
 			{...dragAttributes}
 			{...dragListeners}
 		>
@@ -104,5 +105,17 @@ export function CollectionItem({
 				showQuickActions={!isRail}
 			/>
 		</Link>
+	);
+
+	return isRail ? (
+		<Tooltip
+			content={collection.name}
+			position="right"
+			className="!flex !justify-center"
+		>
+			{collectionLink}
+		</Tooltip>
+	) : (
+		collectionLink
 	);
 }
