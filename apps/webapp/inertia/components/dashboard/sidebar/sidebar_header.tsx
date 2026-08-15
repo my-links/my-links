@@ -26,7 +26,7 @@ export function SidebarHeader({
 			onClick={onToggleSidebar}
 			aria-label={t`Toggle sidebar`}
 			title={t`Toggle sidebar`}
-			variant="outline"
+			variant="ghost"
 		/>
 	);
 
@@ -60,7 +60,7 @@ export function SidebarHeader({
 						data-tour="header-search"
 						aria-label={t`Search`}
 						title={t`Search`}
-						variant="outline"
+						variant="ghost"
 					/>
 				</div>
 			) : (

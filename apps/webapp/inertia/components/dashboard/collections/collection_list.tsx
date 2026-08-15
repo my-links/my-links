@@ -13,7 +13,6 @@ import { CollectionInboxItem } from './collection_inbox_item';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useSectionOrderStore } from '~/stores/section_order_store';
 import { CollectionFavoriteItem } from './collection_favorite_item';
-import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import {
 	COLLECTION_SECTION,
 	type CollectionSection,
@@ -39,7 +38,6 @@ export function CollectionList({
 		useDashboardDndCollections();
 	const { inboxCollection } = useDashboardProps();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
-	const { toggleSidebar } = useDashboardLayoutStore();
 	const isMobile = useIsMobile();
 	const isRail = useSidebarMode() === 'rail';
 
@@ -96,16 +94,6 @@ export function CollectionList({
 							Create collection <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
 						</Trans>
 					</Button>
-				)}
-
-				{isMobile && (
-					<IconButton
-						icon="i-ant-design-close-outlined"
-						onClick={toggleSidebar}
-						aria-label={t`Close sidebar`}
-						variant="ghost"
-						className="ml-auto"
-					/>
 				)}
 			</div>
 

@@ -16,6 +16,7 @@ import {
 import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
 import { useAuth } from '~/hooks/use_auth';
+import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useTourStore } from '~/stores/tour_store';
 import { ShortcutsModal } from '~/components/common/modals/shortcuts_modal';
 import {
@@ -114,8 +115,8 @@ export function AccountMenu({
 					title={iconOnly ? fullname : undefined}
 					aria-label={iconOnly ? fullname : undefined}
 					className={cn(
-						'w-full cursor-pointer flex items-center gap-2 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors',
-						iconOnly ? 'justify-center px-0' : 'px-2'
+						'cursor-pointer flex items-center gap-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors',
+						iconOnly ? RAIL_ITEM_CLASS : 'w-full px-2 py-1.5'
 					)}
 				>
 					<Avatar name={fullname} size="sm" />
