@@ -51,14 +51,11 @@ export default function Dashboard() {
 	// Both controllers always send `activeCollection` (object or `null`); only an unset prop should hit the placeholder.
 	const hasActiveContent = activeCollection !== undefined;
 
-	const handleCreateCollection = (message?: string) => {
+	const handleCreateCollection = () => {
 		const call = Modal.call({
 			title: t`Create a collection`,
 			children: (
-				<CreateCollectionModal
-					message={message}
-					onClose={() => Modal.end(call, undefined)}
-				/>
+				<CreateCollectionModal onClose={() => Modal.end(call, undefined)} />
 			),
 		});
 	};
@@ -141,7 +138,7 @@ export default function Dashboard() {
 									onToggleSidebar={toggleSidebar}
 									onOpenSearch={handleOpenSearch}
 								/>
-								<CollectionList onCreateCollection={handleCreateCollection} />
+								<CollectionList />
 								<SidebarFooter />
 							</aside>
 						</ResizableSidebar>

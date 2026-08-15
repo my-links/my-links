@@ -1,12 +1,7 @@
 import type { ReactNode } from 'react';
-import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
-import { Button, IconButton } from '@minimalstuff/ui';
 
-import { KEYS } from '~/consts/keys';
-import { Kbd } from '~/components/common/kbd';
-import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { CollapsibleSection } from './collapsible_section';
 import { CollectionInboxItem } from './collection_inbox_item';
@@ -27,21 +22,12 @@ type SectionConfig = {
 	alwaysShow?: boolean;
 };
 
-interface CollectionListProps {
-	onCreateCollection: () => void;
-}
-
-export function CollectionList({
-	onCreateCollection,
-}: Readonly<CollectionListProps>) {
+export function CollectionList() {
 	const { followedCollections, myPublicCollections, myPrivateCollections } =
 		useDashboardDndCollections();
 	const { inboxCollection } = useDashboardProps();
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
-	const isMobile = useIsMobile();
 	const isRail = useSidebarMode() === 'rail';
-
-	const handleCreateCollection = () => onCreateCollection();
 
 	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
 		[COLLECTION_SECTION.FOLLOWED]: {
@@ -68,35 +54,6 @@ export function CollectionList({
 
 	return (
 		<div className="flex flex-col flex-1 min-h-0" data-tour="collections-list">
-			<div className="flex items-center justify-between gap-2 px-2 py-1">
-				{!isMobile && isRail && (
-					<IconButton
-						icon="i-ant-design-plus-outlined"
-						onClick={handleCreateCollection}
-						data-tour="create-collection"
-						aria-label={t`Create collection`}
-						title={t`Create collection`}
-						variant="subtle"
-						size="sm"
-						className="mx-auto"
-					/>
-				)}
-
-				{!isMobile && !isRail && (
-					<Button
-						variant="subtle"
-						size="sm"
-						onClick={handleCreateCollection}
-						data-tour="create-collection"
-						fullWidth
-					>
-						<Trans>
-							Create collection <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
-						</Trans>
-					</Button>
-				)}
-			</div>
-
 			<div className="px-2 pt-1 pb-2 space-y-1">
 				{!isRail && (
 					<p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">

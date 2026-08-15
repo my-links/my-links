@@ -71,7 +71,7 @@ const steps: Step[] = [
 		target: '[data-tour="create-collection"]',
 		title: <Trans>Create a collection</Trans>,
 		content: <Trans>Group related links together, public or private.</Trans>,
-		placement: 'right',
+		placement: 'bottom',
 	},
 ];
 
