@@ -22,6 +22,12 @@ export interface CollectionControlsRef {
 
 interface CollectionControlsProps {
 	collection: Collection;
+	/**
+	 * Drops the hover buttons, which a collapsed rail has no room for, and
+	 * keeps the right-click menu. Leaving the component mounted is what makes
+	 * that menu reachable at all: the row opens it through this ref.
+	 */
+	showQuickActions?: boolean;
 }
 
 interface PagePropsWithActiveCollection extends PageProps {
@@ -31,7 +37,7 @@ interface PagePropsWithActiveCollection extends PageProps {
 export const CollectionControls = forwardRef<
 	CollectionControlsRef,
 	Readonly<CollectionControlsProps>
->(({ collection }, ref) => {
+>(({ collection, showQuickActions = true }, ref) => {
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const activeCollection = props.activeCollection;
 	const isOwner =
@@ -107,27 +113,31 @@ export const CollectionControls = forwardRef<
 	return (
 		<div
 			className={cn(
-				'pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-8 pr-2',
-				'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
-				'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'
+				showQuickActions && [
+					'pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-8 pr-2',
+					'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
+					'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto',
+				]
 			)}
 			ref={menuRef}
 			onClick={(e) => e.stopPropagation()}
 		>
-			<IconButton
-				icon="i-ant-design-plus-outlined"
-				size="sm"
-				onClick={(e) => {
-					handleStopPropagation(e);
-					handleCreateLink();
-				}}
-				aria-label={`Add link to ${collection.name}`}
-			/>
+			{showQuickActions && (
+				<IconButton
+					icon="i-ant-design-plus-outlined"
+					size="sm"
+					onClick={(e) => {
+						handleStopPropagation(e);
+						handleCreateLink();
+					}}
+					aria-label={`Add link to ${collection.name}`}
+				/>
+			)}
 
 			{/* The default (Inbox) collection can't be edited, renamed, or
 			deleted, so it carries no kebab — the context menu still opens
 			on right-click, offering only "Add link". */}
-			{!collection.isDefault && (
+			{showQuickActions && !collection.isDefault && (
 				<IconButton
 					icon="i-mdi-dots-vertical"
 					size="sm"

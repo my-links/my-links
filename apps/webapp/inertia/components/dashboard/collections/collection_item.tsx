@@ -9,6 +9,7 @@ import type {
 } from '@dnd-kit/core';
 
 import { cn } from '~/lib/cn';
+import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
@@ -68,7 +69,7 @@ export function CollectionItem({
 			preserveScroll
 			className={cn(
 				'relative flex items-center gap-3 py-2 rounded-md transition-colors group',
-				isRail ? 'justify-center px-0' : 'px-4',
+				isRail ? RAIL_ITEM_CLASS : 'px-4',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
 				isActive &&
@@ -96,15 +97,12 @@ export function CollectionItem({
 					)}
 				/>
 			)}
-			{!isRail && (
-				<>
-					<span className="truncate flex-1">{collection.name}</span>
-					<CollectionControls
-						ref={collectionControlsRef}
-						collection={collection}
-					/>
-				</>
-			)}
+			{!isRail && <span className="truncate flex-1">{collection.name}</span>}
+			<CollectionControls
+				ref={collectionControlsRef}
+				collection={collection}
+				showQuickActions={!isRail}
+			/>
 		</Link>
 	);
 }

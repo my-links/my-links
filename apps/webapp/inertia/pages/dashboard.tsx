@@ -137,7 +137,10 @@ export default function Dashboard() {
 					{sidebarMode !== 'hidden' && (
 						<ResizableSidebar>
 							<aside className="h-full border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col">
-								<SidebarHeader onOpenSearch={handleOpenSearch} />
+								<SidebarHeader
+									onToggleSidebar={toggleSidebar}
+									onOpenSearch={handleOpenSearch}
+								/>
 								<CollectionList onCreateCollection={handleCreateCollection} />
 								<SidebarFooter />
 							</aside>
