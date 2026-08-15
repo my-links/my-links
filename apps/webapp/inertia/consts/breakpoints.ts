@@ -1,1 +1,2 @@
 export const MOBILE_BREAKPOINT = 768;
+export const NAVBAR_BREAKPOINT = 1024;
