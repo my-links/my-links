@@ -190,21 +190,23 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 
 	return (
 		<div className="space-y-4">
-			<div className="relative mt-1">
-				<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
-					<div className="i-ion-search w-5 h-5 text-gray-400" />
+			<div className="sticky top-0 z-10 pt-1 pb-2 bg-white dark:bg-gray-900">
+				<div className="relative">
+					<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+						<div className="i-ion-search w-5 h-5 text-gray-400" />
+					</div>
+					<Input
+						value={searchTerm}
+						type="text"
+						onChange={(e) => setSearchTerm(e.target.value)}
+						placeholder="Search..."
+						autoFocus
+						className="pl-10"
+					/>
 				</div>
-				<Input
-					value={searchTerm}
-					type="text"
-					onChange={(e) => setSearchTerm(e.target.value)}
-					placeholder="Search..."
-					autoFocus
-					className="pl-10"
-				/>
 			</div>
 
-			<div ref={resultsRef} className="max-h-96 overflow-y-auto space-y-4">
+			<div ref={resultsRef} className="space-y-4">
 				{resultsContent}
 			</div>
 		</div>
