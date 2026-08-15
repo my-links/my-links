@@ -7,6 +7,7 @@ import { Button, IconButton } from '@minimalstuff/ui';
 import { KEYS } from '~/consts/keys';
 import { Kbd } from '~/components/common/kbd';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { CollapsibleSection } from './collapsible_section';
 import { CollectionInboxItem } from './collection_inbox_item';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
@@ -40,6 +41,9 @@ export function CollectionList({
 	const { order, moveSectionUp, moveSectionDown } = useSectionOrderStore();
 	const { toggleSidebar } = useDashboardLayoutStore();
 	const isMobile = useIsMobile();
+	const isRail = useSidebarMode() === 'rail';
+
+	const handleCreateCollection = () => onCreateCollection();
 
 	const sectionsByKey: Record<CollectionSection, SectionConfig> = {
 		[COLLECTION_SECTION.FOLLOWED]: {
@@ -67,11 +71,24 @@ export function CollectionList({
 	return (
 		<div className="flex flex-col flex-1 min-h-0" data-tour="collections-list">
 			<div className="flex items-center justify-between gap-2 px-2 py-1">
-				{!isMobile && (
+				{!isMobile && isRail && (
+					<IconButton
+						icon="i-ant-design-plus-outlined"
+						onClick={handleCreateCollection}
+						data-tour="create-collection"
+						aria-label={t`Create collection`}
+						title={t`Create collection`}
+						variant="subtle"
+						size="sm"
+						className="mx-auto"
+					/>
+				)}
+
+				{!isMobile && !isRail && (
 					<Button
 						variant="subtle"
 						size="sm"
-						onClick={() => onCreateCollection()}
+						onClick={handleCreateCollection}
 						data-tour="create-collection"
 						fullWidth
 					>
@@ -93,9 +110,11 @@ export function CollectionList({
 			</div>
 
 			<div className="px-2 pt-1 pb-2 space-y-1">
-				<p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-					<Trans>Views</Trans>
-				</p>
+				{!isRail && (
+					<p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+						<Trans>Views</Trans>
+					</p>
+				)}
 				<CollectionFavoriteItem />
 				<CollectionInboxItem collection={inboxCollection} />
 			</div>

@@ -7,6 +7,7 @@ import { Trans } from '@lingui/react/macro';
 
 import useShortcut from '~/hooks/use_shortcut';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardTour } from '~/components/tour/dashboard_tour';
 import { SearchModal } from '~/components/dashboard/modals/search_modal';
@@ -42,7 +43,8 @@ export default function Dashboard() {
 	useRefetchOnTabRefocus();
 
 	const isMobile = useIsMobile();
-	const { sidebarOpen, toggleSidebar } = useDashboardStore();
+	const sidebarMode = useSidebarMode();
+	const { toggleSidebar } = useDashboardStore();
 
 	const isFavorite = !activeCollection?.id;
 
@@ -132,7 +134,7 @@ export default function Dashboard() {
 			<DashboardTour />
 			<DashboardDndProvider>
 				<div className="flex h-full w-full">
-					{sidebarOpen && (
+					{sidebarMode !== 'hidden' && (
 						<ResizableSidebar>
 							<aside className="h-full border-r border-gray-200/50 dark:border-gray-700/50 flex flex-col">
 								<SidebarHeader onOpenSearch={handleOpenSearch} />

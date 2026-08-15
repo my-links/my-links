@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton } from '@minimalstuff/ui';
@@ -9,9 +8,8 @@ import { urlFor } from '~/lib/tuyau';
 import { Kbd } from '~/components/common/kbd';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { Tooltip } from '~/components/common/tooltip';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { AccountMenu } from '~/components/common/navigation/account_menu';
-import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
 
 export interface DashboardHeaderProps {
@@ -34,12 +32,11 @@ export function DashboardHeader({
 	onOpenSearch,
 }: Readonly<DashboardHeaderProps>) {
 	const { activeCollection } = useDashboardProps();
-	const { sidebarOpen } = useDashboardLayoutStore();
 	const isMobile = useIsMobile();
+	// The rail keeps its own left padding, so only an expanded sidebar needs the
+	// header to step away from it.
+	const isSidebarExpanded = useSidebarMode() === 'expanded' && !isMobile;
 	const collectionDescription = activeCollection?.description ?? undefined;
-	// Search and the account menu live in the sidebar; the header carries them
-	// only while it is the sole thing on screen.
-	const isSidebarHidden = !sidebarOpen || isMobile;
 
 	const handleShareCollection = async () => {
 		if (!activeCollection?.id) return;
@@ -59,7 +56,7 @@ export function DashboardHeader({
 		<header
 			className={cn(
 				'md:border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
-				isSidebarHidden ? 'pl-0' : 'pl-4'
+				isSidebarExpanded ? 'pl-4' : 'pl-0'
 			)}
 		>
 			<div className="flex flex-col justify-between gap-4">
@@ -70,17 +67,6 @@ export function DashboardHeader({
 						aria-label="Toggle sidebar"
 						variant="outline"
 					/>
-
-					{isSidebarHidden && (
-						<Tooltip content={<Trans>Search</Trans>} position="bottom">
-							<IconButton
-								icon="i-ion-search"
-								onClick={onOpenSearch}
-								aria-label={t`Search`}
-								variant="outline"
-							/>
-						</Tooltip>
-					)}
 
 					{!isMobile && activeCollection?.isOwner !== false && (
 						<Button color="primary" onClick={onCreateLink} variant="subtle">
@@ -119,12 +105,6 @@ export function DashboardHeader({
 							onToggleSidebar={onToggleSidebar}
 							onOpenSearch={onOpenSearch}
 						/>
-					)}
-
-					{isSidebarHidden && (
-						<div className="ml-auto max-w-[200px]">
-							<AccountMenu side="bottom" />
-						</div>
 					)}
 				</div>
 

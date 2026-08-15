@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
@@ -6,6 +7,7 @@ import { PageProps } from '@adonisjs/inertia/types';
 
 import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 interface PagePropsWithActiveCollection extends PageProps {
@@ -17,6 +19,7 @@ export function CollectionFavoriteItem() {
 	const activeCollection = props.activeCollection;
 	const isActive = !activeCollection?.id;
 	const isMobile = useIsMobile();
+	const isRail = useSidebarMode() === 'rail';
 	const setSidebarOpen = useDashboardLayoutStore(
 		(state) => state.setSidebarOpen
 	);
@@ -33,13 +36,14 @@ export function CollectionFavoriteItem() {
 			preserveScroll
 			data-tour="favorites"
 			className={cn(
-				'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',
+				'flex items-center gap-3 py-2 rounded-md transition-colors',
+				isRail ? 'justify-center px-0' : 'px-4',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
 				isActive &&
 					'bg-blue-100/50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
 			)}
-			title="Favorite"
+			title={t`Favorite`}
 			onClick={handleClick}
 		>
 			<div
@@ -48,9 +52,11 @@ export function CollectionFavoriteItem() {
 					isActive ? 'i-tabler-star-filled' : 'i-tabler-star'
 				)}
 			/>
-			<span className="truncate flex-1">
-				<Trans>Favorite</Trans>
-			</span>
+			{!isRail && (
+				<span className="truncate flex-1">
+					<Trans>Favorite</Trans>
+				</span>
+			)}
 		</Link>
 	);
 }

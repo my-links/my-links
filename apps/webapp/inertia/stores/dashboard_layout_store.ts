@@ -6,6 +6,7 @@ import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 const SIDEBAR_MIN_WIDTH = 200;
 const SIDEBAR_MAX_WIDTH = 500;
 const SIDEBAR_DEFAULT_WIDTH = 256;
+const SIDEBAR_RAIL_WIDTH = 64;
 
 interface DashboardLayoutStore {
 	sidebarOpen: boolean;
@@ -61,4 +62,4 @@ export const useDashboardLayoutStore = create<DashboardLayoutStore>()(
 	)
 );
 
-export { SIDEBAR_MAX_WIDTH, SIDEBAR_MIN_WIDTH };
+export { SIDEBAR_MAX_WIDTH, SIDEBAR_MIN_WIDTH, SIDEBAR_RAIL_WIDTH };
