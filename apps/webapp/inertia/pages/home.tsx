@@ -2,7 +2,6 @@ import { Trans } from '@lingui/react/macro';
 
 import { PROJECT_DOCS_URL } from '~/consts/project';
 import { HeroDemo } from '~/components/home/hero_demo';
-import { LandingLayout } from '~/layouts/landing_layout';
 import { HeroAuthActions } from '~/components/home/hero_auth_actions';
 import { LifecycleSection } from '~/components/home/lifecycle_section';
 import { ProductScreenshot } from '~/components/home/product_screenshot';
@@ -153,7 +152,4 @@ function HomePage() {
 	);
 }
 
-HomePage.layout = (page: React.ReactNode) => (
-	<LandingLayout>{page}</LandingLayout>
-);
 export default HomePage;

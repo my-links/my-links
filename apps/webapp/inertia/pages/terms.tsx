@@ -1,12 +1,10 @@
 import { Trans } from '@lingui/react/macro';
 
-import SmallContentLayout from '~/layouts/small_content';
-
 function TermsPage() {
 	const date = '19/11/2023';
 
 	return (
-		<div className="max-w-none">
+		<div className="max-w-[800px] mx-auto pt-8">
 			<div className="mb-12 pb-8 border-b border-rule dark:border-rule-dark">
 				<h1 className="font-display text-4xl sm:text-5xl text-ink dark:text-ink-dark mb-4">
 					<Trans>Terms and Conditions of Use for MyLinks</Trans>
@@ -214,7 +212,4 @@ function TermsPage() {
 	);
 }
 
-TermsPage.layout = (page: React.ReactNode) => (
-	<SmallContentLayout>{page}</SmallContentLayout>
-);
 export default TermsPage;
