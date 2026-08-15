@@ -196,6 +196,7 @@ export function LinkControls({
 					<IconButton
 						icon="i-mdi-dots-vertical"
 						onClick={(e) => {
+							e.preventDefault();
 							e.stopPropagation();
 							dispatchContextMenuAt(menuRef.current, e.clientX, e.clientY);
 						}}
