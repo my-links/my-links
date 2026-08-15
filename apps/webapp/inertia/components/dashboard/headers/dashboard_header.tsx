@@ -77,6 +77,18 @@ export function DashboardHeader({
 						</Button>
 					)}
 
+					{!isMobile && (
+						<Button
+							variant="subtle"
+							onClick={onCreateCollection}
+							data-tour="create-collection"
+						>
+							<Trans>
+								Create collection <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
+							</Trans>
+						</Button>
+					)}
+
 					{!isMobile && activeCollection?.visibility === 'PUBLIC' && (
 						<Tooltip
 							content={<Trans>Click to copy link</Trans>}
