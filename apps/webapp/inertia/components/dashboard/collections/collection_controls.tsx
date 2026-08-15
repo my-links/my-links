@@ -111,43 +111,46 @@ export const CollectionControls = forwardRef<
 	}
 
 	return (
-		<div
-			className={cn(
-				showQuickActions && [
-					'pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-8 pr-2',
-					'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
-					'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto',
-				]
-			)}
-			ref={menuRef}
-			onClick={(e) => e.stopPropagation()}
-		>
+		<>
+			{/* Nothing at all rather than an empty wrapper: the row is a centred
+			flex box, and a zero-width child still eats a `gap` and shifts the
+			icon off centre in the rail. */}
 			{showQuickActions && (
-				<IconButton
-					icon="i-ant-design-plus-outlined"
-					size="sm"
-					onClick={(e) => {
-						handleStopPropagation(e);
-						handleCreateLink();
-					}}
-					aria-label={`Add link to ${collection.name}`}
-				/>
-			)}
+				<div
+					className={cn(
+						'pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-8 pr-2',
+						'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
+						'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'
+					)}
+					ref={menuRef}
+					onClick={(e) => e.stopPropagation()}
+				>
+					<IconButton
+						icon="i-ant-design-plus-outlined"
+						size="sm"
+						onClick={(e) => {
+							handleStopPropagation(e);
+							handleCreateLink();
+						}}
+						aria-label={`Add link to ${collection.name}`}
+					/>
 
-			{/* The default (Inbox) collection can't be edited, renamed, or
-			deleted, so it carries no kebab — the context menu still opens
-			on right-click, offering only "Add link". */}
-			{showQuickActions && !collection.isDefault && (
-				<IconButton
-					icon="i-mdi-dots-vertical"
-					size="sm"
-					onClick={(e) => {
-						handleStopPropagation(e);
-						toggleMenu(e);
-					}}
-					onContextMenu={handleContextMenu}
-					aria-label="Menu"
-				/>
+					{/* The default (Inbox) collection can't be edited, renamed, or
+					deleted, so it carries no kebab — the context menu still opens
+					on right-click, offering only "Add link". */}
+					{!collection.isDefault && (
+						<IconButton
+							icon="i-mdi-dots-vertical"
+							size="sm"
+							onClick={(e) => {
+								handleStopPropagation(e);
+								toggleMenu(e);
+							}}
+							onContextMenu={handleContextMenu}
+							aria-label="Menu"
+						/>
+					)}
+				</div>
 			)}
 
 			<ContextMenu
@@ -180,6 +183,6 @@ export const CollectionControls = forwardRef<
 					</>
 				)}
 			</ContextMenu>
-		</div>
+		</>
 	);
 });

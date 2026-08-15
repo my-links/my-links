@@ -8,7 +8,6 @@ import { urlFor } from '~/lib/tuyau';
 import { Kbd } from '~/components/common/kbd';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { Tooltip } from '~/components/common/tooltip';
-import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
 
@@ -33,9 +32,6 @@ export function DashboardHeader({
 }: Readonly<DashboardHeaderProps>) {
 	const { activeCollection } = useDashboardProps();
 	const isMobile = useIsMobile();
-	// The rail keeps its own left padding, so only an expanded sidebar needs the
-	// header to step away from it.
-	const isSidebarExpanded = useSidebarMode() === 'expanded' && !isMobile;
 	const collectionDescription = activeCollection?.description ?? undefined;
 
 	const handleShareCollection = async () => {
@@ -56,7 +52,8 @@ export function DashboardHeader({
 		<header
 			className={cn(
 				'md:border-b border-gray-200/50 dark:border-gray-700/50 pb-4',
-				isSidebarExpanded ? 'pl-4' : 'pl-0'
+				// Desktop always has a sidebar to sit beside, expanded or railed.
+				isMobile ? 'pl-0' : 'pl-4'
 			)}
 		>
 			<div className="flex flex-col justify-between gap-4">
