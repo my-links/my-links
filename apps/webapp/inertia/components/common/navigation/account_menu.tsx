@@ -21,7 +21,8 @@ import { useTourStore } from '~/stores/tour_store';
 import { ShortcutsModal } from '~/components/common/modals/shortcuts_modal';
 import {
 	PROJECT_DOCS_URL,
-	PROJECT_EXTENSION_URL,
+	PROJECT_EXTENSION_CHROME_URL,
+	PROJECT_EXTENSION_FIREFOX_URL,
 	PROJECT_REPO_GITHUB_URL,
 } from '~/consts/project';
 
@@ -170,12 +171,20 @@ export function AccountMenu({
 				<Trans>Documentation</Trans>
 			</MenuItem>
 			<MenuItem
-				icon="i-mdi-extension"
-				href={PROJECT_EXTENSION_URL}
+				icon="i-mdi-google-chrome"
+				href={PROJECT_EXTENSION_CHROME_URL}
 				target="_blank"
 				trailing={EXTERNAL_HINT}
 			>
-				<Trans>Browser extension</Trans>
+				<Trans>Chrome extension</Trans>
+			</MenuItem>
+			<MenuItem
+				icon="i-mdi-firefox"
+				href={PROJECT_EXTENSION_FIREFOX_URL}
+				target="_blank"
+				trailing={EXTERNAL_HINT}
+			>
+				<Trans>Firefox extension</Trans>
 			</MenuItem>
 			<MenuItem
 				icon="i-mdi-github"

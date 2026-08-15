@@ -5,8 +5,10 @@ export const PROJECT_URL = 'https://www.mylinks.app';
 export const PROJECT_DOCS_URL = 'https://docs.mylinks.app';
 export const PROJECT_CHANGELOG_URL = `${PROJECT_DOCS_URL}/changelog`;
 export const PROJECT_REPO_GITHUB_URL = 'https://github.com/my-links/my-links';
-export const PROJECT_EXTENSION_URL =
+export const PROJECT_EXTENSION_CHROME_URL =
 	'https://chromewebstore.google.com/detail/mylinks/agkmlplihacolkakgeccnbhphnepphma';
+export const PROJECT_EXTENSION_FIREFOX_URL =
+	'https://addons.mozilla.org/firefox/addon/mylinks-extension/';
 
 export const AUTHOR_NAME = 'Sonny';
 export const AUTHOR_GITHUB_URL = 'https://github.com/Sonny93';

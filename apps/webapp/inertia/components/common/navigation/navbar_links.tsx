@@ -1,6 +1,7 @@
 import {
 	PROJECT_DOCS_URL,
-	PROJECT_EXTENSION_URL,
+	PROJECT_EXTENSION_CHROME_URL,
+	PROJECT_EXTENSION_FIREFOX_URL,
 	PROJECT_REPO_GITHUB_URL,
 } from '~/consts/project';
 
@@ -11,9 +12,14 @@ export const NAVBAR_LINKS = [
 		icon: 'i-mdi-github',
 	},
 	{
-		label: 'Extension',
-		href: PROJECT_EXTENSION_URL,
-		icon: 'i-mdi-extension',
+		label: 'Chrome',
+		href: PROJECT_EXTENSION_CHROME_URL,
+		icon: 'i-mdi-google-chrome',
+	},
+	{
+		label: 'Firefox',
+		href: PROJECT_EXTENSION_FIREFOX_URL,
+		icon: 'i-mdi-firefox',
 	},
 	{
 		label: 'Docs',
