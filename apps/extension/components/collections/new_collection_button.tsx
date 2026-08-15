@@ -1,4 +1,4 @@
-import { IconButton, Modal } from '@minimalstuff/ui';
+import { IconButton, Modal, Tooltip } from '@minimalstuff/ui';
 
 import { CreateCollectionModal } from './create_collection_modal';
 
@@ -13,12 +13,14 @@ export function NewCollectionButton() {
 	};
 
 	return (
-		<IconButton
-			icon="i-ant-design-folder-add-outlined"
-			aria-label="New collection"
-			size="sm"
-			variant="ghost"
-			onClick={handleClick}
-		/>
+		<Tooltip content="New collection" position="bottom">
+			<IconButton
+				icon="i-ant-design-folder-add-outlined"
+				aria-label="New collection"
+				size="sm"
+				variant="ghost"
+				onClick={handleClick}
+			/>
+		</Tooltip>
 	);
 }

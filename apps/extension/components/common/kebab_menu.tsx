@@ -1,4 +1,4 @@
-import { IconButton } from '@minimalstuff/ui';
+import { IconButton, Tooltip } from '@minimalstuff/ui';
 import {
 	useState,
 	type FocusEvent,
@@ -33,13 +33,15 @@ export function KebabMenu({ label, children }: Readonly<KebabMenuProps>) {
 
 	return (
 		<div className="relative flex-shrink-0" onBlur={handleBlur}>
-			<IconButton
-				icon="i-mdi-dots-vertical"
-				aria-label={label}
-				size="sm"
-				variant="ghost"
-				onClick={handleToggle}
-			/>
+			<Tooltip content={label} position="bottom">
+				<IconButton
+					icon="i-mdi-dots-vertical"
+					aria-label={label}
+					size="sm"
+					variant="ghost"
+					onClick={handleToggle}
+				/>
+			</Tooltip>
 			{isOpen && (
 				<div className="absolute right-0 top-full z-10 mt-1 w-36 overflow-hidden rounded-md border border-gray-200 bg-white py-1 shadow-lg dark:border-gray-700 dark:bg-gray-800">
 					{children}

@@ -4,6 +4,7 @@ import {
 	IconButton,
 	ModalProvider,
 	ThemeToggle,
+	Tooltip,
 } from '@minimalstuff/ui';
 
 import { Toaster } from '@/components/common/toaster';
@@ -65,13 +66,15 @@ export function CollectionsWorkspace() {
 					<QuickAddButton />
 					<NewCollectionButton />
 					<RefreshButton />
-					<IconButton
-						icon="i-ant-design-setting-outlined"
-						aria-label="Open settings"
-						size="sm"
-						variant="ghost"
-						onClick={() => void browser.runtime.openOptionsPage()}
-					/>
+					<Tooltip content="Open settings" position="bottom">
+						<IconButton
+							icon="i-ant-design-setting-outlined"
+							aria-label="Open settings"
+							size="sm"
+							variant="ghost"
+							onClick={() => void browser.runtime.openOptionsPage()}
+						/>
+					</Tooltip>
 					<ThemeToggle size="sm" />
 				</div>
 			</div>

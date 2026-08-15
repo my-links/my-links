@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { IconButton } from '@minimalstuff/ui';
+import { IconButton, Tooltip } from '@minimalstuff/ui';
 
 import { requestBackgroundSync } from '@/lib/sync/messages';
 
@@ -29,15 +29,17 @@ export function RefreshButton() {
 	};
 
 	return (
-		<IconButton
-			icon="i-ant-design-sync-outlined"
-			aria-label="Refresh"
-			size="sm"
-			variant="ghost"
-			className={isRefreshing ? 'animate-spin' : undefined}
-			disabled={isRefreshing}
-			onAnimationIteration={handleAnimationIteration}
-			onClick={handleRefresh}
-		/>
+		<Tooltip content="Refresh" position="bottom">
+			<IconButton
+				icon="i-ant-design-sync-outlined"
+				aria-label="Refresh"
+				size="sm"
+				variant="ghost"
+				className={isRefreshing ? 'animate-spin' : undefined}
+				disabled={isRefreshing}
+				onAnimationIteration={handleAnimationIteration}
+				onClick={handleRefresh}
+			/>
+		</Tooltip>
 	);
 }
