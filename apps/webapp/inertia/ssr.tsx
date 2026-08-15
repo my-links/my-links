@@ -4,7 +4,7 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { dynamicActivate, type Locale } from '~/i18n';
-import { DefaultLayout } from '~/layouts/default_layout';
+import { PublicLayout } from '~/layouts/public_layout';
 
 export default async function render(page: any) {
 	const locale: Locale = page.props?.locale ?? DEFAULT_LOCALE;
@@ -23,7 +23,7 @@ export default async function render(page: any) {
 			);
 			// @ts-ignore
 			page.default.layout ??= (children: React.ReactElement) => (
-				<DefaultLayout>{children}</DefaultLayout>
+				<PublicLayout>{children}</PublicLayout>
 			);
 			return page;
 		},

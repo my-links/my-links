@@ -7,6 +7,7 @@ import { Head, router } from '@inertiajs/react';
 import { useAuth } from '~/hooks/use_auth';
 import { InertiaProps } from '~/lib/inertia_props';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { SharedLayout } from '~/layouts/shared_layout';
 import { LinkList } from '~/components/common/link_list';
 import { FilterList } from '~/components/common/filter_list';
 import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
@@ -126,3 +127,7 @@ export default function SharedPage({
 		</>
 	);
 }
+
+SharedPage.layout = (page: React.ReactNode) => (
+	<SharedLayout>{page}</SharedLayout>
+);

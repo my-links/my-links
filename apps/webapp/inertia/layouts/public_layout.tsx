@@ -2,11 +2,11 @@ import { BaseLayout } from '~/layouts/base_layout';
 import { Footer } from '~/components/common/navigation/footer';
 import { Navbar } from '~/components/common/navigation/navbar';
 
-interface DefaultLayoutProps {
+interface PublicLayoutProps {
 	children: React.ReactNode;
 }
 
-export const DefaultLayout = ({ children }: Readonly<DefaultLayoutProps>) => (
+export const PublicLayout = ({ children }: Readonly<PublicLayoutProps>) => (
 	<BaseLayout>
 		<div className="relative bg-gray-50 dark:bg-gray-900 h-screen overflow-hidden">
 			<div className="absolute inset-0 bg-gradient-to-b from-blue-50/30 via-transparent to-transparent dark:from-blue-950/20 pointer-events-none" />

@@ -6,7 +6,7 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers';
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { PROJECT_NAME } from '~/consts/project';
 import { dynamicActivate, type Locale } from '~/i18n';
-import { DefaultLayout } from '~/layouts/default_layout';
+import { PublicLayout } from '~/layouts/public_layout';
 
 void createInertiaApp({
 	progress: { color: 'var(--colors-blue-500)', delay: 50 },
@@ -21,7 +21,7 @@ void createInertiaApp({
 		);
 		// @ts-ignore
 		page.default.layout ??= (children: React.ReactElement) => (
-			<DefaultLayout>{children}</DefaultLayout>
+			<PublicLayout>{children}</PublicLayout>
 		);
 		return page;
 	},
