@@ -23,7 +23,6 @@ const ERROR_TOAST_SELECTOR = '[data-sonner-toast][data-type="error"]';
 const HOME_PATH = '/';
 const LOGIN_PATH = '/login';
 const REGISTER_PATH = '/register';
-const LOGOUT_SELECTOR = '[data-testid="logout"]';
 const FAVORITES_PATH = '/collections/favorites';
 const VERIFICATION_PATH_PREFIX = '/verify-email/';
 
@@ -63,6 +62,12 @@ async function submitCredentials(
 ): Promise<void> {
 	await fillFormOnceHydrated(page, { email, password });
 	await page.locator('button[type="submit"]').click();
+}
+
+// Logout lives inside the account menu now: no test-only markup anywhere, the trigger's accessible name includes the account's fullname and the item is a `menuitem` by role.
+async function logout(page: Page, fullname: string): Promise<void> {
+	await page.getByRole('button', { name: fullname }).first().click();
+	await page.getByRole('menuitem', { name: 'Logout' }).click();
 }
 
 // The dashboard tour's welcome modal offers itself to any account that
@@ -134,10 +139,7 @@ test.group('Auth journey (browser)', (group) => {
 		await submitCredentials(page, email, VALID_PASSWORD);
 		await page.assertPath(FAVORITES_PATH);
 
-		// The desktop and mobile navs both render a logout control; only one is
-		// visible at this viewport, but both are in the DOM. Logout is a POST,
-		// so this is a button rather than a link.
-		await page.locator(LOGOUT_SELECTOR).first().click();
+		await logout(page, NEW_ACCOUNT_NAME);
 		await page.assertPath(HOME_PATH);
 		await page.assertExists('a[href="/login"]');
 
@@ -148,7 +150,7 @@ test.group('Auth journey (browser)', (group) => {
 		// 5. Registration closed the moment the first account landed, and
 		// Google is still off — the home page reflects both. Signed out
 		// first: `/` now redirects a signed-in visitor to their favorites.
-		await page.locator(LOGOUT_SELECTOR).first().click();
+		await logout(page, NEW_ACCOUNT_NAME);
 		await page.assertPath(HOME_PATH);
 		await page.assertNotExists('a[href="/register"]');
 		await page.assertNotExists('a[href="/auth/google"]');
