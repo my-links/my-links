@@ -1,10 +1,13 @@
+import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
-import { Trans, useLingui } from '@lingui/react/macro';
+import { Trans } from '@lingui/react/macro';
 
+import { AppLayout } from '~/layouts/app_layout';
 import { InertiaProps } from '~/lib/inertia_props';
 import { AdminTabs } from '~/components/admin/admin_tabs';
 import { UsersTable } from '~/components/admin/users/users_table';
+import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 
 type PageProps = InertiaProps<{
 	users: Data.User.Variants['withCounters'][];
@@ -17,17 +20,9 @@ export default function AdminDashboard({
 	totalCollections,
 	totalLinks,
 }: Readonly<PageProps>) {
-	const { t } = useLingui();
-
 	return (
 		<div className="w-full flex flex-col md:h-full">
 			<Head title={t`Admin Dashboard`} />
-
-			<div className="mb-6">
-				<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-					<Trans>Admin Dashboard</Trans>
-				</h1>
-			</div>
 
 			<AdminTabs />
 
@@ -87,3 +82,10 @@ export default function AdminDashboard({
 		</div>
 	);
 }
+
+AdminDashboard.layout = (page: React.ReactNode) => (
+	<AppLayout>
+		<AppPageHeader title={t`Admin Dashboard`} />
+		{page}
+	</AppLayout>
+);

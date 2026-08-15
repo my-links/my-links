@@ -1,10 +1,12 @@
+import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
-import { useLingui } from '@lingui/react/macro';
 
+import { AppLayout } from '~/layouts/app_layout';
 import { AdminTabs } from '~/components/admin/admin_tabs';
 import { GlobalStatus } from '~/components/status/global_status';
 import { ServiceDetails } from '~/components/status/service_details';
+import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 
 interface StatusProps {
 	isHealthy: boolean;
@@ -12,8 +14,6 @@ interface StatusProps {
 }
 
 function Status({ isHealthy, checks }: Readonly<StatusProps>) {
-	const { t } = useLingui();
-
 	return (
 		<>
 			<Head title={t`System Status`} />
@@ -25,5 +25,12 @@ function Status({ isHealthy, checks }: Readonly<StatusProps>) {
 		</>
 	);
 }
+
+Status.layout = (page: React.ReactNode) => (
+	<AppLayout>
+		<AppPageHeader title={t`System Status`} />
+		{page}
+	</AppLayout>
+);
 
 export default Status;

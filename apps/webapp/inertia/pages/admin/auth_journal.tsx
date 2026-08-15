@@ -1,9 +1,12 @@
+import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
-import { Trans, useLingui } from '@lingui/react/macro';
+import { Trans } from '@lingui/react/macro';
 
+import { AppLayout } from '~/layouts/app_layout';
 import { InertiaProps } from '~/lib/inertia_props';
 import { AdminTabs } from '~/components/admin/admin_tabs';
+import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 import { AuthEventsTable } from '~/components/admin/auth_events/auth_events_table';
 import { JournalPagination } from '~/components/admin/auth_events/journal_pagination';
 
@@ -20,17 +23,9 @@ export default function AuthJournal({
 	lastPage,
 	totalEvents,
 }: Readonly<PageProps>) {
-	const { t } = useLingui();
-
 	return (
 		<div className="w-full flex flex-col md:h-full">
 			<Head title={t`Auth Journal`} />
-
-			<div className="mb-6">
-				<h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-					<Trans>Auth Journal</Trans>
-				</h1>
-			</div>
 
 			<AdminTabs />
 
@@ -52,3 +47,10 @@ export default function AuthJournal({
 		</div>
 	);
 }
+
+AuthJournal.layout = (page: React.ReactNode) => (
+	<AppLayout>
+		<AppPageHeader title={t`Auth Journal`} />
+		{page}
+	</AppLayout>
+);
