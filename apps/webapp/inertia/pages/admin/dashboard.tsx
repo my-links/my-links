@@ -21,7 +21,7 @@ export default function AdminDashboard({
 	totalLinks,
 }: Readonly<PageProps>) {
 	return (
-		<div className="w-full flex flex-col md:h-full">
+		<div className="w-full flex flex-col md:h-full p-4">
 			<Head title={t`Admin Dashboard`} />
 
 			<AdminTabs />

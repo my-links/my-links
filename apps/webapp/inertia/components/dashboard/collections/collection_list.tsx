@@ -56,7 +56,7 @@ export function CollectionList() {
 		<div className="flex flex-col flex-1 min-h-0" data-tour="collections-list">
 			<div className="px-2 pt-1 pb-2 space-y-1">
 				{!isRail && (
-					<p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+					<p className="p-2 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
 						<Trans>Views</Trans>
 					</p>
 				)}

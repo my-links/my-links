@@ -157,7 +157,7 @@ export default function Dashboard() {
 						/>
 
 						<div
-							className="flex-1 overflow-y-auto md:p-6 scrollbar-gutter-stable"
+							className="flex-1 overflow-y-auto md:p-4 md:pr-1 scrollbar-gutter-stable"
 							scroll-region=""
 						>
 							{hasActiveContent ? (

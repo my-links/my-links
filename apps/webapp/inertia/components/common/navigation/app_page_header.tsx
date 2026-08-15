@@ -15,7 +15,7 @@ interface AppPageHeaderProps {
  */
 export function AppPageHeader({ title }: Readonly<AppPageHeaderProps>) {
 	return (
-		<div className="h-11 shrink-0 flex items-center justify-between gap-4 mb-4">
+		<div className="shrink-0 p-4 flex items-center justify-between gap-4 mb-4">
 			<Link
 				route="collection.favorites"
 				className="flex items-center gap-1.5 shrink-0 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"

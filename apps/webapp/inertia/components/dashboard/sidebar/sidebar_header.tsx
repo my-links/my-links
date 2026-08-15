@@ -31,7 +31,7 @@ export function SidebarHeader({
 	);
 
 	return (
-		<div className="px-2 pt-2 pb-1 space-y-2">
+		<div className="px-2 pt-4 pb-2 space-y-3">
 			{isRail ? (
 				<div className="flex justify-center">{toggleButton}</div>
 			) : (
