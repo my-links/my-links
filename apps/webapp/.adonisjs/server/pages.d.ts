@@ -26,8 +26,8 @@ declare module '@adonisjs/inertia/types' {
     'home': ExtractProps<(typeof import('../../inertia/pages/home.tsx'))['default']>
     'privacy': ExtractProps<(typeof import('../../inertia/pages/privacy.tsx'))['default']>
     'shared': ExtractProps<(typeof import('../../inertia/pages/shared.tsx'))['default']>
-    'status': ExtractProps<(typeof import('../../inertia/pages/status.tsx'))['default']>
     'terms': ExtractProps<(typeof import('../../inertia/pages/terms.tsx'))['default']>
     'user_settings/show': ExtractProps<(typeof import('../../inertia/pages/user_settings/show.tsx'))['default']>
+    'admin/status': ExtractProps<(typeof import('../../inertia/pages/admin/status.tsx'))['default']>
   }
 }

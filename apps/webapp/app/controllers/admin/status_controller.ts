@@ -11,7 +11,7 @@ export default class StatusController {
 		const report = await healthChecks.run();
 		logger.info(report.checks);
 
-		return inertia.render('status', {
+		return inertia.render('admin/status', {
 			isHealthy: report.isHealthy,
 			checks: toStatusReportChecks(report),
 		});
