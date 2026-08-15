@@ -5,7 +5,6 @@ import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 import { InertiaProps } from '~/lib/inertia_props';
-import SmallContentLayout from '~/layouts/small_content';
 
 type SudoFormData = {
 	password: string;
@@ -37,7 +36,7 @@ function SudoPage({
 	return (
 		<>
 			<Head title={t`Confirm your identity`} />
-			<div className="max-w-md mx-auto bg-paper dark:bg-ink border border-rule dark:border-rule-dark rounded-2xl p-8 shadow-sm">
+			<div className="max-w-md w-full mx-auto my-auto bg-paper dark:bg-ink border border-rule dark:border-rule-dark rounded-2xl p-8 shadow-sm">
 				<h1 className="font-display text-2xl text-ink dark:text-ink-dark mb-1">
 					<Trans>Confirm your identity</Trans>
 				</h1>
@@ -113,9 +112,5 @@ function SudoPage({
 		</>
 	);
 }
-
-SudoPage.layout = (page: React.ReactNode) => (
-	<SmallContentLayout>{page}</SmallContentLayout>
-);
 
 export default SudoPage;

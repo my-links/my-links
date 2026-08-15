@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: inertia/pages/privacy.tsx:71
+#: inertia/pages/privacy.tsx:69
 msgid "{field}"
 msgstr "{field}"
 
@@ -34,43 +34,43 @@ msgstr "il y a {value, plural, one {# heure} other {# heures}}"
 msgid "{value, plural, one {# minute} other {# minutes}} ago"
 msgstr "il y a {value, plural, one {# minute} other {# minutes}}"
 
-#: inertia/pages/privacy.tsx:42
+#: inertia/pages/privacy.tsx:40
 msgid "1.1 Cookies"
 msgstr "1.1 Cookies"
 
-#: inertia/pages/privacy.tsx:55
+#: inertia/pages/privacy.tsx:53
 msgid "1.2 User Data"
 msgstr "1.2 Données utilisateur"
 
-#: inertia/pages/terms.tsx:63
+#: inertia/pages/terms.tsx:61
 msgid "2.1 User Account"
 msgstr "2.1 Compte utilisateur"
 
-#: inertia/pages/terms.tsx:76
+#: inertia/pages/terms.tsx:74
 msgid "2.2 Authorized Use"
 msgstr "2.2 Utilisation autorisée"
 
-#: inertia/pages/terms.tsx:88
+#: inertia/pages/terms.tsx:86
 msgid "2.3 User Content"
 msgstr "2.3 Contenu utilisateur"
 
-#: inertia/pages/terms.tsx:113
+#: inertia/pages/terms.tsx:111
 msgid "3.1 Collection and Use"
 msgstr "3.1 Collecte et utilisation"
 
-#: inertia/pages/privacy.tsx:118
+#: inertia/pages/privacy.tsx:116
 msgid "3.1 Data Retention Period"
 msgstr "3.1 Période de conservation des données"
 
-#: inertia/pages/terms.tsx:126
+#: inertia/pages/terms.tsx:124
 msgid "3.2 Account Deletion"
 msgstr "3.2 Suppression de compte"
 
-#: inertia/pages/terms.tsx:150
+#: inertia/pages/terms.tsx:148
 msgid "4.1 Responsibility"
 msgstr "4.1 Responsabilité"
 
-#: inertia/pages/terms.tsx:162
+#: inertia/pages/terms.tsx:160
 msgid "4.2 Warranties"
 msgstr "4.2 Garanties"
 
@@ -78,7 +78,7 @@ msgstr "4.2 Garanties"
 msgid "About"
 msgstr "À propos"
 
-#: inertia/pages/terms.tsx:38
+#: inertia/pages/terms.tsx:36
 msgid "Acceptance of Terms"
 msgstr "Acceptation des conditions"
 
@@ -110,7 +110,7 @@ msgstr "Journal d'activité"
 msgid "Activity Journal"
 msgstr ""
 
-#: inertia/pages/auth/register.tsx:74
+#: inertia/pages/auth/register.tsx:73
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
@@ -118,7 +118,7 @@ msgstr "Ada Lovelace"
 msgid "Add"
 msgstr "Ajouter"
 
-#: inertia/pages/home.tsx:67
+#: inertia/pages/home.tsx:66
 msgid "Add a link from the app or straight from your browser with the extension. One click, and it's kept."
 msgstr "Ajoutez un lien depuis l'application ou directement depuis votre navigateur avec l'extension. Un clic, et c'est enregistré."
 
@@ -157,7 +157,7 @@ msgstr "Tableau de bord administrateur"
 msgid "All services are operational"
 msgstr "Tous les services sont opérationnels"
 
-#: inertia/pages/auth/register.tsx:138
+#: inertia/pages/auth/register.tsx:137
 msgid "Already have an account? <0>Sign in</0>"
 msgstr "Vous avez déjà un compte ? <0>Connectez-vous</0>"
 
@@ -194,8 +194,8 @@ msgid "Are you sure you want to sign out this session?"
 msgstr "Êtes-vous sûr de vouloir déconnecter cette session ?"
 
 #: inertia/components/user_settings/password.tsx:81
-#: inertia/pages/auth/register.tsx:101
-#: inertia/pages/auth/reset_password.tsx:64
+#: inertia/pages/auth/register.tsx:100
+#: inertia/pages/auth/reset_password.tsx:63
 msgid "At least {minimumPasswordLength} characters"
 msgstr "Au moins {minimumPasswordLength} caractères"
 
@@ -216,11 +216,11 @@ msgstr "Retour"
 msgid "Browser extension"
 msgstr "Extension navigateur"
 
-#: inertia/pages/terms.tsx:43
+#: inertia/pages/terms.tsx:41
 msgid "By accessing MyLinks and using our services, you agree to comply with these Terms and Conditions of Use."
 msgstr "En accédant à MyLinks et en utilisant nos services, vous acceptez de vous conformer à ces Conditions générales d'utilisation."
 
-#: inertia/pages/terms.tsx:91
+#: inertia/pages/terms.tsx:89
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence mondiale, non exclusive, transférable et gratuite d'utiliser, reproduire, distribuer et afficher ce contenu."
 
@@ -248,12 +248,12 @@ msgstr "Changer mon mot de passe"
 msgid "Change your password"
 msgstr "Changer votre mot de passe"
 
-#: inertia/pages/terms.tsx:180
+#: inertia/pages/terms.tsx:178
 msgid "Changes to the Terms"
 msgstr "Modifications des conditions"
 
-#: inertia/pages/auth/reset_password.tsx:45
-#: inertia/pages/auth/reset_password.tsx:48
+#: inertia/pages/auth/reset_password.tsx:44
+#: inertia/pages/auth/reset_password.tsx:47
 msgid "Choose a new password"
 msgstr "Choisissez un nouveau mot de passe"
 
@@ -261,7 +261,7 @@ msgstr "Choisissez un nouveau mot de passe"
 msgid "Clear"
 msgstr "Effacer"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:94
+#: inertia/components/dashboard/headers/dashboard_header.tsx:163
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
 
@@ -307,22 +307,22 @@ msgid "Compact"
 msgstr "Compact"
 
 #: inertia/components/admin/users/account_actions.tsx:73
-#: inertia/pages/auth/sudo.tsx:73
+#: inertia/pages/auth/sudo.tsx:72
 msgid "Confirm"
 msgstr "Confirmer"
 
 #: inertia/components/user_settings/password.tsx:89
-#: inertia/pages/auth/register.tsx:109
-#: inertia/pages/auth/reset_password.tsx:73
+#: inertia/pages/auth/register.tsx:108
+#: inertia/pages/auth/reset_password.tsx:72
 msgid "Confirm password"
 msgstr "Confirmer le mot de passe"
 
-#: inertia/pages/auth/sudo.tsx:99
+#: inertia/pages/auth/sudo.tsx:98
 msgid "Confirm with Google"
 msgstr "Confirmer avec Google"
 
-#: inertia/pages/auth/sudo.tsx:39
-#: inertia/pages/auth/sudo.tsx:42
+#: inertia/pages/auth/sudo.tsx:38
+#: inertia/pages/auth/sudo.tsx:41
 msgid "Confirm your identity"
 msgstr "Confirmez votre identité"
 
@@ -336,7 +336,7 @@ msgstr "Confirmée"
 msgid "Continue with Google"
 msgstr "Continuer avec Google"
 
-#: inertia/pages/privacy.tsx:45
+#: inertia/pages/privacy.tsx:43
 msgid "Cookies used on MyLinks are essential to ensure the proper functioning of the site. By continuing to use our service, you consent to the use of these cookies."
 msgstr "Les cookies utilisés sur MyLinks sont essentiels pour assurer le bon fonctionnement du site. En continuant à utiliser notre service, vous consentez à l'utilisation de ces cookies."
 
@@ -344,7 +344,7 @@ msgstr "Les cookies utilisés sur MyLinks sont essentiels pour assurer le bon fo
 msgid "Copied"
 msgstr "Copié"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:95
+#: inertia/components/dashboard/headers/dashboard_header.tsx:164
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -383,7 +383,7 @@ msgid "Create collection {0}"
 msgstr "Créer une collection {0}"
 
 #. placeholder {0}: KEYS.OPEN_CREATE_COLLECTION_KEY
-#: inertia/components/dashboard/headers/dashboard_header.tsx:86
+#: inertia/components/dashboard/headers/dashboard_header.tsx:192
 msgid "Create collection <0>{0}</0>"
 msgstr "Créer une collection <0>{0}</0>"
 
@@ -393,11 +393,11 @@ msgid "Create link {0}"
 msgstr "Créer un lien {0}"
 
 #. placeholder {0}: KEYS.OPEN_CREATE_LINK_KEY
-#: inertia/components/dashboard/headers/dashboard_header.tsx:74
+#: inertia/components/dashboard/headers/dashboard_header.tsx:180
 msgid "Create link <0>{0}</0>"
 msgstr ""
 
-#: inertia/pages/auth/register.tsx:127
+#: inertia/pages/auth/register.tsx:126
 msgid "Create my account"
 msgstr "Créer mon compte"
 
@@ -410,12 +410,12 @@ msgstr "Créer un nouveau jeton"
 msgid "Create token"
 msgstr "Créer un jeton"
 
-#: inertia/pages/auth/register.tsx:60
+#: inertia/pages/auth/register.tsx:59
 msgid "Create your account"
 msgstr "Créez votre compte"
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:94
-#: inertia/components/dashboard/views/favorites_view_content.tsx:38
+#: inertia/components/dashboard/views/collection_view_content.tsx:35
+#: inertia/components/dashboard/views/favorites_view_content.tsx:13
 msgid "Create your first link to get started"
 msgstr "Créez votre premier lien pour commencer"
 
@@ -426,7 +426,7 @@ msgid "Created at"
 msgstr "Créé le"
 
 #. placeholder {0}: activeCollection.author.fullname
-#: inertia/components/dashboard/views/collection_view_content.tsx:72
+#: inertia/components/dashboard/headers/dashboard_header.tsx:138
 msgid "Created by <0>{0}</0>"
 msgstr "Créé par <0>{0}</0>"
 
@@ -434,7 +434,7 @@ msgstr "Créé par <0>{0}</0>"
 msgid "Current"
 msgstr "Actuelle"
 
-#: inertia/pages/auth/sudo.tsx:54
+#: inertia/pages/auth/sudo.tsx:53
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
@@ -448,7 +448,7 @@ msgstr "Sombre"
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: inertia/pages/privacy.tsx:36
+#: inertia/pages/privacy.tsx:34
 msgid "Data Collection"
 msgstr "Collecte de données"
 
@@ -456,15 +456,15 @@ msgstr "Collecte de données"
 msgid "Data imported successfully!"
 msgstr "Données importées avec succès !"
 
-#: inertia/pages/privacy.tsx:113
+#: inertia/pages/privacy.tsx:111
 msgid "Data is stored securely to protect your privacy."
 msgstr "Les données sont stockées de manière sécurisée pour protéger votre vie privée."
 
-#: inertia/pages/privacy.tsx:108
+#: inertia/pages/privacy.tsx:106
 msgid "Data Storage"
 msgstr "Stockage des données"
 
-#: inertia/pages/privacy.tsx:86
+#: inertia/pages/privacy.tsx:84
 msgid "Data Use"
 msgstr "Utilisation des données"
 
@@ -542,7 +542,7 @@ msgid "Dismiss"
 msgstr "Fermer"
 
 #: inertia/components/common/navigation/account_menu.tsx:170
-#: inertia/pages/home.tsx:44
+#: inertia/pages/home.tsx:43
 msgid "Documentation"
 msgstr "Documentation"
 
@@ -559,7 +559,7 @@ msgstr "Effectué par"
 msgid "Download JSON"
 msgstr "Télécharger le JSON"
 
-#: inertia/pages/home.tsx:21
+#: inertia/pages/home.tsx:20
 msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Déposez un lien. Récupérez un favori que vous retrouverez."
 
@@ -579,9 +579,9 @@ msgid "Edit collection"
 msgstr "Modifier une collection"
 
 #: inertia/components/admin/users/users_table.tsx:182
-#: inertia/pages/auth/forgot_password.tsx:44
-#: inertia/pages/auth/login.tsx:64
-#: inertia/pages/auth/register.tsx:82
+#: inertia/pages/auth/forgot_password.tsx:43
+#: inertia/pages/auth/login.tsx:63
+#: inertia/pages/auth/register.tsx:81
 msgid "Email"
 msgstr "E-mail"
 
@@ -622,7 +622,7 @@ msgstr "Toutes les modifications de collections et de liens enregistrées par ce
 msgid "Every other session and every extension token will be signed out."
 msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconnectés."
 
-#: inertia/pages/auth/reset_password.tsx:51
+#: inertia/pages/auth/reset_password.tsx:50
 msgid "Everything else signed in on this account will be signed out."
 msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 
@@ -647,7 +647,7 @@ msgstr "Exporter / Importer"
 msgid "Export all your collections and links, or import them from a JSON file"
 msgstr "Exportez toutes vos collections et liens, ou importez-les depuis un fichier JSON"
 
-#: inertia/pages/home.tsx:100
+#: inertia/pages/home.tsx:99
 msgid "Export everything, any time"
 msgstr "Exportez tout, à tout moment"
 
@@ -662,13 +662,13 @@ msgstr "Défaillant"
 msgid "Favorite"
 msgstr "Favoris"
 
-#: inertia/components/dashboard/views/favorites_view_content.tsx:18
+#: inertia/components/dashboard/headers/dashboard_header.tsx:72
 #: inertia/components/tour/dashboard_tour.tsx:30
 #: inertia/pages/dashboard.tsx:117
 msgid "Favorites"
 msgstr "Favoris"
 
-#: inertia/pages/home.tsx:89
+#: inertia/pages/home.tsx:88
 msgid "Find it in a search, not a scroll"
 msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 
@@ -689,29 +689,29 @@ msgstr "Collections suivies"
 msgid "Followed, public and private collections live here. Drag a collection to reorder it, or collapse/expand a whole section with the buttons at the top."
 msgstr "Vos collections suivies, publiques et privées sont ici. Faites glisser une collection pour la réordonner, ou repliez/dépliez toute une section avec les boutons en haut."
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:59
+#: inertia/components/dashboard/headers/dashboard_header.tsx:123
 #: inertia/pages/shared.tsx:110
 msgid "follower"
 msgstr "abonné"
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:61
+#: inertia/components/dashboard/headers/dashboard_header.tsx:125
 #: inertia/pages/shared.tsx:112
 msgid "followers"
 msgstr "abonnés"
 
-#: inertia/pages/auth/login.tsx:112
+#: inertia/pages/auth/login.tsx:111
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
-#: inertia/pages/home.tsx:146
+#: inertia/pages/home.tsx:145
 msgid "Free to start, open-source to inspect, yours to run anywhere."
 msgstr "Gratuit pour commencer, open-source à inspecter, à vous d'héberger où vous voulez."
 
-#: inertia/pages/privacy.tsx:121
+#: inertia/pages/privacy.tsx:119
 msgid "Functional data is retained until the user requests deletion. Once this request is made, the data will be permanently deleted."
 msgstr "Les données fonctionnelles sont conservées jusqu'à ce que l'utilisateur demande leur suppression. Une fois cette demande effectuée, les données seront définitivement supprimées."
 
-#: inertia/pages/privacy.tsx:157
+#: inertia/pages/privacy.tsx:155
 msgid "GDPR Compliance"
 msgstr "Conformité RGPD"
 
@@ -719,7 +719,7 @@ msgstr "Conformité RGPD"
 msgid "Get Started"
 msgstr "Commencer"
 
-#: inertia/pages/auth/forgot_password.tsx:36
+#: inertia/pages/auth/forgot_password.tsx:35
 msgid "Give us the address on your account and we will send a link to choose a new password."
 msgstr "Donnez-nous l'adresse de votre compte et nous enverrons un lien pour choisir un nouveau mot de passe."
 
@@ -744,7 +744,7 @@ msgstr "Google"
 msgid "Grid"
 msgstr "Grille"
 
-#: inertia/pages/home.tsx:80
+#: inertia/pages/home.tsx:79
 msgid "Group links by project or topic, keep some private and make others public. Your call, per collection."
 msgstr "Regroupez vos liens par projet ou par thème, gardez-en certains privés et rendez d'autres publics. À vous de choisir, collection par collection."
 
@@ -797,7 +797,7 @@ msgstr ""
 msgid "IP"
 msgstr "IP"
 
-#: inertia/pages/home.tsx:91
+#: inertia/pages/home.tsx:90
 msgid "Jump straight to a link by name or URL instead of hunting through years of folders."
 msgstr "Accédez directement à un lien par son nom ou son URL, sans fouiller des années de dossiers."
 
@@ -830,8 +830,8 @@ msgstr "Dernière connexion le"
 msgid "Last sign-in"
 msgstr "Dernière connexion"
 
-#: inertia/pages/privacy.tsx:15
-#: inertia/pages/terms.tsx:16
+#: inertia/pages/privacy.tsx:13
+#: inertia/pages/terms.tsx:14
 msgid "Last updated: {date}"
 msgstr "Dernière mise à jour : {date}"
 
@@ -843,8 +843,8 @@ msgstr "Dernière utilisation"
 msgid "Light"
 msgstr "Clair"
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:45
-#: inertia/components/dashboard/views/favorites_view_content.tsx:24
+#: inertia/components/dashboard/headers/dashboard_header.tsx:95
+#: inertia/components/dashboard/headers/dashboard_header.tsx:107
 msgid "link"
 msgstr "lien"
 
@@ -877,8 +877,8 @@ msgstr "Lien au-dessus d'une autre collection."
 msgid "Linked on {0}"
 msgstr "Liée le {0}"
 
-#: inertia/components/dashboard/views/collection_view_content.tsx:47
-#: inertia/components/dashboard/views/favorites_view_content.tsx:26
+#: inertia/components/dashboard/headers/dashboard_header.tsx:97
+#: inertia/components/dashboard/headers/dashboard_header.tsx:109
 msgid "links"
 msgstr "liens"
 
@@ -902,8 +902,8 @@ msgstr "Liste"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:23
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:22
-#: inertia/pages/auth/login.tsx:53
-#: inertia/pages/auth/login.tsx:96
+#: inertia/pages/auth/login.tsx:52
+#: inertia/pages/auth/login.tsx:95
 msgid "Login"
 msgstr "Connexion"
 
@@ -950,31 +950,31 @@ msgstr "Mes collections privées"
 msgid "My Public Collections"
 msgstr "Mes collections publiques"
 
-#: inertia/pages/terms.tsx:153
+#: inertia/pages/terms.tsx:151
 msgid "MyLinks cannot be held responsible for direct or indirect damages arising from the use of our services."
 msgstr "MyLinks ne peut être tenu responsable des dommages directs ou indirects résultant de l'utilisation de nos services."
 
-#: inertia/pages/privacy.tsx:163
+#: inertia/pages/privacy.tsx:161
 msgid "MyLinks complies with the General Data Protection Regulation (GDPR) of the European Union."
 msgstr "MyLinks est conforme au Règlement général sur la protection des données (RGPD) de l'Union européenne."
 
-#: inertia/pages/terms.tsx:165
+#: inertia/pages/terms.tsx:163
 msgid "MyLinks does not guarantee that the service will be free from errors or interruptions."
 msgstr "MyLinks ne garantit pas que le service sera exempt d'erreurs ou d'interruptions."
 
-#: inertia/pages/home.tsx:125
+#: inertia/pages/home.tsx:124
 msgid "MyLinks is open-source. Host it on your own server with Docker and keep every link on hardware you control."
 msgstr "MyLinks est open-source. Hébergez-le sur votre propre serveur avec Docker et gardez chaque lien sur un matériel que vous contrôlez."
 
-#: inertia/pages/terms.tsx:185
+#: inertia/pages/terms.tsx:183
 msgid "MyLinks reserves the right to modify these Terms and Conditions of Use at any time. Users will be notified of changes through a notification on the site."
 msgstr "MyLinks se réserve le droit de modifier ces Conditions générales d'utilisation à tout moment. Les utilisateurs seront informés des modifications par une notification sur le site."
 
-#: inertia/pages/terms.tsx:205
+#: inertia/pages/terms.tsx:203
 msgid "MyLinks reserves the right to terminate or suspend your access to the service, with or without notice, in case of violation of these Terms and Conditions of Use."
 msgstr "MyLinks se réserve le droit de résilier ou de suspendre votre accès au service, avec ou sans préavis, en cas de violation de ces Conditions générales d'utilisation."
 
-#: inertia/pages/home.tsx:26
+#: inertia/pages/home.tsx:25
 msgid "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 msgstr "MyLinks transforme vos onglets éparpillés en collections que vous pouvez rechercher, partager et exporter à tout moment. Hébergé pour vous, ou par vous-même."
 
@@ -984,7 +984,7 @@ msgstr "MyLinks transforme vos onglets éparpillés en collections que vous pouv
 #: inertia/components/dashboard/forms/form_collection_content.tsx:84
 #: inertia/components/dashboard/forms/form_link_content.tsx:65
 #: inertia/components/dashboard/forms/form_link_content.tsx:70
-#: inertia/pages/auth/register.tsx:68
+#: inertia/pages/auth/register.tsx:67
 msgid "Name"
 msgstr "Nom"
 
@@ -993,7 +993,7 @@ msgid "New email address"
 msgstr "Nouvelle adresse e-mail"
 
 #: inertia/components/user_settings/password.tsx:75
-#: inertia/pages/auth/reset_password.tsx:58
+#: inertia/pages/auth/reset_password.tsx:57
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
@@ -1014,7 +1014,7 @@ msgstr "Plus récents"
 msgid "Next ({currentStep}/{size})"
 msgstr "Suivant ({currentStep}/{size})"
 
-#: inertia/pages/auth/login.tsx:125
+#: inertia/pages/auth/login.tsx:124
 msgid "No account yet? <0>Create one</0>"
 msgstr "Pas encore de compte ? <0>Créez-en un</0>"
 
@@ -1091,7 +1091,7 @@ msgid "Operational"
 msgstr "Opérationnel"
 
 #: inertia/components/auth/google_sign_in_action.tsx:9
-#: inertia/pages/auth/sudo.tsx:84
+#: inertia/pages/auth/sudo.tsx:83
 msgid "or"
 msgstr "ou"
 
@@ -1109,12 +1109,12 @@ msgid "Page not found"
 msgstr "Page non trouvée"
 
 #: inertia/components/admin/users/auth_methods_cell.tsx:19
-#: inertia/pages/auth/login.tsx:78
-#: inertia/pages/auth/register.tsx:95
+#: inertia/pages/auth/login.tsx:77
+#: inertia/pages/auth/register.tsx:94
 msgid "Password"
 msgstr "Mot de passe"
 
-#: inertia/pages/terms.tsx:107
+#: inertia/pages/terms.tsx:105
 msgid "Personal Data"
 msgstr "Données personnelles"
 
@@ -1136,7 +1136,7 @@ msgstr "Préférences"
 msgid "Privacy"
 msgstr "Confidentialité"
 
-#: inertia/pages/privacy.tsx:11
+#: inertia/pages/privacy.tsx:9
 msgid "Privacy Policy of MyLinks"
 msgstr "Politique de confidentialité de MyLinks"
 
@@ -1168,11 +1168,11 @@ msgstr "Utilisation mémoire Redis"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:16
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:30
-#: inertia/pages/auth/register.tsx:57
+#: inertia/pages/auth/register.tsx:56
 msgid "Register"
 msgstr "Inscription"
 
-#: inertia/pages/auth/forgot_password.tsx:68
+#: inertia/pages/auth/forgot_password.tsx:67
 msgid "Remembered it? <0>Sign in</0>"
 msgstr "Ça vous revient ? <0>Se connecter</0>"
 
@@ -1194,16 +1194,16 @@ msgstr "Réorganisation annulée."
 msgid "Replay the tour"
 msgstr "Revoir la visite"
 
-#: inertia/pages/auth/reset_password.tsx:91
+#: inertia/pages/auth/reset_password.tsx:90
 msgid "Reset my password"
 msgstr "Réinitialiser mon mot de passe"
 
-#: inertia/pages/auth/forgot_password.tsx:30
-#: inertia/pages/auth/forgot_password.tsx:33
+#: inertia/pages/auth/forgot_password.tsx:29
+#: inertia/pages/auth/forgot_password.tsx:32
 msgid "Reset your password"
 msgstr "Réinitialiser votre mot de passe"
 
-#: inertia/pages/terms.tsx:144
+#: inertia/pages/terms.tsx:142
 msgid "Responsibilities and Warranties"
 msgstr "Responsabilités et garanties"
 
@@ -1230,11 +1230,11 @@ msgstr "Rôle"
 msgid "RSS memory"
 msgstr "Mémoire RSS"
 
-#: inertia/pages/home.tsx:123
+#: inertia/pages/home.tsx:122
 msgid "Run it yourself"
 msgstr "Hébergez-le vous-même"
 
-#: inertia/pages/home.tsx:65
+#: inertia/pages/home.tsx:64
 msgid "Save it before the tab closes"
 msgstr "Enregistrez-le avant de fermer l'onglet"
 
@@ -1275,7 +1275,7 @@ msgstr "Sélectionnez une collection pour voir ses liens"
 msgid "Select JSON file"
 msgstr "Sélectionnez un fichier JSON"
 
-#: inertia/pages/home.tsx:135
+#: inertia/pages/home.tsx:134
 msgid "Self-host it"
 msgstr "S'auto-héberger"
 
@@ -1288,11 +1288,11 @@ msgstr "Envoyer un nouveau lien de confirmation"
 msgid "Send a password reset link"
 msgstr "Envoyer un lien de réinitialisation"
 
-#: inertia/pages/home.tsx:113
+#: inertia/pages/home.tsx:112
 msgid "Send a single URL and anyone can browse a public collection. No account required on their end."
 msgstr "Envoyez une seule URL et n'importe qui peut consulter une collection publique. Aucun compte requis de leur côté."
 
-#: inertia/pages/auth/forgot_password.tsx:63
+#: inertia/pages/auth/forgot_password.tsx:62
 msgid "Send the link"
 msgstr "Envoyer le lien"
 
@@ -1318,7 +1318,7 @@ msgstr "Définir mon mot de passe"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: inertia/pages/home.tsx:111
+#: inertia/pages/home.tsx:110
 msgid "Share a collection with one link"
 msgstr "Partagez une collection avec un seul lien"
 
@@ -1331,7 +1331,7 @@ msgstr "Partager la collection"
 msgid "Sign In"
 msgstr "Se connecter"
 
-#: inertia/pages/auth/login.tsx:59
+#: inertia/pages/auth/login.tsx:58
 msgid "Sign in to reach your collections"
 msgstr "Connectez-vous pour retrouver vos collections"
 
@@ -1356,7 +1356,7 @@ msgstr "Ignorer"
 msgid "Skip tour"
 msgstr "Ignorer la visite"
 
-#: inertia/pages/home.tsx:78
+#: inertia/pages/home.tsx:77
 msgid "Sort it into a collection, not a folder"
 msgstr "Rangez-le dans une collection, pas un dossier"
 
@@ -1364,7 +1364,7 @@ msgstr "Rangez-le dans une collection, pas un dossier"
 msgid "Source code"
 msgstr "Code source"
 
-#: inertia/pages/auth/register.tsx:63
+#: inertia/pages/auth/register.tsx:62
 msgid "Start collecting your links in one place"
 msgstr "Rassemblez vos liens au même endroit"
 
@@ -1405,7 +1405,7 @@ msgstr "Statut du système"
 msgid "Take a quick tour?"
 msgstr "Faire une visite rapide ?"
 
-#: inertia/pages/terms.tsx:200
+#: inertia/pages/terms.tsx:198
 msgid "Termination"
 msgstr "Résiliation"
 
@@ -1414,7 +1414,7 @@ msgstr "Résiliation"
 msgid "Terms"
 msgstr "Conditions"
 
-#: inertia/pages/terms.tsx:12
+#: inertia/pages/terms.tsx:10
 msgid "Terms and Conditions of Use for MyLinks"
 msgstr "Conditions générales d'utilisation de MyLinks"
 
@@ -1422,15 +1422,15 @@ msgstr "Conditions générales d'utilisation de MyLinks"
 msgid "The address you sign in with, and the one recovery links are sent to."
 msgstr "L'adresse avec laquelle vous vous connectez, et celle qui reçoit les liens de récupération."
 
-#: inertia/pages/home.tsx:56
+#: inertia/pages/home.tsx:55
 msgid "the app"
 msgstr "l'app"
 
-#: inertia/pages/privacy.tsx:92
+#: inertia/pages/privacy.tsx:90
 msgid "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
 msgstr "Les données collectées ne sont ni revendues ni utilisées à des fins autres que celles initialement prévues, à savoir la gestion des collections et des liens créés par l'utilisateur."
 
-#: inertia/pages/terms.tsx:116
+#: inertia/pages/terms.tsx:114
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "La collecte et l'utilisation des données personnelles sont régies par notre Politique de confidentialité. Veuillez vous y référer pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données."
 
@@ -1450,7 +1450,7 @@ msgstr "La langue dans laquelle MyLinks s'adresse à vous."
 msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
 msgstr "La nouvelle adresse doit confirmer le changement, et l'actuelle en est informée pour que vous puissiez l'annuler."
 
-#: inertia/pages/privacy.tsx:142
+#: inertia/pages/privacy.tsx:140
 msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
 msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout moment et/ou de demander la suppression complète de ses données."
 
@@ -1463,7 +1463,7 @@ msgstr "Les façons dont vous pouvez prouver votre identité. Il doit en rester 
 msgid "Theme"
 msgstr "Thème"
 
-#: inertia/pages/auth/sudo.tsx:106
+#: inertia/pages/auth/sudo.tsx:105
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
 msgstr "Ce compte n'a plus aucun moyen de confirmer son identité sur cette instance. Déconnectez-vous puis reconnectez-vous pour continuer."
 
@@ -1483,11 +1483,11 @@ msgstr "Cette instance n'envoie aucun e-mail : l'adresse ne peut pas être chang
 msgid "This page does not exist."
 msgstr "Cette page n'existe pas."
 
-#: inertia/pages/terms.tsx:66
+#: inertia/pages/terms.tsx:64
 msgid "To access certain features of MyLinks, you will need to create a user account. You are responsible for the confidentiality of your account and credentials."
 msgstr "Pour accéder à certaines fonctionnalités de MyLinks, vous devrez créer un compte utilisateur. Vous êtes responsable de la confidentialité de votre compte et de vos identifiants."
 
-#: inertia/pages/privacy.tsx:58
+#: inertia/pages/privacy.tsx:56
 msgid "To create personalized collections and links and associate them with their author, we collect the following information:"
 msgstr "Pour créer des collections et des liens personnalisés et les associer à leur auteur, nous collectons les informations suivantes :"
 
@@ -1521,8 +1521,8 @@ msgid "Try adjusting your search criteria"
 msgstr "Essayez d'ajuster vos critères de recherche"
 
 #: inertia/components/user_settings/password.tsx:95
-#: inertia/pages/auth/register.tsx:115
-#: inertia/pages/auth/reset_password.tsx:79
+#: inertia/pages/auth/register.tsx:114
+#: inertia/pages/auth/reset_password.tsx:78
 msgid "Type it once more"
 msgstr "Saisissez-le à nouveau"
 
@@ -1530,7 +1530,7 @@ msgstr "Saisissez-le à nouveau"
 msgid "Unconfirmed"
 msgstr "Non confirmée"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:127
+#: inertia/components/dashboard/headers/dashboard_header.tsx:219
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:142
 #: inertia/pages/shared.tsx:86
 msgid "Unfollow"
@@ -1555,7 +1555,7 @@ msgstr "Mettre à jour"
 msgid "URL"
 msgstr "URL"
 
-#: inertia/pages/terms.tsx:57
+#: inertia/pages/terms.tsx:55
 msgid "Use of the Service"
 msgstr "Utilisation du service"
 
@@ -1567,7 +1567,7 @@ msgstr "Utilisateur"
 msgid "User agent"
 msgstr "Agent utilisateur"
 
-#: inertia/pages/privacy.tsx:136
+#: inertia/pages/privacy.tsx:134
 msgid "User Rights"
 msgstr "Droits de l'utilisateur"
 
@@ -1587,15 +1587,15 @@ msgstr "Visibilité"
 msgid "Warning"
 msgstr "Avertissement"
 
-#: inertia/pages/auth/login.tsx:56
+#: inertia/pages/auth/login.tsx:55
 msgid "Welcome back"
 msgstr "Content de vous revoir"
 
-#: inertia/pages/terms.tsx:23
+#: inertia/pages/terms.tsx:21
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. By using this service, you agree to the terms and conditions of use outlined below. Please read them carefully."
 msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-source axé sur la confidentialité et l'auto-hébergement. En utilisant ce service, vous acceptez les conditions générales d'utilisation décrites ci-dessous. Veuillez les lire attentivement."
 
-#: inertia/pages/privacy.tsx:22
+#: inertia/pages/privacy.tsx:20
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
 msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-source axé sur la confidentialité et l'auto-hébergement. Cette politique de confidentialité vise à vous informer sur la manière dont nous collectons, utilisons et protégeons vos données."
 
@@ -1608,7 +1608,7 @@ msgstr "Quand"
 msgid "Which version you are on, and the terms you agreed to."
 msgstr "La version que vous utilisez, et les conditions que vous avez acceptées."
 
-#: inertia/pages/auth/sudo.tsx:45
+#: inertia/pages/auth/sudo.tsx:44
 msgid "You are about to change something that protects your account, so we ask once more who you are."
 msgstr "Vous allez modifier quelque chose qui protège votre compte, nous vous redemandons donc qui vous êtes."
 
@@ -1617,11 +1617,11 @@ msgstr "Vous allez modifier quelque chose qui protège votre compte, nous vous r
 msgid "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 msgstr "Vous êtes sur le point de supprimer {0} compte(s). Cette action ne peut pas être annulée. Toutes les collections et liens liés seront définitivement supprimés."
 
-#: inertia/pages/terms.tsx:129
+#: inertia/pages/terms.tsx:127
 msgid "You can request the deletion of your account at any time in accordance with our Privacy Policy."
 msgstr "Vous pouvez demander la suppression de votre compte à tout moment conformément à notre Politique de confidentialité."
 
-#: inertia/pages/terms.tsx:79
+#: inertia/pages/terms.tsx:77
 msgid "You commit to using MyLinks in accordance with applicable laws and not violating the rights of third parties."
 msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables et à ne pas violer les droits de tiers."
 
@@ -1630,9 +1630,9 @@ msgid "You will no longer be able to sign in with Google on this account."
 msgstr "Vous ne pourrez plus vous connecter à ce compte avec Google."
 
 #: inertia/components/user_settings/email_address.tsx:53
-#: inertia/pages/auth/forgot_password.tsx:50
-#: inertia/pages/auth/login.tsx:70
-#: inertia/pages/auth/register.tsx:88
+#: inertia/pages/auth/forgot_password.tsx:49
+#: inertia/pages/auth/login.tsx:69
+#: inertia/pages/auth/register.tsx:87
 msgid "you@example.com"
 msgstr "vous@exemple.com"
 
@@ -1644,15 +1644,15 @@ msgstr "Votre adresse doit encore être confirmée. Nous pouvons vous renvoyer l
 msgid "Your collections"
 msgstr "Vos collections"
 
-#: inertia/pages/home.tsx:102
+#: inertia/pages/home.tsx:101
 msgid "Your links download as plain JSON whenever you want. Nothing kept hostage."
 msgstr "Vos liens se téléchargent en JSON brut quand vous le souhaitez. Rien n'est retenu en otage."
 
-#: inertia/pages/home.tsx:143
+#: inertia/pages/home.tsx:142
 msgid "Your links, organized"
 msgstr "Vos liens, organisés"
 
-#: inertia/pages/auth/login.tsx:84
-#: inertia/pages/auth/sudo.tsx:60
+#: inertia/pages/auth/login.tsx:83
+#: inertia/pages/auth/sudo.tsx:59
 msgid "Your password"
 msgstr "Votre mot de passe"

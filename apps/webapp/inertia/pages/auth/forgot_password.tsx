@@ -5,7 +5,6 @@ import { Head, useForm } from '@inertiajs/react';
 import { Button, Input } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import SmallContentLayout from '~/layouts/small_content';
 
 type ForgotPasswordFormData = {
 	email: string;
@@ -28,7 +27,7 @@ function ForgotPasswordPage() {
 	return (
 		<>
 			<Head title={t`Reset your password`} />
-			<div className="max-w-md mx-auto bg-paper dark:bg-ink border border-rule dark:border-rule-dark rounded-2xl p-8 shadow-sm">
+			<div className="max-w-md w-full mx-auto my-auto bg-paper dark:bg-ink border border-rule dark:border-rule-dark rounded-2xl p-8 shadow-sm">
 				<h1 className="font-display text-2xl text-ink dark:text-ink-dark mb-1">
 					<Trans>Reset your password</Trans>
 				</h1>
@@ -79,9 +78,5 @@ function ForgotPasswordPage() {
 		</>
 	);
 }
-
-ForgotPasswordPage.layout = (page: React.ReactNode) => (
-	<SmallContentLayout>{page}</SmallContentLayout>
-);
 
 export default ForgotPasswordPage;
