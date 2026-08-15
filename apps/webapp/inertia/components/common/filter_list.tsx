@@ -1,4 +1,5 @@
 import { t } from '@lingui/core/macro';
+import { Tooltip } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
 import { Layout, useLayoutStore } from '~/stores/layout_store';
@@ -42,20 +43,20 @@ export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 			className="flex items-center gap-1 p-1 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-200/50 dark:border-gray-700/50"
 		>
 			{layoutOptions.map((option) => (
-				<button
-					key={option.value}
-					onClick={() => setLayout(option.value)}
-					className={cn(
-						'cursor-pointer p-2 rounded transition-colors',
-						layout === option.value
-							? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
-							: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
-					)}
-					title={option.label}
-					aria-label={option.label}
-				>
-					<div className={cn(option.icon, 'w-5 h-5')} />
-				</button>
+				<Tooltip key={option.value} content={option.label} position="bottom">
+					<button
+						onClick={() => setLayout(option.value)}
+						className={cn(
+							'cursor-pointer p-2 rounded transition-colors',
+							layout === option.value
+								? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
+								: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+						)}
+						aria-label={option.label}
+					>
+						<div className={cn(option.icon, 'w-5 h-5')} />
+					</button>
+				</Tooltip>
 			))}
 		</div>
 	);
