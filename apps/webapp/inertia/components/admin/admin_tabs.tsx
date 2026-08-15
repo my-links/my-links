@@ -34,7 +34,7 @@ const ADMIN_TABS = [
 	},
 	{
 		route: 'admin.status',
-		page: 'status',
+		page: 'admin/status',
 		icon: 'i-mdi-heart-pulse',
 		label: <Trans>Status</Trans>,
 	},
