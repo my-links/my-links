@@ -3,7 +3,7 @@ import { Link } from '@adonisjs/inertia/react';
 
 import { cn } from '~/lib/cn';
 import { useAuth } from '~/hooks/use_auth';
-import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
+import { NAVBAR_BREAKPOINT } from '~/consts/breakpoints';
 import { IconLink } from '~/components/common/navigation/icon_link';
 import { AccountMenu } from '~/components/common/navigation/account_menu';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
@@ -28,7 +28,7 @@ export function Navbar() {
 		let observer: ResizeObserver | null = null;
 
 		const checkAndCloseMenu = () => {
-			if (window.innerWidth >= MOBILE_BREAKPOINT) {
+			if (window.innerWidth >= NAVBAR_BREAKPOINT) {
 				closeMobileMenu();
 			}
 		};
@@ -62,7 +62,7 @@ export function Navbar() {
 							className="h-8"
 						/>
 					</Link>
-					<div className="hidden md:flex items-center gap-6">
+					<div className="hidden lg:flex items-center gap-6">
 						{NAVBAR_LINKS.map((link) => (
 							<IconLink
 								key={link.href}
@@ -75,7 +75,7 @@ export function Navbar() {
 						))}
 					</div>
 				</div>
-				<div className="hidden md:flex items-center gap-3">
+				<div className="hidden lg:flex items-center gap-3">
 					{auth.isAuthenticated ? (
 						<>
 							<Link
@@ -103,7 +103,7 @@ export function Navbar() {
 				</div>
 				<button
 					onClick={toggleMobileMenu}
-					className="cursor-pointer md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200"
+					className="cursor-pointer lg:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200"
 					aria-label="Toggle menu"
 					aria-expanded={isMobileMenuOpen}
 				>
@@ -117,7 +117,7 @@ export function Navbar() {
 			</div>
 			<div
 				className={cn(
-					'md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-b-lg shadow-lg transition-all duration-300 ease-in-out overflow-hidden',
+					'lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-b-lg shadow-lg transition-all duration-300 ease-in-out overflow-hidden',
 					isMobileMenuOpen
 						? 'opacity-100 translate-y-0 max-h-screen'
 						: 'opacity-0 -translate-y-4 max-h-0 pointer-events-none'
