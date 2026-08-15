@@ -14,7 +14,7 @@ import { DeleteAccount } from '~/components/user_settings/delete_account';
 import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 
 const UserSettingsShow = () => (
-	<>
+	<div className="w-full md:h-full p-4">
 		<Head title={t`Settings`} />
 		<div className="space-y-6">
 			<Preferences />
@@ -27,7 +27,7 @@ const UserSettingsShow = () => (
 			<DeleteAccount />
 			<About />
 		</div>
-	</>
+	</div>
 );
 
 UserSettingsShow.layout = (page: React.ReactNode) => (
