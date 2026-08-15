@@ -64,6 +64,8 @@ function ThemeMenuItem({
 
 interface AccountMenuProps {
 	side?: MenuSide;
+	/** Shows the avatar alone, for the collapsed sidebar rail. */
+	iconOnly?: boolean;
 }
 
 /**
@@ -71,7 +73,10 @@ interface AccountMenuProps {
  * help, and the way out. `side` follows where it is anchored: `top` at the
  * foot of the sidebar, `bottom` in a header.
  */
-export function AccountMenu({ side = 'top' }: Readonly<AccountMenuProps>) {
+export function AccountMenu({
+	side = 'top',
+	iconOnly = false,
+}: Readonly<AccountMenuProps>) {
 	const auth = useAuth();
 	const { theme, setTheme } = useThemeStore();
 	const { startTour } = useTourStore();
@@ -106,18 +111,27 @@ export function AccountMenu({ side = 'top' }: Readonly<AccountMenuProps>) {
 			trigger={
 				<button
 					type="button"
-					className="w-full cursor-pointer flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+					title={iconOnly ? fullname : undefined}
+					aria-label={iconOnly ? fullname : undefined}
+					className={cn(
+						'w-full cursor-pointer flex items-center gap-2 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors',
+						iconOnly ? 'justify-center px-0' : 'px-2'
+					)}
 				>
 					<Avatar name={fullname} size="sm" />
-					<span className="flex-1 truncate text-left text-sm font-medium text-gray-900 dark:text-white">
-						{fullname}
-					</span>
-					<i
-						className={cn(
-							chevronClass,
-							'h-4 w-4 shrink-0 text-gray-500 dark:text-gray-400'
-						)}
-					/>
+					{!iconOnly && (
+						<>
+							<span className="flex-1 truncate text-left text-sm font-medium text-gray-900 dark:text-white">
+								{fullname}
+							</span>
+							<i
+								className={cn(
+									chevronClass,
+									'h-4 w-4 shrink-0 text-gray-500 dark:text-gray-400'
+								)}
+							/>
+						</>
+					)}
 				</button>
 			}
 		>

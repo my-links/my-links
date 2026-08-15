@@ -10,6 +10,7 @@ import type {
 
 import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 import {
@@ -39,6 +40,7 @@ export function CollectionItem({
 	const isActive = collection.id === activeCollection?.id;
 	const collectionControlsRef = useRef<CollectionControlsRef>(null);
 	const isMobile = useIsMobile();
+	const isRail = useSidebarMode() === 'rail';
 	const setSidebarOpen = useDashboardLayoutStore(
 		(state) => state.setSidebarOpen
 	);
@@ -65,7 +67,8 @@ export function CollectionItem({
 			routeParams={{ id: collection.id }}
 			preserveScroll
 			className={cn(
-				'relative flex items-center gap-3 px-4 py-2 rounded-md transition-colors group',
+				'relative flex items-center gap-3 py-2 rounded-md transition-colors group',
+				isRail ? 'justify-center px-0' : 'px-4',
 				'hover:bg-white/50 dark:hover:bg-gray-800/50',
 				'text-gray-700 dark:text-gray-300',
 				isActive &&
@@ -93,8 +96,15 @@ export function CollectionItem({
 					)}
 				/>
 			)}
-			<span className="truncate flex-1">{collection.name}</span>
-			<CollectionControls ref={collectionControlsRef} collection={collection} />
+			{!isRail && (
+				<>
+					<span className="truncate flex-1">{collection.name}</span>
+					<CollectionControls
+						ref={collectionControlsRef}
+						collection={collection}
+					/>
+				</>
+			)}
 		</Link>
 	);
 }

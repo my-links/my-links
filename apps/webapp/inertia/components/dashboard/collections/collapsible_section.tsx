@@ -10,6 +10,7 @@ import {
 
 import { cn } from '~/lib/cn';
 import { useContextMenu } from '~/hooks/use_context_menu';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { SortableCollectionItem } from './sortable_collection_item';
 import { useSectionCollapseStore } from '~/stores/section_collapse_store';
@@ -45,6 +46,7 @@ export function CollapsibleSection({
 		(state) => state.expanded[section]
 	);
 	const toggleSection = useSectionCollapseStore((state) => state.toggleSection);
+	const isRail = useSidebarMode() === 'rail';
 	const {
 		menuPosition,
 		shouldRender,
@@ -62,6 +64,31 @@ export function CollapsibleSection({
 
 	const isEmpty = collections.length === 0;
 	const shouldShowCollapse = canCollapse && !isEmpty;
+
+	// A rail has no room for the section header, so it shows a rule instead.
+	// Items ignore `isExpanded` there: without a header there is nothing left
+	// to expand a collapsed section with, and its collections would be stranded.
+	if (isRail) {
+		if (isEmpty) return null;
+
+		return (
+			<div className="mb-2 space-y-1">
+				<hr className="mx-3 my-2 border-gray-200/50 dark:border-gray-700/50" />
+				<SortableContext
+					items={collections.map((collection) => collection.id)}
+					strategy={verticalListSortingStrategy}
+				>
+					{collections.map((collection) => (
+						<SortableCollectionItem
+							key={collection.id}
+							collection={collection}
+							section={section}
+						/>
+					))}
+				</SortableContext>
+			</div>
+		);
+	}
 
 	const handleMoveUp = () => {
 		closeMenu();

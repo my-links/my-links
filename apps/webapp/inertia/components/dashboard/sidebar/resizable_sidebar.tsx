@@ -2,7 +2,11 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
+import {
+	useDashboardLayoutStore,
+	SIDEBAR_RAIL_WIDTH,
+} from '~/stores/dashboard_layout_store';
 
 interface ResizableSidebarProps {
 	children: ReactNode;
@@ -14,6 +18,8 @@ export function ResizableSidebar({
 	const { sidebarWidth, setSidebarWidth } = useDashboardLayoutStore();
 	const [isResizing, setIsResizing] = useState(false);
 	const isMobile = useIsMobile();
+	const isRail = useSidebarMode() === 'rail';
+	const sidebarPixelWidth = isRail ? SIDEBAR_RAIL_WIDTH : sidebarWidth;
 	const sidebarRef = useRef<HTMLDivElement>(null);
 	const startXRef = useRef<number>(0);
 	const startWidthRef = useRef<number>(0);
@@ -61,20 +67,22 @@ export function ResizableSidebar({
 				'md:relative',
 				'fixed inset-0 md:inset-auto z-50 md:z-auto'
 			)}
-			style={{ width: isMobile ? '100%' : `${sidebarWidth}px` }}
+			style={{ width: isMobile ? '100%' : `${sidebarPixelWidth}px` }}
 		>
 			{children}
-			<div
-				onMouseDown={handleMouseDown}
-				className={cn(
-					'absolute top-0 right-0 w-1 h-full cursor-col-resize',
-					'hover:bg-blue-500/50 transition-colors',
-					isResizing && 'bg-blue-500',
-					'hidden md:block'
-				)}
-				style={{ touchAction: 'none' }}
-				aria-hidden="true"
-			/>
+			{!isRail && (
+				<div
+					onMouseDown={handleMouseDown}
+					className={cn(
+						'absolute top-0 right-0 w-1 h-full cursor-col-resize',
+						'hover:bg-blue-500/50 transition-colors',
+						isResizing && 'bg-blue-500',
+						'hidden md:block'
+					)}
+					style={{ touchAction: 'none' }}
+					aria-hidden="true"
+				/>
+			)}
 		</div>
 	);
 }

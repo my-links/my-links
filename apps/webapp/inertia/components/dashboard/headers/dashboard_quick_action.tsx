@@ -48,6 +48,7 @@ function QuickActionsContent({
 	onCreateLink,
 	onHandleShareCollection,
 	onCreateCollection,
+	onOpenSearch,
 	isFavorite,
 	onEditCollection,
 	onDeleteCollection,
@@ -64,6 +65,14 @@ function QuickActionsContent({
 
 	return (
 		<>
+			<Button
+				variant="outline"
+				onClick={() => handleQuickAction(onOpenSearch)}
+				startIcon="i-ion-search"
+			>
+				<Trans>Search</Trans>
+			</Button>
+
 			<div className="flex flex-col gap-2">
 				<p className="text-sm text-gray-500 dark:text-gray-400">
 					<Trans>Links</Trans>

@@ -6,6 +6,7 @@ import { PageProps } from '@adonisjs/inertia/types';
 
 import { cn } from '~/lib/cn';
 import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 interface CollectionInboxItemProps {
@@ -28,6 +29,7 @@ export function CollectionInboxItem({
 	const { props } = usePage<PagePropsWithActiveCollection>();
 	const isMobile = useIsMobile();
 	const isActive = collection.id === props.activeCollection?.id;
+	const isRail = useSidebarMode() === 'rail';
 	const setSidebarOpen = useDashboardLayoutStore(
 		(state) => state.setSidebarOpen
 	);
@@ -51,7 +53,8 @@ export function CollectionInboxItem({
 				preserveScroll
 				data-tour="inbox"
 				className={cn(
-					'flex items-center gap-3 px-4 py-2 rounded-md transition-colors',
+					'flex items-center gap-3 py-2 rounded-md transition-colors',
+					isRail ? 'justify-center px-0' : 'px-4',
 					'hover:bg-white/50 dark:hover:bg-gray-800/50',
 					'text-gray-700 dark:text-gray-300',
 					isActive &&
@@ -61,7 +64,7 @@ export function CollectionInboxItem({
 				onClick={handleClick}
 			>
 				<div className="w-5 h-5 flex-shrink-0 i-ant-design-inbox-outlined" />
-				<span className="truncate flex-1">{collection.name}</span>
+				{!isRail && <span className="truncate flex-1">{collection.name}</span>}
 			</Link>
 		</div>
 	);
