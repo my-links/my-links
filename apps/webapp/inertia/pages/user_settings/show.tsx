@@ -1,6 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
 
+import { AppLayout } from '~/layouts/app_layout';
 import { About } from '~/components/user_settings/about';
 import { ApiTokens } from '~/components/api_tokens/api_tokens';
 import { Password } from '~/components/user_settings/password';
@@ -10,6 +11,7 @@ import { AuthMethods } from '~/components/user_settings/auth_methods';
 import { ExportImport } from '~/components/user_settings/export_import';
 import { EmailAddress } from '~/components/user_settings/email_address';
 import { DeleteAccount } from '~/components/user_settings/delete_account';
+import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 
 const UserSettingsShow = () => (
 	<>
@@ -26,6 +28,13 @@ const UserSettingsShow = () => (
 			<About />
 		</div>
 	</>
+);
+
+UserSettingsShow.layout = (page: React.ReactNode) => (
+	<AppLayout>
+		<AppPageHeader title={t`Settings`} />
+		{page}
+	</AppLayout>
 );
 
 export default UserSettingsShow;

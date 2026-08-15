@@ -6,6 +6,7 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import useShortcut from '~/hooks/use_shortcut';
+import { AppLayout } from '~/layouts/app_layout';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
@@ -185,3 +186,5 @@ export default function Dashboard() {
 		</>
 	);
 }
+
+Dashboard.layout = (page: React.ReactNode) => <AppLayout>{page}</AppLayout>;
