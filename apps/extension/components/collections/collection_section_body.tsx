@@ -1,6 +1,4 @@
 import clsx from 'clsx';
-import type { MouseEvent as ReactMouseEvent } from 'react';
-import { IconButton, Modal, ConfirmModal } from '@minimalstuff/ui';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
@@ -9,15 +7,20 @@ import type {
 	DraggableAttributes,
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
+import {
+	ContextMenu,
+	IconButton,
+	MenuItem,
+	Modal,
+	ConfirmModal,
+} from '@minimalstuff/ui';
 
 import { LinkRow } from './link_row';
 import { linkSortableId } from '@/lib/dnd/dnd_types';
 import { useCollections } from '@/hooks/use_collections';
-import { useContextMenu } from '@/hooks/use_context_menu';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { EditCollectionModal } from './edit_collection_modal';
-import { ContextMenu } from '@/components/common/context_menu';
 import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import { useDeleteCollection } from '@/hooks/use_delete_collection';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
@@ -49,17 +52,11 @@ export function CollectionSectionBody({
 }: Readonly<CollectionSectionBodyProps>) {
 	const { collections } = useCollections();
 	const deleteCollection = useDeleteCollection();
-	const contextMenu = useContextMenu();
 	const links = collection.links ?? [];
 
 	const handleToggle = () => {
 		if (shouldSuppressClick()) return;
 		onToggle();
-	};
-
-	const handleContextMenu = (event: ReactMouseEvent) => {
-		if (collection.isDefault) return;
-		contextMenu.handleContextMenu(event);
 	};
 
 	const handleAddLink = () => {
@@ -76,7 +73,6 @@ export function CollectionSectionBody({
 	};
 
 	const handleEdit = () => {
-		contextMenu.closeMenu();
 		const call = Modal.call({
 			title: 'Edit collection',
 			children: (
@@ -89,7 +85,6 @@ export function CollectionSectionBody({
 	};
 
 	const handleDelete = () => {
-		contextMenu.closeMenu();
 		void ConfirmModal.call({
 			title: 'Delete collection',
 			children:
@@ -102,88 +97,97 @@ export function CollectionSectionBody({
 		});
 	};
 
+	const rowClassName =
+		'relative flex w-full items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50';
+
+	const rowContent = (
+		<>
+			<button
+				ref={setActivatorNodeRef}
+				{...dragAttributes}
+				{...dragListeners}
+				onClick={handleToggle}
+				aria-expanded={isExpanded}
+				className={clsx(
+					'flex min-w-0 flex-1 items-center gap-2 text-left',
+					dragListeners && 'cursor-grab active:cursor-grabbing'
+				)}
+			>
+				<div
+					className={clsx(
+						'i-ant-design-caret-down-filled h-3 w-3 flex-shrink-0 opacity-25 text-gray-500 transition-transform',
+						!isExpanded && '-rotate-90'
+					)}
+				/>
+				{collection.icon ? (
+					<span className="flex h-5 w-5 flex-shrink-0 items-center justify-center text-base">
+						{collection.icon}
+					</span>
+				) : collection.isDefault ? (
+					<div className="i-ant-design-inbox-outlined h-5 w-5 flex-shrink-0 text-gray-500" />
+				) : (
+					<div className="i-ant-design-folder-outlined h-5 w-5 flex-shrink-0 text-gray-500" />
+				)}
+				<span className="flex-1 truncate text-sm font-medium text-gray-700 dark:text-gray-300">
+					{collection.name}
+				</span>
+				<span className="flex-shrink-0 text-xs text-gray-400 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0">
+					{links.length}
+				</span>
+			</button>
+			<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
+				<IconButton
+					icon="i-ant-design-plus-outlined"
+					aria-label={`Add link to ${collection.name}`}
+					size="sm"
+					variant="ghost"
+					onClick={handleAddLink}
+				/>
+				{/* The default (Inbox) collection can't be renamed or deleted. */}
+				{!collection.isDefault && (
+					<KebabMenu label={`Actions for ${collection.name}`}>
+						<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
+							Edit
+						</KebabMenuItem>
+						<KebabMenuItem
+							icon="i-ion-trash-outline"
+							onClick={handleDelete}
+							isDanger
+						>
+							Delete
+						</KebabMenuItem>
+					</KebabMenu>
+				)}
+			</div>
+		</>
+	);
+
 	return (
 		<>
-			<div
-				onContextMenu={handleContextMenu}
-				className="relative flex w-full items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50"
-			>
-				<button
-					ref={setActivatorNodeRef}
-					{...dragAttributes}
-					{...dragListeners}
-					onClick={handleToggle}
-					aria-expanded={isExpanded}
-					className={clsx(
-						'flex min-w-0 flex-1 items-center gap-2 text-left',
-						dragListeners && 'cursor-grab active:cursor-grabbing'
-					)}
-				>
-					<div
-						className={clsx(
-							'i-ant-design-caret-down-filled h-3 w-3 flex-shrink-0 opacity-25 text-gray-500 transition-transform',
-							!isExpanded && '-rotate-90'
-						)}
-					/>
-					{collection.icon ? (
-						<span className="flex h-5 w-5 flex-shrink-0 items-center justify-center text-base">
-							{collection.icon}
-						</span>
-					) : collection.isDefault ? (
-						<div className="i-ant-design-inbox-outlined h-5 w-5 flex-shrink-0 text-gray-500" />
-					) : (
-						<div className="i-ant-design-folder-outlined h-5 w-5 flex-shrink-0 text-gray-500" />
-					)}
-					<span className="flex-1 truncate text-sm font-medium text-gray-700 dark:text-gray-300">
-						{collection.name}
-					</span>
-					<span className="flex-shrink-0 text-xs text-gray-400 transition-opacity group-hover:opacity-0 group-focus-within:opacity-0">
-						{links.length}
-					</span>
-				</button>
-				<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-					<IconButton
-						icon="i-ant-design-plus-outlined"
-						aria-label={`Add link to ${collection.name}`}
-						size="sm"
-						variant="ghost"
-						onClick={handleAddLink}
-					/>
-					{/* The default (Inbox) collection can't be renamed or deleted. */}
-					{!collection.isDefault && (
-						<KebabMenu label={`Actions for ${collection.name}`}>
-							<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
+			{/* The default (Inbox) collection can't be renamed or deleted, so it
+			carries no menu at all — right-click falls through to the browser's
+			native one. */}
+			{collection.isDefault ? (
+				<div className={rowClassName}>{rowContent}</div>
+			) : (
+				<ContextMenu
+					className={rowClassName}
+					items={
+						<>
+							<MenuItem icon="i-octicon-pencil" onClick={handleEdit}>
 								Edit
-							</KebabMenuItem>
-							<KebabMenuItem
+							</MenuItem>
+							<MenuItem
 								icon="i-ion-trash-outline"
 								onClick={handleDelete}
-								isDanger
+								danger
 							>
 								Delete
-							</KebabMenuItem>
-						</KebabMenu>
-					)}
-				</div>
-			</div>
-			{!collection.isDefault && (
-				<ContextMenu
-					isVisible={contextMenu.isVisible}
-					shouldRender={contextMenu.shouldRender}
-					menuPosition={contextMenu.menuPosition}
-					menuContentRef={contextMenu.menuContentRef}
-					onBackdropClick={contextMenu.closeMenu}
+							</MenuItem>
+						</>
+					}
 				>
-					<KebabMenuItem icon="i-octicon-pencil" onClick={handleEdit}>
-						Edit
-					</KebabMenuItem>
-					<KebabMenuItem
-						icon="i-ion-trash-outline"
-						onClick={handleDelete}
-						isDanger
-					>
-						Delete
-					</KebabMenuItem>
+					{rowContent}
 				</ContextMenu>
 			)}
 			{deleteCollection.isError && (

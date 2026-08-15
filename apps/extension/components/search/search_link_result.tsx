@@ -1,8 +1,8 @@
 import clsx from 'clsx';
+import { Highlight } from '@minimalstuff/ui';
 
 import type { LinkResource } from '@/lib/api/types';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
-import { Highlight } from '@/components/common/highlight';
 import type { FuzzyMatch } from '@/lib/search/fuzzy_links';
 import { LinkFavicon } from '@/components/collections/link_favicon';
 import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
