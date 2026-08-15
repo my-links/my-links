@@ -19,6 +19,25 @@ function withWwwPrefix(origin: string): string | null {
 	return url.origin;
 }
 
+function withoutWwwPrefix(origin: string): string | null {
+	const url = new URL(origin);
+	if (!url.hostname.startsWith('www.')) {
+		return null;
+	}
+	url.hostname = url.hostname.slice('www.'.length);
+	return url.origin;
+}
+
+// Both origin/www variants, requested up front since resolveCanonicalOrigin's network check can't run before permissions.request on Firefox.
+function permissionOriginPatterns(origin: string): string[] {
+	const wwwVariant = withWwwPrefix(origin) ?? withoutWwwPrefix(origin);
+	const origins = [origin];
+	if (wwwVariant) {
+		origins.push(wwwVariant);
+	}
+	return origins.map((candidate) => `${candidate}/*`);
+}
+
 /**
  * `redirect: 'error'` instead of the default `'follow'`: a cross-origin 30x
  * carries no CORS headers of its own, so the browser blocks it as a CORS
@@ -70,20 +89,21 @@ export function extractTokenFromAuthCallback(
  * needed), and captures the final redirect once the server hands back a
  * token in the URL fragment. MyLinks is never an OAuth provider here — this
  * only reuses the browser API that OAuth flows also happen to use.
+ * Permission request stays first (before resolveCanonicalOrigin's fetch) since Firefox requires it synchronous within the click handler.
  */
 export async function connectToInstance(rawInstanceUrl: string): Promise<void> {
-	const instanceUrl = await resolveCanonicalOrigin(
-		normalizeInstanceUrl(rawInstanceUrl)
-	);
+	const typedOrigin = normalizeInstanceUrl(rawInstanceUrl);
 
 	const granted = await browser.permissions.request({
-		origins: [`${instanceUrl}/*`],
+		origins: permissionOriginPatterns(typedOrigin),
 	});
 	if (!granted) {
 		throw new ExtensionAuthError(
 			'Permission was refused for this instance URL.'
 		);
 	}
+
+	const instanceUrl = await resolveCanonicalOrigin(typedOrigin);
 
 	const redirectUri = browser.identity.getRedirectURL();
 	const authorizeUrl = `${instanceUrl}/extension/authorize?redirect_uri=${encodeURIComponent(redirectUri)}`;
