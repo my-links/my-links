@@ -13,6 +13,7 @@ import {
 	MenuItem,
 	Modal,
 	ConfirmModal,
+	Tooltip,
 } from '@minimalstuff/ui';
 
 import { LinkRow } from './link_row';
@@ -136,13 +137,15 @@ export function CollectionSectionBody({
 				</span>
 			</button>
 			<div className="pointer-events-none absolute inset-y-0 right-0 flex items-center gap-0.5 py-1 pl-2 opacity-0 transition-opacity group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:opacity-100">
-				<IconButton
-					icon="i-ant-design-plus-outlined"
-					aria-label={`Add link to ${collection.name}`}
-					size="sm"
-					variant="ghost"
-					onClick={handleAddLink}
-				/>
+				<Tooltip content={`Add link to ${collection.name}`} position="bottom">
+					<IconButton
+						icon="i-ant-design-plus-outlined"
+						aria-label={`Add link to ${collection.name}`}
+						size="sm"
+						variant="ghost"
+						onClick={handleAddLink}
+					/>
+				</Tooltip>
 				{/* The default (Inbox) collection can't be renamed or deleted. */}
 				{!collection.isDefault && (
 					<KebabMenu label={`Actions for ${collection.name}`}>

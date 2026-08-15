@@ -1,4 +1,4 @@
-import { IconButton, Modal } from '@minimalstuff/ui';
+import { IconButton, Modal, Tooltip } from '@minimalstuff/ui';
 
 import { useActiveTab } from '@/hooks/use_active_tab';
 import { findLinkByUrl } from '@/lib/collections_tree';
@@ -35,13 +35,15 @@ export function QuickAddButton() {
 	};
 
 	return (
-		<IconButton
-			icon="i-ion-bookmark"
-			aria-label="Add current tab to MyLinks"
-			size="sm"
-			variant="ghost"
-			onClick={handleClick}
-			disabled={!activeTab}
-		/>
+		<Tooltip content="Add current tab to MyLinks" position="bottom">
+			<IconButton
+				icon="i-ion-bookmark"
+				aria-label="Add current tab to MyLinks"
+				size="sm"
+				variant="ghost"
+				onClick={handleClick}
+				disabled={!activeTab}
+			/>
+		</Tooltip>
 	);
 }

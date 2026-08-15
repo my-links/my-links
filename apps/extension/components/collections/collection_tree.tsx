@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { IconButton } from '@minimalstuff/ui';
+import { IconButton, Tooltip } from '@minimalstuff/ui';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
@@ -173,20 +173,24 @@ export function CollectionTree() {
 			) : (
 				<>
 					<div className="flex items-center justify-end gap-0.5 pb-1">
-						<IconButton
-							icon="i-mdi-unfold-less-horizontal"
-							size="sm"
-							variant="ghost"
-							onClick={() => collapseAll(order, allCollectionIds)}
-							aria-label="Collapse all"
-						/>
-						<IconButton
-							icon="i-mdi-unfold-more-horizontal"
-							size="sm"
-							variant="ghost"
-							onClick={() => expandAll(order, allCollectionIds)}
-							aria-label="Expand all"
-						/>
+						<Tooltip content="Collapse all" position="bottom">
+							<IconButton
+								icon="i-mdi-unfold-less-horizontal"
+								size="sm"
+								variant="ghost"
+								onClick={() => collapseAll(order, allCollectionIds)}
+								aria-label="Collapse all"
+							/>
+						</Tooltip>
+						<Tooltip content="Expand all" position="bottom">
+							<IconButton
+								icon="i-mdi-unfold-more-horizontal"
+								size="sm"
+								variant="ghost"
+								onClick={() => expandAll(order, allCollectionIds)}
+								aria-label="Expand all"
+							/>
+						</Tooltip>
 					</div>
 					<CollectionsDndProvider>
 						{/* Scoped off DndContext's own DOM parent — it injects hidden a11y sibling divs that would otherwise pick up a stray divide-y border too. */}
