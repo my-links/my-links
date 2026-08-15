@@ -1,5 +1,6 @@
 import { t } from '@lingui/core/macro';
 import { usePage } from '@inertiajs/react';
+import { Tooltip } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
@@ -31,7 +32,7 @@ export function CollectionFavoriteItem() {
 		}
 	};
 
-	return (
+	const favoriteLink = (
 		<Link
 			route="collection.favorites"
 			preserveScroll
@@ -44,7 +45,7 @@ export function CollectionFavoriteItem() {
 				isActive &&
 					'bg-blue-100/50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
 			)}
-			title={t`Favorite`}
+			title={isRail ? undefined : t`Favorite`}
 			onClick={handleClick}
 		>
 			<div
@@ -59,5 +60,17 @@ export function CollectionFavoriteItem() {
 				</span>
 			)}
 		</Link>
+	);
+
+	return isRail ? (
+		<Tooltip
+			content={t`Favorite`}
+			position="right"
+			className="!flex !justify-center"
+		>
+			{favoriteLink}
+		</Tooltip>
+	) : (
+		favoriteLink
 	);
 }
