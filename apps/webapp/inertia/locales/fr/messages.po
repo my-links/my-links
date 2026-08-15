@@ -756,10 +756,6 @@ msgstr "Regroupez des liens similaires, en public ou en privé."
 msgid "Heap memory"
 msgstr "Mémoire heap"
 
-#: inertia/components/common/navigation/navbar.tsx:113
-msgid "Hello"
-msgstr "Bonjour"
-
 #: inertia/components/dashboard/forms/form_collection_content.tsx:56
 msgid "Icon"
 msgstr "Icône"
@@ -912,10 +908,6 @@ msgid "Login"
 msgstr "Connexion"
 
 #: inertia/components/common/navigation/account_menu.tsx:197
-#: inertia/components/common/navigation/navbar.tsx:130
-#: inertia/components/common/navigation/navbar.tsx:131
-#: inertia/components/common/navigation/navbar.tsx:220
-#: inertia/components/common/navigation/navbar.tsx:221
 msgid "Logout"
 msgstr "Déconnexion"
 
@@ -1321,8 +1313,6 @@ msgid "Set my password"
 msgstr "Définir mon mot de passe"
 
 #: inertia/components/common/navigation/account_menu.tsx:140
-#: inertia/components/common/navigation/navbar.tsx:121
-#: inertia/components/common/navigation/navbar.tsx:211
 #: inertia/pages/user_settings/show.tsx:18
 #: inertia/pages/user_settings/show.tsx:35
 msgid "Settings"

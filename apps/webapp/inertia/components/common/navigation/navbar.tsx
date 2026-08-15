@@ -1,25 +1,17 @@
-import { t } from '@lingui/core/macro';
-import { router } from '@inertiajs/react';
-import { Trans } from '@lingui/react/macro';
 import { useEffect, useState } from 'react';
 import { Link } from '@adonisjs/inertia/react';
-import { ThemeToggle } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
-import { urlFor } from '~/lib/tuyau';
 import { useAuth } from '~/hooks/use_auth';
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
-import { MadeBy } from '~/components/common/navigation/made_by';
 import { IconLink } from '~/components/common/navigation/icon_link';
-import { LocaleSwitcher } from '~/components/common/locale_switcher';
+import { AccountMenu } from '~/components/common/navigation/account_menu';
 import { NAVBAR_LINKS } from '~/components/common/navigation/navbar_links';
-import { useFooterLinks } from '~/components/common/navigation/footer_links';
 import { GuestAuthActions } from '~/components/common/navigation/guest_auth_actions';
 import { MobileGuestAuthActions } from '~/components/common/navigation/mobile_guest_auth_actions';
 
 export function Navbar() {
 	const auth = useAuth();
-	const footerLinks = useFooterLinks();
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const toggleMobileMenu = () => {
@@ -28,11 +20,6 @@ export function Navbar() {
 
 	const closeMobileMenu = () => {
 		setIsMobileMenuOpen(false);
-	};
-
-	const handleLogout = () => {
-		closeMobileMenu();
-		router.post(urlFor('auth.logout'));
 	};
 
 	useEffect(() => {
@@ -108,32 +95,7 @@ export function Navbar() {
 								</Link>
 							)}
 							<div className="h-6 w-px bg-gray-300 dark:bg-gray-600" />
-							<div className="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
-								<span className="text-sm text-gray-600 dark:text-gray-400">
-									<Trans>Hello</Trans>,
-								</span>
-								<span className="text-sm font-medium text-gray-900 dark:text-white">
-									{auth.user?.fullname}
-								</span>
-								<Link
-									route="user.settings"
-									className="p-1.5 rounded-md hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-colors"
-									title={t`Settings`}
-									onClick={closeMobileMenu}
-								>
-									<i className="i-mdi-cog text-gray-600 dark:text-gray-400 h-5 min-w-5 block" />
-								</Link>
-								<button
-									type="button"
-									onClick={handleLogout}
-									className="cursor-pointer p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-									aria-label={t`Logout`}
-									title={t`Logout`}
-									data-testid="logout"
-								>
-									<i className="i-mdi-logout text-red-600 dark:text-red-400 h-5 min-w-5 block" />
-								</button>
-							</div>
+							<AccountMenu side="bottom" />
 						</>
 					) : (
 						<GuestAuthActions />
@@ -161,106 +123,47 @@ export function Navbar() {
 						: 'opacity-0 -translate-y-4 max-h-0 pointer-events-none'
 				)}
 			>
-				<div className="py-4 px-4 min-h-[calc(100vh-122px)] flex flex-col">
-					<div className="space-y-4">
-						<div className="space-y-2">
-							{NAVBAR_LINKS.map((link) => (
-								<IconLink
-									key={link.href}
-									href={link.href}
-									icon={link.icon}
-									external
+				<div className="py-4 px-4 space-y-4">
+					<div className="space-y-2">
+						{NAVBAR_LINKS.map((link) => (
+							<IconLink
+								key={link.href}
+								href={link.href}
+								icon={link.icon}
+								external
+								onClick={closeMobileMenu}
+								fullWidth
+							>
+								{link.label}
+							</IconLink>
+						))}
+					</div>
+					<div className="pt-2 border-t border-gray-200 dark:border-gray-700 space-y-2">
+						{auth.isAuthenticated ? (
+							<>
+								<Link
+									route="collection.favorites"
+									className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium w-full"
 									onClick={closeMobileMenu}
-									fullWidth
 								>
-									{link.label}
-								</IconLink>
-							))}
-						</div>
-						<div className="pt-2 border-t border-gray-200 dark:border-gray-700 space-y-2">
-							{auth.isAuthenticated ? (
-								<>
+									<i className="i-mdi-view-dashboard h-5 min-w-5 block" />
+									Dashboard
+								</Link>
+								{auth.isAdmin && (
 									<Link
-										route="collection.favorites"
-										className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 font-medium w-full"
+										route="admin.dashboard"
+										className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium w-full"
 										onClick={closeMobileMenu}
 									>
-										<i className="i-mdi-view-dashboard h-5 min-w-5 block" />
-										Dashboard
+										<i className="i-mdi-shield-account h-5 min-w-5 block" />
+										Admin
 									</Link>
-									{auth.isAdmin && (
-										<Link
-											route="admin.dashboard"
-											className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium w-full"
-											onClick={closeMobileMenu}
-										>
-											<i className="i-mdi-shield-account h-5 min-w-5 block" />
-											Admin
-										</Link>
-									)}
-									<div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
-										<span className="text-sm text-gray-600 dark:text-gray-400">
-											Bonjour,
-										</span>
-										<span className="text-sm font-medium text-gray-900 dark:text-white flex-1 truncate">
-											{auth.user?.fullname}
-										</span>
-										<Link
-											route="user.settings"
-											className="p-1.5 rounded-md hover:bg-gray-50 dark:hover:bg-gray-900/20 transition-colors"
-											title={t`Settings`}
-											onClick={closeMobileMenu}
-										>
-											<i className="i-mdi-cog text-gray-600 dark:text-gray-400 h-5 min-w-5 block" />
-										</Link>
-										<button
-											type="button"
-											onClick={handleLogout}
-											className="cursor-pointer p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-											aria-label={t`Logout`}
-											title={t`Logout`}
-											data-testid="logout"
-										>
-											<i className="i-mdi-logout text-red-600 dark:text-red-400 h-5 min-w-5 block" />
-										</button>
-									</div>
-								</>
-							) : (
-								<MobileGuestAuthActions onNavigate={closeMobileMenu} />
-							)}
-						</div>
-						<div className="pt-2 border-t border-gray-200 dark:border-gray-700 space-y-2">
-							{footerLinks.map((link) => (
-								<IconLink
-									key={link.href}
-									href={link.href}
-									icon={link.icon}
-									external={!link.internal}
-									onClick={closeMobileMenu}
-									fullWidth
-								>
-									{link.label}
-								</IconLink>
-							))}
-						</div>
-						<div className="pt-2 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
-							<MadeBy
-								onClick={closeMobileMenu}
-								className="text-sm text-gray-600 dark:text-gray-400"
-							/>
-							<div className="flex items-center gap-2">
-								<LocaleSwitcher />
-								<ThemeToggle />
-							</div>
-						</div>
-					</div>
-					<div className="flex-1 flex items-center justify-center">
-						<img
-							src="/logo.png"
-							alt="MyLinks's logo"
-							referrerPolicy="no-referrer"
-							className="w-full opacity-5 grayscale"
-						/>
+								)}
+								<AccountMenu side="bottom" />
+							</>
+						) : (
+							<MobileGuestAuthActions onNavigate={closeMobileMenu} />
+						)}
 					</div>
 				</div>
 			</div>
