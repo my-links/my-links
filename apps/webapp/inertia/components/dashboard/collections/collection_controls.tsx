@@ -2,16 +2,18 @@ import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { PageProps } from '@adonisjs/inertia/types';
-import { IconButton, Modal } from '@minimalstuff/ui';
-import { forwardRef, MouseEvent, useImperativeHandle } from 'react';
+import { ContextMenu, IconButton, MenuItem, Modal } from '@minimalstuff/ui';
+import {
+	forwardRef,
+	useImperativeHandle,
+	useRef,
+	type MouseEvent as ReactMouseEvent,
+} from 'react';
 
 import { cn } from '~/lib/cn';
-import { useContextMenu } from '~/hooks/use_context_menu';
 import { CreateLinkModal } from '../modals/create_link_modal';
 import { EditCollectionModal } from '../modals/edit_collection_modal';
 import { DeleteCollectionModal } from '../modals/delete_collection_modal';
-import { ContextMenu } from '~/components/common/context_menu/context_menu';
-import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 
 type Collection = Data.Collection;
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
@@ -44,20 +46,11 @@ export const CollectionControls = forwardRef<
 		!activeCollection ||
 		activeCollection.id !== collection.id ||
 		activeCollection.isOwner !== false;
-	const {
-		menuPosition,
-		shouldRender,
-		isVisible,
-		menuRef,
-		menuContentRef,
-		openMenu,
-		closeMenu,
-		toggleMenu,
-		handleContextMenu,
-	} = useContextMenu();
 
-	const handleCreateLink = () => {
-		closeMenu();
+	const menuRef = useRef<HTMLDivElement>(null);
+
+	const handleCreateLink = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		const call = Modal.call({
 			title: <Trans>Create a link</Trans>,
 			children: (
@@ -69,8 +62,8 @@ export const CollectionControls = forwardRef<
 		});
 	};
 
-	const handleEditCollection = () => {
-		closeMenu();
+	const handleEditCollection = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		const call = Modal.call({
 			title: <Trans>Edit a collection</Trans>,
 			children: (
@@ -82,8 +75,8 @@ export const CollectionControls = forwardRef<
 		});
 	};
 
-	const handleDeleteCollection = () => {
-		closeMenu();
+	const handleDeleteCollection = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		const call = Modal.call({
 			title: <Trans>Delete a collection</Trans>,
 			children: (
@@ -95,14 +88,16 @@ export const CollectionControls = forwardRef<
 		});
 	};
 
-	const handleStopPropagation = (event: MouseEvent<HTMLButtonElement>) => {
-		event.preventDefault();
-		event.stopPropagation();
-	};
-
 	useImperativeHandle(ref, () => ({
 		openContextMenu: (x: number, y: number) => {
-			openMenu({ x, y });
+			menuRef.current?.dispatchEvent(
+				new MouseEvent('contextmenu', {
+					bubbles: true,
+					cancelable: true,
+					clientX: x,
+					clientY: y,
+				})
+			);
 		},
 	}));
 
@@ -111,7 +106,35 @@ export const CollectionControls = forwardRef<
 	}
 
 	return (
-		<>
+		<ContextMenu
+			ref={menuRef}
+			// contents: an empty box here eats a `gap-3` slot next to the icon in rail mode.
+			className="contents"
+			items={
+				<>
+					<MenuItem
+						icon="i-ant-design-plus-outlined"
+						onClick={handleCreateLink}
+					>
+						<Trans>Add link</Trans>
+					</MenuItem>
+					{!collection.isDefault && (
+						<>
+							<MenuItem icon="i-octicon-pencil" onClick={handleEditCollection}>
+								<Trans>Edit collection</Trans>
+							</MenuItem>
+							<MenuItem
+								icon="i-ion-trash-outline"
+								onClick={handleDeleteCollection}
+								danger
+							>
+								<Trans>Delete collection</Trans>
+							</MenuItem>
+						</>
+					)}
+				</>
+			}
+		>
 			{/* Nothing at all rather than an empty wrapper: the row is a centred
 			flex box, and a zero-width child still eats a `gap` and shifts the
 			icon off centre in the rail. */}
@@ -122,16 +145,12 @@ export const CollectionControls = forwardRef<
 						'bg-gradient-to-l from-gray-50 via-gray-50/90 to-transparent dark:from-gray-900 dark:via-gray-900/90',
 						'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'
 					)}
-					ref={menuRef}
 					onClick={(e) => e.stopPropagation()}
 				>
 					<IconButton
 						icon="i-ant-design-plus-outlined"
 						size="sm"
-						onClick={(e) => {
-							handleStopPropagation(e);
-							handleCreateLink();
-						}}
+						onClick={handleCreateLink}
 						aria-label={`Add link to ${collection.name}`}
 					/>
 
@@ -143,46 +162,21 @@ export const CollectionControls = forwardRef<
 							icon="i-mdi-dots-vertical"
 							size="sm"
 							onClick={(e) => {
-								handleStopPropagation(e);
-								toggleMenu(e);
+								e.stopPropagation();
+								menuRef.current?.dispatchEvent(
+									new MouseEvent('contextmenu', {
+										bubbles: true,
+										cancelable: true,
+										clientX: e.clientX,
+										clientY: e.clientY,
+									})
+								);
 							}}
-							onContextMenu={handleContextMenu}
 							aria-label="Menu"
 						/>
 					)}
 				</div>
 			)}
-
-			<ContextMenu
-				isVisible={isVisible}
-				shouldRender={shouldRender}
-				menuPosition={menuPosition}
-				menuContentRef={menuContentRef}
-			>
-				<ContextMenuItem
-					icon="i-ant-design-plus-outlined"
-					onClick={handleCreateLink}
-				>
-					<Trans>Add link</Trans>
-				</ContextMenuItem>
-				{!collection.isDefault && (
-					<>
-						<ContextMenuItem
-							icon="i-octicon-pencil"
-							onClick={handleEditCollection}
-						>
-							<Trans>Edit collection</Trans>
-						</ContextMenuItem>
-						<ContextMenuItem
-							icon="i-ion-trash-outline"
-							onClick={handleDeleteCollection}
-							variant="danger"
-						>
-							<Trans>Delete collection</Trans>
-						</ContextMenuItem>
-					</>
-				)}
-			</ContextMenu>
-		</>
+		</ContextMenu>
 	);
 });

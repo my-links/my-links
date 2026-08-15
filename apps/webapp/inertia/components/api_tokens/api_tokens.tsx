@@ -1,11 +1,16 @@
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Button, ConfirmModal, IconButton, Modal } from '@minimalstuff/ui';
+import {
+	Button,
+	ConfirmModal,
+	CopyButton,
+	IconButton,
+	Modal,
+} from '@minimalstuff/ui';
 
 import { formatDate } from '~/lib/format';
 import { CreateTokenModal } from './create_token_modal';
 import { NaContent } from '~/components/common/na_content';
-import { CopyButton } from '~/components/common/copy_button';
 import { useApiTokens, type ApiToken } from '~/hooks/use_api_tokens';
 import { DataTable } from '~/components/common/data_table/data_table';
 

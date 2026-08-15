@@ -1,8 +1,7 @@
 import { Trans } from '@lingui/react/macro';
-import { Button, IconButton, Modal } from '@minimalstuff/ui';
+import { Button, IconButton, Kbd, Modal } from '@minimalstuff/ui';
 
 import { KEYS } from '~/consts/keys';
-import { Kbd } from '~/components/common/kbd';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardHeaderProps } from '~/components/dashboard/headers/dashboard_header';

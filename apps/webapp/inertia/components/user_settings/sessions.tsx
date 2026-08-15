@@ -1,8 +1,7 @@
 import { Trans } from '@lingui/react/macro';
-import { ConfirmModal, IconButton } from '@minimalstuff/ui';
+import { Badge, ConfirmModal, IconButton } from '@minimalstuff/ui';
 
 import { formatDate } from '~/lib/format';
-import { Badge } from '~/components/common/badge';
 import { useSessions } from '~/hooks/use_sessions';
 import { NaContent } from '~/components/common/na_content';
 import { DataTable } from '~/components/common/data_table/data_table';
@@ -70,7 +69,7 @@ export function Sessions() {
 								<span className="flex items-center gap-2">
 									{session.browser?.name ?? <NaContent />}
 									{session.isCurrent && (
-										<Badge variant="success" size="xs">
+										<Badge color="success" size="xs">
 											<Trans>Current</Trans>
 										</Badge>
 									)}

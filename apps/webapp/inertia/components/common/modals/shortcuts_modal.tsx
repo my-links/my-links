@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
+import { Kbd } from '@minimalstuff/ui';
 
 import type { KEYS } from '~/consts/keys';
-import { Kbd } from '~/components/common/kbd';
 import { formatShortcut } from '~/lib/format_shortcut';
 import { SHORTCUT_SECTIONS } from '~/consts/shortcuts';
 

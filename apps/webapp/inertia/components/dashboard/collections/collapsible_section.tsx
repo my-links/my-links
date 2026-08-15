@@ -1,21 +1,18 @@
-import { ReactNode } from 'react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import type { Data } from '@generated/data';
-import { IconButton } from '@minimalstuff/ui';
+import { ContextMenu, IconButton, MenuItem } from '@minimalstuff/ui';
+import { ReactNode, useRef, type MouseEvent as ReactMouseEvent } from 'react';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
 import { cn } from '~/lib/cn';
-import { useContextMenu } from '~/hooks/use_context_menu';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { SortableCollectionItem } from './sortable_collection_item';
 import { useSectionCollapseStore } from '~/stores/section_collapse_store';
-import { ContextMenu } from '~/components/common/context_menu/context_menu';
-import { ContextMenuItem } from '~/components/common/context_menu/context_menu_item';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
@@ -47,16 +44,7 @@ export function CollapsibleSection({
 	);
 	const toggleSection = useSectionCollapseStore((state) => state.toggleSection);
 	const isRail = useSidebarMode() === 'rail';
-	const {
-		menuPosition,
-		shouldRender,
-		isVisible,
-		menuRef,
-		menuContentRef,
-		toggleMenu,
-		closeMenu,
-		handleContextMenu,
-	} = useContextMenu();
+	const menuRef = useRef<HTMLDivElement>(null);
 
 	if (collections.length === 0 && !alwaysShow) {
 		return null;
@@ -90,22 +78,39 @@ export function CollapsibleSection({
 		);
 	}
 
-	const handleMoveUp = () => {
-		closeMenu();
+	const handleMoveUp = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		onMoveUp();
 	};
 
-	const handleMoveDown = () => {
-		closeMenu();
+	const handleMoveDown = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
 		onMoveDown();
 	};
 
 	return (
 		<div className={cn('mb-2', isEmpty && 'opacity-40')}>
-			<div
+			<ContextMenu
 				ref={menuRef}
-				onContextMenu={handleContextMenu}
 				className="relative flex items-center w-full mb-1 rounded transition-colors gap-1 group hover:bg-white/50 dark:hover:bg-gray-800/50"
+				items={
+					<>
+						<MenuItem
+							icon="i-ant-design-up-outlined"
+							onClick={handleMoveUp}
+							disabled={!canMoveUp}
+						>
+							<Trans>Move up</Trans>
+						</MenuItem>
+						<MenuItem
+							icon="i-ant-design-down-outlined"
+							onClick={handleMoveDown}
+							disabled={!canMoveDown}
+						>
+							<Trans>Move down</Trans>
+						</MenuItem>
+					</>
+				}
 			>
 				<button
 					onClick={() => shouldShowCollapse && toggleSection(section)}
@@ -146,33 +151,19 @@ export function CollapsibleSection({
 						size="sm"
 						onClick={(e) => {
 							e.stopPropagation();
-							toggleMenu(e);
+							menuRef.current?.dispatchEvent(
+								new MouseEvent('contextmenu', {
+									bubbles: true,
+									cancelable: true,
+									clientX: e.clientX,
+									clientY: e.clientY,
+								})
+							);
 						}}
 						aria-label={t`Section options`}
 					/>
 				</div>
-				<ContextMenu
-					isVisible={isVisible}
-					shouldRender={shouldRender}
-					menuPosition={menuPosition}
-					menuContentRef={menuContentRef}
-				>
-					<ContextMenuItem
-						icon="i-ant-design-up-outlined"
-						onClick={handleMoveUp}
-						disabled={!canMoveUp}
-					>
-						<Trans>Move up</Trans>
-					</ContextMenuItem>
-					<ContextMenuItem
-						icon="i-ant-design-down-outlined"
-						onClick={handleMoveDown}
-						disabled={!canMoveDown}
-					>
-						<Trans>Move down</Trans>
-					</ContextMenuItem>
-				</ContextMenu>
-			</div>
+			</ContextMenu>
 			{isExpanded && (
 				<div className="space-y-1">
 					<SortableContext
