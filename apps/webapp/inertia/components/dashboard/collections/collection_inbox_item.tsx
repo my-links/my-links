@@ -5,6 +5,7 @@ import { Link } from '@adonisjs/inertia/react';
 import { PageProps } from '@adonisjs/inertia/types';
 
 import { cn } from '~/lib/cn';
+import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
@@ -54,7 +55,7 @@ export function CollectionInboxItem({
 				data-tour="inbox"
 				className={cn(
 					'flex items-center gap-3 py-2 rounded-md transition-colors',
-					isRail ? 'justify-center px-0' : 'px-4',
+					isRail ? RAIL_ITEM_CLASS : 'px-4',
 					'hover:bg-white/50 dark:hover:bg-gray-800/50',
 					'text-gray-700 dark:text-gray-300',
 					isActive &&

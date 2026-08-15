@@ -61,12 +61,16 @@ export function DashboardHeader({
 		>
 			<div className="flex flex-col justify-between gap-4">
 				<div className="flex items-center gap-4 flex-1">
-					<IconButton
-						icon="i-ant-design-menu-outlined"
-						onClick={onToggleSidebar}
-						aria-label="Toggle sidebar"
-						variant="outline"
-					/>
+					{/* Desktop keeps its toggle in the sidebar, which never leaves
+					the screen; mobile hides the sidebar outright and needs one here. */}
+					{isMobile && (
+						<IconButton
+							icon="i-ant-design-menu-outlined"
+							onClick={onToggleSidebar}
+							aria-label="Toggle sidebar"
+							variant="outline"
+						/>
+					)}
 
 					{!isMobile && activeCollection?.isOwner !== false && (
 						<Button color="primary" onClick={onCreateLink} variant="subtle">

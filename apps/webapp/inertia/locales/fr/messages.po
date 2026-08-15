@@ -130,7 +130,7 @@ msgstr "Ajoutez une connexion par e-mail et mot de passe à ce compte, en plus d
 msgid "Add another sign-in method before removing this one"
 msgstr "Ajoutez une autre méthode de connexion avant de retirer celle-ci"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:153
+#: inertia/components/dashboard/collections/collection_controls.tsx:163
 msgid "Add link"
 msgstr "Ajouter un lien"
 
@@ -261,7 +261,7 @@ msgstr "Choisissez un nouveau mot de passe"
 msgid "Clear"
 msgstr "Effacer"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:81
+#: inertia/components/dashboard/headers/dashboard_header.tsx:85
 msgid "Click to copy link"
 msgstr "Cliquer pour copier le lien"
 
@@ -348,7 +348,7 @@ msgstr "Les cookies utilisés sur MyLinks sont essentiels pour assurer le bon fo
 msgid "Copied"
 msgstr "Copié"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:82
+#: inertia/components/dashboard/headers/dashboard_header.tsx:86
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -371,7 +371,7 @@ msgstr "Créer"
 msgid "Create a collection"
 msgstr "Créer une collection"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:56
+#: inertia/components/dashboard/collections/collection_controls.tsx:62
 #: inertia/consts/shortcuts.tsx:26
 #: inertia/pages/dashboard.tsx:99
 msgid "Create a link"
@@ -402,7 +402,7 @@ msgid "Create link {0}"
 msgstr "Créer un lien {0}"
 
 #. placeholder {0}: KEYS.OPEN_CREATE_LINK_KEY
-#: inertia/components/dashboard/headers/dashboard_header.tsx:73
+#: inertia/components/dashboard/headers/dashboard_header.tsx:77
 msgid "Create link <0>{0}</0>"
 msgstr ""
 
@@ -490,7 +490,7 @@ msgstr "Connexions base de données"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:82
+#: inertia/components/dashboard/collections/collection_controls.tsx:88
 #: inertia/pages/dashboard.tsx:89
 msgid "Delete a collection"
 msgstr "Supprimer une collection"
@@ -511,7 +511,7 @@ msgstr "Supprimer le compte"
 msgid "Delete accounts"
 msgstr "Supprimer les comptes"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:168
+#: inertia/components/dashboard/collections/collection_controls.tsx:178
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:132
 msgid "Delete collection"
 msgstr "Supprimer une collection"
@@ -571,7 +571,7 @@ msgstr "Télécharger le JSON"
 msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Déposez un lien. Récupérez un favori que vous retrouverez."
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:69
+#: inertia/components/dashboard/collections/collection_controls.tsx:75
 #: inertia/pages/dashboard.tsx:74
 msgid "Edit a collection"
 msgstr "Modifier une collection"
@@ -581,7 +581,7 @@ msgstr "Modifier une collection"
 msgid "Edit a link"
 msgstr "Modifier un lien"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:161
+#: inertia/components/dashboard/collections/collection_controls.tsx:171
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:125
 msgid "Edit collection"
 msgstr "Modifier une collection"
@@ -664,8 +664,8 @@ msgstr "Exportez tout, à tout moment"
 msgid "Failing"
 msgstr "Défaillant"
 
-#: inertia/components/dashboard/collections/collection_favorite_item.tsx:46
-#: inertia/components/dashboard/collections/collection_favorite_item.tsx:57
+#: inertia/components/dashboard/collections/collection_favorite_item.tsx:47
+#: inertia/components/dashboard/collections/collection_favorite_item.tsx:58
 #: inertia/components/dashboard/forms/form_link_content.tsx:170
 msgid "Favorite"
 msgstr "Favoris"
@@ -1111,7 +1111,7 @@ msgstr "Opérationnel"
 msgid "or"
 msgstr "ou"
 
-#: inertia/pages/dashboard.tsx:177
+#: inertia/pages/dashboard.tsx:180
 msgid "Or create a new collection to get started"
 msgstr "Ou créez une nouvelle collection pour commencer"
 
@@ -1255,8 +1255,8 @@ msgid "Save it before the tab closes"
 msgstr "Enregistrez-le avant de fermer l'onglet"
 
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:73
-#: inertia/components/dashboard/sidebar/sidebar_header.tsx:39
-#: inertia/components/dashboard/sidebar/sidebar_header.tsx:40
+#: inertia/components/dashboard/sidebar/sidebar_header.tsx:61
+#: inertia/components/dashboard/sidebar/sidebar_header.tsx:62
 #: inertia/components/tour/dashboard_tour.tsx:22
 #: inertia/pages/dashboard.tsx:106
 msgid "Search"
@@ -1283,7 +1283,7 @@ msgstr "Voir les nouveautés"
 msgid "See where your collections, search and the main actions live. It only takes a minute."
 msgstr "Découvrez où se trouvent vos collections, la recherche et les actions principales. Ça ne prend qu'une minute."
 
-#: inertia/pages/dashboard.tsx:174
+#: inertia/pages/dashboard.tsx:177
 msgid "Select a collection to view its links"
 msgstr "Sélectionnez une collection pour voir ses liens"
 
@@ -1507,6 +1507,11 @@ msgstr "Pour accéder à certaines fonctionnalités de MyLinks, vous devrez cré
 msgid "To create personalized collections and links and associate them with their author, we collect the following information:"
 msgstr "Pour créer des collections et des liens personnalisés et les associer à leur auteur, nous collectons les informations suivantes :"
 
+#: inertia/components/dashboard/sidebar/sidebar_header.tsx:27
+#: inertia/components/dashboard/sidebar/sidebar_header.tsx:28
+msgid "Toggle sidebar"
+msgstr "Afficher ou replier la barre latérale"
+
 #: inertia/components/api_tokens/api_tokens.tsx:130
 msgid "Token"
 msgstr "Jeton"
@@ -1541,7 +1546,7 @@ msgstr "Saisissez-le à nouveau"
 msgid "Unconfirmed"
 msgstr "Non confirmée"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:115
+#: inertia/components/dashboard/headers/dashboard_header.tsx:118
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:142
 #: inertia/pages/shared.tsx:85
 msgid "Unfollow"
