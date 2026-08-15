@@ -1,6 +1,5 @@
+import { Kbd } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
-
-import { Kbd } from '~/components/common/kbd';
 
 interface SearchButtonProps {
 	onClick: () => void;

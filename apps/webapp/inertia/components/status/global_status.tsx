@@ -1,7 +1,7 @@
+import { Badge } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
 
 import { cn } from '~/lib/cn';
-import { Badge } from '~/components/common/badge';
 import { getHealthStatusIcon, getHealthStatusVariant } from '~/lib/health';
 
 interface GlobalStatusProps {
@@ -10,7 +10,7 @@ interface GlobalStatusProps {
 
 export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
 	const overallStatus = isHealthy ? ('ok' as const) : ('error' as const);
-	const overallVariant = getHealthStatusVariant(overallStatus);
+	const overallColor = getHealthStatusVariant(overallStatus);
 	const overallIcon = getHealthStatusIcon(overallStatus);
 
 	return (
@@ -37,7 +37,7 @@ export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
 						<h2 className="text-2xl text-gray-900 dark:text-white">
 							<Trans>Global status</Trans>
 						</h2>
-						<Badge variant={overallVariant}>
+						<Badge color={overallColor}>
 							{isHealthy ? <Trans>Operational</Trans> : <Trans>Failing</Trans>}
 						</Badge>
 					</div>

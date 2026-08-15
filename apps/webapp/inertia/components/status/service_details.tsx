@@ -1,8 +1,8 @@
+import { Badge } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { cn } from '~/lib/cn';
-import { Badge } from '~/components/common/badge';
 import { ThresholdDisplay } from '~/components/status/threshold_display';
 import {
 	getHealthServiceDisplayName,
@@ -23,7 +23,7 @@ export const ServiceDetails = ({ checks }: Readonly<ServiceDetailsProps>) => (
 		</h2>
 		<div className="space-y-4">
 			{checks.map((check) => {
-				const variant = getHealthStatusVariant(check.status);
+				const statusVariant = getHealthStatusVariant(check.status);
 				const icon = getHealthStatusIcon(check.status);
 				const statusColor = getHealthStatusColorClass(check.status);
 
@@ -38,7 +38,7 @@ export const ServiceDetails = ({ checks }: Readonly<ServiceDetailsProps>) => (
 								<h3 className="text-lg font-medium text-gray-900 dark:text-white">
 									{getHealthServiceDisplayName(check.name)}
 								</h3>
-								<Badge variant={variant}>
+								<Badge color={statusVariant}>
 									{getHealthStatusLabel(check.status)}
 								</Badge>
 							</div>

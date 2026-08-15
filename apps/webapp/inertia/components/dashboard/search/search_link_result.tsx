@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import { Data } from '@generated/data';
+import { Highlight } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
 import type { FuzzyMatch } from '~/lib/fuzzy_links';
-import { Highlight } from '~/components/common/highlight';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
 import {
 	LinkControls,
