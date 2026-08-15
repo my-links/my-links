@@ -62,4 +62,9 @@ export const useDashboardLayoutStore = create<DashboardLayoutStore>()(
 	)
 );
 
-export { SIDEBAR_MAX_WIDTH, SIDEBAR_MIN_WIDTH, SIDEBAR_RAIL_WIDTH };
+export {
+	SIDEBAR_DEFAULT_WIDTH,
+	SIDEBAR_MAX_WIDTH,
+	SIDEBAR_MIN_WIDTH,
+	SIDEBAR_RAIL_WIDTH,
+};
