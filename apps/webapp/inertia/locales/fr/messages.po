@@ -278,7 +278,7 @@ msgid "Collapse"
 msgstr "Réduire"
 
 #. placeholder {0}: activeCollection.author?.fullname
-#: inertia/pages/shared.tsx:99
+#: inertia/pages/shared.tsx:100
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection gérée par <0>{0}</0>"
 
@@ -672,7 +672,7 @@ msgstr "Favoris"
 msgid "Find it in a search, not a scroll"
 msgstr "Retrouvez-le grâce à une recherche, pas en faisant défiler"
 
-#: inertia/pages/shared.tsx:89
+#: inertia/pages/shared.tsx:90
 msgid "Follow"
 msgstr "Suivre"
 
@@ -690,12 +690,12 @@ msgid "Followed, public and private collections live here. Drag a collection to 
 msgstr "Vos collections suivies, publiques et privées sont ici. Faites glisser une collection pour la réordonner, ou repliez/dépliez toute une section avec les boutons en haut."
 
 #: inertia/components/dashboard/views/collection_view_content.tsx:59
-#: inertia/pages/shared.tsx:109
+#: inertia/pages/shared.tsx:110
 msgid "follower"
 msgstr "abonné"
 
 #: inertia/components/dashboard/views/collection_view_content.tsx:61
-#: inertia/pages/shared.tsx:111
+#: inertia/pages/shared.tsx:112
 msgid "followers"
 msgstr "abonnés"
 
@@ -1542,7 +1542,7 @@ msgstr "Non confirmée"
 
 #: inertia/components/dashboard/headers/dashboard_header.tsx:127
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:142
-#: inertia/pages/shared.tsx:85
+#: inertia/pages/shared.tsx:86
 msgid "Unfollow"
 msgstr "Ne plus suivre"
 
