@@ -5,6 +5,7 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import {
 	useDashboardLayoutStore,
+	SIDEBAR_DEFAULT_WIDTH,
 	SIDEBAR_RAIL_WIDTH,
 } from '~/stores/dashboard_layout_store';
 
@@ -23,6 +24,10 @@ export function ResizableSidebar({
 	const sidebarRef = useRef<HTMLDivElement>(null);
 	const startXRef = useRef<number>(0);
 	const startWidthRef = useRef<number>(0);
+
+	const handleDoubleClick = () => {
+		setSidebarWidth(SIDEBAR_DEFAULT_WIDTH);
+	};
 
 	const handleMouseDown = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -73,6 +78,7 @@ export function ResizableSidebar({
 			{!isRail && (
 				<div
 					onMouseDown={handleMouseDown}
+					onDoubleClick={handleDoubleClick}
 					className={cn(
 						'absolute top-0 right-0 w-1 h-full cursor-col-resize',
 						'hover:bg-blue-500/50 transition-colors',
