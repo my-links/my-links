@@ -1,9 +1,8 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
+import { ContextMenu, MenuItem } from '@minimalstuff/ui';
 
-import { useContextMenu } from '@/hooks/use_context_menu';
 import { KebabMenu } from '@/components/common/kebab_menu';
-import { ContextMenu } from '@/components/common/context_menu';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 
 interface CollapsibleSectionProps {
@@ -42,23 +41,28 @@ export function CollapsibleSection({
 	onMoveDown,
 	children,
 }: Readonly<CollapsibleSectionProps>) {
-	const contextMenu = useContextMenu();
-
-	const handleMoveUp = () => {
-		contextMenu.closeMenu();
-		onMoveUp();
-	};
-
-	const handleMoveDown = () => {
-		contextMenu.closeMenu();
-		onMoveDown();
-	};
-
 	return (
 		<div className="pb-2">
-			<div
-				onContextMenu={contextMenu.handleContextMenu}
+			<ContextMenu
 				className="group flex items-center gap-1 rounded-md px-2 py-1.5 hover:bg-white/50 dark:hover:bg-gray-800/50"
+				items={
+					<>
+						<MenuItem
+							icon="i-ant-design-up-outlined"
+							onClick={onMoveUp}
+							disabled={!canMoveUp}
+						>
+							Move up
+						</MenuItem>
+						<MenuItem
+							icon="i-ant-design-down-outlined"
+							onClick={onMoveDown}
+							disabled={!canMoveDown}
+						>
+							Move down
+						</MenuItem>
+					</>
+				}
 			>
 				<button
 					onClick={(event) => onToggle(event.shiftKey)}
@@ -81,42 +85,20 @@ export function CollapsibleSection({
 					<KebabMenu label={`${title} section options`}>
 						<KebabMenuItem
 							icon="i-ant-design-up-outlined"
-							onClick={handleMoveUp}
+							onClick={onMoveUp}
 							disabled={!canMoveUp}
 						>
 							Move up
 						</KebabMenuItem>
 						<KebabMenuItem
 							icon="i-ant-design-down-outlined"
-							onClick={handleMoveDown}
+							onClick={onMoveDown}
 							disabled={!canMoveDown}
 						>
 							Move down
 						</KebabMenuItem>
 					</KebabMenu>
 				</div>
-			</div>
-			<ContextMenu
-				isVisible={contextMenu.isVisible}
-				shouldRender={contextMenu.shouldRender}
-				menuPosition={contextMenu.menuPosition}
-				menuContentRef={contextMenu.menuContentRef}
-				onBackdropClick={contextMenu.closeMenu}
-			>
-				<KebabMenuItem
-					icon="i-ant-design-up-outlined"
-					onClick={handleMoveUp}
-					disabled={!canMoveUp}
-				>
-					Move up
-				</KebabMenuItem>
-				<KebabMenuItem
-					icon="i-ant-design-down-outlined"
-					onClick={handleMoveDown}
-					disabled={!canMoveDown}
-				>
-					Move down
-				</KebabMenuItem>
 			</ContextMenu>
 			{isExpanded && <div className="ml-1 space-y-0.5">{children}</div>}
 		</div>
