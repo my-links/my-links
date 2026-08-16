@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.3.0](https://github.com/my-links/my-links/compare/webapp-v5.2.0...webapp-v5.3.0) (2026-08-16)
+
+### Features
+
+* **webapp:** replace scheduler container with in-process cron ([1499784](https://github.com/my-links/my-links/commit/1499784fbc4a960decacee4dc3f757568b509be3))
+
+### Bug Fixes
+
+* **webapp:** scope changelog commits to webapp dir ([42c35e6](https://github.com/my-links/my-links/commit/42c35e6f1c0282796b1948e497131ed2b9b26de4))
+
 ## [5.2.0](https://github.com/my-links/my-links/compare/webapp-v5.1.1...webapp-v5.2.0) (2026-08-16)
 
 ### Features
