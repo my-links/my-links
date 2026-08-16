@@ -1,11 +1,19 @@
 @component('emails/layout', { title: 'Your account is scheduled for deletion' })
   <p style="margin: 0 0 16px;">Hi {{ name }},</p>
 
+  @if(reason === 'inactivity')
+  <p style="margin: 0 0 16px;">
+    This {{ brandName }} account hasn't been used in a while, so it has been
+    scheduled for deletion. Every session and browser extension token was
+    signed out, and the account is disabled starting now.
+  </p>
+  @else
   <p style="margin: 0 0 16px;">
     A deletion request just came in for your {{ brandName }} account. Every
     session and browser extension token was signed out, and the account is
     disabled starting now.
   </p>
+  @end
 
   <p style="margin: 0 0 16px;">
     Nothing is permanently deleted yet. For the next {{ gracePeriodDays }}
@@ -15,8 +23,15 @@
 
   @!component('emails/action_button', { url: loginUrl, label: 'Log in to cancel' })
 
+  @if(reason === 'inactivity')
+  <p style="margin: 0;">
+    If you want to keep this account, logging back in is all it takes.
+    Otherwise it will be permanently wiped once the grace period ends.
+  </p>
+  @else
   <p style="margin: 0;">
     If that was you and you meant to delete the account, there is nothing
-    else to do — it will be permanently wiped once the grace period ends.
+    else to do. It will be permanently wiped once the grace period ends.
   </p>
+  @end
 @end

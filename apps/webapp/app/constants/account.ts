@@ -23,3 +23,25 @@ export const ACCOUNT_ROLES = [
  * indefinitely.
  */
 export const ACCOUNT_DELETION_GRACE_PERIOD_DAYS = 30;
+
+/**
+ * How long an account can go unseen before the inactivity sweep starts its
+ * grace period too. Counted from `lastSeenAt`, or from `createdAt` for an
+ * account that was never signed into at all.
+ */
+export const ACCOUNT_INACTIVITY_THRESHOLD_DAYS = 365;
+
+/**
+ * Why a deletion was requested — the only thing this changes is the wording
+ * of the confirmation mail, since an inactive account never asked for
+ * anything and telling it "your request" would be wrong. `requestAccountDeletion`
+ * defaults to the self-service reason; the inactivity sweep is the only other
+ * caller.
+ */
+export const ACCOUNT_DELETION_REASON = {
+	SELF_REQUESTED: 'self_requested',
+	INACTIVITY: 'inactivity',
+} as const;
+
+export type AccountDeletionReason =
+	(typeof ACCOUNT_DELETION_REASON)[keyof typeof ACCOUNT_DELETION_REASON];
