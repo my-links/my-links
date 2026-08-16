@@ -31,6 +31,7 @@ services:
         - APP_URL=${APP_URL}
     environment:
       - DB_HOST=postgres
+      - DB_PORT=5432
       - HOST=0.0.0.0
       - NODE_ENV=production
     env_file:
@@ -53,6 +54,7 @@ services:
     entrypoint: ['supercronic', '/app/crontab']
     environment:
       - DB_HOST=postgres
+      - DB_PORT=5432
       - NODE_ENV=production
     env_file:
       - .env
