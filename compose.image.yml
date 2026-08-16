@@ -31,7 +31,7 @@ services:
       - HOST=0.0.0.0
       - NODE_ENV=production
     env_file:
-      - apps/webapp/.env
+      - .env
     depends_on:
       postgres:
         condition: service_healthy
@@ -47,7 +47,7 @@ services:
       - DB_HOST=postgres
       - NODE_ENV=production
     env_file:
-      - apps/webapp/.env
+      - .env
     depends_on:
       postgres:
         condition: service_healthy

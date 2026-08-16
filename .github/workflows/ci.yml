@@ -72,7 +72,7 @@ jobs:
       - name: Write .env
         working-directory: apps/webapp
         run: |
-          cp .env.example .env
+          cp ../../.env.example .env
           node ace generate:key
 
       - name: Install Playwright's Chromium
