@@ -10,6 +10,7 @@ import {
 	Input,
 } from '@minimalstuff/ui';
 
+import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
 import { formatDate } from '~/lib/format';
 import { NaContent } from '~/components/common/na_content';
@@ -20,6 +21,7 @@ import { DataTable } from '~/components/common/data_table/data_table';
 import { useUsersSelection } from '~/hooks/admin/use_users_selection';
 import { AccountActions } from '~/components/admin/users/account_actions';
 import { AuthMethodsCell } from '~/components/admin/users/auth_methods_cell';
+import { PendingDeletionBadge } from '~/components/admin/users/pending_deletion_badge';
 import { EmailVerificationBadge } from '~/components/admin/users/email_verification_badge';
 
 type UserWithCounters = Data.User.Variants['withCounters'];
@@ -137,6 +139,14 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 				data={sortedData}
 				getRowKey={(user) => String(user.id)}
 				minWidthClassName="min-w-[1280px]"
+				rowClassName={(user) =>
+					cn(
+						'transition-colors',
+						user.pendingDeletionAt
+							? 'bg-red-50/60 hover:bg-red-50 dark:bg-red-900/10 dark:hover:bg-red-900/20'
+							: 'hover:bg-gray-50 dark:hover:bg-gray-700/30'
+					)
+				}
 				sorting={{
 					sortBy,
 					reversed: reverseSortDirection,
@@ -183,7 +193,14 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 						sortKey: 'emailVerifiedAt',
 						cellClassName: 'px-6 py-4',
 						render: (user) => (
-							<EmailVerificationBadge emailVerifiedAt={user.emailVerifiedAt} />
+							<div className="flex flex-col items-start gap-1.5">
+								<EmailVerificationBadge
+									emailVerifiedAt={user.emailVerifiedAt}
+								/>
+								<PendingDeletionBadge
+									pendingDeletionAt={user.pendingDeletionAt}
+								/>
+							</div>
 						),
 					},
 					{
