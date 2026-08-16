@@ -42,26 +42,6 @@ services:
     ports:
       - ${PORT}:3333
 
-  scheduler:
-    container_name: my-links-scheduler
-    restart: always
-    build:
-      context: .
-      dockerfile: apps/webapp/Dockerfile
-      target: production
-      args:
-        - APP_URL=${APP_URL}
-    entrypoint: ['supercronic', '/app/crontab']
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - NODE_ENV=production
-    env_file:
-      - .env
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   # Opt-in local relay: `docker compose --profile smtp up`, then point
   # SMTP_HOST at `smtp` and SMTP_PORT at 587. Left out of the default stack on
   # purpose — mail sent straight from a container without SPF, DKIM, DMARC and

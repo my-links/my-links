@@ -46,13 +46,11 @@ dev: _dev
 	@cd {{ webapp_path }} && node ace db:seed
 	@pnpm run dev:webapp
 
-# Builds my-links/scheduler from the local Dockerfile.
 prod:
 	@docker compose {{ compose_dev }} down
 	@docker compose {{ compose_build }} pull --ignore-buildable
 	@docker compose {{ compose_build }} up -d --build --wait --remove-orphans
 
-# Runs my-links/scheduler from the published sonny93/my-links image instead of building.
 prod-pull:
 	@docker compose {{ compose_dev }} down
 	@docker compose {{ compose_image }} pull
