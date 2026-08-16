@@ -82,6 +82,7 @@ export const AUTH_EVENT_TYPE = {
 	LOGIN_FAILED: 'login_failed',
 	LOGIN_BLOCKED_UNVERIFIED: 'login_blocked_unverified',
 	LOGIN_BLOCKED_PENDING_DELETION: 'login_blocked_pending_deletion',
+	LOGIN_BLOCKED_ADMIN_DELETION: 'login_blocked_admin_deletion',
 	LOGOUT: 'logout',
 	REGISTERED: 'registered',
 	EMAIL_VERIFIED: 'email_verified',

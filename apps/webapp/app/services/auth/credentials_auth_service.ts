@@ -13,7 +13,7 @@ const DECOY_PLAIN_PASSWORD = 'this-password-belongs-to-nobody';
  * A message that varies with the cause tells an attacker which addresses are
  * worth a dictionary run.
  */
-const INVALID_CREDENTIALS_MESSAGE = 'Invalid email address or password';
+export const INVALID_CREDENTIALS_MESSAGE = 'Invalid email address or password';
 
 export type CredentialsAttempt = {
 	readonly email: string;
