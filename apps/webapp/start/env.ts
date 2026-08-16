@@ -51,13 +51,6 @@ export default await Env.create(new URL('../', import.meta.url), {
 	ALLOW_REGISTRATION: Env.schema.enum.optional(REGISTRATION_POLICIES),
 
 	/*
-  |----------------------------------------------------------
-  | Variables for configuring the limiter package
-  |----------------------------------------------------------
-  */
-	LIMITER_STORE: Env.schema.enum(['database', 'memory'] as const),
-
-	/*
 |----------------------------------------------------------
 | Variables for configuring the mail package
 |----------------------------------------------------------

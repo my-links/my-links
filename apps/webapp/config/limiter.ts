@@ -1,9 +1,8 @@
+import app from '@adonisjs/core/services/app';
 import { defineConfig, stores } from '@adonisjs/limiter';
 
-import env from '#start/env';
-
 const limiterConfig = defineConfig({
-	default: env.get('LIMITER_STORE'),
+	default: app.inTest ? 'memory' : 'database',
 	stores: {
 		/**
 		 * Database store to save rate limiting data inside a

@@ -24,7 +24,7 @@ Every `/api/v1/*` route is throttled to **300 requests per minute**, keyed by au
 
 Exceeding it returns `429 Too Many Requests` with a `Retry-After` header.
 
-The store backing the counters is set with the `LIMITER_STORE` environment variable (`database` or `memory`).
+The store backing the counters is the database.
 
 ## CORS
 

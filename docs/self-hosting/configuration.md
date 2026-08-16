@@ -19,13 +19,11 @@ cp .env.example apps/webapp/.env
 | `LOG_LEVEL`                                                       | e.g. `info`, `debug`                                                           |
 | `APP_URL`                                                         | Public application URL, e.g. `https://your-domain.com`                         |
 | `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_PASSWORD` / `DB_DATABASE` | PostgreSQL connection                                                          |
-| `LIMITER_STORE`                                                   | Where the `/api/v1/*` rate limiter keeps its counters — `database` or `memory` |
 
 ## Optional variables
 
 | Variable                                    | Notes                                                                                      |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `SESSION_DRIVER`                            | `database`, `cookie`, or `memory`; defaults to `database`                                  |
 | `TZ`                                        | Timezone, e.g. `UTC`                                                                       
 | `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups — see [Authentication](/self-hosting/authentication) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in — see [Authentication](/self-hosting/authentication)                        |
