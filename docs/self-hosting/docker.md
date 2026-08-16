@@ -48,6 +48,22 @@ services:
     ports:
       - ${PORT}:3333
 
+  # Runs the account maintenance commands on a schedule (inactive account
+  # flagging, deletion after the grace period) — same image, no web server.
+  scheduler:
+    container_name: my-links-scheduler
+    image: sonny93/my-links:latest
+    restart: always
+    entrypoint: ['supercronic', '/app/crontab']
+    environment:
+      - DB_HOST=postgres
+      - NODE_ENV=production
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres-volume:
 ```
@@ -62,7 +78,7 @@ Use [`.env.example`](https://github.com/my-links/my-links/blob/main/apps/webapp/
 docker compose up -d
 ```
 
-This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies database migrations automatically, and starts the application in production mode — reachable on the port set in `PORT` (default `3333`).
+This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies database migrations automatically, and starts the application in production mode — reachable on the port set in `PORT` (default `3333`). The `scheduler` service runs alongside it on the same image, flagging inactive accounts and deleting expired ones once their grace period runs out — no separate setup needed.
 
 ## Native deployment
 
@@ -107,3 +123,10 @@ If you would rather run it without Docker:
    ```
 
 The application is reachable on the port set in `PORT`.
+
+Account maintenance (flagging inactive accounts, deleting expired ones) is not automatic here — the Docker path gets it for free via the `scheduler` service, but a native deployment needs its own system cron calling, from `build/`:
+
+```bash
+node bin/console.js account:flag-inactive
+node bin/console.js account:prune-deleted
+```
