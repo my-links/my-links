@@ -21,6 +21,9 @@
 	"plugins": {
 		"@release-it/conventional-changelog": {
 			"infile": "CHANGELOG.md",
+			"gitRawCommitsOpts": {
+				"path": "."
+			},
 			"preset": {
 				"name": "conventionalcommits"
 			}
