@@ -16,6 +16,7 @@ import {
 	ACCOUNT_DELETION_REASON,
 	type AccountDeletionReason,
 	ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
+	ACCOUNT_INACTIVITY_THRESHOLD_DAYS,
 } from '#constants/account';
 
 /**
@@ -221,6 +222,43 @@ export class UserService {
 	}
 
 	/**
+	 * Starts the grace period for every account inactive for
+	 * `ACCOUNT_INACTIVITY_THRESHOLD_DAYS`. An account already pending
+	 * deletion, or belonging to an administrator, is left alone: the first is
+	 * already on the clock, the second is never a valid target for an
+	 * automatic action.
+	 *
+	 * Meant to run on a schedule — see `start/scheduler.ts` and
+	 * `commands/flag_inactive_accounts.ts`.
+	 */
+	async flagInactiveAccounts(): Promise<number> {
+		const cutoff = DateTime.now()
+			.minus({ days: ACCOUNT_INACTIVITY_THRESHOLD_DAYS })
+			.toSQL();
+
+		const inactiveAccounts = await User.query()
+			.where('isAdmin', false)
+			.whereNull('pendingDeletionAt')
+			.where((query) => {
+				query
+					.where((seen) =>
+						seen.whereNotNull('lastSeenAt').andWhere('lastSeenAt', '<', cutoff)
+					)
+					.orWhere((neverSeen) =>
+						neverSeen.whereNull('lastSeenAt').andWhere('createdAt', '<', cutoff)
+					);
+			});
+
+		for (const account of inactiveAccounts) {
+			await this.requestAccountDeletion(account.id, {
+				reason: ACCOUNT_DELETION_REASON.INACTIVITY,
+			});
+		}
+
+		return inactiveAccounts.length;
+	}
+
+	/**
 	 * Cancels a pending deletion. `reactivatedByAdminId` is null when the
 	 * confirmation screen a self-service login mid-grace-period lands on is the
 	 * caller — reaching here already proves the owner came back for it — and
@@ -270,6 +308,30 @@ export class UserService {
 
 			await User.query({ client: transaction }).where('id', userId).delete();
 		});
+	}
+
+	/**
+	 * Wipes every account whose grace period ran out — `deleteUser` unchanged,
+	 * the same self-service wipe a login-time cancellation would otherwise
+	 * have pre-empted.
+	 *
+	 * Meant to run on a schedule — see `start/scheduler.ts` and
+	 * `commands/prune_deleted_accounts.ts`.
+	 */
+	async pruneExpiredDeletions(): Promise<number> {
+		const cutoff = DateTime.now().minus({
+			days: ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
+		});
+
+		const expiredAccounts = await User.query()
+			.whereNotNull('pendingDeletionAt')
+			.andWhere('pendingDeletionAt', '<', cutoff.toSQL());
+
+		for (const account of expiredAccounts) {
+			await this.deleteUser(account.id);
+		}
+
+		return expiredAccounts.length;
 	}
 
 	/**
