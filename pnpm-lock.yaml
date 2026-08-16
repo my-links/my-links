@@ -264,6 +264,9 @@ importers:
       luxon:
         specifier: ^3.7.2
         version: 3.7.2
+      node-cron:
+        specifier: ^4.6.0
+        version: 4.6.0
       node-html-parser:
         specifier: ^9.0.1
         version: 9.0.1
@@ -4915,6 +4918,10 @@ packages:
   node-addon-api@8.9.1:
     resolution: {integrity: sha512-4eUQWVPCUUUiBjLnHS3cXWeC6ryoPUc0U3rP7IuzapoGbzMqd/r6KKO0clr0b+snQhsrueFEhCZDdK+LK7hxKg==}
     engines: {node: ^18 || ^20 || >= 21}
+
+  node-cron@4.6.0:
+    resolution: {integrity: sha512-Si/bzYiKRHOB8/a99T2+SDGN582ONDMSTlJr5oCkT6GtnqPjZ2s10eoQRYkW9ZHwjVxONL+W8Fb+qR0AHMQsdg==}
+    engines: {node: '>=20'}
 
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
@@ -10500,6 +10507,8 @@ snapshots:
       type-fest: 2.19.0
 
   node-addon-api@8.9.1: {}
+
+  node-cron@4.6.0: {}
 
   node-fetch-native@1.6.7: {}
 

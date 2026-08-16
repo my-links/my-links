@@ -39,20 +39,5 @@ services:
     ports:
       - ${PORT}:3333
 
-  scheduler:
-    container_name: my-links-scheduler
-    restart: always
-    image: sonny93/my-links:latest
-    entrypoint: ['supercronic', '/app/crontab']
-    environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - NODE_ENV=production
-    env_file:
-      - .env
-    depends_on:
-      postgres:
-        condition: service_healthy
-
 volumes:
   postgres-volume:
