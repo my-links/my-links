@@ -90,6 +90,12 @@ const routes = {
     tokens: [{"old":"/admin/users/:id/role","type":0,"val":"admin","end":""},{"old":"/admin/users/:id/role","type":0,"val":"users","end":""},{"old":"/admin/users/:id/role","type":1,"val":"id","end":""},{"old":"/admin/users/:id/role","type":0,"val":"role","end":""}],
     types: placeholder as Registry['admin.users.set-role']['types'],
   },
+  'admin.users.restore': {
+    methods: ["POST"],
+    pattern: '/admin/users/:id/restore',
+    tokens: [{"old":"/admin/users/:id/restore","type":0,"val":"admin","end":""},{"old":"/admin/users/:id/restore","type":0,"val":"users","end":""},{"old":"/admin/users/:id/restore","type":1,"val":"id","end":""},{"old":"/admin/users/:id/restore","type":0,"val":"restore","end":""}],
+    types: placeholder as Registry['admin.users.restore']['types'],
+  },
   'collection.create': {
     methods: ["POST"],
     pattern: '/collections',

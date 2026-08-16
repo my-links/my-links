@@ -26,6 +26,8 @@ export default class UserTransformer extends BaseTransformer<User> {
 			email: this.resource.email,
 			emailVerifiedAt: this.resource.emailVerifiedAt?.toString() ?? null,
 			pendingDeletionAt: this.resource.pendingDeletionAt?.toString() ?? null,
+			pendingDeletionRequestedByAdmin:
+				this.resource.pendingDeletionRequestedById !== null,
 			authMethods: listAuthMethods(this.resource),
 			lastLoginAt: toIsoTimestamp(this.resource.$extras.lastLoginAt),
 			lastSeenAt: this.resource.lastSeenAt?.toString(),

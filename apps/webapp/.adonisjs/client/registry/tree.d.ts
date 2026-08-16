@@ -18,6 +18,7 @@ export interface ApiDefinition {
       revokeAccess: typeof routes['admin.users.revoke-access']
       verifyEmail: typeof routes['admin.users.verify-email']
       setRole: typeof routes['admin.users.set-role']
+      restore: typeof routes['admin.users.restore']
     }
   }
   collection: {

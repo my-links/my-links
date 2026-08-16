@@ -66,9 +66,10 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			title: <Trans>Delete accounts</Trans>,
 			children: (
 				<Trans>
-					You are about to delete {targetIds.length} account(s). This action
-					cannot be undone. All related collections and links will be
-					permanently deleted.
+					You are about to disable {targetIds.length} account(s). Every session
+					and token is revoked immediately. Collections and links are
+					permanently deleted once the grace period ends, unless you restore the
+					account before then.
 				</Trans>
 			),
 			confirmLabel: <Trans>Delete</Trans>,
@@ -199,6 +200,7 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 								/>
 								<PendingDeletionBadge
 									pendingDeletionAt={user.pendingDeletionAt}
+									requestedByAdmin={user.pendingDeletionRequestedByAdmin}
 								/>
 							</div>
 						),

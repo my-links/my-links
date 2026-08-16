@@ -14,6 +14,7 @@ export const controllers = {
     Admin: () => import('#controllers/admin/admin_controller'),
     AuthJournal: () => import('#controllers/admin/auth_journal_controller'),
     BulkDeleteUsers: () => import('#controllers/admin/bulk_delete_users_controller'),
+    RestoreAccount: () => import('#controllers/admin/restore_account_controller'),
     RevokeAccountAccess: () => import('#controllers/admin/revoke_account_access_controller'),
     SendAccountPasswordReset: () => import('#controllers/admin/send_account_password_reset_controller'),
     SetAccountRole: () => import('#controllers/admin/set_account_role_controller'),
