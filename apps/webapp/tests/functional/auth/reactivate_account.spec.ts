@@ -5,6 +5,7 @@ import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
+import { INVALID_CREDENTIALS_MESSAGE } from '#services/auth/credentials_auth_service';
 import { PENDING_REACTIVATION_SESSION_KEY } from '#services/auth/account_reactivation_service';
 import {
 	createUser,
@@ -21,6 +22,14 @@ function armedSession(user: User) {
 	return {
 		[PENDING_REACTIVATION_SESSION_KEY]: { userId: user.id, email: user.email },
 	};
+}
+
+async function createAdmin(prefix = 'admin'): Promise<User> {
+	const user = await createUser({ emailPrefix: prefix });
+	user.isAdmin = true;
+	await user.save();
+
+	return user;
 }
 
 test.group('Account reactivation — login-time gate', (group) => {
@@ -181,5 +190,69 @@ test.group('Account reactivation — declining', (group) => {
 
 		const reloaded = await User.findOrFail(user.id);
 		assert.isNotNull(reloaded.pendingDeletionAt);
+	});
+});
+
+test.group('Account reactivation — admin-initiated deletion', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should refuse the login outright, without offering to reactivate', async ({
+		client,
+	}) => {
+		const administrator = await createAdmin('admin-deletion-refuse');
+		const user = await createUser({ emailPrefix: 'admin-deletion-refuse' });
+		await setUserPassword(user, VALID_PASSWORD);
+		await requestAccountDeletion(user, undefined, administrator.id);
+
+		const response = await client
+			.post('/login')
+			.header('x-forwarded-for', nextClientAddress())
+			.form({ email: user.email, password: VALID_PASSWORD })
+			.withCsrfToken()
+			.redirects(0);
+
+		response.assertSessionMissing(SESSION_GUARD_KEY);
+		response.assertSessionMissing(PENDING_REACTIVATION_SESSION_KEY);
+	});
+
+	test('should answer with the same message as a wrong password', async ({
+		client,
+	}) => {
+		const administrator = await createAdmin('admin-deletion-message');
+		const user = await createUser({ emailPrefix: 'admin-deletion-message' });
+		await setUserPassword(user, VALID_PASSWORD);
+		await requestAccountDeletion(user, undefined, administrator.id);
+
+		const response = await client
+			.post('/login')
+			.header('x-forwarded-for', nextClientAddress())
+			.form({ email: user.email, password: VALID_PASSWORD })
+			.withCsrfToken()
+			.redirects(0);
+
+		response.assertFlashMessage('error', INVALID_CREDENTIALS_MESSAGE);
+	});
+
+	test('should record a blocked-login event distinct from the self-service one', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('admin-deletion-journal');
+		const user = await createUser({ emailPrefix: 'admin-deletion-journal' });
+		await setUserPassword(user, VALID_PASSWORD);
+		await requestAccountDeletion(user, undefined, administrator.id);
+
+		await client
+			.post('/login')
+			.header('x-forwarded-for', nextClientAddress())
+			.form({ email: user.email, password: VALID_PASSWORD })
+			.withCsrfToken()
+			.redirects(0);
+
+		const event = await AuditEvent.query()
+			.where('userId', user.id)
+			.orderBy('id', 'desc')
+			.firstOrFail();
+		assert.equal(event.type, AUTH_EVENT_TYPE.LOGIN_BLOCKED_ADMIN_DELETION);
 	});
 });
