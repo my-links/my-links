@@ -276,6 +276,24 @@ const routes = {
     tokens: [{"old":"/cancel-email-change/:token","type":0,"val":"cancel-email-change","end":""},{"old":"/cancel-email-change/:token","type":1,"val":"token","end":""}],
     types: placeholder as Registry['auth.email.change.cancel']['types'],
   },
+  'auth.reactivate': {
+    methods: ["GET","HEAD"],
+    pattern: '/reactivate',
+    tokens: [{"old":"/reactivate","type":0,"val":"reactivate","end":""}],
+    types: placeholder as Registry['auth.reactivate']['types'],
+  },
+  'auth.reactivate.submit': {
+    methods: ["POST"],
+    pattern: '/reactivate',
+    tokens: [{"old":"/reactivate","type":0,"val":"reactivate","end":""}],
+    types: placeholder as Registry['auth.reactivate.submit']['types'],
+  },
+  'auth.reactivate.decline': {
+    methods: ["POST"],
+    pattern: '/reactivate/decline',
+    tokens: [{"old":"/reactivate/decline","type":0,"val":"reactivate","end":""},{"old":"/reactivate/decline","type":0,"val":"decline","end":""}],
+    types: placeholder as Registry['auth.reactivate.decline']['types'],
+  },
   'auth': {
     methods: ["GET","HEAD"],
     pattern: '/auth/google',

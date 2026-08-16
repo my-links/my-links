@@ -9,7 +9,8 @@ export default class DeleteUserAccountController {
 
 	async execute({ auth, response }: HttpContext) {
 		const user = await auth.authenticate();
-		await this.userService.deleteUser(user.id);
+		await this.userService.requestAccountDeletion(user.id);
+		await auth.use('web').logout();
 		return response.redirect().toRoute('home');
 	}
 }

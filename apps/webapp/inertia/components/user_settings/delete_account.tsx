@@ -12,9 +12,10 @@ export function DeleteAccount() {
 			title: <Trans>Delete Account</Trans>,
 			children: (
 				<Trans>
-					Are you sure you want to delete your account? This action cannot be
-					undone. All your collections, links, and data will be permanently
-					deleted.
+					Are you sure you want to delete your account? It will be disabled
+					right away and every session signed out. Logging back in within the
+					grace period offers a chance to cancel. After that, everything is
+					permanently deleted.
 				</Trans>
 			),
 			confirmLabel: <Trans>Delete Account</Trans>,
@@ -35,8 +36,9 @@ export function DeleteAccount() {
 				</h2>
 				<p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
 					<Trans>
-						Once you delete your account, there is no going back. Please be
-						certain.
+						Deleting your account disables it immediately. You'll get a
+						confirmation email, and logging back in during the grace period
+						cancels the deletion.
 					</Trans>
 				</p>
 			</div>

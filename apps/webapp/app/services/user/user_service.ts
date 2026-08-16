@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
@@ -5,9 +6,13 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 import User from '#models/user';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { MailService } from '#services/mail/mail_service';
 import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
+import { ACCOUNT_DELETION_GRACE_PERIOD_DAYS } from '#constants/account';
+import { AccountAccessService } from '#services/auth/account_access_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import LastAdministratorException from '#exceptions/admin/last_administrator_exception';
+import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
 
 /**
  * Narrows a listing to a subset of the accounts. Every field is stated rather
@@ -22,7 +27,11 @@ export type AccountFilters = {
 
 @inject()
 export class UserService {
-	constructor(protected readonly activityEventService: ActivityEventService) {}
+	constructor(
+		protected readonly activityEventService: ActivityEventService,
+		protected readonly accountAccessService: AccountAccessService,
+		protected readonly mailService: MailService
+	) {}
 
 	/**
 	 * Whether this instance holds any account at all. Both the registration
@@ -141,6 +150,60 @@ export class UserService {
 
 			user.isAdmin = false;
 			await user.useTransaction(trx).save();
+		});
+	}
+
+	/**
+	 * Starts the grace period instead of wiping outright: the row is marked
+	 * disabled, not deleted, so a misclick stays recoverable until either the
+	 * owner logs back in and reactivates it, or `deleteUser` catches up with it
+	 * once the grace period has run out.
+	 *
+	 * Every existing session and token is revoked here — a disabled account has
+	 * no business staying reachable anywhere it was already signed in.
+	 */
+	async requestAccountDeletion(userId: User['id']): Promise<void> {
+		const user = await User.findOrFail(userId);
+
+		await db.transaction(async (transaction) => {
+			user.pendingDeletionAt = DateTime.now();
+			await user.useTransaction(transaction).save();
+
+			await this.activityEventService.record(
+				{
+					type: ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED,
+					userId,
+					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+					subjectId: userId,
+				},
+				transaction
+			);
+		});
+
+		await this.mailService.send(
+			new AccountDeletionRequestedNotification({
+				user,
+				gracePeriodDays: ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
+			})
+		);
+		await this.accountAccessService.revokeAllExcept(user, null);
+	}
+
+	/**
+	 * Cancels a pending deletion — the confirmation screen a login mid-grace-
+	 * period lands on is the only caller, so reaching here already proves the
+	 * owner came back for it.
+	 */
+	async reactivateAccount(userId: User['id']): Promise<void> {
+		const user = await User.findOrFail(userId);
+		user.pendingDeletionAt = null;
+		await user.save();
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.ACCOUNT_REACTIVATED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+			subjectId: userId,
 		});
 	}
 

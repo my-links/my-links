@@ -77,6 +77,10 @@ export interface ApiDefinition {
         cancel: typeof routes['auth.email.change.cancel']
       }
     }
+    reactivate: typeof routes['auth.reactivate'] & {
+      submit: typeof routes['auth.reactivate.submit']
+      decline: typeof routes['auth.reactivate.decline']
+    }
     callback: typeof routes['auth.callback']
     logout: typeof routes['auth.logout']
     sudo: typeof routes['auth.sudo'] & {

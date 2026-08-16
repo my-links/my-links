@@ -55,6 +55,20 @@ export async function setUserPassword(
 	return user.related('passwordAuth').create({ password: plainPassword });
 }
 
+/**
+ * Marks an existing user as mid-grace-period. Defaults to "just requested",
+ * but a spec covering the expiry sweep needs to place it in the past, hence
+ * the optional override rather than always stamping `DateTime.now()`.
+ */
+export async function requestAccountDeletion(
+	user: User,
+	pendingDeletionAt: DateTime = DateTime.now()
+): Promise<User> {
+	user.pendingDeletionAt = pendingDeletionAt;
+
+	return user.save();
+}
+
 export async function linkOauthIdentity(
 	user: User,
 	providerUserId: string,

@@ -547,6 +547,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/cancel_email_change_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.reactivate': {
+    methods: ["GET","HEAD"]
+    pattern: '/reactivate'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['render']>>>
+    }
+  }
+  'auth.reactivate.submit': {
+    methods: ["POST"]
+    pattern: '/reactivate'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['execute']>>>
+    }
+  }
+  'auth.reactivate.decline': {
+    methods: ["POST"]
+    pattern: '/reactivate/decline'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['decline']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['decline']>>>
+    }
+  }
   'auth': {
     methods: ["GET","HEAD"]
     pattern: '/auth/google'
