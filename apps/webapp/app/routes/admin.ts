@@ -49,6 +49,10 @@ router
 		router
 			.patch('/users/:id/role', [controllers.admin.SetAccountRole, 'execute'])
 			.as('admin.users.set-role');
+
+		router
+			.post('/users/:id/restore', [controllers.admin.RestoreAccount, 'execute'])
+			.as('admin.users.restore');
 	})
 	.middleware([middleware.auth(), middleware.admin()])
 	.prefix('/admin');

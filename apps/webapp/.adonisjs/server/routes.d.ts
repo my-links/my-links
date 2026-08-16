@@ -18,6 +18,7 @@ export type ScannedRoutes = {
     'admin.users.revoke-access': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.users.verify-email': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.users.set-role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.restore': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
@@ -167,6 +168,7 @@ export type ScannedRoutes = {
     'admin.users.send-password-reset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.users.revoke-access': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.users.verify-email': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin.users.restore': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

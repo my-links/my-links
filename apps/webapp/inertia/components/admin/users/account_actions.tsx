@@ -16,19 +16,26 @@ interface AccountActionsProps {
 /**
  * What an administrator can do to one account, on the row that describes it.
  *
- * The two that take something away ask first; the two that only unblock do
+ * The ones that take something away ask first; the ones that only unblock do
  * not. Sending a reset link is offered only where mail is configured — without
  * it the endpoint answers 404 and the operator uses
  * `node ace user:reset-password --link`.
  */
 export function AccountActions({ account }: Readonly<AccountActionsProps>) {
 	const { isEnabled: isMailEnabled } = usePasswordRecovery();
-	const { sendPasswordReset, markEmailConfirmed, revokeAccess, setRole } =
-		useAccountActions();
+	const {
+		sendPasswordReset,
+		markEmailConfirmed,
+		revokeAccess,
+		setRole,
+		restoreAccount,
+	} = useAccountActions();
 
 	const handleSendPasswordReset = () => sendPasswordReset(account.id);
 
 	const handleMarkEmailConfirmed = () => markEmailConfirmed(account.id);
+
+	const handleRestoreAccount = () => restoreAccount(account.id);
 
 	const handleRevokeAccess = () => {
 		void ConfirmModal.call({
@@ -83,6 +90,17 @@ export function AccountActions({ account }: Readonly<AccountActionsProps>) {
 
 	return (
 		<div className="flex items-center justify-end gap-1">
+			{account.pendingDeletionAt && (
+				<IconButton
+					icon="i-mdi-restore"
+					aria-label={t`Cancel the pending deletion`}
+					title={t`Cancel the pending deletion`}
+					size="sm"
+					variant="ghost"
+					onClick={handleRestoreAccount}
+				/>
+			)}
+
 			{isMailEnabled && (
 				<IconButton
 					icon="i-mdi-lock-reset"

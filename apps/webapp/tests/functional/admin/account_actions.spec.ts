@@ -6,11 +6,17 @@ import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import OneTimeToken from '#models/one_time_token';
 import { ACCOUNT_ROLE } from '#constants/account';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import ResetPasswordNotification from '#mails/reset_password_notification';
-import { createUser, verifyUserEmail } from '#tests/factories/user_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import {
+	createUser,
+	verifyUserEmail,
+	requestAccountDeletion,
+} from '#tests/factories/user_factory';
 
 const FAVORITES_ROUTE = '/collections/favorites';
 const MEMBER_ROLE = ACCOUNT_ROLE.MEMBER;
@@ -51,6 +57,10 @@ function revokeAccessRoute(account: User): string {
 
 function roleRoute(account: User): string {
 	return `/admin/users/${account.id}/role`;
+}
+
+function restoreRoute(account: User): string {
+	return `/admin/users/${account.id}/restore`;
 }
 
 test.group('Admin account actions — sending a reset link', (group) => {
@@ -296,6 +306,51 @@ test.group('Admin account actions — changing a role', (group) => {
 	});
 });
 
+test.group('Admin account actions — restoring a pending deletion', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should clear the pending deletion, self-service or admin-initiated alike', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('restore-admin');
+		const account = await createUser({ emailPrefix: 'restore-target' });
+		await requestAccountDeletion(account);
+
+		await client
+			.post(restoreRoute(account))
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		await account.refresh();
+		assert.isNull(account.pendingDeletionAt);
+		assert.isNull(account.pendingDeletionRequestedById);
+	});
+
+	test('should journal the restoration naming the administrator as actor', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('restore-admin-journal');
+		const account = await createUser({ emailPrefix: 'restore-target-journal' });
+		await requestAccountDeletion(account, undefined, administrator.id);
+
+		await client
+			.post(restoreRoute(account))
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		const event = await AuditEvent.query()
+			.where('subjectType', AUDIT_SUBJECT_TYPE.ACCOUNT)
+			.andWhere('subjectId', account.id)
+			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_REACTIVATED)
+			.firstOrFail();
+		assert.equal(event.actorId, administrator.id);
+	});
+});
+
 test.group('Admin account actions — reserved to administrators', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
@@ -368,5 +423,23 @@ test.group('Admin account actions — reserved to administrators', (group) => {
 			String(account.id)
 		);
 		assert.lengthOf(remainingSessions, 1);
+	});
+
+	test('should refuse a restoration to a signed-in visitor without the admin flag', async ({
+		assert,
+		client,
+	}) => {
+		const visitor = await createUser({ emailPrefix: 'not-admin-restore' });
+		const account = await createUser({ emailPrefix: 'guarded-restore' });
+		await requestAccountDeletion(account);
+
+		await client
+			.post(restoreRoute(account))
+			.withCsrfToken()
+			.loginAs(visitor)
+			.redirects(0);
+
+		await account.refresh();
+		assert.isNotNull(account.pendingDeletionAt);
 	});
 });

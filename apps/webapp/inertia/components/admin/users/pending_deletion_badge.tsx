@@ -6,6 +6,7 @@ import { formatDate } from '~/lib/format';
 
 interface PendingDeletionBadgeProps {
 	pendingDeletionAt: string | null;
+	requestedByAdmin: boolean;
 }
 
 const PENDING_DELETION_CLASS =
@@ -18,12 +19,17 @@ const PENDING_DELETION_CLASS =
  */
 export const PendingDeletionBadge = ({
 	pendingDeletionAt,
+	requestedByAdmin,
 }: Readonly<PendingDeletionBadgeProps>) => {
 	if (!pendingDeletionAt) return null;
 
+	const tooltip = requestedByAdmin
+		? t`Deletion requested by an administrator on ${formatDate(pendingDeletionAt)}`
+		: t`Deletion requested on ${formatDate(pendingDeletionAt)}`;
+
 	return (
 		<span
-			title={t`Deletion requested on ${formatDate(pendingDeletionAt)}`}
+			title={tooltip}
 			className={cn(
 				'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium',
 				PENDING_DELETION_CLASS

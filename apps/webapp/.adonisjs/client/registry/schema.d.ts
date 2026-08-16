@@ -175,6 +175,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/set_account_role_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'admin.users.restore': {
+    methods: ["POST"]
+    pattern: '/admin/users/:id/restore'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/restore_account_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/restore_account_controller').default['execute']>>>
+    }
+  }
   'collection.create': {
     methods: ["POST"]
     pattern: '/collections'

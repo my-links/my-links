@@ -14,6 +14,7 @@ interface UseAccountActionsReturn {
 	markEmailConfirmed: (accountId: number) => void;
 	revokeAccess: (accountId: number) => void;
 	setRole: (accountId: number, role: AccountRole) => void;
+	restoreAccount: (accountId: number) => void;
 }
 
 /**
@@ -51,5 +52,18 @@ export function useAccountActions(): UseAccountActionsReturn {
 			{ preserveScroll: true }
 		);
 
-	return { sendPasswordReset, markEmailConfirmed, revokeAccess, setRole };
+	const restoreAccount = (accountId: number) =>
+		router.post(
+			urlFor('admin.users.restore', { id: accountId }),
+			{},
+			{ preserveScroll: true }
+		);
+
+	return {
+		sendPasswordReset,
+		markEmailConfirmed,
+		revokeAccess,
+		setRole,
+		restoreAccount,
+	};
 }
