@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: inertia/pages/auth/reactivate_account.tsx:28
+msgid "{email} was disabled after a deletion request and hasn't been permanently deleted yet. Log in anyway to cancel the deletion and restore the account?"
+msgstr "{email} was disabled after a deletion request and hasn't been permanently deleted yet. Log in anyway to cancel the deletion and restore the account?"
+
 #: inertia/pages/privacy.tsx:69
 msgid "{field}"
 msgstr "{field}"
@@ -87,11 +91,15 @@ msgstr "Acceptance of Terms"
 msgid "Account"
 msgstr "Account"
 
+#: inertia/pages/auth/reactivate_account.tsx:22
+msgid "Account pending deletion"
+msgstr "Account pending deletion"
+
 #: inertia/components/admin/admin_tabs.tsx:21
 msgid "Accounts"
 msgstr "Accounts"
 
-#: inertia/components/admin/users/users_table.tsx:275
+#: inertia/components/admin/users/users_table.tsx:292
 #: inertia/components/api_tokens/api_tokens.tsx:166
 #: inertia/components/user_settings/sessions.tsx:105
 msgid "Actions"
@@ -182,8 +190,8 @@ msgid "Are you sure you want to delete this link?"
 msgstr "Are you sure you want to delete this link?"
 
 #: inertia/components/user_settings/delete_account.tsx:14
-msgid "Are you sure you want to delete your account? This action cannot be undone. All your collections, links, and data will be permanently deleted."
-msgstr "Are you sure you want to delete your account? This action cannot be undone. All your collections, links, and data will be permanently deleted."
+msgid "Are you sure you want to delete your account? It will be disabled right away and every session signed out. Logging back in within the grace period offers a chance to cancel. After that, everything is permanently deleted."
+msgstr "Are you sure you want to delete your account? It will be disabled right away and every session signed out. Logging back in within the grace period offers a chance to cancel. After that, everything is permanently deleted."
 
 #: inertia/components/api_tokens/api_tokens.tsx:53
 msgid "Are you sure you want to revoke this token?"
@@ -222,12 +230,12 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 
 #: inertia/components/admin/users/account_actions.tsx:45
 #: inertia/components/admin/users/account_actions.tsx:74
-#: inertia/components/admin/users/users_table.tsx:73
+#: inertia/components/admin/users/users_table.tsx:75
 #: inertia/components/api_tokens/api_tokens.tsx:57
 #: inertia/components/api_tokens/create_token_modal.tsx:51
 #: inertia/components/dashboard/modals/modal_form_footer.tsx:24
 #: inertia/components/user_settings/auth_methods.tsx:33
-#: inertia/components/user_settings/delete_account.tsx:21
+#: inertia/components/user_settings/delete_account.tsx:22
 #: inertia/components/user_settings/sessions.tsx:24
 msgid "Cancel"
 msgstr "Cancel"
@@ -257,7 +265,7 @@ msgstr "Choose a new password"
 msgid "Chrome extension"
 msgstr "Chrome extension"
 
-#: inertia/components/admin/users/users_table.tsx:131
+#: inertia/components/admin/users/users_table.tsx:133
 msgid "Clear"
 msgstr "Clear"
 
@@ -292,7 +300,7 @@ msgstr "Collection moved within {0}."
 msgid "Collection order updated in {0}."
 msgstr "Collection order updated in {0}."
 
-#: inertia/components/admin/users/users_table.tsx:199
+#: inertia/components/admin/users/users_table.tsx:216
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:92
 msgid "Collections"
 msgstr "Collections"
@@ -419,7 +427,7 @@ msgstr "Create your account"
 msgid "Create your first link to get started"
 msgstr "Create your first link to get started"
 
-#: inertia/components/admin/users/users_table.tsx:238
+#: inertia/components/admin/users/users_table.tsx:255
 #: inertia/components/api_tokens/api_tokens.tsx:142
 #: inertia/components/user_settings/sessions.tsx:81
 msgid "Created at"
@@ -476,7 +484,7 @@ msgstr "Database connection"
 msgid "Database connections"
 msgstr "Database connections"
 
-#: inertia/components/admin/users/users_table.tsx:72
+#: inertia/components/admin/users/users_table.tsx:74
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:78
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:70
 msgid "Delete"
@@ -493,13 +501,13 @@ msgid "Delete a link"
 msgstr "Delete a link"
 
 #: inertia/components/user_settings/delete_account.tsx:12
-#: inertia/components/user_settings/delete_account.tsx:20
-#: inertia/components/user_settings/delete_account.tsx:34
-#: inertia/components/user_settings/delete_account.tsx:50
+#: inertia/components/user_settings/delete_account.tsx:21
+#: inertia/components/user_settings/delete_account.tsx:35
+#: inertia/components/user_settings/delete_account.tsx:52
 msgid "Delete Account"
 msgstr "Delete Account"
 
-#: inertia/components/admin/users/users_table.tsx:64
+#: inertia/components/admin/users/users_table.tsx:66
 msgid "Delete accounts"
 msgstr "Delete accounts"
 
@@ -508,9 +516,18 @@ msgstr "Delete accounts"
 msgid "Delete collection"
 msgstr "Delete collection"
 
-#: inertia/components/admin/users/users_table.tsx:121
+#: inertia/components/admin/users/users_table.tsx:123
 msgid "Delete selected"
 msgstr "Delete selected"
+
+#: inertia/components/user_settings/delete_account.tsx:38
+msgid "Deleting your account disables it immediately. You'll get a confirmation email, and logging back in during the grace period cancels the deletion."
+msgstr "Deleting your account disables it immediately. You'll get a confirmation email, and logging back in during the grace period cancels the deletion."
+
+#. placeholder {0}: formatDate(pendingDeletionAt)
+#: inertia/components/admin/users/pending_deletion_badge.tsx:26
+msgid "Deletion requested on {0}"
+msgstr "Deletion requested on {0}"
 
 #: inertia/components/admin/users/account_actions.tsx:54
 #: inertia/components/admin/users/account_actions.tsx:120
@@ -578,7 +595,7 @@ msgstr "Edit a link"
 msgid "Edit collection"
 msgstr "Edit collection"
 
-#: inertia/components/admin/users/users_table.tsx:182
+#: inertia/components/admin/users/users_table.tsx:192
 #: inertia/pages/auth/forgot_password.tsx:43
 #: inertia/pages/auth/login.tsx:63
 #: inertia/pages/auth/register.tsx:81
@@ -681,7 +698,7 @@ msgstr "Firefox extension"
 msgid "Follow"
 msgstr "Follow"
 
-#: inertia/components/admin/users/users_table.tsx:212
+#: inertia/components/admin/users/users_table.tsx:229
 msgid "Followed"
 msgstr "Followed"
 
@@ -827,11 +844,11 @@ msgstr "Language"
 msgid "Language is kept in a cookie and the theme in this browser's storage, so both apply to this device only."
 msgstr "Language is kept in a cookie and the theme in this browser's storage, so both apply to this device only."
 
-#: inertia/components/admin/users/users_table.tsx:249
+#: inertia/components/admin/users/users_table.tsx:266
 msgid "Last seen at"
 msgstr "Last seen at"
 
-#: inertia/components/admin/users/users_table.tsx:260
+#: inertia/components/admin/users/users_table.tsx:277
 msgid "Last sign-in"
 msgstr "Last sign-in"
 
@@ -887,7 +904,7 @@ msgstr "Linked on {0}"
 msgid "links"
 msgstr "links"
 
-#: inertia/components/admin/users/users_table.tsx:225
+#: inertia/components/admin/users/users_table.tsx:242
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:77
 #: inertia/components/dashboard/search/search_link_results.tsx:23
 msgid "Links"
@@ -904,6 +921,10 @@ msgstr "Links you star show up here, across every collection."
 #: inertia/components/common/filter_list.tsx:16
 msgid "List"
 msgstr "List"
+
+#: inertia/pages/auth/reactivate_account.tsx:43
+msgid "Log in and cancel deletion"
+msgstr "Log in and cancel deletion"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:23
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:22
@@ -983,7 +1004,7 @@ msgstr "MyLinks reserves the right to terminate or suspend your access to the se
 msgid "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 msgstr "MyLinks turns scattered tabs into collections you can search, share and export any time. Hosted for you, or run it yourself."
 
-#: inertia/components/admin/users/users_table.tsx:167
+#: inertia/components/admin/users/users_table.tsx:177
 #: inertia/components/api_tokens/api_tokens.tsx:128
 #: inertia/components/dashboard/forms/form_collection_content.tsx:79
 #: inertia/components/dashboard/forms/form_collection_content.tsx:84
@@ -1048,6 +1069,10 @@ msgstr "No results found"
 msgid "No tokens created yet"
 msgstr "No tokens created yet"
 
+#: inertia/pages/auth/reactivate_account.tsx:54
+msgid "No, keep it scheduled for deletion"
+msgstr "No, keep it scheduled for deletion"
+
 #: inertia/components/user_settings/auth_methods.tsx:92
 msgid "Not linked"
 msgstr "Not linked"
@@ -1056,7 +1081,7 @@ msgstr "Not linked"
 msgid "Not set — use the form below to add one"
 msgstr "Not set — use the form below to add one"
 
-#: inertia/components/admin/users/users_table.tsx:284
+#: inertia/components/admin/users/users_table.tsx:301
 msgid "Nothing found"
 msgstr "Nothing found"
 
@@ -1069,10 +1094,6 @@ msgstr "Nothing has happened yet"
 #: inertia/components/admin/auth_events/journal_pagination.tsx:39
 msgid "Older"
 msgstr "Older"
-
-#: inertia/components/user_settings/delete_account.tsx:37
-msgid "Once you delete your account, there is no going back. Please be certain."
-msgstr "Once you delete your account, there is no going back. Please be certain."
 
 #: inertia/components/status/global_status.tsx:48
 msgid "One or more services are experiencing issues"
@@ -1118,6 +1139,10 @@ msgstr "Page not found"
 #: inertia/pages/auth/register.tsx:94
 msgid "Password"
 msgstr "Password"
+
+#: inertia/components/admin/users/pending_deletion_badge.tsx:33
+msgid "Pending deletion"
+msgstr "Pending deletion"
 
 #: inertia/pages/terms.tsx:105
 msgid "Personal Data"
@@ -1227,7 +1252,7 @@ msgstr "Revoke access"
 msgid "Revoke every session and token"
 msgstr "Revoke every session and token"
 
-#: inertia/components/admin/users/users_table.tsx:175
+#: inertia/components/admin/users/users_table.tsx:185
 msgid "Role"
 msgstr "Role"
 
@@ -1348,7 +1373,7 @@ msgstr "Sign out"
 msgid "Sign out session"
 msgstr "Sign out session"
 
-#: inertia/components/admin/users/users_table.tsx:191
+#: inertia/components/admin/users/users_table.tsx:208
 #: inertia/components/user_settings/auth_methods.tsx:46
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
@@ -1472,6 +1497,10 @@ msgstr "Theme"
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
 msgstr "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
 
+#: inertia/pages/auth/reactivate_account.tsx:25
+msgid "This account is scheduled for deletion"
+msgstr "This account is scheduled for deletion"
+
 #: inertia/components/admin/users/account_actions.tsx:66
 msgid "This account will be able to manage every account on this instance."
 msgstr "This account will be able to manage every account on this instance."
@@ -1521,7 +1550,7 @@ msgstr "Total Links"
 msgid "Total Users"
 msgstr "Total Users"
 
-#: inertia/components/admin/users/users_table.tsx:287
+#: inertia/components/admin/users/users_table.tsx:304
 msgid "Try adjusting your search criteria"
 msgstr "Try adjusting your search criteria"
 
@@ -1618,7 +1647,7 @@ msgid "You are about to change something that protects your account, so we ask o
 msgstr "You are about to change something that protects your account, so we ask once more who you are."
 
 #. placeholder {0}: targetIds.length
-#: inertia/components/admin/users/users_table.tsx:66
+#: inertia/components/admin/users/users_table.tsx:68
 msgid "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 msgstr "You are about to delete {0} account(s). This action cannot be undone. All related collections and links will be permanently deleted."
 
