@@ -1,0 +1,5 @@
+# Read by supercronic in the scheduler service (see compose.yml). Runs
+# against the built app, so commands go through bin/console.js, matching
+# scripts/entrypoint.sh's migration:run call.
+0 3 * * * node bin/console.js account:flag-inactive
+30 3 * * * node bin/console.js account:prune-deleted

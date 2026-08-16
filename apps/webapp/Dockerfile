@@ -31,7 +31,7 @@ WORKDIR /app
 RUN pnpm --filter @my-links/webapp deploy --prod --ignore-scripts --legacy /deploy
 
 # Production stage
-FROM base
+FROM base AS production
 
 ENV NODE_ENV=production
 ENV LOG_LEVEL=debug
@@ -39,9 +39,20 @@ ENV CACHE_VIEWS=false
 ENV SESSION_DRIVER=database
 ENV PORT=$PORT
 
+# Supercronic runs the account maintenance crontab in the scheduler service
+# (see compose.yml). It logs to stdout and needs no root/mail setup, unlike
+# a system cron daemon.
+ARG SUPERCRONIC_VERSION=v0.2.49
+ARG SUPERCRONIC_SHA1SUM=e63c11a9726b775a6a11801e81af4f3fb926aa68
+RUN curl -fsSLo /usr/local/bin/supercronic \
+		"https://github.com/aptible/supercronic/releases/download/${SUPERCRONIC_VERSION}/supercronic-linux-amd64" \
+	&& echo "${SUPERCRONIC_SHA1SUM}  /usr/local/bin/supercronic" | sha1sum -c - \
+	&& chmod +x /usr/local/bin/supercronic
+
 WORKDIR /app
 COPY --from=build /app/apps/webapp/build /app
 COPY --from=build /app/apps/webapp/scripts/entrypoint.sh /app/scripts/entrypoint.sh
+COPY --from=build /app/apps/webapp/crontab /app/crontab
 COPY --from=build /deploy/node_modules /app/node_modules
 RUN chmod +x /app/scripts/entrypoint.sh
 
