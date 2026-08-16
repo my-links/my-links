@@ -10,7 +10,10 @@ export default class BulkDeleteUsersController {
 
 	async execute({ request, response, auth }: HttpContext) {
 		const { userIds } = await request.validateUsing(bulkDeleteUsersValidator);
-		await this.userService.bulkDeleteUsers(userIds, auth.getUserOrFail().id);
+		await this.userService.bulkRequestAccountDeletion(
+			userIds,
+			auth.getUserOrFail().id
+		);
 		return response.redirect().back();
 	}
 }

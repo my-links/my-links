@@ -62,9 +62,11 @@ export async function setUserPassword(
  */
 export async function requestAccountDeletion(
 	user: User,
-	pendingDeletionAt: DateTime = DateTime.now()
+	pendingDeletionAt: DateTime = DateTime.now(),
+	requestedByAdminId: number | null = null
 ): Promise<User> {
 	user.pendingDeletionAt = pendingDeletionAt;
+	user.pendingDeletionRequestedById = requestedByAdminId;
 
 	return user.save();
 }
