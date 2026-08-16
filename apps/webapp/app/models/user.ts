@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens';
 import type {
 	HasMany,
@@ -60,12 +59,6 @@ export default class User extends UserSchema {
 	get fullname() {
 		return this.nickName || this.name;
 	}
-
-	@column.dateTime({
-		autoCreate: true,
-		autoUpdate: true,
-	})
-	declare lastSeenAt: DateTime;
 
 	static accessTokens = DbAccessTokensProvider.forModel(User);
 }

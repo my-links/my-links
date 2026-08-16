@@ -71,6 +71,21 @@ export async function requestAccountDeletion(
 	return user.save();
 }
 
+/**
+ * Backdates when a user was last seen — the inactivity sweep's whole signal.
+ * `createUser` leaves it unset, which is what a never-signed-in account looks
+ * like, so a spec covering the "seen, then went quiet" case says so
+ * explicitly.
+ */
+export async function markLastSeen(
+	user: User,
+	lastSeenAt: DateTime
+): Promise<User> {
+	user.lastSeenAt = lastSeenAt;
+
+	return user.save();
+}
+
 export async function linkOauthIdentity(
 	user: User,
 	providerUserId: string,
