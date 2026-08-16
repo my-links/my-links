@@ -1,5 +1,10 @@
 webapp_path := "apps/webapp"
-webapp_env_file := "apps/webapp/.env"
+webapp_env_file := ".env"
+
+# .env lives at the repo root (Dokploy's compose mode only manages a root
+# .env, not nested paths); AdonisJS's own loader defaults to apps/webapp, so
+# point it one level up for every native `node ace` invocation below.
+export ENV_PATH := "../.."
 
 compose_env := "--env-file " + webapp_env_file
 compose_dev := "-f dev.compose.yml " + compose_env

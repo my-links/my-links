@@ -1,9 +1,11 @@
 # Configuration
 
-Environment files, migrations and the `node ace` CLI all belong to `apps/webapp` — that is where a `.env` goes, not the repository root. Start from [`.env.example`](https://github.com/my-links/my-links/blob/main/apps/webapp/.env.example):
+`.env.example` lives at the repository root — start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
+
+Where the actual `.env` goes depends on how you run the app. Docker Compose reads it from the repository root, next to the compose file. Native runs — migrations, `node ace`, the dev server — expect it inside `apps/webapp`, since that's where the `node ace` CLI itself resolves it from:
 
 ```bash
-cp apps/webapp/.env.example apps/webapp/.env
+cp .env.example apps/webapp/.env
 ```
 
 ## Required variables
@@ -24,7 +26,7 @@ cp apps/webapp/.env.example apps/webapp/.env
 | Variable                                    | Notes                                                                                      |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | `SESSION_DRIVER`                            | `database`, `cookie`, or `memory`; defaults to `database`                                  |
-| `TZ`                                        | Timezone, e.g. `UTC`                                                                       |
+| `TZ`                                        | Timezone, e.g. `UTC`                                                                       
 | `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups — see [Authentication](/self-hosting/authentication) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in — see [Authentication](/self-hosting/authentication)                        |
 | `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail — see below                                                                  |

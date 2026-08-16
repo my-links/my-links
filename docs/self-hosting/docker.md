@@ -70,7 +70,7 @@ volumes:
 
 ## 3. Create your `.env`
 
-Use [`.env.example`](https://github.com/my-links/my-links/blob/main/apps/webapp/.env.example) from the repository as a template, and see [Configuration](/self-hosting/configuration) for what each variable does.
+Use [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example) from the repository as a template, and see [Configuration](/self-hosting/configuration) for what each variable does. It sits next to your `docker-compose.yml`, at the root of your deployment directory.
 
 ## 4. Start it
 
@@ -94,10 +94,10 @@ If you would rather run it without Docker:
    pnpm install
    ```
 
-3. Copy `.env.example` to `.env` and configure it:
+3. Copy `.env.example` to `.env` and configure it. Native runs expect it inside `apps/webapp`, unlike the Docker path above:
 
    ```bash
-   cp apps/webapp/.env.example apps/webapp/.env
+   cp .env.example apps/webapp/.env
    ```
 
 4. Point `DB_*` at your PostgreSQL instance, then apply migrations (every `node ace` command runs from `apps/webapp`):

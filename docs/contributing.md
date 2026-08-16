@@ -32,10 +32,10 @@ MyLinks is a pnpm workspace:
 
 ### Environment
 
-Environment files, migrations and the `node ace` CLI all belong to `apps/webapp` — see [Configuration](/self-hosting/configuration) for the full list of variables.
+`.env.example` lives at the repository root; `node ace` and migrations expect the actual `.env` inside `apps/webapp` — see [Configuration](/self-hosting/configuration) for the full list of variables.
 
 ```bash
-cp apps/webapp/.env.example apps/webapp/.env
+cp .env.example apps/webapp/.env
 ```
 
 ### Running with Docker
