@@ -1,5 +1,63 @@
 # Changelog
 
+## [5.2.0](https://github.com/my-links/my-links/compare/webapp-v5.1.1...webapp-v5.2.0) (2026-08-16)
+
+### Features
+
+* **extension:** add tooltips to icon buttons ([b8e2a28](https://github.com/my-links/my-links/commit/b8e2a2853917962e059c4ab9148899196027edfe))
+* **webapp:** add a pull-based prod compose alongside the build one ([2b7ed08](https://github.com/my-links/my-links/commit/2b7ed08a1f1a136a4b043e067d3db54da5366f3b))
+* **webapp:** add account menu grouping settings, help and session actions ([6e007d2](https://github.com/my-links/my-links/commit/6e007d2856812b22358c8fdb5d33260f88ebb9f1))
+* **webapp:** add create link button next to tour replay in header ([7eff723](https://github.com/my-links/my-links/commit/7eff72344eeb47150bffc16e3cc4e21fd06c7c55))
+* **webapp:** add grace period and confirmation email to account deletion ([9e26cb1](https://github.com/my-links/my-links/commit/9e26cb11008cf8df5d51022d11620e11e7eb425a))
+* **webapp:** add keyboard shortcuts modal ([1f8248c](https://github.com/my-links/my-links/commit/1f8248c03bb62fc5549dbf8278d8931f0aeb3379))
+* **webapp:** add per-row account deletion, polish delete/restore actions ([4065639](https://github.com/my-links/my-links/commit/4065639e6f1e19c0d5597a929f7781e8b7b9bdc1))
+* **webapp:** add preferences and about sections to settings ([e3869dc](https://github.com/my-links/my-links/commit/e3869dc95ef82750653a544ece65b16b16d00106))
+* **webapp:** add shared collection layout without app chrome ([943b1dd](https://github.com/my-links/my-links/commit/943b1dde44a76240ac9d92d876cc1e0d56a112c1))
+* **webapp:** automatically delete inactive accounts ([f3c6622](https://github.com/my-links/my-links/commit/f3c6622d13318df1ebefeeae38a32eb0be695fca))
+* **webapp:** collapse the sidebar to an icon rail instead of hiding it ([dae7c33](https://github.com/my-links/my-links/commit/dae7c333e547958fae932bde62c50a5ce60f5401))
+* **webapp:** default search modal to recent links when query is empty ([0f297a0](https://github.com/my-links/my-links/commit/0f297a002481da95ff70d923be917394022bf722))
+* **webapp:** include collection ids in links listing endpoint ([1280f2f](https://github.com/my-links/my-links/commit/1280f2f17e2e42602fbf928aed20cf298ce16b28))
+* **webapp:** introduce app layout for dashboard, settings and admin ([87ad83e](https://github.com/my-links/my-links/commit/87ad83e7c237e4259c774266e2740ea91c7fad4e))
+* **webapp:** let administrators cancel a pending deletion ([0d62960](https://github.com/my-links/my-links/commit/0d6296071811d7624e5317b3c3588ee1b8b35212))
+* **webapp:** let administrators start the deletion grace period too ([3470744](https://github.com/my-links/my-links/commit/34707448664dbd668f97f817441cbb625a9aa167))
+* **webapp:** move create collection next to create link in the header ([62b5442](https://github.com/my-links/my-links/commit/62b544217e782a6606fc6e4f2ea1f767f4cb38dc))
+* **webapp:** move search and account menu into the sidebar ([09e2c72](https://github.com/my-links/my-links/commit/09e2c722bd108eadc01d7dc08ab9b79ffb1e978e))
+* **webapp:** never let an admin-initiated deletion be undone by login ([f3781d2](https://github.com/my-links/my-links/commit/f3781d2faeca3eaeb05d8850d6452d2ea653be87))
+* **webapp:** promote Firefox extension alongside Chrome ([e5d7c57](https://github.com/my-links/my-links/commit/e5d7c57e0b78a68549f42d2fba252fe7b18b4980))
+* **webapp:** purge accounts once their deletion grace period ends ([e52e02f](https://github.com/my-links/my-links/commit/e52e02fb7e0911be95c2ec8e9dcaa006a007ad7d))
+* **webapp:** refetch collections/links on tab refocus ([b173863](https://github.com/my-links/my-links/commit/b173863ba51d23fa44889f670af1d1bff14b5296))
+* **webapp:** run account maintenance commands via a scheduler service ([7fde9d3](https://github.com/my-links/my-links/commit/7fde9d3307765cf1a7b93fc863aef6e6ab424ae3))
+* **webapp:** surface link context menu in search results ([fa5eb41](https://github.com/my-links/my-links/commit/fa5eb414c512d3682558d5642ed12d455418fd0e))
+* **webapp:** surface pending account deletion in the admin dashboard ([b9cbf69](https://github.com/my-links/my-links/commit/b9cbf6931e71dc903658dfa1a8befac768a8102c))
+* **webapp:** widen the app shell for 2K screens ([1d51181](https://github.com/my-links/my-links/commit/1d511813f9097dd8fdfd51b79d11106a3f263d84))
+
+### Bug Fixes
+
+* **build:** scan .ts files for utility classes ([062bb8d](https://github.com/my-links/my-links/commit/062bb8d769706bb07c116fdd38a2630fd8255c81))
+* **extension:** request permission before origin resolution for firefox ([4671a67](https://github.com/my-links/my-links/commit/4671a671208c82f48266bda31ac603961e086a78))
+* **justfile:** kill target must also stop the forked server process ([9a00017](https://github.com/my-links/my-links/commit/9a000171c2e14ab532157890f95ed5686986d284))
+* **webapp:** align sidebar rail controls and keep collection context menus ([e014a21](https://github.com/my-links/my-links/commit/e014a218c185ec02b806f6c4a6b2ba3c1f67f027))
+* **webapp:** correct sidebar rail layout and drop the duplicate mobile close ([3b352ef](https://github.com/my-links/my-links/commit/3b352ef3b674be2e3f85f79fa5d77c2ff1d8d7a2))
+* **webapp:** give CI the same ENV_PATH the Justfile uses ([ec0f393](https://github.com/my-links/my-links/commit/ec0f393cd33462ee36c5b90f634b1923c9face4d))
+* **webapp:** keep data table headers and values from wrapping ([d61c57f](https://github.com/my-links/my-links/commit/d61c57f9ab0c52ee4c0421530ac961d4b315e525))
+* **webapp:** keep search bar pinned while scrolling search results ([6468b90](https://github.com/my-links/my-links/commit/6468b9084286b54618411e129be78576ff02fa77))
+* **webapp:** list a link's other collections regardless of current view ([2bdab81](https://github.com/my-links/my-links/commit/2bdab81ab8be2ab1eacf9d48567fb1d66f2808a3))
+* **webapp:** make logout a POST route so CSRF protection applies ([f44aa92](https://github.com/my-links/my-links/commit/f44aa921000fc7554995233e572c7c924fe18a21))
+* **webapp:** match Move up by menuitem role in reordering e2e test ([8f46ee9](https://github.com/my-links/my-links/commit/8f46ee999b3d363f907558c8d7ba0639fb07b6ce))
+* **webapp:** move .env to the repository root for Dokploy compose mode ([546bd0f](https://github.com/my-links/my-links/commit/546bd0f15a605fb7536a821cf01efc6901ef81bf))
+* **webapp:** open the account menu before clicking logout in the auth journey test ([861ee09](https://github.com/my-links/my-links/commit/861ee09841d501d4ce299bcc40f2f0fd0765ed3e))
+* **webapp:** pin DB_PORT to 5432 for internal container traffic ([a595abd](https://github.com/my-links/my-links/commit/a595abd7507bfc17e7e6778ef8fa3237fa796f4d))
+* **webapp:** reset sidebar width on resize handle double-click ([dc1924e](https://github.com/my-links/my-links/commit/dc1924e7f5d6b43fea545d80958b0115f70f56bb))
+* **webapp:** route search modal clicks through click-tracking redirect ([054f213](https://github.com/my-links/my-links/commit/054f213f75117b1dc6001fd8d46ac95df298c645))
+* **webapp:** show pointer cursor on search result rows ([1e94949](https://github.com/my-links/my-links/commit/1e94949697c4e512c413737ec2d0d5a74eabfe7e))
+* **webapp:** stop crashing SSR on the settings page ([af9ed3b](https://github.com/my-links/my-links/commit/af9ed3b0ec021d48bb40aca3920010c766b40fed))
+* **webapp:** stop lastSeenAt from being bumped by unrelated saves ([712e40f](https://github.com/my-links/my-links/commit/712e40f5227ef9c461aecb86a3b37de8433788d4))
+* **webapp:** stop link menu button from also navigating to the link ([c7e6d1b](https://github.com/my-links/my-links/commit/c7e6d1b0800f250f1e8db5965c7c4ca1c35fe46d))
+* **webapp:** switch navbar to hamburger earlier to fit 4 nav links ([12ef951](https://github.com/my-links/my-links/commit/12ef95155d123c3460569d93ab4cc9fcc1d7198f))
+* **webapp:** wire right-side tooltips onto the collapsed sidebar rail ([8e560f3](https://github.com/my-links/my-links/commit/8e560f3a5141ef5c2ea7e5fd5bcb718007dca823))
+* **webapp:** wire tooltips onto the view-options toggle ([8b358fe](https://github.com/my-links/my-links/commit/8b358fe1bdf28b4133ba3be6f731a0012a2b84cc))
+* **webapp:** wrap settings page content in a sized container ([7bb05e0](https://github.com/my-links/my-links/commit/7bb05e05c7cff385079b46ff3d74672f7700e861))
+
 ## [5.1.1](https://github.com/my-links/my-links/compare/webapp-v5.1.0...webapp-v5.1.1) (2026-08-12)
 
 ### Bug Fixes
