@@ -26,6 +26,7 @@ services:
     build:
       context: .
       dockerfile: apps/webapp/Dockerfile
+      target: production
       args:
         - APP_URL=${APP_URL}
     environment:
@@ -39,6 +40,25 @@ services:
         condition: service_healthy
     ports:
       - ${PORT}:3333
+
+  scheduler:
+    container_name: my-links-scheduler
+    restart: always
+    build:
+      context: .
+      dockerfile: apps/webapp/Dockerfile
+      target: production
+      args:
+        - APP_URL=${APP_URL}
+    entrypoint: ['supercronic', '/app/crontab']
+    environment:
+      - DB_HOST=postgres
+      - NODE_ENV=production
+    env_file:
+      - apps/webapp/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   # Opt-in local relay: `docker compose --profile smtp up`, then point
   # SMTP_HOST at `smtp` and SMTP_PORT at 587. Left out of the default stack on
