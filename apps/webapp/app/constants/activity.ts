@@ -22,6 +22,8 @@ export const ACTIVITY_EVENT_TYPE = {
 	DATA_IMPORTED: 'data.imported',
 	DATA_EXPORTED: 'data.exported',
 	ACCOUNT_DATA_WIPED: 'account.data_wiped',
+	ACCOUNT_DELETION_REQUESTED: 'account.deletion_requested',
+	ACCOUNT_REACTIVATED: 'account.reactivated',
 } as const;
 
 export type ActivityEventType =

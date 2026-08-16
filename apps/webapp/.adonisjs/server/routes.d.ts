@@ -49,6 +49,9 @@ export type ScannedRoutes = {
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.email.change.confirm': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.reactivate': { paramsTuple?: []; params?: {} }
+    'auth.reactivate.submit': { paramsTuple?: []; params?: {} }
+    'auth.reactivate.decline': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
@@ -108,6 +111,7 @@ export type ScannedRoutes = {
     'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.email.change.confirm': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.reactivate': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.sudo': { paramsTuple?: []; params?: {} }
@@ -144,6 +148,7 @@ export type ScannedRoutes = {
     'auth.password.reset': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.email.change.confirm': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
     'auth.email.change.cancel': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.reactivate': { paramsTuple?: []; params?: {} }
     'auth': { paramsTuple?: []; params?: {} }
     'auth.callback': { paramsTuple?: []; params?: {} }
     'auth.sudo': { paramsTuple?: []; params?: {} }
@@ -172,6 +177,8 @@ export type ScannedRoutes = {
     'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
     'auth.verification.resend': { paramsTuple?: []; params?: {} }
     'auth.password.reset.submit': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
+    'auth.reactivate.submit': { paramsTuple?: []; params?: {} }
+    'auth.reactivate.decline': { paramsTuple?: []; params?: {} }
     'auth.logout': { paramsTuple?: []; params?: {} }
     'auth.sudo.submit': { paramsTuple?: []; params?: {} }
     'auth.password.set': { paramsTuple?: []; params?: {} }

@@ -57,6 +57,7 @@ export const controllers = {
     Login: () => import('#controllers/auth/login_controller'),
     Logout: () => import('#controllers/auth/logout_controller'),
     OauthCallback: () => import('#controllers/auth/oauth_callback_controller'),
+    ReactivateAccount: () => import('#controllers/auth/reactivate_account_controller'),
     Register: () => import('#controllers/auth/register_controller'),
     RequestEmailChange: () => import('#controllers/auth/request_email_change_controller'),
     RequestPasswordReset: () => import('#controllers/auth/request_password_reset_controller'),

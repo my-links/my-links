@@ -5,10 +5,14 @@ import User from '#models/user';
 import Link from '#models/link';
 import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
+import UserSession from '#models/user_session';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
+import { createUserSession } from '#tests/factories/user_session_factory';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
 
 async function createAdmin(prefix = 'admin'): Promise<User> {
 	const user = await createUser({ emailPrefix: prefix });
@@ -38,13 +42,30 @@ async function seedOneCollectionAndLink(user: User): Promise<void> {
 
 test.group('Account deletion — self service', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.setup(enableOutgoingMail);
 
-	test('should journal the wipe with its data counts and no actor', async ({
+	test('should disable the account instead of wiping it outright', async ({
 		assert,
 		client,
 	}) => {
-		const user = await createUser({ emailPrefix: 'wipe-self' });
-		await seedOneCollectionAndLink(user);
+		const user = await createUser({ emailPrefix: 'disable-self' });
+
+		await client
+			.delete('/user/settings/account')
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		const stillExists = await User.find(user.id);
+		assert.isNotNull(stillExists);
+		assert.isNotNull(stillExists?.pendingDeletionAt);
+	});
+
+	test('should journal the deletion request with no actor', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'disable-journal' });
 
 		await client
 			.delete('/user/settings/account')
@@ -55,19 +76,14 @@ test.group('Account deletion — self service', (group) => {
 		const event = await AuditEvent.query()
 			.where('subjectType', AUDIT_SUBJECT_TYPE.ACCOUNT)
 			.andWhere('subjectId', user.id)
-			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED)
+			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED)
 			.firstOrFail();
 
-		assert.deepEqual(event.metadata, { collections: 1, links: 1 });
 		assert.isNull(event.actorId);
 	});
 
-	test('should keep the row after the account is gone, with the name cleared', async ({
-		assert,
-		client,
-	}) => {
-		const user = await createUser({ emailPrefix: 'wipe-survives' });
-		const userId = user.id;
+	test('should queue a confirmation mail', async ({ client }) => {
+		const user = await createUser({ emailPrefix: 'disable-mail' });
 
 		await client
 			.delete('/user/settings/account')
@@ -75,16 +91,27 @@ test.group('Account deletion — self service', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		const stillExists = await User.find(userId);
-		assert.isNull(stillExists);
+		queuedMails().assertQueued(AccountDeletionRequestedNotification, (mail) =>
+			mail.message.hasTo(user.email)
+		);
+	});
 
-		const event = await AuditEvent.query()
-			.where('subjectType', AUDIT_SUBJECT_TYPE.ACCOUNT)
-			.andWhere('subjectId', userId)
-			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED)
-			.firstOrFail();
+	test('should revoke every other session and sign the requester out', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'disable-sessions' });
+		const otherSession = await createUserSession(user);
 
-		assert.isNull(event.userId);
+		const response = await client
+			.delete('/user/settings/account')
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		const remainingSession = await UserSession.find(otherSession.id);
+		assert.isNull(remainingSession);
+		response.assertSessionMissing('auth_web');
 	});
 });
 

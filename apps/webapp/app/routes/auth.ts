@@ -102,6 +102,25 @@ router
 	})
 	.use(tokenVerificationThrottles);
 
+// Reached mid-login, before a session exists: the password just verified is
+// what proves who is asking, not a guest/auth middleware check, so neither
+// applies here — same reasoning as the callback route further down.
+router.group(() => {
+	router
+		.get('/reactivate', [controllers.auth.ReactivateAccount, 'render'])
+		.as('auth.reactivate');
+	router
+		.post('/reactivate', [controllers.auth.ReactivateAccount, 'execute'])
+		.as('auth.reactivate.submit')
+		.use(loginThrottles);
+	router
+		.post('/reactivate/decline', [
+			controllers.auth.ReactivateAccount,
+			'decline',
+		])
+		.as('auth.reactivate.decline');
+});
+
 router
 	.get('/google', [controllers.auth.GoogleAuth, 'execute'])
 	.as('auth')

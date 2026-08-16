@@ -10,12 +10,14 @@ import { loginValidator } from '#validators/auth/login_validator';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { CredentialsAuthService } from '#services/auth/credentials_auth_service';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
+import { AccountReactivationService } from '#services/auth/account_reactivation_service';
 
 @inject()
 export default class LoginController {
 	constructor(
 		protected readonly credentialsAuthService: CredentialsAuthService,
 		protected readonly emailVerificationService: EmailVerificationService,
+		protected readonly accountReactivationService: AccountReactivationService,
 		protected readonly authEventService: AuthEventService,
 		protected readonly sessionService: SessionService
 	) {}
@@ -45,6 +47,19 @@ export default class LoginController {
 		// naming an address as unconfirmed, served before the password is
 		// verified, is an account enumeration oracle.
 		await this.emailVerificationService.assertCanSignIn(user, origin);
+
+		// Same placement, same reasoning: a disabled account only reveals itself
+		// once the password that unlocks it has already been proven right.
+		if (user.pendingDeletionAt) {
+			await this.authEventService.record({
+				type: AUTH_EVENT_TYPE.LOGIN_BLOCKED_PENDING_DELETION,
+				userId: user.id,
+				...origin,
+			});
+			this.accountReactivationService.armPendingConfirmation(ctx.session, user);
+
+			return ctx.response.redirectToNamedRoute('auth.reactivate');
+		}
 
 		await ctx.auth.use('web').login(user);
 		await this.sessionService.createAuthSession(user);
