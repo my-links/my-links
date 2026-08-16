@@ -1,6 +1,11 @@
 webapp_path := "apps/webapp"
 webapp_env_file := "apps/webapp/.env"
 
+compose_env := "--env-file " + webapp_env_file
+compose_dev := "-f dev.compose.yml " + compose_env
+compose_build := "-f compose.yml " + compose_env
+compose_image := "-f compose.image.yml " + compose_env
+
 alias dw := docker-weight
 
 tuyau:
@@ -28,18 +33,25 @@ update:
 	@pnpm install
 
 _dev: _drop-stale-assets
-	@docker compose --env-file {{ webapp_env_file }} down
-	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} pull
-	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} up -d --wait --remove-orphans
+	@docker compose {{ compose_build }} down
+	@docker compose {{ compose_dev }} pull
+	@docker compose {{ compose_dev }} up -d --wait --remove-orphans
 	@cd {{ webapp_path }} && node ace migration:fresh
 dev: _dev
 	@cd {{ webapp_path }} && node ace db:seed
 	@pnpm run dev:webapp
 
+# Builds my-links/scheduler from the local Dockerfile.
 prod:
-	@docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} down
-	@docker compose --env-file {{ webapp_env_file }} pull
-	@docker compose --env-file {{ webapp_env_file }} up -d --build --wait --remove-orphans
+	@docker compose {{ compose_dev }} down
+	@docker compose {{ compose_build }} pull --ignore-buildable
+	@docker compose {{ compose_build }} up -d --build --wait --remove-orphans
+
+# Runs my-links/scheduler from the published sonny93/my-links image instead of building.
+prod-pull:
+	@docker compose {{ compose_dev }} down
+	@docker compose {{ compose_image }} pull
+	@docker compose {{ compose_image }} up -d --wait --remove-orphans
 
 # A leftover public/assets makes the app read a production manifest and fail
 _drop-stale-assets:
@@ -67,8 +79,8 @@ fresh:
 	@cd {{ webapp_path }} && node ace migration:fresh
 
 down:
-	@-docker compose --env-file {{ webapp_env_file }} down
-	@-docker compose -f dev.compose.yml --env-file {{ webapp_env_file }} down
+	@-docker compose {{ compose_build }} down
+	@-docker compose {{ compose_dev }} down
 
 release:
 	@pnpm run release:webapp

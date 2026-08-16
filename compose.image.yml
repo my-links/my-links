@@ -1,0 +1,56 @@
+# Runs the published image instead of building from source. No smtp service:
+# self-hosters on this path are expected to use an external SMTP provider.
+name: my-links
+services:
+  postgres:
+    restart: always
+    image: postgres:18
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready', '-U', '${DB_USER}', '-d', '${DB_DATABASE}']
+      interval: 30s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+      start_interval: 500ms
+    volumes:
+      - postgres-volume:/var/lib/postgresql
+    ports:
+      - '127.0.0.1:${DB_PORT}:5432'
+
+  my-links:
+    container_name: my-links
+    restart: always
+    image: sonny93/my-links:latest
+    environment:
+      - DB_HOST=postgres
+      - HOST=0.0.0.0
+      - NODE_ENV=production
+    env_file:
+      - apps/webapp/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${PORT}:3333
+
+  scheduler:
+    container_name: my-links-scheduler
+    restart: always
+    image: sonny93/my-links:latest
+    entrypoint: ['supercronic', '/app/crontab']
+    environment:
+      - DB_HOST=postgres
+      - NODE_ENV=production
+    env_file:
+      - apps/webapp/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-volume:
