@@ -162,17 +162,31 @@ export class UserService {
 	 * Every existing session and token is revoked here — a disabled account has
 	 * no business staying reachable anywhere it was already signed in.
 	 */
-	async requestAccountDeletion(userId: User['id']): Promise<void> {
+	/**
+	 * `requestedByAdminId` null means self-service; set means which
+	 * administrator requested it. That distinction is what the login gate reads
+	 * back later: only a self-requested deletion is something its own owner can
+	 * undo by logging back in — an administrator's decision must not be
+	 * reversible by the very account it targets. It also decides whether the
+	 * confirmation mail goes out at all: warning someone that a moderation
+	 * action is about to land, and how to stop it, would defeat the action.
+	 */
+	async requestAccountDeletion(
+		userId: User['id'],
+		requestedByAdminId: User['id'] | null = null
+	): Promise<void> {
 		const user = await User.findOrFail(userId);
 
 		await db.transaction(async (transaction) => {
 			user.pendingDeletionAt = DateTime.now();
+			user.pendingDeletionRequestedById = requestedByAdminId;
 			await user.useTransaction(transaction).save();
 
 			await this.activityEventService.record(
 				{
 					type: ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED,
 					userId,
+					actorId: requestedByAdminId,
 					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 					subjectId: userId,
 				},
@@ -180,28 +194,38 @@ export class UserService {
 			);
 		});
 
-		await this.mailService.send(
-			new AccountDeletionRequestedNotification({
-				user,
-				gracePeriodDays: ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
-			})
-		);
+		if (requestedByAdminId === null) {
+			await this.mailService.send(
+				new AccountDeletionRequestedNotification({
+					user,
+					gracePeriodDays: ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
+				})
+			);
+		}
+
 		await this.accountAccessService.revokeAllExcept(user, null);
 	}
 
 	/**
-	 * Cancels a pending deletion — the confirmation screen a login mid-grace-
-	 * period lands on is the only caller, so reaching here already proves the
-	 * owner came back for it.
+	 * Cancels a pending deletion. `reactivatedByAdminId` is null when the
+	 * confirmation screen a self-service login mid-grace-period lands on is the
+	 * caller — reaching here already proves the owner came back for it — and
+	 * set when an administrator restores the account from the dashboard
+	 * instead.
 	 */
-	async reactivateAccount(userId: User['id']): Promise<void> {
+	async reactivateAccount(
+		userId: User['id'],
+		reactivatedByAdminId: User['id'] | null = null
+	): Promise<void> {
 		const user = await User.findOrFail(userId);
 		user.pendingDeletionAt = null;
+		user.pendingDeletionRequestedById = null;
 		await user.save();
 
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.ACCOUNT_REACTIVATED,
 			userId,
+			actorId: reactivatedByAdminId,
 			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 			subjectId: userId,
 		});
@@ -234,38 +258,23 @@ export class UserService {
 		});
 	}
 
-	async bulkDeleteUsers(
+	/**
+	 * Same grace period as self-service, started by an administrator instead —
+	 * see `requestAccountDeletion`. An administrator account is never a valid
+	 * target, the same protection `bulkDeleteUsers` used to enforce with an
+	 * immediate wipe.
+	 */
+	async bulkRequestAccountDeletion(
 		userIds: User['id'][],
 		actorId: User['id']
 	): Promise<void> {
-		await db.transaction(async (transaction) => {
-			const targetUsers = await User.query({ client: transaction })
-				.whereIn('id', userIds)
-				.andWhere('isAdmin', false);
+		const targetUsers = await User.query()
+			.whereIn('id', userIds)
+			.andWhere('isAdmin', false);
 
-			for (const targetUser of targetUsers) {
-				const dataCounts = await this.countUserData(targetUser.id, transaction);
-
-				await this.activityEventService.record(
-					{
-						type: ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED,
-						userId: targetUser.id,
-						actorId,
-						subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
-						subjectId: targetUser.id,
-						metadata: dataCounts,
-					},
-					transaction
-				);
-			}
-
-			await User.query({ client: transaction })
-				.whereIn(
-					'id',
-					targetUsers.map((targetUser) => targetUser.id)
-				)
-				.delete();
-		});
+		for (const targetUser of targetUsers) {
+			await this.requestAccountDeletion(targetUser.id, actorId);
+		}
 	}
 
 	private async countUserData(

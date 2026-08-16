@@ -2,13 +2,10 @@ import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import Link from '#models/link';
-import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
@@ -20,24 +17,6 @@ async function createAdmin(prefix = 'admin'): Promise<User> {
 	await user.save();
 
 	return user;
-}
-
-async function seedOneCollectionAndLink(user: User): Promise<void> {
-	const collection = await Collection.create({
-		name: 'Work',
-		description: null,
-		visibility: VISIBILITY.PRIVATE,
-		icon: null,
-		authorId: user.id,
-	});
-	const link = await Link.create({
-		name: 'A link',
-		description: null,
-		url: 'https://example.com',
-		favorite: false,
-		authorId: user.id,
-	});
-	await link.related('collections').attach([collection.id]);
 }
 
 test.group('Account deletion — self service', (group) => {
@@ -117,14 +96,33 @@ test.group('Account deletion — self service', (group) => {
 
 test.group('Account deletion — administrator bulk delete', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.setup(enableOutgoingMail);
 
-	test('should journal a wipe per account with the administrator as actor', async ({
+	test('should disable target accounts instead of wiping them outright', async ({
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('wipe-admin');
-		const target = await createUser({ emailPrefix: 'wipe-target' });
-		await seedOneCollectionAndLink(target);
+		const administrator = await createAdmin('disable-admin');
+		const target = await createUser({ emailPrefix: 'disable-target' });
+
+		await client
+			.post('/admin/users/bulk-delete')
+			.json({ userIds: [target.id] })
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		const stillExists = await User.find(target.id);
+		assert.isNotNull(stillExists);
+		assert.isNotNull(stillExists?.pendingDeletionAt);
+	});
+
+	test('should journal the deletion request naming the administrator as actor', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('disable-admin-journal');
+		const target = await createUser({ emailPrefix: 'disable-target-journal' });
 
 		await client
 			.post('/admin/users/bulk-delete')
@@ -136,14 +134,67 @@ test.group('Account deletion — administrator bulk delete', (group) => {
 		const event = await AuditEvent.query()
 			.where('subjectType', AUDIT_SUBJECT_TYPE.ACCOUNT)
 			.andWhere('subjectId', target.id)
-			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED)
+			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED)
 			.firstOrFail();
 
 		assert.equal(event.actorId, administrator.id);
-		assert.deepEqual(event.metadata, { collections: 1, links: 1 });
 	});
 
-	test('should neither delete nor journal an administrator account', async ({
+	test('should record which administrator requested it', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('disable-admin-recorded');
+		const target = await createUser({ emailPrefix: 'disable-target-recorded' });
+
+		await client
+			.post('/admin/users/bulk-delete')
+			.json({ userIds: [target.id] })
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		await target.refresh();
+		assert.equal(target.pendingDeletionRequestedById, administrator.id);
+	});
+
+	test('should revoke every session of the target account', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('disable-admin-sessions');
+		const target = await createUser({ emailPrefix: 'disable-target-sessions' });
+		const targetSession = await createUserSession(target);
+
+		await client
+			.post('/admin/users/bulk-delete')
+			.json({ userIds: [target.id] })
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		const remainingSession = await UserSession.find(targetSession.id);
+		assert.isNull(remainingSession);
+	});
+
+	test('should not warn the target account by email', async ({ client }) => {
+		const administrator = await createAdmin('disable-admin-mail');
+		const target = await createUser({ emailPrefix: 'disable-target-mail' });
+
+		await client
+			.post('/admin/users/bulk-delete')
+			.json({ userIds: [target.id] })
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		queuedMails().assertNotQueued(
+			AccountDeletionRequestedNotification,
+			(mail) => mail.message.hasTo(target.email)
+		);
+	});
+
+	test('should neither disable nor journal an administrator account', async ({
 		assert,
 		client,
 	}) => {
@@ -157,13 +208,13 @@ test.group('Account deletion — administrator bulk delete', (group) => {
 			.loginAs(administrator)
 			.redirects(0);
 
-		const stillExists = await User.find(protectedAdmin.id);
-		assert.isNotNull(stillExists);
+		await protectedAdmin.refresh();
+		assert.isNull(protectedAdmin.pendingDeletionAt);
 
 		const events = await AuditEvent.query()
 			.where('subjectType', AUDIT_SUBJECT_TYPE.ACCOUNT)
 			.andWhere('subjectId', protectedAdmin.id)
-			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED);
+			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED);
 		assert.lengthOf(events, 0);
 	});
 });

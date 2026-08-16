@@ -236,7 +236,7 @@ export class UserSessionSchema extends BaseModel {
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'emailVerifiedAt', 'id', 'isAdmin', 'lastSeenAt', 'name', 'nickName', 'pendingDeletionAt', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'emailVerifiedAt', 'id', 'isAdmin', 'lastSeenAt', 'name', 'nickName', 'pendingDeletionAt', 'pendingDeletionRequestedById', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -256,6 +256,8 @@ export class UserSchema extends BaseModel {
   declare nickName: string | null
   @column.dateTime()
   declare pendingDeletionAt: DateTime | null
+  @column()
+  declare pendingDeletionRequestedById: number | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
