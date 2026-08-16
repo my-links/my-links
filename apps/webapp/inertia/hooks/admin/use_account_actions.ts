@@ -15,6 +15,7 @@ interface UseAccountActionsReturn {
 	revokeAccess: (accountId: number) => void;
 	setRole: (accountId: number, role: AccountRole) => void;
 	restoreAccount: (accountId: number) => void;
+	requestDeletion: (accountId: number) => void;
 }
 
 /**
@@ -59,11 +60,24 @@ export function useAccountActions(): UseAccountActionsReturn {
 			{ preserveScroll: true }
 		);
 
+	/**
+	 * Reuses the bulk-delete endpoint with a single id rather than opening a
+	 * dedicated route for it — the same grace-period request either way, and
+	 * the backend already accepts any array length.
+	 */
+	const requestDeletion = (accountId: number) =>
+		router.post(
+			urlFor('admin.users.bulk-delete'),
+			{ userIds: [accountId] },
+			{ preserveScroll: true }
+		);
+
 	return {
 		sendPasswordReset,
 		markEmailConfirmed,
 		revokeAccess,
 		setRole,
 		restoreAccount,
+		requestDeletion,
 	};
 }

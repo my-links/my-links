@@ -228,8 +228,9 @@ msgstr "By accessing MyLinks and using our services, you agree to comply with th
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 
-#: inertia/components/admin/users/account_actions.tsx:52
-#: inertia/components/admin/users/account_actions.tsx:81
+#: inertia/components/admin/users/account_actions.tsx:59
+#: inertia/components/admin/users/account_actions.tsx:77
+#: inertia/components/admin/users/account_actions.tsx:106
 #: inertia/components/admin/users/users_table.tsx:76
 #: inertia/components/api_tokens/api_tokens.tsx:57
 #: inertia/components/api_tokens/create_token_modal.tsx:51
@@ -240,8 +241,8 @@ msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclus
 msgid "Cancel"
 msgstr "Cancel"
 
-#: inertia/components/admin/users/account_actions.tsx:96
-#: inertia/components/admin/users/account_actions.tsx:97
+#: inertia/components/admin/users/account_actions.tsx:119
+#: inertia/components/admin/users/account_actions.tsx:122
 msgid "Cancel the pending deletion"
 msgstr "Cancel the pending deletion"
 
@@ -319,7 +320,7 @@ msgstr "Collections ({0})"
 msgid "Compact"
 msgstr "Compact"
 
-#: inertia/components/admin/users/account_actions.tsx:80
+#: inertia/components/admin/users/account_actions.tsx:105
 #: inertia/pages/auth/sudo.tsx:72
 msgid "Confirm"
 msgstr "Confirm"
@@ -489,6 +490,7 @@ msgstr "Database connection"
 msgid "Database connections"
 msgstr "Database connections"
 
+#: inertia/components/admin/users/account_actions.tsx:58
 #: inertia/components/admin/users/users_table.tsx:75
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:78
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:70
@@ -504,6 +506,12 @@ msgstr "Delete a collection"
 #: inertia/components/dashboard/links/link_controls.tsx:189
 msgid "Delete a link"
 msgstr "Delete a link"
+
+#: inertia/components/admin/users/account_actions.tsx:48
+#: inertia/components/admin/users/account_actions.tsx:131
+#: inertia/components/admin/users/account_actions.tsx:134
+msgid "Delete account"
+msgstr "Delete account"
 
 #: inertia/components/user_settings/delete_account.tsx:12
 #: inertia/components/user_settings/delete_account.tsx:21
@@ -539,9 +547,9 @@ msgstr "Deletion requested by an administrator on {0}"
 msgid "Deletion requested on {0}"
 msgstr "Deletion requested on {0}"
 
-#: inertia/components/admin/users/account_actions.tsx:61
-#: inertia/components/admin/users/account_actions.tsx:138
-#: inertia/components/admin/users/account_actions.tsx:141
+#: inertia/components/admin/users/account_actions.tsx:86
+#: inertia/components/admin/users/account_actions.tsx:180
+#: inertia/components/admin/users/account_actions.tsx:186
 msgid "Demote to member"
 msgstr "Demote to member"
 
@@ -637,7 +645,7 @@ msgstr "Event"
 msgid "Every authentication event this instance recorded, newest first."
 msgstr "Every authentication event this instance recorded, newest first."
 
-#: inertia/components/admin/users/account_actions.tsx:45
+#: inertia/components/admin/users/account_actions.tsx:70
 msgid "Every browser session and every extension token of this account will stop working immediately."
 msgstr "Every browser session and every extension token of this account will stop working immediately."
 
@@ -951,8 +959,8 @@ msgstr "Logout"
 msgid "Made by"
 msgstr "Made by"
 
-#: inertia/components/admin/users/account_actions.tsx:118
-#: inertia/components/admin/users/account_actions.tsx:119
+#: inertia/components/admin/users/account_actions.tsx:157
+#: inertia/components/admin/users/account_actions.tsx:160
 msgid "Mark the address as confirmed"
 msgstr "Mark the address as confirmed"
 
@@ -1184,9 +1192,9 @@ msgstr "Privacy Policy of MyLinks"
 msgid "Private"
 msgstr "Private"
 
-#: inertia/components/admin/users/account_actions.tsx:63
-#: inertia/components/admin/users/account_actions.tsx:138
-#: inertia/components/admin/users/account_actions.tsx:141
+#: inertia/components/admin/users/account_actions.tsx:88
+#: inertia/components/admin/users/account_actions.tsx:180
+#: inertia/components/admin/users/account_actions.tsx:186
 msgid "Promote to administrator"
 msgstr "Promote to administrator"
 
@@ -1247,18 +1255,18 @@ msgstr "Reset your password"
 msgid "Responsibilities and Warranties"
 msgstr "Responsibilities and Warranties"
 
-#: inertia/components/admin/users/account_actions.tsx:51
+#: inertia/components/admin/users/account_actions.tsx:76
 #: inertia/components/api_tokens/api_tokens.tsx:48
 #: inertia/components/api_tokens/api_tokens.tsx:56
 msgid "Revoke"
 msgstr "Revoke"
 
-#: inertia/components/admin/users/account_actions.tsx:42
+#: inertia/components/admin/users/account_actions.tsx:67
 msgid "Revoke access"
 msgstr "Revoke access"
 
-#: inertia/components/admin/users/account_actions.tsx:128
-#: inertia/components/admin/users/account_actions.tsx:129
+#: inertia/components/admin/users/account_actions.tsx:168
+#: inertia/components/admin/users/account_actions.tsx:171
 msgid "Revoke every session and token"
 msgstr "Revoke every session and token"
 
@@ -1323,8 +1331,8 @@ msgstr "Self-host it"
 msgid "Send a new confirmation link"
 msgstr "Send a new confirmation link"
 
-#: inertia/components/admin/users/account_actions.tsx:107
-#: inertia/components/admin/users/account_actions.tsx:108
+#: inertia/components/admin/users/account_actions.tsx:145
+#: inertia/components/admin/users/account_actions.tsx:148
 msgid "Send a password reset link"
 msgstr "Send a password reset link"
 
@@ -1511,13 +1519,17 @@ msgstr "This account has no way left to confirm its identity on this instance. S
 msgid "This account is scheduled for deletion"
 msgstr "This account is scheduled for deletion"
 
-#: inertia/components/admin/users/account_actions.tsx:73
+#: inertia/components/admin/users/account_actions.tsx:98
 msgid "This account will be able to manage every account on this instance."
 msgstr "This account will be able to manage every account on this instance."
 
-#: inertia/components/admin/users/account_actions.tsx:68
+#: inertia/components/admin/users/account_actions.tsx:93
 msgid "This account will lose access to the admin area, including this page."
 msgstr "This account will lose access to the admin area, including this page."
+
+#: inertia/components/admin/users/account_actions.tsx:51
+msgid "This disables the account and revokes every session and token immediately. It is permanently deleted once the grace period ends, unless you restore it before then."
+msgstr "This disables the account and revokes every session and token immediately. It is permanently deleted once the grace period ends, unless you restore it before then."
 
 #: inertia/components/user_settings/email_address.tsx:77
 msgid "This instance sends no email, so the address cannot be changed from here."
