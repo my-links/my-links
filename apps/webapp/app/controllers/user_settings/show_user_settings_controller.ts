@@ -25,7 +25,6 @@ export default class ShowUserSettingsController {
 		const authMethods =
 			await this.providerLinkService.describeAuthMethods(user);
 		return inertia.render('user_settings/show', {
-			user,
 			emailAddress: user.email,
 			// Both halves of an address change are links in mailboxes, so the form
 			// only exists where one can be sent — the endpoint answers 404 there,
