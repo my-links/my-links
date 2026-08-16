@@ -426,7 +426,7 @@ test.group('Dashboard reordering (browser)', (group) => {
 		await sectionContainer(page, PUBLIC_HEADING)
 			.getByRole('button', { name: 'Section options' })
 			.click();
-		await page.getByRole('button', { name: 'Move up' }).click();
+		await page.getByRole('menuitem', { name: 'Move up' }).click();
 
 		const reorderedPublicY = await headingY(page, PUBLIC_HEADING);
 		const reorderedFollowedY = await headingY(page, FOLLOWED_HEADING);
