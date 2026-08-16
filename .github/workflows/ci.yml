@@ -33,6 +33,10 @@ jobs:
     name: Unit, functional, browser
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      # .env/.env.test live at the repo root; node ace defaults to
+      # apps/webapp, so point it up two levels, same as the Justfile.
+      ENV_PATH: ../..
     services:
       postgres:
         image: postgres:18
@@ -70,10 +74,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Write .env
+        run: cp .env.example .env
+
+      - name: Generate APP_KEY
         working-directory: apps/webapp
-        run: |
-          cp ../../.env.example .env
-          node ace generate:key
+        run: node ace generate:key
 
       - name: Install Playwright's Chromium
         working-directory: apps/webapp
