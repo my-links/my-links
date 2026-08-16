@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.1.0](https://github.com/my-links/my-links/compare/extension-v2.0.0...extension-v2.1.0) (2026-08-16)
+
+### Features
+
+* **extension:** add tooltips to icon buttons ([b8e2a28](https://github.com/my-links/my-links/commit/b8e2a2853917962e059c4ab9148899196027edfe))
+
+### Bug Fixes
+
+* **extension:** request permission before origin resolution for firefox ([4671a67](https://github.com/my-links/my-links/commit/4671a671208c82f48266bda31ac603961e086a78))
+* **extension:** set explicit manifest name ([c99277c](https://github.com/my-links/my-links/commit/c99277ca2d085a6e2908ee2fe04b26ddbe97650e))
+
 ## [2.0.0](https://github.com/my-links/my-links/compare/4.3.4...extension-v2.0.0) (2026-08-12)
 
 ### Features
