@@ -71,7 +71,7 @@ export function DataTable<TData>({
 		>
 			<table
 				className={cn(
-					'w-full border-collapse',
+					'w-full border-collapse whitespace-nowrap',
 					minWidthClassName ?? 'min-w-[760px]',
 					tableClassName
 				)}
