@@ -8,11 +8,15 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { MailService } from '#services/mail/mail_service';
 import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
-import { ACCOUNT_DELETION_GRACE_PERIOD_DAYS } from '#constants/account';
 import { AccountAccessService } from '#services/auth/account_access_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import LastAdministratorException from '#exceptions/admin/last_administrator_exception';
 import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
+import {
+	ACCOUNT_DELETION_REASON,
+	type AccountDeletionReason,
+	ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
+} from '#constants/account';
 
 /**
  * Narrows a listing to a subset of the accounts. Every field is stated rather
@@ -23,6 +27,11 @@ export type AccountFilters = {
 	readonly administratorsOnly: boolean;
 	readonly unverifiedOnly: boolean;
 	readonly provider: AuthProvider | null;
+};
+
+export type RequestAccountDeletionOptions = {
+	readonly requestedByAdminId?: User['id'] | null;
+	readonly reason?: AccountDeletionReason;
 };
 
 @inject()
@@ -155,25 +164,29 @@ export class UserService {
 
 	/**
 	 * Starts the grace period instead of wiping outright: the row is marked
-	 * disabled, not deleted, so a misclick stays recoverable until either the
-	 * owner logs back in and reactivates it, or `deleteUser` catches up with it
-	 * once the grace period has run out.
+	 * disabled, not deleted, so a misclick — or an inactive account nobody
+	 * meant to abandon — stays recoverable until either the owner logs back in
+	 * and reactivates it, or `deleteUser` catches up with it once the grace
+	 * period has run out.
+	 *
+	 * `requestedByAdminId` null means self-service or the inactivity sweep; set
+	 * means which administrator requested it. That distinction is what the
+	 * login gate reads back later: only a request that did not come from an
+	 * administrator is something its own owner can undo by logging back in — an
+	 * administrator's decision must not be reversible by the very account it
+	 * targets. It also decides whether the confirmation mail goes out at all:
+	 * warning someone that a moderation action is about to land, and how to
+	 * stop it, would defeat the action.
 	 *
 	 * Every existing session and token is revoked here — a disabled account has
 	 * no business staying reachable anywhere it was already signed in.
 	 */
-	/**
-	 * `requestedByAdminId` null means self-service; set means which
-	 * administrator requested it. That distinction is what the login gate reads
-	 * back later: only a self-requested deletion is something its own owner can
-	 * undo by logging back in — an administrator's decision must not be
-	 * reversible by the very account it targets. It also decides whether the
-	 * confirmation mail goes out at all: warning someone that a moderation
-	 * action is about to land, and how to stop it, would defeat the action.
-	 */
 	async requestAccountDeletion(
 		userId: User['id'],
-		requestedByAdminId: User['id'] | null = null
+		{
+			requestedByAdminId = null,
+			reason = ACCOUNT_DELETION_REASON.SELF_REQUESTED,
+		}: RequestAccountDeletionOptions = {}
 	): Promise<void> {
 		const user = await User.findOrFail(userId);
 
@@ -198,6 +211,7 @@ export class UserService {
 			await this.mailService.send(
 				new AccountDeletionRequestedNotification({
 					user,
+					reason,
 					gracePeriodDays: ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
 				})
 			);
@@ -273,7 +287,9 @@ export class UserService {
 			.andWhere('isAdmin', false);
 
 		for (const targetUser of targetUsers) {
-			await this.requestAccountDeletion(targetUser.id, actorId);
+			await this.requestAccountDeletion(targetUser.id, {
+				requestedByAdminId: actorId,
+			});
 		}
 	}
 
