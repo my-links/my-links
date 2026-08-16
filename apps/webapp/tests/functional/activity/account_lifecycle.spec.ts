@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
@@ -6,7 +7,7 @@ import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { createUser } from '#tests/factories/user_factory';
+import { createUser, markLastSeen } from '#tests/factories/user_factory';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
@@ -216,5 +217,33 @@ test.group('Account deletion — administrator bulk delete', (group) => {
 			.andWhere('subjectId', protectedAdmin.id)
 			.andWhere('type', ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED);
 		assert.lengthOf(events, 0);
+	});
+
+	/**
+	 * Regression: `lastSeenAt` used to be `autoUpdate` on the model, so saving
+	 * the target row here (setting `pendingDeletionAt`) silently stamped it to
+	 * "now" — a target who never made a request of their own reading as
+	 * freshly active, purely because an administrator acted on their account.
+	 */
+	test("should not touch the target's lastSeenAt", async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin('disable-admin-last-seen');
+		const target = await createUser({
+			emailPrefix: 'disable-target-last-seen',
+		});
+		const seenAt = DateTime.now().minus({ days: 10 });
+		await markLastSeen(target, seenAt);
+
+		await client
+			.post('/admin/users/bulk-delete')
+			.json({ userIds: [target.id] })
+			.withCsrfToken()
+			.loginAs(administrator)
+			.redirects(0);
+
+		const reloaded = await User.findOrFail(target.id);
+		assert.equal(reloaded.lastSeenAt?.toISO(), seenAt.toISO());
 	});
 });
