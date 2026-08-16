@@ -10,21 +10,21 @@ cp .env.example apps/webapp/.env
 
 ## Required variables
 
-| Variable                                                          | Notes                                                                          |
-| ----------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `NODE_ENV`                                                        | `development`, `production`, or `test`                                         |
-| `PORT`                                                            | Port the application listens on, e.g. `3333`                                   |
-| `APP_KEY`                                                         | Application secret key — generate with `openssl rand -base64 32`               |
-| `HOST`                                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`                          |
-| `LOG_LEVEL`                                                       | e.g. `info`, `debug`                                                           |
-| `APP_URL`                                                         | Public application URL, e.g. `https://your-domain.com`                         |
-| `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_PASSWORD` / `DB_DATABASE` | PostgreSQL connection                                                          |
+| Variable                                                          | Notes                                                            |
+| ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `NODE_ENV`                                                        | `development`, `production`, or `test`                           |
+| `PORT`                                                            | Port the application listens on, e.g. `3333`                     |
+| `APP_KEY`                                                         | Application secret key — generate with `openssl rand -base64 32` |
+| `HOST`                                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`            |
+| `LOG_LEVEL`                                                       | e.g. `info`, `debug`                                             |
+| `APP_URL`                                                         | Public application URL, e.g. `https://your-domain.com`           |
+| `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_PASSWORD` / `DB_DATABASE` | PostgreSQL connection                                            |
 
 ## Optional variables
 
 | Variable                                    | Notes                                                                                      |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `TZ`                                        | Timezone, e.g. `UTC`                                                                       
+| `TZ`                                        | Timezone, e.g. `UTC`                                                                       |
 | `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups — see [Authentication](/self-hosting/authentication) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in — see [Authentication](/self-hosting/authentication)                        |
 | `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail — see below                                                                  |
