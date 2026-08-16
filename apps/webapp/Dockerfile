@@ -36,7 +36,6 @@ FROM base AS production
 ENV NODE_ENV=production
 ENV LOG_LEVEL=debug
 ENV CACHE_VIEWS=false
-ENV SESSION_DRIVER=database
 ENV PORT=$PORT
 
 # Supercronic runs the account maintenance crontab in the scheduler service
