@@ -1,16 +1,15 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import { BaseCommand } from '@adonisjs/core/ace';
 import type { CommandOptions } from '@adonisjs/core/types/ace';
 
-import User from '#models/user';
 import { UserService } from '#services/user/user_service';
 import { ACCOUNT_DELETION_GRACE_PERIOD_DAYS } from '#constants/account';
 
 /**
- * Meant to run from cron. Wipes accounts whose grace period ran out —
- * `UserService.deleteUser` unchanged, the same self-service wipe a login-time
- * cancellation would otherwise have pre-empted.
+ * CLI entry point for `UserService.pruneExpiredDeletions` — used by native
+ * (non-Docker) deployments, which schedule it themselves via system cron.
+ * The Docker image runs the same logic on a schedule instead, from
+ * `start/scheduler.ts`.
  */
 export default class PruneDeletedAccounts extends BaseCommand {
 	static commandName = 'account:prune-deleted';
@@ -19,20 +18,10 @@ export default class PruneDeletedAccounts extends BaseCommand {
 
 	@inject()
 	async run(userService: UserService): Promise<void> {
-		const cutoff = DateTime.now().minus({
-			days: ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
-		});
-
-		const expiredAccounts = await User.query()
-			.whereNotNull('pendingDeletionAt')
-			.andWhere('pendingDeletionAt', '<', cutoff.toSQL());
-
-		for (const account of expiredAccounts) {
-			await userService.deleteUser(account.id);
-		}
+		const prunedCount = await userService.pruneExpiredDeletions();
 
 		this.logger.success(
-			`Permanently deleted ${expiredAccounts.length} account(s) past the grace period`
+			`Permanently deleted ${prunedCount} account(s) past the grace period`
 		);
 	}
 }
