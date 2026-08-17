@@ -3,4 +3,6 @@ export type Favicon = {
 	url: string;
 	type: string;
 	size: number;
+	etag?: string | null;
+	lastModified?: string | null;
 };
