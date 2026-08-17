@@ -27,8 +27,7 @@ export function parseDocument(html: string): HTMLElement {
 	return parse(html);
 }
 
-// `<base href>` overrides the document URL as the resolution root for every
-// relative href on the page, and is silently ignored by a naive `new URL(href, documentUrl)`.
+// `<base href>` overrides the document URL as the resolution root, and a naive `new URL(href, documentUrl)` ignores it.
 export function resolveDocumentBaseUrl(
 	document: HTMLElement,
 	documentUrl: string

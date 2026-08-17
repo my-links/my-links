@@ -110,6 +110,27 @@ export class CollectionSchema extends BaseModel {
   declare visibility: any | null
 }
 
+export class FaviconEntrySchema extends BaseModel {
+  static $columns = ['byteSize', 'contentHash', 'contentType', 'createdAt', 'id', 'origin', 'source', 'updatedAt'] as const
+  $columns = FaviconEntrySchema.$columns
+  @column()
+  declare byteSize: number
+  @column()
+  declare contentHash: string
+  @column()
+  declare contentType: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare origin: string
+  @column()
+  declare source: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class LinkSchema extends BaseModel {
   static $columns = ['authorId', 'clicks', 'createdAt', 'description', 'favorite', 'id', 'lastClickedAt', 'name', 'updatedAt', 'url'] as const
   $columns = LinkSchema.$columns

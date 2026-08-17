@@ -47,10 +47,15 @@ services:
         condition: service_healthy
     ports:
       - ${PORT}:3333
+    volumes:
+      - favicon-volume:/app/storage/favicons
 
 volumes:
   postgres-volume:
+  favicon-volume:
 ```
+
+`favicon-volume` holds the cached favicon images (see [Configuration](/self-hosting/configuration#favicon-store)). Unlike `postgres-volume`, losing it isn't a data loss — the app re-downloads what it needs — but keeping it out of your backup strategy means a restore re-fetches every favicon from scratch instead of serving them immediately.
 
 ## 3. Create your `.env`
 
@@ -108,9 +113,10 @@ If you would rather run it without Docker:
 
 The application is reachable on the port set in `PORT`.
 
-Account maintenance (flagging inactive accounts, deleting expired ones) is not automatic here — the Docker path gets it for free, scheduled inside the application itself, but a native deployment needs its own system cron calling, from `build/`:
+Account maintenance (flagging inactive accounts, deleting expired ones) and the favicon store's orphan purge are not automatic here — the Docker path gets them for free, scheduled inside the application itself, but a native deployment needs its own system cron calling, from `build/`:
 
 ```bash
 node bin/console.js account:flag-inactive
 node bin/console.js account:prune-deleted
+node bin/console.js favicon:purge-orphans
 ```

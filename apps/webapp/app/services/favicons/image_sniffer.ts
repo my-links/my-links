@@ -56,9 +56,7 @@ const IMAGE_SIGNATURES: ImageSignature[] = [
 	},
 ];
 
-// Content-Type is what the remote server claims; a valid .ico served as
-// application/octet-stream would otherwise be rejected. The magic bytes are
-// what the file actually is.
+// Content-Type is a claim; a valid .ico served as application/octet-stream would fail that check.
 export function sniffImageType(buffer: Buffer): string | undefined {
 	return IMAGE_SIGNATURES.find((signature) => signature.matches(buffer))?.type;
 }
