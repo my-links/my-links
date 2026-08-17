@@ -111,7 +111,7 @@ export class CollectionSchema extends BaseModel {
 }
 
 export class FaviconEntrySchema extends BaseModel {
-  static $columns = ['byteSize', 'contentHash', 'contentType', 'createdAt', 'id', 'origin', 'source', 'updatedAt'] as const
+  static $columns = ['byteSize', 'contentHash', 'contentType', 'createdAt', 'etag', 'id', 'lastModified', 'origin', 'resolvedAt', 'resolvedUrl', 'source', 'updatedAt'] as const
   $columns = FaviconEntrySchema.$columns
   @column()
   declare byteSize: number
@@ -121,10 +121,18 @@ export class FaviconEntrySchema extends BaseModel {
   declare contentType: string
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+  @column()
+  declare etag: string | null
   @column({ isPrimary: true })
   declare id: number
   @column()
+  declare lastModified: string | null
+  @column()
   declare origin: string
+  @column.dateTime()
+  declare resolvedAt: DateTime | null
+  @column()
+  declare resolvedUrl: string | null
   @column()
   declare source: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })

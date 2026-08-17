@@ -90,3 +90,102 @@ test.group('CacheService.getOrSetFavicon', (group) => {
 		assert.isTrue(afterEviction.buffer.equals(original.buffer));
 	});
 });
+
+test.group('CacheService.peekMetadata', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should return undefined when nothing has ever been resolved', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://peek-metadata-missing-test-${Date.now()}.example`;
+
+		assert.isUndefined(await cacheService.peekMetadata(url));
+	});
+
+	test('should return the metadata of a resolved favicon, including its validators', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://peek-metadata-test-${Date.now()}.example`;
+		const original: Favicon = {
+			...fakeFavicon(url),
+			etag: '"abc123"',
+			lastModified: 'Wed, 21 Oct 2015 07:28:00 GMT',
+		};
+
+		await cacheService.getOrSetFavicon(url, () => Promise.resolve(original));
+		const metadata = await cacheService.peekMetadata(url);
+
+		assert.equal(metadata?.resolvedUrl, url);
+		assert.equal(metadata?.etag, original.etag);
+		assert.equal(metadata?.lastModified, original.lastModified);
+		assert.isNumber(metadata?.resolvedAt);
+	});
+});
+
+test.group('CacheService.markRevalidated', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should bump resolvedAt without touching the stored bytes when unchanged', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://mark-revalidated-unchanged-test-${Date.now()}.example`;
+		const original = fakeFavicon(url);
+
+		await cacheService.getOrSetFavicon(url, () => Promise.resolve(original));
+		const before = await cacheService.peekMetadata(url);
+
+		await cacheService.markRevalidated(url, { changed: false });
+		await cache
+			.namespace('favicon:meta')
+			.delete({ key: normalizeFaviconOrigin(url) });
+		const after = await cacheService.peekMetadata(url);
+
+		assert.equal(after?.contentHash, before?.contentHash);
+		assert.isTrue((after?.resolvedAt ?? 0) >= (before?.resolvedAt ?? 0));
+	});
+
+	test('should replace the stored bytes and validators when changed', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://mark-revalidated-changed-test-${Date.now()}.example`;
+		const original = fakeFavicon(url);
+		await cacheService.getOrSetFavicon(url, () => Promise.resolve(original));
+
+		const updated: Favicon = {
+			buffer: Buffer.from('brand-new-icon-bytes'),
+			url,
+			type: 'image/png',
+			size: 21,
+			etag: '"new-etag"',
+			lastModified: 'Thu, 22 Oct 2015 07:28:00 GMT',
+		};
+		await cacheService.markRevalidated(url, {
+			changed: true,
+			favicon: updated,
+		});
+
+		const refreshed = await cacheService.getOrSetFavicon(url, () => {
+			throw new Error('factory should not run: an entry already exists');
+		});
+
+		assert.isTrue(refreshed.buffer.equals(updated.buffer));
+		assert.equal(refreshed.type, updated.type);
+		assert.equal(refreshed.etag, updated.etag);
+		assert.equal(refreshed.lastModified, updated.lastModified);
+	});
+
+	test('should do nothing when the entry no longer exists', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://mark-revalidated-missing-test-${Date.now()}.example`;
+
+		await cacheService.markRevalidated(url, { changed: false });
+
+		assert.isUndefined(await cacheService.peekMetadata(url));
+	});
+});

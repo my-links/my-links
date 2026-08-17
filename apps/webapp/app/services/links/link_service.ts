@@ -8,10 +8,12 @@ import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
+import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
+import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 type LinkPayload = {
 	name: string;
@@ -27,7 +29,8 @@ export class LinkService {
 		protected readonly collectionService: CollectionService,
 		protected readonly syncJournalService: SyncJournalService,
 		protected readonly activityEventService: ActivityEventService,
-		protected readonly collectionLinkService: CollectionLinkService
+		protected readonly collectionLinkService: CollectionLinkService,
+		protected readonly faviconResolutionService: FaviconResolutionService
 	) {}
 
 	async createLink(payload: LinkPayload) {
@@ -61,6 +64,8 @@ export class LinkService {
 			return createdLink;
 		});
 
+		void this.faviconResolutionService.triggerResolution(linkAttributes.url);
+
 		return this.getLinkById(link.id, userId);
 	}
 
@@ -68,11 +73,13 @@ export class LinkService {
 		const userId = this.getAuthenticatedUserId();
 		const { collectionIds, ...linkAttributes } = payload;
 
-		await db.transaction(async (transaction) => {
+		const previousUrl = await db.transaction(async (transaction) => {
 			const link = await Link.query({ client: transaction })
 				.where('id', id)
 				.apply((scopes) => scopes.ownedBy(userId))
 				.firstOrFail();
+
+			const linkUrlBeforeUpdate = link.url;
 
 			link.merge(linkAttributes);
 			await link.useTransaction(transaction).save();
@@ -99,7 +106,16 @@ export class LinkService {
 				},
 				transaction
 			);
+
+			return linkUrlBeforeUpdate;
 		});
+
+		if (
+			normalizeFaviconOrigin(previousUrl) !==
+			normalizeFaviconOrigin(linkAttributes.url)
+		) {
+			void this.faviconResolutionService.triggerResolution(linkAttributes.url);
+		}
 
 		return this.getLinkById(id, userId);
 	}

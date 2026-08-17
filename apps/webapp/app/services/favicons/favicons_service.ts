@@ -53,6 +53,47 @@ export class FaviconService {
 		);
 	}
 
+	async checkForUpdate(
+		url: string,
+		validators: { etag?: string | null; lastModified?: string | null }
+	): Promise<{ changed: false } | { changed: true; favicon: Favicon }> {
+		const conditionalHeaders: Record<string, string> = {};
+		if (validators.etag) {
+			conditionalHeaders['If-None-Match'] = validators.etag;
+		}
+		if (validators.lastModified) {
+			conditionalHeaders['If-Modified-Since'] = validators.lastModified;
+		}
+
+		try {
+			const response = await this.fetchWithUserAgent(url, conditionalHeaders);
+			if (response.status === 304 || !response.ok || !response.body) {
+				return { changed: false };
+			}
+
+			const buffer = await this.readImageBodyCapped(response.body, url);
+			const type = sniffImageType(buffer);
+			if (!type || buffer.length === 0) {
+				return { changed: false };
+			}
+
+			return {
+				changed: true,
+				favicon: {
+					buffer,
+					type,
+					size: buffer.length,
+					url: response.url,
+					etag: response.headers.get('etag'),
+					lastModified: response.headers.get('last-modified'),
+				},
+			};
+		} catch (error) {
+			logger.debug(`Favicon revalidation request failed for ${url}`, error);
+			return { changed: false };
+		}
+	}
+
 	// Tiers from most to least authoritative: link icons, manifest icons, tile/og images, then /favicon.ico.
 	private async resolveCandidates(
 		normalizedUrl: string
@@ -208,7 +249,14 @@ export class FaviconService {
 			throw new FaviconNotFoundException(`Invalid image at ${url}`);
 		}
 
-		return { buffer, url: response.url, type, size: buffer.length };
+		return {
+			buffer,
+			url: response.url,
+			type,
+			size: buffer.length,
+			etag: response.headers.get('etag'),
+			lastModified: response.headers.get('last-modified'),
+		};
 	}
 
 	// Rejected mid-stream, not buffered then measured — a decompression bomb never sits fully in memory first.
@@ -241,7 +289,10 @@ export class FaviconService {
 		return Buffer.concat(chunks);
 	}
 
-	private async fetchWithUserAgent(url: string): Promise<Response> {
+	private async fetchWithUserAgent(
+		url: string,
+		extraHeaders: Record<string, string> = {}
+	): Promise<Response> {
 		let targetUrl = url;
 
 		for (let hop = 0; hop <= this.maxRedirects; hop += 1) {
@@ -249,7 +300,7 @@ export class FaviconService {
 				throw new UrlBlockedException(`URL is blocked: ${targetUrl}`);
 			}
 
-			const response = await this.fetchOnce(targetUrl);
+			const response = await this.fetchOnce(targetUrl, extraHeaders);
 
 			if (!this.isRedirect(response.status)) {
 				return response;
@@ -270,12 +321,18 @@ export class FaviconService {
 		return status >= 300 && status < 400;
 	}
 
-	private async fetchOnce(url: string): Promise<Response> {
+	private async fetchOnce(
+		url: string,
+		extraHeaders: Record<string, string> = {}
+	): Promise<Response> {
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), this.requestTimeout);
 
 		try {
-			const headers = new Headers({ 'User-Agent': this.userAgent });
+			const headers = new Headers({
+				'User-Agent': this.userAgent,
+				...extraHeaders,
+			});
 			const response = await fetch(url, {
 				headers,
 				signal: controller.signal,
