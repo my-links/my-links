@@ -51,6 +51,8 @@ export default class FaviconsController {
 		ctx.response.header('Content-Type', type);
 		ctx.response.header('Content-Length', size.toString());
 		ctx.response.header('Cache-Control', 'public, max-age=604800');
+		// Defense in depth for a navigated-to SVG served from this route.
+		ctx.response.header('Content-Security-Policy', 'sandbox');
 		ctx.response.send(buffer, true);
 	}
 

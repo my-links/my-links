@@ -18,6 +18,7 @@ import {
 } from '#services/favicons/favicon_candidate_resolver';
 
 const MAX_HTML_BYTES = 256 * 1024;
+const MAX_IMAGE_BYTES = 512 * 1024;
 const FAVICON_ICO_PATH = '/favicon.ico';
 const FAVICON_ICO_SCORE = 0;
 
@@ -52,9 +53,7 @@ export class FaviconService {
 		);
 	}
 
-	// Declared icons are tried before the /favicon.ico fallback, in tiers from
-	// most to least authoritative: <link rel=icon>, manifest.json icons,
-	// msapplication-TileImage / og:image, then the root /favicon.ico.
+	// Tiers from most to least authoritative: link icons, manifest icons, tile/og images, then /favicon.ico.
 	private async resolveCandidates(
 		normalizedUrl: string
 	): Promise<FaviconCandidate[]> {
@@ -142,9 +141,7 @@ export class FaviconService {
 		}
 	}
 
-	// Cloudflare's default error page is ~1.3 MB; buffering the whole thing
-	// before parsing blocks the event loop for nothing since the icon
-	// declarations live in <head>. Stop as soon as we've seen it or hit the cap.
+	// Cloudflare's default error page is ~1.3 MB; the icon declarations live in <head>, no need to buffer past it.
 	private async readBodyCapped(
 		body: ReadableStream<Uint8Array>
 	): Promise<string> {
@@ -201,17 +198,47 @@ export class FaviconService {
 
 	private async fetchFavicon(url: string): Promise<Favicon> {
 		const response = await this.fetchWithUserAgent(url);
-		if (!response.ok) {
+		if (!response.ok || !response.body) {
 			throw new FaviconNotFoundException(`Request to favicon ${url} failed`);
 		}
 
-		const buffer = Buffer.from(await response.arrayBuffer());
+		const buffer = await this.readImageBodyCapped(response.body, url);
 		const type = sniffImageType(buffer);
 		if (!type || buffer.length === 0) {
 			throw new FaviconNotFoundException(`Invalid image at ${url}`);
 		}
 
 		return { buffer, url: response.url, type, size: buffer.length };
+	}
+
+	// Rejected mid-stream, not buffered then measured — a decompression bomb never sits fully in memory first.
+	private async readImageBodyCapped(
+		body: ReadableStream<Uint8Array>,
+		url: string
+	): Promise<Buffer> {
+		const reader = body.getReader();
+		const chunks: Uint8Array[] = [];
+		let totalBytes = 0;
+
+		try {
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done || !value) {
+					break;
+				}
+
+				totalBytes += value.length;
+				if (totalBytes > MAX_IMAGE_BYTES) {
+					throw new FaviconNotFoundException(`Image too large at ${url}`);
+				}
+
+				chunks.push(value);
+			}
+		} finally {
+			await reader.cancel().catch(() => {});
+		}
+
+		return Buffer.concat(chunks);
 	}
 
 	private async fetchWithUserAgent(url: string): Promise<Response> {
