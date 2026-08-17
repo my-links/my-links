@@ -8,6 +8,7 @@ import { Favicon } from '#types/favicon_type';
 import { CacheService } from '#services/favicons/cache_service';
 import { FaviconService } from '#services/favicons/favicons_service';
 import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
+import { faviconFetchLimiter } from '#services/favicons/concurrency_limiter';
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 
 @inject()
@@ -27,7 +28,7 @@ export default class FaviconsController {
 
 		try {
 			const favicon = await this.cacheService.getOrSetFavicon(url, () =>
-				this.faviconService.getFavicon(url)
+				faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
 			);
 			return this.sendImage(ctx, favicon);
 		} catch (error) {
