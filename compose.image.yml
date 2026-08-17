@@ -38,6 +38,9 @@ services:
         condition: service_healthy
     ports:
       - ${PORT}:3333
+    volumes:
+      - favicon-volume:/app/storage/favicons
 
 volumes:
   postgres-volume:
+  favicon-volume:

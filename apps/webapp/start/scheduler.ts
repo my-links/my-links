@@ -1,14 +1,15 @@
 /*
 |--------------------------------------------------------------------------
-| Account maintenance schedule
+| Account maintenance and favicon store schedule
 |--------------------------------------------------------------------------
 |
-| Runs the inactive-account sweep and the deletion prune inside the same
-| process as the web server. Restricted to the 'web' environment in
-| adonisrc.ts, so ace commands, tests and the REPL don't also register these
-| jobs. A native (non-Docker) deployment runs the equivalent ace commands
-| through its own system cron instead — see commands/flag_inactive_accounts.ts
-| and commands/prune_deleted_accounts.ts.
+| Runs the inactive-account sweep, the deletion prune, and the favicon
+| orphan purge inside the same process as the web server. Restricted to
+| the 'web' environment in adonisrc.ts, so ace commands, tests and the REPL
+| don't also register these jobs. A native (non-Docker) deployment runs the
+| equivalent ace commands through its own system cron instead — see
+| commands/flag_inactive_accounts.ts, commands/prune_deleted_accounts.ts,
+| and commands/purge_favicon_orphans.ts.
 |
 */
 
@@ -18,6 +19,7 @@ import type { ScheduledTask } from 'node-cron';
 import logger from '@adonisjs/core/services/logger';
 
 import { UserService } from '#services/user/user_service';
+import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
 
 const timezone = process.env.TZ ?? 'UTC';
 
@@ -57,3 +59,16 @@ const pruneExpiredDeletionsTask = cron.schedule(
 	{ name: 'account-prune-deleted', timezone }
 );
 logExecutionFailures(pruneExpiredDeletionsTask, 'account-prune-deleted');
+
+const purgeFaviconOrphansTask = cron.schedule(
+	'0 4 * * *',
+	async () => {
+		const purgeService = await app.container.make(FaviconOrphanPurgeService);
+		const { deletedEntries, deletedFiles } = await purgeService.purgeOrphans();
+		logger.info(
+			`Purged ${deletedEntries} orphaned favicon entrie(s) and ${deletedFiles} orphaned favicon file(s)`
+		);
+	},
+	{ name: 'favicon-purge-orphans', timezone }
+);
+logExecutionFailures(purgeFaviconOrphansTask, 'favicon-purge-orphans');

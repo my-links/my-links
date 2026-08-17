@@ -33,13 +33,7 @@ export class ConcurrencyLimiter {
 	}
 }
 
-// `/favicon` is a public, unauthenticated route that triggers an outbound
-// fetch (see apiThrottle on the route for the per-caller request budget).
-// This bounds how many of those outbound fetches run at once across every
-// caller combined, so a burst of cache misses can't open unbounded outbound
-// connections from the instance. Module-level singleton: FaviconService and
-// FaviconsController are resolved per request, so the limiter has to live
-// outside them to actually be shared.
+// Module-level singleton: FaviconService/FaviconsController are resolved per request, this has to outlive them to be shared.
 const FAVICON_FETCH_CONCURRENCY = 8;
 
 export const faviconFetchLimiter = new ConcurrencyLimiter(

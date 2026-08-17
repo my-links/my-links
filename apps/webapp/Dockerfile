@@ -43,6 +43,7 @@ COPY --from=build /app/apps/webapp/build /app
 COPY --from=build /app/apps/webapp/scripts/entrypoint.sh /app/scripts/entrypoint.sh
 COPY --from=build /deploy/node_modules /app/node_modules
 RUN chmod +x /app/scripts/entrypoint.sh
+RUN mkdir -p /app/storage/favicons
 
 EXPOSE $PORT
 
