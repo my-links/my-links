@@ -72,11 +72,13 @@ export class CacheService {
 		return { ...favicon, buffer: Buffer.from(favicon.buffer) };
 	}
 
+	// A favicon is served per origin, not per URL: keying on the pathname too
+	// meant every deep link to the same site re-scraped and re-cached
+	// independently, multiplying the work by the number of links per domain.
 	private normalizeCacheKey(url: string): string {
 		try {
 			const parsed = new URL(url);
-			const normalized = `${parsed.protocol}//${parsed.hostname}${parsed.pathname}`;
-			return normalized.replace(/\/$/, '').toLowerCase();
+			return `${parsed.protocol}//${parsed.hostname}`.toLowerCase();
 		} catch {
 			return url.toLowerCase();
 		}
