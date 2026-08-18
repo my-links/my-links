@@ -3,6 +3,7 @@ import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
 import { FaviconService } from '#services/favicons/favicons_service';
+import { generateMonogram } from '#services/favicons/monogram_generator';
 import { faviconFetchLimiter } from '#services/favicons/concurrency_limiter';
 import {
 	CacheService,
@@ -22,11 +23,11 @@ export class FaviconResolutionService {
 		private readonly faviconService: FaviconResolver = new FaviconService()
 	) {}
 
-	async getFreshOrStale(url: string): Promise<Favicon | undefined> {
+	async getFreshOrStale(url: string): Promise<Favicon> {
 		const metadata = await this.cacheService.peekMetadata(url);
 		if (!metadata) {
 			void this.triggerResolution(url);
-			return undefined;
+			return this.monogramFor(url);
 		}
 
 		if (!metadata.resolvedUrl) {
@@ -38,7 +39,7 @@ export class FaviconResolutionService {
 		const buffer = await this.cacheService.readStoredBytes(metadata);
 		if (!buffer) {
 			void this.triggerResolution(url);
-			return undefined;
+			return this.monogramFor(url);
 		}
 
 		return {
@@ -47,6 +48,12 @@ export class FaviconResolutionService {
 			size: metadata.byteSize,
 			url: metadata.resolvedUrl ?? metadata.contentHash,
 		};
+	}
+
+	// Terminal, not an error state: a link always shows something identifiable, never a broken image.
+	private monogramFor(url: string): Favicon {
+		const buffer = generateMonogram(url);
+		return { buffer, type: 'image/svg+xml', size: buffer.length, url };
 	}
 
 	async triggerResolution(url: string): Promise<void> {

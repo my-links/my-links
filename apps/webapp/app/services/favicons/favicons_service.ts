@@ -10,6 +10,7 @@ import {
 	parseDocument,
 	resolveUrl,
 	findManifestHref,
+	findMetaRefreshUrl,
 	resolveDocumentBaseUrl,
 	extractLinkIconCandidates,
 	extractMetaImageCandidates,
@@ -21,6 +22,7 @@ const MAX_HTML_BYTES = 256 * 1024;
 const MAX_IMAGE_BYTES = 512 * 1024;
 const FAVICON_ICO_PATH = '/favicon.ico';
 const FAVICON_ICO_SCORE = 0;
+const MAX_META_REFRESH_HOPS = 3;
 
 export class FaviconService {
 	private readonly userAgent =
@@ -163,7 +165,34 @@ export class FaviconService {
 		}
 	}
 
+	// A <meta http-equiv=refresh> landing page (e.g. a locale router) never
+	// declares its own icon — the real one lives on whatever page it lands
+	// on, same as a browser would actually settle there.
 	private async fetchDocument(
+		url: string
+	): Promise<{ html: string; finalUrl: string } | undefined> {
+		let targetUrl = url;
+
+		for (let hop = 0; hop <= MAX_META_REFRESH_HOPS; hop += 1) {
+			const document = await this.fetchDocumentOnce(targetUrl);
+			if (!document) {
+				return undefined;
+			}
+
+			const refreshUrl = findMetaRefreshUrl(parseDocument(document.html));
+			const resolvedRefreshUrl =
+				refreshUrl && resolveUrl(refreshUrl, document.finalUrl);
+			if (!resolvedRefreshUrl || resolvedRefreshUrl === document.finalUrl) {
+				return document;
+			}
+
+			targetUrl = resolvedRefreshUrl;
+		}
+
+		return undefined;
+	}
+
+	private async fetchDocumentOnce(
 		url: string
 	): Promise<{ html: string; finalUrl: string } | undefined> {
 		try {

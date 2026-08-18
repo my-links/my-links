@@ -8,7 +8,6 @@ export type ScannedRoutes = {
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.auth-events': { paramsTuple?: []; params?: {} }
@@ -88,13 +87,13 @@ export type ScannedRoutes = {
     'link.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'favicon': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.auth-events': { paramsTuple?: []; params?: {} }
@@ -125,13 +124,13 @@ export type ScannedRoutes = {
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
+    'favicon': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.auth-events': { paramsTuple?: []; params?: {} }
@@ -162,6 +161,7 @@ export type ScannedRoutes = {
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
+    'favicon': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'admin.users.bulk-delete': { paramsTuple?: []; params?: {} }

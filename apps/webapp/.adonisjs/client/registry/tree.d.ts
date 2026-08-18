@@ -6,7 +6,6 @@ export interface ApiDefinition {
   terms: typeof routes['terms']
   privacy: typeof routes['privacy']
   shared: typeof routes['shared']
-  favicon: typeof routes['favicon']
   admin: {
     dashboard: typeof routes['admin.dashboard']
     status: typeof routes['admin.status']
@@ -133,4 +132,5 @@ export interface ApiDefinition {
     addToCollection: typeof routes['link.add-to-collection']
     delete: typeof routes['link.delete']
   }
+  favicon: typeof routes['favicon']
 }

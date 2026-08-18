@@ -30,12 +30,6 @@ const routes = {
     tokens: [{"old":"/shared/:id","type":0,"val":"shared","end":""},{"old":"/shared/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['shared']['types'],
   },
-  'favicon': {
-    methods: ["GET","HEAD"],
-    pattern: '/favicon',
-    tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
-    types: placeholder as Registry['favicon']['types'],
-  },
   'admin.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/admin',
@@ -509,6 +503,12 @@ const routes = {
     pattern: '/links/:id',
     tokens: [{"old":"/links/:id","type":0,"val":"links","end":""},{"old":"/links/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['link.delete']['types'],
+  },
+  'favicon': {
+    methods: ["GET","HEAD"],
+    pattern: '/favicon',
+    tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
+    types: placeholder as Registry['favicon']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

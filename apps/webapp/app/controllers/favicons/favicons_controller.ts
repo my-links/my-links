@@ -20,9 +20,7 @@ export default class FaviconsController {
 		}
 
 		const favicon = await this.resolutionService.getFreshOrStale(url);
-		return favicon
-			? this.sendImage(ctx, favicon)
-			: this.sendDefaultFavicon(ctx);
+		return this.sendImage(ctx, favicon);
 	}
 
 	private sendImage(ctx: HttpContext, { buffer, type, size }: Favicon) {
