@@ -36,10 +36,10 @@ Everything outside `/api/v1` is the Inertia application, which is same-origin an
 
 - [Collections](/api/collections)
 - [Links](/api/links)
-- [Search](/api/search)
 - [Sync](/api/sync)
 - [Tokens](/api/tokens)
 - [Health](/api/health)
+- [MCP server](/api/mcp)
 - [Non-API routes](/api/non-api-routes)
 - [Error responses](/api/error-responses)
 - [Data types](/api/data-types)

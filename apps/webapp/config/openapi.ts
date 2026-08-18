@@ -83,7 +83,6 @@ const openapiConfig = defineConfig({
 				'/api/v1/links/:id',
 				'/api/v1/links/:id/collection',
 				'/api/v1/links/:id/collections',
-				'/api/v1/search',
 				'/api/v1/sync',
 				'/api/v1/tokens/check',
 				'/extension/authorize',
