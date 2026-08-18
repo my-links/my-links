@@ -247,6 +247,25 @@ export class LinkService {
 			.orderBy('name');
 	}
 
+	/**
+	 * Backs the `links.search` MCP tool — an MCP client has no access to the
+	 * webapp's client-side fuzzy matcher, so this is a small server-side
+	 * substitute rather than an attempt to match its ranking.
+	 */
+	async searchLinks(term: string) {
+		const pattern = `%${term}%`;
+		return await Link.query()
+			.where('author_id', this.getAuthenticatedUserId())
+			.where((query) => {
+				query
+					.whereILike('name', pattern)
+					.orWhereILike('url', pattern)
+					.orWhereILike('description', pattern);
+			})
+			.preload('collections')
+			.orderBy('name');
+	}
+
 	private getAuthenticatedUserId() {
 		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}

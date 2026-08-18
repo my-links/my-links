@@ -62,6 +62,7 @@
 		"@lingui/core": "^6.6.0",
 		"@lingui/react": "^6.6.0",
 		"@minimalstuff/ui": "^3.2.0",
+		"@modelcontextprotocol/sdk": "^1.30.0",
 		"@outloud/adonis-openapi": "^1.1.1",
 		"@outloud/adonis-openapi-generator": "^1.1.1",
 		"@tuyau/client": "^0.2.10",
@@ -88,6 +89,7 @@
 		"reflect-metadata": "^0.2.2",
 		"sonner": "^2.0.8",
 		"ua-parser-js": "^2.0.10",
+		"zod": "^4.4.3",
 		"zustand": "^5.0.14"
 	},
 	"devDependencies": {

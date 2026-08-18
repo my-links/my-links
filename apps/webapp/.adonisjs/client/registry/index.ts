@@ -450,6 +450,24 @@ const routes = {
     tokens: [{"old":"/api/v1/links/:id/collections","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id/collections","type":1,"val":"id","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"collections","end":""}],
     types: placeholder as Registry['api-links.add-to-collection']['types'],
   },
+  'api-mcp.handle': {
+    methods: ["POST"],
+    pattern: '/api/mcp',
+    tokens: [{"old":"/api/mcp","type":0,"val":"api","end":""},{"old":"/api/mcp","type":0,"val":"mcp","end":""}],
+    types: placeholder as Registry['api-mcp.handle']['types'],
+  },
+  'api-mcp.stream': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/mcp',
+    tokens: [{"old":"/api/mcp","type":0,"val":"api","end":""},{"old":"/api/mcp","type":0,"val":"mcp","end":""}],
+    types: placeholder as Registry['api-mcp.stream']['types'],
+  },
+  'api-mcp.close': {
+    methods: ["DELETE"],
+    pattern: '/api/mcp',
+    tokens: [{"old":"/api/mcp","type":0,"val":"api","end":""},{"old":"/api/mcp","type":0,"val":"mcp","end":""}],
+    types: placeholder as Registry['api-mcp.close']['types'],
+  },
   'api-sync.delta': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/sync',
