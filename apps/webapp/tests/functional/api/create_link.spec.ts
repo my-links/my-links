@@ -24,6 +24,36 @@ async function getDefaultCollection(user: User) {
 		.firstOrFail();
 }
 
+test.group('API create link — description length', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should accept a description at the validator’s 300-character limit', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'description-length' });
+		const description = 'a'.repeat(300);
+
+		const response = await client
+			.post('/api/v1/links')
+			.json({
+				name: 'Long description',
+				description,
+				url: 'https://example.com',
+				favorite: false,
+			})
+			.withGuard('api')
+			.loginAs(user);
+
+		response.assertStatus(200);
+		const link = await Link.query()
+			.where('author_id', user.id)
+			.andWhere('name', 'Long description')
+			.firstOrFail();
+		assert.equal(link.description, description);
+	});
+});
+
 test.group('API create link — default collection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
