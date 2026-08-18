@@ -117,6 +117,11 @@ export interface ApiDefinition {
     moveToCollection: typeof routes['api-links.move-to-collection']
     addToCollection: typeof routes['api-links.add-to-collection']
   }
+  apiMcp: {
+    handle: typeof routes['api-mcp.handle']
+    stream: typeof routes['api-mcp.stream']
+    close: typeof routes['api-mcp.close']
+  }
   apiSync: {
     delta: typeof routes['api-sync.delta']
   }

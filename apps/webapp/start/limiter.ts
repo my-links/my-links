@@ -32,6 +32,20 @@ export const apiThrottle = limiter.define('api', (ctx) => {
 		.usingKey(ctx.auth.user?.id ?? ctx.request.ip());
 });
 
+/**
+ * A separate bucket from `apiThrottle`, keyed the same way but tracked under
+ * its own name — an agent looping through MCP tool calls spends its own
+ * budget instead of the one the browser extension shares across a user's
+ * devices. Same ceiling as `apiThrottle` today; the point of splitting it is
+ * isolation, not a different number.
+ */
+export const mcpThrottle = limiter.define('mcp', (ctx) => {
+	return limiter
+		.allowRequests(300)
+		.every('1 minute')
+		.usingKey(ctx.auth.user?.id ?? ctx.request.ip());
+});
+
 type AttemptTier = {
 	readonly name: string;
 	readonly requests: number;

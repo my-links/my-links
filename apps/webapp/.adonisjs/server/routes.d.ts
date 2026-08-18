@@ -78,6 +78,9 @@ export type ScannedRoutes = {
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-mcp.handle': { paramsTuple?: []; params?: {} }
+    'api-mcp.stream': { paramsTuple?: []; params?: {} }
+    'api-mcp.close': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -121,6 +124,7 @@ export type ScannedRoutes = {
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
+    'api-mcp.stream': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -158,6 +162,7 @@ export type ScannedRoutes = {
     'api-collections.index': { paramsTuple?: []; params?: {} }
     'api-favorites.index': { paramsTuple?: []; params?: {} }
     'api-health.index': { paramsTuple?: []; params?: {} }
+    'api-mcp.stream': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -188,6 +193,7 @@ export type ScannedRoutes = {
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-mcp.handle': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
@@ -218,6 +224,7 @@ export type ScannedRoutes = {
     'auth.provider.unlink': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-mcp.close': { paramsTuple?: []; params?: {} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }

@@ -895,6 +895,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/add_link_to_collection_controller').default['execute']>>>
     }
   }
+  'api-mcp.handle': {
+    methods: ["POST"]
+    pattern: '/api/mcp'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+    }
+  }
+  'api-mcp.stream': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/mcp'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+    }
+  }
+  'api-mcp.close': {
+    methods: ["DELETE"]
+    pattern: '/api/mcp'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+    }
+  }
   'api-sync.delta': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/sync'

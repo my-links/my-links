@@ -42,6 +42,9 @@ export const controllers = {
       MoveLink: () => import('#controllers/api/links/move_link_controller'),
       UpdateLink: () => import('#controllers/api/links/update_link_controller'),
     },
+    mcp: {
+      Mcp: () => import('#controllers/api/mcp/mcp_controller'),
+    },
     sync: {
       Sync: () => import('#controllers/api/sync/sync_controller'),
     },
