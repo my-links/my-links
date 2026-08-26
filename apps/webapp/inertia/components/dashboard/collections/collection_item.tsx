@@ -59,6 +59,13 @@ export function CollectionItem({
 	};
 
 	const handleClick = (e: MouseEvent) => {
+		// The context menu's backdrop and items render through a portal, so
+		// React bubbles their clicks here even though they sit outside this
+		// anchor in the real DOM; treat those as not a click on the link.
+		if (e.target instanceof Node && !e.currentTarget.contains(e.target)) {
+			e.preventDefault();
+			return;
+		}
 		if (shouldSuppressClick()) {
 			e.preventDefault();
 			return;

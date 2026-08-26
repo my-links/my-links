@@ -162,6 +162,9 @@ export const CollectionControls = forwardRef<
 							icon="i-mdi-dots-vertical"
 							size="sm"
 							onClick={(e) => {
+								// The row is a Link (an anchor); without preventDefault the
+								// browser still follows its href on this click.
+								e.preventDefault();
 								e.stopPropagation();
 								menuRef.current?.dispatchEvent(
 									new MouseEvent('contextmenu', {
