@@ -1,9 +1,19 @@
+import app from '@adonisjs/core/services/app';
 import { defineConfig } from '@adonisjs/lucid';
 
 import env from '#start/env';
 
 const dbConfig = defineConfig({
+	/**
+	 * Default connection used for all queries.
+	 */
 	connection: 'postgres',
+
+	/**
+	 * Pretty-print SQL debug output in development logs.
+	 */
+	prettyPrintDebugQueries: true,
+
 	connections: {
 		postgres: {
 			client: 'pg',
@@ -21,6 +31,10 @@ const dbConfig = defineConfig({
 			seeders: {
 				paths: ['./database/seeders/main'],
 			},
+			/**
+			 * Emit SQL queries to the logger in development.
+			 */
+			debug: app.inDev,
 		},
 	},
 });
