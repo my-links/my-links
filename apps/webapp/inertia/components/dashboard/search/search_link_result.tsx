@@ -29,6 +29,12 @@ export const SearchLinkResult = ({
 	const linkControlsRef = useRef<LinkControlsRef>(null);
 
 	const handleContextMenu = (e: React.MouseEvent) => {
+		// openContextMenu redispatches a synthetic contextmenu event on a node
+		// inside this same button, which bubbles back here; ignoring untrusted
+		// events breaks that infinite loop instead of recursing forever.
+		if (!e.nativeEvent.isTrusted) {
+			return;
+		}
 		e.preventDefault();
 		linkControlsRef.current?.openContextMenu(e.clientX, e.clientY);
 	};

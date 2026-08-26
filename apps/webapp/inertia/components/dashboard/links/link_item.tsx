@@ -52,7 +52,10 @@ export function LinkItem({
 	};
 
 	const handleContextMenu = (e: React.MouseEvent) => {
-		if (!hideMenu) {
+		// openContextMenu redispatches a synthetic contextmenu event on a node
+		// inside this same link, which bubbles back here; ignoring untrusted
+		// events breaks that infinite loop instead of recursing forever.
+		if (!hideMenu && e.nativeEvent.isTrusted) {
 			e.preventDefault();
 			linkControlsRef.current?.openContextMenu(e.clientX, e.clientY);
 		}

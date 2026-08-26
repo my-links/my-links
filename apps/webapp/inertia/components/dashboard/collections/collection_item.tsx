@@ -48,6 +48,12 @@ export function CollectionItem({
 	);
 
 	const handleContextMenu = (e: MouseEvent) => {
+		// openContextMenu redispatches a synthetic contextmenu event on a node
+		// inside this same link, which bubbles back here; ignoring untrusted
+		// events breaks that infinite loop instead of recursing forever.
+		if (!e.nativeEvent.isTrusted) {
+			return;
+		}
 		e.preventDefault();
 		collectionControlsRef.current?.openContextMenu(e.clientX, e.clientY);
 	};
