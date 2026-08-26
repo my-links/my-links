@@ -4,6 +4,7 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import User from '#models/user';
 import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
+import { EMPTY_USER_EMAIL } from '#database/seeders/user_seeder';
 
 const COLLECTIONS_PER_USER = 10;
 
@@ -23,7 +24,7 @@ export default class extends BaseSeeder {
 }
 
 export async function getUserIds() {
-	const users = await User.all();
+	const users = await User.query().whereNot('email', EMPTY_USER_EMAIL);
 	return users.map(({ id }) => id);
 }
 

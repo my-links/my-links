@@ -24,12 +24,21 @@ const ADMIN_PASSWORD = '^bW4zyz3Tidjqe';
 const USER_EMAIL = 'user@example.com';
 const USER_PASSWORD = '^bW4zyz3Tidjqe';
 
+/**
+ * Kept separate from `USER_EMAIL` on purpose: this account is used to test
+ * empty states, so `collection_seeder`/`link_seeder` must exclude it. See
+ * `EMPTY_USER_EMAIL` export below.
+ */
+export const EMPTY_USER_EMAIL = 'user2@example.com';
+const EMPTY_USER_PASSWORD = '^bW4zyz3Tidjqe';
+
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
 		const admin = await this.seedAdmin();
 		const user = await this.seedUser();
+		await this.seedEmptyUser();
 
 		const users = faker.helpers.multiple(() => createRandomUser(), {
 			count: SEEDED_USERS_COUNT,
@@ -91,6 +100,30 @@ export default class extends BaseSeeder {
 		);
 
 		return user;
+	}
+
+	/**
+	 * Same creds pattern as `seedUser`, but deliberately left out of
+	 * `seedInboxes` and excluded from `collection_seeder`/`link_seeder` so it
+	 * stays a clean empty-state account.
+	 */
+	private async seedEmptyUser(): Promise<User> {
+		const emptyUser = await User.updateOrCreate(
+			{ email: EMPTY_USER_EMAIL },
+			{
+				name: 'Empty User',
+				nickName: 'empty-user',
+				isAdmin: false,
+				emailVerifiedAt: DateTime.now(),
+			}
+		);
+
+		await PasswordAuth.updateOrCreate(
+			{ userId: emptyUser.id },
+			{ password: EMPTY_USER_PASSWORD, passwordChangedAt: DateTime.now() }
+		);
+
+		return emptyUser;
 	}
 }
 
