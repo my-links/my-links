@@ -16,6 +16,11 @@ minimumReleaseAgeExclude:
 overrides:
   brace-expansion@>=5.0.0 <5.0.9: '>=5.0.9'
   esbuild@>=0.27.3 <0.28.1: '>=0.28.1'
+  # 1.5.0 rewrote $ref resolution around the WHATWG URL API, which throws
+  # on Node 24 for @adonisjs/ace's command metadata schema — breaks the
+  # first `node ace <command>` of every process. 1.4.1 still uses the
+  # legacy `url` module and doesn't hit it. CLI-only, never served.
+  jsonschema: '1.4.1'
 
 # @adonisjs/inertia type-imports from 'vite' without declaring it as a
 # peerDependency, so pnpm falls back to a single shared hoisted 'vite'
