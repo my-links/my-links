@@ -127,6 +127,7 @@ export const controllers = {
     DeleteUserAccount: () => import('#controllers/user_settings/delete_user_account_controller'),
     ExportUserData: () => import('#controllers/user_settings/export_user_data_controller'),
     ImportUserData: () => import('#controllers/user_settings/import_user_data_controller'),
+    RenameAccount: () => import('#controllers/user_settings/rename_account_controller'),
     ShowUserSettings: () => import('#controllers/user_settings/show_user_settings_controller'),
   },
   user: {

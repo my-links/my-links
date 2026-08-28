@@ -204,6 +204,12 @@ const routes = {
     tokens: [{"old":"/user/settings/import","type":0,"val":"user","end":""},{"old":"/user/settings/import","type":0,"val":"settings","end":""},{"old":"/user/settings/import","type":0,"val":"import","end":""}],
     types: placeholder as Registry['user.settings.import']['types'],
   },
+  'user.settings.rename': {
+    methods: ["PUT"],
+    pattern: '/user/settings/account',
+    tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
+    types: placeholder as Registry['user.settings.rename']['types'],
+  },
   'user.settings.delete': {
     methods: ["DELETE"],
     pattern: '/user/settings/account',

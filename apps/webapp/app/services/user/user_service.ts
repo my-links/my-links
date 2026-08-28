@@ -355,6 +355,24 @@ export class UserService {
 		}
 	}
 
+	/**
+	 * Renaming writes `nickName`, not `name`: `fullname` reads `nickName`
+	 * first, so this is the field that actually changes what the account is
+	 * called everywhere it is shown.
+	 */
+	async renameAccount(userId: User['id'], nickName: string): Promise<void> {
+		const user = await User.findOrFail(userId);
+		user.nickName = nickName;
+		await user.save();
+
+		await this.activityEventService.record({
+			type: ACTIVITY_EVENT_TYPE.ACCOUNT_RENAMED,
+			userId,
+			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
+			subjectId: userId,
+		});
+	}
+
 	private async countUserData(
 		userId: User['id'],
 		client: TransactionClientContract

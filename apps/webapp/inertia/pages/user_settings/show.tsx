@@ -8,6 +8,7 @@ import { Password } from '~/components/user_settings/password';
 import { Sessions } from '~/components/user_settings/sessions';
 import { Preferences } from '~/components/user_settings/preferences';
 import { AuthMethods } from '~/components/user_settings/auth_methods';
+import { DisplayName } from '~/components/user_settings/display_name';
 import { ExportImport } from '~/components/user_settings/export_import';
 import { EmailAddress } from '~/components/user_settings/email_address';
 import { DeleteAccount } from '~/components/user_settings/delete_account';
@@ -18,6 +19,7 @@ const UserSettingsShow = () => (
 		<Head title={t`Settings`} />
 		<div className="space-y-6">
 			<Preferences />
+			<DisplayName />
 			<EmailAddress />
 			<AuthMethods />
 			<Password />

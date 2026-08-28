@@ -48,6 +48,7 @@ export interface ApiDefinition {
     settings: typeof routes['user.settings'] & {
       export: typeof routes['user.settings.export']
       import: typeof routes['user.settings.import']
+      rename: typeof routes['user.settings.rename']
       delete: typeof routes['user.settings.delete']
     }
   }

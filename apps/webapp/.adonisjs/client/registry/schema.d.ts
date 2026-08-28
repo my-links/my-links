@@ -403,6 +403,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'user.settings.rename': {
+    methods: ["PUT"]
+    pattern: '/user/settings/account'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/rename_account_validator').renameAccountValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/rename_account_validator').renameAccountValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'user.settings.delete': {
     methods: ["DELETE"]
     pattern: '/user/settings/account'

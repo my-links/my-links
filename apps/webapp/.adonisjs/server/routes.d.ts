@@ -37,6 +37,7 @@ export type ScannedRoutes = {
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
+    'user.settings.rename': { paramsTuple?: []; params?: {} }
     'user.settings.delete': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }
@@ -205,6 +206,7 @@ export type ScannedRoutes = {
     'collection.reorder-followed': { paramsTuple?: []; params?: {} }
     'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user.settings.rename': { paramsTuple?: []; params?: {} }
     'auth.password.change': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-collections.reorder-owned': { paramsTuple?: []; params?: {} }

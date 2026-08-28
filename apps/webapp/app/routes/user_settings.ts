@@ -27,6 +27,13 @@ router
 			.as('user.settings.import');
 
 		router
+			.put('/user/settings/account', [
+				controllers.userSettings.RenameAccount,
+				'execute',
+			])
+			.as('user.settings.rename');
+
+		router
 			.delete('/user/settings/account', [
 				controllers.userSettings.DeleteUserAccount,
 				'execute',

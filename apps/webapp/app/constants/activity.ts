@@ -24,6 +24,7 @@ export const ACTIVITY_EVENT_TYPE = {
 	ACCOUNT_DATA_WIPED: 'account.data_wiped',
 	ACCOUNT_DELETION_REQUESTED: 'account.deletion_requested',
 	ACCOUNT_REACTIVATED: 'account.reactivated',
+	ACCOUNT_RENAMED: 'account.renamed',
 } as const;
 
 export type ActivityEventType =
