@@ -6,6 +6,7 @@ export const baseLinkValidator = vine.object({
 	url: vine
 		.string()
 		.normalizeUrl({ defaultProtocol: 'https', stripWWW: false })
+		.url({ protocols: ['http', 'https'], require_protocol: true })
 		.trim(),
 	favorite: vine.boolean(),
 	// May be empty — the service falls back to the user's Inbox collection so

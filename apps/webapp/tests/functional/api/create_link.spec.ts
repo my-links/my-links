@@ -77,6 +77,22 @@ test.group('API create link — URL normalization', (group) => {
 			.firstOrFail();
 		assert.equal(link.url, 'https://www.example.com/path');
 	});
+
+	test('should reject a javascript: URL', async ({ client }) => {
+		const user = await createUser({ emailPrefix: 'url-scheme' });
+
+		const response = await client
+			.post('/api/v1/links')
+			.json({
+				name: 'Bookmarklet',
+				url: "javascript:alert('xss')",
+				favorite: false,
+			})
+			.withGuard('api')
+			.loginAs(user);
+
+		response.assertStatus(422);
+	});
 });
 
 test.group('API create link — default collection', (group) => {
