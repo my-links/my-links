@@ -54,6 +54,31 @@ test.group('API create link — description length', (group) => {
 	});
 });
 
+test.group('API create link — URL normalization', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should preserve a www. prefix', async ({ client, assert }) => {
+		const user = await createUser({ emailPrefix: 'url-normalization' });
+
+		const response = await client
+			.post('/api/v1/links')
+			.json({
+				name: 'WWW preserved',
+				url: 'https://www.example.com/path',
+				favorite: false,
+			})
+			.withGuard('api')
+			.loginAs(user);
+
+		response.assertStatus(200);
+		const link = await Link.query()
+			.where('author_id', user.id)
+			.andWhere('name', 'WWW preserved')
+			.firstOrFail();
+		assert.equal(link.url, 'https://www.example.com/path');
+	});
+});
+
 test.group('API create link — default collection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
