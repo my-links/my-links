@@ -32,6 +32,13 @@ export const ACCOUNT_DELETION_GRACE_PERIOD_DAYS = 30;
 export const ACCOUNT_INACTIVITY_THRESHOLD_DAYS = 365;
 
 /**
+ * How often `lastSeenAt` actually gets written. Every authenticated request
+ * touches it, but the inactivity sweep only needs a coarse timestamp, so
+ * writes closer together than this are skipped instead of hitting the DB.
+ */
+export const LAST_SEEN_AT_WRITE_THROTTLE_MINUTES = 5;
+
+/**
  * Why a deletion was requested — the only thing this changes is the wording
  * of the confirmation mail, since an inactive account never asked for
  * anything and telling it "your request" would be wrong. `requestAccountDeletion`

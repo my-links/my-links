@@ -42,6 +42,11 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 		);
 		const mailConfigService = await app.container.make(MailConfigService);
 
+		// Signed-in visitors can't be blocked by registration policy, so skip the hasAnyAccount() round-trip for them.
+		const isRegistrationOpen = isAuthenticated
+			? true
+			: await registrationPolicyService.isOpen();
+
 		return {
 			errors: ctx.inertia.always(this.getValidationErrors(ctx)),
 			token: session?.flashMessages.get('token'),
@@ -57,7 +62,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			// accounts is not a way of signing in, and a closed instance still
 			// has every provider it had before.
 			registrationPolicy: ctx.inertia.always({
-				isOpen: await registrationPolicyService.isOpen(),
+				isOpen: isRegistrationOpen,
 			}),
 			// A reset link is a link in a mailbox: an instance with no outgoing
 			// mail has no such feature, and offering the link anyway would send
