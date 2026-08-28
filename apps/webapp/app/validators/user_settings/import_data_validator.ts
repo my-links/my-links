@@ -7,19 +7,25 @@ const linkFields = {
 	favorite: vine.boolean(),
 };
 
-// New format: links live at the top level and reference collections by their
-// index in the `collections` array (a link can belong to several).
+// Current format: links live at the top level and reference collections by
+// the per-collection `key` in the `collections` array (a link can belong to
+// several). `collectionIndexes` is still accepted for files exported before
+// keys existed — see ExportImportService.importUserData.
 const topLevelLinkSchema = vine.object({
 	...linkFields,
-	collectionIndexes: vine.array(vine.number().min(0)),
+	collectionKeys: vine.array(vine.string().trim().minLength(1)).optional(),
+	collectionIndexes: vine.array(vine.number().min(0)).optional(),
 });
 
 // Legacy format (pre multi-collection): links are nested under a single
-// collection with no index references. Still accepted so old export files
-// keep importing — see ExportImportService.importUserData.
+// collection with no index/key references. Still accepted so old export
+// files keep importing — see ExportImportService.importUserData.
 const nestedLinkSchema = vine.object(linkFields);
 
 const collectionSchema = vine.object({
+	// Present on files exported after per-collection keys were introduced;
+	// absent on older exports, which fall back to index-based matching.
+	key: vine.string().trim().minLength(1).optional(),
 	name: vine.string().trim().minLength(1).maxLength(254),
 	description: vine.string().trim().maxLength(254).nullable().optional(),
 	visibility: vine.string(),

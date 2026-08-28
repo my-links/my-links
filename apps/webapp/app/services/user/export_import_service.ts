@@ -1,4 +1,5 @@
 import { inject } from '@adonisjs/core';
+import { randomUUID } from 'node:crypto';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
@@ -16,12 +17,17 @@ type ExportLink = {
 	description: string | null;
 	url: string;
 	favorite: boolean;
-	// Indexes into `collections` above — a link can belong to several.
-	collectionIndexes: number[];
+	// Keys into `collections` above — a link can belong to several.
+	collectionKeys: string[];
 };
 
 type ExportData = {
 	collections: Array<{
+		// Random per-export identifier, unrelated to the real DB id — lets a
+		// hand-edited file drop a collection without shifting every other
+		// link's references (see git history for the index-based bug this
+		// replaced).
+		key: string;
 		name: string;
 		description: string | null;
 		visibility: string;
@@ -39,6 +45,7 @@ type ImportLink = {
 
 type ValidatedImportData = {
 	collections: Array<{
+		key?: string;
 		name: string;
 		description?: string | null;
 		visibility: string;
@@ -46,11 +53,18 @@ type ValidatedImportData = {
 		// Legacy format: links nested under a single collection.
 		links?: Array<ImportLink>;
 	}>;
-	// New format: links at the top level referencing collections by index.
-	links?: Array<ImportLink & { collectionIndexes: number[] }>;
+	// Top-level links, referencing collections either by key (current
+	// format) or by array index (format predating per-collection keys).
+	links?: Array<
+		ImportLink & { collectionKeys?: string[]; collectionIndexes?: number[] }
+	>;
 };
 
-type LinkToCreate = { link: ImportLink; collectionIndexes: number[] };
+type CollectionRef = {
+	collectionKeys?: string[];
+	collectionIndexes?: number[];
+};
+type LinkToCreate = { link: ImportLink } & CollectionRef;
 
 @inject()
 export class ExportImportService {
@@ -68,12 +82,13 @@ export class ExportImportService {
 			})
 			.orderBy('name', 'asc');
 
-		const collectionIndexById = new Map(
-			collections.map((collection, index) => [collection.id, index])
+		const exportKeys: string[] = collections.map(() => randomUUID());
+		const exportKeyById = new Map<number, string>(
+			collections.map((collection, index) => [collection.id, exportKeys[index]])
 		);
 
 		// A link can be nested under several collections above — dedupe by id
-		// so it appears once in the export, with all its collectionIndexes.
+		// so it appears once in the export, with all its collectionKeys.
 		const linksById = new Map<number, Link>();
 		for (const collection of collections) {
 			for (const link of collection.links) {
@@ -89,7 +104,8 @@ export class ExportImportService {
 		});
 
 		return {
-			collections: collections.map((collection) => ({
+			collections: collections.map((collection, index) => ({
+				key: exportKeys[index],
 				name: collection.name,
 				description: collection.description,
 				visibility: collection.visibility,
@@ -100,9 +116,9 @@ export class ExportImportService {
 				description: link.description,
 				url: link.url,
 				favorite: link.favorite,
-				collectionIndexes: link.collections
-					.map((collection) => collectionIndexById.get(collection.id))
-					.filter((index): index is number => index !== undefined),
+				collectionKeys: link.collections
+					.map((collection) => exportKeyById.get(collection.id))
+					.filter((key): key is string => key !== undefined),
 			})),
 		};
 	}
@@ -120,9 +136,25 @@ export class ExportImportService {
 				{ client: transaction }
 			);
 
+			const createdCollectionIdByKey = new Map(
+				validatedData.collections
+					.map((collectionData, index) => [
+						collectionData.key,
+						createdCollections[index]?.id,
+					])
+					.filter(
+						(entry): entry is [string, number] =>
+							entry[0] !== undefined && entry[1] !== undefined
+					)
+			);
+
 			const linksToCreate = this.collectLinksToImport(validatedData);
 
-			for (const { link: linkData, collectionIndexes } of linksToCreate) {
+			for (const {
+				link: linkData,
+				collectionKeys,
+				collectionIndexes,
+			} of linksToCreate) {
 				const link = await Link.create(
 					{
 						name: linkData.name,
@@ -136,8 +168,9 @@ export class ExportImportService {
 
 				const collectionIds = await this.resolveImportedCollectionIds(
 					userId,
-					collectionIndexes,
+					{ collectionKeys, collectionIndexes },
 					createdCollections,
+					createdCollectionIdByKey,
 					transaction
 				);
 				const attachments =
@@ -165,19 +198,26 @@ export class ExportImportService {
 	}
 
 	/**
-	 * Maps a link's collection indexes to the freshly-created collection ids,
-	 * falling back to Inbox when a (malformed) file references none — every
-	 * link must keep at least one collection.
+	 * Resolves a link's collection references to freshly-created collection
+	 * ids: by key when present (current format, immune to a hand-edited file
+	 * dropping a collection), falling back to array index (older export
+	 * formats). Falls back to Inbox when nothing resolves — every link must
+	 * keep at least one collection.
 	 */
 	private async resolveImportedCollectionIds(
 		userId: User['id'],
-		collectionIndexes: number[],
+		{ collectionKeys, collectionIndexes }: CollectionRef,
 		createdCollections: Collection[],
+		createdCollectionIdByKey: Map<string, number>,
 		transaction: TransactionClientContract
 	): Promise<number[]> {
-		const collectionIds = collectionIndexes
-			.map((index) => createdCollections[index]?.id)
-			.filter((id): id is number => id !== undefined);
+		const collectionIds = collectionKeys?.length
+			? collectionKeys
+					.map((key) => createdCollectionIdByKey.get(key))
+					.filter((id): id is number => id !== undefined)
+			: (collectionIndexes ?? [])
+					.map((index) => createdCollections[index]?.id)
+					.filter((id): id is number => id !== undefined);
 
 		if (collectionIds.length > 0) {
 			return collectionIds;
@@ -192,10 +232,11 @@ export class ExportImportService {
 	}
 
 	/**
-	 * Flattens both export formats into a single list: the current one (links
-	 * at the top level referencing collections by index) and the legacy one
-	 * (links nested under a single collection). Old export files predate
-	 * multi-collection, so a nested link maps to exactly its parent's index.
+	 * Flattens every export format into a single list: links nested under a
+	 * single collection (oldest, pre multi-collection — a nested link maps to
+	 * exactly its parent's index), top-level links keyed by collection index
+	 * (format predating per-collection keys), and top-level links keyed by
+	 * collection key (current format).
 	 */
 	private collectLinksToImport(
 		validatedData: ValidatedImportData
@@ -210,6 +251,7 @@ export class ExportImportService {
 
 		const topLevelLinks = (validatedData.links ?? []).map((link) => ({
 			link,
+			collectionKeys: link.collectionKeys,
 			collectionIndexes: link.collectionIndexes,
 		}));
 

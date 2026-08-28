@@ -55,7 +55,7 @@ async function collectionIdsForLinkNamed(user: User, name: string) {
 test.group('Export/import — multi-collection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should export a link once with an index per collection it belongs to', async ({
+	test('should export a link once with a key per collection it belongs to', async ({
 		assert,
 	}) => {
 		const user = await createUser();
@@ -74,11 +74,43 @@ test.group('Export/import — multi-collection', (group) => {
 
 		assert.lengthOf(data.links, 1);
 		assert.equal(data.links[0].name, 'Shared link');
-		// Collections are exported ordered by name: Reading (0), Work (1).
-		assert.sameMembers(data.links[0].collectionIndexes, [0, 1]);
+		assert.sameMembers(
+			data.links[0].collectionKeys,
+			data.collections.map((collection) => collection.key)
+		);
 	});
 
-	test('should import the top-level format into multi-collection membership', async ({
+	test('should import the current (key-based) format into multi-collection membership', async ({
+		assert,
+	}) => {
+		const user = await createUser();
+
+		await buildService().importUserData(user.id, {
+			collections: [
+				{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' },
+				{ key: 'reading-key', name: 'Reading', visibility: 'PRIVATE' },
+			],
+			links: [
+				{
+					name: 'Shared link',
+					url: 'https://example.com',
+					favorite: false,
+					collectionKeys: ['work-key', 'reading-key'],
+				},
+			],
+		});
+
+		const collections = await Collection.query()
+			.where('author_id', user.id)
+			.orderBy('name', 'asc');
+		const membership = await collectionIdsForLinkNamed(user, 'Shared link');
+		assert.sameMembers(
+			membership,
+			collections.map((collection) => collection.id)
+		);
+	});
+
+	test('should import the older index-based format for files exported before keys existed', async ({
 		assert,
 	}) => {
 		const user = await createUser();
@@ -106,6 +138,33 @@ test.group('Export/import — multi-collection', (group) => {
 			membership,
 			collections.map((collection) => collection.id)
 		);
+	});
+
+	test('should fall back to Inbox when an imported link references a key missing from the file', async ({
+		assert,
+	}) => {
+		const user = await createUser();
+
+		await buildService().importUserData(user.id, {
+			collections: [{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' }],
+			links: [
+				{
+					name: 'Orphaned link',
+					url: 'https://example.com',
+					favorite: false,
+					// Simulates a hand-edited file where the referenced
+					// collection was deleted from the `collections` array.
+					collectionKeys: ['deleted-collection-key'],
+				},
+			],
+		});
+
+		const inbox = await Collection.query()
+			.where('author_id', user.id)
+			.andWhere('is_default', true)
+			.firstOrFail();
+		const membership = await collectionIdsForLinkNamed(user, 'Orphaned link');
+		assert.deepEqual(membership, [inbox.id]);
 	});
 
 	test('should import the legacy nested-links format', async ({ assert }) => {
@@ -221,15 +280,15 @@ test.group('Export/import — activity journal', (group) => {
 
 		await buildService().importUserData(user.id, {
 			collections: [
-				{ name: 'Work', visibility: 'PRIVATE' },
-				{ name: 'Reading', visibility: 'PRIVATE' },
+				{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' },
+				{ key: 'reading-key', name: 'Reading', visibility: 'PRIVATE' },
 			],
 			links: [
 				{
 					name: 'Imported link',
 					url: 'https://example.com',
 					favorite: false,
-					collectionIndexes: [0, 1],
+					collectionKeys: ['work-key', 'reading-key'],
 				},
 			],
 		});

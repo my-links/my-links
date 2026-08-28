@@ -9,6 +9,27 @@ const IMPORT_ROUTE = '/user/settings/import';
 const VALID_EXPORT = {
 	collections: [
 		{
+			key: 'imported-collection-key',
+			name: 'Imported collection',
+			description: null,
+			visibility: 'PRIVATE',
+			icon: null,
+		},
+	],
+	links: [
+		{
+			name: 'Imported link',
+			description: null,
+			url: 'https://example.com',
+			favorite: false,
+			collectionKeys: ['imported-collection-key'],
+		},
+	],
+};
+
+const VALID_EXPORT_WITH_LEGACY_INDEXES = {
+	collections: [
+		{
 			name: 'Imported collection',
 			description: null,
 			visibility: 'PRIVATE',
@@ -39,6 +60,29 @@ test.group('User settings import — upload', (group) => {
 	}) => {
 		const user = await createUser({ emailPrefix: 'import-valid' });
 		const upload = uploadOf(JSON.stringify(VALID_EXPORT), 'export.json');
+
+		await client
+			.post(IMPORT_ROUTE)
+			.file('file', upload.buffer, { filename: upload.filename })
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		const importedLink = await Link.query()
+			.where('authorId', user.id)
+			.firstOrFail();
+		assert.equal(importedLink.name, 'Imported link');
+	});
+
+	test('should still import a file exported before per-collection keys existed', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-legacy-index' });
+		const upload = uploadOf(
+			JSON.stringify(VALID_EXPORT_WITH_LEGACY_INDEXES),
+			'export.json'
+		);
 
 		await client
 			.post(IMPORT_ROUTE)
