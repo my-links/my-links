@@ -498,3 +498,82 @@ test.group('API MCP — collections tools/call', (group) => {
 		assert.isTrue(inbox.data.isDefault);
 	});
 });
+
+test.group('API MCP — token abilities', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('a read-only token can call a read tool but not a write tool', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-ability-read' });
+
+		const initializeResponse = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.json(initializeRequest())
+			.withGuard('api')
+			.loginAs(user, ['read']);
+		const sessionId = initializeResponse.headers()[SESSION_HEADER];
+
+		const listResponse = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.header(SESSION_HEADER, sessionId)
+			.json(toolCallRequest(2, 'links.list', {}))
+			.withGuard('api')
+			.loginAs(user, ['read']);
+
+		const listed = parseToolResult(listResponse);
+		assert.isFalse(listed.isError);
+
+		const createResponse = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.header(SESSION_HEADER, sessionId)
+			.json(
+				toolCallRequest(3, 'links.create', {
+					name: 'Should be refused',
+					url: 'example.com',
+					favorite: false,
+				})
+			)
+			.withGuard('api')
+			.loginAs(user, ['read']);
+
+		const created = parseToolResult(createResponse);
+		assert.isTrue(created.isError);
+	});
+
+	test('a full-access token can call both read and write tools', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-ability-full' });
+
+		const initializeResponse = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.json(initializeRequest())
+			.withGuard('api')
+			.loginAs(user, ['*']);
+		const sessionId = initializeResponse.headers()[SESSION_HEADER];
+
+		const createResponse = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.header(SESSION_HEADER, sessionId)
+			.json(
+				toolCallRequest(2, 'links.create', {
+					name: 'Allowed link',
+					url: 'example.com',
+					favorite: false,
+				})
+			)
+			.withGuard('api')
+			.loginAs(user, ['*']);
+
+		const created = parseToolResult(createResponse);
+		assert.isFalse(created.isError);
+	});
+});

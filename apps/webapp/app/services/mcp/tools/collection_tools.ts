@@ -3,6 +3,7 @@ import { HttpContext } from '@adonisjs/core/http';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import type Collection from '#models/collection';
+import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
 import { VISIBILITY } from '#enums/collections/visibility';
 import CollectionTransformer from '#transformers/collection';
@@ -49,7 +50,7 @@ export function registerCollectionTools(
 				'List the authenticated user’s own collections and the public collections they follow.',
 		},
 		() =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.READ, async () => {
 				const userId = getAuthenticatedUserId();
 				const [owned, followed] = await Promise.all([
 					collectionService.getCollectionsForAuthenticatedUser(),
@@ -70,7 +71,7 @@ export function registerCollectionTools(
 			inputSchema: { id: z.number().int().positive() },
 		},
 		({ id }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.READ, async () => {
 				const { collection } =
 					await collectionService.getAccessibleCollectionByIdWithLinks(
 						id,
@@ -87,7 +88,7 @@ export function registerCollectionTools(
 				'Get the authenticated user’s Inbox, their default collection.',
 		},
 		() =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.READ, async () => {
 				const userId = getAuthenticatedUserId();
 				const inbox =
 					await collectionService.getOrCreateDefaultCollection(userId);
@@ -112,7 +113,7 @@ export function registerCollectionTools(
 			},
 		},
 		({ description, icon, ...payload }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				const collection = await collectionService.createCollection({
 					...payload,
 					description: description ?? null,
@@ -139,7 +140,7 @@ export function registerCollectionTools(
 			},
 		},
 		({ id, description, icon, ...payload }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionService.updateCollection(id, {
 					...payload,
 					description: description ?? null,
@@ -156,7 +157,7 @@ export function registerCollectionTools(
 			inputSchema: { id: z.number().int().positive() },
 		},
 		({ id }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionService.deleteCollection(id);
 				return { message: 'Collection deleted successfully' };
 			})
@@ -169,7 +170,7 @@ export function registerCollectionTools(
 			inputSchema: { collectionId: z.number().int().positive() },
 		},
 		({ collectionId }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionFollowerService.followCollection(
 					collectionId,
 					getAuthenticatedUserId()
@@ -185,7 +186,7 @@ export function registerCollectionTools(
 			inputSchema: { collectionId: z.number().int().positive() },
 		},
 		({ collectionId }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionFollowerService.unfollowCollection(
 					collectionId,
 					getAuthenticatedUserId()

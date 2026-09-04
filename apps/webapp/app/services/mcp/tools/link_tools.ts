@@ -4,6 +4,7 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import type Link from '#models/link';
 import LinkTransformer from '#transformers/link';
+import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
 import { LinkService } from '#services/links/link_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
@@ -44,7 +45,10 @@ export function registerLinkTools(
 	server.registerTool(
 		'links.list',
 		{ description: "List every link in the authenticated user's account." },
-		() => runTool(async () => serializeLink(await linkService.getMyLinks()))
+		() =>
+			runTool(TOKEN_ABILITY.READ, async () =>
+				serializeLink(await linkService.getMyLinks())
+			)
 	);
 
 	server.registerTool(
@@ -54,7 +58,7 @@ export function registerLinkTools(
 			inputSchema: { id: z.number().int().positive() },
 		},
 		({ id }) =>
-			runTool(async () =>
+			runTool(TOKEN_ABILITY.READ, async () =>
 				serializeLink(
 					await linkService.getLinkById(id, getAuthenticatedUserId())
 				)
@@ -69,14 +73,18 @@ export function registerLinkTools(
 			inputSchema: { term: z.string().trim().min(1) },
 		},
 		({ term }) =>
-			runTool(async () => serializeLink(await linkService.searchLinks(term)))
+			runTool(TOKEN_ABILITY.READ, async () =>
+				serializeLink(await linkService.searchLinks(term))
+			)
 	);
 
 	server.registerTool(
 		'links.list_favorites',
 		{ description: "List the authenticated user's favorite links." },
 		() =>
-			runTool(async () => serializeLink(await linkService.getMyFavoriteLinks()))
+			runTool(TOKEN_ABILITY.READ, async () =>
+				serializeLink(await linkService.getMyFavoriteLinks())
+			)
 	);
 
 	server.registerTool(
@@ -95,7 +103,7 @@ export function registerLinkTools(
 			},
 		},
 		({ url, ...payload }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				const link = await linkService.createLink({
 					...payload,
 					url: withDefaultProtocol(url),
@@ -127,7 +135,7 @@ export function registerLinkTools(
 			},
 		},
 		({ id, url, ...payload }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await linkService.updateLink(id, {
 					...payload,
 					url: withDefaultProtocol(url),
@@ -143,7 +151,7 @@ export function registerLinkTools(
 			inputSchema: { id: z.number().int().positive() },
 		},
 		({ id }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await linkService.deleteLink(id);
 				return { message: 'Link deleted successfully' };
 			})
@@ -156,7 +164,7 @@ export function registerLinkTools(
 			inputSchema: { id: z.number().int().positive(), favorite: z.boolean() },
 		},
 		({ id, favorite }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await linkService.updateFavorite(id, favorite);
 				return { message: 'Link favorite updated successfully', favorite };
 			})
@@ -174,7 +182,7 @@ export function registerLinkTools(
 			},
 		},
 		({ linkId, fromCollectionId, toCollectionId }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionLinkService.moveLinkBetweenCollections(
 					getAuthenticatedUserId(),
 					linkId,
@@ -195,7 +203,7 @@ export function registerLinkTools(
 			},
 		},
 		({ linkId, collectionId }) =>
-			runTool(async () => {
+			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionLinkService.addLinkToCollection(
 					getAuthenticatedUserId(),
 					linkId,
