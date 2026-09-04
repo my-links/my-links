@@ -31,7 +31,7 @@ export function ApiTokens() {
 			title: <Trans>Create new token</Trans>,
 			children: (
 				<CreateTokenModal
-					onCreate={(name) => createToken(name)}
+					onCreate={(name, scope) => createToken(name, scope)}
 					onClose={() => Modal.end(call, undefined)}
 				/>
 			),
@@ -129,6 +129,18 @@ export function ApiTokens() {
 							cellClassName:
 								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
 							render: (token) => token.name ?? <NaContent />,
+						},
+						{
+							key: 'abilities',
+							header: <Trans>Access</Trans>,
+							cellClassName:
+								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
+							render: (token) =>
+								token.abilities.includes('*') ? (
+									<Trans>Full access</Trans>
+								) : (
+									<Trans>Read only</Trans>
+								),
 						},
 						{
 							key: 'token',

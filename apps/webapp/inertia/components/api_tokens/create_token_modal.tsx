@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Button, Input } from '@minimalstuff/ui';
 import { Trans, useLingui } from '@lingui/react/macro';
+import { RadioOptions, Button, Input } from '@minimalstuff/ui';
+
+import type { ApiTokenScope } from '~/hooks/use_api_tokens';
 
 interface CreateTokenModalProps {
-	onCreate: (name: string) => Promise<void>;
+	onCreate: (name: string, scope: ApiTokenScope) => Promise<void>;
 	onClose: () => void;
 }
 
@@ -13,14 +15,28 @@ export function CreateTokenModal({
 }: Readonly<CreateTokenModalProps>) {
 	const { t } = useLingui();
 	const [tokenName, setTokenName] = useState('');
+	const [scope, setScope] = useState<ApiTokenScope>('full_access');
 	const [isLoading, setIsLoading] = useState(false);
+
+	const scopeOptions = [
+		{
+			value: 'full_access',
+			label: t({ message: 'Full access' }),
+			description: t({ message: 'Can read and write everything' }),
+		},
+		{
+			value: 'read_only',
+			label: t({ message: 'Read only' }),
+			description: t({ message: "Can't create, edit, or delete anything" }),
+		},
+	];
 
 	const handleCreate = async () => {
 		if (!tokenName.trim()) return;
 
 		setIsLoading(true);
 		try {
-			await onCreate(tokenName);
+			await onCreate(tokenName, scope);
 			onClose();
 		} finally {
 			setIsLoading(false);
@@ -40,6 +56,12 @@ export function CreateTokenModal({
 				value={tokenName}
 				onChange={(e) => setTokenName(e.target.value)}
 				required
+			/>
+			<RadioOptions
+				label={t({ message: 'Access' })}
+				options={scopeOptions}
+				value={scope}
+				onChange={(value) => setScope(value as ApiTokenScope)}
 			/>
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
 				<Button

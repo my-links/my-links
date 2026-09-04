@@ -1,5 +1,12 @@
 import { router, usePage } from '@inertiajs/react';
 
+/**
+ * Mirrors the backend's `API_TOKEN_SCOPE` (`#constants/api_token`) — kept as
+ * a plain literal union here since frontend code can't reach into the
+ * backend's `#`-aliased modules.
+ */
+export type ApiTokenScope = 'read_only' | 'full_access';
+
 export type ApiToken = {
 	identifier: number;
 	token: string | undefined;
@@ -18,8 +25,12 @@ export function useApiTokens() {
 		tokens: ApiToken[];
 	}>();
 
-	const createToken = async (name: string, expiresAt?: Date) => {
-		return router.post('/user/api-tokens', { name, expiresAt });
+	const createToken = async (
+		name: string,
+		scope: ApiTokenScope,
+		expiresAt?: Date
+	) => {
+		return router.post('/user/api-tokens', { name, scope, expiresAt });
 	};
 
 	const revokeToken = async (tokenId: number) => {
