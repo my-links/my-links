@@ -9,13 +9,14 @@ export default class CreateApiTokenController {
 	constructor(protected readonly apiTokenService: ApiTokenService) {}
 
 	async execute({ request, response, auth, session }: HttpContext) {
-		const { name, expiresAt } = await request.validateUsing(
+		const { name, expiresAt, scope } = await request.validateUsing(
 			createApiTokenValidator
 		);
 
 		const token = await this.apiTokenService.createToken(auth.getUserOrFail(), {
 			name,
 			expiresAt: expiresAt?.toJSDate(),
+			scope,
 		});
 
 		// The only moment the secret exists in readable form — it is flashed so

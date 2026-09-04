@@ -1,18 +1,31 @@
 import User from '#models/user';
 import ApiTokenNotFoundException from '#exceptions/user/api_token_not_found_exception';
+import {
+	API_TOKEN_SCOPE,
+	API_TOKEN_SCOPE_ABILITIES,
+	type ApiTokenScope,
+} from '#constants/api_token';
 
 type CreateTokenParams = {
 	name: string;
 	expiresAt?: Date;
+	scope?: ApiTokenScope;
 };
 
 export class ApiTokenService {
-	createToken(user: User, { name, expiresAt }: CreateTokenParams) {
+	createToken(
+		user: User,
+		{ name, expiresAt, scope = API_TOKEN_SCOPE.FULL_ACCESS }: CreateTokenParams
+	) {
 		const expiresIn = expiresAt ? expiresAt.getTime() - Date.now() : undefined;
-		return User.accessTokens.create(user, undefined, {
-			name,
-			expiresIn,
-		});
+		return User.accessTokens.create(
+			user,
+			[...API_TOKEN_SCOPE_ABILITIES[scope]],
+			{
+				name,
+				expiresIn,
+			}
+		);
 	}
 
 	getTokens(user: User) {
