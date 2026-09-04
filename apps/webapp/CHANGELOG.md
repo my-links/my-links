@@ -1,5 +1,32 @@
 # Changelog
 
+## [5.4.0](https://github.com/my-links/my-links/compare/webapp-v5.3.0...webapp-v5.4.0) (2026-09-04)
+
+### Features
+
+* **webapp:** add MCP server for links, collections, favorites and search ([aec2098](https://github.com/my-links/my-links/commit/aec2098855122aa74e1ae158f92221706c3b4009))
+* **webapp:** allow renaming the account's display name ([9b3a813](https://github.com/my-links/my-links/commit/9b3a813ccb7b560546bbf977d7427b33d219218b))
+* **webapp:** enable SQL query debug logging in dev ([8bf7150](https://github.com/my-links/my-links/commit/8bf71506851bd85f5649a346dcd9a813ca1621fd))
+* **webapp:** enforce token abilities on /api/v1/* ([3b002b9](https://github.com/my-links/my-links/commit/3b002b95f84307d10d066a31e6f3caf63842bcf9))
+* **webapp:** enforce token abilities on MCP tool calls ([78528f7](https://github.com/my-links/my-links/commit/78528f76fe8d6f90e54b67db3c4aa995ccb23c66))
+* **webapp:** let API tokens be created with a read-only or full-access scope ([ad994b9](https://github.com/my-links/my-links/commit/ad994b9e04ace4b956db4f61334c04ce4218106a))
+* **webapp:** let users pick a token's scope in the settings UI ([a6968d2](https://github.com/my-links/my-links/commit/a6968d29cf9dd80270941be504a97826366d35a5))
+* **webapp:** seed a second empty-state test account ([1b64f96](https://github.com/my-links/my-links/commit/1b64f969a3a98bcbca152e055ce9c14c89a89afe))
+
+### Bug Fixes
+
+* **webapp:** reconcile exported links to collections by key, not index ([c1e0af4](https://github.com/my-links/my-links/commit/c1e0af469f3d6cc8bf5baaa30193d4d4647eda98))
+* **webapp:** reject non-http(s) link URLs at the API boundary ([a7ab7a3](https://github.com/my-links/my-links/commit/a7ab7a3a38f7c45d29ae9c42fa85d58496f639eb))
+* **webapp:** stop collection context menu clicks from navigating ([83fb70a](https://github.com/my-links/my-links/commit/83fb70a87077ff2445b5ea9fc655de659277cfda))
+* **webapp:** stop context menu recursion on collections, links and search results ([c2c3191](https://github.com/my-links/my-links/commit/c2c319157f53c804c549435fbd863c074a516781))
+* **webapp:** stop normalizeUrl stripping the www. prefix on link save ([47023e5](https://github.com/my-links/my-links/commit/47023e5d92759fec921e6e7a56a969a1b79278f5))
+* **webapp:** translate missing French strings for token scope and display name UI ([f05ff75](https://github.com/my-links/my-links/commit/f05ff75e439af2d7b0ddc16f3d58211dc65c135d))
+* **webapp:** widen links.description to match its own validator ([8b28832](https://github.com/my-links/my-links/commit/8b28832bc67600b5c39ae0c0f015666633e476d4))
+
+### Performance Improvements
+
+* **webapp:** throttle per-request auth DB writes ([dfd3ff7](https://github.com/my-links/my-links/commit/dfd3ff70eb178863b557f89efde9ab9e5d8e131e))
+
 ## [5.3.0](https://github.com/my-links/my-links/compare/webapp-v5.2.0...webapp-v5.3.0) (2026-08-16)
 
 ### Features
