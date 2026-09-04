@@ -86,6 +86,11 @@ msgstr "À propos"
 msgid "Acceptance of Terms"
 msgstr "Acceptation des conditions"
 
+#: inertia/components/api_tokens/api_tokens.tsx:135
+#: inertia/components/api_tokens/create_token_modal.tsx:61
+msgid "Access"
+msgstr "Accès"
+
 #: inertia/components/admin/activity_events/activity_events_table.tsx:74
 #: inertia/components/admin/auth_events/auth_events_table.tsx:41
 msgid "Account"
@@ -100,7 +105,7 @@ msgid "Accounts"
 msgstr "Comptes"
 
 #: inertia/components/admin/users/users_table.tsx:294
-#: inertia/components/api_tokens/api_tokens.tsx:166
+#: inertia/components/api_tokens/api_tokens.tsx:178
 #: inertia/components/user_settings/sessions.tsx:105
 msgid "Actions"
 msgstr "Actions"
@@ -116,7 +121,7 @@ msgstr "Journal d'activité"
 #: inertia/pages/admin/activity_journal.tsx:28
 #: inertia/pages/admin/activity_journal.tsx:57
 msgid "Activity Journal"
-msgstr ""
+msgstr "Journal d'activité"
 
 #: inertia/pages/auth/register.tsx:73
 msgid "Ada Lovelace"
@@ -210,7 +215,7 @@ msgstr "Au moins {minimumPasswordLength} caractères"
 #: inertia/pages/admin/auth_journal.tsx:28
 #: inertia/pages/admin/auth_journal.tsx:53
 msgid "Auth Journal"
-msgstr ""
+msgstr "Journal d'authentification"
 
 #: inertia/components/admin/admin_tabs.tsx:27
 msgid "Authentication journal"
@@ -228,12 +233,20 @@ msgstr "En accédant à MyLinks et en utilisant nos services, vous acceptez de v
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence mondiale, non exclusive, transférable et gratuite d'utiliser, reproduire, distribuer et afficher ce contenu."
 
+#: inertia/components/api_tokens/create_token_modal.tsx:25
+msgid "Can read and write everything"
+msgstr "Peut tout lire et modifier"
+
+#: inertia/components/api_tokens/create_token_modal.tsx:30
+msgid "Can't create, edit, or delete anything"
+msgstr "Ne peut rien créer, modifier ou supprimer"
+
 #: inertia/components/admin/users/account_actions.tsx:59
 #: inertia/components/admin/users/account_actions.tsx:77
 #: inertia/components/admin/users/account_actions.tsx:106
 #: inertia/components/admin/users/users_table.tsx:76
 #: inertia/components/api_tokens/api_tokens.tsx:57
-#: inertia/components/api_tokens/create_token_modal.tsx:51
+#: inertia/components/api_tokens/create_token_modal.tsx:73
 #: inertia/components/dashboard/modals/modal_form_footer.tsx:24
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
@@ -387,7 +400,7 @@ msgstr "Créer une collection"
 msgid "Create a link"
 msgstr "Créer un lien"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:33
+#: inertia/components/api_tokens/create_token_modal.tsx:49
 msgid "Create a new API token to access the API"
 msgstr "Créez un nouveau jeton API pour accéder à l'API"
 
@@ -409,7 +422,7 @@ msgstr "Créer un lien {0}"
 #. placeholder {0}: KEYS.OPEN_CREATE_LINK_KEY
 #: inertia/components/dashboard/headers/dashboard_header.tsx:178
 msgid "Create link <0>{0}</0>"
-msgstr ""
+msgstr "Créer un lien <0>{0}</0>"
 
 #: inertia/pages/auth/register.tsx:126
 msgid "Create my account"
@@ -420,7 +433,7 @@ msgid "Create new token"
 msgstr "Créer un nouveau jeton"
 
 #: inertia/components/api_tokens/api_tokens.tsx:104
-#: inertia/components/api_tokens/create_token_modal.tsx:64
+#: inertia/components/api_tokens/create_token_modal.tsx:86
 msgid "Create token"
 msgstr "Créer un jeton"
 
@@ -434,7 +447,7 @@ msgid "Create your first link to get started"
 msgstr "Créez votre premier lien pour commencer"
 
 #: inertia/components/admin/users/users_table.tsx:257
-#: inertia/components/api_tokens/api_tokens.tsx:142
+#: inertia/components/api_tokens/api_tokens.tsx:154
 #: inertia/components/user_settings/sessions.tsx:81
 msgid "Created at"
 msgstr "Créé le"
@@ -576,6 +589,11 @@ msgstr "Espace disque"
 msgid "Dismiss"
 msgstr "Fermer"
 
+#: inertia/components/user_settings/display_name.tsx:30
+#: inertia/components/user_settings/display_name.tsx:39
+msgid "Display name"
+msgstr "Nom affiché"
+
 #: inertia/components/common/navigation/account_menu.tsx:171
 #: inertia/pages/home.tsx:43
 msgid "Documentation"
@@ -632,7 +650,7 @@ msgstr "Adresse email et mot de passe"
 msgid "Enabled"
 msgstr "Activée"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:39
+#: inertia/components/api_tokens/create_token_modal.tsx:55
 msgid "Enter token name"
 msgstr "Entrer le nom du jeton"
 
@@ -665,7 +683,7 @@ msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 msgid "Expand"
 msgstr "Développer"
 
-#: inertia/components/api_tokens/api_tokens.tsx:150
+#: inertia/components/api_tokens/api_tokens.tsx:162
 #: inertia/components/user_settings/sessions.tsx:93
 msgid "Expires at"
 msgstr "Expire le"
@@ -747,6 +765,11 @@ msgstr "Mot de passe oublié ?"
 msgid "Free to start, open-source to inspect, yours to run anywhere."
 msgstr "Gratuit pour commencer, open-source à inspecter, à vous d'héberger où vous voulez."
 
+#: inertia/components/api_tokens/api_tokens.tsx:140
+#: inertia/components/api_tokens/create_token_modal.tsx:24
+msgid "Full access"
+msgstr "Accès complet"
+
 #: inertia/pages/privacy.tsx:119
 msgid "Functional data is retained until the user requests deletion. Once this request is made, the data will be permanently deleted."
 msgstr "Les données fonctionnelles sont conservées jusqu'à ce que l'utilisateur demande leur suppression. Une fois cette demande effectuée, les données seront définitivement supprimées."
@@ -805,7 +828,7 @@ msgstr "Icône"
 msgid "Import"
 msgstr "Importer"
 
-#: inertia/components/dashboard/links/link_item.tsx:104
+#: inertia/components/dashboard/links/link_item.tsx:107
 msgid "In {collectionCount} collections"
 msgstr "Dans {collectionCount} collections"
 
@@ -831,7 +854,7 @@ msgstr "Dans la recherche"
 
 #: inertia/components/tour/dashboard_tour.tsx:38
 msgid "Inbox"
-msgstr ""
+msgstr "Inbox"
 
 #: inertia/components/user_settings/sessions.tsx:58
 msgid "IP"
@@ -875,7 +898,7 @@ msgstr "Dernière connexion"
 msgid "Last updated: {date}"
 msgstr "Dernière mise à jour : {date}"
 
-#: inertia/components/api_tokens/api_tokens.tsx:158
+#: inertia/components/api_tokens/api_tokens.tsx:170
 msgid "Last used at"
 msgstr "Dernière utilisation"
 
@@ -930,7 +953,7 @@ msgstr "Liens"
 
 #: inertia/components/tour/dashboard_tour.tsx:40
 msgid "Links saved without picking a collection land here. It's yours by default and always stays pinned."
-msgstr ""
+msgstr "Les liens enregistrés sans choisir de collection atterrissent ici. Elle est vôtre par défaut et reste toujours épinglée."
 
 #: inertia/components/tour/dashboard_tour.tsx:32
 msgid "Links you star show up here, across every collection."
@@ -1206,6 +1229,11 @@ msgstr "Public"
 msgid "Quick Actions"
 msgstr "Actions rapides"
 
+#: inertia/components/api_tokens/api_tokens.tsx:142
+#: inertia/components/api_tokens/create_token_modal.tsx:29
+msgid "Read only"
+msgstr "Lecture seule"
+
 #: inertia/lib/health.ts:69
 msgid "Redis"
 msgstr "Redis"
@@ -1286,6 +1314,10 @@ msgstr "Hébergez-le vous-même"
 msgid "Save it before the tab closes"
 msgstr "Enregistrez-le avant de fermer l'onglet"
 
+#: inertia/components/user_settings/display_name.tsx:56
+msgid "Save name"
+msgstr "Enregistrer le nom"
+
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:72
 #: inertia/components/dashboard/sidebar/sidebar_header.tsx:60
 #: inertia/components/dashboard/sidebar/sidebar_header.tsx:65
@@ -1361,8 +1393,8 @@ msgid "Set my password"
 msgstr "Définir mon mot de passe"
 
 #: inertia/components/common/navigation/account_menu.tsx:141
-#: inertia/pages/user_settings/show.tsx:18
-#: inertia/pages/user_settings/show.tsx:35
+#: inertia/pages/user_settings/show.tsx:19
+#: inertia/pages/user_settings/show.tsx:37
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -1494,6 +1526,10 @@ msgstr "L'extension, dans votre barre d'outils"
 msgid "The language MyLinks speaks to you in."
 msgstr "La langue dans laquelle MyLinks s'adresse à vous."
 
+#: inertia/components/user_settings/display_name.tsx:33
+msgid "The name shown for your account throughout MyLinks."
+msgstr "Le nom affiché pour votre compte partout dans MyLinks."
+
 #: inertia/components/user_settings/email_address.tsx:60
 msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
 msgstr "La nouvelle adresse doit confirmer le changement, et l'actuelle en est informée pour que vous puissiez l'annuler."
@@ -1552,11 +1588,11 @@ msgstr "Pour créer des collections et des liens personnalisés et les associer 
 msgid "Toggle sidebar"
 msgstr "Afficher ou replier la barre latérale"
 
-#: inertia/components/api_tokens/api_tokens.tsx:135
+#: inertia/components/api_tokens/api_tokens.tsx:147
 msgid "Token"
 msgstr "Jeton"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:36
+#: inertia/components/api_tokens/create_token_modal.tsx:52
 msgid "Token name"
 msgstr "Nom du jeton"
 
@@ -1707,6 +1743,10 @@ msgstr "Vos liens se téléchargent en JSON brut quand vous le souhaitez. Rien n
 #: inertia/pages/home.tsx:142
 msgid "Your links, organized"
 msgstr "Vos liens, organisés"
+
+#: inertia/components/user_settings/display_name.tsx:44
+msgid "Your name"
+msgstr "Votre nom"
 
 #: inertia/pages/auth/login.tsx:83
 #: inertia/pages/auth/sudo.tsx:59
