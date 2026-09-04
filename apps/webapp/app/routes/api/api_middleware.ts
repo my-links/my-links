@@ -7,6 +7,7 @@ import { apiThrottle, mcpThrottle } from '#start/limiter';
  */
 export const apiMiddleware = [
 	middleware.auth({ guards: ['api'] }),
+	middleware.tokenAbility(),
 	apiThrottle,
 ];
 

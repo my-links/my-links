@@ -48,4 +48,6 @@ export const middleware = router.named({
 	guest: () => import('#middleware/auth/guest_middleware'),
 	auth: () => import('#middleware/auth/auth_middleware'),
 	sudo: () => import('#middleware/auth/sudo_mode_middleware'),
+	tokenAbility: () =>
+		import('#middleware/api/require_token_ability_middleware'),
 });
