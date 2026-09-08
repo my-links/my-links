@@ -35,6 +35,13 @@ router
 			.as('link.toggle-favorite');
 
 		router
+			.post('/:id/favicon/refresh', [
+				controllers.links.RefreshLinkFavicon,
+				'execute',
+			])
+			.as('link.refresh-favicon');
+
+		router
 			.put('/:id/collection', [controllers.links.MoveLink, 'execute'])
 			.as('link.move-to-collection');
 

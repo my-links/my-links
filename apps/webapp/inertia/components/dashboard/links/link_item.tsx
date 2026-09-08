@@ -1,5 +1,5 @@
-import { useRef } from 'react';
 import { t } from '@lingui/core/macro';
+import { useRef, useState } from 'react';
 import type { Data } from '@generated/data';
 import type {
 	DraggableAttributes,
@@ -36,6 +36,7 @@ export function LinkItem({
 		? link.collectionIds.length
 		: 0;
 	const linkControlsRef = useRef<LinkControlsRef>(null);
+	const [faviconCacheBust, setFaviconCacheBust] = useState(0);
 
 	const handleClick = (e: React.MouseEvent) => {
 		if (shouldSuppressClick()) {
@@ -91,7 +92,11 @@ export function LinkItem({
 		>
 			<div className="flex items-start gap-3 flex-row">
 				<div className="flex items-start gap-3 flex-1 min-w-0">
-					<LinkFavicon url={url} size={isCompact ? 24 : 32} />
+					<LinkFavicon
+						url={url}
+						size={isCompact ? 24 : 32}
+						cacheBust={faviconCacheBust}
+					/>
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center gap-2 mb-1">
 							<h3
@@ -126,7 +131,13 @@ export function LinkItem({
 				</div>
 				{!hideMenu && (
 					<div data-link-controls className="self-start">
-						<LinkControls ref={linkControlsRef} link={link} />
+						<LinkControls
+							ref={linkControlsRef}
+							link={link}
+							onFaviconRefreshed={() =>
+								setFaviconCacheBust((version) => version + 1)
+							}
+						/>
 					</div>
 				)}
 			</div>

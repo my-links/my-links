@@ -13,6 +13,7 @@ import {
 	useImperativeHandle,
 	useMemo,
 	useRef,
+	useState,
 	type MouseEvent as ReactMouseEvent,
 } from 'react';
 
@@ -34,6 +35,8 @@ interface LinkControlsProps {
 	link: Link;
 	/** Notified after a menu item runs its action — lets a host like the search modal close itself. */
 	onAction?: () => void;
+	/** Notified once the refresh request completes — lets the favicon image bust its own cache. */
+	onFaviconRefreshed?: () => void;
 }
 
 const dispatchContextMenuAt = (
@@ -55,12 +58,14 @@ export function LinkControls({
 	link,
 	ref,
 	onAction,
+	onFaviconRefreshed,
 }: Readonly<LinkControlsProps>) {
 	const { activeCollection, myCollections } = useDashboardProps();
 
 	const isOwner = activeCollection?.isOwner !== false;
 
 	const menuRef = useRef<HTMLDivElement>(null);
+	const [isRefreshingFavicon, setIsRefreshingFavicon] = useState(false);
 
 	const linkWithCollections: LinkWithCollections | null = hasCollectionIds(link)
 		? link
@@ -118,6 +123,27 @@ export function LinkControls({
 			onAction?.();
 		},
 		[link.id, link.favorite, onAction]
+	);
+
+	const handleRefreshFavicon = useCallback(
+		(e: ReactMouseEvent<HTMLButtonElement>) => {
+			e.stopPropagation();
+			if (isRefreshingFavicon) return;
+
+			setIsRefreshingFavicon(true);
+			const refreshFaviconUrl = urlFor('link.refresh-favicon', { id: link.id });
+			router.post(
+				refreshFaviconUrl,
+				{},
+				{
+					preserveScroll: true,
+					onSuccess: () => onFaviconRefreshed?.(),
+					onFinish: () => setIsRefreshingFavicon(false),
+				}
+			);
+			onAction?.();
+		},
+		[link.id, onAction, onFaviconRefreshed, isRefreshingFavicon]
 	);
 
 	const handleGoToCollection = (
@@ -180,6 +206,13 @@ export function LinkControls({
 								<>
 									<MenuItem icon="i-octicon-pencil" onClick={handleEditLink}>
 										<Trans>Edit a link</Trans>
+									</MenuItem>
+									<MenuItem
+										icon="i-mdi-refresh"
+										onClick={handleRefreshFavicon}
+										disabled={isRefreshingFavicon}
+									>
+										<Trans>Refresh favicon</Trans>
 									</MenuItem>
 									<MenuItem
 										icon="i-ion-trash-outline"

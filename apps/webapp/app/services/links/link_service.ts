@@ -244,6 +244,17 @@ export class LinkService {
 		return link;
 	}
 
+	/** Bypasses the resolved/stale distinction entirely — the user asked for a fresh scrape right now. */
+	async refreshFavicon(id: number): Promise<void> {
+		const userId = this.getAuthenticatedUserId();
+		const link = await Link.query()
+			.where('id', id)
+			.apply((scopes) => scopes.ownedBy(userId))
+			.firstOrFail();
+
+		await this.faviconResolutionService.forceRefresh(link.url);
+	}
+
 	async getMyFavoriteLinks() {
 		return await Link.query()
 			.where('author_id', this.getAuthenticatedUserId())
