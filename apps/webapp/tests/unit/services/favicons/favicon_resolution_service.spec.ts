@@ -75,6 +75,68 @@ test.group('FaviconResolutionService.triggerResolution', (group) => {
 	});
 });
 
+test.group('FaviconResolutionService.forceRefresh', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should re-run the factory even when an entry already exists', async ({
+		assert,
+	}) => {
+		const url = `https://force-refresh-existing-test-${Date.now()}.example`;
+		const { service, resolver } = await buildService(fakeFavicon(url));
+		await service.triggerResolution(url);
+
+		await service.forceRefresh(url);
+
+		assert.equal(resolver.getFaviconCallCount, 2);
+	});
+
+	test('should replace the stored bytes with the freshly fetched ones', async ({
+		assert,
+	}) => {
+		const url = `https://force-refresh-replace-test-${Date.now()}.example`;
+		const storageDir = await mkdtemp(
+			join(tmpdir(), 'favicon-resolution-test-')
+		);
+		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		const original = fakeFavicon(url);
+		const resolver = buildFakeResolver(original);
+		const service = new FaviconResolutionService(cacheService, resolver);
+		await service.triggerResolution(url);
+
+		const updated: Favicon = {
+			buffer: Buffer.from('brand-new-icon-bytes'),
+			url,
+			type: 'image/png',
+			size: 21,
+		};
+		resolver.getFavicon = () => Promise.resolve(updated);
+
+		const result = await service.forceRefresh(url);
+
+		assert.isTrue(result.buffer.equals(updated.buffer));
+	});
+
+	test('should throw rather than swallow a resolution failure', async ({
+		assert,
+	}) => {
+		const url = `https://force-refresh-failure-test-${Date.now()}.example`;
+		const storageDir = await mkdtemp(
+			join(tmpdir(), 'favicon-resolution-test-')
+		);
+		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		const alwaysFailingResolver: FaviconResolver = {
+			getFavicon: () => Promise.reject(new Error('no favicon here')),
+			checkForUpdate: () => Promise.resolve({ changed: false }),
+		};
+		const service = new FaviconResolutionService(
+			cacheService,
+			alwaysFailingResolver
+		);
+
+		await assert.rejects(() => service.forceRefresh(url), 'no favicon here');
+	});
+});
+
 test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 

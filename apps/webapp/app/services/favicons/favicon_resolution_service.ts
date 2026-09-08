@@ -66,6 +66,19 @@ export class FaviconResolutionService {
 		}
 	}
 
+	/**
+	 * A full re-scrape regardless of any existing entry — unlike
+	 * `triggerResolution`, this never short-circuits on a prior result and
+	 * lets the caller see a failure rather than swallowing it, since it always
+	 * runs on behalf of someone waiting for the outcome (a user's manual
+	 * refresh, or an admin re-resolving a known failure).
+	 */
+	async forceRefresh(url: string): Promise<Favicon> {
+		return this.cacheService.forceResolve(url, () =>
+			faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
+		);
+	}
+
 	private async revalidate(
 		url: string,
 		metadata: FaviconMetadata

@@ -139,6 +139,25 @@ export class FaviconEntrySchema extends BaseModel {
   declare updatedAt: DateTime | null
 }
 
+export class FaviconFailureSchema extends BaseModel {
+  static $columns = ['attempts', 'createdAt', 'failedAt', 'id', 'origin', 'reason', 'updatedAt'] as const
+  $columns = FaviconFailureSchema.$columns
+  @column()
+  declare attempts: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column.dateTime()
+  declare failedAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare origin: string
+  @column()
+  declare reason: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class LinkSchema extends BaseModel {
   static $columns = ['authorId', 'clicks', 'createdAt', 'description', 'favorite', 'id', 'lastClickedAt', 'name', 'updatedAt', 'url'] as const
   $columns = LinkSchema.$columns

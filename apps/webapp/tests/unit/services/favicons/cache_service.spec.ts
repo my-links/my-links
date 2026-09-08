@@ -6,9 +6,11 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import { cache } from '#lib/cache';
 import type { Favicon } from '#types/favicon_type';
+import FaviconFailure from '#models/favicon_failure';
 import { CacheService } from '#services/favicons/cache_service';
 import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
+import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 
 async function buildCacheService(): Promise<CacheService> {
 	const storageDir = await mkdtemp(
@@ -88,6 +90,133 @@ test.group('CacheService.getOrSetFavicon', (group) => {
 		});
 
 		assert.isTrue(afterEviction.buffer.equals(original.buffer));
+	});
+});
+
+test.group('CacheService.getOrSetFavicon failure tracking', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should record a failure row when the factory rejects', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://cache-service-failure-test-${Date.now()}.example`;
+
+		await assert.rejects(() =>
+			cacheService.getOrSetFavicon(url, () =>
+				Promise.reject(new FaviconNotFoundException('boom'))
+			)
+		);
+
+		const failure = await FaviconFailure.findBy(
+			'origin',
+			normalizeFaviconOrigin(url)
+		);
+		assert.equal(failure?.reason, 'boom');
+		assert.equal(failure?.attempts, 1);
+	});
+
+	test('should bump the attempt count on a repeated failure for the same origin', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://cache-service-failure-repeat-test-${Date.now()}.example`;
+		const origin = normalizeFaviconOrigin(url);
+		const factory = () => Promise.reject(new FaviconNotFoundException('boom'));
+
+		await assert.rejects(() => cacheService.getOrSetFavicon(url, factory));
+		await cache.namespace('favicon:error').delete({ key: origin });
+		await assert.rejects(() => cacheService.getOrSetFavicon(url, factory));
+
+		const failure = await FaviconFailure.findBy('origin', origin);
+		assert.equal(failure?.attempts, 2);
+	});
+
+	test('should clear a prior failure once the origin resolves successfully', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://cache-service-failure-clear-test-${Date.now()}.example`;
+		const origin = normalizeFaviconOrigin(url);
+		await assert.rejects(() =>
+			cacheService.getOrSetFavicon(url, () =>
+				Promise.reject(new FaviconNotFoundException('boom'))
+			)
+		);
+		await cache.namespace('favicon:error').delete({ key: origin });
+
+		await cacheService.getOrSetFavicon(url, () =>
+			Promise.resolve(fakeFavicon(url))
+		);
+
+		const failure = await FaviconFailure.findBy(
+			'origin',
+			normalizeFaviconOrigin(url)
+		);
+		assert.isNull(failure);
+	});
+});
+
+test.group('CacheService.forceResolve', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should run the factory even when an entry already exists', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://force-resolve-existing-test-${Date.now()}.example`;
+		await cacheService.getOrSetFavicon(url, () =>
+			Promise.resolve(fakeFavicon(url))
+		);
+
+		let factoryCallCount = 0;
+		const updated: Favicon = {
+			buffer: Buffer.from('brand-new-icon-bytes'),
+			url,
+			type: 'image/png',
+			size: 21,
+		};
+		const result = await cacheService.forceResolve(url, () => {
+			factoryCallCount += 1;
+			return Promise.resolve(updated);
+		});
+
+		assert.equal(factoryCallCount, 1);
+		assert.isTrue(result.buffer.equals(updated.buffer));
+	});
+
+	test('should create an entry from scratch when none exists yet', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://force-resolve-new-test-${Date.now()}.example`;
+		const original = fakeFavicon(url);
+
+		const result = await cacheService.forceResolve(url, () =>
+			Promise.resolve(original)
+		);
+
+		assert.isTrue(result.buffer.equals(original.buffer));
+	});
+
+	test('should clear a recorded failure for the origin on success', async ({
+		assert,
+	}) => {
+		const cacheService = await buildCacheService();
+		const url = `https://force-resolve-clears-failure-test-${Date.now()}.example`;
+		await assert.rejects(() =>
+			cacheService.getOrSetFavicon(url, () => Promise.reject(new Error('boom')))
+		);
+
+		await cacheService.forceResolve(url, () =>
+			Promise.resolve(fakeFavicon(url))
+		);
+
+		const failure = await FaviconFailure.findBy(
+			'origin',
+			normalizeFaviconOrigin(url)
+		);
+		assert.isNull(failure);
 	});
 });
 

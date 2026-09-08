@@ -3,6 +3,7 @@ import { DateTime } from 'luxon';
 import { cache } from '#lib/cache';
 import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
+import FaviconFailure from '#models/favicon_failure';
 import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
 import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
@@ -61,8 +62,48 @@ export class CacheService {
 				value: errorMessage,
 				ttl: this.errorTtl,
 			});
+			await this.recordFailure(origin, errorMessage);
 			throw originalError;
 		}
+	}
+
+	/**
+	 * Unlike `getOrSetFavicon`, always re-runs the factory — for a user-triggered
+	 * refresh or an admin re-resolving a known failure, an existing entry is
+	 * exactly the case that must not short-circuit the fetch.
+	 */
+	async forceResolve(
+		url: string,
+		factory: () => Promise<Favicon>
+	): Promise<Favicon> {
+		const origin = normalizeFaviconOrigin(url);
+
+		const favicon = await factory();
+		const contentHash = await this.store.write(favicon.buffer);
+		const entry = await FaviconEntry.updateOrCreate(
+			{ origin },
+			{
+				contentHash,
+				contentType: favicon.type,
+				byteSize: favicon.size,
+				source: 'scraped',
+				resolvedUrl: this.resolvedUrlOf(favicon),
+				resolvedAt: DateTime.now(),
+				etag: favicon.etag ?? null,
+				lastModified: favicon.lastModified ?? null,
+			}
+		);
+
+		const metadata = this.metadataFromEntry(entry);
+		await this.metadataCacheNs.set({
+			key: origin,
+			value: metadata,
+			ttl: this.successTtl,
+		});
+		await this.errorCacheNs.delete({ key: origin });
+		await this.clearFailure(origin);
+
+		return this.toFavicon(metadata);
 	}
 
 	async peekMetadata(url: string): Promise<FaviconMetadata | undefined> {
@@ -151,15 +192,41 @@ export class CacheService {
 				etag: favicon.etag ?? null,
 				lastModified: favicon.lastModified ?? null,
 			});
+			await this.clearFailure(origin);
 			return this.metadataFromEntry(entry);
 		} catch (error) {
 			// Two instances racing the same new origin: the loser hits the unique constraint, not a lost result.
 			const raceWinner = await FaviconEntry.findBy('origin', origin);
 			if (raceWinner) {
+				await this.clearFailure(origin);
 				return this.metadataFromEntry(raceWinner);
 			}
 			throw error;
 		}
+	}
+
+	private async recordFailure(origin: string, reason: string): Promise<void> {
+		const failure = await FaviconFailure.findBy('origin', origin);
+		if (failure) {
+			failure.merge({
+				reason,
+				attempts: failure.attempts + 1,
+				failedAt: DateTime.now(),
+			});
+			await failure.save();
+			return;
+		}
+
+		await FaviconFailure.create({
+			origin,
+			reason,
+			failedAt: DateTime.now(),
+			attempts: 1,
+		});
+	}
+
+	private async clearFailure(origin: string): Promise<void> {
+		await FaviconFailure.query().where('origin', origin).delete();
 	}
 
 	// Inline data: URIs aren't a network resource to revalidate against.
