@@ -23,10 +23,19 @@ export default class FaviconsController {
 		return this.sendImage(ctx, favicon);
 	}
 
-	private sendImage(ctx: HttpContext, { buffer, type, size }: Favicon) {
+	private sendImage(
+		ctx: HttpContext,
+		{ buffer, type, size, isPlaceholder }: Favicon
+	) {
 		ctx.response.header('Content-Type', type);
 		ctx.response.header('Content-Length', size.toString());
-		ctx.response.header('Cache-Control', 'public, max-age=604800');
+		// A placeholder is a stand-in for a resolution still running in the
+		// background — caching it long would leave the browser showing it
+		// forever, past the point the real icon is already resolved.
+		ctx.response.header(
+			'Cache-Control',
+			isPlaceholder ? 'no-store' : 'public, max-age=604800'
+		);
 		// Defense in depth for a navigated-to SVG served from this route.
 		ctx.response.header('Content-Security-Policy', 'sandbox');
 		ctx.response.send(buffer, true);

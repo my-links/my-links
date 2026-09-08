@@ -151,6 +151,30 @@ test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 		assert.equal(favicon.type, 'image/svg+xml');
 	});
 
+	test('should mark a monogram as a placeholder so the caller never caches it long', async ({
+		assert,
+	}) => {
+		const url = `https://get-fresh-placeholder-flag-test-${Date.now()}.example`;
+		const { service } = await buildService(fakeFavicon(url));
+
+		const favicon = await service.getFreshOrStale(url);
+
+		assert.isTrue(favicon.isPlaceholder);
+	});
+
+	test('should not mark a resolved favicon as a placeholder', async ({
+		assert,
+	}) => {
+		const url = `https://get-fresh-not-placeholder-test-${Date.now()}.example`;
+		const favicon = fakeFavicon(url);
+		const { service } = await buildService(favicon);
+		await service.triggerResolution(url);
+
+		const result = await service.getFreshOrStale(url);
+
+		assert.isUndefined(result.isPlaceholder);
+	});
+
 	test('should return the stored bytes once a resolution has completed', async ({
 		assert,
 	}) => {

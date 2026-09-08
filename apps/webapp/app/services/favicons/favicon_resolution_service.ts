@@ -53,7 +53,13 @@ export class FaviconResolutionService {
 	// Terminal, not an error state: a link always shows something identifiable, never a broken image.
 	private monogramFor(url: string): Favicon {
 		const buffer = generateMonogram(url);
-		return { buffer, type: 'image/svg+xml', size: buffer.length, url };
+		return {
+			buffer,
+			type: 'image/svg+xml',
+			size: buffer.length,
+			url,
+			isPlaceholder: true,
+		};
 	}
 
 	async triggerResolution(url: string): Promise<void> {

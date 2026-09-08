@@ -7,6 +7,7 @@ import UserTransformer from '#transformers/user';
 import { resolveServerLocale } from '#config/inertia';
 import packageJson from '../../package.json' with { type: 'json' };
 import { MailConfigService } from '#services/mail/mail_config_service';
+import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 
@@ -41,6 +42,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			RegistrationPolicyService
 		);
 		const mailConfigService = await app.container.make(MailConfigService);
+		const faviconEpochService = await app.container.make(FaviconEpochService);
 
 		// Signed-in visitors can't be blocked by registration policy, so skip the hasAnyAccount() round-trip for them.
 		const isRegistrationOpen = isAuthenticated
@@ -72,6 +74,9 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
 			appVersion: packageJson.version,
+			// Embedded in every `/favicon` URL the client builds — bumping it is
+			// the only way an admin's flush reaches a browser's week-long cache.
+			faviconEpoch: ctx.inertia.always(await faviconEpochService.getEpoch()),
 		};
 	}
 

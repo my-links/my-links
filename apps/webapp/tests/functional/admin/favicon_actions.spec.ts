@@ -153,6 +153,33 @@ test.group('Admin favicon mass actions', (group) => {
 		response.assertStatus(302);
 	}).teardown(() => app.container.restore(FaviconResolutionService));
 
+	test("should bump the shared favicon epoch so pages stop using the browser's stale cache", async ({
+		client,
+		assert,
+	}) => {
+		const admin = await createAdmin('favicon-admin-epoch');
+		const before = await client
+			.get('/admin/favicons')
+			.withInertia()
+			.loginAs(admin);
+
+		await client
+			.post('/admin/favicons/flush')
+			.withCsrfToken()
+			.loginAs(admin)
+			.redirects(0);
+
+		const after = await client
+			.get('/admin/favicons')
+			.withInertia()
+			.loginAs(admin);
+
+		assert.notEqual(
+			after.inertiaProps?.faviconEpoch,
+			before.inertiaProps?.faviconEpoch
+		);
+	});
+
 	test('should reject mass actions from a non-administrator', async ({
 		client,
 	}) => {
