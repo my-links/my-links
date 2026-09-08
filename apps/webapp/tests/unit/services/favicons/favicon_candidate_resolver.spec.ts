@@ -5,6 +5,7 @@ import {
 	resolveUrl,
 	scoreSizes,
 	findManifestHref,
+	findMetaRefreshUrl,
 	resolveDocumentBaseUrl,
 	extractLinkIconCandidates,
 	extractMetaImageCandidates,
@@ -292,5 +293,49 @@ test.group('extractMetaImageCandidates', () => {
 			extractMetaImageCandidates(document, 'https://example.com/'),
 			[]
 		);
+	});
+});
+
+test.group('findMetaRefreshUrl', () => {
+	test('should find a standard "0;url=..." meta refresh', ({ assert }) => {
+		const document = parseDocument(
+			'<html><head><meta http-equiv="refresh" content="0;url=/en/"></head></html>'
+		);
+
+		assert.equal(findMetaRefreshUrl(document), '/en/');
+	});
+
+	test('should handle a space after the delay and quoted url', ({ assert }) => {
+		const document = parseDocument(
+			`<html><head><meta http-equiv="refresh" content="0; url='/en/'"></head></html>`
+		);
+
+		assert.equal(findMetaRefreshUrl(document), '/en/');
+	});
+
+	test('should be case-insensitive on http-equiv', ({ assert }) => {
+		const document = parseDocument(
+			'<html><head><meta http-equiv="Refresh" content="5;url=/landing"></head></html>'
+		);
+
+		assert.equal(findMetaRefreshUrl(document), '/landing');
+	});
+
+	test('should return undefined when there is no meta refresh', ({
+		assert,
+	}) => {
+		const document = parseDocument('<html><head></head></html>');
+
+		assert.isUndefined(findMetaRefreshUrl(document));
+	});
+
+	test('should return undefined for a refresh with no url, just a delay', ({
+		assert,
+	}) => {
+		const document = parseDocument(
+			'<html><head><meta http-equiv="refresh" content="30"></head></html>'
+		);
+
+		assert.isUndefined(findMetaRefreshUrl(document));
 	});
 });

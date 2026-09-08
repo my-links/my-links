@@ -93,6 +93,22 @@ export function extractMetaImageCandidates(
 	return candidates;
 }
 
+export function findMetaRefreshUrl(document: HTMLElement): string | undefined {
+	for (const meta of document.getElementsByTagName('meta')) {
+		if (meta.getAttribute('http-equiv')?.toLowerCase() !== 'refresh') {
+			continue;
+		}
+
+		const content = meta.getAttribute('content');
+		const match = content?.match(/url\s*=\s*['"]?([^'";]+)['"]?/i);
+		if (match) {
+			return match[1].trim();
+		}
+	}
+
+	return undefined;
+}
+
 export function findManifestHref(document: HTMLElement): string | undefined {
 	for (const link of document.getElementsByTagName('link')) {
 		if (hasRelToken(link, new Set(['manifest']))) {
