@@ -6,10 +6,15 @@ export interface ApiDefinition {
   terms: typeof routes['terms']
   privacy: typeof routes['privacy']
   shared: typeof routes['shared']
-  favicon: typeof routes['favicon']
   admin: {
     dashboard: typeof routes['admin.dashboard']
     status: typeof routes['admin.status']
+    favicons: typeof routes['admin.favicons'] & {
+      purgeOrphans: typeof routes['admin.favicons.purge-orphans']
+      flush: typeof routes['admin.favicons.flush']
+      reresolveFailures: typeof routes['admin.favicons.reresolve-failures']
+      reresolveAll: typeof routes['admin.favicons.reresolve-all']
+    }
     authEvents: typeof routes['admin.auth-events']
     activityEvents: typeof routes['admin.activity-events']
     users: {
@@ -135,8 +140,10 @@ export interface ApiDefinition {
     create: typeof routes['link.create']
     edit: typeof routes['link.edit']
     toggleFavorite: typeof routes['link.toggle-favorite']
+    refreshFavicon: typeof routes['link.refresh-favicon']
     moveToCollection: typeof routes['link.move-to-collection']
     addToCollection: typeof routes['link.add-to-collection']
     delete: typeof routes['link.delete']
   }
+  favicon: typeof routes['favicon']
 }

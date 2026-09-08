@@ -8,9 +8,13 @@ export type ScannedRoutes = {
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
+    'admin.favicons': { paramsTuple?: []; params?: {} }
+    'admin.favicons.purge-orphans': { paramsTuple?: []; params?: {} }
+    'admin.favicons.flush': { paramsTuple?: []; params?: {} }
+    'admin.favicons.reresolve-failures': { paramsTuple?: []; params?: {} }
+    'admin.favicons.reresolve-all': { paramsTuple?: []; params?: {} }
     'admin.auth-events': { paramsTuple?: []; params?: {} }
     'admin.activity-events': { paramsTuple?: []; params?: {} }
     'admin.users.bulk-delete': { paramsTuple?: []; params?: {} }
@@ -89,18 +93,20 @@ export type ScannedRoutes = {
     'link.create': { paramsTuple?: []; params?: {} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.refresh-favicon': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'favicon': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
+    'admin.favicons': { paramsTuple?: []; params?: {} }
     'admin.auth-events': { paramsTuple?: []; params?: {} }
     'admin.activity-events': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
@@ -130,15 +136,16 @@ export type ScannedRoutes = {
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
+    'favicon': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
     'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'favicon': { paramsTuple?: []; params?: {} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
+    'admin.favicons': { paramsTuple?: []; params?: {} }
     'admin.auth-events': { paramsTuple?: []; params?: {} }
     'admin.activity-events': { paramsTuple?: []; params?: {} }
     'collection.favorites': { paramsTuple?: []; params?: {} }
@@ -168,8 +175,13 @@ export type ScannedRoutes = {
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
+    'favicon': { paramsTuple?: []; params?: {} }
   }
   POST: {
+    'admin.favicons.purge-orphans': { paramsTuple?: []; params?: {} }
+    'admin.favicons.flush': { paramsTuple?: []; params?: {} }
+    'admin.favicons.reresolve-failures': { paramsTuple?: []; params?: {} }
+    'admin.favicons.reresolve-all': { paramsTuple?: []; params?: {} }
     'admin.users.bulk-delete': { paramsTuple?: []; params?: {} }
     'admin.users.send-password-reset': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.users.revoke-access': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -196,6 +208,7 @@ export type ScannedRoutes = {
     'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-mcp.handle': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
+    'link.refresh-favicon': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {

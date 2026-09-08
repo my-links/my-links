@@ -30,12 +30,6 @@ const routes = {
     tokens: [{"old":"/shared/:id","type":0,"val":"shared","end":""},{"old":"/shared/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['shared']['types'],
   },
-  'favicon': {
-    methods: ["GET","HEAD"],
-    pattern: '/favicon',
-    tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
-    types: placeholder as Registry['favicon']['types'],
-  },
   'admin.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/admin',
@@ -47,6 +41,36 @@ const routes = {
     pattern: '/admin/status',
     tokens: [{"old":"/admin/status","type":0,"val":"admin","end":""},{"old":"/admin/status","type":0,"val":"status","end":""}],
     types: placeholder as Registry['admin.status']['types'],
+  },
+  'admin.favicons': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/favicons',
+    tokens: [{"old":"/admin/favicons","type":0,"val":"admin","end":""},{"old":"/admin/favicons","type":0,"val":"favicons","end":""}],
+    types: placeholder as Registry['admin.favicons']['types'],
+  },
+  'admin.favicons.purge-orphans': {
+    methods: ["POST"],
+    pattern: '/admin/favicons/purge-orphans',
+    tokens: [{"old":"/admin/favicons/purge-orphans","type":0,"val":"admin","end":""},{"old":"/admin/favicons/purge-orphans","type":0,"val":"favicons","end":""},{"old":"/admin/favicons/purge-orphans","type":0,"val":"purge-orphans","end":""}],
+    types: placeholder as Registry['admin.favicons.purge-orphans']['types'],
+  },
+  'admin.favicons.flush': {
+    methods: ["POST"],
+    pattern: '/admin/favicons/flush',
+    tokens: [{"old":"/admin/favicons/flush","type":0,"val":"admin","end":""},{"old":"/admin/favicons/flush","type":0,"val":"favicons","end":""},{"old":"/admin/favicons/flush","type":0,"val":"flush","end":""}],
+    types: placeholder as Registry['admin.favicons.flush']['types'],
+  },
+  'admin.favicons.reresolve-failures': {
+    methods: ["POST"],
+    pattern: '/admin/favicons/reresolve-failures',
+    tokens: [{"old":"/admin/favicons/reresolve-failures","type":0,"val":"admin","end":""},{"old":"/admin/favicons/reresolve-failures","type":0,"val":"favicons","end":""},{"old":"/admin/favicons/reresolve-failures","type":0,"val":"reresolve-failures","end":""}],
+    types: placeholder as Registry['admin.favicons.reresolve-failures']['types'],
+  },
+  'admin.favicons.reresolve-all': {
+    methods: ["POST"],
+    pattern: '/admin/favicons/reresolve-all',
+    tokens: [{"old":"/admin/favicons/reresolve-all","type":0,"val":"admin","end":""},{"old":"/admin/favicons/reresolve-all","type":0,"val":"favicons","end":""},{"old":"/admin/favicons/reresolve-all","type":0,"val":"reresolve-all","end":""}],
+    types: placeholder as Registry['admin.favicons.reresolve-all']['types'],
   },
   'admin.auth-events': {
     methods: ["GET","HEAD"],
@@ -516,6 +540,12 @@ const routes = {
     tokens: [{"old":"/links/:id/favorite","type":0,"val":"links","end":""},{"old":"/links/:id/favorite","type":1,"val":"id","end":""},{"old":"/links/:id/favorite","type":0,"val":"favorite","end":""}],
     types: placeholder as Registry['link.toggle-favorite']['types'],
   },
+  'link.refresh-favicon': {
+    methods: ["POST"],
+    pattern: '/links/:id/favicon/refresh',
+    tokens: [{"old":"/links/:id/favicon/refresh","type":0,"val":"links","end":""},{"old":"/links/:id/favicon/refresh","type":1,"val":"id","end":""},{"old":"/links/:id/favicon/refresh","type":0,"val":"favicon","end":""},{"old":"/links/:id/favicon/refresh","type":0,"val":"refresh","end":""}],
+    types: placeholder as Registry['link.refresh-favicon']['types'],
+  },
   'link.move-to-collection': {
     methods: ["PUT"],
     pattern: '/links/:id/collection',
@@ -533,6 +563,12 @@ const routes = {
     pattern: '/links/:id',
     tokens: [{"old":"/links/:id","type":0,"val":"links","end":""},{"old":"/links/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['link.delete']['types'],
+  },
+  'favicon': {
+    methods: ["GET","HEAD"],
+    pattern: '/favicon',
+    tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
+    types: placeholder as Registry['favicon']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

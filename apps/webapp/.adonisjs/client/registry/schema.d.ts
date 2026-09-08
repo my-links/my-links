@@ -55,18 +55,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/shared_collections_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'favicon': {
-    methods: ["GET","HEAD"]
-    pattern: '/favicon'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
-    }
-  }
   'admin.dashboard': {
     methods: ["GET","HEAD"]
     pattern: '/admin'
@@ -89,6 +77,66 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/status_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/status_controller').default['render']>>>
+    }
+  }
+  'admin.favicons': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/favicons'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/favicon_stats_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/favicon_stats_controller').default['render']>>>
+    }
+  }
+  'admin.favicons.purge-orphans': {
+    methods: ["POST"]
+    pattern: '/admin/favicons/purge-orphans'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/purge_favicon_orphans_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/purge_favicon_orphans_controller').default['execute']>>>
+    }
+  }
+  'admin.favicons.flush': {
+    methods: ["POST"]
+    pattern: '/admin/favicons/flush'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/flush_favicon_cache_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/flush_favicon_cache_controller').default['execute']>>>
+    }
+  }
+  'admin.favicons.reresolve-failures': {
+    methods: ["POST"]
+    pattern: '/admin/favicons/reresolve-failures'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/reresolve_favicon_failures_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/reresolve_favicon_failures_controller').default['execute']>>>
+    }
+  }
+  'admin.favicons.reresolve-all': {
+    methods: ["POST"]
+    pattern: '/admin/favicons/reresolve-all'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/reresolve_all_favicons_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/reresolve_all_favicons_controller').default['execute']>>>
     }
   }
   'admin.auth-events': {
@@ -1027,6 +1075,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'link.refresh-favicon': {
+    methods: ["POST"]
+    pattern: '/links/:id/favicon/refresh'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/refresh_link_favicon_validator').refreshLinkFaviconValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/refresh_link_favicon_validator').refreshLinkFaviconValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/refresh_link_favicon_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/refresh_link_favicon_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'link.move-to-collection': {
     methods: ["PUT"]
     pattern: '/links/:id/collection'
@@ -1061,6 +1121,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/delete_link_controller').default['execute']>>>
+    }
+  }
+  'favicon': {
+    methods: ["GET","HEAD"]
+    pattern: '/favicon'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
     }
   }
 }
