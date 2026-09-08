@@ -11,6 +11,35 @@ router
 			.as('admin.status');
 
 		router
+			.get('/favicons', [controllers.admin.FaviconStats, 'render'])
+			.as('admin.favicons');
+
+		router
+			.post('/favicons/purge-orphans', [
+				controllers.admin.PurgeFaviconOrphans,
+				'execute',
+			])
+			.as('admin.favicons.purge-orphans');
+
+		router
+			.post('/favicons/flush', [controllers.admin.FlushFaviconCache, 'execute'])
+			.as('admin.favicons.flush');
+
+		router
+			.post('/favicons/reresolve-failures', [
+				controllers.admin.ReresolveFaviconFailures,
+				'execute',
+			])
+			.as('admin.favicons.reresolve-failures');
+
+		router
+			.post('/favicons/reresolve-all', [
+				controllers.admin.ReresolveAllFavicons,
+				'execute',
+			])
+			.as('admin.favicons.reresolve-all');
+
+		router
 			.get('/auth-events', [controllers.admin.AuthJournal, 'render'])
 			.as('admin.auth-events');
 

@@ -38,6 +38,12 @@ const ADMIN_TABS = [
 		icon: 'i-mdi-heart-pulse',
 		label: <Trans>Status</Trans>,
 	},
+	{
+		route: 'admin.favicons',
+		page: 'admin/favicons',
+		icon: 'i-mdi-image-multiple',
+		label: <Trans>Favicons</Trans>,
+	},
 ] as const;
 
 /**
