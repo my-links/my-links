@@ -78,13 +78,15 @@ test.group('FaviconResolutionService.triggerResolution', (group) => {
 test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should return undefined when nothing is stored yet', async ({
+	test('should return a monogram when nothing is stored yet', async ({
 		assert,
 	}) => {
 		const url = `https://get-fresh-missing-test-${Date.now()}.example`;
 		const { service } = await buildService(fakeFavicon(url));
 
-		assert.isUndefined(await service.getFreshOrStale(url));
+		const favicon = await service.getFreshOrStale(url);
+
+		assert.equal(favicon.type, 'image/svg+xml');
 	});
 
 	test('should return the stored bytes once a resolution has completed', async ({
@@ -97,7 +99,7 @@ test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 		await service.triggerResolution(url);
 		const result = await service.getFreshOrStale(url);
 
-		assert.isTrue(result?.buffer.equals(favicon.buffer));
+		assert.isTrue(result.buffer.equals(favicon.buffer));
 	});
 
 	test('should serve a fresh entry without checking for updates', async ({
@@ -136,6 +138,28 @@ test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 
 		const result = await service.getFreshOrStale(url);
 
-		assert.isTrue(result?.buffer.equals(favicon.buffer));
+		assert.isTrue(result.buffer.equals(favicon.buffer));
+	});
+
+	test('should return a monogram rather than fail when resolution keeps failing', async ({
+		assert,
+	}) => {
+		const url = `https://get-fresh-unresolvable-test-${Date.now()}.example`;
+		const storageDir = await mkdtemp(
+			join(tmpdir(), 'favicon-resolution-test-')
+		);
+		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		const alwaysFailingResolver: FaviconResolver = {
+			getFavicon: () => Promise.reject(new Error('no favicon here')),
+			checkForUpdate: () => Promise.resolve({ changed: false }),
+		};
+		const service = new FaviconResolutionService(
+			cacheService,
+			alwaysFailingResolver
+		);
+
+		const favicon = await service.getFreshOrStale(url);
+
+		assert.equal(favicon.type, 'image/svg+xml');
 	});
 });
