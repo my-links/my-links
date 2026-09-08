@@ -50,6 +50,8 @@ export const CollectionControls = forwardRef<
 	const menuRef = useRef<HTMLDivElement>(null);
 
 	const handleCreateLink = (e: ReactMouseEvent<HTMLButtonElement>) => {
+		// Row is an anchor: without preventDefault the browser follows its href.
+		e.preventDefault();
 		e.stopPropagation();
 		const call = Modal.call({
 			title: <Trans>Create a link</Trans>,
