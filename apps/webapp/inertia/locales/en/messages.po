@@ -679,16 +679,16 @@ msgid "Every collection and link change this instance recorded, newest first."
 msgstr "Every collection and link change this instance recorded, newest first."
 
 #: inertia/pages/admin/favicons.tsx:77
-msgid "Every known domain is re-scraped in place — links keep their current icon until a fresher one actually lands. Can take a while on a large store."
-msgstr "Every known domain is re-scraped in place — links keep their current icon until a fresher one actually lands. Can take a while on a large store."
+msgid "Every known domain is re-scraped in place. Links keep their current icon until a fresher one actually lands. Can take a while on a large store."
+msgstr "Every known domain is re-scraped in place. Links keep their current icon until a fresher one actually lands. Can take a while on a large store."
 
 #: inertia/components/user_settings/password.tsx:61
 msgid "Every other session and every extension token will be signed out."
 msgstr "Every other session and every extension token will be signed out."
 
 #: inertia/pages/admin/favicons.tsx:60
-msgid "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view — nothing is lost permanently, but every domain gets re-fetched again."
-msgstr "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view — nothing is lost permanently, but every domain gets re-fetched again."
+msgid "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view. Nothing is lost permanently, but every domain gets re-fetched again."
+msgstr "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view. Nothing is lost permanently, but every domain gets re-fetched again."
 
 #: inertia/pages/auth/reset_password.tsx:50
 msgid "Everything else signed in on this account will be signed out."
@@ -1158,8 +1158,8 @@ msgid "Not linked"
 msgstr "Not linked"
 
 #: inertia/components/user_settings/auth_methods.tsx:70
-msgid "Not set — use the form below to add one"
-msgstr "Not set — use the form below to add one"
+msgid "Not set. Use the form below to add one"
+msgstr "Not set. Use the form below to add one"
 
 #: inertia/components/admin/users/users_table.tsx:303
 msgid "Nothing found"

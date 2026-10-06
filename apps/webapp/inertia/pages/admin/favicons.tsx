@@ -59,7 +59,7 @@ function Favicons({
 			children: (
 				<Trans>
 					Every stored favicon is deleted. Links show a monogram until their
-					icon is re-scraped on next view — nothing is lost permanently, but
+					icon is re-scraped on next view. Nothing is lost permanently, but
 					every domain gets re-fetched again.
 				</Trans>
 			),
@@ -75,7 +75,7 @@ function Favicons({
 			title: <Trans>Re-resolve every favicon</Trans>,
 			children: (
 				<Trans>
-					Every known domain is re-scraped in place — links keep their current
+					Every known domain is re-scraped in place. Links keep their current
 					icon until a fresher one actually lands. Can take a while on a large
 					store.
 				</Trans>

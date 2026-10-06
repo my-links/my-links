@@ -11,7 +11,7 @@ import { PublicLayout } from '~/layouts/public_layout';
 void createInertiaApp({
 	progress: { color: 'var(--colors-blue-500)', delay: 50 },
 
-	title: (title) => `${title && `${title} — `}${PROJECT_NAME}`,
+	title: (title) => `${title && `${title} · `}${PROJECT_NAME}`,
 
 	// @ts-ignore
 	resolve: async (name) => {

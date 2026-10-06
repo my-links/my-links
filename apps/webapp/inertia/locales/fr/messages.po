@@ -679,16 +679,16 @@ msgid "Every collection and link change this instance recorded, newest first."
 msgstr "Toutes les modifications de collections et de liens enregistrées par cette instance, du plus récent au plus ancien."
 
 #: inertia/pages/admin/favicons.tsx:77
-msgid "Every known domain is re-scraped in place — links keep their current icon until a fresher one actually lands. Can take a while on a large store."
-msgstr ""
+msgid "Every known domain is re-scraped in place. Links keep their current icon until a fresher one actually lands. Can take a while on a large store."
+msgstr "Chaque domaine connu est récupéré à nouveau sur place. Les liens gardent leur icône actuelle jusqu'à ce qu'une version plus récente arrive. Peut prendre du temps sur un gros stock."
 
 #: inertia/components/user_settings/password.tsx:61
 msgid "Every other session and every extension token will be signed out."
 msgstr "Toutes les autres sessions et tous les jetons d'extension seront déconnectés."
 
 #: inertia/pages/admin/favicons.tsx:60
-msgid "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view — nothing is lost permanently, but every domain gets re-fetched again."
-msgstr ""
+msgid "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view. Nothing is lost permanently, but every domain gets re-fetched again."
+msgstr "Tous les favicons stockés sont supprimés. Les liens affichent un monogramme jusqu'à ce que leur icône soit récupérée à la prochaine consultation. Rien n'est perdu définitivement, mais chaque domaine sera interrogé à nouveau."
 
 #: inertia/pages/auth/reset_password.tsx:50
 msgid "Everything else signed in on this account will be signed out."
@@ -728,7 +728,7 @@ msgstr "Défaillant"
 #: inertia/pages/admin/favicons.tsx:91
 #: inertia/pages/admin/favicons.tsx:144
 msgid "Favicons"
-msgstr ""
+msgstr "Favicons"
 
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:48
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:59
@@ -754,15 +754,15 @@ msgstr "Extension Firefox"
 
 #: inertia/pages/admin/favicons.tsx:66
 msgid "Flush"
-msgstr ""
+msgstr "Vider"
 
 #: inertia/pages/admin/favicons.tsx:134
 msgid "Flush store"
-msgstr ""
+msgstr "Vider le stock"
 
 #: inertia/pages/admin/favicons.tsx:58
 msgid "Flush the favicon store"
-msgstr ""
+msgstr "Vider le stock de favicons"
 
 #: inertia/pages/shared.tsx:90
 msgid "Follow"
@@ -1019,7 +1019,7 @@ msgstr "Créé par"
 
 #: inertia/pages/admin/favicons.tsx:117
 msgid "Maintenance"
-msgstr ""
+msgstr "Maintenance"
 
 #: inertia/components/admin/users/account_actions.tsx:157
 #: inertia/components/admin/users/account_actions.tsx:160
@@ -1158,8 +1158,8 @@ msgid "Not linked"
 msgstr "Non liée"
 
 #: inertia/components/user_settings/auth_methods.tsx:70
-msgid "Not set — use the form below to add one"
-msgstr "Non définie — utilisez le formulaire ci-dessous pour en ajouter une"
+msgid "Not set. Use the form below to add one"
+msgstr "Non définie. Utilisez le formulaire ci-dessous pour en ajouter une"
 
 #: inertia/components/admin/users/users_table.tsx:303
 msgid "Nothing found"
@@ -1266,7 +1266,7 @@ msgstr "Public"
 
 #: inertia/pages/admin/favicons.tsx:121
 msgid "Purge orphaned entries"
-msgstr ""
+msgstr "Purger les entrées orphelines"
 
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:19
 msgid "Quick Actions"
@@ -1275,15 +1275,15 @@ msgstr "Actions rapides"
 #: inertia/pages/admin/favicons.tsx:83
 #: inertia/pages/admin/favicons.tsx:131
 msgid "Re-resolve all"
-msgstr ""
+msgstr "Tout résoudre à nouveau"
 
 #: inertia/pages/admin/favicons.tsx:75
 msgid "Re-resolve every favicon"
-msgstr ""
+msgstr "Résoudre à nouveau tous les favicons"
 
 #: inertia/pages/admin/favicons.tsx:124
 msgid "Re-resolve failures"
-msgstr ""
+msgstr "Résoudre à nouveau les échecs"
 
 #: inertia/components/api_tokens/api_tokens.tsx:142
 #: inertia/components/api_tokens/create_token_modal.tsx:29
@@ -1300,7 +1300,7 @@ msgstr "Utilisation mémoire Redis"
 
 #: inertia/components/dashboard/links/link_controls.tsx:215
 msgid "Refresh favicon"
-msgstr ""
+msgstr "Rafraîchir le favicon"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:16
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:30
@@ -1341,7 +1341,7 @@ msgstr "Réinitialiser votre mot de passe"
 
 #: inertia/pages/admin/favicons.tsx:108
 msgid "Resolution failures"
-msgstr ""
+msgstr "Échecs de résolution"
 
 #: inertia/pages/terms.tsx:142
 msgid "Responsibilities and Warranties"
@@ -1526,11 +1526,11 @@ msgstr "Statut"
 
 #: inertia/pages/admin/favicons.tsx:102
 msgid "Store size"
-msgstr ""
+msgstr "Taille du stock"
 
 #: inertia/pages/admin/favicons.tsx:96
 msgid "Stored favicons"
-msgstr ""
+msgstr "Favicons stockés"
 
 #: inertia/components/admin/activity_events/activity_events_table.tsx:60
 msgid "Subject"
