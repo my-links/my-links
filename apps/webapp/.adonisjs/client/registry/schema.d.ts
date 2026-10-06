@@ -15,8 +15,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/home_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/home_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/show_home_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/show_home_controller').default['render']>>>
     }
   }
   'terms': {
@@ -51,8 +51,8 @@ export interface Registry {
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/shared_collections/shared_collection').getSharedCollectionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/shared_collections_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/shared_collections_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'admin.dashboard': {
@@ -63,8 +63,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/show_admin_dashboard_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/show_admin_dashboard_controller').default['render']>>>
     }
   }
   'admin.status': {
@@ -75,8 +75,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/status_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/status_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/show_system_status_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/show_system_status_controller').default['render']>>>
     }
   }
   'admin.favicons': {
@@ -87,8 +87,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/favicon_stats_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/favicon_stats_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/show_favicon_stats_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/show_favicon_stats_controller').default['render']>>>
     }
   }
   'admin.favicons.purge-orphans': {
@@ -147,8 +147,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/journal_page_validator').journalPageValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/auth_journal_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/auth_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/show_auth_journal_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/show_auth_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'admin.activity-events': {
@@ -159,8 +159,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/admin/journal_page_validator').journalPageValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/activity_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/show_activity_journal_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/show_activity_journal_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'admin.users.bulk-delete': {
@@ -411,8 +411,8 @@ export interface Registry {
       paramsTuple: [ParamValue]
       params: { sessionId: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/user/session/delete_session').deleteSessionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/destroy_session_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/destroy_session_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/delete_session_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/delete_session_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.settings': {
@@ -663,8 +663,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['decline']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/reactivate_account_controller').default['decline']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/decline_account_reactivation_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/decline_account_reactivation_controller').default['execute']>>>
     }
   }
   'auth': {
@@ -675,8 +675,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/google_auth_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/google_auth_controller').default['execute']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/start_google_auth_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/start_google_auth_controller').default['execute']>>>
     }
   }
   'auth.callback': {
@@ -687,8 +687,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/oauth_callback_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/oauth_callback_controller').default['execute']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/handle_oauth_callback_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/handle_oauth_callback_controller').default['execute']>>>
     }
   }
   'auth.logout': {
@@ -711,8 +711,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/confirm_sudo_mode_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/confirm_sudo_mode_controller').default['render']>>>
     }
   }
   'auth.sudo.submit': {
@@ -723,8 +723,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/auth/sudo_confirmation_validator').sudoConfirmationValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/confirm_sudo_mode_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/confirm_sudo_mode_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'auth.sudo.google': {
@@ -735,8 +735,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_google_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/sudo_mode_google_controller').default['execute']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/auth/confirm_sudo_mode_with_google_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth/confirm_sudo_mode_with_google_controller').default['execute']>>>
     }
   }
   'auth.password.set': {
@@ -807,8 +807,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/get_collections_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/get_collections_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/collections/show_collections_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/collections/show_collections_controller').default['render']>>>
     }
   }
   'api-collections.create': {
@@ -891,8 +891,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/get_favorite_links_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/show_favorite_links_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/show_favorite_links_controller').default['render']>>>
     }
   }
   'api-health.index': {
@@ -903,8 +903,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/health/health_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/health/show_health_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/health/show_health_controller').default['render']>>>
     }
   }
   'api-links.create': {
@@ -975,8 +975,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/handle_mcp_request_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/handle_mcp_request_controller').default['execute']>>>
     }
   }
   'api-mcp.stream': {
@@ -987,8 +987,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/handle_mcp_request_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/handle_mcp_request_controller').default['execute']>>>
     }
   }
   'api-mcp.close': {
@@ -999,8 +999,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/mcp_controller').default['handle']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/mcp/handle_mcp_request_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/mcp/handle_mcp_request_controller').default['execute']>>>
     }
   }
   'api-sync.delta': {
@@ -1011,8 +1011,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/sync/sync_delta_validator').syncDeltaValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/sync/sync_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/sync/sync_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/sync/show_sync_delta_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/sync/show_sync_delta_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'api-tokens.index': {
@@ -1023,8 +1023,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/tokens/api_token_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/api_token_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/tokens/check_api_token_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/check_api_token_controller').default['render']>>>
     }
   }
   'link.visit': {
@@ -1047,8 +1047,8 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/get_links_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/get_links_controller').default['render']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/show_links_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/show_links_controller').default['render']>>>
     }
   }
   'link.create': {
@@ -1083,8 +1083,8 @@ export interface Registry {
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/links/update_favorite_link_validator').updateLinkFavoriteStatusValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/toggle_favorite_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/toggle_link_favorite_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/toggle_link_favorite_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'link.refresh-favicon': {
@@ -1142,9 +1142,9 @@ export interface Registry {
       body: {}
       paramsTuple: []
       params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/favicons_controller').default['render']>>>
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/favicons/render_favicon_validator').renderFaviconValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/favicons/show_favicon_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/show_favicon_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
 }
