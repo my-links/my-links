@@ -3,14 +3,14 @@ import { HttpContext } from '@adonisjs/core/http';
 
 import LinkTransformer from '#transformers/link';
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { LinkService } from '#services/links/link_service';
+import { LinkQueryService } from '#services/links/link_query_service';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
 
 @inject()
 export default class ShowFavoritesController {
 	constructor(
 		protected readonly dashboardSidebarService: DashboardSidebarService,
-		protected readonly linkService: LinkService
+		protected readonly linkQueryService: LinkQueryService
 	) {}
 
 	async render({ auth, inertia, request }: HttpContext) {
@@ -20,7 +20,7 @@ export default class ShowFavoritesController {
 				userId,
 				resolveRequestOrigin({ request })
 			),
-			this.linkService.getMyFavoriteLinks(userId),
+			this.linkQueryService.getMyFavoriteLinks(userId),
 		]);
 
 		return inertia.render('dashboard', {

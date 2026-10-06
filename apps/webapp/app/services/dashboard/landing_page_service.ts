@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core';
 
 import type User from '#models/user';
-import { LinkService } from '#services/links/link_service';
+import { LinkQueryService } from '#services/links/link_query_service';
 import {
 	LANDING_PAGE,
 	LANDING_PAGE_ROUTE_NAME,
@@ -11,7 +11,7 @@ import {
 /** Decides which dashboard page a signed-in visitor lands on. */
 @inject()
 export class LandingPageService {
-	constructor(protected readonly linkService: LinkService) {}
+	constructor(protected readonly linkQueryService: LinkQueryService) {}
 
 	async resolveRouteName(
 		user: User
@@ -26,7 +26,9 @@ export class LandingPageService {
 			return LANDING_PAGE.INBOX;
 		}
 
-		const hasFavoriteLinks = await this.linkService.hasFavoriteLinks(user.id);
+		const hasFavoriteLinks = await this.linkQueryService.hasFavoriteLinks(
+			user.id
+		);
 
 		return hasFavoriteLinks ? LANDING_PAGE.FAVORITES : LANDING_PAGE.INBOX;
 	}

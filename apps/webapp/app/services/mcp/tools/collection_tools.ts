@@ -9,6 +9,7 @@ import { resolveRequestOrigin } from '#lib/request_origin';
 import { VISIBILITY } from '#enums/collections/visibility';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 function getAuthenticatedUserId() {
@@ -46,6 +47,7 @@ async function serializeCollection(
 export function registerCollectionTools(
 	server: McpServer,
 	collectionService: CollectionService,
+	collectionQueryService: CollectionQueryService,
 	collectionFollowerService: CollectionFollowerService
 ): void {
 	server.registerTool(
@@ -58,7 +60,7 @@ export function registerCollectionTools(
 			runTool(TOKEN_ABILITY.READ, async () => {
 				const userId = getAuthenticatedUserId();
 				const [owned, followed] = await Promise.all([
-					collectionService.getCollectionsForAuthenticatedUser(userId),
+					collectionQueryService.getCollectionsForAuthenticatedUser(userId),
 					collectionFollowerService.getFollowedCollectionsWithLinks(userId),
 				]);
 				return {
@@ -78,7 +80,7 @@ export function registerCollectionTools(
 		({ id }) =>
 			runTool(TOKEN_ABILITY.READ, async () => {
 				const { collection } =
-					await collectionService.getAccessibleCollectionByIdWithLinks(
+					await collectionQueryService.getAccessibleCollectionByIdWithLinks(
 						id,
 						getAuthenticatedUserId()
 					);
@@ -100,7 +102,7 @@ export function registerCollectionTools(
 					getRequestOrigin()
 				);
 				const { collection } =
-					await collectionService.getAccessibleCollectionByIdWithLinks(
+					await collectionQueryService.getAccessibleCollectionByIdWithLinks(
 						inbox.id,
 						userId
 					);

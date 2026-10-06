@@ -2,7 +2,7 @@ import { inject } from '@adonisjs/core';
 import { args } from '@adonisjs/core/ace';
 
 import AccountCommand from '#commands/_account_command';
-import { UserService } from '#services/user/user_service';
+import { AccountRetentionService } from '#services/user/account_retention_service';
 
 export const DELETION_CONFIRMATION_PROMPT =
 	'Retype the email address to confirm the deletion';
@@ -20,7 +20,7 @@ export default class DeleteUser extends AccountCommand {
 	 * this codebase can put them back.
 	 */
 	@inject()
-	async run(userService: UserService): Promise<void> {
+	async run(accountRetentionService: AccountRetentionService): Promise<void> {
 		const account = await this.loadAccount(this.email);
 		if (!account) return;
 
@@ -31,7 +31,7 @@ export default class DeleteUser extends AccountCommand {
 			return;
 		}
 
-		await userService.deleteUser(account.id);
+		await accountRetentionService.deleteUser(account.id);
 
 		this.logger.success(`${account.email} and everything it owned are gone`);
 	}

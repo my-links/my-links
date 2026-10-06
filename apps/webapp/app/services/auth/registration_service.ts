@@ -6,8 +6,8 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 import User from '#models/user';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import type { RequestOrigin } from '#lib/request_origin';
-import { UserService } from '#services/user/user_service';
 import { PasswordHasher } from '#services/auth/password_hasher';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 
@@ -32,7 +32,7 @@ type AccountIdentity = {
 export class RegistrationService {
 	constructor(
 		protected readonly registrationPolicyService: RegistrationPolicyService,
-		protected readonly userService: UserService,
+		protected readonly accountQueryService: AccountQueryService,
 		protected readonly passwordHasher: PasswordHasher,
 		protected readonly collectionService: CollectionService
 	) {}
@@ -65,7 +65,7 @@ export class RegistrationService {
 				{
 					name: request.name,
 					email: request.email,
-					isAdmin: await this.userService.isNextAccountAdmin(trx),
+					isAdmin: await this.accountQueryService.isNextAccountAdmin(trx),
 					emailVerifiedAt: null,
 				},
 				origin

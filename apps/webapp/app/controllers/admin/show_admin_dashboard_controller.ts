@@ -2,23 +2,23 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import UserTransformer from '#transformers/user';
-import { UserService } from '#services/user/user_service';
-import { LinkService } from '#services/links/link_service';
-import { CollectionService } from '#services/collections/collection_service';
+import { LinkQueryService } from '#services/links/link_query_service';
+import { AccountQueryService } from '#services/user/account_query_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 
 @inject()
 export default class ShowAdminDashboardController {
 	constructor(
-		protected userService: UserService,
-		protected collectionService: CollectionService,
-		protected linkService: LinkService
+		protected accountQueryService: AccountQueryService,
+		protected collectionQueryService: CollectionQueryService,
+		protected linkQueryService: LinkQueryService
 	) {}
 
 	async render({ inertia }: HttpContext) {
-		const users = await this.userService.getAccountsOverview();
-		const linksCount = await this.linkService.getTotalLinksCount();
+		const users = await this.accountQueryService.getAccountsOverview();
+		const linksCount = await this.linkQueryService.getTotalLinksCount();
 		const collectionsCount =
-			await this.collectionService.getTotalCollectionsCount();
+			await this.collectionQueryService.getTotalCollectionsCount();
 
 		return inertia.render('admin/dashboard', {
 			users: UserTransformer.transform(users).useVariant('withCounters'),

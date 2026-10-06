@@ -2,8 +2,8 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { UserService } from '#services/user/user_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { AccountAccessService } from '#services/auth/account_access_service';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
@@ -21,7 +21,7 @@ export const ACCESS_REVOKED_MESSAGE =
 @inject()
 export default class RevokeAccountAccessController {
 	constructor(
-		protected readonly userService: UserService,
+		protected readonly accountQueryService: AccountQueryService,
 		protected readonly accountAccessService: AccountAccessService,
 		protected readonly authEventService: AuthEventService
 	) {}
@@ -29,7 +29,7 @@ export default class RevokeAccountAccessController {
 	async execute(ctx: HttpContext) {
 		const { account, administrator } = await resolveAdminActionTarget(
 			ctx,
-			this.userService
+			this.accountQueryService
 		);
 
 		await this.accountAccessService.revokeAllExcept(account, null);

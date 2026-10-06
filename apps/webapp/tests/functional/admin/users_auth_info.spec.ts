@@ -4,11 +4,11 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import { UserService } from '#services/user/user_service';
 import { countQueries } from '#tests/helpers/query_counter';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
 import { recordAuthEvent } from '#tests/factories/auth_event_factory';
+import { AccountQueryService } from '#services/user/account_query_service';
 import {
 	createUser,
 	linkOauthIdentity,
@@ -142,11 +142,11 @@ test.group('Admin dashboard — account authentication info', (group) => {
 	test('should cost the same number of queries whatever the number of accounts', async ({
 		assert,
 	}) => {
-		const userService = await app.container.make(UserService);
+		const accountQueryService = await app.container.make(AccountQueryService);
 		await createUser({ emailPrefix: 'overview-first' });
 
 		const forOneAccount = await countQueries(() =>
-			userService.getAccountsOverview()
+			accountQueryService.getAccountsOverview()
 		);
 
 		for (let index = 0; index < ACCOUNTS_IN_LARGER_SAMPLE; index += 1) {
@@ -156,7 +156,7 @@ test.group('Admin dashboard — account authentication info', (group) => {
 		}
 
 		const forManyAccounts = await countQueries(() =>
-			userService.getAccountsOverview()
+			accountQueryService.getAccountsOverview()
 		);
 
 		// Guards against the equality above passing on two zeroes, which is what

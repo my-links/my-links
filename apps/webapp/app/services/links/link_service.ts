@@ -9,6 +9,7 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
+import { LinkQueryService } from '#services/links/link_query_service';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
@@ -28,6 +29,7 @@ type LinkPayload = {
 export class LinkService {
 	constructor(
 		protected readonly collectionService: CollectionService,
+		protected readonly linkQueryService: LinkQueryService,
 		protected readonly syncJournalService: SyncJournalService,
 		protected readonly activityEventService: ActivityEventService,
 		protected readonly collectionLinkService: CollectionLinkService,
@@ -72,7 +74,7 @@ export class LinkService {
 
 		void this.faviconResolutionService.triggerResolution(linkAttributes.url);
 
-		return this.getLinkById(link.id, userId);
+		return this.linkQueryService.getLinkById(link.id, userId);
 	}
 
 	async updateLink(
@@ -129,7 +131,7 @@ export class LinkService {
 			void this.faviconResolutionService.triggerResolution(linkAttributes.url);
 		}
 
-		return this.getLinkById(id, userId);
+		return this.linkQueryService.getLinkById(id, userId);
 	}
 
 	private async resolveCollectionIds(
@@ -222,14 +224,6 @@ export class LinkService {
 		});
 	}
 
-	async getLinkById(id: Link['id'], userId: Link['id']) {
-		return await Link.query()
-			.where('id', id)
-			.apply((scopes) => scopes.ownedBy(userId))
-			.preload('collections')
-			.firstOrFail();
-	}
-
 	/**
 	 * Saved through the model rather than a bare `update()` so `updated_at`
 	 * is bumped — a favourite toggle has to surface on the delta feed like
@@ -269,58 +263,5 @@ export class LinkService {
 			.firstOrFail();
 
 		await this.faviconResolutionService.forceRefresh(link.url);
-	}
-
-	async getMyFavoriteLinks(userId: User['id']) {
-		return await Link.query()
-			.where('author_id', userId)
-			.where('favorite', true)
-			.preload('collections')
-			.orderBy('created_at');
-	}
-
-	async hasFavoriteLinks(userId: User['id']): Promise<boolean> {
-		const favoriteLink = await Link.query()
-			.where('author_id', userId)
-			.where('favorite', true)
-			.select('id')
-			.first();
-
-		return favoriteLink !== null;
-	}
-
-	/**
-	 * Feeds the search modal's client-side matcher and its link controls
-	 * menu, which needs `collectionIds` to link to a result's collection.
-	 */
-	async getMyLinks(userId: User['id']) {
-		return await Link.query()
-			.where('author_id', userId)
-			.preload('collections')
-			.orderBy('name');
-	}
-
-	/**
-	 * Backs the `links.search` MCP tool — an MCP client has no access to the
-	 * webapp's client-side fuzzy matcher, so this is a small server-side
-	 * substitute rather than an attempt to match its ranking.
-	 */
-	async searchLinks(userId: User['id'], term: string) {
-		const pattern = `%${term}%`;
-		return await Link.query()
-			.where('author_id', userId)
-			.where((query) => {
-				query
-					.whereILike('name', pattern)
-					.orWhereILike('url', pattern)
-					.orWhereILike('description', pattern);
-			})
-			.preload('collections')
-			.orderBy('name');
-	}
-
-	async getTotalLinksCount() {
-		const totalCount = await db.from('links').count('* as total');
-		return Number(totalCount[0].total);
 	}
 }

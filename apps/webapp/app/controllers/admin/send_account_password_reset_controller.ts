@@ -2,9 +2,9 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { UserService } from '#services/user/user_service';
 import { MailService } from '#services/mail/mail_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
 import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
@@ -24,7 +24,7 @@ export const PASSWORD_RESET_SENT_MESSAGE = 'A reset link is on its way';
 @inject()
 export default class SendAccountPasswordResetController {
 	constructor(
-		protected readonly userService: UserService,
+		protected readonly accountQueryService: AccountQueryService,
 		protected readonly passwordResetLinkService: PasswordResetLinkService,
 		protected readonly authEventService: AuthEventService,
 		protected readonly mailService: MailService
@@ -37,7 +37,7 @@ export default class SendAccountPasswordResetController {
 
 		const { account, administrator } = await resolveAdminActionTarget(
 			ctx,
-			this.userService
+			this.accountQueryService
 		);
 
 		await this.passwordResetLinkService.mailResetLink(account);

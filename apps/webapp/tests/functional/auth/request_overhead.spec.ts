@@ -4,23 +4,20 @@ import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
-import { MailService } from '#services/mail/mail_service';
-import { UserService } from '#services/user/user_service';
 import { LAST_SEEN_AT_WRITE_THROTTLE_MINUTES } from '#constants/account';
 import { createUser, markLastSeen } from '#tests/factories/user_factory';
-import { AccountAccessService } from '#services/auth/account_access_service';
-import { ActivityEventService } from '#services/activity/activity_event_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 
 const PROTECTED_ROUTE = '/collections/favorites';
 
 /**
  * Counts calls so a spec can assert the skip without measuring query timing.
  */
-class CountingUserService extends UserService {
+class CountingAccountQueryService extends AccountQueryService {
 	hasAnyAccountCallsCount = 0;
 
 	override async hasAnyAccount(
-		...args: Parameters<UserService['hasAnyAccount']>
+		...args: Parameters<AccountQueryService['hasAnyAccount']>
 	): Promise<boolean> {
 		this.hasAnyAccountCallsCount += 1;
 		return super.hasAnyAccount(...args);
@@ -28,17 +25,13 @@ class CountingUserService extends UserService {
 }
 
 async function spyOnHasAnyAccount() {
-	const spy = new CountingUserService(
-		await app.container.make(ActivityEventService),
-		await app.container.make(AccountAccessService),
-		await app.container.make(MailService)
-	);
+	const spy = new CountingAccountQueryService();
 
-	app.container.swap(UserService, async () => spy);
+	app.container.swap(AccountQueryService, async () => spy);
 
 	return {
 		spy,
-		restore: () => app.container.restore(UserService),
+		restore: () => app.container.restore(AccountQueryService),
 	};
 }
 

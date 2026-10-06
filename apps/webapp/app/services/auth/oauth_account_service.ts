@@ -6,7 +6,7 @@ import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
 import type { RequestOrigin } from '#lib/request_origin';
-import { UserService } from '#services/user/user_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { CollectionService } from '#services/collections/collection_service';
 import {
 	OauthAuthenticationRefusedException,
@@ -29,7 +29,7 @@ export type OauthIdentity = {
 @inject()
 export class OauthAccountService {
 	constructor(
-		protected readonly userService: UserService,
+		protected readonly accountQueryService: AccountQueryService,
 		protected readonly collectionService: CollectionService
 	) {}
 
@@ -140,7 +140,7 @@ export class OauthAccountService {
 					email,
 					name: identity.name,
 					nickName: identity.nickName,
-					isAdmin: await this.userService.isNextAccountAdmin(trx),
+					isAdmin: await this.accountQueryService.isNextAccountAdmin(trx),
 					emailVerifiedAt: DateTime.now(),
 				},
 				{ client: trx }

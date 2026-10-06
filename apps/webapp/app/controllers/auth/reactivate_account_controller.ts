@@ -4,16 +4,16 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { UserService } from '#services/user/user_service';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { SessionService } from '#services/user/session_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { AccountDeletionService } from '#services/user/account_deletion_service';
 import { AccountReactivationService } from '#services/auth/account_reactivation_service';
 
 @inject()
 export default class ReactivateAccountController {
 	constructor(
-		protected readonly userService: UserService,
+		protected readonly accountDeletionService: AccountDeletionService,
 		protected readonly sessionService: SessionService,
 		protected readonly authEventService: AuthEventService,
 		protected readonly accountReactivationService: AccountReactivationService
@@ -41,7 +41,7 @@ export default class ReactivateAccountController {
 		}
 
 		const user = await User.findOrFail(pending.userId);
-		await this.userService.reactivateAccount(
+		await this.accountDeletionService.reactivateAccount(
 			user.id,
 			resolveRequestOrigin(ctx)
 		);

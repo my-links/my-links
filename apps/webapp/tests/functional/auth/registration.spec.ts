@@ -8,9 +8,9 @@ import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { REGISTRATION_BURST_TIER } from '#start/limiter';
-import { UserService } from '#services/user/user_service';
 import { createUser } from '#tests/factories/user_factory';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { VerifyEmailNotification } from '#mails/verify_email_notification';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
@@ -63,7 +63,7 @@ function openRegistration() {
 		RegistrationPolicyService,
 		async () =>
 			new AlwaysOpenRegistrationPolicyService(
-				await app.container.make(UserService)
+				await app.container.make(AccountQueryService)
 			)
 	);
 

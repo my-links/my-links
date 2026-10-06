@@ -2,14 +2,14 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import CollectionTransformer from '#transformers/collection';
-import { CollectionService } from '#services/collections/collection_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 import { getSharedCollectionValidator } from '#validators/shared_collections/shared_collection';
 
 @inject()
 export default class ShowSharedCollectionController {
 	constructor(
-		protected readonly collectionService: CollectionService,
+		protected readonly collectionQueryService: CollectionQueryService,
 		protected readonly collectionFollowerService: CollectionFollowerService
 	) {}
 
@@ -20,7 +20,7 @@ export default class ShowSharedCollectionController {
 
 		const userId = auth.user?.id;
 		const [activeCollection, isFollowing] = await Promise.all([
-			this.collectionService.getPublicCollectionById(params.id),
+			this.collectionQueryService.getPublicCollectionById(params.id),
 			userId
 				? this.collectionFollowerService.isFollowingCollection(
 						params.id,

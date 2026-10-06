@@ -5,8 +5,11 @@ import type User from '#models/user';
 import { ACCOUNT_ROLE } from '#constants/account';
 import type { AuthProvider } from '#constants/auth';
 import AccountCommand from '#commands/_account_command';
-import { UserService, type AccountFilters } from '#services/user/user_service';
 import { authProviderValidator } from '#validators/auth/auth_provider_validator';
+import {
+	AccountQueryService,
+	type AccountFilters,
+} from '#services/user/account_query_service';
 
 export const NO_ACCOUNT_MESSAGE = 'This instance holds no account yet';
 export const NO_MATCHING_ACCOUNT_MESSAGE = 'No account matches these filters';
@@ -30,13 +33,13 @@ export default class ListUsers extends AccountCommand {
 	declare provider?: string;
 
 	@inject()
-	async run(userService: UserService): Promise<void> {
+	async run(accountQueryService: AccountQueryService): Promise<void> {
 		const filters = {
 			administratorsOnly: this.admin === true,
 			unverifiedOnly: this.unverified === true,
 			provider: await this.resolveProvider(),
 		};
-		const accounts = await userService.listAccounts(filters);
+		const accounts = await accountQueryService.listAccounts(filters);
 
 		if (accounts.length === 0) {
 			this.logger.info(emptyListingMessage(filters));

@@ -4,6 +4,7 @@ import { HttpContext } from '@adonisjs/core/http';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
 
 /**
@@ -15,6 +16,7 @@ import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_s
 export default class ShowInboxController {
 	constructor(
 		private readonly collectionService: CollectionService,
+		private readonly collectionQueryService: CollectionQueryService,
 		private readonly dashboardSidebarService: DashboardSidebarService
 	) {}
 
@@ -28,7 +30,7 @@ export default class ShowInboxController {
 
 		const [sidebarProps, accessibleCollectionResult] = await Promise.all([
 			this.dashboardSidebarService.getProps(userId, origin),
-			this.collectionService.getAccessibleCollectionByIdWithLinks(
+			this.collectionQueryService.getAccessibleCollectionByIdWithLinks(
 				inbox.id,
 				userId
 			),

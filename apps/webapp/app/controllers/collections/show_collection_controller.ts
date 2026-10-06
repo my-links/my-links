@@ -3,14 +3,14 @@ import { HttpContext } from '@adonisjs/core/http';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
 import CollectionTransformer from '#transformers/collection';
-import { CollectionService } from '#services/collections/collection_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
 
 @inject()
 export default class ShowCollectionController {
 	constructor(
-		private readonly collectionService: CollectionService,
+		private readonly collectionQueryService: CollectionQueryService,
 		private readonly dashboardSidebarService: DashboardSidebarService
 	) {}
 
@@ -25,7 +25,7 @@ export default class ShowCollectionController {
 				userId,
 				resolveRequestOrigin({ request })
 			),
-			this.collectionService.getAccessibleCollectionByIdWithLinks(
+			this.collectionQueryService.getAccessibleCollectionByIdWithLinks(
 				collectionId,
 				userId
 			),
