@@ -10,10 +10,10 @@ import { McpSessionManager } from '#services/mcp/mcp_session_manager';
  * branches on the method once a session is resolved.
  */
 @inject()
-export default class McpController {
+export default class HandleMcpRequestController {
 	constructor(private readonly sessionManager: McpSessionManager) {}
 
-	async handle(ctx: HttpContext) {
+	async execute(ctx: HttpContext) {
 		await this.sessionManager.handleRequest(ctx);
 	}
 }

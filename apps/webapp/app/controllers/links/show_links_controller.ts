@@ -5,7 +5,7 @@ import LinkTransformer from '#transformers/link';
 import { LinkService } from '#services/links/link_service';
 
 @inject()
-export default class GetLinksController {
+export default class ShowLinksController {
 	constructor(protected readonly linkService: LinkService) {}
 
 	public async render({ serialize }: HttpContext) {

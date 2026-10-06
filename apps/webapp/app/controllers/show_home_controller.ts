@@ -4,7 +4,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { LandingPageService } from '#services/dashboard/landing_page_service';
 
 @inject()
-export default class HomeController {
+export default class ShowHomeController {
 	constructor(protected readonly landingPageService: LandingPageService) {}
 
 	async render({ auth, inertia, response, session }: HttpContext) {

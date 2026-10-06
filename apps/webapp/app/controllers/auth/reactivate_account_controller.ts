@@ -10,8 +10,6 @@ import { SessionService } from '#services/user/session_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { AccountReactivationService } from '#services/auth/account_reactivation_service';
 
-const DECLINED_MESSAGE = 'Your account stays scheduled for deletion';
-
 @inject()
 export default class ReactivateAccountController {
 	constructor(
@@ -57,12 +55,5 @@ export default class ReactivateAccountController {
 		logger.info(`[${user.email}] reactivated and signed in`);
 
 		return ctx.response.redirect().toIntendedRoute('home');
-	}
-
-	async decline({ session, response }: HttpContext) {
-		this.accountReactivationService.takePendingAccount(session);
-		session.flash('success', DECLINED_MESSAGE);
-
-		return response.redirectToNamedRoute('auth.login');
 	}
 }

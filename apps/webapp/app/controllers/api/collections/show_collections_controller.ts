@@ -6,7 +6,7 @@ import { CollectionService } from '#services/collections/collection_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 @inject()
-export default class GetCollectionsController {
+export default class ShowCollectionsController {
 	constructor(
 		protected readonly collectionService: CollectionService,
 		protected readonly collectionFollowerService: CollectionFollowerService

@@ -4,7 +4,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { healthChecks } from '#start/health';
 import { toStatusReportChecks } from '#lib/health/status_report';
 
-export default class StatusController {
+export default class ShowSystemStatusController {
 	async render({ inertia }: HttpContext) {
 		// One run per page load: the previous split between an `isHealthy` and a
 		// `checks` helper ran every registered check twice.

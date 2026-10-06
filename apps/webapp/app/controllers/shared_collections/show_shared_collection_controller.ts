@@ -7,7 +7,7 @@ import { CollectionFollowerService } from '#services/collections/collection_foll
 import { getSharedCollectionValidator } from '#validators/shared_collections/shared_collection';
 
 @inject()
-export default class SharedCollectionsController {
+export default class ShowSharedCollectionController {
 	constructor(
 		protected readonly collectionService: CollectionService,
 		protected readonly collectionFollowerService: CollectionFollowerService

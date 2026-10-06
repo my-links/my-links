@@ -6,7 +6,7 @@ import { apiMiddleware } from '#routes/api/api_middleware';
 router
 	.group(() => {
 		router
-			.get('', [controllers.api.collections.GetCollections, 'render'])
+			.get('', [controllers.api.collections.ShowCollections, 'render'])
 			.as('api-collections.index');
 		router
 			.post('', [controllers.api.collections.CreateCollection, 'execute'])

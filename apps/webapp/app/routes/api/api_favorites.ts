@@ -6,7 +6,7 @@ import { apiMiddleware } from '#routes/api/api_middleware';
 router
 	.group(() => {
 		router
-			.get('', [controllers.api.links.GetFavoriteLinks, 'render'])
+			.get('', [controllers.api.links.ShowFavoriteLinks, 'render'])
 			.as('api-favorites.index');
 	})
 	.prefix('/api/v1/links/favorites')

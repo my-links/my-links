@@ -5,13 +5,15 @@ import { controllers } from '#generated/controllers';
 
 router
 	.group(() => {
-		router.get('/', [controllers.admin.Admin, 'render']).as('admin.dashboard');
 		router
-			.get('/status', [controllers.admin.Status, 'render'])
+			.get('/', [controllers.admin.ShowAdminDashboard, 'render'])
+			.as('admin.dashboard');
+		router
+			.get('/status', [controllers.admin.ShowSystemStatus, 'render'])
 			.as('admin.status');
 
 		router
-			.get('/favicons', [controllers.admin.FaviconStats, 'render'])
+			.get('/favicons', [controllers.admin.ShowFaviconStats, 'render'])
 			.as('admin.favicons');
 
 		router
@@ -40,11 +42,14 @@ router
 			.as('admin.favicons.reresolve-all');
 
 		router
-			.get('/auth-events', [controllers.admin.AuthJournal, 'render'])
+			.get('/auth-events', [controllers.admin.ShowAuthJournal, 'render'])
 			.as('admin.auth-events');
 
 		router
-			.get('/activity-events', [controllers.admin.ActivityJournal, 'render'])
+			.get('/activity-events', [
+				controllers.admin.ShowActivityJournal,
+				'render',
+			])
 			.as('admin.activity-events');
 
 		router

@@ -7,7 +7,7 @@ import { LinkService } from '#services/links/link_service';
 import { CollectionService } from '#services/collections/collection_service';
 
 @inject()
-export default class AdminController {
+export default class ShowAdminDashboardController {
 	constructor(
 		protected userService: UserService,
 		protected collectionService: CollectionService,

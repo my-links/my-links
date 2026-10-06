@@ -5,7 +5,7 @@ import { getTokenFromHeader } from '#lib/api/tokens/index';
 import { UnAuthorizedException } from '#exceptions/api/tokens/un_authorized_exception';
 
 @inject()
-export default class ApiTokenController {
+export default class CheckApiTokenController {
 	async render(ctx: HttpContext) {
 		const token = getTokenFromHeader(ctx);
 		if (!token) {

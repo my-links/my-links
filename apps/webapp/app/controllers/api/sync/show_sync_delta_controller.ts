@@ -8,7 +8,7 @@ import { parseSyncCursor } from '#validators/sync/sync_cursor';
 import { syncDeltaValidator } from '#validators/sync/sync_delta_validator';
 
 @inject()
-export default class SyncController {
+export default class ShowSyncDeltaController {
 	constructor(protected readonly syncService: SyncService) {}
 
 	async render({ request, auth, response, serialize }: HttpContext) {
