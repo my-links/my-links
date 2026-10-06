@@ -1,9 +1,15 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
+import { MAXIMUM_URL_LENGTH } from '#constants/link';
+
 const linkFields = {
 	name: vine.string().trim().minLength(1).maxLength(254),
 	description: vine.string().trim().maxLength(300).nullable().optional(),
-	url: vine.string().url({ require_tld: false, validate_length: false }).trim(),
+	url: vine
+		.string()
+		.url({ require_tld: false, validate_length: false })
+		.maxLength(MAXIMUM_URL_LENGTH)
+		.trim(),
 	favorite: vine.boolean(),
 };
 
@@ -46,7 +52,9 @@ importDataValidator.messagesProvider = new SimpleMessagesProvider({
 	'collections.*.links.*.name.required': 'Link name is required',
 	'collections.*.links.*.url.required': 'Link URL is required',
 	'collections.*.links.*.url.url': 'Link URL must be a valid URL',
+	'collections.*.links.*.url.maxLength': `Link URL must be at most ${MAXIMUM_URL_LENGTH} characters`,
 	'links.*.name.required': 'Link name is required',
 	'links.*.url.required': 'Link URL is required',
 	'links.*.url.url': 'Link URL must be a valid URL',
+	'links.*.url.maxLength': `Link URL must be at most ${MAXIMUM_URL_LENGTH} characters`,
 });

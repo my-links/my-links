@@ -4,6 +4,7 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import type Link from '#models/link';
 import LinkTransformer from '#transformers/link';
+import { MAXIMUM_URL_LENGTH } from '#constants/link';
 import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
 import { LinkService } from '#services/links/link_service';
@@ -94,7 +95,7 @@ export function registerLinkTools(
 			inputSchema: {
 				name: z.string().trim().min(1).max(254),
 				description: z.string().trim().max(300).optional(),
-				url: z.string().trim().min(1),
+				url: z.string().trim().min(1).max(MAXIMUM_URL_LENGTH),
 				favorite: z.boolean(),
 				collectionIds: z
 					.array(z.number().int().positive())
@@ -124,7 +125,7 @@ export function registerLinkTools(
 				id: z.number().int().positive(),
 				name: z.string().trim().min(1).max(254),
 				description: z.string().trim().max(300).optional(),
-				url: z.string().trim().min(1),
+				url: z.string().trim().min(1).max(MAXIMUM_URL_LENGTH),
 				favorite: z.boolean(),
 				collectionIds: z
 					.array(z.number().int().positive())
