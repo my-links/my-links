@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon';
+import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
+import { generateMonogram } from '#lib/favicons/monogram_generator';
 import { FaviconService } from '#services/favicons/favicons_service';
-import { generateMonogram } from '#services/favicons/monogram_generator';
-import { faviconFetchLimiter } from '#services/favicons/concurrency_limiter';
+import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
 import {
 	CacheService,
 	type FaviconMetadata,
@@ -12,15 +13,12 @@ import {
 
 const STALE_AFTER_DAYS = 30;
 
-export type FaviconResolver = Pick<
-	FaviconService,
-	'getFavicon' | 'checkForUpdate'
->;
-
+@inject()
 export class FaviconResolutionService {
 	constructor(
-		private readonly cacheService: CacheService = new CacheService(),
-		private readonly faviconService: FaviconResolver = new FaviconService()
+		private readonly cacheService: CacheService,
+		private readonly faviconService: FaviconService,
+		private readonly faviconFetchLimiter: FaviconFetchLimiter
 	) {}
 
 	async getFreshOrStale(url: string): Promise<Favicon> {
@@ -65,7 +63,7 @@ export class FaviconResolutionService {
 	async triggerResolution(url: string): Promise<void> {
 		try {
 			await this.cacheService.getOrSetFavicon(url, () =>
-				faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
+				this.faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
 			);
 		} catch (error) {
 			logger.debug(`Background favicon resolution failed for ${url}`, error);
@@ -81,7 +79,7 @@ export class FaviconResolutionService {
 	 */
 	async forceRefresh(url: string): Promise<Favicon> {
 		return this.cacheService.forceResolve(url, () =>
-			faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
+			this.faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
 		);
 	}
 
@@ -95,7 +93,7 @@ export class FaviconResolutionService {
 		}
 
 		try {
-			const outcome = await faviconFetchLimiter.run(() =>
+			const outcome = await this.faviconFetchLimiter.run(() =>
 				this.faviconService.checkForUpdate(resolvedUrl, metadata)
 			);
 			await this.cacheService.markRevalidated(url, outcome);

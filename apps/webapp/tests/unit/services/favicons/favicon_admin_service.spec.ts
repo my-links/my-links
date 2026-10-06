@@ -9,27 +9,46 @@ import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
 import { CacheService } from '#services/favicons/cache_service';
+import { FaviconService } from '#services/favicons/favicons_service';
 import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
 import { FaviconAdminService } from '#services/favicons/favicon_admin_service';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
-import type { FaviconResolver } from '#services/favicons/favicon_resolution_service';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
-async function buildAdminService(
-	resolver: FaviconResolver = {
-		getFavicon: () => Promise.reject(new Error('not used in this test')),
-		checkForUpdate: () => Promise.resolve({ changed: false }),
+class FakeFaviconService extends FaviconService {
+	constructor(private readonly outcome: (url: string) => Promise<Favicon>) {
+		super(new UrlValidatorService());
 	}
+
+	override getFavicon(url: string): Promise<Favicon> {
+		return this.outcome(url);
+	}
+
+	override checkForUpdate(): Promise<{ changed: false }> {
+		return Promise.resolve({ changed: false });
+	}
+}
+
+async function buildAdminService(
+	getFavicon: (url: string) => Promise<Favicon> = () =>
+		Promise.reject(new Error('not used in this test'))
 ): Promise<{ adminService: FaviconAdminService; store: FaviconStoreService }> {
 	const storageDir = await mkdtemp(join(tmpdir(), 'favicon-admin-test-'));
 	const store = new FaviconStoreService(storageDir);
 	const cacheService = new CacheService(store);
 	const resolutionService = new FaviconResolutionService(
 		cacheService,
-		resolver
+		new FakeFaviconService(getFavicon),
+		new FaviconFetchLimiter()
 	);
 	return {
-		adminService: new FaviconAdminService(store, resolutionService),
+		adminService: new FaviconAdminService(
+			store,
+			resolutionService,
+			new FaviconEpochService()
+		),
 		store,
 	};
 }
@@ -144,10 +163,9 @@ test.group('FaviconAdminService.reResolveFailures', (group) => {
 			type: 'image/x-icon',
 			size: 11,
 		};
-		const { adminService } = await buildAdminService({
-			getFavicon: () => Promise.resolve(favicon),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		});
+		const { adminService } = await buildAdminService(() =>
+			Promise.resolve(favicon)
+		);
 		await createFailure(origin);
 
 		const result = await adminService.reResolveFailures();
@@ -161,10 +179,9 @@ test.group('FaviconAdminService.reResolveFailures', (group) => {
 		assert,
 	}) => {
 		const origin = 'https://reresolve-failure.example';
-		const { adminService } = await buildAdminService({
-			getFavicon: () => Promise.reject(new Error('still broken')),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		});
+		const { adminService } = await buildAdminService(() =>
+			Promise.reject(new Error('still broken'))
+		);
 		await createFailure(origin);
 
 		const result = await adminService.reResolveFailures();
@@ -178,16 +195,14 @@ test.group('FaviconAdminService.reResolveFailures', (group) => {
 		assert,
 	}) => {
 		const origin = 'https://reresolve-epoch-bump.example';
-		const { adminService } = await buildAdminService({
-			getFavicon: () =>
-				Promise.resolve({
-					buffer: Buffer.from('fresh-bytes'),
-					url: origin,
-					type: 'image/x-icon',
-					size: 11,
-				}),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		});
+		const { adminService } = await buildAdminService(() =>
+			Promise.resolve({
+				buffer: Buffer.from('fresh-bytes'),
+				url: origin,
+				type: 'image/x-icon',
+				size: 11,
+			})
+		);
 		const epochService = new FaviconEpochService();
 		const before = await epochService.getEpoch();
 		await createFailure(origin);
@@ -201,10 +216,9 @@ test.group('FaviconAdminService.reResolveFailures', (group) => {
 		assert,
 	}) => {
 		const origin = 'https://reresolve-no-epoch-bump.example';
-		const { adminService } = await buildAdminService({
-			getFavicon: () => Promise.reject(new Error('still broken')),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		});
+		const { adminService } = await buildAdminService(() =>
+			Promise.reject(new Error('still broken'))
+		);
 		const epochService = new FaviconEpochService();
 		const before = await epochService.getEpoch();
 		await createFailure(origin);
@@ -228,17 +242,14 @@ test.group('FaviconAdminService.reResolveAll', (group) => {
 	}) => {
 		const origin = 'https://reresolve-all-entry.example';
 		const calledOrigins: string[] = [];
-		const { adminService, store } = await buildAdminService({
-			getFavicon: (url) => {
-				calledOrigins.push(url);
-				return Promise.resolve({
-					buffer: Buffer.from('fresh-bytes'),
-					url,
-					type: 'image/x-icon',
-					size: 11,
-				});
-			},
-			checkForUpdate: () => Promise.resolve({ changed: false }),
+		const { adminService, store } = await buildAdminService((url) => {
+			calledOrigins.push(url);
+			return Promise.resolve({
+				buffer: Buffer.from('fresh-bytes'),
+				url,
+				type: 'image/x-icon',
+				size: 11,
+			});
 		});
 		await createEntry(store, origin);
 
@@ -252,16 +263,14 @@ test.group('FaviconAdminService.reResolveAll', (group) => {
 		assert,
 	}) => {
 		const origin = 'https://reresolve-all-epoch-bump.example';
-		const { adminService, store } = await buildAdminService({
-			getFavicon: () =>
-				Promise.resolve({
-					buffer: Buffer.from('fresh-bytes'),
-					url: origin,
-					type: 'image/x-icon',
-					size: 11,
-				}),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		});
+		const { adminService, store } = await buildAdminService(() =>
+			Promise.resolve({
+				buffer: Buffer.from('fresh-bytes'),
+				url: origin,
+				type: 'image/x-icon',
+				size: 11,
+			})
+		);
 		const epochService = new FaviconEpochService();
 		const before = await epochService.getEpoch();
 		await createEntry(store, origin);
@@ -276,12 +285,9 @@ test.group('FaviconAdminService.reResolveAll', (group) => {
 	}) => {
 		const origin = 'https://reresolve-all-failure-only.example';
 		const calledOrigins: string[] = [];
-		const { adminService } = await buildAdminService({
-			getFavicon: (url) => {
-				calledOrigins.push(url);
-				return Promise.reject(new Error('still broken'));
-			},
-			checkForUpdate: () => Promise.resolve({ changed: false }),
+		const { adminService } = await buildAdminService((url) => {
+			calledOrigins.push(url);
+			return Promise.reject(new Error('still broken'));
 		});
 		await createFailure(origin);
 
@@ -295,17 +301,14 @@ test.group('FaviconAdminService.reResolveAll', (group) => {
 	}) => {
 		const origin = 'https://reresolve-all-dedup.example';
 		const calledOrigins: string[] = [];
-		const { adminService, store } = await buildAdminService({
-			getFavicon: (url) => {
-				calledOrigins.push(url);
-				return Promise.resolve({
-					buffer: Buffer.from('fresh-bytes'),
-					url,
-					type: 'image/x-icon',
-					size: 11,
-				});
-			},
-			checkForUpdate: () => Promise.resolve({ changed: false }),
+		const { adminService, store } = await buildAdminService((url) => {
+			calledOrigins.push(url);
+			return Promise.resolve({
+				buffer: Buffer.from('fresh-bytes'),
+				url,
+				type: 'image/x-icon',
+				size: 11,
+			});
 		});
 		await createEntry(store, origin);
 		await createFailure(origin);

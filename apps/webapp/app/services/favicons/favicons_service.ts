@@ -1,7 +1,8 @@
+import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
-import { sniffImageType } from '#services/favicons/image_sniffer';
+import { sniffImageType } from '#lib/favicons/image_sniffer';
 import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
@@ -16,7 +17,7 @@ import {
 	extractMetaImageCandidates,
 	extractManifestIconCandidates,
 	type FaviconCandidate,
-} from '#services/favicons/favicon_candidate_resolver';
+} from '#lib/favicons/favicon_candidate_resolver';
 
 const MAX_HTML_BYTES = 256 * 1024;
 const MAX_IMAGE_BYTES = 512 * 1024;
@@ -24,16 +25,14 @@ const FAVICON_ICO_PATH = '/favicon.ico';
 const FAVICON_ICO_SCORE = 0;
 const MAX_META_REFRESH_HOPS = 3;
 
+@inject()
 export class FaviconService {
 	private readonly userAgent =
 		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0';
 	private readonly requestTimeout = 10000;
 	private readonly maxRedirects = 5;
-	private readonly urlValidator: UrlValidatorService;
 
-	constructor() {
-		this.urlValidator = new UrlValidatorService();
-	}
+	constructor(private readonly urlValidator: UrlValidatorService) {}
 
 	async getFavicon(url: string): Promise<Favicon> {
 		const normalizedUrl = this.normalizeUrl(url);

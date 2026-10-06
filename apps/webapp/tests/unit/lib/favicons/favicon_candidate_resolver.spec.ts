@@ -10,7 +10,7 @@ import {
 	extractLinkIconCandidates,
 	extractMetaImageCandidates,
 	extractManifestIconCandidates,
-} from '#services/favicons/favicon_candidate_resolver';
+} from '#lib/favicons/favicon_candidate_resolver';
 
 test.group('resolveUrl', () => {
 	test('should resolve an absolute href, ignoring the base entirely', ({

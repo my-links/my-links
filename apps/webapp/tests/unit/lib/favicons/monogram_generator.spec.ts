@@ -1,6 +1,6 @@
 import { test } from '@japa/runner';
 
-import { generateMonogram } from '#services/favicons/monogram_generator';
+import { generateMonogram } from '#lib/favicons/monogram_generator';
 
 function svgOf(origin: string): string {
 	return generateMonogram(origin).toString('utf8');

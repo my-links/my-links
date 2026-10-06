@@ -32,10 +32,3 @@ export class ConcurrencyLimiter {
 		this.waiters.shift()?.();
 	}
 }
-
-// Module-level singleton: FaviconService/FaviconsController are resolved per request, this has to outlive them to be shared.
-const FAVICON_FETCH_CONCURRENCY = 8;
-
-export const faviconFetchLimiter = new ConcurrencyLimiter(
-	FAVICON_FETCH_CONCURRENCY
-);
