@@ -8,7 +8,7 @@ import { createUser } from '#tests/factories/user_factory';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
-const FAVORITES_ROUTE = '/collections/favorites';
+const HOME_ROUTE = '/';
 
 async function createAdmin(prefix = 'favicon-admin'): Promise<User> {
 	const user = await createUser({ emailPrefix: prefix });
@@ -41,7 +41,7 @@ test.group('Admin favicons page', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 
 	test('should render aggregate stats for an administrator', async ({
@@ -193,6 +193,6 @@ test.group('Admin favicon mass actions', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 });

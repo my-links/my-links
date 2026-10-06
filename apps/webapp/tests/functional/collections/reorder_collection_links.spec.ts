@@ -71,10 +71,10 @@ test.group('Reorder collection links', (group) => {
 			.loginAs(follower)
 			.redirects(0);
 
-		// Session requests get bounced to favorites on a missing row rather
+		// Session requests get bounced to the landing page on a missing row rather
 		// than a raw 404 — see HttpExceptionHandler#handle.
 		response.assertStatus(302);
-		response.assertHeader('location', '/collections/favorites');
+		response.assertHeader('location', '/');
 	});
 
 	test('should reject a link that is not in the collection', async ({

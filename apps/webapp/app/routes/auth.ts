@@ -14,7 +14,7 @@ import {
 
 const ROUTES_PREFIX = '/auth';
 
-const guestOnly = middleware.guest({ redirectTo: 'collection.favorites' });
+const guestOnly = middleware.guest({ redirectTo: 'home' });
 
 router
 	.group(() => {

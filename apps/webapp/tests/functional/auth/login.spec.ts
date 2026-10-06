@@ -6,8 +6,12 @@ import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { LOGIN_BURST_TIER } from '#start/limiter';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import {
+	createUser,
+	setUserPassword,
+	verifyUserEmail,
+} from '#tests/factories/user_factory';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 const WRONG_PASSWORD = 'wrong-horse-battery-staple';
@@ -75,6 +79,23 @@ test.group('Login — credentials', (group) => {
 			.redirects(0);
 
 		response.assertSession(SESSION_GUARD_KEY, user.id);
+	});
+
+	test('should redirect to the landing dispatcher when the credentials are valid', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'login' });
+		await verifyUserEmail(user);
+		await setUserPassword(user, VALID_PASSWORD);
+
+		const response = await client
+			.post('/login')
+			.header('x-forwarded-for', nextClientAddress())
+			.form({ email: user.email, password: VALID_PASSWORD })
+			.withCsrfToken()
+			.redirects(0);
+
+		response.assertHeader('location', '/');
 	});
 
 	test('should record a succeeded login event', async ({ assert, client }) => {

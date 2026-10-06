@@ -123,7 +123,7 @@ export default class OauthCallbackController {
 			case OAUTH_INTENT.PROVIDER_LINK:
 				return this.linkProvider(ctx, identity, user);
 			default:
-				return ctx.response.redirectToNamedRoute('collection.favorites');
+				return ctx.response.redirectToNamedRoute('home');
 		}
 	}
 
@@ -167,11 +167,11 @@ export default class OauthCallbackController {
 		ctx.session.flash('success', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
 
-		// Falls back to the favorites page, but honors an intended URL stashed
+		// Falls back to the landing page, but honors an intended URL stashed
 		// by AuthMiddleware (e.g. a GET to /extension/authorize?redirect_uri=...
 		// hit while logged out) so the extension auth handoff survives a login
 		// round-trip instead of stranding on the dashboard.
-		return ctx.response.redirect().toIntendedRoute('collection.favorites');
+		return ctx.response.redirect().toIntendedRoute('home');
 	}
 
 	/**

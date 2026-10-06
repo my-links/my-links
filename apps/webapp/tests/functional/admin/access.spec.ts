@@ -5,7 +5,7 @@ import User from '#models/user';
 import { createUser } from '#tests/factories/user_factory';
 
 const ADMIN_DASHBOARD_ROUTE = '/admin';
-const FAVORITES_ROUTE = '/collections/favorites';
+const HOME_ROUTE = '/';
 const REFUSED_MESSAGE = 'This area is reserved to administrators';
 
 async function createAdmin(): Promise<User> {
@@ -29,7 +29,7 @@ test.group('Admin access', (group) => {
 			.loginAs(user)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 
 	test('should tell the visitor why they were moved', async ({ client }) => {

@@ -97,7 +97,7 @@ export default class LoginController {
 		logger.info(`[${user.email}] auth success`);
 		// Honors an intended URL stashed by AuthMiddleware, so a guest sent to
 		// the form from a deep link lands back on it instead of the dashboard.
-		return ctx.response.redirect().toIntendedRoute('collection.favorites');
+		return ctx.response.redirect().toIntendedRoute('home');
 	}
 
 	/**

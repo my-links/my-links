@@ -10,7 +10,7 @@ import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import { recordAuthEvent } from '#tests/factories/auth_event_factory';
 
 const AUTH_JOURNAL_ROUTE = '/admin/auth-events';
-const FAVORITES_ROUTE = '/collections/favorites';
+const HOME_ROUTE = '/';
 
 type JournalLine = {
 	readonly type: string;
@@ -175,6 +175,6 @@ test.group('Admin authentication journal', (group) => {
 			.loginAs(visitor)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 });

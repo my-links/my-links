@@ -8,7 +8,7 @@ import { createUser } from '#tests/factories/user_factory';
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
-const FAVORITES_ROUTE = '/collections/favorites';
+const HOME_ROUTE = '/';
 
 // Cast needed: the real class carries private members a plain double can't
 // structurally satisfy, even though it's a valid runtime substitute here.
@@ -72,7 +72,7 @@ test.group('Refresh link favicon', (group) => {
 			.loginAs(intruder)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 
 	test('should flash an error and redirect back when resolution fails', async ({

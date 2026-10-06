@@ -44,7 +44,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 		// collections than on a 404 page — but it is information an API client
 		// asked for, so it keeps its status there.
 		if (error instanceof errors.E_ROW_NOT_FOUND && !this.isApiRequest(ctx)) {
-			return ctx.response.redirectToNamedRoute('collection.favorites');
+			return ctx.response.redirectToNamedRoute('home');
 		}
 
 		// ThrottleException self-handles as a bare status+text response; flash+redirect instead, like E_INVALID_CREDENTIALS.

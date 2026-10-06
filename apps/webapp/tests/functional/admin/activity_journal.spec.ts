@@ -10,7 +10,7 @@ import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
 
 const ACTIVITY_JOURNAL_ROUTE = '/admin/activity-events';
-const FAVORITES_ROUTE = '/collections/favorites';
+const HOME_ROUTE = '/';
 
 type JournalLine = {
 	readonly type: string;
@@ -131,6 +131,6 @@ test.group('Admin activity journal', (group) => {
 			.loginAs(visitor)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 });
