@@ -5,45 +5,16 @@ import { Button, ConfirmModal } from '@minimalstuff/ui';
 
 import { formatBytes } from '~/lib/format';
 import { AppLayout } from '~/layouts/app_layout';
+import { StatCard } from '~/components/admin/stat_card';
 import { AdminTabs } from '~/components/admin/admin_tabs';
 import { useFaviconActions } from '~/hooks/admin/use_favicon_actions';
 import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 
-interface FaviconsProps {
+type FaviconsProps = {
 	entryCount: number;
 	totalBytes: number;
 	failureCount: number;
-}
-
-function StatCard({
-	label,
-	value,
-	icon,
-	tint,
-}: Readonly<{
-	label: React.ReactNode;
-	value: React.ReactNode;
-	icon: string;
-	tint: string;
-}>) {
-	return (
-		<div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
-			<div className="flex items-center justify-between">
-				<div>
-					<p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
-						{label}
-					</p>
-					<p className="text-3xl font-bold text-gray-900 dark:text-white">
-						{value}
-					</p>
-				</div>
-				<div className={`p-3 rounded-lg ${tint}`}>
-					<i className={`${icon} w-8 h-8`} />
-				</div>
-			</div>
-		</div>
-	);
-}
+};
 
 function Favicons({
 	entryCount,
