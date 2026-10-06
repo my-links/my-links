@@ -11,7 +11,7 @@ const REFUSED_MESSAGE = 'This area is reserved to administrators';
  * legitimately signed in, so their collections are a better landing place than
  * an error — but they are told why they were moved.
  */
-export default class AdminAccessRequiredException extends Exception {
+export class AdminAccessRequiredException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

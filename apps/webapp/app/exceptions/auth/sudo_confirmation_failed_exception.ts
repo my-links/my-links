@@ -16,7 +16,7 @@ const FAILED_MESSAGE = 'That did not confirm your identity';
  * shown again with one explanation, and no caller has to translate a rejection
  * into a form error.
  */
-export default class SudoConfirmationFailedException extends Exception {
+export class SudoConfirmationFailedException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

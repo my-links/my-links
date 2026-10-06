@@ -7,7 +7,8 @@ import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
 import { UserService } from '#services/user/user_service';
 import { CollectionService } from '#services/collections/collection_service';
-import OauthAuthenticationRefusedException, {
+import {
+	OauthAuthenticationRefusedException,
 	OAUTH_REFUSAL_REASON,
 } from '#exceptions/auth/oauth_authentication_refused_exception';
 

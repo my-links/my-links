@@ -20,7 +20,7 @@ export const UNVERIFIED_EMAIL_MESSAGE =
  * proved the account is theirs. A generic message here would send someone
  * chasing a password they never got wrong.
  */
-export default class UnverifiedEmailException extends Exception {
+export class UnverifiedEmailException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

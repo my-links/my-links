@@ -13,7 +13,7 @@ const CODE = 'E_INSUFFICIENT_TOKEN_ABILITY';
  * tool calls catch this themselves to report it inside the JSON-RPC envelope
  * instead of letting it reach the framework at all.
  */
-export default class InsufficientTokenAbilityException extends Exception {
+export class InsufficientTokenAbilityException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

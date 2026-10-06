@@ -7,7 +7,7 @@ import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { emailAddressValidator } from '#validators/auth/email_address_validator';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
-import VerificationResendUnavailableException from '#exceptions/auth/verification_resend_unavailable_exception';
+import { VerificationResendUnavailableException } from '#exceptions/auth/verification_resend_unavailable_exception';
 
 /**
  * The one thing a visitor is told, whether the address they typed has an

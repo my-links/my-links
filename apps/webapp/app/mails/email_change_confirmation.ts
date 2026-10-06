@@ -13,7 +13,7 @@ export type EmailChangeConfirmationPayload = {
  * Goes to the address the account is moving to — it is the only address that
  * can prove the change was asked for by someone who owns it.
  */
-export default class EmailChangeConfirmation extends BaseMail {
+export class EmailChangeConfirmation extends BaseMail {
 	subject = 'Confirm your new email address';
 
 	constructor(protected readonly payload: EmailChangeConfirmationPayload) {

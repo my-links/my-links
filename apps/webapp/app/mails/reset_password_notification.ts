@@ -8,7 +8,7 @@ export type ResetPasswordPayload = {
 	readonly expiresInHours: number;
 };
 
-export default class ResetPasswordNotification extends BaseMail {
+export class ResetPasswordNotification extends BaseMail {
 	subject = 'Reset your password';
 
 	constructor(protected readonly payload: ResetPasswordPayload) {

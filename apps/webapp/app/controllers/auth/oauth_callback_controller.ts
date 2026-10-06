@@ -14,11 +14,11 @@ import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { ProviderLinkService } from '#services/auth/provider_link_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
-import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
 import {
 	OAUTH_INTENT,
 	OauthIntentService,
 } from '#services/auth/oauth_intent_service';
+import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
 
 /**
  * The subset of the Ally driver this controller reads after a callback.

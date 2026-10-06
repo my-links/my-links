@@ -12,7 +12,7 @@ const CODE = 'E_VERIFICATION_RESEND_UNAVAILABLE';
  * This describes the instance, never an account: every visitor gets the same
  * answer.
  */
-export default class VerificationResendUnavailableException extends Exception {
+export class VerificationResendUnavailableException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import InvalidSyncCursorException from '#exceptions/sync/invalid_sync_cursor_exception';
+import { InvalidSyncCursorException } from '#exceptions/sync/invalid_sync_cursor_exception';
 
 /**
  * The cursor a client sends back is the `syncedAt` it received on its

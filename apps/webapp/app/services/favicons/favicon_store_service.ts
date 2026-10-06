@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import app from '@adonisjs/core/services/app';
 import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 
-import InvalidFaviconHashException from '#exceptions/favicons/invalid_favicon_hash_exception';
+import { InvalidFaviconHashException } from '#exceptions/favicons/invalid_favicon_hash_exception';
 
 const CONTENT_HASH_PATTERN = /^[0-9a-f]{64}$/;
 

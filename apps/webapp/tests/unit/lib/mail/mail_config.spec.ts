@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 
 import { resolveMailConfig, type MailSettings } from '#lib/mail/mail_config';
-import IncompleteMailConfigException from '#exceptions/mail/incomplete_mail_config_exception';
+import { IncompleteMailConfigException } from '#exceptions/mail/incomplete_mail_config_exception';
 
 const UNSET_MAIL_SETTINGS: MailSettings = {
 	host: undefined,

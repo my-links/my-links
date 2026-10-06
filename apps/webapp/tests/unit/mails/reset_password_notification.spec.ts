@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 
 import User from '#models/user';
-import ResetPasswordNotification from '#mails/reset_password_notification';
+import { ResetPasswordNotification } from '#mails/reset_password_notification';
 
 const RESET_URL = 'https://links.example.com/reset-password?token=abc';
 const EXPIRES_IN_HOURS = 1;

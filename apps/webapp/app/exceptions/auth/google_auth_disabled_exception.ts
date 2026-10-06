@@ -1,6 +1,6 @@
 import { Exception } from '@adonisjs/core/exceptions';
 
-export default class GoogleAuthDisabledException extends Exception {
+export class GoogleAuthDisabledException extends Exception {
 	static status = 404;
 	static code = 'E_GOOGLE_AUTH_DISABLED';
 

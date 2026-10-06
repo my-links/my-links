@@ -12,7 +12,7 @@ const CODE = 'E_PASSWORD_RESET_UNAVAILABLE';
  * This says something about the instance, never about an account, so it is no
  * enumeration oracle: the answer is the same for every visitor.
  */
-export default class PasswordResetUnavailableException extends Exception {
+export class PasswordResetUnavailableException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

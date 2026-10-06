@@ -16,13 +16,13 @@ import { newPasswordForm } from '#tests/helpers/password_forms';
 import { MAILED_LINK_REQUEST_BURST_TIER } from '#start/limiter';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import PasswordSetNotification from '#mails/password_set_notification';
 import { createUserSession } from '#tests/factories/user_session_factory';
-import ResetPasswordNotification from '#mails/reset_password_notification';
+import { PasswordSetNotification } from '#mails/password_set_notification';
 import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
-import PasswordChangedNotification from '#mails/password_changed_notification';
+import { ResetPasswordNotification } from '#mails/reset_password_notification';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import { PasswordChangedNotification } from '#mails/password_changed_notification';
 import { PASSWORD_RESET_REQUEST_MESSAGE } from '#controllers/auth/request_password_reset_controller';
 
 const OLD_PASSWORD = 'correct-horse-battery-staple';

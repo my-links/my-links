@@ -3,7 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 const REFRESH_FAILED_MESSAGE = 'No favicon could be found for that link';
 
-export default class FaviconNotFoundException extends Exception {
+export class FaviconNotFoundException extends Exception {
 	static status = 404;
 	static code = 'E_FAVICON_NOT_FOUND';
 

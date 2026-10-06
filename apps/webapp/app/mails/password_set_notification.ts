@@ -12,7 +12,7 @@ export type PasswordSetPayload = {
  * signs every other session and extension token out. One class covering both
  * would have to lie in one of the two cases.
  */
-export default class PasswordSetNotification extends BaseMail {
+export class PasswordSetNotification extends BaseMail {
 	subject = 'A password was added to your account';
 
 	constructor(protected readonly payload: PasswordSetPayload) {

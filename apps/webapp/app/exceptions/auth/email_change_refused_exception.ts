@@ -31,7 +31,7 @@ const REFUSAL_MESSAGES = {
 		'That address can no longer be used — ask for the change again',
 } as const satisfies Record<EmailChangeRefusal, string>;
 
-export default class EmailChangeRefusedException extends Exception {
+export class EmailChangeRefusedException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

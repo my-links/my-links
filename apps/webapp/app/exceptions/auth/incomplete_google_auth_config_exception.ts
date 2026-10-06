@@ -1,6 +1,6 @@
 import { Exception } from '@adonisjs/core/exceptions';
 
-export default class IncompleteGoogleAuthConfigException extends Exception {
+export class IncompleteGoogleAuthConfigException extends Exception {
 	static status = 500;
 	static code = 'E_INCOMPLETE_GOOGLE_AUTH_CONFIG';
 

@@ -11,7 +11,7 @@ const CLOSED_MESSAGE = 'This instance is not accepting new accounts';
  * form nor the page behind it has to know the policy: a closed instance sends
  * the visitor home with one explanation, whichever of the two they reached.
  */
-export default class RegistrationClosedException extends Exception {
+export class RegistrationClosedException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

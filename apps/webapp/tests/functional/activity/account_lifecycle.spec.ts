@@ -10,7 +10,7 @@ import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { createUser, markLastSeen } from '#tests/factories/user_factory';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
-import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
+import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
 
 async function createAdmin(prefix = 'admin'): Promise<User> {
 	const user = await createUser({ emailPrefix: prefix });

@@ -9,7 +9,7 @@ const CODE = 'E_UNUSABLE_EXTENSION_TOKEN';
  * fail loudly rather than redirect the extension to a callback carrying
  * nothing.
  */
-export default class UnusableExtensionTokenException extends Exception {
+export class UnusableExtensionTokenException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

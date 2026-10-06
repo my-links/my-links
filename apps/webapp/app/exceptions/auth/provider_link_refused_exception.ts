@@ -36,7 +36,7 @@ const REFUSAL_MESSAGES = {
  * means a request reached an endpoint the settings page never offers in that
  * state, so it fails loudly instead of guessing what was meant.
  */
-export default class ProviderLinkRefusedException extends Exception {
+export class ProviderLinkRefusedException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

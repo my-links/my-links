@@ -16,7 +16,7 @@ export type EmailChangeRequestedPayload = {
  * form, but the only mailbox told about it is the one they do not have, and the
  * link in here both stops the change and signs every session out.
  */
-export default class EmailChangeRequestedNotification extends BaseMail {
+export class EmailChangeRequestedNotification extends BaseMail {
 	subject = 'Your email address is about to change';
 
 	constructor(protected readonly payload: EmailChangeRequestedPayload) {

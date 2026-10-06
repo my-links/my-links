@@ -8,7 +8,7 @@ export type VerifyEmailPayload = {
 	readonly expiresInHours: number;
 };
 
-export default class VerifyEmailNotification extends BaseMail {
+export class VerifyEmailNotification extends BaseMail {
 	subject = 'Verify your email address';
 
 	constructor(protected readonly payload: VerifyEmailPayload) {

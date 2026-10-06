@@ -6,7 +6,7 @@ import type { MultipartFile } from '@adonisjs/core/bodyparser';
 import { ExportImportService } from '#services/user/export_import_service';
 import { importFileValidator } from '#validators/user_settings/import_file_validator';
 import { importDataValidator } from '#validators/user_settings/import_data_validator';
-import InvalidImportFileException from '#exceptions/user_settings/invalid_import_file_exception';
+import { InvalidImportFileException } from '#exceptions/user_settings/invalid_import_file_exception';
 
 @inject()
 export default class ImportUserDataController {

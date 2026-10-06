@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 
 import User from '#models/user';
-import PasswordSetNotification from '#mails/password_set_notification';
+import { PasswordSetNotification } from '#mails/password_set_notification';
 
 function buildUser(): User {
 	const user = new User();

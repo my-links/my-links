@@ -5,7 +5,7 @@ import { Secret, VerificationToken } from '@adonisjs/core/helpers';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import OneTimeToken from '#models/one_time_token';
-import InvalidOneTimeTokenException from '#exceptions/auth/invalid_one_time_token_exception';
+import { InvalidOneTimeTokenException } from '#exceptions/auth/invalid_one_time_token_exception';
 import {
 	ONE_TIME_TOKEN_LIFETIME_HOURS,
 	ONE_TIME_TOKEN_TYPE,

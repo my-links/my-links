@@ -1,6 +1,6 @@
 import { Exception } from '@adonisjs/core/exceptions';
 
-export default class CannotFollowOwnCollectionException extends Exception {
+export class CannotFollowOwnCollectionException extends Exception {
 	static status = 422;
 	static code = 'E_CANNOT_FOLLOW_OWN_COLLECTION';
 

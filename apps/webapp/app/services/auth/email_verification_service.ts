@@ -9,9 +9,9 @@ import type { RequestOrigin } from '#lib/request_origin';
 import { MailService } from '#services/mail/mail_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import VerifyEmailNotification from '#mails/verify_email_notification';
+import { VerifyEmailNotification } from '#mails/verify_email_notification';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
-import UnverifiedEmailException from '#exceptions/auth/unverified_email_exception';
+import { UnverifiedEmailException } from '#exceptions/auth/unverified_email_exception';
 
 const VERIFY_EMAIL_ROUTE = 'auth.verify-email';
 const TOKEN_TYPE = ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION;

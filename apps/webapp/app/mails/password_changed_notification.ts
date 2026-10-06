@@ -6,7 +6,7 @@ export type PasswordChangedPayload = {
 	readonly user: User;
 };
 
-export default class PasswordChangedNotification extends BaseMail {
+export class PasswordChangedNotification extends BaseMail {
 	subject = 'Your password was changed';
 
 	constructor(protected readonly payload: PasswordChangedPayload) {

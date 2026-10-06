@@ -10,7 +10,7 @@ const NOT_FOUND_MESSAGE = 'This API token no longer exists';
  * settings page, or someone else's identifier. Renders itself back onto the
  * page the request came from: an empty 404 body told a browser nothing.
  */
-export default class ApiTokenNotFoundException extends Exception {
+export class ApiTokenNotFoundException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 
