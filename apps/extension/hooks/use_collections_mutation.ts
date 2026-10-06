@@ -8,17 +8,17 @@ import type { CollectionWithLinks } from '@/lib/api/types';
 import { requestBackgroundSync } from '@/lib/sync/messages';
 import { COLLECTIONS_QUERY_KEY } from '@/hooks/use_collections';
 
-interface UseCollectionsMutationOptions<TVariables> {
+type UseCollectionsMutationOptions<TVariables> = {
 	mutationFn: (variables: TVariables) => Promise<unknown>;
 	applyOptimisticUpdate: (
 		collections: CollectionWithLinks[],
 		variables: TVariables
 	) => CollectionWithLinks[];
-}
+};
 
-interface CollectionsMutationContext {
+type CollectionsMutationContext = {
 	previousCollections: CollectionWithLinks[];
-}
+};
 
 /**
  * Shared optimistic-update/rollback plumbing for every collections/links

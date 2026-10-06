@@ -2,10 +2,10 @@ import { addLinkToCollection } from '@/lib/api/links';
 import { addLinkToCollectionInTree } from '@/lib/collections_tree';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 
-export interface AddLinkToCollectionVariables {
+export type AddLinkToCollectionVariables = {
 	linkId: number;
 	collectionId: number;
-}
+};
 
 export function useAddLinkToCollection() {
 	return useCollectionsMutation<AddLinkToCollectionVariables>({

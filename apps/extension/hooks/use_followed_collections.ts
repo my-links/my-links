@@ -8,11 +8,11 @@ import type { FollowedCollectionWithLinks } from '@/lib/api/types';
 
 export const FOLLOWED_COLLECTIONS_QUERY_KEY = ['followedCollections'] as const;
 
-interface UseFollowedCollectionsReturn {
+type UseFollowedCollectionsReturn = {
 	followedCollections: FollowedCollectionWithLinks[];
 	isLoading: boolean;
 	error: Error | null;
-}
+};
 
 /**
  * Same read-only-fetch pattern as `useCollections` — the background worker is

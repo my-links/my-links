@@ -8,11 +8,11 @@ import { requestBackgroundSync } from '@/lib/sync/messages';
 
 export const COLLECTIONS_QUERY_KEY = ['collections'] as const;
 
-interface UseCollectionsReturn {
+type UseCollectionsReturn = {
 	collections: CollectionWithLinks[];
 	isLoading: boolean;
 	error: Error | null;
-}
+};
 
 /**
  * Never fetches on its own — the background worker is the sole network

@@ -52,11 +52,11 @@ export const newTabOverrideStorage = storage.defineItem<boolean>(
 	{ fallback: true }
 );
 
-export interface CollectionsCache {
+export type CollectionsCache = {
 	collections: CollectionWithLinks[];
 	followedCollections: FollowedCollectionWithLinks[];
 	fetchedAt: number;
-}
+};
 
 const EMPTY_COLLECTIONS_CACHE: CollectionsCache = {
 	collections: [],
@@ -120,7 +120,7 @@ export const authInvalidStorage = storage.defineItem<boolean>(
 	{ fallback: false }
 );
 
-export interface BookmarkMirrorState {
+export type BookmarkMirrorState = {
 	isEnabled: boolean;
 	/** Id of the `Collections` folder holding the mirrored collections. */
 	rootId: string | null;
@@ -141,7 +141,7 @@ export interface BookmarkMirrorState {
 	 * user's own and must not be claimed.
 	 */
 	rootOrigin: CollectionsFolderOrigin | null;
-}
+};
 
 const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
 	isEnabled: false,

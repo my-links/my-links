@@ -6,11 +6,11 @@ import { useCreateLink } from '@/hooks/use_create_link';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { LinkFormFields, type LinkFormValues } from './link_form_fields';
 
-interface CreateLinkModalProps {
+type CreateLinkModalProps = {
 	collections: CollectionWithLinks[];
 	initialValues?: Partial<LinkFormValues>;
 	onClose: () => void;
-}
+};
 
 export function CreateLinkModal({
 	collections,

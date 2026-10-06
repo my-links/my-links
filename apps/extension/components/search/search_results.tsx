@@ -2,10 +2,10 @@ import { useSearch } from '@/hooks/use_search';
 import { SearchLinkResult } from './search_link_result';
 import { useResultNavigation } from '@/hooks/use_result_navigation';
 
-interface SearchResultsProps {
+type SearchResultsProps = {
 	term: string;
 	onResultActivate: () => void;
-}
+};
 
 export function SearchResults({
 	term,

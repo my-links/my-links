@@ -6,11 +6,11 @@ import { useUpdateLink } from '@/hooks/use_update_link';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import { LinkFormFields, type LinkFormValues } from './link_form_fields';
 
-interface EditLinkModalProps {
+type EditLinkModalProps = {
 	link: LinkResource;
 	collections: CollectionWithLinks[];
 	onClose: () => void;
-}
+};
 
 export function EditLinkModal({
 	link,

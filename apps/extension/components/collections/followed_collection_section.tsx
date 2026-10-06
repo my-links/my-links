@@ -7,11 +7,11 @@ import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import type { FollowedCollectionWithLinks } from '@/lib/api/types';
 import { COLLECTION_SECTION, collectionSortableId } from '@/lib/dnd/dnd_types';
 
-interface FollowedCollectionSectionProps {
+type FollowedCollectionSectionProps = {
 	collection: FollowedCollectionWithLinks;
 	isExpanded: boolean;
 	onToggle: () => void;
-}
+};
 
 /**
  * Read-only counterpart to `CollectionSection` — no add-link button, no

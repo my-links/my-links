@@ -8,12 +8,12 @@ import {
 	type CollectionSection as CollectionDndSection,
 } from '@/lib/dnd/dnd_types';
 
-interface CollectionSectionProps {
+type CollectionSectionProps = {
 	collection: CollectionWithLinks;
 	section: CollectionDndSection;
 	isExpanded: boolean;
 	onToggle: () => void;
-}
+};
 
 export function CollectionSection({
 	collection,

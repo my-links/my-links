@@ -6,10 +6,10 @@ import {
 	replaceLinkInTree,
 } from '@/lib/collections_tree';
 
-export interface UpdateLinkVariables {
+export type UpdateLinkVariables = {
 	linkId: number;
 	input: UpdateLinkInput;
-}
+};
 
 function toOptimisticLink(
 	linkId: number,

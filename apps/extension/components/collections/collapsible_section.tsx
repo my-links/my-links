@@ -5,7 +5,7 @@ import { ContextMenu, MenuItem } from '@minimalstuff/ui';
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 
-interface CollapsibleSectionProps {
+type CollapsibleSectionProps = {
 	title: string;
 	icon: string;
 	count: number;
@@ -16,7 +16,7 @@ interface CollapsibleSectionProps {
 	onMoveUp: () => void;
 	onMoveDown: () => void;
 	children: ReactNode;
-}
+};
 
 /**
  * Shared chrome for the three top-level sidebar sections (Followed, Public,

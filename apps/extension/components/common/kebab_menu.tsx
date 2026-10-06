@@ -6,10 +6,10 @@ import {
 	type ReactNode,
 } from 'react';
 
-interface KebabMenuProps {
+type KebabMenuProps = {
 	label: string;
 	children: ReactNode;
-}
+};
 
 /**
  * Minimal dismissable dropdown for row-level actions (edit/delete on a

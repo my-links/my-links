@@ -13,12 +13,12 @@ const ROW_CLASS =
 const ROW_SELECTED_CLASS =
 	'border-blue-500 bg-blue-50 text-blue-900 dark:border-blue-400 dark:bg-blue-950 dark:text-blue-100';
 
-interface SearchLinkResultProps {
+type SearchLinkResultProps = {
 	match: FuzzyMatch<LinkResource>;
 	resultIndex: number;
 	isSelected: boolean;
 	onActivate: () => void;
-}
+};
 
 export function SearchLinkResult({
 	match,

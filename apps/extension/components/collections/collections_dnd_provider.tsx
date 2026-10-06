@@ -48,9 +48,9 @@ const KEYBOARD_SENSOR_OPTIONS = {
 };
 const ANNOUNCEMENTS = createCollectionsDndAnnouncements();
 
-interface CollectionsDndProviderProps {
+type CollectionsDndProviderProps = {
 	children: ReactNode;
-}
+};
 
 export function CollectionsDndProvider({
 	children,

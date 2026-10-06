@@ -7,21 +7,21 @@ export class DeleteLinkError extends Error {}
 export class MoveLinkError extends Error {}
 export class AddLinkToCollectionError extends Error {}
 
-export interface CreateLinkInput {
+export type CreateLinkInput = {
 	name: string;
 	url: string;
 	description?: string | null;
 	favorite: boolean;
 	collectionIds?: number[];
-}
+};
 
-export interface UpdateLinkInput {
+export type UpdateLinkInput = {
 	name: string;
 	url: string;
 	description?: string | null;
 	favorite: boolean;
 	collectionIds: number[];
-}
+};
 
 /**
  * Returns the created link: the bookmark mirror adopts an existing native

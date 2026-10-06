@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
-export interface ActiveTabInfo {
+export type ActiveTabInfo = {
 	title: string;
 	url: string;
-}
+};
 
 function toActiveTabInfo(
 	tab: Browser.tabs.Tab | undefined

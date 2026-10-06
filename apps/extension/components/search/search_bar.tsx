@@ -1,11 +1,11 @@
 import { Input } from '@minimalstuff/ui';
 import type { ChangeEvent, RefObject } from 'react';
 
-interface SearchBarProps {
+type SearchBarProps = {
 	value: string;
 	onChange: (value: string) => void;
 	inputRef?: RefObject<HTMLInputElement | null>;
-}
+};
 
 export function SearchBar({
 	value,

@@ -6,10 +6,10 @@ import {
 	previousResultIndex,
 } from '@/lib/search/result_list';
 
-interface UseResultNavigationReturn {
+type UseResultNavigationReturn = {
 	selectedIndex: number;
 	resultsRef: RefObject<HTMLDivElement | null>;
-}
+};
 
 function findResultElement(
 	container: HTMLDivElement | null,

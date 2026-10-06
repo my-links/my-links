@@ -29,11 +29,11 @@ export async function createContextMenus(): Promise<void> {
 	});
 }
 
-interface QuickCapture {
+type QuickCapture = {
 	name: string;
 	url: string;
 	description?: string | null;
-}
+};
 
 /**
  * Chrome's `contextMenus.OnClickData` has no `linkText` field (that's a

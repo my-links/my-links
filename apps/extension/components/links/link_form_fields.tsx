@@ -6,20 +6,20 @@ import type { CollectionWithLinks } from '@/lib/api/types';
 
 const COLLECTION_SEARCH_THRESHOLD = 6;
 
-export interface LinkFormValues {
+export type LinkFormValues = {
 	name: string;
 	url: string;
 	description: string | null;
 	favorite: boolean;
 	collectionIds: number[];
-}
+};
 
-interface LinkFormFieldsProps {
+type LinkFormFieldsProps = {
 	values: LinkFormValues;
 	onChange: (values: LinkFormValues) => void;
 	collections: CollectionWithLinks[];
 	isDisabled?: boolean;
-}
+};
 
 export function LinkFormFields({
 	values,

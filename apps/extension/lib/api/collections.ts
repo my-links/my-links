@@ -21,17 +21,17 @@ export class UnauthorizedApiError extends Error {}
 
 const HTTP_UNAUTHORIZED = 401;
 
-export interface CollectionInput {
+export type CollectionInput = {
 	name: string;
 	description: string | null;
 	visibility: CollectionVisibility;
 	icon?: string | null;
-}
+};
 
-export interface FetchedCollections {
+export type FetchedCollections = {
 	collections: CollectionWithLinks[];
 	followedCollections: FollowedCollectionWithLinks[];
-}
+};
 
 export async function fetchCollections(): Promise<FetchedCollections> {
 	const client = await createExtensionApiClient();

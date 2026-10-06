@@ -2,10 +2,10 @@ import { reorderLinksInTree } from '@/lib/collections_tree';
 import { reorderCollectionLinks } from '@/lib/api/collections';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 
-export interface ReorderLinksVariables {
+export type ReorderLinksVariables = {
 	collectionId: number;
 	linkIds: number[];
-}
+};
 
 export function useReorderLinks() {
 	return useCollectionsMutation<ReorderLinksVariables>({

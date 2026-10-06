@@ -12,7 +12,7 @@ import {
 	type CollectionCollapseState,
 } from '@/lib/collection_collapse';
 
-interface UseCollectionCollapseReturn {
+type UseCollectionCollapseReturn = {
 	state: CollectionCollapseState;
 	isHydrated: boolean;
 	toggleSection: (section: CollectionSection) => void;
@@ -23,7 +23,7 @@ interface UseCollectionCollapseReturn {
 	toggleCollection: (collectionId: number) => void;
 	collapseAll: (sections: CollectionSection[], collectionIds: number[]) => void;
 	expandAll: (sections: CollectionSection[], collectionIds: number[]) => void;
-}
+};
 
 /**
  * Purely a local display preference, never synced to the server — same
