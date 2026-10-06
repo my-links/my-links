@@ -5,7 +5,7 @@ import { useLayoutStore } from '~/stores/layout_store';
 import { LinkList } from '~/components/common/link_list';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { SortableLinkList } from '~/components/dashboard/links/sortable_link_list';
-import { useDashboardDndCollections } from '~/components/dashboard/dnd/dashboard_dnd_provider';
+import { useDashboardDndCollections } from '~/hooks/use_dashboard_dnd_collections';
 
 export function CollectionViewContent() {
 	const isMobile = useIsMobile();

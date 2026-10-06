@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 
-import { cn } from '~/lib/cn';
+import { FormLinkCollectionsField } from '~/components/dashboard/forms/form_link_collections_field';
 
 export type FormLinkData = {
 	name: string;
@@ -13,8 +12,6 @@ export type FormLinkData = {
 	favorite: boolean;
 	collectionIds: Data.Collection['id'][];
 };
-
-const COLLECTION_SEARCH_THRESHOLD = 6;
 
 type FormLinkContentProps = {
 	data: FormLinkData;
@@ -27,37 +24,19 @@ type FormLinkContentProps = {
 	disableInputs?: boolean;
 };
 
-export const FormLinkContent = ({
+export function FormLinkContent({
 	data,
 	setData,
 	errors,
 	collections,
 	disableInputs = false,
-}: Readonly<FormLinkContentProps>) => {
-	const [collectionSearch, setCollectionSearch] = useState('');
-
-	const toggleCollection = (collectionId: number) => {
-		setData(
-			'collectionIds',
-			data.collectionIds.includes(collectionId)
-				? data.collectionIds.filter((id) => id !== collectionId)
-				: [...data.collectionIds, collectionId]
-		);
-	};
+}: Readonly<FormLinkContentProps>) {
+	const handleCollectionIdsChange = (collectionIds: number[]) =>
+		setData('collectionIds', collectionIds);
 
 	const collectionsError = Array.isArray(errors?.collectionIds)
 		? errors.collectionIds[0]
 		: errors?.collectionIds;
-
-	// The default (Inbox) collection is the implicit home for links with no
-	// collection selected, so it's never offered as an explicit choice here.
-	const selectableCollections = collections.filter(
-		(collection) => !collection.isDefault
-	);
-
-	const visibleCollections = selectableCollections.filter((collection) =>
-		collection.name.toLowerCase().includes(collectionSearch.toLowerCase())
-	);
 
 	return (
 		<div className="space-y-4">
@@ -109,61 +88,13 @@ export const FormLinkContent = ({
 				readOnly={disableInputs}
 			/>
 
-			<div>
-				<span
-					id="collections-label"
-					className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-				>
-					<Trans>Collections ({selectableCollections.length})</Trans>
-				</span>
-				{selectableCollections.length > COLLECTION_SEARCH_THRESHOLD && (
-					<Input
-						type="text"
-						value={collectionSearch}
-						onChange={(e) => setCollectionSearch(e.target.value)}
-						placeholder={t`Search collections`}
-						aria-label={t`Search collections`}
-						disabled={disableInputs}
-						wrapperClassName="mb-2"
-					/>
-				)}
-				<div
-					role="group"
-					aria-labelledby="collections-label"
-					className={cn(
-						'space-y-2 max-h-48 overflow-y-auto rounded-lg border p-3',
-						collectionsError
-							? 'border-red-500 dark:border-red-500'
-							: 'border-gray-300 dark:border-gray-600'
-					)}
-				>
-					{visibleCollections.map((collection) => (
-						<Checkbox
-							key={collection.id}
-							id={`collection-${collection.id}`}
-							label={collection.name}
-							checked={data.collectionIds.includes(collection.id)}
-							onChange={() => toggleCollection(collection.id)}
-							disabled={disableInputs}
-						/>
-					))}
-					{visibleCollections.length === 0 && (
-						<p className="text-sm text-gray-500 dark:text-gray-400">
-							<Trans>No collections match your search.</Trans>
-						</p>
-					)}
-				</div>
-				{data.collectionIds.length === 0 && (
-					<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-						<Trans>No collection selected. This link goes to your Inbox.</Trans>
-					</p>
-				)}
-				{collectionsError && (
-					<p className="mt-1 text-sm text-red-600 dark:text-red-400">
-						{collectionsError}
-					</p>
-				)}
-			</div>
+			<FormLinkCollectionsField
+				collections={collections}
+				selectedIds={data.collectionIds}
+				onChange={handleCollectionIdsChange}
+				error={collectionsError}
+				disabled={disableInputs}
+			/>
 
 			<Checkbox
 				id="favorite"
@@ -179,4 +110,4 @@ export const FormLinkContent = ({
 			/>
 		</div>
 	);
-};
+}

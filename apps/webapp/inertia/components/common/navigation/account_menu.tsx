@@ -1,16 +1,13 @@
-import type { ReactNode } from 'react';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import {
 	Avatar,
 	Menu,
-	MenuGroup,
 	MenuItem,
 	MenuSeparator,
 	Modal,
 	useThemeStore,
 	type MenuSide,
-	type Theme,
 } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
@@ -19,50 +16,8 @@ import { useAuth } from '~/hooks/use_auth';
 import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useTourStore } from '~/stores/tour_store';
 import { ShortcutsModal } from '~/components/common/modals/shortcuts_modal';
-import {
-	PROJECT_DOCS_URL,
-	PROJECT_EXTENSION_CHROME_URL,
-	PROJECT_EXTENSION_FIREFOX_URL,
-	PROJECT_REPO_GITHUB_URL,
-} from '~/consts/project';
-
-const EXTERNAL_HINT = '↗';
-
-type ThemeOption = {
-	value: Theme;
-	icon: string;
-	label: ReactNode;
-};
-
-const THEMES: readonly ThemeOption[] = [
-	{
-		value: 'light',
-		icon: 'i-mdi-white-balance-sunny',
-		label: <Trans>Light</Trans>,
-	},
-	{ value: 'dark', icon: 'i-mdi-weather-night', label: <Trans>Dark</Trans> },
-	{ value: 'system', icon: 'i-mdi-monitor', label: <Trans>System</Trans> },
-];
-
-type ThemeMenuItemProps = {
-	option: ThemeOption;
-	isSelected: boolean;
-	onSelect: (theme: Theme) => void;
-};
-
-function ThemeMenuItem({
-	option,
-	isSelected,
-	onSelect,
-}: Readonly<ThemeMenuItemProps>) {
-	const handleSelect = () => onSelect(option.value);
-
-	return (
-		<MenuItem icon={option.icon} selected={isSelected} onClick={handleSelect}>
-			{option.label}
-		</MenuItem>
-	);
-}
+import { AccountMenuThemeGroup } from '~/components/common/navigation/account_menu_theme_group';
+import { AccountMenuExternalLinks } from '~/components/common/navigation/account_menu_external_links';
 
 type AccountMenuProps = {
 	side?: MenuSide;
@@ -143,16 +98,7 @@ export function AccountMenu({
 
 			<MenuSeparator />
 
-			<MenuGroup label={<Trans>Theme</Trans>}>
-				{THEMES.map((option) => (
-					<ThemeMenuItem
-						key={option.value}
-						option={option}
-						isSelected={theme === option.value}
-						onSelect={setTheme}
-					/>
-				))}
-			</MenuGroup>
+			<AccountMenuThemeGroup theme={theme} onSelect={setTheme} />
 
 			<MenuSeparator />
 
@@ -162,38 +108,7 @@ export function AccountMenu({
 			<MenuItem icon="i-mdi-keyboard-outline" onClick={handleOpenShortcuts}>
 				<Trans>Keyboard shortcuts</Trans>
 			</MenuItem>
-			<MenuItem
-				icon="i-mdi-book-open-variant"
-				href={PROJECT_DOCS_URL}
-				target="_blank"
-				trailing={EXTERNAL_HINT}
-			>
-				<Trans>Documentation</Trans>
-			</MenuItem>
-			<MenuItem
-				icon="i-mdi-google-chrome"
-				href={PROJECT_EXTENSION_CHROME_URL}
-				target="_blank"
-				trailing={EXTERNAL_HINT}
-			>
-				<Trans>Chrome extension</Trans>
-			</MenuItem>
-			<MenuItem
-				icon="i-mdi-firefox"
-				href={PROJECT_EXTENSION_FIREFOX_URL}
-				target="_blank"
-				trailing={EXTERNAL_HINT}
-			>
-				<Trans>Firefox extension</Trans>
-			</MenuItem>
-			<MenuItem
-				icon="i-mdi-github"
-				href={PROJECT_REPO_GITHUB_URL}
-				target="_blank"
-				trailing={EXTERNAL_HINT}
-			>
-				<Trans>Source code</Trans>
-			</MenuItem>
+			<AccountMenuExternalLinks />
 
 			<MenuSeparator />
 
