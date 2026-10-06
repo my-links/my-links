@@ -123,10 +123,7 @@ test.group('Admin favicon mass actions', (group) => {
 	test('should re-scrape every known origin and redirect back', async ({
 		client,
 	}) => {
-		// Swapped rather than left real: a developer's DB can already carry
-		// real entries outside this test's transaction (see the note on
-		// `FaviconOrphanPurgeService.purgeOrphans` above), and re-resolving
-		// those for real here would mean live network calls in the test suite.
+		// Swapped so a developer's existing entries are not re-resolved with live network calls.
 		app.container.swap(
 			FaviconResolutionService,
 			() =>

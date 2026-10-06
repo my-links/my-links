@@ -74,8 +74,7 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 			}),
 			locale: ctx.inertia.always(resolveServerLocale(ctx)),
 			appVersion: packageJson.version,
-			// Embedded in every `/favicon` URL the client builds — bumping it is
-			// the only way an admin's flush reaches a browser's week-long cache.
+			// Embedded in every `/favicon` URL: bumping it is the only way a flush reaches the browser's week-long cache.
 			faviconEpoch: ctx.inertia.always(await faviconEpochService.getEpoch()),
 		};
 	}

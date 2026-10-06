@@ -67,11 +67,7 @@ export class CacheService {
 		}
 	}
 
-	/**
-	 * Unlike `getOrSetFavicon`, always re-runs the factory — for a user-triggered
-	 * refresh or an admin re-resolving a known failure, an existing entry is
-	 * exactly the case that must not short-circuit the fetch.
-	 */
+	/** Unlike `getOrSetFavicon`, always re-runs the factory: an existing entry must not short-circuit a forced refresh. */
 	async forceResolve(
 		url: string,
 		factory: () => Promise<Favicon>

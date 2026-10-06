@@ -7,7 +7,7 @@ export default class extends BaseSchema {
 
 	async up() {
 		this.schema.createTable(this.tableName, (table) => {
-			// protocol//hostname — see normalizeFaviconOrigin.
+			// protocol//hostname, see normalizeFaviconOrigin.
 			table.string('origin', 254).notNullable().unique();
 			table.string('content_hash', 64).notNullable();
 			table.string('content_type', 100).notNullable();

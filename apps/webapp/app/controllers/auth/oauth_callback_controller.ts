@@ -167,10 +167,7 @@ export default class OauthCallbackController {
 		ctx.session.flash('success', 'Successfully authenticated');
 		logger.info(`[${user.email}] auth success`);
 
-		// Falls back to the landing page, but honors an intended URL stashed
-		// by AuthMiddleware (e.g. a GET to /extension/authorize?redirect_uri=...
-		// hit while logged out) so the extension auth handoff survives a login
-		// round-trip instead of stranding on the dashboard.
+		// Honors an intended URL stashed by AuthMiddleware so the extension auth handoff survives a login round-trip.
 		return ctx.response.redirect().toIntendedRoute('home');
 	}
 

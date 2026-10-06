@@ -1,17 +1,4 @@
-/*
-|--------------------------------------------------------------------------
-| Account maintenance and favicon store schedule
-|--------------------------------------------------------------------------
-|
-| Runs the inactive-account sweep, the deletion prune, and the favicon
-| orphan purge inside the same process as the web server. Restricted to
-| the 'web' environment in adonisrc.ts, so ace commands, tests and the REPL
-| don't also register these jobs. A native (non-Docker) deployment runs the
-| equivalent ace commands through its own system cron instead — see
-| commands/flag_inactive_accounts.ts, commands/prune_deleted_accounts.ts,
-| and commands/purge_favicon_orphans.ts.
-|
-*/
+// Runs the account sweeps and favicon purge in-process (web env only); native deployments use system cron.
 
 import cron from 'node-cron';
 import app from '@adonisjs/core/services/app';

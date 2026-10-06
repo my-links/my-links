@@ -46,13 +46,7 @@ export class FaviconAdminService {
 		};
 	}
 
-	/**
-	 * Wipes every resolved favicon, on disk and in the DB — the next render of
-	 * each link lazily re-resolves it, so this is safe to run at any time, just
-	 * a burst of re-scraping right after. Also bumps the epoch: deleting the
-	 * server-side rows does nothing on its own to a browser that already
-	 * cached `/favicon?url=...&v=<epoch>` for a week.
-	 */
+	/** Also bumps the epoch, since deleting rows does nothing to a browser that cached `/favicon` for a week. */
 	async flushAll(): Promise<FaviconFlushResult> {
 		const deletedEntries = await db.from('favicon_entries').count('* as total');
 
@@ -68,21 +62,13 @@ export class FaviconAdminService {
 		return { deletedEntries: Number(deletedEntries[0].total) };
 	}
 
-	/**
-	 * Retries every origin with a recorded failure. A success clears its
-	 * failure row as a side effect of `forceRefresh`; one that fails again
-	 * stays recorded for the next pass.
-	 */
+	/** A success clears its failure row via `forceRefresh`; a repeat failure stays recorded. */
 	async reResolveFailures(): Promise<FaviconReResolveResult> {
 		const failures = await FaviconFailure.all();
 		return this.forceRefreshOrigins(failures.map((failure) => failure.origin));
 	}
 
-	/**
-	 * Re-scrapes every known origin, resolved or failing, in place — unlike
-	 * `flushAll`, nothing is deleted first, so a link keeps showing its old
-	 * icon (rather than a monogram) until its re-scrape actually lands.
-	 */
+	/** Unlike `flushAll`, nothing is deleted first, so links keep their old icon until the re-scrape lands. */
 	async reResolveAll(): Promise<FaviconReResolveResult> {
 		const [entries, failures] = await Promise.all([
 			FaviconEntry.query().select('origin'),
@@ -96,11 +82,7 @@ export class FaviconAdminService {
 		return this.forceRefreshOrigins([...origins]);
 	}
 
-	/**
-	 * Bumps the epoch only when something actually changed — a run that finds
-	 * nothing to fix (or fixes nothing) shouldn't force every browser to
-	 * re-fetch every favicon for no reason.
-	 */
+	/** Bumps the epoch only when something changed, so a no-op run does not force every browser to re-fetch. */
 	private async forceRefreshOrigins(
 		origins: string[]
 	): Promise<FaviconReResolveResult> {

@@ -11,7 +11,7 @@ export default class UrlBlockedException extends Exception {
 		super(message, { status: 403, code: 'E_URL_BLOCKED' });
 	}
 
-	/** Same rationale as `FaviconNotFoundException.handle` — only a user-triggered refresh reaches this uncaught. */
+	/** Same rationale as `FaviconNotFoundException.handle`: only a user-triggered refresh reaches this uncaught. */
 	async handle(_error: this, { session, response }: HttpContext) {
 		session.flash('error', REFRESH_BLOCKED_MESSAGE);
 		return response.redirect().back();

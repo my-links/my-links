@@ -245,7 +245,7 @@ export class LinkService {
 		return link;
 	}
 
-	/** Bypasses the resolved/stale distinction entirely — the user asked for a fresh scrape right now. */
+	/** Bypasses the resolved/stale distinction entirely, the user asked for a fresh scrape right now. */
 	async refreshFavicon(id: number): Promise<void> {
 		const userId = this.getAuthenticatedUserId();
 		const link = await Link.query()
