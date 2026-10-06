@@ -5,6 +5,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import User from '#models/user';
 import Collection from '#models/collection';
 import { AUTH_PROVIDER } from '#constants/auth';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
@@ -36,7 +37,8 @@ test.group('OAuth accounts — email normalization', (group) => {
 		const oauthAccountService = await app.container.make(OauthAccountService);
 
 		const user = await oauthAccountService.authenticate(
-			googleIdentity(MIXED_CASE_EMAIL)
+			googleIdentity(MIXED_CASE_EMAIL),
+			NO_REQUEST_ORIGIN
 		);
 
 		assert.equal(user.email, NORMALIZED_EMAIL);
@@ -48,7 +50,8 @@ test.group('OAuth accounts — email normalization', (group) => {
 		const oauthAccountService = await app.container.make(OauthAccountService);
 
 		const user = await oauthAccountService.authenticate(
-			googleIdentity(MIXED_CASE_EMAIL)
+			googleIdentity(MIXED_CASE_EMAIL),
+			NO_REQUEST_ORIGIN
 		);
 
 		const inbox = await Collection.query()
@@ -65,7 +68,10 @@ test.group('OAuth accounts — email normalization', (group) => {
 		const oauthAccountService = await app.container.make(OauthAccountService);
 
 		await assert.rejects(() =>
-			oauthAccountService.authenticate(googleIdentity(MIXED_CASE_EMAIL))
+			oauthAccountService.authenticate(
+				googleIdentity(MIXED_CASE_EMAIL),
+				NO_REQUEST_ORIGIN
+			)
 		);
 	});
 
@@ -81,7 +87,10 @@ test.group('OAuth accounts — email normalization', (group) => {
 			linkedAt: existingUser.createdAt,
 		});
 
-		const resolvedUser = await oauthAccountService.authenticate(identity);
+		const resolvedUser = await oauthAccountService.authenticate(
+			identity,
+			NO_REQUEST_ORIGIN
+		);
 
 		assert.equal(resolvedUser.id, existingUser.id);
 	});

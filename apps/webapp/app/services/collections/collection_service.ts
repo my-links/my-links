@@ -1,7 +1,6 @@
 import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
-import { HttpContext } from '@adonisjs/core/http';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
@@ -9,6 +8,7 @@ import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
 import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
@@ -82,9 +82,9 @@ export class CollectionService {
 	 * public/private into their own sections using `visibility`, already on
 	 * every collection.
 	 */
-	async getCollectionsForAuthenticatedUser() {
+	async getCollectionsForAuthenticatedUser(userId: User['id']) {
 		return await Collection.query()
-			.where('author_id', this.getAuthenticatedUserId())
+			.where('author_id', userId)
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc')
 			.preload('links', (q) => {
@@ -99,8 +99,11 @@ export class CollectionService {
 		return Number(totalCount[0].total);
 	}
 
-	async createCollection(payload: CollectionPayload) {
-		const userId = this.getAuthenticatedUserId();
+	async createCollection(
+		userId: User['id'],
+		payload: CollectionPayload,
+		origin: RequestOrigin
+	) {
 		const position = await this.getNextCollectionPosition(
 			userId,
 			payload.visibility
@@ -114,6 +117,7 @@ export class CollectionService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.COLLECTION_CREATED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 			subjectId: collection.id,
 		});
@@ -126,8 +130,12 @@ export class CollectionService {
 	 * `updated_at` is bumped and the change reaches the delta feed
 	 * (`GET /api/v1/sync`).
 	 */
-	async updateCollection(id: Collection['id'], payload: CollectionPayload) {
-		const userId = this.getAuthenticatedUserId();
+	async updateCollection(
+		userId: User['id'],
+		id: Collection['id'],
+		payload: CollectionPayload,
+		origin: RequestOrigin
+	) {
 		const collection = await Collection.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
@@ -165,6 +173,7 @@ export class CollectionService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.COLLECTION_UPDATED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 			subjectId: id,
 		});
@@ -172,8 +181,11 @@ export class CollectionService {
 		return collection;
 	}
 
-	async deleteCollection(id: Collection['id']) {
-		const userId = this.getAuthenticatedUserId();
+	async deleteCollection(
+		userId: User['id'],
+		id: Collection['id'],
+		origin: RequestOrigin
+	) {
 		const collection = await Collection.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
@@ -199,8 +211,10 @@ export class CollectionService {
 
 		return db.transaction(async (transaction) => {
 			if (orphanedLinkIds.length > 0) {
-				const defaultCollection =
-					await this.getOrCreateDefaultCollection(userId);
+				const defaultCollection = await this.getOrCreateDefaultCollection(
+					userId,
+					origin
+				);
 				await this.collectionLinkService.attachLinksAtEnd(
 					defaultCollection,
 					orphanedLinkIds,
@@ -226,6 +240,7 @@ export class CollectionService {
 				{
 					type: ACTIVITY_EVENT_TYPE.COLLECTION_DELETED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 					subjectId: id,
 					metadata: { orphanedLinks: orphanedLinkIds.length },
@@ -237,6 +252,7 @@ export class CollectionService {
 
 	async getOrCreateDefaultCollection(
 		userId: User['id'],
+		origin: RequestOrigin,
 		client?: TransactionClientContract
 	): Promise<Collection> {
 		const existingDefaultCollection = await Collection.query({ client })
@@ -265,6 +281,7 @@ export class CollectionService {
 			{
 				type: ACTIVITY_EVENT_TYPE.COLLECTION_CREATED,
 				userId,
+				origin,
 				subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 				subjectId: defaultCollection.id,
 				metadata: { automatic: true },
@@ -320,10 +337,10 @@ export class CollectionService {
 	}
 
 	async reorderOwnedCollections(
+		userId: User['id'],
 		visibility: Visibility,
 		collectionIds: Collection['id'][]
 	): Promise<void> {
-		const userId = this.getAuthenticatedUserId();
 		await this.assertOwnedCollectionIds(userId, visibility, collectionIds);
 
 		// `NOW()` freezes to transaction start under the tests' wrapped
@@ -389,9 +406,5 @@ export class CollectionService {
 
 		const maxPosition = row?.max_position;
 		return typeof maxPosition === 'number' ? maxPosition + 1 : 0;
-	}
-
-	private getAuthenticatedUserId(): User['id'] {
-		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}
 }

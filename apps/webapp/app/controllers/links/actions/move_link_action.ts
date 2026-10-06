@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { moveLinkValidator } from '#validators/links/move_link_validator';
 import type { CollectionLinkService } from '#services/collections/collection_link_service';
 
@@ -17,6 +18,7 @@ export async function moveLinkAction(
 		auth.getUserOrFail().id,
 		linkId,
 		fromCollectionId,
-		toCollectionId
+		toCollectionId,
+		resolveRequestOrigin({ request })
 	);
 }

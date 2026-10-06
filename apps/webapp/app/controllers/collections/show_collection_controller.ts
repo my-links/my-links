@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { collectionIdValidator } from '#validators/collections/collection_id_validator';
@@ -20,7 +21,10 @@ export default class ShowCollectionController {
 
 		const userId = auth.getUserOrFail().id;
 		const [sidebarProps, accessibleCollectionResult] = await Promise.all([
-			this.dashboardSidebarService.getProps(userId),
+			this.dashboardSidebarService.getProps(
+				userId,
+				resolveRequestOrigin({ request })
+			),
 			this.collectionService.getAccessibleCollectionByIdWithLinks(
 				collectionId,
 				userId

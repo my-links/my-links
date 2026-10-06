@@ -5,6 +5,8 @@ import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { MailService } from '#services/mail/mail_service';
 import type { LandingPage } from '#enums/dashboard/landing_page';
@@ -32,6 +34,7 @@ export type AccountFilters = {
 };
 
 export type RequestAccountDeletionOptions = {
+	readonly origin?: RequestOrigin;
 	readonly requestedByAdminId?: User['id'] | null;
 	readonly reason?: AccountDeletionReason;
 };
@@ -186,6 +189,7 @@ export class UserService {
 	async requestAccountDeletion(
 		userId: User['id'],
 		{
+			origin = NO_REQUEST_ORIGIN,
 			requestedByAdminId = null,
 			reason = ACCOUNT_DELETION_REASON.SELF_REQUESTED,
 		}: RequestAccountDeletionOptions = {}
@@ -201,6 +205,7 @@ export class UserService {
 				{
 					type: ACTIVITY_EVENT_TYPE.ACCOUNT_DELETION_REQUESTED,
 					userId,
+					origin,
 					actorId: requestedByAdminId,
 					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 					subjectId: userId,
@@ -268,6 +273,7 @@ export class UserService {
 	 */
 	async reactivateAccount(
 		userId: User['id'],
+		origin: RequestOrigin,
 		reactivatedByAdminId: User['id'] | null = null
 	): Promise<void> {
 		const user = await User.findOrFail(userId);
@@ -278,6 +284,7 @@ export class UserService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.ACCOUNT_REACTIVATED,
 			userId,
+			origin,
 			actorId: reactivatedByAdminId,
 			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 			subjectId: userId,
@@ -300,6 +307,7 @@ export class UserService {
 				{
 					type: ACTIVITY_EVENT_TYPE.ACCOUNT_DATA_WIPED,
 					userId,
+					origin: NO_REQUEST_ORIGIN,
 					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 					subjectId: userId,
 					metadata: dataCounts,
@@ -343,7 +351,8 @@ export class UserService {
 	 */
 	async bulkRequestAccountDeletion(
 		userIds: User['id'][],
-		actorId: User['id']
+		actorId: User['id'],
+		origin: RequestOrigin
 	): Promise<void> {
 		const targetUsers = await User.query()
 			.whereIn('id', userIds)
@@ -351,6 +360,7 @@ export class UserService {
 
 		for (const targetUser of targetUsers) {
 			await this.requestAccountDeletion(targetUser.id, {
+				origin,
 				requestedByAdminId: actorId,
 			});
 		}
@@ -361,7 +371,11 @@ export class UserService {
 	 * first, so this is the field that actually changes what the account is
 	 * called everywhere it is shown.
 	 */
-	async renameAccount(userId: User['id'], nickName: string): Promise<void> {
+	async renameAccount(
+		userId: User['id'],
+		nickName: string,
+		origin: RequestOrigin
+	): Promise<void> {
 		const user = await User.findOrFail(userId);
 		user.nickName = nickName;
 		await user.save();
@@ -369,6 +383,7 @@ export class UserService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.ACCOUNT_RENAMED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 			subjectId: userId,
 		});

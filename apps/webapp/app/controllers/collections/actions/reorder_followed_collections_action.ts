@@ -4,12 +4,15 @@ import type { CollectionFollowerService } from '#services/collections/collection
 import { reorderFollowedCollectionsValidator } from '#validators/collections/reorder_followed_collections_validator';
 
 export async function reorderFollowedCollectionsAction(
-	{ request }: HttpContext,
+	{ request, auth }: HttpContext,
 	collectionFollowerService: CollectionFollowerService
 ): Promise<void> {
 	const { collectionIds } = await request.validateUsing(
 		reorderFollowedCollectionsValidator
 	);
 
-	await collectionFollowerService.reorderFollowedCollections(collectionIds);
+	await collectionFollowerService.reorderFollowedCollections(
+		auth.getUserOrFail().id,
+		collectionIds
+	);
 }

@@ -6,6 +6,7 @@ import type User from '#models/user';
 import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
@@ -70,7 +71,10 @@ test.group('Export/import — multi-collection', (group) => {
 		});
 		await link.related('collections').attach([work.id, reading.id]);
 
-		const data = await buildService().exportUserData(user.id);
+		const data = await buildService().exportUserData(
+			user.id,
+			NO_REQUEST_ORIGIN
+		);
 
 		assert.lengthOf(data.links, 1);
 		assert.equal(data.links[0].name, 'Shared link');
@@ -85,20 +89,24 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(user.id, {
-			collections: [
-				{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' },
-				{ key: 'reading-key', name: 'Reading', visibility: 'PRIVATE' },
-			],
-			links: [
-				{
-					name: 'Shared link',
-					url: 'https://example.com',
-					favorite: false,
-					collectionKeys: ['work-key', 'reading-key'],
-				},
-			],
-		});
+		await buildService().importUserData(
+			user.id,
+			{
+				collections: [
+					{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' },
+					{ key: 'reading-key', name: 'Reading', visibility: 'PRIVATE' },
+				],
+				links: [
+					{
+						name: 'Shared link',
+						url: 'https://example.com',
+						favorite: false,
+						collectionKeys: ['work-key', 'reading-key'],
+					},
+				],
+			},
+			NO_REQUEST_ORIGIN
+		);
 
 		const collections = await Collection.query()
 			.where('author_id', user.id)
@@ -115,20 +123,24 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(user.id, {
-			collections: [
-				{ name: 'Work', visibility: 'PRIVATE' },
-				{ name: 'Reading', visibility: 'PRIVATE' },
-			],
-			links: [
-				{
-					name: 'Shared link',
-					url: 'https://example.com',
-					favorite: false,
-					collectionIndexes: [0, 1],
-				},
-			],
-		});
+		await buildService().importUserData(
+			user.id,
+			{
+				collections: [
+					{ name: 'Work', visibility: 'PRIVATE' },
+					{ name: 'Reading', visibility: 'PRIVATE' },
+				],
+				links: [
+					{
+						name: 'Shared link',
+						url: 'https://example.com',
+						favorite: false,
+						collectionIndexes: [0, 1],
+					},
+				],
+			},
+			NO_REQUEST_ORIGIN
+		);
 
 		const collections = await Collection.query()
 			.where('author_id', user.id)
@@ -145,19 +157,23 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(user.id, {
-			collections: [{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' }],
-			links: [
-				{
-					name: 'Orphaned link',
-					url: 'https://example.com',
-					favorite: false,
-					// Simulates a hand-edited file where the referenced
-					// collection was deleted from the `collections` array.
-					collectionKeys: ['deleted-collection-key'],
-				},
-			],
-		});
+		await buildService().importUserData(
+			user.id,
+			{
+				collections: [{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' }],
+				links: [
+					{
+						name: 'Orphaned link',
+						url: 'https://example.com',
+						favorite: false,
+						// Simulates a hand-edited file where the referenced
+						// collection was deleted from the `collections` array.
+						collectionKeys: ['deleted-collection-key'],
+					},
+				],
+			},
+			NO_REQUEST_ORIGIN
+		);
 
 		const inbox = await Collection.query()
 			.where('author_id', user.id)
@@ -170,21 +186,25 @@ test.group('Export/import — multi-collection', (group) => {
 	test('should import the legacy nested-links format', async ({ assert }) => {
 		const user = await createUser();
 
-		await buildService().importUserData(user.id, {
-			collections: [
-				{
-					name: 'Work',
-					visibility: 'PRIVATE',
-					links: [
-						{
-							name: 'Legacy link',
-							url: 'https://example.com',
-							favorite: false,
-						},
-					],
-				},
-			],
-		});
+		await buildService().importUserData(
+			user.id,
+			{
+				collections: [
+					{
+						name: 'Work',
+						visibility: 'PRIVATE',
+						links: [
+							{
+								name: 'Legacy link',
+								url: 'https://example.com',
+								favorite: false,
+							},
+						],
+					},
+				],
+			},
+			NO_REQUEST_ORIGIN
+		);
 
 		const work = await Collection.query()
 			.where('author_id', user.id)
@@ -199,17 +219,21 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(user.id, {
-			collections: [{ name: 'Work', visibility: 'PRIVATE' }],
-			links: [
-				{
-					name: 'Homeless link',
-					url: 'https://example.com',
-					favorite: false,
-					collectionIndexes: [],
-				},
-			],
-		});
+		await buildService().importUserData(
+			user.id,
+			{
+				collections: [{ name: 'Work', visibility: 'PRIVATE' }],
+				links: [
+					{
+						name: 'Homeless link',
+						url: 'https://example.com',
+						favorite: false,
+						collectionIndexes: [],
+					},
+				],
+			},
+			NO_REQUEST_ORIGIN
+		);
 
 		const inbox = await Collection.query()
 			.where('author_id', user.id)
@@ -234,10 +258,13 @@ test.group('Export/import — multi-collection', (group) => {
 		});
 		await link.related('collections').attach([work.id, reading.id]);
 
-		const exported = await buildService().exportUserData(source.id);
+		const exported = await buildService().exportUserData(
+			source.id,
+			NO_REQUEST_ORIGIN
+		);
 
 		const target = await createUser();
-		await buildService().importUserData(target.id, exported);
+		await buildService().importUserData(target.id, exported, NO_REQUEST_ORIGIN);
 
 		const targetCollections = await Collection.query()
 			.where('author_id', target.id)
@@ -262,7 +289,7 @@ test.group('Export/import — activity journal', (group) => {
 		const user = await createUser({ emailPrefix: 'activity-export' });
 		await createCollection(user, 'Secret collection');
 
-		await buildService().exportUserData(user.id);
+		await buildService().exportUserData(user.id, NO_REQUEST_ORIGIN);
 
 		const event = await AuditEvent.query()
 			.where('userId', user.id)
@@ -278,20 +305,24 @@ test.group('Export/import — activity journal', (group) => {
 	}) => {
 		const user = await createUser({ emailPrefix: 'activity-import' });
 
-		await buildService().importUserData(user.id, {
-			collections: [
-				{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' },
-				{ key: 'reading-key', name: 'Reading', visibility: 'PRIVATE' },
-			],
-			links: [
-				{
-					name: 'Imported link',
-					url: 'https://example.com',
-					favorite: false,
-					collectionKeys: ['work-key', 'reading-key'],
-				},
-			],
-		});
+		await buildService().importUserData(
+			user.id,
+			{
+				collections: [
+					{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' },
+					{ key: 'reading-key', name: 'Reading', visibility: 'PRIVATE' },
+				],
+				links: [
+					{
+						name: 'Imported link',
+						url: 'https://example.com',
+						favorite: false,
+						collectionKeys: ['work-key', 'reading-key'],
+					},
+				],
+			},
+			NO_REQUEST_ORIGIN
+		);
 
 		const event = await AuditEvent.query()
 			.where('userId', user.id)

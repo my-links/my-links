@@ -83,7 +83,7 @@ export default class LoginController {
 		}
 
 		await ctx.auth.use('web').login(user);
-		await this.sessionService.createAuthSession(user);
+		await this.sessionService.createAuthSession(user, ctx.session, origin);
 
 		// Journaled here rather than alongside the failures, because a login only
 		// succeeds once the session exists — verifying a password is also what

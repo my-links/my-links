@@ -10,12 +10,12 @@ const FAVICON_REFRESHED_MESSAGE = 'Favicon refreshed';
 export default class RefreshLinkFaviconController {
 	constructor(protected readonly linkService: LinkService) {}
 
-	async execute({ request, response, session }: HttpContext) {
+	async execute({ request, response, session, auth }: HttpContext) {
 		const {
 			params: { id: linkId },
 		} = await request.validateUsing(refreshLinkFaviconValidator);
 
-		await this.linkService.refreshFavicon(linkId);
+		await this.linkService.refreshFavicon(auth.getUserOrFail().id, linkId);
 
 		session.flash('success', FAVICON_REFRESHED_MESSAGE);
 		return response.redirect().back();

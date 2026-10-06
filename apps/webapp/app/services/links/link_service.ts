@@ -1,12 +1,12 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
-import { HttpContext } from '@adonisjs/core/http';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
@@ -34,12 +34,16 @@ export class LinkService {
 		protected readonly faviconResolutionService: FaviconResolutionService
 	) {}
 
-	async createLink(payload: LinkPayload) {
-		const userId = this.getAuthenticatedUserId();
+	async createLink(
+		userId: User['id'],
+		payload: LinkPayload,
+		origin: RequestOrigin
+	) {
 		const { collectionIds, ...linkAttributes } = payload;
 		const resolvedCollectionIds = await this.resolveCollectionIds(
 			collectionIds,
-			userId
+			userId,
+			origin
 		);
 
 		const link = await db.transaction(async (transaction) => {
@@ -57,6 +61,7 @@ export class LinkService {
 				{
 					type: ACTIVITY_EVENT_TYPE.LINK_CREATED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.LINK,
 					subjectId: createdLink.id,
 				},
@@ -70,8 +75,12 @@ export class LinkService {
 		return this.getLinkById(link.id, userId);
 	}
 
-	async updateLink(id: number, payload: LinkPayload) {
-		const userId = this.getAuthenticatedUserId();
+	async updateLink(
+		userId: User['id'],
+		id: number,
+		payload: LinkPayload,
+		origin: RequestOrigin
+	) {
 		const { collectionIds, ...linkAttributes } = payload;
 
 		const previousUrl = await db.transaction(async (transaction) => {
@@ -88,7 +97,8 @@ export class LinkService {
 			if (collectionIds) {
 				const resolvedCollectionIds = await this.resolveCollectionIds(
 					collectionIds,
-					userId
+					userId,
+					origin
 				);
 				await this.replaceLinkCollections(
 					link,
@@ -102,6 +112,7 @@ export class LinkService {
 				{
 					type: ACTIVITY_EVENT_TYPE.LINK_UPDATED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.LINK,
 					subjectId: id,
 				},
@@ -123,7 +134,8 @@ export class LinkService {
 
 	private async resolveCollectionIds(
 		collectionIds: number[] | undefined,
-		userId: number
+		userId: number,
+		origin: RequestOrigin
 	) {
 		if (collectionIds && collectionIds.length > 0) {
 			const ownedCollections = await Collection.query()
@@ -140,7 +152,7 @@ export class LinkService {
 		}
 
 		const defaultCollection =
-			await this.collectionService.getOrCreateDefaultCollection(userId);
+			await this.collectionService.getOrCreateDefaultCollection(userId, origin);
 		return [defaultCollection.id];
 	}
 
@@ -184,9 +196,7 @@ export class LinkService {
 		await link.related('collections').attach(attachments, transaction);
 	}
 
-	async deleteLink(id: number) {
-		const userId = this.getAuthenticatedUserId();
-
+	async deleteLink(userId: User['id'], id: number, origin: RequestOrigin) {
 		await db.transaction(async (transaction) => {
 			const link = await Link.query({ client: transaction })
 				.where('id', id)
@@ -203,6 +213,7 @@ export class LinkService {
 				{
 					type: ACTIVITY_EVENT_TYPE.LINK_DELETED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.LINK,
 					subjectId: id,
 				},
@@ -224,8 +235,12 @@ export class LinkService {
 	 * is bumped — a favourite toggle has to surface on the delta feed like
 	 * any other change (the extension ranks pinned bookmarks off it).
 	 */
-	async updateFavorite(id: number, favorite: boolean) {
-		const userId = this.getAuthenticatedUserId();
+	async updateFavorite(
+		userId: User['id'],
+		id: number,
+		favorite: boolean,
+		origin: RequestOrigin
+	) {
 		const link = await Link.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
@@ -237,6 +252,7 @@ export class LinkService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.LINK_FAVORITE_TOGGLED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.LINK,
 			subjectId: id,
 			metadata: { favorite },
@@ -246,8 +262,7 @@ export class LinkService {
 	}
 
 	/** Bypasses the resolved/stale distinction entirely, the user asked for a fresh scrape right now. */
-	async refreshFavicon(id: number): Promise<void> {
-		const userId = this.getAuthenticatedUserId();
+	async refreshFavicon(userId: User['id'], id: number): Promise<void> {
 		const link = await Link.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
@@ -256,9 +271,9 @@ export class LinkService {
 		await this.faviconResolutionService.forceRefresh(link.url);
 	}
 
-	async getMyFavoriteLinks() {
+	async getMyFavoriteLinks(userId: User['id']) {
 		return await Link.query()
-			.where('author_id', this.getAuthenticatedUserId())
+			.where('author_id', userId)
 			.where('favorite', true)
 			.preload('collections')
 			.orderBy('created_at');
@@ -278,9 +293,9 @@ export class LinkService {
 	 * Feeds the search modal's client-side matcher and its link controls
 	 * menu, which needs `collectionIds` to link to a result's collection.
 	 */
-	async getMyLinks() {
+	async getMyLinks(userId: User['id']) {
 		return await Link.query()
-			.where('author_id', this.getAuthenticatedUserId())
+			.where('author_id', userId)
 			.preload('collections')
 			.orderBy('name');
 	}
@@ -290,10 +305,10 @@ export class LinkService {
 	 * webapp's client-side fuzzy matcher, so this is a small server-side
 	 * substitute rather than an attempt to match its ranking.
 	 */
-	async searchLinks(term: string) {
+	async searchLinks(userId: User['id'], term: string) {
 		const pattern = `%${term}%`;
 		return await Link.query()
-			.where('author_id', this.getAuthenticatedUserId())
+			.where('author_id', userId)
 			.where((query) => {
 				query
 					.whereILike('name', pattern)
@@ -302,10 +317,6 @@ export class LinkService {
 			})
 			.preload('collections')
 			.orderBy('name');
-	}
-
-	private getAuthenticatedUserId() {
-		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}
 
 	async getTotalLinksCount() {

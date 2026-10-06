@@ -8,6 +8,7 @@ import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
 import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
@@ -94,7 +95,8 @@ export class CollectionLinkService {
 		userId: User['id'],
 		linkId: Link['id'],
 		fromCollectionId: Collection['id'],
-		toCollectionId: Collection['id']
+		toCollectionId: Collection['id'],
+		origin: RequestOrigin
 	): Promise<void> {
 		if (fromCollectionId === toCollectionId) {
 			return;
@@ -125,6 +127,7 @@ export class CollectionLinkService {
 				{
 					type: ACTIVITY_EVENT_TYPE.LINK_UPDATED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.LINK,
 					subjectId: linkId,
 					metadata: { fromCollectionId, toCollectionId },
@@ -137,7 +140,8 @@ export class CollectionLinkService {
 	async addLinkToCollection(
 		userId: User['id'],
 		linkId: Link['id'],
-		collectionId: Collection['id']
+		collectionId: Collection['id'],
+		origin: RequestOrigin
 	): Promise<void> {
 		const link = await this.findOwnedLink(userId, linkId);
 		await this.assertOwnsCollections(userId, [collectionId]);
@@ -159,6 +163,7 @@ export class CollectionLinkService {
 				{
 					type: ACTIVITY_EVENT_TYPE.LINK_UPDATED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.LINK,
 					subjectId: linkId,
 					metadata: { collectionId },

@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import type { CollectionLinkService } from '#services/collections/collection_link_service';
 import { addLinkToCollectionValidator } from '#validators/links/add_link_to_collection_validator';
 
@@ -15,6 +16,7 @@ export async function addLinkToCollectionAction(
 	await collectionLinkService.addLinkToCollection(
 		auth.getUserOrFail().id,
 		linkId,
-		collectionId
+		collectionId,
+		resolveRequestOrigin({ request })
 	);
 }

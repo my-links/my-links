@@ -7,6 +7,7 @@ import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
@@ -74,7 +75,10 @@ export class ExportImportService {
 		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
-	async exportUserData(userId: User['id']): Promise<ExportData> {
+	async exportUserData(
+		userId: User['id'],
+		origin: RequestOrigin
+	): Promise<ExportData> {
 		const collections = await Collection.query()
 			.where('author_id', userId)
 			.preload('links', (linksQuery) => {
@@ -99,6 +103,7 @@ export class ExportImportService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.DATA_EXPORTED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 			subjectId: userId,
 		});
@@ -123,7 +128,11 @@ export class ExportImportService {
 		};
 	}
 
-	importUserData(userId: User['id'], validatedData: ValidatedImportData) {
+	importUserData(
+		userId: User['id'],
+		validatedData: ValidatedImportData,
+		origin: RequestOrigin
+	) {
 		return db.transaction(async (transaction) => {
 			const createdCollections = await Collection.createMany(
 				validatedData.collections.map((collectionData) => ({
@@ -171,7 +180,8 @@ export class ExportImportService {
 					{ collectionKeys, collectionIndexes },
 					createdCollections,
 					createdCollectionIdByKey,
-					transaction
+					transaction,
+					origin
 				);
 				const attachments =
 					await this.collectionLinkService.buildPositionedAttachments(
@@ -185,6 +195,7 @@ export class ExportImportService {
 				{
 					type: ACTIVITY_EVENT_TYPE.DATA_IMPORTED,
 					userId,
+					origin,
 					subjectType: AUDIT_SUBJECT_TYPE.ACCOUNT,
 					subjectId: userId,
 					metadata: {
@@ -209,7 +220,8 @@ export class ExportImportService {
 		{ collectionKeys, collectionIndexes }: CollectionRef,
 		createdCollections: Collection[],
 		createdCollectionIdByKey: Map<string, number>,
-		transaction: TransactionClientContract
+		transaction: TransactionClientContract,
+		origin: RequestOrigin
 	): Promise<number[]> {
 		const collectionIds = collectionKeys?.length
 			? collectionKeys
@@ -226,6 +238,7 @@ export class ExportImportService {
 		const defaultCollection =
 			await this.collectionService.getOrCreateDefaultCollection(
 				userId,
+				origin,
 				transaction
 			);
 		return [defaultCollection.id];

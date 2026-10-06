@@ -4,6 +4,8 @@ import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import type { RequestOrigin } from '#lib/request_origin';
 import { UserService } from '#services/user/user_service';
 import { PasswordHasher } from '#services/auth/password_hasher';
 import { CollectionService } from '#services/collections/collection_service';
@@ -44,7 +46,10 @@ export class RegistrationService {
 	 * have an account. That includes the response *time*, which is why the taken
 	 * path still spends one argon2 budget instead of returning straight away.
 	 */
-	async register(request: RegistrationRequest): Promise<User | null> {
+	async register(
+		request: RegistrationRequest,
+		origin: RequestOrigin
+	): Promise<User | null> {
 		await this.registrationPolicyService.assertIsOpen();
 
 		if (await this.isEmailTaken(request.email)) {
@@ -54,12 +59,17 @@ export class RegistrationService {
 		}
 
 		return db.transaction(async (trx) =>
-			this.createAccount(trx, request.password, {
-				name: request.name,
-				email: request.email,
-				isAdmin: await this.userService.isNextAccountAdmin(trx),
-				emailVerifiedAt: null,
-			})
+			this.createAccount(
+				trx,
+				request.password,
+				{
+					name: request.name,
+					email: request.email,
+					isAdmin: await this.userService.isNextAccountAdmin(trx),
+					emailVerifiedAt: null,
+				},
+				origin
+			)
 		);
 	}
 
@@ -75,12 +85,17 @@ export class RegistrationService {
 	 */
 	async provision(request: ProvisionRequest): Promise<User> {
 		return db.transaction(async (trx) =>
-			this.createAccount(trx, request.password, {
-				name: request.name,
-				email: request.email,
-				isAdmin: request.isAdmin,
-				emailVerifiedAt: DateTime.now(),
-			})
+			this.createAccount(
+				trx,
+				request.password,
+				{
+					name: request.name,
+					email: request.email,
+					isAdmin: request.isAdmin,
+					emailVerifiedAt: DateTime.now(),
+				},
+				NO_REQUEST_ORIGIN
+			)
 		);
 	}
 
@@ -104,12 +119,17 @@ export class RegistrationService {
 	private async createAccount(
 		trx: TransactionClientContract,
 		password: string,
-		identity: AccountIdentity
+		identity: AccountIdentity,
+		origin: RequestOrigin
 	): Promise<User> {
 		const user = await User.create(identity, { client: trx });
 
 		await user.related('passwordAuth').create({ password });
-		await this.collectionService.getOrCreateDefaultCollection(user.id, trx);
+		await this.collectionService.getOrCreateDefaultCollection(
+			user.id,
+			origin,
+			trx
+		);
 
 		return user;
 	}

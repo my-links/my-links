@@ -5,6 +5,7 @@ import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import type Collection from '#models/collection';
 import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { VISIBILITY } from '#enums/collections/visibility';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
@@ -12,6 +13,10 @@ import { CollectionFollowerService } from '#services/collections/collection_foll
 
 function getAuthenticatedUserId() {
 	return HttpContext.getOrFail().auth.getUserOrFail().id;
+}
+
+function getRequestOrigin() {
+	return resolveRequestOrigin(HttpContext.getOrFail());
 }
 
 type CollectionVariant = 'toObject' | 'withLinks' | 'withOwnLinks';
@@ -53,7 +58,7 @@ export function registerCollectionTools(
 			runTool(TOKEN_ABILITY.READ, async () => {
 				const userId = getAuthenticatedUserId();
 				const [owned, followed] = await Promise.all([
-					collectionService.getCollectionsForAuthenticatedUser(),
+					collectionService.getCollectionsForAuthenticatedUser(userId),
 					collectionFollowerService.getFollowedCollectionsWithLinks(userId),
 				]);
 				return {
@@ -90,8 +95,10 @@ export function registerCollectionTools(
 		() =>
 			runTool(TOKEN_ABILITY.READ, async () => {
 				const userId = getAuthenticatedUserId();
-				const inbox =
-					await collectionService.getOrCreateDefaultCollection(userId);
+				const inbox = await collectionService.getOrCreateDefaultCollection(
+					userId,
+					getRequestOrigin()
+				);
 				const { collection } =
 					await collectionService.getAccessibleCollectionByIdWithLinks(
 						inbox.id,
@@ -114,11 +121,15 @@ export function registerCollectionTools(
 		},
 		({ description, icon, ...payload }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				const collection = await collectionService.createCollection({
-					...payload,
-					description: description ?? null,
-					icon: icon ?? null,
-				});
+				const collection = await collectionService.createCollection(
+					getAuthenticatedUserId(),
+					{
+						...payload,
+						description: description ?? null,
+						icon: icon ?? null,
+					},
+					getRequestOrigin()
+				);
 				return {
 					message: 'Collection created successfully',
 					collection: await serializeCollection(collection),
@@ -141,11 +152,16 @@ export function registerCollectionTools(
 		},
 		({ id, description, icon, ...payload }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				await collectionService.updateCollection(id, {
-					...payload,
-					description: description ?? null,
-					icon: icon ?? null,
-				});
+				await collectionService.updateCollection(
+					getAuthenticatedUserId(),
+					id,
+					{
+						...payload,
+						description: description ?? null,
+						icon: icon ?? null,
+					},
+					getRequestOrigin()
+				);
 				return { message: 'Collection updated successfully' };
 			})
 	);
@@ -158,7 +174,11 @@ export function registerCollectionTools(
 		},
 		({ id }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				await collectionService.deleteCollection(id);
+				await collectionService.deleteCollection(
+					getAuthenticatedUserId(),
+					id,
+					getRequestOrigin()
+				);
 				return { message: 'Collection deleted successfully' };
 			})
 	);
@@ -173,7 +193,8 @@ export function registerCollectionTools(
 			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionFollowerService.followCollection(
 					collectionId,
-					getAuthenticatedUserId()
+					getAuthenticatedUserId(),
+					getRequestOrigin()
 				);
 				return { message: 'Collection followed successfully' };
 			})
@@ -189,7 +210,8 @@ export function registerCollectionTools(
 			runTool(TOKEN_ABILITY.WRITE, async () => {
 				await collectionFollowerService.unfollowCollection(
 					collectionId,
-					getAuthenticatedUserId()
+					getAuthenticatedUserId(),
+					getRequestOrigin()
 				);
 				return { message: 'Collection unfollowed successfully' };
 			})
