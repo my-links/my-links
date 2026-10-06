@@ -42,4 +42,4 @@ Point any MCP client that supports Streamable HTTP at the endpoint with the bear
 - `links.create`, `links.update`, `links.delete`, `links.toggle_favorite`, `links.move_to_collection`, `links.add_to_collection`
 - `collections.create`, `collections.update`, `collections.delete`, `collections.follow`, `collections.unfollow`
 
-`links.search` matches name, URL, and description, a small server-side substitute for the fuzzy matcher the webapp and extension each run client-side, which an MCP client has no access to.
+`links.search` matches name, URL, and description: a small server-side substitute for the fuzzy matcher the webapp and extension each run client-side, which an MCP client has no access to.

@@ -27,7 +27,7 @@ From the keyboard: focus a draggable card, press Space to pick it up, the arrow 
 
 ## Search
 
-Full-text search covers both collections and links, matching on name and URL. It is available from anywhere in the app, and from the browser extension's panel with a keyboard shortcut, see [Browser extension](/guide/browser-extension).
+Full-text search covers both collections and links, matching on name and URL. It is available from anywhere in the app, and from the browser extension's panel with a keyboard shortcut (see [Browser extension](/guide/browser-extension)).
 
 ## Sharing
 

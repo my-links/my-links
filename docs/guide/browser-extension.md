@@ -6,7 +6,7 @@ The official extension works against **any** MyLinks instance: the public one at
 - **Quick capture** from the toolbar or the context menu, with duplicate detection.
 - **Search**, reachable from anywhere with `Ctrl+Shift+K` (`Alt+Shift+K` on Firefox, rebindable in the browser).
 - **Offline-tolerant**: the last sync is cached, stale data is flagged, an expired token asks for a reconnect instead of failing silently.
-- **Optional bookmark mirroring**: two-way sync between your collections and the browser's native bookmarks (see [below](#bookmark-mirroring).
+- **Optional bookmark mirroring**: two-way sync between your collections and the browser's native bookmarks (see [below](#bookmark-mirroring)).
 
 ## Installing
 

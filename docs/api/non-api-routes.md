@@ -8,7 +8,7 @@ Redirects to a link's target URL and counts the click. Clicks feed the ranking t
 
 **Endpoint:** `GET /l/:id`
 
-**Authentication:** none required: links in public collections are reachable by anonymous visitors, and their clicks count the same way. A session, when present, is still resolved.
+**Authentication:** none required. Links in public collections are reachable by anonymous visitors, and their clicks count the same way. A session, when present, is still resolved.
 
 **Response:** `302 Found` with the target URL in `Location`. The redirect is deliberately temporary so browsers keep asking the server and the counter keeps moving.
 
