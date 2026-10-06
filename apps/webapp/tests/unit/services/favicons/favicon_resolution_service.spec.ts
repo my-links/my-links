@@ -10,9 +10,11 @@ import type { Favicon } from '#types/favicon_type';
 import { CacheService } from '#services/favicons/cache_service';
 import { FaviconService } from '#services/favicons/favicons_service';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
+import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 function fakeFavicon(url: string): Favicon {
@@ -28,7 +30,12 @@ class FakeFaviconService extends FaviconService {
 	getFaviconCallCount = 0;
 
 	constructor(private readonly outcome: () => Promise<Favicon>) {
-		super(new UrlValidatorService());
+		const faviconHttpClient = new FaviconHttpClient(new UrlValidatorService());
+		super(
+			new UrlValidatorService(),
+			faviconHttpClient,
+			new FaviconCandidateService(new UrlValidatorService(), faviconHttpClient)
+		);
 	}
 
 	override getFavicon(): Promise<Favicon> {

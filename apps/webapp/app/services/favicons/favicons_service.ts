@@ -3,36 +3,20 @@ import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
 import { sniffImageType } from '#lib/favicons/image_sniffer';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
-import { webAppManifestValidator } from '#validators/favicons/web_app_manifest_validator';
+import type { FaviconCandidate } from '#lib/favicons/favicon_candidate_resolver';
+import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
-import {
-	parseDocument,
-	resolveUrl,
-	findManifestHref,
-	findMetaRefreshUrl,
-	resolveDocumentBaseUrl,
-	extractLinkIconCandidates,
-	extractMetaImageCandidates,
-	extractManifestIconCandidates,
-	type FaviconCandidate,
-} from '#lib/favicons/favicon_candidate_resolver';
-
-const MAX_HTML_BYTES = 256 * 1024;
-const MAX_IMAGE_BYTES = 512 * 1024;
-const FAVICON_ICO_PATH = '/favicon.ico';
-const FAVICON_ICO_SCORE = 0;
-const MAX_META_REFRESH_HOPS = 3;
 
 @inject()
 export class FaviconService {
-	private readonly userAgent =
-		'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0';
-	private readonly requestTimeout = 10000;
-	private readonly maxRedirects = 5;
-
-	constructor(private readonly urlValidator: UrlValidatorService) {}
+	constructor(
+		private readonly urlValidator: UrlValidatorService,
+		private readonly faviconHttpClient: FaviconHttpClient,
+		private readonly faviconCandidateService: FaviconCandidateService
+	) {}
 
 	async getFavicon(url: string): Promise<Favicon> {
 		const normalizedUrl = this.normalizeUrl(url);
@@ -41,7 +25,9 @@ export class FaviconService {
 			throw new UrlBlockedException(`URL is blocked: ${normalizedUrl}`);
 		}
 
-		for (const candidate of await this.resolveCandidates(normalizedUrl)) {
+		for (const candidate of await this.faviconCandidateService.resolveCandidates(
+			normalizedUrl
+		)) {
 			try {
 				return await this.fetchCandidate(candidate);
 			} catch (error) {
@@ -67,12 +53,18 @@ export class FaviconService {
 		}
 
 		try {
-			const response = await this.fetchWithUserAgent(url, conditionalHeaders);
+			const response = await this.faviconHttpClient.fetchWithUserAgent(
+				url,
+				conditionalHeaders
+			);
 			if (response.status === 304 || !response.ok || !response.body) {
 				return { changed: false };
 			}
 
-			const buffer = await this.readImageBodyCapped(response.body, url);
+			const buffer = await this.faviconHttpClient.readImageBodyCapped(
+				response.body,
+				url
+			);
 			const type = sniffImageType(buffer);
 			if (!type || buffer.length === 0) {
 				return { changed: false };
@@ -93,148 +85,6 @@ export class FaviconService {
 			logger.debug(`Favicon revalidation request failed for ${url}`, error);
 			return { changed: false };
 		}
-	}
-
-	// Tiers from most to least authoritative: link icons, manifest icons, tile/og images, then /favicon.ico.
-	private async resolveCandidates(
-		normalizedUrl: string
-	): Promise<FaviconCandidate[]> {
-		const document = await this.fetchDocument(normalizedUrl);
-		const candidates: FaviconCandidate[] = [];
-
-		if (document) {
-			const parsed = parseDocument(document.html);
-			const baseUrl = resolveDocumentBaseUrl(parsed, document.finalUrl);
-
-			candidates.push(...extractLinkIconCandidates(parsed, baseUrl));
-			candidates.push(
-				...(await this.resolveManifestCandidates(parsed, baseUrl))
-			);
-			candidates.push(...extractMetaImageCandidates(parsed, baseUrl));
-		}
-
-		const faviconIcoUrl = resolveUrl(
-			FAVICON_ICO_PATH,
-			document?.finalUrl ?? normalizedUrl
-		);
-		if (faviconIcoUrl) {
-			candidates.push({ url: faviconIcoUrl, score: FAVICON_ICO_SCORE });
-		}
-
-		return candidates;
-	}
-
-	private async resolveManifestCandidates(
-		document: ReturnType<typeof parseDocument>,
-		baseUrl: string
-	): Promise<FaviconCandidate[]> {
-		const manifestHref = findManifestHref(document);
-		if (!manifestHref) {
-			return [];
-		}
-
-		const manifestUrl = resolveUrl(manifestHref, baseUrl);
-		if (!manifestUrl) {
-			return [];
-		}
-
-		const manifest = await this.fetchWebAppManifest(manifestUrl);
-		return manifest ? extractManifestIconCandidates(manifest, manifestUrl) : [];
-	}
-
-	private async fetchWebAppManifest(manifestUrl: string) {
-		try {
-			if (!(await this.urlValidator.isUrlAllowed(manifestUrl))) {
-				return undefined;
-			}
-
-			const response = await this.fetchOnce(manifestUrl);
-			if (!response.ok) {
-				return undefined;
-			}
-
-			const json: unknown = await response.json();
-			return await webAppManifestValidator.validate(json);
-		} catch (error) {
-			logger.debug(
-				`Failed to fetch or parse web app manifest ${manifestUrl}`,
-				error
-			);
-			return undefined;
-		}
-	}
-
-	// A meta refresh landing page never declares its own icon: the real one lives on the page it lands on.
-	private async fetchDocument(
-		url: string
-	): Promise<{ html: string; finalUrl: string } | undefined> {
-		let targetUrl = url;
-
-		for (let hop = 0; hop <= MAX_META_REFRESH_HOPS; hop += 1) {
-			const document = await this.fetchDocumentOnce(targetUrl);
-			if (!document) {
-				return undefined;
-			}
-
-			const refreshUrl = findMetaRefreshUrl(parseDocument(document.html));
-			const resolvedRefreshUrl =
-				refreshUrl && resolveUrl(refreshUrl, document.finalUrl);
-			if (!resolvedRefreshUrl || resolvedRefreshUrl === document.finalUrl) {
-				return document;
-			}
-
-			targetUrl = resolvedRefreshUrl;
-		}
-
-		return undefined;
-	}
-
-	private async fetchDocumentOnce(
-		url: string
-	): Promise<{ html: string; finalUrl: string } | undefined> {
-		try {
-			const response = await this.fetchWithUserAgent(url);
-			if (!response.ok || !response.body) {
-				return undefined;
-			}
-
-			return {
-				html: await this.readBodyCapped(response.body),
-				finalUrl: response.url || url,
-			};
-		} catch (error) {
-			logger.debug(`Failed to fetch document from ${url}`, error);
-			return undefined;
-		}
-	}
-
-	// Cloudflare's default error page is ~1.3 MB; the icon declarations live in <head>, no need to buffer past it.
-	private async readBodyCapped(
-		body: ReadableStream<Uint8Array>
-	): Promise<string> {
-		const reader = body.getReader();
-		const chunks: Uint8Array[] = [];
-		let totalBytes = 0;
-
-		try {
-			while (totalBytes < MAX_HTML_BYTES) {
-				const { done, value } = await reader.read();
-				if (done || !value) {
-					break;
-				}
-
-				chunks.push(value);
-				totalBytes += value.length;
-
-				if (Buffer.concat(chunks).includes('</head>')) {
-					break;
-				}
-			}
-		} finally {
-			await reader.cancel().catch(() => {});
-		}
-
-		return Buffer.concat(chunks).toString('utf8');
 	}
 
 	private async fetchCandidate(candidate: FaviconCandidate): Promise<Favicon> {
@@ -264,12 +114,15 @@ export class FaviconService {
 	}
 
 	private async fetchFavicon(url: string): Promise<Favicon> {
-		const response = await this.fetchWithUserAgent(url);
+		const response = await this.faviconHttpClient.fetchWithUserAgent(url);
 		if (!response.ok || !response.body) {
 			throw new FaviconNotFoundException(`Request to favicon ${url} failed`);
 		}
 
-		const buffer = await this.readImageBodyCapped(response.body, url);
+		const buffer = await this.faviconHttpClient.readImageBodyCapped(
+			response.body,
+			url
+		);
 		const type = sniffImageType(buffer);
 		if (!type || buffer.length === 0) {
 			throw new FaviconNotFoundException(`Invalid image at ${url}`);
@@ -283,96 +136,6 @@ export class FaviconService {
 			etag: response.headers.get('etag'),
 			lastModified: response.headers.get('last-modified'),
 		};
-	}
-
-	// Rejected mid-stream, not buffered then measured, a decompression bomb never sits fully in memory first.
-	private async readImageBodyCapped(
-		body: ReadableStream<Uint8Array>,
-		url: string
-	): Promise<Buffer> {
-		const reader = body.getReader();
-		const chunks: Uint8Array[] = [];
-		let totalBytes = 0;
-
-		try {
-			while (true) {
-				const { done, value } = await reader.read();
-				if (done || !value) {
-					break;
-				}
-
-				totalBytes += value.length;
-				if (totalBytes > MAX_IMAGE_BYTES) {
-					throw new FaviconNotFoundException(`Image too large at ${url}`);
-				}
-
-				chunks.push(value);
-			}
-		} finally {
-			await reader.cancel().catch(() => {});
-		}
-
-		return Buffer.concat(chunks);
-	}
-
-	private async fetchWithUserAgent(
-		url: string,
-		extraHeaders: Record<string, string> = {}
-	): Promise<Response> {
-		let targetUrl = url;
-
-		for (let hop = 0; hop <= this.maxRedirects; hop += 1) {
-			if (!(await this.urlValidator.isUrlAllowed(targetUrl))) {
-				throw new UrlBlockedException(`URL is blocked: ${targetUrl}`);
-			}
-
-			const response = await this.fetchOnce(targetUrl, extraHeaders);
-
-			if (!this.isRedirect(response.status)) {
-				return response;
-			}
-
-			const location = response.headers.get('location');
-			if (!location) {
-				return response;
-			}
-
-			targetUrl = new URL(location, targetUrl).toString();
-		}
-
-		throw new FaviconNotFoundException(`Too many redirects for ${url}`);
-	}
-
-	private isRedirect(status: number): boolean {
-		return status >= 300 && status < 400;
-	}
-
-	private async fetchOnce(
-		url: string,
-		extraHeaders: Record<string, string> = {}
-	): Promise<Response> {
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), this.requestTimeout);
-
-		try {
-			const headers = new Headers({
-				'User-Agent': this.userAgent,
-				...extraHeaders,
-			});
-			const response = await fetch(url, {
-				headers,
-				signal: controller.signal,
-				redirect: 'manual',
-			});
-			clearTimeout(timeoutId);
-			return response;
-		} catch (error) {
-			clearTimeout(timeoutId);
-			if (error instanceof Error && error.name === 'AbortError') {
-				throw new FaviconNotFoundException(`Request timeout for ${url}`);
-			}
-			throw error;
-		}
 	}
 
 	private normalizeUrl(url: string): string {
