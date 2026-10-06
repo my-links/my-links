@@ -107,29 +107,31 @@ export function DashboardTour() {
 		}).then((confirmed) => (confirmed ? startTour() : stopTour()));
 	}, [shouldOfferTour, startTour, stopTour]);
 
+	const handleJoyrideEvent = (data: EventData) => {
+		const { action, index, status, type } = data;
+
+		if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
+			stopTour();
+			return;
+		}
+
+		if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
+			const nextIndex = index + (action === ACTIONS.PREV ? -1 : 1);
+			if (nextIndex < 0 || nextIndex >= steps.length) {
+				stopTour();
+				return;
+			}
+			advanceStep(nextIndex);
+		}
+	};
+
 	return (
 		<>
 			<Joyride
 				run={!isMobile && sidebarOpen && run}
 				stepIndex={stepIndex}
 				steps={steps}
-				onEvent={(data: EventData) => {
-					const { action, index, status, type } = data;
-
-					if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
-						stopTour();
-						return;
-					}
-
-					if (type === EVENTS.STEP_AFTER || type === EVENTS.TARGET_NOT_FOUND) {
-						const nextIndex = index + (action === ACTIONS.PREV ? -1 : 1);
-						if (nextIndex < 0 || nextIndex >= steps.length) {
-							stopTour();
-							return;
-						}
-						advanceStep(nextIndex);
-					}
-				}}
+				onEvent={handleJoyrideEvent}
 				continuous
 				scrollToFirstStep
 				tooltipComponent={TourTooltip}

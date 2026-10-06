@@ -31,12 +31,14 @@ function describeMetadata(event: ActivityEvent) {
 	return entries.map(([key, value]) => `${key}: ${String(value)}`).join(', ');
 }
 
+const getRowKey = (event: ActivityEvent) => String(event.id);
+
 export const ActivityEventsTable = ({
 	events,
 }: Readonly<ActivityEventsTableProps>) => (
 	<DataTable<ActivityEvent>
 		data={events}
-		getRowKey={(event) => String(event.id)}
+		getRowKey={getRowKey}
 		minWidthClassName="min-w-[980px]"
 		columns={[
 			{

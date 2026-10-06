@@ -61,6 +61,9 @@ export default function SharedPage({
 		return `${icon}${activeCollection.name}`;
 	}, [activeCollection]);
 
+	const handleUnfollowClick = () => void handleUnfollow();
+	const handleFollowClick = () => void handleFollow();
+
 	return (
 		<>
 			<Head title={pageTitle} />
@@ -82,11 +85,11 @@ export default function SharedPage({
 					{auth.isAuthenticated && !activeCollection.isOwner && (
 						<div className="ml-4">
 							{isFollowing ? (
-								<Button color="danger" onClick={() => void handleUnfollow()}>
+								<Button color="danger" onClick={handleUnfollowClick}>
 									<Trans>Unfollow</Trans>
 								</Button>
 							) : (
-								<Button color="primary" onClick={() => void handleFollow()}>
+								<Button color="primary" onClick={handleFollowClick}>
 									<Trans>Follow</Trans>
 								</Button>
 							)}

@@ -23,11 +23,10 @@ export function useDashboardModals(): UseDashboardModalsReturn {
 	const isMobile = useIsMobile();
 
 	const handleCreateCollection = () => {
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: t`Create a collection`,
-			children: (
-				<CreateCollectionModal onClose={() => Modal.end(call, undefined)} />
-			),
+			children: <CreateCollectionModal onClose={handleClose} />,
 		});
 	};
 
@@ -38,11 +37,10 @@ export function useDashboardModals(): UseDashboardModalsReturn {
 			activeCollection.isDefault
 		)
 			return;
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: t`Edit a collection`,
-			children: (
-				<EditCollectionModal onClose={() => Modal.end(call, undefined)} />
-			),
+			children: <EditCollectionModal onClose={handleClose} />,
 		});
 	};
 
@@ -53,27 +51,28 @@ export function useDashboardModals(): UseDashboardModalsReturn {
 			activeCollection.isDefault
 		)
 			return;
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: t`Delete a collection`,
-			children: (
-				<DeleteCollectionModal onClose={() => Modal.end(call, undefined)} />
-			),
+			children: <DeleteCollectionModal onClose={handleClose} />,
 		});
 	};
 
 	const handleCreateLink = () => {
 		if (activeCollection?.isOwner === false) return;
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: t`Create a link`,
-			children: <CreateLinkModal onClose={() => Modal.end(call, undefined)} />,
+			children: <CreateLinkModal onClose={handleClose} />,
 		});
 	};
 
 	const handleOpenSearch = () => {
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: t`Search`,
 			size: 'lg',
-			children: <SearchModal onClose={() => Modal.end(call, undefined)} />,
+			children: <SearchModal onClose={handleClose} />,
 		});
 	};
 

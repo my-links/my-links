@@ -52,6 +52,12 @@ export function CollectionList() {
 	).length;
 	const canCollapse = renderedSectionsCount > 1;
 
+	const handleMoveUp = (section: CollectionSection) => () =>
+		moveSectionUp(section);
+
+	const handleMoveDown = (section: CollectionSection) => () =>
+		moveSectionDown(section);
+
 	return (
 		<div className="flex flex-col flex-1 min-h-0" data-tour="collections-list">
 			<div className="px-2 pt-1 pb-2 space-y-1">
@@ -75,8 +81,8 @@ export function CollectionList() {
 						alwaysShow={sectionsByKey[section].alwaysShow}
 						canMoveUp={index > 0}
 						canMoveDown={index < order.length - 1}
-						onMoveUp={() => moveSectionUp(section)}
-						onMoveDown={() => moveSectionDown(section)}
+						onMoveUp={handleMoveUp(section)}
+						onMoveDown={handleMoveDown(section)}
 					/>
 				))}
 			</div>

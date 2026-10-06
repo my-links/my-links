@@ -37,6 +37,8 @@ export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 	const { layout, setLayout } = useLayoutStore(layoutStoreKey);
 	const layoutOptions = getLayoutOptions();
 
+	const handleSelectLayout = (value: Layout) => () => setLayout(value);
+
 	return (
 		<div
 			data-tour="link-layout"
@@ -45,7 +47,7 @@ export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 			{layoutOptions.map((option) => (
 				<Tooltip key={option.value} content={option.label} position="bottom">
 					<button
-						onClick={() => setLayout(option.value)}
+						onClick={handleSelectLayout(option.value)}
 						className={cn(
 							'cursor-pointer p-2 rounded transition-colors',
 							layout === option.value

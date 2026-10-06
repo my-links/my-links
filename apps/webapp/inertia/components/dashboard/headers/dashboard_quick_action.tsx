@@ -12,16 +12,12 @@ export function DashboardQuickAction(
 	props: Readonly<DashboardQuickActionProps>
 ) {
 	const handleOpen = () => {
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Quick Actions</Trans>,
 			size: 'sm',
 			className: 'flex flex-col gap-4',
-			children: (
-				<QuickActionsContent
-					{...props}
-					onClose={() => Modal.end(call, undefined)}
-				/>
-			),
+			children: <QuickActionsContent {...props} onClose={handleClose} />,
 		});
 	};
 

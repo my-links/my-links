@@ -21,10 +21,7 @@ export type LinkActions = {
 	handleDeleteLink: MenuClickHandler;
 	handleFavorite: MenuClickHandler;
 	handleRefreshFavicon: MenuClickHandler;
-	handleGoToCollection: (
-		collectionId: number,
-		event: ReactMouseEvent<HTMLButtonElement>
-	) => void;
+	handleGoToCollection: (collectionId: number) => MenuClickHandler;
 };
 
 export function useLinkActions(
@@ -40,13 +37,11 @@ export function useLinkActions(
 		event.stopPropagation();
 		if (!linkWithCollections) return;
 		onAction?.();
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Edit a link</Trans>,
 			children: (
-				<EditLinkModal
-					link={linkWithCollections}
-					onClose={() => Modal.end(call, undefined)}
-				/>
+				<EditLinkModal link={linkWithCollections} onClose={handleClose} />
 			),
 		});
 	};
@@ -55,13 +50,11 @@ export function useLinkActions(
 		event.stopPropagation();
 		if (!linkWithCollections) return;
 		onAction?.();
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Delete a link</Trans>,
 			children: (
-				<DeleteLinkModal
-					link={linkWithCollections}
-					onClose={() => Modal.end(call, undefined)}
-				/>
+				<DeleteLinkModal link={linkWithCollections} onClose={handleClose} />
 			),
 		});
 	};
@@ -99,14 +92,13 @@ export function useLinkActions(
 		[link.id, onAction, onFaviconRefreshed, isRefreshingFavicon]
 	);
 
-	const handleGoToCollection = (
-		collectionId: number,
-		event: ReactMouseEvent<HTMLButtonElement>
-	) => {
-		event.stopPropagation();
-		onAction?.();
-		router.visit(urlFor('collection.show', { id: collectionId }));
-	};
+	const handleGoToCollection =
+		(collectionId: number): MenuClickHandler =>
+		(event) => {
+			event.stopPropagation();
+			onAction?.();
+			router.visit(urlFor('collection.show', { id: collectionId }));
+		};
 
 	return {
 		isRefreshingFavicon,

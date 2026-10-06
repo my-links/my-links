@@ -1,4 +1,5 @@
 import { t } from '@lingui/core/macro';
+import type { ChangeEvent } from 'react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
@@ -31,6 +32,18 @@ export function FormLinkContent({
 	collections,
 	disableInputs = false,
 }: Readonly<FormLinkContentProps>) {
+	const handleNameChange = (event: ChangeEvent<HTMLInputElement>) =>
+		setData('name', event.target.value);
+
+	const handleUrlChange = (event: ChangeEvent<HTMLInputElement>) =>
+		setData('url', event.target.value);
+
+	const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
+		setData('description', event.target.value);
+
+	const handleFavoriteChange = (event: ChangeEvent<HTMLInputElement>) =>
+		setData('favorite', event.target.checked);
+
 	const handleCollectionIdsChange = (collectionIds: number[]) =>
 		setData('collectionIds', collectionIds);
 
@@ -45,7 +58,7 @@ export function FormLinkContent({
 				type="text"
 				id="name"
 				value={data.name}
-				onChange={(e) => setData('name', e.target.value)}
+				onChange={handleNameChange}
 				placeholder={t`Name`}
 				error={Array.isArray(errors?.name) ? errors.name[0] : errors?.name}
 				disabled={disableInputs}
@@ -59,7 +72,7 @@ export function FormLinkContent({
 				type="text"
 				id="url"
 				value={data.url}
-				onChange={(e) => setData('url', e.target.value)}
+				onChange={handleUrlChange}
 				placeholder={t`URL`}
 				error={
 					Array.isArray(errors?.url)
@@ -76,7 +89,7 @@ export function FormLinkContent({
 				label={<Trans>Description</Trans>}
 				id="description"
 				value={data.description ?? ''}
-				onChange={(e) => setData('description', e.target.value)}
+				onChange={handleDescriptionChange}
 				placeholder={t`Description`}
 				rows={3}
 				error={
@@ -100,7 +113,7 @@ export function FormLinkContent({
 				id="favorite"
 				label={<Trans>Favorite</Trans>}
 				checked={data.favorite}
-				onChange={(e) => setData('favorite', e.target.checked)}
+				onChange={handleFavoriteChange}
 				disabled={disableInputs}
 				error={
 					Array.isArray(errors?.favorite)

@@ -22,12 +22,13 @@ export function useCollectionActions(
 		// Row is an anchor: without preventDefault the browser follows its href.
 		event.preventDefault();
 		event.stopPropagation();
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Create a link</Trans>,
 			children: (
 				<CreateLinkModal
 					collectionId={collection.isDefault ? undefined : collection.id}
-					onClose={() => Modal.end(call, undefined)}
+					onClose={handleClose}
 				/>
 			),
 		});
@@ -35,26 +36,22 @@ export function useCollectionActions(
 
 	const handleEditCollection: MenuClickHandler = (event) => {
 		event.stopPropagation();
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Edit a collection</Trans>,
 			children: (
-				<EditCollectionModal
-					collection={collection}
-					onClose={() => Modal.end(call, undefined)}
-				/>
+				<EditCollectionModal collection={collection} onClose={handleClose} />
 			),
 		});
 	};
 
 	const handleDeleteCollection: MenuClickHandler = (event) => {
 		event.stopPropagation();
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Delete a collection</Trans>,
 			children: (
-				<DeleteCollectionModal
-					collection={collection}
-					onClose={() => Modal.end(call, undefined)}
-				/>
+				<DeleteCollectionModal collection={collection} onClose={handleClose} />
 			),
 		});
 	};

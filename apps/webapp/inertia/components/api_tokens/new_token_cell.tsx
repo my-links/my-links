@@ -16,21 +16,25 @@ export const NewTokenCell = ({
 		</span>
 		{newlyCreatedToken.token && (
 			<CopyButton value={newlyCreatedToken.token}>
-				{({ copied, copy }) => (
-					<Button
-						size="sm"
-						variant={copied ? 'outline' : 'solid'}
-						color={copied ? 'neutral' : 'primary'}
-						onClick={() => void copy()}
-						className={
-							copied
-								? 'bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-800'
-								: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
-						}
-					>
-						{copied ? <Trans>Copied</Trans> : <Trans>Copy</Trans>}
-					</Button>
-				)}
+				{({ copied, copy }) => {
+					const handleCopy = () => void copy();
+
+					return (
+						<Button
+							size="sm"
+							variant={copied ? 'outline' : 'solid'}
+							color={copied ? 'neutral' : 'primary'}
+							onClick={handleCopy}
+							className={
+								copied
+									? 'bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-800'
+									: 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800'
+							}
+						>
+							{copied ? <Trans>Copied</Trans> : <Trans>Copy</Trans>}
+						</Button>
+					);
+				}}
 			</CopyButton>
 		)}
 	</div>

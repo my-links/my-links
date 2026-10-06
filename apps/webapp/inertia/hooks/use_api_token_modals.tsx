@@ -13,13 +13,11 @@ export function useApiTokenModals(): UseApiTokenModalsReturn {
 	const { tokens, createToken, revokeToken } = useApiTokens();
 
 	const handleCreateTokenModal = () => {
+		const handleClose = () => Modal.end(call, undefined);
 		const call = Modal.call({
 			title: <Trans>Create new token</Trans>,
 			children: (
-				<CreateTokenModal
-					onCreate={(name, scope) => createToken(name, scope)}
-					onClose={() => Modal.end(call, undefined)}
-				/>
+				<CreateTokenModal onCreate={createToken} onClose={handleClose} />
 			),
 		});
 	};
