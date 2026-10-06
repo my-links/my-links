@@ -8,12 +8,12 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import { CacheService } from '#services/favicons/cache_service';
-import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
+import { FaviconService } from '#services/favicons/favicons_service';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
-import {
-	FaviconResolutionService,
-	type FaviconResolver,
-} from '#services/favicons/favicon_resolution_service';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
+import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 function fakeFavicon(url: string): Favicon {
 	return {
@@ -24,25 +24,42 @@ function fakeFavicon(url: string): Favicon {
 	};
 }
 
-type FakeResolver = FaviconResolver & { getFaviconCallCount: number };
+class FakeFaviconService extends FaviconService {
+	getFaviconCallCount = 0;
 
-function buildFakeResolver(favicon: Favicon): FakeResolver {
-	const resolver: FakeResolver = {
-		getFaviconCallCount: 0,
-		getFavicon: () => {
-			resolver.getFaviconCallCount += 1;
-			return Promise.resolve(favicon);
-		},
-		checkForUpdate: () => Promise.resolve({ changed: false }),
-	};
-	return resolver;
+	constructor(private readonly outcome: () => Promise<Favicon>) {
+		super(new UrlValidatorService());
+	}
+
+	override getFavicon(): Promise<Favicon> {
+		this.getFaviconCallCount += 1;
+		return this.outcome();
+	}
+
+	override checkForUpdate(): Promise<{ changed: false }> {
+		return Promise.resolve({ changed: false });
+	}
+}
+
+function buildFakeResolver(favicon: Favicon): FakeFaviconService {
+	return new FakeFaviconService(() => Promise.resolve(favicon));
+}
+
+function buildFailingResolver(): FakeFaviconService {
+	return new FakeFaviconService(() =>
+		Promise.reject(new Error('no favicon here'))
+	);
 }
 
 async function buildService(favicon: Favicon) {
 	const storageDir = await mkdtemp(join(tmpdir(), 'favicon-resolution-test-'));
 	const cacheService = new CacheService(new FaviconStoreService(storageDir));
 	const resolver = buildFakeResolver(favicon);
-	const service = new FaviconResolutionService(cacheService, resolver);
+	const service = new FaviconResolutionService(
+		cacheService,
+		resolver,
+		new FaviconFetchLimiter()
+	);
 	return { service, resolver };
 }
 
@@ -100,7 +117,11 @@ test.group('FaviconResolutionService.forceRefresh', (group) => {
 		const cacheService = new CacheService(new FaviconStoreService(storageDir));
 		const original = fakeFavicon(url);
 		const resolver = buildFakeResolver(original);
-		const service = new FaviconResolutionService(cacheService, resolver);
+		const service = new FaviconResolutionService(
+			cacheService,
+			resolver,
+			new FaviconFetchLimiter()
+		);
 		await service.triggerResolution(url);
 
 		const updated: Favicon = {
@@ -124,13 +145,11 @@ test.group('FaviconResolutionService.forceRefresh', (group) => {
 			join(tmpdir(), 'favicon-resolution-test-')
 		);
 		const cacheService = new CacheService(new FaviconStoreService(storageDir));
-		const alwaysFailingResolver: FaviconResolver = {
-			getFavicon: () => Promise.reject(new Error('no favicon here')),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		};
+		const alwaysFailingResolver = buildFailingResolver();
 		const service = new FaviconResolutionService(
 			cacheService,
-			alwaysFailingResolver
+			alwaysFailingResolver,
+			new FaviconFetchLimiter()
 		);
 
 		await assert.rejects(() => service.forceRefresh(url), 'no favicon here');
@@ -235,13 +254,11 @@ test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 			join(tmpdir(), 'favicon-resolution-test-')
 		);
 		const cacheService = new CacheService(new FaviconStoreService(storageDir));
-		const alwaysFailingResolver: FaviconResolver = {
-			getFavicon: () => Promise.reject(new Error('no favicon here')),
-			checkForUpdate: () => Promise.resolve({ changed: false }),
-		};
+		const alwaysFailingResolver = buildFailingResolver();
 		const service = new FaviconResolutionService(
 			cacheService,
-			alwaysFailingResolver
+			alwaysFailingResolver,
+			new FaviconFetchLimiter()
 		);
 
 		const favicon = await service.getFreshOrStale(url);

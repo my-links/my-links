@@ -1,3 +1,4 @@
+import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 
 import { cache } from '#lib/cache';
@@ -22,11 +23,12 @@ export type FaviconReResolveResult = {
 	succeeded: number;
 };
 
+@inject()
 export class FaviconAdminService {
 	constructor(
-		private readonly store: FaviconStoreService = new FaviconStoreService(),
-		private readonly resolutionService: FaviconResolutionService = new FaviconResolutionService(),
-		private readonly epochService: FaviconEpochService = new FaviconEpochService()
+		private readonly store: FaviconStoreService,
+		private readonly resolutionService: FaviconResolutionService,
+		private readonly epochService: FaviconEpochService
 	) {}
 
 	async getStats(): Promise<FaviconAdminStats> {

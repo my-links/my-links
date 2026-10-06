@@ -8,7 +8,7 @@ import { cache } from '#lib/cache';
 import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
 import { CacheService } from '#services/favicons/cache_service';
-import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 

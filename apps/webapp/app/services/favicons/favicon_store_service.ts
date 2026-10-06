@@ -3,6 +3,8 @@ import { createHash } from 'node:crypto';
 import app from '@adonisjs/core/services/app';
 import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
 
+import InvalidFaviconHashException from '#exceptions/favicons/invalid_favicon_hash_exception';
+
 const CONTENT_HASH_PATTERN = /^[0-9a-f]{64}$/;
 
 // Content-addressed: the filename is the sha256 of the bytes, never anything derived from the source URL.
@@ -55,7 +57,7 @@ export class FaviconStoreService {
 
 	private pathForHash(hash: string): string {
 		if (!CONTENT_HASH_PATTERN.test(hash)) {
-			throw new Error(`Invalid favicon content hash: ${hash}`);
+			throw new InvalidFaviconHashException(hash);
 		}
 		return join(this.storageDir, hash);
 	}
@@ -65,10 +67,6 @@ export class FaviconStoreService {
 	}
 
 	private isNotFound(error: unknown): boolean {
-		return (
-			error instanceof Error &&
-			'code' in error &&
-			(error as { code?: string }).code === 'ENOENT'
-		);
+		return error instanceof Error && 'code' in error && error.code === 'ENOENT';
 	}
 }

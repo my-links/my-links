@@ -1,10 +1,11 @@
 import { DateTime } from 'luxon';
+import { inject } from '@adonisjs/core';
 
 import { cache } from '#lib/cache';
 import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
-import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
@@ -23,15 +24,14 @@ export type FaviconRevalidationOutcome =
 	| { changed: false }
 	| { changed: true; favicon: Favicon };
 
+@inject()
 export class CacheService {
 	private readonly metadataCacheNs = cache.namespace('favicon:meta');
 	private readonly errorCacheNs = cache.namespace('favicon:error');
 	private readonly errorTtl = '24h';
 	private readonly successTtl = '7d';
 
-	constructor(
-		private readonly store: FaviconStoreService = new FaviconStoreService()
-	) {}
+	constructor(private readonly store: FaviconStoreService) {}
 
 	async getOrSetFavicon(
 		url: string,

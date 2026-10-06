@@ -1,6 +1,6 @@
 import { test } from '@japa/runner';
 
-import { sniffImageType } from '#services/favicons/image_sniffer';
+import { sniffImageType } from '#lib/favicons/image_sniffer';
 
 test.group('sniffImageType', () => {
 	test('should identify a PNG by its magic bytes', ({ assert }) => {

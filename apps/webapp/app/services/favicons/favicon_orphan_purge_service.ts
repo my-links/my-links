@@ -1,6 +1,8 @@
+import { inject } from '@adonisjs/core';
+
 import Link from '#models/link';
 import FaviconEntry from '#models/favicon_entry';
-import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 
 export type FaviconPurgeResult = {
@@ -8,10 +10,9 @@ export type FaviconPurgeResult = {
 	deletedFiles: number;
 };
 
+@inject()
 export class FaviconOrphanPurgeService {
-	constructor(
-		private readonly store: FaviconStoreService = new FaviconStoreService()
-	) {}
+	constructor(private readonly store: FaviconStoreService) {}
 
 	async purgeOrphans(): Promise<FaviconPurgeResult> {
 		const deletedEntries = await this.purgeOrphanedEntries();

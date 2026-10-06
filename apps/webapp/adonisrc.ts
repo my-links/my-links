@@ -52,6 +52,7 @@ export default defineConfig({
 		() => import('@adonisjs/ally/ally_provider'),
 		() => import('#providers/api_provider'),
 		() => import('#providers/mcp_provider'),
+		() => import('#providers/favicon_provider'),
 		() => import('#providers/route_provider'),
 		() => import('@outloud/adonis-openapi/provider'),
 		() => import('@adonisjs/limiter/limiter_provider'),

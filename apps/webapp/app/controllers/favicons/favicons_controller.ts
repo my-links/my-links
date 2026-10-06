@@ -5,6 +5,7 @@ import app from '@adonisjs/core/services/app';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { Favicon } from '#types/favicon_type';
+import { renderFaviconValidator } from '#validators/favicons/render_favicon_validator';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 @inject()
@@ -14,8 +15,10 @@ export default class FaviconsController {
 	constructor(protected readonly resolutionService: FaviconResolutionService) {}
 
 	async render(ctx: HttpContext) {
-		const url = ctx.request.qs()?.url;
-		if (!url || typeof url !== 'string') {
+		const { url } = await ctx.request.validateUsing(renderFaviconValidator, {
+			data: ctx.request.qs(),
+		});
+		if (!url) {
 			return this.sendDefaultFavicon(ctx);
 		}
 

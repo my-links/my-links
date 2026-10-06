@@ -1,6 +1,6 @@
 import { test } from '@japa/runner';
 
-import { normalizeFaviconOrigin } from '#services/favicons/favicon_origin';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 
 test.group('normalizeFaviconOrigin', () => {
 	test('should drop the pathname, query string, and fragment', ({ assert }) => {
