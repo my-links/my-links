@@ -7,6 +7,7 @@ import LinkTransformer from '#transformers/link';
 import { MAXIMUM_URL_LENGTH } from '#constants/link';
 import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { LinkService } from '#services/links/link_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 
@@ -23,6 +24,10 @@ function withDefaultProtocol(url: string): string {
 
 function getAuthenticatedUserId() {
 	return HttpContext.getOrFail().auth.getUserOrFail().id;
+}
+
+function getRequestOrigin() {
+	return resolveRequestOrigin(HttpContext.getOrFail());
 }
 
 async function serializeLink(link: Link): Promise<unknown>;
@@ -48,7 +53,7 @@ export function registerLinkTools(
 		{ description: "List every link in the authenticated user's account." },
 		() =>
 			runTool(TOKEN_ABILITY.READ, async () =>
-				serializeLink(await linkService.getMyLinks())
+				serializeLink(await linkService.getMyLinks(getAuthenticatedUserId()))
 			)
 	);
 
@@ -75,7 +80,9 @@ export function registerLinkTools(
 		},
 		({ term }) =>
 			runTool(TOKEN_ABILITY.READ, async () =>
-				serializeLink(await linkService.searchLinks(term))
+				serializeLink(
+					await linkService.searchLinks(getAuthenticatedUserId(), term)
+				)
 			)
 	);
 
@@ -84,7 +91,9 @@ export function registerLinkTools(
 		{ description: "List the authenticated user's favorite links." },
 		() =>
 			runTool(TOKEN_ABILITY.READ, async () =>
-				serializeLink(await linkService.getMyFavoriteLinks())
+				serializeLink(
+					await linkService.getMyFavoriteLinks(getAuthenticatedUserId())
+				)
 			)
 	);
 
@@ -105,10 +114,11 @@ export function registerLinkTools(
 		},
 		({ url, ...payload }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				const link = await linkService.createLink({
-					...payload,
-					url: withDefaultProtocol(url),
-				});
+				const link = await linkService.createLink(
+					getAuthenticatedUserId(),
+					{ ...payload, url: withDefaultProtocol(url) },
+					getRequestOrigin()
+				);
 				return {
 					message: 'Link created successfully',
 					link: await serializeLink(link),
@@ -137,10 +147,12 @@ export function registerLinkTools(
 		},
 		({ id, url, ...payload }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				await linkService.updateLink(id, {
-					...payload,
-					url: withDefaultProtocol(url),
-				});
+				await linkService.updateLink(
+					getAuthenticatedUserId(),
+					id,
+					{ ...payload, url: withDefaultProtocol(url) },
+					getRequestOrigin()
+				);
 				return { message: 'Link updated successfully' };
 			})
 	);
@@ -153,7 +165,11 @@ export function registerLinkTools(
 		},
 		({ id }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				await linkService.deleteLink(id);
+				await linkService.deleteLink(
+					getAuthenticatedUserId(),
+					id,
+					getRequestOrigin()
+				);
 				return { message: 'Link deleted successfully' };
 			})
 	);
@@ -166,7 +182,12 @@ export function registerLinkTools(
 		},
 		({ id, favorite }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
-				await linkService.updateFavorite(id, favorite);
+				await linkService.updateFavorite(
+					getAuthenticatedUserId(),
+					id,
+					favorite,
+					getRequestOrigin()
+				);
 				return { message: 'Link favorite updated successfully', favorite };
 			})
 	);
@@ -188,7 +209,8 @@ export function registerLinkTools(
 					getAuthenticatedUserId(),
 					linkId,
 					fromCollectionId,
-					toCollectionId
+					toCollectionId,
+					getRequestOrigin()
 				);
 				return { message: 'Link moved successfully' };
 			})
@@ -208,7 +230,8 @@ export function registerLinkTools(
 				await collectionLinkService.addLinkToCollection(
 					getAuthenticatedUserId(),
 					linkId,
-					collectionId
+					collectionId,
+					getRequestOrigin()
 				);
 				return { message: 'Link added to collection successfully' };
 			})

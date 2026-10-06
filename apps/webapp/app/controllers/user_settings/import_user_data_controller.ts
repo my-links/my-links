@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { HttpContext } from '@adonisjs/core/http';
 import type { MultipartFile } from '@adonisjs/core/bodyparser';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { ExportImportService } from '#services/user/export_import_service';
 import { importFileValidator } from '#validators/user_settings/import_file_validator';
 import { importDataValidator } from '#validators/user_settings/import_data_validator';
@@ -18,7 +19,11 @@ export default class ImportUserDataController {
 
 		const importedData = this.parseImportFile(await this.readUpload(file));
 		const validatedData = await importDataValidator.validate(importedData);
-		await this.exportImportService.importUserData(user.id, validatedData);
+		await this.exportImportService.importUserData(
+			user.id,
+			validatedData,
+			resolveRequestOrigin({ request })
+		);
 
 		return response.redirect().back();
 	}

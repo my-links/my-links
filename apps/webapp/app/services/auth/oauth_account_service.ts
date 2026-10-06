@@ -5,6 +5,7 @@ import db from '@adonisjs/lucid/services/db';
 import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
+import type { RequestOrigin } from '#lib/request_origin';
 import { UserService } from '#services/user/user_service';
 import { CollectionService } from '#services/collections/collection_service';
 import {
@@ -40,7 +41,10 @@ export class OauthAccountService {
 	 * than merged: a provider is only trusted for the identity it owns, never
 	 * to take over an account someone else created.
 	 */
-	async authenticate(identity: OauthIdentity): Promise<User> {
+	async authenticate(
+		identity: OauthIdentity,
+		origin: RequestOrigin
+	): Promise<User> {
 		const trustedEmail = this.getTrustedEmail(identity);
 
 		const linkedUser = await this.findLinkedUser(identity);
@@ -50,7 +54,7 @@ export class OauthAccountService {
 
 		await this.assertEmailIsAvailable(trustedEmail);
 
-		return this.createAccount(identity, trustedEmail);
+		return this.createAccount(identity, trustedEmail, origin);
 	}
 
 	private getTrustedEmail(identity: OauthIdentity): string {
@@ -127,7 +131,8 @@ export class OauthAccountService {
 
 	private async createAccount(
 		identity: OauthIdentity,
-		email: string
+		email: string,
+		origin: RequestOrigin
 	): Promise<User> {
 		return db.transaction(async (trx) => {
 			const user = await User.create(
@@ -146,7 +151,11 @@ export class OauthAccountService {
 				providerUserId: identity.providerUserId,
 				linkedAt: DateTime.now(),
 			});
-			await this.collectionService.getOrCreateDefaultCollection(user.id, trx);
+			await this.collectionService.getOrCreateDefaultCollection(
+				user.id,
+				origin,
+				trx
+			);
 
 			return user;
 		});

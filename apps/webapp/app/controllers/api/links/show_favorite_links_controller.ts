@@ -8,8 +8,10 @@ import { LinkService } from '#services/links/link_service';
 export default class ShowFavoriteLinksController {
 	constructor(protected readonly linkService: LinkService) {}
 
-	public async render({ serialize }: HttpContext) {
-		const links = await this.linkService.getMyFavoriteLinks();
+	public async render({ serialize, auth }: HttpContext) {
+		const links = await this.linkService.getMyFavoriteLinks(
+			auth.getUserOrFail().id
+		);
 		return serialize(
 			LinkTransformer.transform(links).useVariant('withCollections')
 		);

@@ -34,7 +34,7 @@ export type SudoConfirmationAttempt = {
  * not enough; the proof has to have been given in the last few minutes.
  *
  * The session store is passed in rather than reached for through
- * `HttpContext`, so nothing here depends on being inside a request and the
+ * the request, so nothing here depends on being inside a request and the
  * whole policy stays testable as plain calls.
  */
 @inject()

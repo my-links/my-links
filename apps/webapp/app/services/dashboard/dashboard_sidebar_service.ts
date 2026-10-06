@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 
 import type User from '#models/user';
+import type { RequestOrigin } from '#lib/request_origin';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
@@ -17,7 +18,7 @@ export class DashboardSidebarService {
 		protected readonly collectionFollowerService: CollectionFollowerService
 	) {}
 
-	async getProps(userId: User['id']) {
+	async getProps(userId: User['id'], origin: RequestOrigin) {
 		const [
 			followedCollections,
 			myPublicCollections,
@@ -27,7 +28,7 @@ export class DashboardSidebarService {
 			this.collectionFollowerService.getFollowedCollections(userId),
 			this.collectionService.getMyPublicCollections(userId),
 			this.collectionService.getMyPrivateCollections(userId),
-			this.collectionService.getOrCreateDefaultCollection(userId),
+			this.collectionService.getOrCreateDefaultCollection(userId, origin),
 		]);
 
 		return {

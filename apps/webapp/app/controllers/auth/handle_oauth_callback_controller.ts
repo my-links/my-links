@@ -153,15 +153,16 @@ export default class HandleOauthCallbackController {
 	}
 
 	private async signIn(ctx: HttpContext, identity: OauthIdentity) {
-		const user = await this.oauthAccountService.authenticate(identity);
+		const origin = resolveRequestOrigin(ctx);
+		const user = await this.oauthAccountService.authenticate(identity, origin);
 
 		await ctx.auth.use('web').login(user);
-		await this.sessionService.createAuthSession(user);
+		await this.sessionService.createAuthSession(user, ctx.session, origin);
 
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
 			userId: user.id,
-			...resolveRequestOrigin(ctx),
+			...origin,
 		});
 
 		ctx.session.flash('success', 'Successfully authenticated');

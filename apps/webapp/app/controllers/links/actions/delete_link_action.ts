@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
 import type Collection from '#models/collection';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import type { LinkService } from '#services/links/link_service';
 import { deleteLinkValidator } from '#validators/links/delete_link_validator';
 
@@ -14,13 +15,15 @@ export async function deleteLinkAction(
 ): Promise<{ primaryCollectionId: Collection['id'] }> {
 	const { params } = await request.validateUsing(deleteLinkValidator);
 
-	const link = await linkService.getLinkById(
-		params.id,
-		auth.getUserOrFail().id
-	);
+	const userId = auth.getUserOrFail().id;
+	const link = await linkService.getLinkById(params.id, userId);
 	const [primaryCollection] = link.collections;
 
-	await linkService.deleteLink(params.id);
+	await linkService.deleteLink(
+		userId,
+		params.id,
+		resolveRequestOrigin({ request })
+	);
 
 	return { primaryCollectionId: primaryCollection.id };
 }

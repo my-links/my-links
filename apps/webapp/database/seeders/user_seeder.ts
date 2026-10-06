@@ -7,6 +7,7 @@ import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import { AUTH_PROVIDER } from '#constants/auth';
 import PasswordAuth from '#models/password_auth';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import { CollectionService } from '#services/collections/collection_service';
 
 const SEEDED_USERS_COUNT = 25;
@@ -56,7 +57,10 @@ export default class extends BaseSeeder {
 		const collectionService = await app.container.make(CollectionService);
 
 		for (const user of users) {
-			await collectionService.getOrCreateDefaultCollection(user.id);
+			await collectionService.getOrCreateDefaultCollection(
+				user.id,
+				NO_REQUEST_ORIGIN
+			);
 		}
 	}
 

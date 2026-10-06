@@ -20,7 +20,7 @@ type PendingReactivationAccount = {
  * password check already proved who is asking, so this is the same trust
  * level `SudoModeService` relies on for its own session state.
  *
- * The session is passed in rather than reached for through `HttpContext`, for
+ * The session is passed in rather than reached for through the request, for
  * the same reason `SudoModeService` does it: nothing here depends on being
  * inside a request, and the whole policy stays testable as plain calls.
  */

@@ -28,7 +28,7 @@ export type ChangePasswordRequest = SetPasswordRequest & {
 	/**
 	 * The session driving the change, the only one that survives it. Naming it
 	 * here rather than reading it off a request is what keeps this service
-	 * free of `HttpContext`.
+	 * free of the request.
 	 */
 	readonly currentSessionId: string;
 };

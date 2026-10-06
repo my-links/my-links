@@ -17,9 +17,17 @@ export type RequestOrigin = {
  * outside the controllers because every controller that journals an event needs
  * the exact same two fields read the exact same way.
  */
-export function resolveRequestOrigin(ctx: HttpContext): RequestOrigin {
+export function resolveRequestOrigin(
+	ctx: Pick<HttpContext, 'request'>
+): RequestOrigin {
 	return {
 		ip: ctx.request.ip(),
 		userAgent: ctx.request.header('user-agent') ?? null,
 	};
 }
+
+/** For work that has no request behind it: a command, a schedule. */
+export const NO_REQUEST_ORIGIN: RequestOrigin = {
+	ip: null,
+	userAgent: null,
+};

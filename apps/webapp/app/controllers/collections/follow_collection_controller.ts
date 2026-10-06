@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
@@ -16,7 +17,8 @@ export default class FollowCollectionController {
 		} = await request.validateUsing(collectionIdValidator);
 		await this.collectionFollowerService.followCollection(
 			collectionId,
-			auth.getUserOrFail().id
+			auth.getUserOrFail().id,
+			resolveRequestOrigin({ request })
 		);
 		return response.redirect().back();
 	}

@@ -1,9 +1,10 @@
 import { inject } from '@adonisjs/core';
-import { HttpContext } from '@adonisjs/core/http';
+import type { Session } from '@adonisjs/session';
 
 import type User from '#models/user';
 import { SessionData } from '#types/session';
 import UserSession from '#models/user_session';
+import type { RequestOrigin } from '#lib/request_origin';
 import { UaParserService } from '#services/ua_parser_service';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
 
@@ -21,18 +22,19 @@ export class SessionService {
 		return sessions;
 	}
 
-	async createAuthSession(user: User): Promise<void> {
-		const ctx = HttpContext.getOrFail();
-		ctx.session.regenerate();
-		await ctx.session.tag(String(user.id));
+	async createAuthSession(
+		user: User,
+		session: Session,
+		{ ip, userAgent }: RequestOrigin
+	): Promise<void> {
+		session.regenerate();
+		await session.tag(String(user.id));
 
-		const userAgent = ctx.request.header('user-agent');
-		const parsedUserAgent = this.uaParserService.parse(userAgent);
-		const ip = ctx.request.ip();
+		const parsedUserAgent = this.uaParserService.parse(userAgent ?? undefined);
 
 		const sessionData = {
 			ip,
-			userAgent: userAgent ?? null,
+			userAgent,
 			browser: {
 				name: parsedUserAgent?.browser?.name ?? null,
 				version: parsedUserAgent?.browser?.version ?? null,
@@ -43,13 +45,13 @@ export class SessionService {
 				version: parsedUserAgent?.engine?.version ?? null,
 			},
 		} satisfies SessionData;
-		ctx.session.put('client', sessionData);
+		session.put('client', sessionData);
 
 		// Both sign-in paths land here, so this is the one place that can
 		// promise a freshly authenticated session already counts as a recent
 		// proof of identity — without it, every login would be followed by a
 		// prompt for the credential just typed.
-		this.sudoModeService.confirm(ctx.session);
+		this.sudoModeService.confirm(session);
 	}
 
 	/**
@@ -74,14 +76,6 @@ export class SessionService {
 	}
 
 	async revokeSession(user: User, sessionId: string): Promise<void> {
-		const ctx = HttpContext.getOrFail();
-
-		// Deleting the row directly wouldn't sign out the request that's running it.
-		if (sessionId === ctx.session.sessionId) {
-			await ctx.auth.use('web').logout();
-			return;
-		}
-
 		const session = await UserSession.query()
 			.where('userId', String(user.id))
 			.where('id', sessionId)

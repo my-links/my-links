@@ -2,6 +2,7 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { UserService } from '#services/user/user_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
 
 export const ACCOUNT_RESTORED_MESSAGE =
@@ -22,7 +23,11 @@ export default class RestoreAccountController {
 			this.userService
 		);
 
-		await this.userService.reactivateAccount(account.id, administrator.id);
+		await this.userService.reactivateAccount(
+			account.id,
+			resolveRequestOrigin(ctx),
+			administrator.id
+		);
 
 		ctx.session.flash('success', ACCOUNT_RESTORED_MESSAGE);
 

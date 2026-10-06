@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
@@ -17,13 +18,16 @@ export default class ShowInboxController {
 		private readonly dashboardSidebarService: DashboardSidebarService
 	) {}
 
-	async render({ inertia, auth }: HttpContext) {
+	async render({ inertia, auth, request }: HttpContext) {
 		const userId = auth.getUserOrFail().id;
-		const inbox =
-			await this.collectionService.getOrCreateDefaultCollection(userId);
+		const origin = resolveRequestOrigin({ request });
+		const inbox = await this.collectionService.getOrCreateDefaultCollection(
+			userId,
+			origin
+		);
 
 		const [sidebarProps, accessibleCollectionResult] = await Promise.all([
-			this.dashboardSidebarService.getProps(userId),
+			this.dashboardSidebarService.getProps(userId, origin),
 			this.collectionService.getAccessibleCollectionByIdWithLinks(
 				inbox.id,
 				userId

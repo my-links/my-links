@@ -1,11 +1,9 @@
 import type { DateTime } from 'luxon';
-import { HttpContext } from '@adonisjs/core/http';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import AuditEvent from '#models/audit_event';
 import type { RequestOrigin } from '#lib/request_origin';
 import type { AuditSubjectType } from '#constants/audit';
-import { resolveRequestOrigin } from '#lib/request_origin';
 import type { ActivityEventType } from '#constants/activity';
 import { paginateAuditJournal } from '#lib/audit_journal_query';
 
@@ -17,6 +15,7 @@ import { paginateAuditJournal } from '#lib/audit_journal_query';
 export type ActivityEventRecord = {
 	readonly type: ActivityEventType;
 	readonly userId: number;
+	readonly origin: RequestOrigin;
 	readonly actorId?: number | null;
 	readonly subjectType: AuditSubjectType;
 	readonly subjectId: number;
@@ -40,8 +39,6 @@ export class ActivityEventService {
 		record: ActivityEventRecord,
 		client?: TransactionClientContract
 	): Promise<void> {
-		const origin = this.resolveOrigin();
-
 		await AuditEvent.create(
 			{
 				type: record.type,
@@ -50,8 +47,8 @@ export class ActivityEventService {
 				subjectType: record.subjectType,
 				subjectId: record.subjectId,
 				metadata: record.metadata ?? null,
-				ip: origin.ip,
-				userAgent: origin.userAgent,
+				ip: record.origin.ip,
+				userAgent: record.origin.userAgent,
 			},
 			{ client }
 		);
@@ -79,18 +76,5 @@ export class ActivityEventService {
 			.delete();
 
 		return Number(deletedRowCount ?? 0);
-	}
-
-	/**
-	 * `HttpContext.get()` rather than `getOrFail()`: a call made outside a
-	 * request (a command, a queued job) still has to write its row, just
-	 * without an address or a user agent to attach to it — the same "this came
-	 * from the machine itself" semantics `AuthEventService.recordConsoleAction`
-	 * already establishes.
-	 */
-	private resolveOrigin(): RequestOrigin {
-		const ctx = HttpContext.get();
-
-		return ctx ? resolveRequestOrigin(ctx) : { ip: null, userAgent: null };
 	}
 }

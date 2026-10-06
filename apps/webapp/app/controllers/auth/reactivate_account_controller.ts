@@ -41,10 +41,17 @@ export default class ReactivateAccountController {
 		}
 
 		const user = await User.findOrFail(pending.userId);
-		await this.userService.reactivateAccount(user.id);
+		await this.userService.reactivateAccount(
+			user.id,
+			resolveRequestOrigin(ctx)
+		);
 
 		await ctx.auth.use('web').login(user);
-		await this.sessionService.createAuthSession(user);
+		await this.sessionService.createAuthSession(
+			user,
+			ctx.session,
+			resolveRequestOrigin(ctx)
+		);
 
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,

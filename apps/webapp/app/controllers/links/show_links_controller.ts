@@ -8,8 +8,8 @@ import { LinkService } from '#services/links/link_service';
 export default class ShowLinksController {
 	constructor(protected readonly linkService: LinkService) {}
 
-	public async render({ serialize }: HttpContext) {
-		const links = await this.linkService.getMyLinks();
+	public async render({ serialize, auth }: HttpContext) {
+		const links = await this.linkService.getMyLinks(auth.getUserOrFail().id);
 		return serialize(
 			LinkTransformer.transform(links).useVariant('withCollections')
 		);

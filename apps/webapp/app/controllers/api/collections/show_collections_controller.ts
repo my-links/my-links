@@ -13,11 +13,12 @@ export default class ShowCollectionsController {
 	) {}
 
 	async render({ auth, response, serialize }: HttpContext) {
+		const userId = auth.getUserOrFail().id;
 		const collections =
-			await this.collectionService.getCollectionsForAuthenticatedUser();
+			await this.collectionService.getCollectionsForAuthenticatedUser(userId);
 		const followedCollections =
 			await this.collectionFollowerService.getFollowedCollectionsWithLinks(
-				auth.getUserOrFail().id
+				userId
 			);
 
 		const { data } = await serialize(

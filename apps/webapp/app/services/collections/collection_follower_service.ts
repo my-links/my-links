@@ -1,12 +1,12 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
-import { HttpContext } from '@adonisjs/core/http';
 
 import User from '#models/user';
 import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
 import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
@@ -79,7 +79,11 @@ export class CollectionFollowerService {
 		return !!result;
 	}
 
-	async followCollection(collectionId: Collection['id'], userId: User['id']) {
+	async followCollection(
+		collectionId: Collection['id'],
+		userId: User['id'],
+		origin: RequestOrigin
+	) {
 		const collection = await Collection.query()
 			.where('id', collectionId)
 			.andWhere('visibility', VISIBILITY.PUBLIC)
@@ -101,12 +105,17 @@ export class CollectionFollowerService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.COLLECTION_FOLLOWED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 			subjectId: collectionId,
 		});
 	}
 
-	async unfollowCollection(collectionId: Collection['id'], userId: User['id']) {
+	async unfollowCollection(
+		collectionId: Collection['id'],
+		userId: User['id'],
+		origin: RequestOrigin
+	) {
 		const collection = await Collection.findOrFail(collectionId);
 		const user = await User.findOrFail(userId);
 
@@ -115,6 +124,7 @@ export class CollectionFollowerService {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.COLLECTION_UNFOLLOWED,
 			userId,
+			origin,
 			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 			subjectId: collectionId,
 		});
@@ -128,9 +138,9 @@ export class CollectionFollowerService {
 	}
 
 	async reorderFollowedCollections(
+		userId: User['id'],
 		collectionIds: Collection['id'][]
 	): Promise<void> {
-		const userId = this.getAuthenticatedUserId();
 		await this.assertFollowedCollectionIds(userId, collectionIds);
 
 		await reorderByRank(db, {
@@ -167,9 +177,5 @@ export class CollectionFollowerService {
 
 		const maxPosition = row?.max_position;
 		return typeof maxPosition === 'number' ? maxPosition + 1 : 0;
-	}
-
-	private getAuthenticatedUserId(): User['id'] {
-		return HttpContext.getOrFail().auth.getUserOrFail().id;
 	}
 }

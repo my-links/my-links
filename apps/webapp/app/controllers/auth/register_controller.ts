@@ -54,9 +54,14 @@ export default class RegisterController {
 	async execute(ctx: HttpContext) {
 		const payload = await ctx.request.validateUsing(registerValidator);
 
-		const registeredUser = await this.registrationService.register(payload);
+		const origin = resolveRequestOrigin(ctx);
+
+		const registeredUser = await this.registrationService.register(
+			payload,
+			origin
+		);
 		if (registeredUser) {
-			await this.welcome(registeredUser, resolveRequestOrigin(ctx));
+			await this.welcome(registeredUser, origin);
 		}
 
 		ctx.session.flash('success', this.confirmationMessage());

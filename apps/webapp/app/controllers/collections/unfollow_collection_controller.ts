@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
@@ -18,7 +19,8 @@ export default class UnfollowCollectionController {
 		const userId = auth.getUserOrFail().id;
 		await this.collectionFollowerService.unfollowCollection(
 			collectionId,
-			userId
+			userId,
+			resolveRequestOrigin({ request })
 		);
 		return response.redirect().back();
 	}

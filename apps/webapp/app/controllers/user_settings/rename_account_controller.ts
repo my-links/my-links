@@ -2,6 +2,7 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { UserService } from '#services/user/user_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { renameAccountValidator } from '#validators/user_settings/rename_account_validator';
 
 @inject()
@@ -14,7 +15,11 @@ export default class RenameAccountController {
 		);
 		const user = ctx.auth.getUserOrFail();
 
-		await this.userService.renameAccount(user.id, nickName);
+		await this.userService.renameAccount(
+			user.id,
+			nickName,
+			resolveRequestOrigin(ctx)
+		);
 
 		ctx.session.flash('success', 'Your account name is updated');
 
