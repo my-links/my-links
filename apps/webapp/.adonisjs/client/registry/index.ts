@@ -234,6 +234,12 @@ const routes = {
     tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
     types: placeholder as Registry['user.settings.rename']['types'],
   },
+  'user.settings.landing_page': {
+    methods: ["PUT"],
+    pattern: '/user/settings/landing-page',
+    tokens: [{"old":"/user/settings/landing-page","type":0,"val":"user","end":""},{"old":"/user/settings/landing-page","type":0,"val":"settings","end":""},{"old":"/user/settings/landing-page","type":0,"val":"landing-page","end":""}],
+    types: placeholder as Registry['user.settings.landing_page']['types'],
+  },
   'user.settings.delete': {
     methods: ["DELETE"],
     pattern: '/user/settings/account',

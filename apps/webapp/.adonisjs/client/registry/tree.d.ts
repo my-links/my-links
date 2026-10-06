@@ -54,6 +54,7 @@ export interface ApiDefinition {
       export: typeof routes['user.settings.export']
       import: typeof routes['user.settings.import']
       rename: typeof routes['user.settings.rename']
+      landingPage: typeof routes['user.settings.landing_page']
       delete: typeof routes['user.settings.delete']
     }
   }
