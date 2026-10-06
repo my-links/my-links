@@ -1,6 +1,6 @@
 # Console commands
 
-Everything the settings pages do to an account, an operator with a shell can do too — which is what keeps an instance with no outgoing mail recoverable. Every command runs from `apps/webapp`.
+Everything the settings pages do to an account, an operator with a shell can do too, which is what keeps an instance with no outgoing mail recoverable. Every command runs from `apps/webapp`.
 
 | Command                | What it does                                                               |
 | ---------------------- | -------------------------------------------------------------------------- |
@@ -20,6 +20,6 @@ node ace user:reset-password ada@example.com --link
 node ace user:list --unverified
 ```
 
-Passwords are only ever asked for, never read from a flag — an argument would sit in the shell history and in the process list of every user on the machine. Deleting an account likewise always asks for its address to be retyped; there is no flag to skip that, and nothing here can undo it.
+Passwords are only ever asked for, never read from a flag: an argument would sit in the shell history and in the process list of every user on the machine. Deleting an account likewise always asks for its address to be retyped; there is no flag to skip that, and nothing here can undo it.
 
-Two refusals are deliberate. A provider cannot be unlinked when it is the only way into the account, and the last administrator of an instance cannot be demoted — both would produce a state no page in the interface can repair.
+Two refusals are deliberate. A provider cannot be unlinked when it is the only way into the account, and the last administrator of an instance cannot be demoted; both would produce a state no page in the interface can repair.

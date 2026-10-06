@@ -22,7 +22,7 @@ hero:
 features:
   - icon: 🔖
     title: Using MyLinks
-    details: Collections, links, search and sharing — how the app is organized.
+    details: Collections, links, search and sharing (how the app is organized).
     link: /guide/using-mylinks
   - icon: 🧩
     title: Browser extension

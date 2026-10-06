@@ -20,7 +20,7 @@ To create an API token, use the web interface at `/user/settings`. The browser e
 
 ## Rate limiting
 
-Every `/api/v1/*` route is throttled to **300 requests per minute**, keyed by authenticated user (so all of a user's devices and tabs share one budget) and falling back to the client IP for the unauthenticated health route. The limit sits far above normal client usage — it protects small self-hosted instances from a runaway client.
+Every `/api/v1/*` route is throttled to **300 requests per minute**, keyed by authenticated user (so all of a user's devices and tabs share one budget) and falling back to the client IP for the unauthenticated health route. The limit sits far above normal client usage: it protects small self-hosted instances from a runaway client.
 
 Exceeding it returns `429 Too Many Requests` with a `Retry-After` header.
 
