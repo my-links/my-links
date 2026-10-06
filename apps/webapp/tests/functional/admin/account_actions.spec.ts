@@ -18,7 +18,7 @@ import {
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
 
-const FAVORITES_ROUTE = '/collections/favorites';
+const HOME_ROUTE = '/';
 const MEMBER_ROLE = ACCOUNT_ROLE.MEMBER;
 const ADMINISTRATOR_ROLE = ACCOUNT_ROLE.ADMINISTRATOR;
 
@@ -366,7 +366,7 @@ test.group('Admin account actions — reserved to administrators', (group) => {
 			.loginAs(visitor)
 			.redirects(0);
 
-		response.assertHeader('location', FAVORITES_ROUTE);
+		response.assertHeader('location', HOME_ROUTE);
 	});
 
 	test('should refuse a role change to a signed-in visitor without the admin flag', async ({

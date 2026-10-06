@@ -4,6 +4,7 @@ import { HttpContext } from '@adonisjs/core/http';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import Link from '#models/link';
+import type User from '#models/user';
 import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
@@ -261,6 +262,16 @@ export class LinkService {
 			.where('favorite', true)
 			.preload('collections')
 			.orderBy('created_at');
+	}
+
+	async hasFavoriteLinks(userId: User['id']): Promise<boolean> {
+		const favoriteLink = await Link.query()
+			.where('author_id', userId)
+			.where('favorite', true)
+			.select('id')
+			.first();
+
+		return favoriteLink !== null;
 	}
 
 	/**

@@ -56,7 +56,7 @@ export default class ReactivateAccountController {
 
 		logger.info(`[${user.email}] reactivated and signed in`);
 
-		return ctx.response.redirect().toIntendedRoute('collection.favorites');
+		return ctx.response.redirect().toIntendedRoute('home');
 	}
 
 	async decline({ session, response }: HttpContext) {

@@ -22,6 +22,6 @@ export default class AdminAccessRequiredException extends Exception {
 	async handle(error: this, { session, response }: HttpContext) {
 		session.flash('error', error.message);
 
-		return response.redirectToNamedRoute('collection.favorites');
+		return response.redirectToNamedRoute('home');
 	}
 }
