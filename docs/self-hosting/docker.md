@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - **Docker** and **Docker Compose**
-- A `.env` file configured with all required environment variables — see [Configuration](/self-hosting/configuration)
+- A `.env` file configured with all required environment variables, see [Configuration](/self-hosting/configuration)
 
 ## 1. Create a directory for your deployment
 
@@ -55,7 +55,7 @@ volumes:
   favicon-volume:
 ```
 
-`favicon-volume` holds the cached favicon images (see [Configuration](/self-hosting/configuration#favicon-store)). Unlike `postgres-volume`, losing it isn't a data loss — the app re-downloads what it needs — but keeping it out of your backup strategy means a restore re-fetches every favicon from scratch instead of serving them immediately.
+`favicon-volume` holds the cached favicon images (see [Configuration](/self-hosting/configuration#favicon-store)). Unlike `postgres-volume`, losing it isn't a data loss (the app re-downloads what it needs), but keeping it out of your backup strategy means a restore re-fetches every favicon from scratch instead of serving them immediately.
 
 ## 3. Create your `.env`
 
@@ -67,7 +67,7 @@ Use [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example
 docker compose up -d
 ```
 
-This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies database migrations automatically, and starts the application in production mode — reachable on the port set in `PORT` (default `3333`). Account maintenance runs alongside it in the same container, flagging inactive accounts and deleting expired ones once their grace period runs out — no separate setup needed.
+This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies database migrations automatically, and starts the application in production mode, reachable on the port set in `PORT` (default `3333`). Account maintenance runs alongside it in the same container, flagging inactive accounts and deleting expired ones once their grace period runs out, with no separate setup needed.
 
 ## Native deployment
 
@@ -113,7 +113,7 @@ If you would rather run it without Docker:
 
 The application is reachable on the port set in `PORT`.
 
-Account maintenance (flagging inactive accounts, deleting expired ones) and the favicon store's orphan purge are not automatic here — the Docker path gets them for free, scheduled inside the application itself, but a native deployment needs its own system cron calling, from `build/`:
+Account maintenance (flagging inactive accounts, deleting expired ones) and the favicon store's orphan purge are not automatic here: the Docker path gets them for free, scheduled inside the application itself, but a native deployment needs its own system cron calling, from `build/`:
 
 ```bash
 node bin/console.js account:flag-inactive

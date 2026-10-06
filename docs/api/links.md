@@ -83,7 +83,7 @@ Create a new link in a collection.
 - `description` (optional): Link description (max 300 characters)
 - `url` (required): Link URL (valid URL format)
 - `favorite` (required): Whether the link is marked as favorite (boolean)
-- `collectionIds` (required): IDs of the collections this link belongs to (may be empty — falls back to the Inbox collection)
+- `collectionIds` (required): IDs of the collections this link belongs to (may be empty, falls back to the Inbox collection)
 
 **Response:**
 

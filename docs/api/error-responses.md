@@ -19,9 +19,9 @@ Clients should branch on the status, not on `message`:
 | Status | Meaning                                                         |
 | ------ | --------------------------------------------------------------- |
 | `400`  | Malformed request that carries no more specific status          |
-| `401`  | Token missing, expired or revoked — reconnect rather than retry |
+| `401`  | Token missing, expired or revoked: reconnect rather than retry |
 | `403`  | Authenticated, but the resource belongs to someone else         |
 | `404`  | No such collection or link                                      |
 | `422`  | Validation failed; `errors` lists the offending fields          |
-| `429`  | Rate limit exceeded — see [Rate limiting](/api/#rate-limiting)  |
+| `429`  | Rate limit exceeded: see [Rate limiting](/api/#rate-limiting)  |
 | `500`  | Unexpected server error                                         |

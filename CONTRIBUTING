@@ -2,7 +2,7 @@
 
 Thank you for considering contributing to MyLinks! We appreciate your time and want to keep the contribution process smooth and transparent.
 
-The full guide — development setup, pull request guidelines, and the test suites — lives at **[docs.mylinks.app/contributing](https://docs.mylinks.app/contributing)**.
+The full guide (development setup, pull request guidelines, and the test suites) lives at **[docs.mylinks.app/contributing](https://docs.mylinks.app/contributing)**.
 
 Before opening a pull request, run locally what CI runs on every push and PR ([`.github/workflows/ci.yml`](https://github.com/my-links/my-links/blob/main/.github/workflows/ci.yml)):
 

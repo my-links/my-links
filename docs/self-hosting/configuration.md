@@ -1,8 +1,8 @@
 # Configuration
 
-`.env.example` lives at the repository root — start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
+`.env.example` lives at the repository root: start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
 
-Where the actual `.env` goes depends on how you run the app. Docker Compose reads it from the repository root, next to the compose file. Native runs — migrations, `node ace`, the dev server — expect it inside `apps/webapp`, since that's where the `node ace` CLI itself resolves it from:
+Where the actual `.env` goes depends on how you run the app. Docker Compose reads it from the repository root, next to the compose file. Native runs (migrations, `node ace`, the dev server) expect it inside `apps/webapp`, since that's where the `node ace` CLI itself resolves it from:
 
 ```bash
 cp .env.example apps/webapp/.env
@@ -14,7 +14,7 @@ cp .env.example apps/webapp/.env
 | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
 | `NODE_ENV`                                                        | `development`, `production`, or `test`                           |
 | `PORT`                                                            | Port the application listens on, e.g. `3333`                     |
-| `APP_KEY`                                                         | Application secret key — generate with `openssl rand -base64 32` |
+| `APP_KEY`                                                         | Application secret key, generate with `openssl rand -base64 32` |
 | `HOST`                                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`            |
 | `LOG_LEVEL`                                                       | e.g. `info`, `debug`                                             |
 | `APP_URL`                                                         | Public application URL, e.g. `https://your-domain.com`           |
@@ -25,17 +25,17 @@ cp .env.example apps/webapp/.env
 | Variable                                    | Notes                                                                                      |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | `TZ`                                        | Timezone, e.g. `UTC`                                                                       |
-| `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups — see [Authentication](/self-hosting/authentication) |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in — see [Authentication](/self-hosting/authentication)                        |
-| `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail — see below                                                                  |
+| `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups, see [Authentication](/self-hosting/authentication) |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                        |
+| `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                  |
 
 ## Favicon store
 
-The application caches favicon images on disk instead of re-fetching them on every visit, at a fixed path (`storage/favicons` under the app root — `/app/storage/favicons` in the Docker image, persisted via the `favicon-volume` volume, see [Docker & compose](/self-hosting/docker)). Nothing to configure.
+The application caches favicon images on disk instead of re-fetching them on every visit, at a fixed path (`storage/favicons` under the app root, `/app/storage/favicons` in the Docker image, persisted via the `favicon-volume` volume, see [Docker & compose](/self-hosting/docker)). Nothing to configure.
 
-This is a cache, not user data: losing it just means the next visit to each site re-downloads its favicon. It's still worth keeping in your backup strategy for one reason — restoring it avoids a fresh round of outbound requests to every domain your instance has ever bookmarked, all at once, right after a restore.
+This is a cache, not user data: losing it just means the next visit to each site re-downloads its favicon. It's still worth keeping in your backup strategy for one reason: restoring it avoids a fresh round of outbound requests to every domain your instance has ever bookmarked, all at once, right after a restore.
 
-That leads to the actual thing to know before self-hosting this: resolving a favicon fetches it from the site itself, from your instance's server. On a single-user instance — the common case here — that means the site operator sees your instance's IP request its own favicon at the moment you bookmark it, which is a weaker anonymity property than on a shared multi-user instance where the same request is one among many users' traffic. No third-party fallback provider is contacted unless you explicitly configure one (a future setting, opt-in and disabled by default).
+That leads to the actual thing to know before self-hosting this: resolving a favicon fetches it from the site itself, from your instance's server. On a single-user instance (the common case here) that means the site operator sees your instance's IP request its own favicon at the moment you bookmark it, which is a weaker anonymity property than on a shared multi-user instance where the same request is one among many users' traffic. No third-party fallback provider is contacted unless you explicitly configure one (a future setting, opt-in and disabled by default).
 
 ## Google sign-in
 
@@ -52,7 +52,7 @@ Leave both empty to run without Google sign-in. Setting only one of the two is r
 
 ## Outgoing mail
 
-Email is optional. Leave every `SMTP_*` and `MAIL_*` variable empty and the instance runs without it — the behaviors below are simply unavailable, and account recovery goes through the `node ace user:*` commands instead (see [Console commands](/self-hosting/console-commands)).
+Email is optional. Leave every `SMTP_*` and `MAIL_*` variable empty and the instance runs without it: the behaviors below are simply unavailable, and account recovery goes through the `node ace user:*` commands instead (see [Console commands](/self-hosting/console-commands)).
 
 Setting any one of them commits you to a complete configuration: `SMTP_HOST` and `MAIL_FROM_ADDRESS` are then both required, and a partial configuration is rejected at boot rather than silently dropping the one email a locked-out user is waiting for.
 
@@ -73,8 +73,8 @@ Four behaviors switch on or off depending on whether mail is configured:
 | Behavior                    | Without outgoing mail                                      | With outgoing mail                                                        |
 | --------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
 | Signing in with a password  | No confirmation required                                   | A confirmed address is required; the login page offers to resend the link |
-| `/forgot-password`          | Unavailable — reset with `node ace user:reset-password`    | Sends a self-service reset link                                           |
-| Changing your email address | Unavailable from the settings page — use `node ace user:*` | Two-party confirmation: new address confirms, old address is notified     |
+| `/forgot-password`          | Unavailable: reset with `node ace user:reset-password`    | Sends a self-service reset link                                           |
+| Changing your email address | Unavailable from the settings page: use `node ace user:*` | Two-party confirmation: new address confirms, old address is notified     |
 | Admin-issued password reset | Console only: `node ace user:reset-password --link`        | The admin area can email the reset link directly                          |
 
 ### In development
