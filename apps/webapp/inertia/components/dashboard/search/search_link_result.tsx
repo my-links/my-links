@@ -28,6 +28,8 @@ export const SearchLinkResult = ({
 	const { link, nameRanges } = match;
 	const linkControlsRef = useRef<LinkControlsRef>(null);
 
+	const handleClick = () => handleResultClick(link);
+
 	const handleContextMenu = (e: React.MouseEvent) => {
 		// openContextMenu redispatches a synthetic contextmenu event on a node
 		// inside this same button, which bubbles back here; ignoring untrusted
@@ -44,7 +46,7 @@ export const SearchLinkResult = ({
 			key={`link-${link.id}`}
 			type="button"
 			data-result-index={resultIndex}
-			onClick={() => handleResultClick(link)}
+			onClick={handleClick}
 			onContextMenu={handleContextMenu}
 			className={cn(
 				'w-full text-left p-3 rounded-lg border transition-all flex items-start gap-3 cursor-pointer',

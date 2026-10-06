@@ -89,12 +89,14 @@ export function DataTable<TData>({
 						{columns.map((column) => {
 							const sortKey = column.sortKey;
 							if (sortKey && sorting) {
+								const handleSort = () => sorting.onSort(sortKey);
+
 								return (
 									<SortableTh
 										key={column.key}
 										sorted={sorting.sortBy === sortKey}
 										reversed={sorting.reversed}
-										onSort={() => sorting.onSort(sortKey)}
+										onSort={handleSort}
 									>
 										{column.header}
 									</SortableTh>

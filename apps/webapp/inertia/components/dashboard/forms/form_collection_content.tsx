@@ -1,4 +1,5 @@
 import { t } from '@lingui/core/macro';
+import type { ChangeEvent } from 'react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input, RadioOptions, Textarea } from '@minimalstuff/ui';
@@ -24,14 +25,23 @@ type FormCollectionContentProps = {
 	disableInputs?: boolean;
 };
 
-export const FormCollectionContent = ({
+export function FormCollectionContent({
 	data,
 	setData,
 	errors,
 	disableInputs = false,
-}: Readonly<FormCollectionContentProps>) => {
+}: Readonly<FormCollectionContentProps>) {
 	const handleEmojiClick = (emoji: string | null) => setData('icon', emoji);
 	const handleRemoveIcon = () => setData('icon', null);
+
+	const handleNameChange = (event: ChangeEvent<HTMLInputElement>) =>
+		setData('name', event.target.value);
+
+	const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
+		setData('description', event.target.value);
+
+	const handleVisibilityChange = (value: string) =>
+		setData('visibility', value as Visibility);
 
 	const visibilityOptions = [
 		{
@@ -80,7 +90,7 @@ export const FormCollectionContent = ({
 				type="text"
 				id="name"
 				value={data.name}
-				onChange={(e) => setData('name', e.target.value)}
+				onChange={handleNameChange}
 				placeholder={t`Name`}
 				error={Array.isArray(errors?.name) ? errors.name[0] : errors?.name}
 				disabled={disableInputs}
@@ -93,7 +103,7 @@ export const FormCollectionContent = ({
 				label={t`Description`}
 				id="description"
 				value={data.description ?? ''}
-				onChange={(e) => setData('description', e.target.value)}
+				onChange={handleDescriptionChange}
 				placeholder={t`Description`}
 				rows={3}
 				error={
@@ -109,11 +119,11 @@ export const FormCollectionContent = ({
 				label={<Trans>Visibility</Trans>}
 				options={visibilityOptions}
 				value={data.visibility}
-				onChange={(value) => setData('visibility', value as Visibility)}
+				onChange={handleVisibilityChange}
 				orientation="horizontal"
 				disabled={disableInputs}
 				required
 			/>
 		</div>
 	);
-};
+}

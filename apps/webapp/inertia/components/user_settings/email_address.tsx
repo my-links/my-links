@@ -23,6 +23,9 @@ export function EmailAddress() {
 		post(urlFor('auth.email.change'), { onSuccess: () => reset() });
 	};
 
+	const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setData('email', event.target.value);
+
 	return (
 		<div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
 			<div className="mb-4">
@@ -49,7 +52,7 @@ export function EmailAddress() {
 						id="newEmailAddress"
 						name="email"
 						value={data.email}
-						onChange={(event) => setData('email', event.target.value)}
+						onChange={handleEmailChange}
 						placeholder={t`you@example.com`}
 						error={errors.email}
 						autoComplete="email"

@@ -35,11 +35,13 @@ export function EmojiPicker({
 		setShowEmojiPicker(false);
 	};
 
+	const handleTogglePicker = () => setShowEmojiPicker(!showEmojiPicker);
+
 	return (
 		<div className="relative" ref={emojiPickerRef}>
 			<button
 				type="button"
-				onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+				onClick={handleTogglePicker}
 				disabled={disabled}
 				className={cn(
 					'w-12 h-12 flex items-center justify-center text-2xl border rounded-lg bg-white dark:bg-gray-800 transition-colors',

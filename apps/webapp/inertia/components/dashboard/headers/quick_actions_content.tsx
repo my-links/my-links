@@ -26,7 +26,7 @@ export function QuickActionsContent({
 	const isMobile = useIsMobile();
 	const { activeCollection } = useDashboardProps();
 
-	const handleQuickAction = (action: () => void) => {
+	const handleQuickAction = (action: () => void) => () => {
 		action();
 		onClose();
 	};
@@ -35,7 +35,7 @@ export function QuickActionsContent({
 		<>
 			<Button
 				variant="outline"
-				onClick={() => handleQuickAction(onOpenSearch)}
+				onClick={handleQuickAction(onOpenSearch)}
 				startIcon="i-ion-search"
 			>
 				<Trans>Search</Trans>
@@ -46,10 +46,7 @@ export function QuickActionsContent({
 					<Trans>Links</Trans>
 				</p>
 				{activeCollection?.isOwner !== false && (
-					<Button
-						color="primary"
-						onClick={() => handleQuickAction(onCreateLink)}
-					>
+					<Button color="primary" onClick={handleQuickAction(onCreateLink)}>
 						<Trans>
 							Create link {!isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>}
 						</Trans>
@@ -63,7 +60,7 @@ export function QuickActionsContent({
 				{activeCollection?.visibility === 'PUBLIC' && (
 					<Button
 						color="primary"
-						onClick={() => handleQuickAction(onHandleShareCollection)}
+						onClick={handleQuickAction(onHandleShareCollection)}
 					>
 						<div className="flex items-center gap-2">
 							<div className="i-ant-design-share-alt-outlined w-5 h-5" />
@@ -74,7 +71,7 @@ export function QuickActionsContent({
 
 				<Button
 					variant="subtle"
-					onClick={() => handleQuickAction(onCreateCollection)}
+					onClick={handleQuickAction(onCreateCollection)}
 				>
 					<Trans>
 						Create collection{' '}
@@ -88,13 +85,13 @@ export function QuickActionsContent({
 						<>
 							<Button
 								variant="outline"
-								onClick={() => handleQuickAction(onEditCollection)}
+								onClick={handleQuickAction(onEditCollection)}
 							>
 								<Trans>Edit collection</Trans>
 							</Button>
 							<Button
 								color="danger"
-								onClick={() => handleQuickAction(onDeleteCollection)}
+								onClick={handleQuickAction(onDeleteCollection)}
 								className="text-left"
 							>
 								<Trans>Delete collection</Trans>
@@ -103,10 +100,7 @@ export function QuickActionsContent({
 					)}
 
 				{!isFavorite && activeCollection?.isOwner === false && (
-					<Button
-						color="primary"
-						onClick={() => handleQuickAction(onHandleUnfollow)}
-					>
+					<Button color="primary" onClick={handleQuickAction(onHandleUnfollow)}>
 						<Trans>Unfollow</Trans>
 					</Button>
 				)}

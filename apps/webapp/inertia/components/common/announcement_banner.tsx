@@ -32,6 +32,8 @@ function AnnouncementBannerContent() {
 		return null;
 	}
 
+	const handleDismiss = () => dismiss(majorVersion);
+
 	return (
 		<div className="flex w-full items-center justify-center gap-3 bg-brand dark:bg-brand-dark px-4 py-2 text-sm text-paper">
 			<p>
@@ -51,7 +53,7 @@ function AnnouncementBannerContent() {
 				unstyled
 				className="text-paper hover:bg-white/10 rounded-md"
 				aria-label={t`Dismiss`}
-				onClick={() => dismiss(majorVersion)}
+				onClick={handleDismiss}
 			/>
 		</div>
 	);

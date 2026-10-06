@@ -23,6 +23,9 @@ export function DisplayName() {
 		put(urlFor('user.settings.rename'));
 	};
 
+	const handleNickNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setData('nickName', event.target.value);
+
 	return (
 		<div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
 			<div className="mb-4">
@@ -40,7 +43,7 @@ export function DisplayName() {
 					id="nickName"
 					name="nickName"
 					value={data.nickName}
-					onChange={(event) => setData('nickName', event.target.value)}
+					onChange={handleNickNameChange}
 					placeholder={t`Your name`}
 					error={errors.nickName}
 					autoComplete="nickname"

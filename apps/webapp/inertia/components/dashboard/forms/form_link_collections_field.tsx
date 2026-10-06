@@ -25,7 +25,7 @@ export function FormLinkCollectionsField({
 }: Readonly<FormLinkCollectionsFieldProps>) {
 	const [collectionSearch, setCollectionSearch] = useState('');
 
-	const toggleCollection = (collectionId: number) => {
+	const toggleCollection = (collectionId: number) => () => {
 		onChange(
 			selectedIds.includes(collectionId)
 				? selectedIds.filter((id) => id !== collectionId)
@@ -81,7 +81,7 @@ export function FormLinkCollectionsField({
 						id={`collection-${collection.id}`}
 						label={collection.name}
 						checked={selectedIds.includes(collection.id)}
-						onChange={() => toggleCollection(collection.id)}
+						onChange={toggleCollection(collection.id)}
 						disabled={disabled}
 					/>
 				))}

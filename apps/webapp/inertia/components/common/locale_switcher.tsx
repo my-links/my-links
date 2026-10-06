@@ -22,12 +22,15 @@ export function LocaleSwitcher() {
 		persistLocale(locale);
 	};
 
+	const handleSelectLocale = (locale: Locale) => () =>
+		void handleLocaleChange(locale);
+
 	return (
 		<div className="flex items-center gap-1 p-1 rounded-lg bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600">
 			{SUPPORTED_LOCALES.map((locale) => (
 				<button
 					key={locale}
-					onClick={() => void handleLocaleChange(locale)}
+					onClick={handleSelectLocale(locale)}
 					className={cn(
 						'px-2.5 py-1.5 rounded-md transition-all duration-200 cursor-pointer flex items-center justify-center',
 						i18n.locale === locale

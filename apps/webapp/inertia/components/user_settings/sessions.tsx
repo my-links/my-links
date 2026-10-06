@@ -1,10 +1,13 @@
 import { Trans } from '@lingui/react/macro';
-import { Badge, ConfirmModal, IconButton } from '@minimalstuff/ui';
+import { Badge, ConfirmModal } from '@minimalstuff/ui';
 
 import { formatDate } from '~/lib/format';
 import { useSessions } from '~/hooks/use_sessions';
 import { NaContent } from '~/components/common/na_content';
 import { DataTable } from '~/components/common/data_table/data_table';
+import { RevokeSessionButton } from '~/components/user_settings/revoke_session_button';
+
+const getRowKey = (session: { sessionId: string }) => session.sessionId;
 
 export function Sessions() {
 	const { sessions, revokeSession } = useSessions();
@@ -44,7 +47,7 @@ export function Sessions() {
 			{sessions.length > 0 && (
 				<DataTable
 					data={sessions}
-					getRowKey={(session) => session.sessionId}
+					getRowKey={getRowKey}
 					containerStyle={{ maxHeight: 300 }}
 					minWidthClassName="min-w-[700px]"
 					tableClassName="w-full"
@@ -106,12 +109,9 @@ export function Sessions() {
 							cellClassName:
 								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
 							render: (session) => (
-								<IconButton
-									icon="i-tabler-logout-2"
-									onClick={() => handleRevokeSession(session.sessionId)}
-									aria-label="Sign out session"
-									color="danger"
-									size="sm"
+								<RevokeSessionButton
+									sessionId={session.sessionId}
+									onRevoke={handleRevokeSession}
 								/>
 							),
 						},

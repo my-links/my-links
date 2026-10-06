@@ -43,6 +43,13 @@ export function CreateTokenModal({
 		}
 	};
 
+	const handleCreateClick = () => void handleCreate();
+
+	const handleTokenNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+		setTokenName(event.target.value);
+
+	const handleScopeChange = (value: string) => setScope(value as ApiTokenScope);
+
 	return (
 		<div className="space-y-4">
 			<p className="text-sm text-gray-600 dark:text-gray-300">
@@ -54,14 +61,14 @@ export function CreateTokenModal({
 				type="text"
 				placeholder={t({ message: 'Enter token name' })}
 				value={tokenName}
-				onChange={(e) => setTokenName(e.target.value)}
+				onChange={handleTokenNameChange}
 				required
 			/>
 			<RadioOptions
 				label={t({ message: 'Access' })}
 				options={scopeOptions}
 				value={scope}
-				onChange={(value) => setScope(value as ApiTokenScope)}
+				onChange={handleScopeChange}
 			/>
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
 				<Button
@@ -74,7 +81,7 @@ export function CreateTokenModal({
 				</Button>
 				<Button
 					type="button"
-					onClick={() => void handleCreate()}
+					onClick={handleCreateClick}
 					disabled={!tokenName.trim() || isLoading}
 				>
 					{isLoading && (

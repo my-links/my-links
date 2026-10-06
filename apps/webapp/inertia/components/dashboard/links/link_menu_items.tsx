@@ -31,9 +31,7 @@ export function LinkMenuItems({
 				<MenuItem
 					key={collection.id}
 					icon="i-fa6-regular-eye"
-					onClick={(event) =>
-						actions.handleGoToCollection(collection.id, event)
-					}
+					onClick={actions.handleGoToCollection(collection.id)}
 				>
 					<Trans>Go to {collection.name}</Trans>
 				</MenuItem>

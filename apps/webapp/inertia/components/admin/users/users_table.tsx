@@ -7,6 +7,7 @@ import { useUsersSelection } from '~/hooks/admin/use_users_selection';
 import { DataTable } from '~/components/common/data_table/data_table';
 import { useDeleteSelectedUsers } from '~/hooks/admin/use_delete_selected_users';
 import { UsersTableToolbar } from '~/components/admin/users/users_table_toolbar';
+import { UserSelectCheckbox } from '~/components/admin/users/user_select_checkbox';
 import { UsersTableEmptyState } from '~/components/admin/users/users_table_empty_state';
 import {
 	USERS_TABLE_COLUMNS,
@@ -68,11 +69,10 @@ export function UsersTable({ users }: Readonly<UsersTableProps>) {
 			/>
 		),
 		render: (user: UserWithCounters) => (
-			<Checkbox
-				checked={selectedUserIds.has(user.id)}
-				disabled={user.isAdmin}
-				onChange={(event) => setUserSelected(user.id, event.target.checked)}
-				aria-label={`Select user ${user.fullname}`}
+			<UserSelectCheckbox
+				user={user}
+				isSelected={selectedUserIds.has(user.id)}
+				onSelectionChange={setUserSelected}
 			/>
 		),
 	};

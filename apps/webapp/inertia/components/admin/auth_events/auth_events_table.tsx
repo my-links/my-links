@@ -14,10 +14,12 @@ type AuthEventsTableProps = {
 	events: AuthEvent[];
 };
 
+const getRowKey = (event: AuthEvent) => String(event.id);
+
 export const AuthEventsTable = ({ events }: Readonly<AuthEventsTableProps>) => (
 	<DataTable<AuthEvent>
 		data={events}
-		getRowKey={(event) => String(event.id)}
+		getRowKey={getRowKey}
 		minWidthClassName="min-w-[980px]"
 		columns={[
 			{
