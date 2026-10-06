@@ -19,14 +19,14 @@ const SEEDED_USERS_COUNT = 25;
  * `main/index_seeder.ts` — so this known password stays in throwaway
  * databases.
  */
-const ADMIN_EMAIL = 'admin@example.com';
+export const ADMIN_EMAIL = 'admin@example.com';
 const ADMIN_PASSWORD = '^bW4zyz3Tidjqe';
-const USER_EMAIL = 'user@example.com';
+export const USER_EMAIL = 'user@example.com';
 const USER_PASSWORD = '^bW4zyz3Tidjqe';
 
 /**
  * Kept separate from `USER_EMAIL` on purpose: this account is used to test
- * empty states, so `collection_seeder`/`link_seeder` must exclude it. See
+ * empty states, so `collection_seeder`/`link_seeder` must not seed it. See
  * `EMPTY_USER_EMAIL` export below.
  */
 export const EMPTY_USER_EMAIL = 'user2@example.com';
@@ -104,7 +104,7 @@ export default class extends BaseSeeder {
 
 	/**
 	 * Same creds pattern as `seedUser`, but deliberately left out of
-	 * `seedInboxes` and excluded from `collection_seeder`/`link_seeder` so it
+	 * `seedInboxes` and never seeded by `collection_seeder`/`link_seeder` so it
 	 * stays a clean empty-state account.
 	 */
 	private async seedEmptyUser(): Promise<User> {

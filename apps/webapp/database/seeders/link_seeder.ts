@@ -4,8 +4,12 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
+import { getSeededAuthorIds } from '#database/seeders/collection_seeder';
 
-const LINKS_PER_COLLECTION = 15;
+const MIN_LINKS_PER_COLLECTION = 0;
+const MAX_LINKS_PER_COLLECTION = 8;
+const MIN_LINKS_PER_INBOX = 0;
+const MAX_LINKS_PER_INBOX = 3;
 const DESCRIPTION_MAX_LENGTH = 254;
 
 /**
@@ -61,11 +65,12 @@ export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
-		const collections = await Collection.all();
+		const authorIds = await getSeededAuthorIds();
+		const collections = await Collection.query().whereIn('authorId', authorIds);
 
 		const seededLinks = collections.flatMap((collection) =>
 			faker.helpers.multiple(() => createRandomLink(collection), {
-				count: LINKS_PER_COLLECTION,
+				count: faker.number.int(getLinksRange(collection)),
 			})
 		);
 
@@ -81,6 +86,12 @@ export default class extends BaseSeeder {
 			)
 		);
 	}
+}
+
+function getLinksRange(collection: Collection) {
+	return collection.isDefault
+		? { min: MIN_LINKS_PER_INBOX, max: MAX_LINKS_PER_INBOX }
+		: { min: MIN_LINKS_PER_COLLECTION, max: MAX_LINKS_PER_COLLECTION };
 }
 
 function createRandomLink(collection: Collection): SeededLink {

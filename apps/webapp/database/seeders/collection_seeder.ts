@@ -4,27 +4,31 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders';
 import User from '#models/user';
 import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { EMPTY_USER_EMAIL } from '#database/seeders/user_seeder';
+import { ADMIN_EMAIL, USER_EMAIL } from '#database/seeders/user_seeder';
 
-const COLLECTIONS_PER_USER = 10;
+const MIN_COLLECTIONS_PER_USER = 3;
+const MAX_COLLECTIONS_PER_USER = 6;
 
 export default class extends BaseSeeder {
 	static environment = ['development', 'testing'];
 
 	async run() {
-		const userIds = await getUserIds();
+		const authorIds = await getSeededAuthorIds();
 
-		const collections = userIds.flatMap((authorId) =>
+		const collections = authorIds.flatMap((authorId) =>
 			faker.helpers.multiple(() => createRandomCollection(authorId), {
-				count: COLLECTIONS_PER_USER,
+				count: faker.number.int({
+					min: MIN_COLLECTIONS_PER_USER,
+					max: MAX_COLLECTIONS_PER_USER,
+				}),
 			})
 		);
 		await Collection.createMany(collections);
 	}
 }
 
-export async function getUserIds() {
-	const users = await User.query().whereNot('email', EMPTY_USER_EMAIL);
+export async function getSeededAuthorIds() {
+	const users = await User.query().whereIn('email', [ADMIN_EMAIL, USER_EMAIL]);
 	return users.map(({ id }) => id);
 }
 
