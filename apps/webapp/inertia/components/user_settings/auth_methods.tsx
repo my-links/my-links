@@ -67,7 +67,7 @@ export function AuthMethods() {
 								{hasPassword ? (
 									<Trans>Enabled</Trans>
 								) : (
-									<Trans>Not set — use the form below to add one</Trans>
+									<Trans>Not set. Use the form below to add one</Trans>
 								)}
 							</p>
 						</div>
