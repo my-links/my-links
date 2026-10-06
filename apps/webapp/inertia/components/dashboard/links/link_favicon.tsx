@@ -17,7 +17,7 @@ export const LinkFavicon = ({
 
 	return (
 		<img
-			src={`/favicon?url=${url}&v=${version}`}
+			src={`/favicon?url=${encodeURIComponent(url)}&v=${version}`}
 			height={size}
 			width={size}
 			alt="icon"
