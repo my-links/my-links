@@ -32,9 +32,7 @@ export default class FaviconsController {
 	) {
 		ctx.response.header('Content-Type', type);
 		ctx.response.header('Content-Length', size.toString());
-		// A placeholder is a stand-in for a resolution still running in the
-		// background — caching it long would leave the browser showing it
-		// forever, past the point the real icon is already resolved.
+		// A placeholder stands in for a resolution still running, so caching it long would hide the real icon.
 		ctx.response.header(
 			'Cache-Control',
 			isPlaceholder ? 'no-store' : 'public, max-age=604800'

@@ -20,8 +20,7 @@ test.group('sniffImageType', () => {
 	test('should identify an ICO served with the wrong Content-Type', ({
 		assert,
 	}) => {
-		// A real-world case: a valid .ico served as application/octet-stream,
-		// which a Content-Type-only check would reject.
+		// A valid .ico served as application/octet-stream, which a Content-Type-only check would reject.
 		const buffer = Buffer.from([0x00, 0x00, 0x01, 0x00, 0x01, 0x00]);
 
 		assert.equal(sniffImageType(buffer), 'image/x-icon');

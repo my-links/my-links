@@ -72,10 +72,7 @@ test.group('CacheService.getOrSetFavicon', (group) => {
 	test('should serve from the durable store without the network factory after the in-memory cache is evicted', async ({
 		assert,
 	}) => {
-		// Simulates what a process restart does to bentocache's memory-only L1:
-		// the metadata cache entry is gone, but the favicon_entries row and the
-		// on-disk bytes survive — that durability is the whole point of the
-		// content-addressed store.
+		// Simulates a restart wiping the memory-only L1: the entry row and on-disk bytes must survive.
 		const cacheService = await buildCacheService();
 		const url = `https://cache-service-cold-cache-test-${Date.now()}.example`;
 		const original = fakeFavicon(url);

@@ -48,8 +48,7 @@ test.group('generateMonogram', () => {
 	test('should escape an initial that would otherwise break out of the SVG', ({
 		assert,
 	}) => {
-		// An unparsable origin falls back to using the raw string as the
-		// "hostname", so its first character becomes the initial verbatim.
+		// An unparsable origin is used as the raw "hostname", so its first character becomes the initial.
 		const svg = svgOf('<script>alert(1)</script>');
 
 		assert.include(svg, '>&lt;</text>');

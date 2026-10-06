@@ -36,10 +36,7 @@ async function createEntry(
 test.group('FaviconOrphanPurgeService.purgeOrphans', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	// Assertions target the specific rows/files each test creates rather than
-	// the aggregate counts in the result: the transaction wraps this test's
-	// own writes, but the counts would otherwise also reflect whatever else
-	// happens to be sitting in a developer's database.
+	// Assert on this test's own rows and files, since a developer's database may hold others.
 
 	test('should keep entries whose origin still has a link', async ({
 		assert,

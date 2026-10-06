@@ -79,9 +79,7 @@ function createFailure(origin: string): Promise<FaviconFailure> {
 test.group('FaviconAdminService.getStats', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	// Deltas rather than absolute totals: the transaction wraps this test's
-	// own writes, but the counts would otherwise also reflect whatever else
-	// happens to be sitting in a developer's database.
+	// Deltas rather than totals, since a developer's database may hold other rows.
 
 	test('should count entries and sum their byte sizes', async ({ assert }) => {
 		const { adminService, store } = await buildAdminService();
@@ -232,10 +230,7 @@ test.group('FaviconAdminService.reResolveFailures', (group) => {
 test.group('FaviconAdminService.reResolveAll', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	// A shared dev DB can already carry real favicon_entries outside this
-	// test's transaction (see the note on `FaviconOrphanPurgeService` above),
-	// and `reResolveAll` deliberately re-scrapes everything — so assertions
-	// track calls made for this test's own origin, never the raw totals.
+	// A shared dev DB may hold real entries that `reResolveAll` re-scrapes, so assert only on this test's origin.
 
 	test('should re-scrape every resolved entry, not only failing ones', async ({
 		assert,

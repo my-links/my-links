@@ -4,10 +4,10 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
-test.group('GET /favicon — cache headers', (group) => {
+test.group('GET /favicon: cache headers', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should never let the browser cache a placeholder — it would hide the real icon once resolved', async ({
+	test('should never let the browser cache a placeholder: it would hide the real icon once resolved', async ({
 		client,
 	}) => {
 		const url = `https://render-placeholder-test-${Date.now()}.example`;
@@ -21,9 +21,7 @@ test.group('GET /favicon — cache headers', (group) => {
 		client,
 	}) => {
 		const url = `https://render-resolved-test-${Date.now()}.example`;
-		// Cast needed: the real class carries private members a plain double
-		// can't structurally satisfy, even though it's a valid runtime
-		// substitute here.
+		// Cast needed: the real class has private members a plain double cannot satisfy.
 		app.container.swap(
 			FaviconResolutionService,
 			() =>

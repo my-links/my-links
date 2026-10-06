@@ -4,12 +4,7 @@ import type { CommandOptions } from '@adonisjs/core/types/ace';
 
 import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
 
-/**
- * CLI entry point for `FaviconOrphanPurgeService.purgeOrphans` — used by
- * native (non-Docker) deployments, which schedule it themselves via system
- * cron. The Docker image runs the same logic on a schedule instead, from
- * `start/scheduler.ts`.
- */
+/** Native (non-Docker) deployments schedule this via system cron; the Docker image runs it from `start/scheduler.ts`. */
 export default class PurgeFaviconOrphans extends BaseCommand {
 	static commandName = 'favicon:purge-orphans';
 	static description =

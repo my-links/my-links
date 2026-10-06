@@ -16,8 +16,7 @@ test.group('resolveUrl', () => {
 	test('should resolve an absolute href, ignoring the base entirely', ({
 		assert,
 	}) => {
-		// The github.com bug: the old buildFaviconUrl concatenated the base in
-		// front of an already-absolute href.
+		// The github.com bug: the base was concatenated in front of an already-absolute href.
 		assert.equal(
 			resolveUrl('https://github.com/fluidicon.png', 'https://github.com/'),
 			'https://github.com/fluidicon.png'
@@ -159,8 +158,7 @@ test.group('extractLinkIconCandidates', () => {
 	test('should resolve an absolute href without concatenating the base', ({
 		assert,
 	}) => {
-		// vercel.com / lemonde.fr bug: buildFaviconUrl produced
-		// "https://vercel.com/https://assets.vercel.com/...".
+		// vercel.com / lemonde.fr bug: produced "https://vercel.com/https://assets.vercel.com/...".
 		const document = parseDocument(
 			'<html><head><link rel="icon" href="https://assets.vercel.com/icon.png"></head></html>'
 		);

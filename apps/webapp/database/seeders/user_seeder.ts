@@ -24,11 +24,7 @@ const ADMIN_PASSWORD = '^bW4zyz3Tidjqe';
 export const USER_EMAIL = 'user@example.com';
 const USER_PASSWORD = '^bW4zyz3Tidjqe';
 
-/**
- * Kept separate from `USER_EMAIL` on purpose: this account is used to test
- * empty states, so `collection_seeder`/`link_seeder` must not seed it. See
- * `EMPTY_USER_EMAIL` export below.
- */
+/** Separate from `USER_EMAIL`: this account tests empty states, so the other seeders must not seed it. */
 export const EMPTY_USER_EMAIL = 'user2@example.com';
 const EMPTY_USER_PASSWORD = '^bW4zyz3Tidjqe';
 
@@ -102,11 +98,7 @@ export default class extends BaseSeeder {
 		return user;
 	}
 
-	/**
-	 * Same creds pattern as `seedUser`, but deliberately left out of
-	 * `seedInboxes` and never seeded by `collection_seeder`/`link_seeder` so it
-	 * stays a clean empty-state account.
-	 */
+	/** Never seeded by `collection_seeder`/`link_seeder`, so it stays a clean empty-state account. */
 	private async seedEmptyUser(): Promise<User> {
 		const emptyUser = await User.updateOrCreate(
 			{ email: EMPTY_USER_EMAIL },

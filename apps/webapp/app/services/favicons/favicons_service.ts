@@ -164,9 +164,7 @@ export class FaviconService {
 		}
 	}
 
-	// A <meta http-equiv=refresh> landing page (e.g. a locale router) never
-	// declares its own icon — the real one lives on whatever page it lands
-	// on, same as a browser would actually settle there.
+	// A meta refresh landing page never declares its own icon: the real one lives on the page it lands on.
 	private async fetchDocument(
 		url: string
 	): Promise<{ html: string; finalUrl: string } | undefined> {
@@ -287,7 +285,7 @@ export class FaviconService {
 		};
 	}
 
-	// Rejected mid-stream, not buffered then measured — a decompression bomb never sits fully in memory first.
+	// Rejected mid-stream, not buffered then measured, a decompression bomb never sits fully in memory first.
 	private async readImageBodyCapped(
 		body: ReadableStream<Uint8Array>,
 		url: string

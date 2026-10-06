@@ -71,9 +71,7 @@ export function LinkControls({
 		? link
 		: null;
 
-	// Excludes the collection the user is already looking at: "go to the
-	// collection you're viewing" is redundant there, but a link can belong to
-	// other collections too (e.g. from a cross-collection view like search).
+	// Excludes the collection already being viewed, but a link can belong to others (e.g. from search).
 	const linkCollections = useMemo(() => {
 		if (!linkWithCollections) return [];
 		return myCollections.filter(

@@ -71,8 +71,7 @@ test.group('Reorder collection links', (group) => {
 			.loginAs(follower)
 			.redirects(0);
 
-		// Session requests get bounced to the landing page on a missing row rather
-		// than a raw 404 — see HttpExceptionHandler#handle.
+		// Session requests are bounced to the landing page on a missing row, see HttpExceptionHandler#handle.
 		response.assertStatus(302);
 		response.assertHeader('location', '/');
 	});

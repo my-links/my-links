@@ -11,12 +11,7 @@ export default class FaviconNotFoundException extends Exception {
 		super(message, { status: 404, code: 'E_FAVICON_NOT_FOUND' });
 	}
 
-	/**
-	 * Only reached from a user-triggered refresh — the background resolution
-	 * path always swallows this exception itself. Flashes back onto the page
-	 * rather than the generic 404 page, since the link this failed for is
-	 * still perfectly valid.
-	 */
+	/** Only reached from a user-triggered refresh (background resolution swallows it), so flash back instead of a 404 page. */
 	async handle(_error: this, { session, response }: HttpContext) {
 		session.flash('error', REFRESH_FAILED_MESSAGE);
 		return response.redirect().back();

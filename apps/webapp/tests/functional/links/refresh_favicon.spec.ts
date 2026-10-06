@@ -10,8 +10,7 @@ import { FaviconResolutionService } from '#services/favicons/favicon_resolution_
 
 const HOME_ROUTE = '/';
 
-// Cast needed: the real class carries private members a plain double can't
-// structurally satisfy, even though it's a valid runtime substitute here.
+// Cast needed: the real class has private members a plain double cannot satisfy.
 function swapResolutionService(favicon: Favicon | Error) {
 	app.container.swap(
 		FaviconResolutionService,
