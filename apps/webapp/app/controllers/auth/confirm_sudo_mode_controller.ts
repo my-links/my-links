@@ -11,7 +11,7 @@ import { GoogleAuthConfigService } from '#services/auth/google_auth_config_servi
 import { sudoConfirmationValidator } from '#validators/auth/sudo_confirmation_validator';
 
 @inject()
-export default class SudoModeController {
+export default class ConfirmSudoModeController {
 	constructor(
 		protected readonly sudoModeService: SudoModeService,
 		protected readonly passwordService: PasswordService,

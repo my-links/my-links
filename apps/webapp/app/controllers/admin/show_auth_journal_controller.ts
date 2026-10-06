@@ -16,7 +16,7 @@ const FIRST_PAGE = 1;
  * it ever saw.
  */
 @inject()
-export default class AuthJournalController {
+export default class ShowAuthJournalController {
 	constructor(protected readonly authEventService: AuthEventService) {}
 
 	async render({ inertia, request }: HttpContext) {

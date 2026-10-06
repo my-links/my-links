@@ -4,7 +4,7 @@ import { controllers } from '#generated/controllers';
 
 router
 	.get('/shared/:id', [
-		controllers.sharedCollections.SharedCollections,
+		controllers.sharedCollections.ShowSharedCollection,
 		'render',
 	])
 	.as('shared');

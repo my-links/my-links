@@ -115,14 +115,14 @@ router.group(() => {
 		.use(loginThrottles);
 	router
 		.post('/reactivate/decline', [
-			controllers.auth.ReactivateAccount,
-			'decline',
+			controllers.auth.DeclineAccountReactivation,
+			'execute',
 		])
 		.as('auth.reactivate.decline');
 });
 
 router
-	.get('/google', [controllers.auth.GoogleAuth, 'execute'])
+	.get('/google', [controllers.auth.StartGoogleAuth, 'execute'])
 	.as('auth')
 	.prefix(ROUTES_PREFIX)
 	.use(guestOnly);
@@ -132,7 +132,7 @@ router
 // has to make. The callback URL is fixed in the provider's configuration, so a
 // second route would mean every self-hoster registering a second redirect URI.
 router
-	.get('/callback', [controllers.auth.OauthCallback, 'execute'])
+	.get('/callback', [controllers.auth.HandleOauthCallback, 'execute'])
 	.as('auth.callback')
 	.prefix(ROUTES_PREFIX);
 
@@ -148,14 +148,19 @@ router
 // — guarding it with sudo mode would be a loop.
 router
 	.group(() => {
-		router.get('/sudo', [controllers.auth.SudoMode, 'render']).as('auth.sudo');
 		router
-			.post('/sudo', [controllers.auth.SudoMode, 'execute'])
+			.get('/sudo', [controllers.auth.ConfirmSudoMode, 'render'])
+			.as('auth.sudo');
+		router
+			.post('/sudo', [controllers.auth.ConfirmSudoMode, 'execute'])
 			.as('auth.sudo.submit')
 			.use(sudoConfirmationThrottles);
 
 		router
-			.get('/sudo/google', [controllers.auth.SudoModeGoogle, 'execute'])
+			.get('/sudo/google', [
+				controllers.auth.ConfirmSudoModeWithGoogle,
+				'execute',
+			])
 			.as('auth.sudo.google');
 	})
 	.use(middleware.auth());

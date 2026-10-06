@@ -5,7 +5,9 @@ import { apiMiddleware } from '#routes/api/api_middleware';
 
 router
 	.group(() => {
-		router.get('', [controllers.api.sync.Sync, 'render']).as('api-sync.delta');
+		router
+			.get('', [controllers.api.sync.ShowSyncDelta, 'render'])
+			.as('api-sync.delta');
 	})
 	.prefix('/api/v1/sync')
 	.middleware(apiMiddleware);

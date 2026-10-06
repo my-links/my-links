@@ -54,7 +54,7 @@ const PROVIDER_LINKED_MESSAGE = 'That sign-in method has been added';
  * whichever the departing request armed.
  */
 @inject()
-export default class OauthCallbackController {
+export default class HandleOauthCallbackController {
 	constructor(
 		protected readonly sessionService: SessionService,
 		protected readonly sudoModeService: SudoModeService,

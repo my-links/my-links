@@ -20,7 +20,7 @@ router
 
 router
 	.group(() => {
-		router.get('/', [controllers.links.GetLinks, 'render']).as('link.index');
+		router.get('/', [controllers.links.ShowLinks, 'render']).as('link.index');
 
 		router
 			.post('/', [controllers.links.CreateLink, 'execute'])
@@ -31,7 +31,7 @@ router
 			.as('link.edit');
 
 		router
-			.put('/:id/favorite', [controllers.links.ToggleFavorite, 'execute'])
+			.put('/:id/favorite', [controllers.links.ToggleLinkFavorite, 'execute'])
 			.as('link.toggle-favorite');
 
 		router

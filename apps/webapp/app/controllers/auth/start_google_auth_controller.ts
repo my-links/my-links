@@ -6,7 +6,7 @@ import { GoogleAuthConfigService } from '#services/auth/google_auth_config_servi
 import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
 
 @inject()
-export default class GoogleAuthController {
+export default class StartGoogleAuthController {
 	constructor(
 		protected readonly googleAuthConfigService: GoogleAuthConfigService
 	) {}

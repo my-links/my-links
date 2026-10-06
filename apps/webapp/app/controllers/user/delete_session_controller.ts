@@ -5,7 +5,7 @@ import { SessionService } from '#services/user/session_service';
 import { deleteSessionValidator } from '#validators/user/session/delete_session';
 
 @inject()
-export default class DestroySessionController {
+export default class DeleteSessionController {
 	constructor(protected readonly sessionService: SessionService) {}
 
 	async execute({ request, response, auth }: HttpContext) {

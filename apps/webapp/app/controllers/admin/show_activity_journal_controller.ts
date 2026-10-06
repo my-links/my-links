@@ -17,7 +17,7 @@ const FIRST_PAGE = 1;
  * row it ever saw.
  */
 @inject()
-export default class ActivityJournalController {
+export default class ShowActivityJournalController {
 	constructor(protected readonly activityEventService: ActivityEventService) {}
 
 	async render({ inertia, request }: HttpContext) {

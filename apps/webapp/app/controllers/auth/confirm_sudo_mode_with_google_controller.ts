@@ -20,7 +20,7 @@ import { SudoConfirmationFailedException } from '#exceptions/auth/sudo_confirmat
  * the provider it already trusts is the only proof it can give.
  */
 @inject()
-export default class SudoModeGoogleController {
+export default class ConfirmSudoModeWithGoogleController {
 	constructor(
 		protected readonly oauthIntentService: OauthIntentService,
 		protected readonly oauthAccountService: OauthAccountService,

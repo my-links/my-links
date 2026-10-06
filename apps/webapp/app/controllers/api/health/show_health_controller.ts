@@ -16,7 +16,7 @@ const capabilities = {
 	clickTracking: true,
 } as const;
 
-export default class HealthController {
+export default class ShowHealthController {
 	async render({ response }: HttpContext) {
 		const report = await healthChecks.run();
 		const result = {

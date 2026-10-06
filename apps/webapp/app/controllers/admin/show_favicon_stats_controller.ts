@@ -4,7 +4,7 @@ import { HttpContext } from '@adonisjs/core/http';
 import { FaviconAdminService } from '#services/favicons/favicon_admin_service';
 
 @inject()
-export default class FaviconStatsController {
+export default class ShowFaviconStatsController {
 	constructor(protected readonly faviconAdminService: FaviconAdminService) {}
 
 	async render({ inertia }: HttpContext) {

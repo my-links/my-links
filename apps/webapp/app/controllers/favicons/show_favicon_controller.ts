@@ -9,7 +9,7 @@ import { renderFaviconValidator } from '#validators/favicons/render_favicon_vali
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 @inject()
-export default class FaviconsController {
+export default class ShowFaviconController {
 	private defaultFavicon: Favicon | null = null;
 
 	constructor(protected readonly resolutionService: FaviconResolutionService) {}

@@ -6,7 +6,7 @@ import { apiMiddleware } from '#routes/api/api_middleware';
 router
 	.group(() => {
 		router
-			.get('/check', [controllers.api.tokens.ApiToken, 'render'])
+			.get('/check', [controllers.api.tokens.CheckApiToken, 'render'])
 			.as('api-tokens.index');
 	})
 	.prefix('/api/v1/tokens')
