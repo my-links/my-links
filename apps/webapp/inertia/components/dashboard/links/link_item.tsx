@@ -38,6 +38,10 @@ export function LinkItem({
 	const linkControlsRef = useRef<LinkControlsRef>(null);
 	const [faviconCacheBust, setFaviconCacheBust] = useState(0);
 
+	const handleFaviconRefreshed = () => {
+		setFaviconCacheBust((version) => version + 1);
+	};
+
 	const handleClick = (e: React.MouseEvent) => {
 		if (shouldSuppressClick()) {
 			e.preventDefault();
@@ -134,9 +138,7 @@ export function LinkItem({
 						<LinkControls
 							ref={linkControlsRef}
 							link={link}
-							onFaviconRefreshed={() =>
-								setFaviconCacheBust((version) => version + 1)
-							}
+							onFaviconRefreshed={handleFaviconRefreshed}
 						/>
 					</div>
 				)}

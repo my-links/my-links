@@ -251,8 +251,8 @@ msgstr "Can't create, edit, or delete anything"
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
 #: inertia/components/user_settings/sessions.tsx:24
-#: inertia/pages/admin/favicons.tsx:67
-#: inertia/pages/admin/favicons.tsx:84
+#: inertia/pages/admin/favicons.tsx:38
+#: inertia/pages/admin/favicons.tsx:55
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -505,8 +505,8 @@ msgstr "Database connection"
 msgid "Database connections"
 msgstr "Database connections"
 
-#: inertia/components/user_settings/preferences.tsx:76
-#: inertia/components/user_settings/preferences.tsx:88
+#: inertia/components/user_settings/preferences.tsx:85
+#: inertia/components/user_settings/preferences.tsx:97
 msgid "Default page"
 msgstr "Default page"
 
@@ -678,7 +678,7 @@ msgstr "Every browser session and every extension token of this account will sto
 msgid "Every collection and link change this instance recorded, newest first."
 msgstr "Every collection and link change this instance recorded, newest first."
 
-#: inertia/pages/admin/favicons.tsx:77
+#: inertia/pages/admin/favicons.tsx:48
 msgid "Every known domain is re-scraped in place. Links keep their current icon until a fresher one actually lands. Can take a while on a large store."
 msgstr "Every known domain is re-scraped in place. Links keep their current icon until a fresher one actually lands. Can take a while on a large store."
 
@@ -686,7 +686,7 @@ msgstr "Every known domain is re-scraped in place. Links keep their current icon
 msgid "Every other session and every extension token will be signed out."
 msgstr "Every other session and every extension token will be signed out."
 
-#: inertia/pages/admin/favicons.tsx:60
+#: inertia/pages/admin/favicons.tsx:31
 msgid "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view. Nothing is lost permanently, but every domain gets re-fetched again."
 msgstr "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view. Nothing is lost permanently, but every domain gets re-fetched again."
 
@@ -725,8 +725,8 @@ msgid "Failing"
 msgstr "Failing"
 
 #: inertia/components/admin/admin_tabs.tsx:45
-#: inertia/pages/admin/favicons.tsx:91
-#: inertia/pages/admin/favicons.tsx:144
+#: inertia/pages/admin/favicons.tsx:62
+#: inertia/pages/admin/favicons.tsx:115
 msgid "Favicons"
 msgstr "Favicons"
 
@@ -739,7 +739,7 @@ msgstr "Favorite"
 
 #: inertia/components/dashboard/headers/dashboard_header.tsx:70
 #: inertia/components/tour/dashboard_tour.tsx:30
-#: inertia/components/user_settings/preferences.tsx:40
+#: inertia/components/user_settings/preferences.tsx:42
 #: inertia/pages/dashboard.tsx:117
 msgid "Favorites"
 msgstr "Favorites"
@@ -752,15 +752,15 @@ msgstr "Find it in a search, not a scroll"
 msgid "Firefox extension"
 msgstr "Firefox extension"
 
-#: inertia/pages/admin/favicons.tsx:66
+#: inertia/pages/admin/favicons.tsx:37
 msgid "Flush"
 msgstr "Flush"
 
-#: inertia/pages/admin/favicons.tsx:134
+#: inertia/pages/admin/favicons.tsx:105
 msgid "Flush store"
 msgstr "Flush store"
 
-#: inertia/pages/admin/favicons.tsx:58
+#: inertia/pages/admin/favicons.tsx:29
 msgid "Flush the favicon store"
 msgstr "Flush the favicon store"
 
@@ -862,7 +862,7 @@ msgstr "Icon"
 msgid "Import"
 msgstr "Import"
 
-#: inertia/components/dashboard/links/link_item.tsx:112
+#: inertia/components/dashboard/links/link_item.tsx:116
 msgid "In {collectionCount} collections"
 msgstr "In {collectionCount} collections"
 
@@ -887,7 +887,7 @@ msgid "In search"
 msgstr "In search"
 
 #: inertia/components/tour/dashboard_tour.tsx:38
-#: inertia/components/user_settings/preferences.tsx:41
+#: inertia/components/user_settings/preferences.tsx:43
 msgid "Inbox"
 msgstr "Inbox"
 
@@ -912,11 +912,11 @@ msgstr "Just now"
 msgid "Keyboard shortcuts"
 msgstr "Keyboard shortcuts"
 
-#: inertia/components/user_settings/preferences.tsx:64
+#: inertia/components/user_settings/preferences.tsx:73
 msgid "Language"
 msgstr "Language"
 
-#: inertia/components/user_settings/preferences.tsx:56
+#: inertia/components/user_settings/preferences.tsx:65
 msgid "Language and theme apply to this device only. The default page follows your account."
 msgstr "Language and theme apply to this device only. The default page follows your account."
 
@@ -1017,7 +1017,7 @@ msgstr "Logout"
 msgid "Made by"
 msgstr "Made by"
 
-#: inertia/pages/admin/favicons.tsx:117
+#: inertia/pages/admin/favicons.tsx:88
 msgid "Maintenance"
 msgstr "Maintenance"
 
@@ -1237,7 +1237,7 @@ msgstr "Picked up collection in {0}."
 msgid "Picked up link."
 msgstr "Picked up link."
 
-#: inertia/components/user_settings/preferences.tsx:54
+#: inertia/components/user_settings/preferences.tsx:63
 msgid "Preferences"
 msgstr "Preferences"
 
@@ -1264,7 +1264,7 @@ msgstr "Promote to administrator"
 msgid "Public"
 msgstr "Public"
 
-#: inertia/pages/admin/favicons.tsx:121
+#: inertia/pages/admin/favicons.tsx:92
 msgid "Purge orphaned entries"
 msgstr "Purge orphaned entries"
 
@@ -1272,16 +1272,16 @@ msgstr "Purge orphaned entries"
 msgid "Quick Actions"
 msgstr "Quick Actions"
 
-#: inertia/pages/admin/favicons.tsx:83
-#: inertia/pages/admin/favicons.tsx:131
+#: inertia/pages/admin/favicons.tsx:54
+#: inertia/pages/admin/favicons.tsx:102
 msgid "Re-resolve all"
 msgstr "Re-resolve all"
 
-#: inertia/pages/admin/favicons.tsx:75
+#: inertia/pages/admin/favicons.tsx:46
 msgid "Re-resolve every favicon"
 msgstr "Re-resolve every favicon"
 
-#: inertia/pages/admin/favicons.tsx:124
+#: inertia/pages/admin/favicons.tsx:95
 msgid "Re-resolve failures"
 msgstr "Re-resolve failures"
 
@@ -1339,7 +1339,7 @@ msgstr "Reset my password"
 msgid "Reset your password"
 msgstr "Reset your password"
 
-#: inertia/pages/admin/favicons.tsx:108
+#: inertia/pages/admin/favicons.tsx:79
 msgid "Resolution failures"
 msgstr "Resolution failures"
 
@@ -1524,11 +1524,11 @@ msgstr "Start tour"
 msgid "Status"
 msgstr "Status"
 
-#: inertia/pages/admin/favicons.tsx:102
+#: inertia/pages/admin/favicons.tsx:73
 msgid "Store size"
 msgstr "Store size"
 
-#: inertia/pages/admin/favicons.tsx:96
+#: inertia/pages/admin/favicons.tsx:67
 msgid "Stored favicons"
 msgstr "Stored favicons"
 
@@ -1540,7 +1540,7 @@ msgstr "Subject"
 msgid "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 msgstr "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 
-#: inertia/components/user_settings/preferences.tsx:71
+#: inertia/components/user_settings/preferences.tsx:80
 msgid "Switch between the light and dark palette."
 msgstr "Switch between the light and dark palette."
 
@@ -1594,7 +1594,7 @@ msgstr "The content will be visible to everyone"
 msgid "The extension, in your toolbar"
 msgstr "The extension, in your toolbar"
 
-#: inertia/components/user_settings/preferences.tsx:65
+#: inertia/components/user_settings/preferences.tsx:74
 msgid "The language MyLinks speaks to you in."
 msgstr "The language MyLinks speaks to you in."
 
@@ -1615,7 +1615,7 @@ msgid "The ways you can prove who you are. At least one has to remain."
 msgstr "The ways you can prove who you are. At least one has to remain."
 
 #: inertia/components/common/navigation/account_menu.tsx:146
-#: inertia/components/user_settings/preferences.tsx:69
+#: inertia/components/user_settings/preferences.tsx:78
 msgid "Theme"
 msgstr "Theme"
 
@@ -1768,7 +1768,7 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 msgid "When"
 msgstr "When"
 
-#: inertia/components/user_settings/preferences.tsx:78
+#: inertia/components/user_settings/preferences.tsx:87
 msgid "Where MyLinks opens after you sign in. Favorites falls back to the Inbox while you have none."
 msgstr "Where MyLinks opens after you sign in. Favorites falls back to the Inbox while you have none."
 

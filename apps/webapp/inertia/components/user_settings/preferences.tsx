@@ -6,8 +6,10 @@ import { Card, Select, ThemeToggle } from '@minimalstuff/ui';
 import { urlFor } from '~/lib/tuyau';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import {
-	useLandingPageSettings,
+	LANDING_PAGES,
+	isLandingPage,
 	type LandingPage,
+	useLandingPageSettings,
 } from '~/hooks/use_landing_page_settings';
 
 interface PreferenceRowProps {
@@ -36,15 +38,22 @@ export function Preferences() {
 	const { t } = useLingui();
 	const { defaultLandingPage } = useLandingPageSettings();
 
-	const landingPageOptions = [
-		{ value: 'favorites', label: t`Favorites` },
-		{ value: 'inbox', label: t`Inbox` },
-	];
+	const landingPageLabels: Record<LandingPage, string> = {
+		favorites: t`Favorites`,
+		inbox: t`Inbox`,
+	};
+	const landingPageOptions = LANDING_PAGES.map((landingPage) => ({
+		value: landingPage,
+		label: landingPageLabels[landingPage],
+	}));
 
 	const handleLandingPageChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		const { value } = event.target;
+		if (!isLandingPage(value)) return;
+
 		router.put(
 			urlFor('user.settings.landing_page'),
-			{ defaultLandingPage: event.target.value as LandingPage },
+			{ defaultLandingPage: value },
 			{ preserveScroll: true }
 		);
 	};

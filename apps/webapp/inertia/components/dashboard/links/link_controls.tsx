@@ -33,9 +33,9 @@ export interface LinkControlsRef {
 interface LinkControlsProps {
 	ref: React.RefObject<LinkControlsRef | null>;
 	link: Link;
-	/** Notified after a menu item runs its action — lets a host like the search modal close itself. */
+	/** Notified after a menu item runs its action, so a host like the search modal can close itself. */
 	onAction?: () => void;
-	/** Notified once the refresh request completes — lets the favicon image bust its own cache. */
+	/** Notified once the refresh request completes so the favicon image can bust its own cache. */
 	onFaviconRefreshed?: () => void;
 }
 
@@ -71,7 +71,7 @@ export function LinkControls({
 		? link
 		: null;
 
-	// Excludes the collection the user is already looking at — "go to the
+	// Excludes the collection the user is already looking at: "go to the
 	// collection you're viewing" is redundant there, but a link can belong to
 	// other collections too (e.g. from a cross-collection view like search).
 	const linkCollections = useMemo(() => {

@@ -2,38 +2,24 @@ import { router } from '@inertiajs/react';
 
 import { urlFor } from '~/lib/tuyau';
 
-interface UseFaviconActionsReturn {
+type FaviconActionRoute = Parameters<typeof urlFor>[0];
+
+type UseFaviconActionsReturn = {
 	purgeOrphans: () => void;
 	flushAll: () => void;
 	reResolveFailures: () => void;
 	reResolveAll: () => void;
-}
+};
 
-/** The four global maintenance actions on the favicon store — none of them target a specific origin. */
+const postAction = (routeName: FaviconActionRoute) => () =>
+	router.post(urlFor(routeName), {}, { preserveScroll: true });
+
+/** The four global maintenance actions on the favicon store, none of them target a specific origin. */
 export function useFaviconActions(): UseFaviconActionsReturn {
-	const purgeOrphans = () =>
-		router.post(
-			urlFor('admin.favicons.purge-orphans'),
-			{},
-			{ preserveScroll: true }
-		);
-
-	const flushAll = () =>
-		router.post(urlFor('admin.favicons.flush'), {}, { preserveScroll: true });
-
-	const reResolveFailures = () =>
-		router.post(
-			urlFor('admin.favicons.reresolve-failures'),
-			{},
-			{ preserveScroll: true }
-		);
-
-	const reResolveAll = () =>
-		router.post(
-			urlFor('admin.favicons.reresolve-all'),
-			{},
-			{ preserveScroll: true }
-		);
-
-	return { purgeOrphans, flushAll, reResolveFailures, reResolveAll };
+	return {
+		purgeOrphans: postAction('admin.favicons.purge-orphans'),
+		flushAll: postAction('admin.favicons.flush'),
+		reResolveFailures: postAction('admin.favicons.reresolve-failures'),
+		reResolveAll: postAction('admin.favicons.reresolve-all'),
+	};
 }
