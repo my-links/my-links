@@ -5,7 +5,7 @@ const STATUS = 409;
 const CODE = 'E_LAST_AUTH_METHOD';
 
 const REFUSED_MESSAGE =
-	'This is the only way left to sign in to this account — add another one before removing it';
+	'This is the only way left to sign in to this account. Add another one before removing it';
 
 /**
  * Raised when detaching an authentication method would leave an account with

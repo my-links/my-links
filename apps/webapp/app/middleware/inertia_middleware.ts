@@ -88,8 +88,8 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	}
 
 	/**
-	 * Flash values are untyped by nature — anything can be flashed under any
-	 * key — so the shared prop narrows instead of asserting.
+	 * Flash values are untyped by nature (anything can be flashed under any
+	 * key) so the shared prop narrows instead of asserting.
 	 */
 	private getFlashMessage(ctx: HttpContext, key: string): string | undefined {
 		const message: unknown = ctx.session?.flashMessages.get(key);

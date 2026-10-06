@@ -17,8 +17,8 @@ export type EmailChangeRefusal =
  *
  * `SAME_ADDRESS` describes the address the reader is already signed in under.
  * `ADDRESS_UNAVAILABLE` is only ever reached by someone holding a link sent to
- * the address in question, so they have already proved they read that mailbox
- * — the same proof a password reset would have given them anyway.
+ * the address in question, so they have already proved they read that mailbox,
+ * the same proof a password reset would have given them anyway.
  *
  * The address being taken *at request time* is deliberately not in here: that
  * one is answered exactly like a success, or the form would become a list of
@@ -28,7 +28,7 @@ const REFUSAL_MESSAGES = {
 	[EMAIL_CHANGE_REFUSAL.SAME_ADDRESS]:
 		'This is already the address on this account',
 	[EMAIL_CHANGE_REFUSAL.ADDRESS_UNAVAILABLE]:
-		'That address can no longer be used — ask for the change again',
+		'That address can no longer be used. Ask for the change again',
 } as const satisfies Record<EmailChangeRefusal, string>;
 
 export class EmailChangeRefusedException extends Exception {

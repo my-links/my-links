@@ -25,7 +25,7 @@ export const REGISTRATION_CONFIRMATION_MESSAGES = {
 	WITH_MAIL:
 		'If that email address is available, a confirmation link is on its way to it',
 	WITHOUT_MAIL:
-		'If that email address is available, the account is ready — sign in below',
+		'If that email address is available, the account is ready. Sign in below',
 } as const;
 
 @inject()

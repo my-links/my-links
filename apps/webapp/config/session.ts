@@ -40,7 +40,7 @@ const sessionConfig = defineConfig({
 	/**
 	 * List of configured stores. Refer documentation to see
 	 * list of available stores and their config.
-	 * `memory` needs no configuration, so it isn't listed here — it's
+	 * `memory` needs no configuration, so it isn't listed here; it's
 	 * available out of the box whenever `store: 'memory'` is selected.
 	 */
 	stores: {

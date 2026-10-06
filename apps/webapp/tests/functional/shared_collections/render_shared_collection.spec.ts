@@ -9,7 +9,7 @@ import {
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
 
-test.group('Shared collection — page', (group) => {
+test.group('Shared collection: page', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should render a public collection with links without crashing SSR', async ({
@@ -25,7 +25,7 @@ test.group('Shared collection — page', (group) => {
 		const link = await createLink({ author: owner, name: 'Shared link' });
 		await attachLinkToCollection(link, collection);
 
-		// No `.withInertia()` on purpose — this is the plain browser request
+		// No `.withInertia()` on purpose: this is the plain browser request
 		// path that triggers server-side React rendering, which is where
 		// `followedCollections is not iterable` used to blow up (L-02).
 		const response = await client.get(`/shared/${collection.id}`);

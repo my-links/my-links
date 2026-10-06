@@ -31,7 +31,7 @@ export type AuthMethodsDescription = {
  * Linking deliberately ignores the email the provider hands over: the round
  * trip proved control of the provider account, which is the only claim being
  * recorded, and the address is never read from a link. That is also why an
- * unverified provider email is no obstacle here while it refuses a sign-in —
+ * unverified provider email is no obstacle here while it refuses a sign-in;
  * signing in is where an address decides which account is reached.
  */
 @inject()

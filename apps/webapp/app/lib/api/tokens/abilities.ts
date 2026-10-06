@@ -5,7 +5,7 @@ import { InsufficientTokenAbilityException } from '#exceptions/api/insufficient_
 
 /**
  * Throws unless the access token authenticating the current request allows
- * `ability`. Only meaningful behind the `api` guard — call after
+ * `ability`. Only meaningful behind the `api` guard; call after
  * `auth.authenticate()`/`auth.authenticateUsing(['api'])` has run, not
  * before.
  */

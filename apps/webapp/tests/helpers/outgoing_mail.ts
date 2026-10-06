@@ -12,7 +12,7 @@ let fakeMailer: FakeMailer | null = null;
  *
  * The suite runs with every SMTP variable blank, so a flow that mails
  * something is simply disabled by default. Enabling it without faking the
- * mailer would push each message through the real transport — a DNS lookup for
+ * mailer would push each message through the real transport: a DNS lookup for
  * an unreachable host on every test that registers, resets or verifies.
  */
 export function enableOutgoingMail() {

@@ -17,8 +17,8 @@ const GENERIC_FAILURE_MESSAGE = 'Invalid email address or password';
 const ORIGIN: RequestOrigin = { ip: '203.0.113.1', userAgent: 'japa' };
 
 /**
- * Counts verifications so a spec can assert the timing guarantee — every
- * failure path pays for one hash comparison — without measuring durations.
+ * Counts verifications so a spec can assert the timing guarantee (every
+ * failure path pays for one hash comparison) without measuring durations.
  */
 class CountingPasswordHasher extends PasswordHasher {
 	verifyCallsCount = 0;

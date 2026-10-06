@@ -15,13 +15,13 @@ export type PasswordUpdateRefusal =
 /**
  * Unlike the sign-in refusals, this one names its cause: the person reading it
  * is authenticated on the very account it describes, so there is nothing left
- * to keep from them — only a state their settings page said was impossible.
+ * to keep from them: only a state their settings page said was impossible.
  */
 const REFUSAL_MESSAGES = {
 	[PASSWORD_UPDATE_REFUSAL.ALREADY_SET]:
-		'This account already has a password — change it instead of setting one',
+		'This account already has a password. Change it instead of setting one',
 	[PASSWORD_UPDATE_REFUSAL.NOT_SET]:
-		'This account has no password yet — set one instead of changing it',
+		'This account has no password yet. Set one instead of changing it',
 } as const satisfies Record<PasswordUpdateRefusal, string>;
 
 /**

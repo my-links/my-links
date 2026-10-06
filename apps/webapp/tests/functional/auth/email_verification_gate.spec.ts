@@ -30,7 +30,7 @@ async function countOneTimeTokens(): Promise<number> {
 	return tokens.length;
 }
 
-test.group('Email verification gate — with outgoing mail', (group) => {
+test.group('Email verification gate: with outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -137,7 +137,7 @@ test.group('Email verification gate — with outgoing mail', (group) => {
 	});
 });
 
-test.group('Email verification gate — without outgoing mail', (group) => {
+test.group('Email verification gate: without outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should sign in an unconfirmed account, since no link can ever reach it', async ({
@@ -170,7 +170,7 @@ test.group('Email verification gate — without outgoing mail', (group) => {
 	});
 });
 
-test.group('Verification link — resending', (group) => {
+test.group('Verification link: resending', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -256,7 +256,7 @@ test.group('Verification link — resending', (group) => {
 	});
 });
 
-test.group('Verification link — resend throttling', (group) => {
+test.group('Verification link: resend throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 

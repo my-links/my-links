@@ -6,7 +6,7 @@ import { createUser } from '#tests/factories/user_factory';
 
 const TOKENS_ROUTE = '/user/api-tokens';
 
-test.group('API token creation — scope', (group) => {
+test.group('API token creation: scope', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should persist a read-only token as the "read" ability', async ({

@@ -14,7 +14,7 @@ type AccountActionsProps = {
  * What an administrator can do to one account, on the row that describes it.
  *
  * The ones that take something away ask first; the ones that only unblock do
- * not. Sending a reset link is offered only where mail is configured — without
+ * not. Sending a reset link is offered only where mail is configured; without
  * it the endpoint answers 404 and the operator uses
  * `node ace user:reset-password --link`.
  *

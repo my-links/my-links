@@ -19,7 +19,7 @@ export default class ConfirmEmailChangeController {
 	) {}
 
 	/**
-	 * Answers a GET despite writing, because it is reached by clicking a link —
+	 * Answers a GET despite writing, because it is reached by clicking a link:
 	 * the single-use token is what keeps that safe. Open to guests: the link
 	 * lands in the *new* mailbox, which is rarely the browser holding a session.
 	 */

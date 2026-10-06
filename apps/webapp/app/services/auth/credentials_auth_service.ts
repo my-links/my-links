@@ -38,8 +38,8 @@ export class CredentialsAuthService {
 	 * where a known one spends the argon2 budget. Both paths therefore run one
 	 * verification before failing with the very same exception.
 	 *
-	 * `E_INVALID_CREDENTIALS` renders itself — message flashed, submitted input
-	 * kept, redirect back — so no caller has to catch it to build a form error.
+	 * `E_INVALID_CREDENTIALS` renders itself (message flashed, submitted input
+	 * kept, redirect back) so no caller has to catch it to build a form error.
 	 */
 	async verifyCredentials({
 		email,

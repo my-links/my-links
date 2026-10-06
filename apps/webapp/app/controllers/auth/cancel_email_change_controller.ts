@@ -10,7 +10,7 @@ import { EmailChangeService } from '#services/auth/email_change_service';
 import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 
 const EMAIL_CHANGE_CANCELLED_MESSAGE =
-	'The address change is cancelled and everything was signed out — sign in again';
+	'The address change is cancelled and everything was signed out. Sign in again';
 
 @inject()
 export default class CancelEmailChangeController {

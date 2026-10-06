@@ -10,7 +10,7 @@ import {
 
 /**
  * Meant to run from cron. Authentication rows are security evidence and are
- * never touched — `ActivityEventService.pruneBefore` only ever deletes where
+ * never touched: `ActivityEventService.pruneBefore` only ever deletes where
  * `subject_type IS NOT NULL`.
  */
 export default class PruneActivityEvents extends BaseCommand {

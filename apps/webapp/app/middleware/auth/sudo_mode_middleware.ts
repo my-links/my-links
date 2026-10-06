@@ -9,7 +9,7 @@ const GET_METHOD = 'GET';
 
 /**
  * Stands in front of the operations that could hand an account to somebody
- * else, and demands that identity was proved recently — not merely that a
+ * else, and demands that identity was proved recently, not merely that a
  * session exists. Always paired with `auth`, which is what guarantees there is
  * an account to confirm against.
  */
@@ -28,7 +28,7 @@ export default class SudoModeMiddleware {
 	}
 
 	/**
-	 * A refused page is worth coming back to; a refused submission is not — the
+	 * A refused page is worth coming back to; a refused submission is not: the
 	 * body is gone by then, so the visitor is sent to the settings page they
 	 * submitted from and fills the form once more.
 	 */

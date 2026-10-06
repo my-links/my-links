@@ -4,7 +4,7 @@ const STATUS = 409;
 const CODE = 'E_LAST_ADMINISTRATOR';
 
 const REFUSED_MESSAGE =
-	'This is the only administrator left on this instance — promote another account before demoting it';
+	'This is the only administrator left on this instance. Promote another account before demoting it';
 
 /**
  * Raised when demoting an account would leave the instance without a single

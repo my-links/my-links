@@ -20,7 +20,7 @@ const MAXIMUM_PASSWORD_LENGTH = 256;
 const CONFIRMATION_FIELD = 'passwordConfirmation';
 
 /**
- * Shared by every form that chooses a new password — registration, setting a
+ * Shared by every form that chooses a new password: registration, setting a
  * first one, changing one, resetting one. Four copies of the same three rules
  * is four chances for one of them to drift.
  */

@@ -11,7 +11,7 @@ import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_pur
 const timezone = process.env.TZ ?? 'UTC';
 
 /**
- * node-cron never throws past the task callback — a failure only surfaces
+ * node-cron never throws past the task callback: a failure only surfaces
  * through this event. Without a listener a broken run logs nothing at all.
  */
 function logExecutionFailures(task: ScheduledTask, taskName: string): void {

@@ -26,7 +26,7 @@ export class MailService {
 		if (!this.isEnabled) {
 			logger.warn(
 				{ notification: notification.constructor.name },
-				'Outgoing mail is disabled on this instance — email dropped'
+				'Outgoing mail is disabled on this instance, email dropped'
 			);
 
 			return;

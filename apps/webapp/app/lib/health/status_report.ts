@@ -11,7 +11,7 @@ type HealthCheckEntry = HealthCheckReport['checks'][number];
 /**
  * Maps the report the health runner produces onto the shape the status page
  * consumes. The runner types its `meta` as an open bag, so the thresholds the
- * page reads are narrowed here instead of being asserted into existence —
+ * page reads are narrowed here instead of being asserted into existence:
  * a check that stops reporting one renders without it rather than crashing on
  * an undefined field.
  */

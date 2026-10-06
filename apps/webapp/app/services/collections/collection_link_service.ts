@@ -20,7 +20,7 @@ const COLLECTION_LINK_TABLE = 'collection_link';
 type PositionedAttachment = { position: number };
 
 /**
- * Owns positioning for the `collection_link` pivot — bookkeeping Lucid's
+ * Owns positioning for the `collection_link` pivot: bookkeeping Lucid's
  * relation helpers don't cover on their own.
  */
 @inject()

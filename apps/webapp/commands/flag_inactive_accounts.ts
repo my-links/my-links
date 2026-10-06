@@ -6,7 +6,7 @@ import { ACCOUNT_INACTIVITY_THRESHOLD_DAYS } from '#constants/account';
 import { AccountRetentionService } from '#services/user/account_retention_service';
 
 /**
- * CLI entry point for `AccountRetentionService.flagInactiveAccounts` — used by native
+ * CLI entry point for `AccountRetentionService.flagInactiveAccounts`, used by native
  * (non-Docker) deployments, which schedule it themselves via system cron.
  * The Docker image runs the same logic on a schedule instead, from
  * `start/scheduler.ts`.

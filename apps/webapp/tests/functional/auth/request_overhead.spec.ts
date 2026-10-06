@@ -35,7 +35,7 @@ async function spyOnHasAnyAccount() {
 	};
 }
 
-test.group('Request overhead — last seen throttle', (group) => {
+test.group('Request overhead: last seen throttle', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should stamp lastSeenAt on the first request from a never-seen account', async ({
@@ -82,7 +82,7 @@ test.group('Request overhead — last seen throttle', (group) => {
 	});
 });
 
-test.group('Request overhead — registration policy check', (group) => {
+test.group('Request overhead: registration policy check', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should skip hasAnyAccount() when the visitor is already signed in', async ({

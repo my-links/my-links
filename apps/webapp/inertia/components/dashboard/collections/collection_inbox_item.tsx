@@ -21,8 +21,8 @@ type PagePropsWithActiveCollection = PageProps & {
 
 /**
  * The Inbox, pinned beside the favorites rather than listed among the
- * collections the user orders. It stays a drop target for a link — that is the
- * gesture for "file this nowhere in particular" — but is never draggable
+ * collections the user orders. It stays a drop target for a link (that is the
+ * gesture for "file this nowhere in particular") but is never draggable
  * itself, so it takes a plain droppable instead of `useSortable`.
  */
 export function CollectionInboxItem({

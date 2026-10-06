@@ -9,7 +9,7 @@ const CODE = 'E_UNVERIFIED_EMAIL';
  * the specs assert against what the refusal actually says.
  */
 export const UNVERIFIED_EMAIL_MESSAGE =
-	'Confirm your email address before signing in — we sent a link to it';
+	'Confirm your email address before signing in. We sent a link to it';
 
 /**
  * The address on this account has never been confirmed, on an instance that

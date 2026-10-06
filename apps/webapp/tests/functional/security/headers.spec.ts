@@ -9,7 +9,7 @@ test.group('Security headers', (group) => {
 		assert,
 	}) => {
 		// Plain GET (no `.withInertia()`) so this goes through the same
-		// full-page SSR render path a browser hits — that's where the
+		// full-page SSR render path a browser hits; that's where the
 		// nonce has to line up with what shield put on the header.
 		const response = await client.get('/login');
 

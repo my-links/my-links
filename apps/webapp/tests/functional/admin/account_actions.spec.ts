@@ -32,7 +32,7 @@ async function createAdmin(prefix = 'admin'): Promise<User> {
 
 /**
  * The suite runs against a database a developer may have seeded, so "the only
- * administrator left" has to be arranged rather than assumed — otherwise the
+ * administrator left" has to be arranged rather than assumed; otherwise the
  * test describes the machine it runs on instead of the rule. Rolled back with
  * the rest of the transaction.
  */
@@ -63,7 +63,7 @@ function restoreRoute(account: User): string {
 	return `/admin/users/${account.id}/restore`;
 }
 
-test.group('Admin account actions — sending a reset link', (group) => {
+test.group('Admin account actions: sending a reset link', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -107,7 +107,7 @@ test.group('Admin account actions — sending a reset link', (group) => {
 	});
 });
 
-test.group('Admin account actions — without outgoing mail', (group) => {
+test.group('Admin account actions: without outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should answer 404 when the instance cannot mail a reset link', async ({
@@ -126,7 +126,7 @@ test.group('Admin account actions — without outgoing mail', (group) => {
 	});
 });
 
-test.group('Admin account actions — confirming an address', (group) => {
+test.group('Admin account actions: confirming an address', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should confirm an address nobody ever proved', async ({
@@ -166,7 +166,7 @@ test.group('Admin account actions — confirming an address', (group) => {
 	});
 });
 
-test.group('Admin account actions — revoking access', (group) => {
+test.group('Admin account actions: revoking access', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should sign the account out of every browser', async ({
@@ -228,7 +228,7 @@ test.group('Admin account actions — revoking access', (group) => {
 	});
 });
 
-test.group('Admin account actions — changing a role', (group) => {
+test.group('Admin account actions: changing a role', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should promote a member to administrator', async ({
@@ -306,7 +306,7 @@ test.group('Admin account actions — changing a role', (group) => {
 	});
 });
 
-test.group('Admin account actions — restoring a pending deletion', (group) => {
+test.group('Admin account actions: restoring a pending deletion', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should clear the pending deletion, self-service or admin-initiated alike', async ({
@@ -351,7 +351,7 @@ test.group('Admin account actions — restoring a pending deletion', (group) => 
 	});
 });
 
-test.group('Admin account actions — reserved to administrators', (group) => {
+test.group('Admin account actions: reserved to administrators', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should send a signed-in visitor without the admin flag away from a reset', async ({

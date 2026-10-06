@@ -112,7 +112,7 @@ export class RegistrationService {
 	/**
 	 * The single writer, shared by both paths. The account, its password and its
 	 * Inbox are one write: a `users` row without a `password_auths` row is an
-	 * account nobody — not even its owner — can sign in to, and one without an
+	 * account nobody (not even its owner) can sign in to, and one without an
 	 * Inbox has nowhere to file a link saved outside any collection. Nothing
 	 * would ever repair either.
 	 */

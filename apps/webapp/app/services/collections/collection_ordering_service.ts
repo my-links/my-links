@@ -32,7 +32,7 @@ export class CollectionOrderingService {
 
 	/**
 	 * Ownership violation (422) and a stale/incomplete payload (409) are
-	 * different failures — the client should retry the latter after a
+	 * different failures: the client should retry the latter after a
 	 * reload, not treat it as a permissions error.
 	 */
 	private async assertOwnedCollectionIds(

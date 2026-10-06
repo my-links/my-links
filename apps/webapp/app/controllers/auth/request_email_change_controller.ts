@@ -48,7 +48,7 @@ export default class RequestEmailChangeController {
 
 	/**
 	 * Both halves of this flow are links in mailboxes, so an instance with no
-	 * outgoing mail does not have the feature at all — 404, the way
+	 * outgoing mail does not have the feature at all (404), the way
 	 * `/forgot-password` answers there.
 	 */
 	private assertEmailChangeIsAvailable(): void {

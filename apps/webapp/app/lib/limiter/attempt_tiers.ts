@@ -21,7 +21,7 @@ export const LOGIN_BURST_TIER = {
  * cannot grow a penalty on their own, so the escalation is expressed by
  * layering them: keep failing past the burst budget and the sustained tier
  * takes over, then the persistent one. Blocking is deliberately the only
- * consequence — locking the account itself would hand any stranger a way to
+ * consequence: locking the account itself would hand any stranger a way to
  * shut a chosen user out of their own instance.
  */
 export const LOGIN_ATTEMPT_TIERS = [
@@ -56,7 +56,7 @@ export const REGISTRATION_ATTEMPT_TIERS = [
 /**
  * Guessing a 256-bit token is not a threat anyone can carry out, so the budget
  * is here to keep the endpoint from being a free way to spend an instance's
- * database and CPU — hence a ceiling well above what following a link from a
+ * database and CPU, hence a ceiling well above what following a link from a
  * mailbox costs, prefetching mail clients included.
  */
 export const TOKEN_VERIFICATION_BURST_TIER = {
@@ -73,7 +73,7 @@ export const TOKEN_VERIFICATION_TIERS = [
 
 /**
  * The budget of the flows where a visitor types an address and the instance
- * mails a link to it — asking for a password reset, asking for a fresh
+ * mails a link to it: asking for a password reset, asking for a fresh
  * confirmation link. Sending is free for whoever asks and costs the instance a
  * mail, so the budget is about stopping someone from walking a list of
  * addresses to spray; the ceiling is well above what a person who mistypes
@@ -96,7 +96,7 @@ export const MAILED_LINK_REQUEST_TIERS = [
 
 /**
  * Confirming sudo mode is a password prompt behind a session, so it is a
- * guessing surface like sign-in — and a tighter one, since the account is
+ * guessing surface like sign-in, and a tighter one, since the account is
  * already picked and only its owner should ever be typing here.
  */
 export const SUDO_CONFIRMATION_BURST_TIER = {

@@ -41,7 +41,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	 */
 	async handle(error: unknown, ctx: HttpContext) {
 		// A missing row is a dead end for a visitor, who is better off on their
-		// collections than on a 404 page — but it is information an API client
+		// collections than on a 404 page, but it is information an API client
 		// asked for, so it keeps its status there.
 		if (error instanceof errors.E_ROW_NOT_FOUND && !this.isApiRequest(ctx)) {
 			return ctx.response.redirectToNamedRoute('home');

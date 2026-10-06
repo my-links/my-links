@@ -15,7 +15,7 @@ export default class VerifyUserEmail extends AccountCommand {
 
 	/**
 	 * The way in for an account the sign-in gate is holding out on an instance
-	 * that cannot mail a confirmation link — and the way out of one that never
+	 * that cannot mail a confirmation link, and the way out of one that never
 	 * arrived.
 	 */
 	@inject()

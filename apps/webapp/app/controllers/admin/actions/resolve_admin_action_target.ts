@@ -7,7 +7,7 @@ import { accountTargetValidator } from '#validators/admin/account_target_validat
 /**
  * The first two steps every admin account action shares: validate the
  * targeted account's id out of the route params, and resolve both accounts
- * involved — the one acted upon and the administrator doing it.
+ * involved: the one acted upon and the administrator doing it.
  */
 export async function resolveAdminActionTarget(
 	ctx: HttpContext,

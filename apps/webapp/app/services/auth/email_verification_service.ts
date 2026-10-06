@@ -54,7 +54,7 @@ export class EmailVerificationService {
 	 * about it either way.
 	 *
 	 * An unknown address, and one whose account is already confirmed, both do
-	 * nothing at all — the caller answers them exactly like the address that
+	 * nothing at all: the caller answers them exactly like the address that
 	 * got a link, or the form becomes a way to ask which addresses have an
 	 * unconfirmed account here.
 	 */
@@ -70,7 +70,7 @@ export class EmailVerificationService {
 	 *
 	 * An instance with no outgoing mail issues nothing at all: the token would
 	 * be a row nobody could ever redeem. Email verification is simply absent
-	 * there — no feature is gated behind it — and account recovery goes through
+	 * there (no feature is gated behind it) and account recovery goes through
 	 * the ace commands instead.
 	 */
 	async sendVerificationLink(user: User): Promise<void> {
@@ -96,7 +96,7 @@ export class EmailVerificationService {
 	}
 
 	/**
-	 * Confirms an address on the operator's authority, from the console — the
+	 * Confirms an address on the operator's authority, from the console: the
 	 * way an instance with no outgoing mail unblocks an account that the
 	 * sign-in gate is holding out.
 	 *

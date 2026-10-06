@@ -53,7 +53,7 @@ export const ONE_TIME_TOKEN_LIFETIME_HOURS = {
 
 /**
  * Whether an instance accepts new accounts. Left unset, the answer is derived
- * from the instance itself — see `resolveRegistrationPolicy`.
+ * from the instance itself, see `resolveRegistrationPolicy`.
  */
 export const REGISTRATION_POLICY = {
 	OPEN: 'open',

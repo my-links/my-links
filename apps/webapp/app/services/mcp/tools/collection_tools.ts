@@ -74,7 +74,7 @@ export function registerCollectionTools(
 		'collections.get',
 		{
 			description:
-				'Get a single collection by id — the owner’s own, or a public one they follow.',
+				'Get a single collection by id: the owner’s own, or a public one they follow.',
 			inputSchema: { id: z.number().int().positive() },
 		},
 		({ id }) =>

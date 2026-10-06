@@ -17,7 +17,7 @@ const REFUSAL_CLASS =
  * Deliberately untranslated and unmapped: the value is what a `grep` over the
  * table or a support conversation will name, and a friendly label per event
  * would be a second vocabulary to keep in step with `AUTH_EVENT_TYPE`. Only
- * the colour is interpreted — what went wrong is what an administrator scans
+ * the colour is interpreted, what went wrong is what an administrator scans
  * for.
  */
 export const AuthEventTypeBadge = ({

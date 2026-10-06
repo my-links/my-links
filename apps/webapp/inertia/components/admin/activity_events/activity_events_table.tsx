@@ -15,7 +15,7 @@ type ActivityEventsTableProps = {
 };
 
 /**
- * `link #4102` / `collection #77` — an identifier, never a name. Resolving it
+ * `link #4102` / `collection #77`: an identifier, never a name. Resolving it
  * to real content is a separate decision this table does not make.
  */
 function describeSubject(event: ActivityEvent): string {

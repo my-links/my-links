@@ -117,7 +117,7 @@ async function verifiesAgainst(
 	return passwordHasher.verify(storedPassword, plainPassword);
 }
 
-test.group('Password — setting a first one', (group) => {
+test.group('Password: setting a first one', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -185,7 +185,7 @@ test.group('Password — setting a first one', (group) => {
 		response.assertHeader('location', SETTINGS_PATH);
 		response.assertFlashMessage(
 			'error',
-			'This account already has a password — change it instead of setting one'
+			'This account already has a password. Change it instead of setting one'
 		);
 	});
 
@@ -213,7 +213,7 @@ test.group('Password — setting a first one', (group) => {
 	});
 });
 
-test.group('Password — changing it', (group) => {
+test.group('Password: changing it', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -313,12 +313,12 @@ test.group('Password — changing it', (group) => {
 
 		response.assertFlashMessage(
 			'error',
-			'This account has no password yet — set one instead of changing it'
+			'This account has no password yet. Set one instead of changing it'
 		);
 	});
 });
 
-test.group('Password — keeping the session that changed it', (group) => {
+test.group('Password: keeping the session that changed it', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should keep the session driving the change', async ({ assert }) => {
@@ -371,7 +371,7 @@ test.group('Password — keeping the session that changed it', (group) => {
 	});
 });
 
-test.group('Password — asking for a reset link', (group) => {
+test.group('Password: asking for a reset link', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -468,7 +468,7 @@ test.group('Password — asking for a reset link', (group) => {
 	});
 });
 
-test.group('Password — reset without outgoing mail', (group) => {
+test.group('Password: reset without outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should not offer the request form at all', async ({ client }) => {
@@ -489,7 +489,7 @@ test.group('Password — reset without outgoing mail', (group) => {
 	});
 });
 
-test.group('Password — redeeming a reset link', (group) => {
+test.group('Password: redeeming a reset link', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 

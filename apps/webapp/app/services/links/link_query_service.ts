@@ -44,7 +44,7 @@ export class LinkQueryService {
 	}
 
 	/**
-	 * Backs the `links.search` MCP tool — an MCP client has no access to the
+	 * Backs the `links.search` MCP tool: an MCP client has no access to the
 	 * webapp's client-side fuzzy matcher, so this is a small server-side
 	 * substitute rather than an attempt to match its ranking.
 	 */

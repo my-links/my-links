@@ -2,7 +2,7 @@
  * Routes that carry a single-use token in their path.
  *
  * The request logger runs as a server middleware, before routing, so there are
- * no route parameters to recognise a secret by — the prefixes are listed here
+ * no route parameters to recognise a secret by: the prefixes are listed here
  * instead, and a new route that puts a token in its path has to join them.
  *
  * What this prevents: a debug log recording live confirmation and password

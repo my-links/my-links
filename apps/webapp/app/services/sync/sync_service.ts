@@ -8,8 +8,8 @@ import { SyncJournalService } from '#services/sync/sync_journal_service';
 
 /**
  * How long a tombstone stays queryable. A client whose cursor predates this
- * window can no longer be brought up to date incrementally — deletions it
- * never saw have been pruned — so it is served a full snapshot instead.
+ * window can no longer be brought up to date incrementally (deletions it
+ * never saw have been pruned) so it is served a full snapshot instead.
  */
 export const TOMBSTONE_RETENTION_DAYS = 30;
 

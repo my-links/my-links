@@ -47,7 +47,7 @@ router
 			.use(passwordResetRequestThrottles);
 
 		// Offered by the login page to whoever was just turned away for an
-		// unconfirmed address — and open to anyone who lost the first link.
+		// unconfirmed address, and open to anyone who lost the first link.
 		router
 			.post('/resend-verification', [
 				controllers.auth.ResendVerification,
@@ -81,8 +81,8 @@ router
 	.prefix('/reset-password')
 	.use(tokenVerificationThrottles);
 
-// Settling an address change is done from a mailbox — the new one confirms, the
-// old one vetoes — so neither link assumes a session. Both carry their token in
+// Settling an address change is done from a mailbox (the new one confirms, the
+// old one vetoes) so neither link assumes a session. Both carry their token in
 // the path, which is why their prefixes are among the ones `toLoggableUrl`
 // redacts.
 router
@@ -104,7 +104,7 @@ router
 
 // Reached mid-login, before a session exists: the password just verified is
 // what proves who is asking, not a guest/auth middleware check, so neither
-// applies here — same reasoning as the callback route further down.
+// applies here: same reasoning as the callback route further down.
 router.group(() => {
 	router
 		.get('/reactivate', [controllers.auth.ReactivateAccount, 'render'])
@@ -144,8 +144,8 @@ router
 	.prefix(ROUTES_PREFIX)
 	.use(middleware.auth());
 
-// The prompt sudo mode redirects to, so it is reachable while merely signed in
-// — guarding it with sudo mode would be a loop.
+// The prompt sudo mode redirects to, so it is reachable while merely signed in,
+// since guarding it with sudo mode would be a loop.
 router
 	.group(() => {
 		router
@@ -176,8 +176,8 @@ router
 			.put('/password', [controllers.auth.ChangePassword, 'execute'])
 			.as('auth.password.change');
 
-		// The address is the account's other credential — it is what a reset link
-		// is sent to — so moving it belongs in the same guarded group.
+		// The address is the account's other credential (it is what a reset link
+		// is sent to) so moving it belongs in the same guarded group.
 		router
 			.post('/email', [controllers.auth.RequestEmailChange, 'execute'])
 			.as('auth.email.change')

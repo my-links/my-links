@@ -33,8 +33,8 @@ export default class ShowCollectionController {
 
 		const { collection, isOwner } = accessibleCollectionResult;
 
-		// One canonical URL for the Inbox, so the id links pointing at it — and
-		// any bookmark predating `collection.inbox` — land on the named route.
+		// One canonical URL for the Inbox, so the id links pointing at it (and
+		// any bookmark predating `collection.inbox`) land on the named route.
 		if (collection.isDefault && isOwner) {
 			return response.redirect().toRoute('collection.inbox');
 		}

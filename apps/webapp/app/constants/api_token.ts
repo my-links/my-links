@@ -12,7 +12,7 @@ export const TOKEN_ABILITY = {
 export type TokenAbility = (typeof TOKEN_ABILITY)[keyof typeof TOKEN_ABILITY];
 
 /**
- * `@adonisjs/auth`'s own wildcard ability — what a token created before this
+ * `@adonisjs/auth`'s own wildcard ability: what a token created before this
  * feature shipped already carries, and what "full access" maps to today.
  */
 const FULL_ACCESS_ABILITY = '*';

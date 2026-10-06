@@ -49,7 +49,7 @@ export class SessionService {
 
 		// Both sign-in paths land here, so this is the one place that can
 		// promise a freshly authenticated session already counts as a recent
-		// proof of identity — without it, every login would be followed by a
+		// proof of identity: without it, every login would be followed by a
 		// prompt for the credential just typed.
 		this.sudoModeService.confirm(session);
 	}
@@ -58,7 +58,7 @@ export class SessionService {
 	 * Signs every other browser out, keeping the one that asked for it.
 	 *
 	 * A password change that left the old sessions alive would revoke nothing
-	 * at all — the whole point is that whoever was already inside stops being
+	 * at all: the whole point is that whoever was already inside stops being
 	 * inside. `null` keeps none of them, which is what a reset needs: the
 	 * person driving it is not signed in anywhere yet.
 	 */

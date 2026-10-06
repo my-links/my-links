@@ -26,7 +26,7 @@ export default class DeleteUser extends AccountCommand {
 
 		const retypedEmail = await this.prompt.ask(DELETION_CONFIRMATION_PROMPT);
 		if (retypedEmail.trim().toLowerCase() !== account.email) {
-			this.fail('That address does not match — nothing was deleted');
+			this.fail('That address does not match. Nothing was deleted');
 
 			return;
 		}

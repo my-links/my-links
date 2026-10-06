@@ -9,7 +9,7 @@ import { ActivityEventService } from '#services/activity/activity_event_service'
 const FIRST_PAGE = 1;
 
 /**
- * The activity journal — what users and administrators did to collections and
+ * The activity journal: what users and administrators did to collections and
  * links, never what those collections and links contained.
  *
  * A page of it, never the whole thing: `audit_events` only grows, and an

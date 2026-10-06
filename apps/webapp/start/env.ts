@@ -34,7 +34,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 */
 	/**
 	 * Optional: leave both empty to run without Google sign-in. Setting only
-	 * one of the two is rejected at boot — see `resolveGoogleAuthConfig`.
+	 * one of the two is rejected at boot, see `resolveGoogleAuthConfig`.
 	 */
 	GOOGLE_CLIENT_ID: Env.schema.string.optional(),
 	GOOGLE_CLIENT_SECRET: Env.schema.string.optional(),
@@ -45,7 +45,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 |----------------------------------------------------------
 */
 	/**
-	 * Optional: leave it unset to let the instance decide — open until it has
+	 * Optional: leave it unset to let the instance decide; open until it has
 	 * its first account, closed afterwards. See `resolveRegistrationPolicy`.
 	 */
 	ALLOW_REGISTRATION: Env.schema.enum.optional(REGISTRATION_POLICIES),
@@ -57,7 +57,7 @@ export default await Env.create(new URL('../', import.meta.url), {
 */
 	/**
 	 * Optional: leave them all empty to run without outgoing mail. Setting one
-	 * commits to a complete configuration — see `resolveMailConfig`.
+	 * commits to a complete configuration, see `resolveMailConfig`.
 	 */
 	SMTP_HOST: Env.schema.string.optional(),
 	SMTP_PORT: Env.schema.number.optional(),

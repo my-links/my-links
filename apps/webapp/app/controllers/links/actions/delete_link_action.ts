@@ -8,7 +8,7 @@ import { deleteLinkValidator } from '#validators/links/delete_link_validator';
 
 /**
  * The primary collection is read back before the delete purely for the
- * web controller's redirect target — the API controller ignores it.
+ * web controller's redirect target: the API controller ignores it.
  */
 export async function deleteLinkAction(
 	{ request, auth }: HttpContext,

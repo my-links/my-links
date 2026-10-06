@@ -27,7 +27,7 @@ const UNLINK_GOOGLE_PATH = '/account/providers/google';
 const SUDO_PATH = '/sudo';
 const SETTINGS_PATH = '/user/settings';
 const LAST_METHOD_MESSAGE =
-	'This is the only way left to sign in to this account — add another one before removing it';
+	'This is the only way left to sign in to this account. Add another one before removing it';
 
 let providerUserIdCounter = 0;
 
@@ -65,7 +65,7 @@ function countLinksOf(user: User): Promise<OauthAuth[]> {
 	return OauthAuth.query().where('userId', user.id);
 }
 
-test.group('Provider linking — attaching an identity', (group) => {
+test.group('Provider linking: attaching an identity', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should attach the identity to the account that asked for it', async ({
@@ -123,7 +123,7 @@ test.group('Provider linking — attaching an identity', (group) => {
 	});
 });
 
-test.group('Provider linking — starting the round trip', (group) => {
+test.group('Provider linking: starting the round trip', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.teardown(() => app.container.restore(GoogleAuthConfigService));
 
@@ -193,7 +193,7 @@ test.group('Provider linking — starting the round trip', (group) => {
 	});
 });
 
-test.group('Provider linking — detaching an identity', (group) => {
+test.group('Provider linking: detaching an identity', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should detach the provider when another method remains', async ({
@@ -287,7 +287,7 @@ test.group('Provider linking — detaching an identity', (group) => {
 	});
 });
 
-test.group('Provider linking — what the settings page reports', (group) => {
+test.group('Provider linking: what the settings page reports', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should list the providers the account has linked', async ({

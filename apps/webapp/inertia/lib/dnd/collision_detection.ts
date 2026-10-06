@@ -12,7 +12,7 @@ import {
  * a collection can only land in its own sidebar section (a cross-section
  * drop would be an implicit visibility change, rejected server-side anyway),
  * which also keeps the sectionless pinned Inbox out of its candidates;
- * a link checks sidebar collections first (only owned ones — a followed
+ * a link checks sidebar collections first (only owned ones: a followed
  * collection isn't a legal drop target) plus the pinned Inbox, and falls back
  * to its own link list for in-collection reordering.
  */

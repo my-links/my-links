@@ -19,7 +19,7 @@ export default class VerifyEmailController {
 	) {}
 
 	/**
-	 * Reached by clicking a link, so it answers a GET despite writing — the
+	 * Reached by clicking a link, so it answers a GET despite writing: the
 	 * single-use token is what keeps that safe. Open to guests and to signed-in
 	 * users alike: whoever holds the link proved they read the mailbox.
 	 */

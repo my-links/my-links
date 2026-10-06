@@ -6,7 +6,7 @@ import db from '@adonisjs/lucid/services/db';
  * The knex client emits one `query` event per statement, transaction client
  * included, which is what makes this usable inside the suite's global
  * transaction. It exists for a single kind of assertion: that a listing costs
- * the same whether it returns one row or fifty — the shape of an N+1 is a
+ * the same whether it returns one row or fifty: the shape of an N+1 is a
  * count that tracks the data, not a count that is high.
  */
 export async function countQueries(

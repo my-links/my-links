@@ -13,8 +13,8 @@ import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabl
  * Starts the round trip that adds Google as a second way into an account that
  * already signs in with a password.
  *
- * Only the departure is provider-specific — each provider has its own driver
- * and its own configuration gate — which is why this route names Google while
+ * Only the departure is provider-specific (each provider has its own driver
+ * and its own configuration gate) which is why this route names Google while
  * unlinking takes the provider as a parameter.
  *
  * Sudo mode guards the route rather than the callback: the intent this arms can

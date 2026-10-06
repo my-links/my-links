@@ -7,7 +7,7 @@ import { createUser } from '#tests/factories/user_factory';
 const HTTP_OK = 200;
 const HTTP_FORBIDDEN = 403;
 
-test.group('API token abilities — REST', (group) => {
+test.group('API token abilities: REST', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('a read-only token can reach a GET endpoint', async ({ client }) => {

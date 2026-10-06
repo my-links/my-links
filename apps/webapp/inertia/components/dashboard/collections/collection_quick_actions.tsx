@@ -35,7 +35,7 @@ export function CollectionQuickActions({
 			/>
 
 			{/* The default (Inbox) collection can't be edited, renamed, or
-			deleted, so it carries no kebab — the context menu still opens
+			deleted, so it carries no kebab: the context menu still opens
 			on right-click, offering only "Add link". */}
 			{!collection.isDefault && (
 				<IconButton

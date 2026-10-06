@@ -38,7 +38,7 @@ export type MailConfig =
 /**
  * Resolves the SMTP settings into an explicit enabled/disabled state.
  *
- * An instance with no mail at all is a supported deployment — self-hosters get
+ * An instance with no mail at all is a supported deployment: self-hosters get
  * account recovery through the ace commands instead. What is never supported is
  * a half-filled configuration: it would boot, look healthy, and silently drop
  * the one email a locked-out user is waiting for. Any single mail setting
@@ -93,8 +93,8 @@ function hasAnyMailSetting(settings: MailSettings): boolean {
 }
 
 /**
- * Authentication is optional — a relay reachable only from the compose network
- * has no reason to ask for credentials — but half of it is not.
+ * Authentication is optional (a relay reachable only from the compose network
+ * has no reason to ask for credentials) but half of it is not.
  */
 function resolveSmtpCredentials({
 	username,

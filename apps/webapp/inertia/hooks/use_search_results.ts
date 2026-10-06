@@ -12,7 +12,7 @@ type UseSearchResultsReturn = {
 /**
  * The generated tuyau types claim `GET /links` resolves to a bare
  * `Data.Link[]`, but the shared `ApiSerializer` always wraps collections
- * under a `data` key at runtime — this narrows the actual response shape
+ * under a `data` key at runtime: this narrows the actual response shape
  * without trusting either side blindly.
  */
 function extractLinks(payload: unknown): Data.Link[] {

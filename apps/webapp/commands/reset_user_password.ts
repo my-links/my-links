@@ -97,7 +97,7 @@ export default class ResetUserPassword extends AccountCommand {
 		);
 
 		this.logger.success(
-			`${account.email} has a new password — every other session and access token is gone`
+			`${account.email} has a new password. Every other session and access token is gone`
 		);
 	}
 }

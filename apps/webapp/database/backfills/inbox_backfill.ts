@@ -10,10 +10,10 @@ const INBOX_POSITION = 0;
  *
  * Until now the Inbox was only created the first time something needed a
  * fallback collection, so an account that never saved an uncategorised link had
- * none — and the sidebar has nothing to pin for it.
+ * none, and the sidebar has nothing to pin for it.
  *
  * Lives outside `database/migrations/` because that directory is scanned by the
- * migrator — every file in it is executed as a migration.
+ * migrator: every file in it is executed as a migration.
  */
 export async function backfillMissingInboxCollections(
 	client: QueryClientContract
@@ -38,8 +38,8 @@ export async function backfillMissingInboxCollections(
  * Brings back any Inbox shared before `updateCollection` started refusing it,
  * and drops the subscriptions that sharing handed out.
  *
- * A public Inbox is both a privacy problem — it is where every link saved
- * without a collection lands — and a broken sidebar: it would be drawn pinned
+ * A public Inbox is both a privacy problem (it is where every link saved
+ * without a collection lands) and a broken sidebar: it would be drawn pinned
  * and inside the public section at once.
  */
 export async function makeInboxesPrivate(

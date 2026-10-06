@@ -10,7 +10,7 @@ import { controllers } from '#generated/controllers';
  * have to be counted the same way as the owner's. The global silent auth
  * middleware still resolves the visitor when there is a session.
  *
- * Throttled because it is an unauthenticated write — the shared `api`
+ * Throttled because it is an unauthenticated write: the shared `api`
  * limiter falls back to the client IP when there is no user.
  */
 router

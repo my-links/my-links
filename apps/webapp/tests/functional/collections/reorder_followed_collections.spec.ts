@@ -45,7 +45,7 @@ test.group('Reorder followed collections', (group) => {
 			name: 'Second',
 			visibility: VISIBILITY.PUBLIC,
 		});
-		// Positions are only computed on the real follow path — the factory's
+		// Positions are only computed on the real follow path: the factory's
 		// raw attach leaves every row at the DB default of 0.
 		for (const follower of [followerOne, followerTwo]) {
 			for (const collection of [first, second]) {

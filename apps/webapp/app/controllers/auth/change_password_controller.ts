@@ -9,7 +9,7 @@ import { AuthEventService } from '#services/auth/auth_event_service';
 import { newPasswordValidator } from '#validators/auth/new_password_validator';
 
 const PASSWORD_CHANGED_MESSAGE =
-	'Your password is changed — every other session and extension token was signed out';
+	'Your password is changed. Every other session and extension token was signed out';
 
 @inject()
 export default class ChangePasswordController {

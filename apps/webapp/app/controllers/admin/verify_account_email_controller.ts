@@ -13,7 +13,7 @@ export const EMAIL_ALREADY_VERIFIED_MESSAGE =
 	'That address was already confirmed';
 
 /**
- * Confirms an address on an administrator's authority — the dashboard half of
+ * Confirms an address on an administrator's authority: the dashboard half of
  * `node ace user:verify-email`, and the way an account the sign-in gate is
  * holding out gets in when its confirmation link never arrived.
  */

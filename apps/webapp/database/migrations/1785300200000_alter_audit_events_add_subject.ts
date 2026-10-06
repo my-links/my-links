@@ -7,7 +7,7 @@ export default class extends BaseSchema {
 		this.schema.alterTable(this.tableName, (table) => {
 			table.string('type', 64).notNullable().alter();
 
-			// null means an authentication event — the vocabulary this table
+			// null means an authentication event: the vocabulary this table
 			// carried before activity rows existed.
 			table.string('subject_type', 24).nullable();
 

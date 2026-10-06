@@ -10,8 +10,8 @@ import { ApiTokenService } from '#services/user/api_token_service';
  * Sessions and access tokens are two separate stores, and a flow that clears
  * one but not the other revokes nothing an attacker cares about: a browser
  * extension holds a bearer token that outlives every cookie. Naming the pair
- * once is what keeps the two flows that need it — replacing a password, and
- * disowning an email change nobody asked for — from drifting apart.
+ * once is what keeps the two flows that need it (replacing a password, and
+ * disowning an email change nobody asked for) from drifting apart.
  */
 @inject()
 export class AccountAccessService {

@@ -9,7 +9,7 @@ import { AUTH_PROVIDER } from '#constants/auth';
  * an account whose email it has verified itself.
  *
  * Lives outside `database/migrations/` because that directory is scanned by the
- * migrator — every file in it is executed as a migration.
+ * migrator: every file in it is executed as a migration.
  */
 export async function backfillGoogleOauthAuths(
 	client: QueryClientContract

@@ -7,8 +7,8 @@ import { resolveMailConfig, type MailConfig } from '#lib/mail/mail_config';
 const BRAND_NAME = 'MyLinks';
 
 /**
- * The transport is built even when mail is disabled, so the config shape — and
- * the types generated from it — stay identical across deployments. Nothing ever
+ * The transport is built even when mail is disabled, so the config shape (and
+ * the types generated from it) stay identical across deployments. Nothing ever
  * reaches this host: `MailService` drops every message before the mailer sees
  * it.
  */

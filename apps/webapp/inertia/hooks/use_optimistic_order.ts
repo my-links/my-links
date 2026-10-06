@@ -8,7 +8,7 @@ type ReorderPayload = Record<string, string | number[]>;
 
 /**
  * A drop that visually snaps back while waiting on the server is worse than
- * no feature — this seeds local state from the server props, applies a
+ * no feature: this seeds local state from the server props, applies a
  * reorder immediately, and rolls back only if the request actually fails.
  * `preserveState: true` on the commit is required: without it Inertia
  * remounts the page and the optimistic order is lost mid-flight.

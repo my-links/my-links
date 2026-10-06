@@ -29,7 +29,7 @@ export default class ShowUserSettingsController {
 			displayName: user.fullname,
 			defaultLandingPage: user.defaultLandingPage,
 			// Both halves of an address change are links in mailboxes, so the form
-			// only exists where one can be sent — the endpoint answers 404 there,
+			// only exists where one can be sent: the endpoint answers 404 there,
 			// and offering the form anyway would send people straight into it.
 			canChangeEmail: this.mailConfigService.isEnabled,
 			// Which of the two password forms to render. Both endpoints refuse

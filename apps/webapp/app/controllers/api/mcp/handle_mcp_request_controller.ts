@@ -6,7 +6,7 @@ import { McpSessionManager } from '#services/mcp/mcp_session_manager';
 /**
  * Bridges `/api/mcp` to the MCP Streamable HTTP transport. All three verbs
  * (POST for JSON-RPC requests, GET for the SSE stream, DELETE for session
- * close) funnel through the same session lookup — the transport itself
+ * close) funnel through the same session lookup: the transport itself
  * branches on the method once a session is resolved.
  */
 @inject()

@@ -184,7 +184,7 @@ test.group('One-time tokens', (group) => {
 	});
 });
 
-test.group('Email verification — issuing the link', (group) => {
+test.group('Email verification: issuing the link', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -217,7 +217,7 @@ test.group('Email verification — issuing the link', (group) => {
 	});
 });
 
-test.group('Email verification — without outgoing mail', (group) => {
+test.group('Email verification: without outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should issue no token, since no link can reach the account', async ({
@@ -235,7 +235,7 @@ test.group('Email verification — without outgoing mail', (group) => {
 	});
 });
 
-test.group('Email verification — confirming the address', (group) => {
+test.group('Email verification: confirming the address', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should mark the address verified when the link is fresh', async ({
@@ -299,7 +299,7 @@ test.group('Email verification — confirming the address', (group) => {
 	});
 });
 
-test.group('Email verification — throttling', (group) => {
+test.group('Email verification: throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should flash a message and redirect back once the burst quota is spent', async ({

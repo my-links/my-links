@@ -1,12 +1,12 @@
 /**
- * The activity vocabulary — what a user or an administrator did to a
+ * The activity vocabulary: what a user or an administrator did to a
  * collection, a link, or an account's data. Kept as an `as const` object
  * rather than a TypeScript enum so the values persisted in database are
  * plain strings. See `#constants/audit` for how this joins the
  * authentication vocabulary in the shared journal.
  *
  * Deliberately absent: `link.visited`. `GET /l/:id` is reachable
- * unauthenticated and is by far the hottest write path in the app —
+ * unauthenticated and is by far the hottest write path in the app:
  * journaling it would swamp the table and tell us nothing about abuse.
  */
 export const ACTIVITY_EVENT_TYPE = {

@@ -26,7 +26,7 @@ const REFUSAL_MESSAGES = {
 	[PROVIDER_LINK_REFUSAL.LINKED_TO_ANOTHER_ACCOUNT]:
 		'That provider account already belongs to another account here',
 	[PROVIDER_LINK_REFUSAL.PROVIDER_SLOT_TAKEN]:
-		'This account already uses that provider — unlink it before linking another',
+		'This account already uses that provider. Unlink it before linking another',
 	[PROVIDER_LINK_REFUSAL.NOT_LINKED]:
 		'This account is not linked to that provider',
 } as const satisfies Record<ProviderLinkRefusal, string>;

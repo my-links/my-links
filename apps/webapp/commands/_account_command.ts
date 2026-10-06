@@ -29,7 +29,7 @@ export default abstract class AccountCommand extends BaseCommand {
 	 * Builds the route lookup store the console never gets for free.
 	 *
 	 * Routes are committed when the HTTP server starts, and no server starts
-	 * here — so a command turning a route name into a URL, which is what
+	 * here, so a command turning a route name into a URL, which is what
 	 * printing a reset link does, would be told the route does not exist.
 	 * Committing is idempotent, so every `user:*` command can afford to ask.
 	 */
@@ -45,7 +45,7 @@ export default abstract class AccountCommand extends BaseCommand {
 	 * A mistyped address and an account that cannot afford to lose its last
 	 * administrator are both ordinary answers, not crashes, and a stack trace
 	 * would bury the one sentence that matters. Anything this does not
-	 * recognize is re-thrown untouched — an unexpected failure has every right
+	 * recognize is re-thrown untouched: an unexpected failure has every right
 	 * to be loud.
 	 */
 	async completed(): Promise<boolean> {

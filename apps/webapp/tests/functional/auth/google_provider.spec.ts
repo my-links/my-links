@@ -11,7 +11,7 @@ function enableGoogleAuth() {
 	app.container.swap(GoogleAuthConfigService, () => ({ isEnabled: true }));
 }
 
-test.group('Google auth provider — disabled', (group) => {
+test.group('Google auth provider: disabled', (group) => {
 	group.each.setup(() => {
 		disableGoogleAuth();
 		return () => app.container.restore(GoogleAuthConfigService);
@@ -45,7 +45,7 @@ test.group('Google auth provider — disabled', (group) => {
 	});
 });
 
-test.group('Google auth provider — enabled', (group) => {
+test.group('Google auth provider: enabled', (group) => {
 	group.each.setup(() => {
 		enableGoogleAuth();
 		return () => app.container.restore(GoogleAuthConfigService);

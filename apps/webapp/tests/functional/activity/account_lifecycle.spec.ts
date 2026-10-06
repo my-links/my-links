@@ -20,7 +20,7 @@ async function createAdmin(prefix = 'admin'): Promise<User> {
 	return user;
 }
 
-test.group('Account deletion — self service', (group) => {
+test.group('Account deletion: self service', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -95,7 +95,7 @@ test.group('Account deletion — self service', (group) => {
 	});
 });
 
-test.group('Account deletion — administrator bulk delete', (group) => {
+test.group('Account deletion: administrator bulk delete', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -222,7 +222,7 @@ test.group('Account deletion — administrator bulk delete', (group) => {
 	/**
 	 * Regression: `lastSeenAt` used to be `autoUpdate` on the model, so saving
 	 * the target row here (setting `pendingDeletionAt`) silently stamped it to
-	 * "now" — a target who never made a request of their own reading as
+	 * "now": a target who never made a request of their own reading as
 	 * freshly active, purely because an administrator acted on their account.
 	 */
 	test("should not touch the target's lastSeenAt", async ({

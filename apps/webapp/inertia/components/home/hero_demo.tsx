@@ -11,7 +11,7 @@ const RESOLVING_DURATION_MS = 500;
 type Phase = 'resolved' | 'typing' | 'resolving';
 
 /**
- * Renders only the finished card on the server and on first paint — SSR and
+ * Renders only the finished card on the server and on first paint: SSR and
  * no-JS visitors never see anything else. The rewind-and-replay only happens
  * client-side, once, and only without `prefers-reduced-motion`: the initial
  * client render still matches the server (phase starts at "resolved" either

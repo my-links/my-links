@@ -9,7 +9,7 @@ import { paginateAuditJournal } from '#lib/audit_journal_query';
 
 /**
  * Something a user or an administrator did to a collection, a link, or an
- * account's data. Never the content of any of those — see the constraint
+ * account's data. Never the content of any of those, see the constraint
  * documented on `#constants/activity`.
  */
 export type ActivityEventRecord = {
@@ -24,7 +24,7 @@ export type ActivityEventRecord = {
 
 /**
  * How long an activity row is kept before `pruneBefore` removes it.
- * Authentication rows are exempt — see `pruneBefore`.
+ * Authentication rows are exempt, see `pruneBefore`.
  */
 export const ACTIVITY_EVENT_RETENTION_DAYS = 90;
 
@@ -66,7 +66,7 @@ export class ActivityEventService {
 
 	/**
 	 * Deletes activity rows older than `date`. Scoped to `subject_type IS NOT
-	 * NULL` so it can never touch an authentication row — those are security
+	 * NULL` so it can never touch an authentication row: those are security
 	 * evidence and are never pruned.
 	 */
 	async pruneBefore(date: DateTime): Promise<number> {

@@ -51,7 +51,7 @@ function uploadOf(contents: string, filename: string) {
 	return { buffer: Buffer.from(contents), filename };
 }
 
-test.group('User settings import — upload', (group) => {
+test.group('User settings import: upload', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should import the collections and links of a valid export file', async ({

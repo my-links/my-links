@@ -14,7 +14,7 @@ export type AccountDeletionRequestedPayload = {
 /**
  * The safety net for a misclick, or for an account the inactivity sweep
  * flagged on nobody's behalf: confirms the request landed, and states
- * plainly that logging back in during the grace period is how to undo it —
+ * plainly that logging back in during the grace period is how to undo it:
  * the login flow itself is what asks for that confirmation, this mail just
  * has to point back at it. `reason` only changes the opening line: an
  * account nobody asked to delete should never read "your request".

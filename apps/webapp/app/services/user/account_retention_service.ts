@@ -29,7 +29,7 @@ export class AccountRetentionService {
 	 * already on the clock, the second is never a valid target for an
 	 * automatic action.
 	 *
-	 * Meant to run on a schedule — see `start/scheduler.ts` and
+	 * Meant to run on a schedule, see `start/scheduler.ts` and
 	 * `commands/flag_inactive_accounts.ts`.
 	 */
 	async flagInactiveAccounts(): Promise<number> {
@@ -63,7 +63,7 @@ export class AccountRetentionService {
 	 * Wipes an account's own data, self-service (no actor). The activity row is
 	 * written before the delete, not after: `audit_events.user_id` references
 	 * `users`, so a row naming a user has to be inserted while that user still
-	 * exists. `ON DELETE SET NULL` then takes over — the row survives the
+	 * exists. `ON DELETE SET NULL` then takes over: the row survives the
 	 * cascade and simply loses the name, exactly as it does for every other
 	 * account event.
 	 */
@@ -88,11 +88,11 @@ export class AccountRetentionService {
 	}
 
 	/**
-	 * Wipes every account whose grace period ran out — `deleteUser` unchanged,
+	 * Wipes every account whose grace period ran out, `deleteUser` unchanged,
 	 * the same self-service wipe a login-time cancellation would otherwise
 	 * have pre-empted.
 	 *
-	 * Meant to run on a schedule — see `start/scheduler.ts` and
+	 * Meant to run on a schedule, see `start/scheduler.ts` and
 	 * `commands/prune_deleted_accounts.ts`.
 	 */
 	async pruneExpiredDeletions(): Promise<number> {
