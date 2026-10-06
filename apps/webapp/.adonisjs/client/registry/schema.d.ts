@@ -463,6 +463,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'user.settings.landing_page': {
+    methods: ["PUT"]
+    pattern: '/user/settings/landing-page'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/update_landing_page_validator').updateLandingPageValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/update_landing_page_validator').updateLandingPageValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/update_landing_page_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/update_landing_page_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'user.settings.delete': {
     methods: ["DELETE"]
     pattern: '/user/settings/account'

@@ -135,6 +135,7 @@ export const controllers = {
     ImportUserData: () => import('#controllers/user_settings/import_user_data_controller'),
     RenameAccount: () => import('#controllers/user_settings/rename_account_controller'),
     ShowUserSettings: () => import('#controllers/user_settings/show_user_settings_controller'),
+    UpdateLandingPage: () => import('#controllers/user_settings/update_landing_page_controller'),
   },
   user: {
     CreateApiToken: () => import('#controllers/user/create_api_token_controller'),
