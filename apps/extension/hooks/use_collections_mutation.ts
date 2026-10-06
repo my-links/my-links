@@ -23,7 +23,7 @@ type CollectionsMutationContext = {
 /**
  * Shared optimistic-update/rollback plumbing for every collections/links
  * mutation. Local-only: it never writes `collectionsCacheStorage` itself
- * (the background worker is the sole writer, see storage.ts) — on settle it
+ * (the background worker is the sole writer, see storage.ts), on settle it
  * nudges a resync so the real server state lands in storage and propagates
  * to every open window, correcting anything the optimistic guess got wrong
  * (e.g. a create-link placeholder's temporary id).

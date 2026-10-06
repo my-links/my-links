@@ -19,7 +19,7 @@ export function CreateLinkModal({
 }: Readonly<CreateLinkModalProps>) {
 	const createLink = useCreateLink();
 	// The Inbox membership is the "no collection" fallback, not an explicit
-	// choice, so it's stripped from any seed — an empty set lands there anyway.
+	// choice, so it's stripped from any seed: an empty set lands there anyway.
 	const inboxCollectionId = collections.find(
 		(collection) => collection.isDefault
 	)?.id;

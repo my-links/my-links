@@ -82,7 +82,7 @@ export function withoutMappedBookmark(
 }
 
 /**
- * Drops every bookmark entry filed under a collection — used when a whole
+ * Drops every bookmark entry filed under a collection, used when a whole
  * mapped folder goes away, so its children don't linger as mappings pointing
  * at node ids the browser has already reclaimed.
  */

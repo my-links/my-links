@@ -3,7 +3,7 @@
  *
  * Everything that decides *what* to write to the native tree depends on this
  * interface rather than on the global `browser` object, so the diff and the
- * takeover logic can be exercised against an in-memory tree in tests — the
+ * takeover logic can be exercised against an in-memory tree in tests: the
  * fake browser shipped with WXT throws "not implemented" for every
  * `bookmarks` method.
  */
@@ -16,7 +16,7 @@ export type BookmarkNode = {
 	index?: number;
 	/**
 	 * When the browser created the node. The only timestamp the API offers
-	 * that says anything about a node's origin — there is none for edits — and
+	 * that says anything about a node's origin (there is none for edits) and
 	 * it is what keeps the mirror from swallowing a bar full of bookmarks that
 	 * predate it.
 	 */

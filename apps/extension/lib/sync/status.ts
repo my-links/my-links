@@ -9,7 +9,7 @@ export type SyncStatus = {
 /**
  * A failed sync attempt (`consecutiveFailures > 0`) means whatever is
  * currently in `collectionsCacheStorage` is left over from an earlier
- * success — the UI keeps showing it (never a blank screen) but should mark
+ * success: the UI keeps showing it (never a blank screen) but should mark
  * it stale rather than imply it's live. `isAuthInvalid` refines that: when
  * the failure was specifically a rejected token (401), the fix is a
  * reconnect, not a wait, so the UI surfaces that distinctly.

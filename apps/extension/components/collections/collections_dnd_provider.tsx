@@ -40,7 +40,7 @@ import {
  * options]` by reference, and a new object reference handed to `<DndContext>`
  * mid-drag resets dnd-kit's internal sensor activation state, silently
  * dropping the gesture in progress (bit the webapp port during its own link
- * drag work — see plan phase 5b).
+ * drag work: see plan phase 5b).
  */
 const POINTER_SENSOR_OPTIONS = { activationConstraint: { distance: 8 } };
 const KEYBOARD_SENSOR_OPTIONS = {

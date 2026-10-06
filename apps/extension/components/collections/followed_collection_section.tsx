@@ -14,7 +14,7 @@ type FollowedCollectionSectionProps = {
 };
 
 /**
- * Read-only counterpart to `CollectionSection` — no add-link button, no
+ * Read-only counterpart to `CollectionSection`: no add-link button, no
  * kebab menu (rename/delete belong to the author, not a follower). Sortable
  * within the shared `CollectionsDndProvider` like owned collections, but
  * `isOwner: false` keeps it out of bounds as a link-drop target (see

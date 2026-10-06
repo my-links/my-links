@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 /**
  * dnd-kit only hands over the modifier state at pointerdown (via
  * `activatorEvent`), which would require pressing Shift before starting the
- * drag — nobody discovers that. This tracks Shift live for the duration of a
+ * drag: nobody discovers that. This tracks Shift live for the duration of a
  * drag instead. Returns both a reactive value (for UI, e.g. a live badge)
  * and a ref (for a synchronous read inside `onDragEnd`, unaffected by
  * React's render batching).

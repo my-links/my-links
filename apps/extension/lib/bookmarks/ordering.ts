@@ -6,7 +6,7 @@ import type { BookmarkOperation } from '@/lib/bookmarks/operations';
  * `desiredNodeIds` order, or none if they already match.
  *
  * Nodes in `desiredNodeIds` that aren't (yet) present in `actualChildren` are
- * dropped rather than treated as a mismatch — the node may not exist yet, or
+ * dropped rather than treated as a mismatch: the node may not exist yet, or
  * belong to a folder the caller isn't touching this pass. Nodes present in
  * `actualChildren` but absent from `desiredNodeIds` keep their spot instead of
  * being pushed to either end: the caller decides what counts as "desired",

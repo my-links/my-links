@@ -1,5 +1,5 @@
 /**
- * The state the browser and the server were last agreed on — Floccus calls it
+ * The state the browser and the server were last agreed on. Floccus calls it
  * the cache tree.
  *
  * Without it, a mirror pass can only compare the native node to the server and
@@ -9,7 +9,7 @@
  * way before this existed.
  *
  * Against a snapshot the question has an answer. A side that still matches it
- * has not moved — it is merely behind, and gets overwritten without a say. A
+ * has not moved: it is merely behind, and gets overwritten without a say. A
  * side that differs from it has moved. Both differing is a real conflict,
  * settled by an explicit rule instead of by which half of the pass ran first.
  *
@@ -23,7 +23,7 @@ export type SyncedNode = {
 	url?: string;
 };
 
-/** Keyed by native node id — the only identifier both sides of a pass share. */
+/** Keyed by native node id: the only identifier both sides of a pass share. */
 export type SyncedTree = Record<string, SyncedNode>;
 
 export const EMPTY_SYNCED_TREE: SyncedTree = {};

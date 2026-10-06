@@ -6,7 +6,7 @@
  * toolbar click and has no way to focus a panel that is already showing;
  * Firefox needs a click listener of its own but can raise its sidebar
  * outright. Callers ask for the behaviour they want and stay out of that
- * argument — the same reason `bookmarks_api.ts` exists.
+ * argument: the same reason `bookmarks_api.ts` exists.
  */
 
 export type PanelApi = {
@@ -28,7 +28,7 @@ export type SidePanelNamespace = {
 		openPanelOnActionClick: boolean;
 	}): Promise<void>;
 	open(options: { windowId: number }): Promise<void>;
-	/** Chrome 141 and up only — older builds simply cannot close a panel. */
+	/** Chrome 141 and up only; older builds simply cannot close a panel. */
 	close?: (options: { windowId: number }) => Promise<void>;
 };
 
@@ -54,7 +54,7 @@ export function createSidePanelApi(sidePanel: SidePanelNamespace): PanelApi {
 		/**
 		 * A panel that is already open is closed and reopened rather than left
 		 * alone: Chrome has no API to focus the side panel, and `open` on a
-		 * panel that is already showing is a silent no-op — so from a focused
+		 * panel that is already showing is a silent no-op, so from a focused
 		 * web page the shortcut would otherwise do nothing at all. Reopening is
 		 * what moves keyboard focus, at the cost of remounting the panel.
 		 */
@@ -95,15 +95,15 @@ export function createSidebarActionApi(
 		/**
 		 * Opens the sidebar but cannot focus it. Firefox never hands keyboard
 		 * focus to an extension sidebar it opened programmatically, and offers
-		 * no API to ask for it — open since 2018, still unfixed
+		 * no API to ask for it, open since 2018, still unfixed
 		 * (https://bugzilla.mozilla.org/show_bug.cgi?id=1502713). Its own
 		 * `_execute_sidebar_action` command has the same gap.
 		 *
 		 * Chromium's close-and-reopen workaround does not help here: the point
 		 * of reopening is that a freshly created panel document takes focus,
 		 * which is exactly what Firefox declines to do. So the caret is placed
-		 * in the search field anyway — `document.activeElement` survives an
-		 * unfocused document — and lands the moment the user clicks into the
+		 * in the search field anyway (`document.activeElement` survives an
+		 * unfocused document) and lands the moment the user clicks into the
 		 * sidebar. The window is implicit: Firefox opens the sidebar of the
 		 * window the gesture came from.
 		 */
@@ -145,7 +145,7 @@ export function getBrowserPanelApi(): PanelApi {
 
 /**
  * `sidebarAction` is absent from the Chromium-generated types WXT ships, and a
- * namespace cannot be declared optional — on Chromium it genuinely is not
+ * namespace cannot be declared optional; on Chromium it genuinely is not
  * there. So it is read as unknown and validated here, like any other value
  * crossing into the extension from outside it.
  */

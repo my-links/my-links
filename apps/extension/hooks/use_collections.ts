@@ -15,7 +15,7 @@ type UseCollectionsReturn = {
 };
 
 /**
- * Never fetches on its own — the background worker is the sole network
+ * Never fetches on its own: the background worker is the sole network
  * caller (see `sync_collections.ts`). This hook only asks it to refresh
  * early (`requestBackgroundSync`) and mirrors whatever it writes to
  * `collectionsCacheStorage` into the query cache, which is also how every

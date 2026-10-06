@@ -13,7 +13,7 @@ export class ReorderCollectionsError extends Error {}
 export class ReorderCollectionLinksError extends Error {}
 
 /**
- * The instance rejected the API token (deleted or expired) — distinct from a
+ * The instance rejected the API token (deleted or expired), distinct from a
  * generic fetch failure so the sync layer can prompt for a reconnect instead
  * of silently backing off as if the server were merely unreachable.
  */

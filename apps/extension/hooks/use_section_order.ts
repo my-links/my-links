@@ -15,7 +15,7 @@ type UseSectionOrderReturn = {
 };
 
 /**
- * Purely a local display preference, never synced to the server — the same
+ * Purely a local display preference, never synced to the server: the same
  * choice the webapp made for its own section order (zustand persisted to
  * `localStorage`). Mirrors `collectionsCacheStorage`'s
  * get-then-watch pattern (see `use_followed_collections.ts`) so every open

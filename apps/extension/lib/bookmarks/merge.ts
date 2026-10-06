@@ -28,7 +28,7 @@ export type ReconcileInput = {
 	collections: CollectionWithLinks[];
 	collectionsFolderId: string;
 	barId: string;
-	/** The bar's whole subtree — pins live on it, collections under a folder. */
+	/** The bar's whole subtree: pins live on it, collections under a folder. */
 	barChildren: BookmarkNode[];
 	mapping: BookmarkMapping;
 	snapshot: SyncedTree;
@@ -61,7 +61,7 @@ export type ReconcilePlan = {
  * field, **the server wins**: it is the multi-device source of truth and the
  * webapp is the richer editor.
  *
- * Pure, and deliberately so — convergence is proved by applying a plan and
+ * Pure, and deliberately so: convergence is proved by applying a plan and
  * reconciling again, which has to come out empty.
  */
 export function reconcile(input: ReconcileInput): ReconcilePlan {
@@ -197,7 +197,7 @@ type TitleDecision = { native: string; pushedName: string | undefined };
 
 /**
  * The server's name unless the browser's is the only one that moved since the
- * snapshot — which is also how a two-sided rename resolves, the server winning
+ * snapshot, which is also how a two-sided rename resolves, the server winning
  * by default.
  */
 function decideFolderTitle(
@@ -265,7 +265,7 @@ function planRemovedFolders(context: MergeContext): {
 }
 
 /**
- * A deleted collection takes its folder with it — but only when the mirror
+ * A deleted collection takes its folder with it, but only when the mirror
  * created everything inside it. `removeTree` would take the user's own
  * bookmarks down with it, and nothing the mirror did not create may ever be
  * deleted, so a folder holding anything else is emptied of what belongs to
@@ -523,7 +523,7 @@ type MembershipDecision = {
  * An empty local set is never pushed: the server re-files a link with no
  * collection under the Inbox, so the push would change nothing, come back as
  * the same difference, and loop. Removing a link's last bookmark is not a
- * detach — the outbound half of the pass puts the bookmark back.
+ * detach: the outbound half of the pass puts the bookmark back.
  */
 function decideMembership(
 	context: MergeContext,
@@ -575,7 +575,7 @@ type PlacementPlan = {
  * Files the link's existing nodes under the collections it should belong to,
  * reusing them wherever possible: a bookmark dragged between two folders is
  * the same bookmark, and deleting it to create it again would lose its
- * identity — and its place in the user's ordering — for nothing.
+ * identity (and its place in the user's ordering) for nothing.
  *
  * A node that has been pulled out of the collections entirely is only reused
  * to spare a creation, never deleted: the user moved it somewhere they wanted
@@ -806,7 +806,7 @@ function unpin(pin: PinState): BookmarkOperation {
 // ---------------------------------------------------------------------------
 
 /**
- * A link can own several nodes — one per collection folder, plus a pin — and
+ * A link can own several nodes (one per collection folder, plus a pin) and
  * they used to take turns pushing their own title back at each other forever.
  * They are judged together against the single title they were all settled on:
  * if none of them moved, the server's name wins; if one did, it wins and its
@@ -849,7 +849,7 @@ function findSettledTitle(
 
 /**
  * URLs belong to the server, always. The two sides normalise them differently
- * and neither yields, so a difference can never be read as a user edit — a
+ * and neither yields, so a difference can never be read as a user edit: a
  * URL is changed from the sidebar or the webapp, not from the bookmark
  * manager.
  */
@@ -954,7 +954,7 @@ function planAdoptions(
  * The distinction matters because the star button cannot be pinned down by
  * place. Chromium files a new bookmark into the most recently modified folder
  * (`GetParentForNewNodes`), and the mirror writes into its own folders on
- * every pass — so it keeps making itself the target, and a saved page can
+ * every pass, so it keeps making itself the target, and a saved page can
  * surface in any collection.
  */
 function buildAdoption(
@@ -992,7 +992,7 @@ function collectFiledNodes(
 
 /**
  * A bookmark on the bar itself joins the default collection, and is kept as
- * the link's pin — the bar is where pins live, so leaving it anywhere else
+ * the link's pin: the bar is where pins live, so leaving it anywhere else
  * would move it out from under the user.
  *
  * Only ones saved since the mirror was switched on: the bar was the user's

@@ -3,9 +3,9 @@ import type { ServerChange } from '@/lib/bookmarks/operations';
 /**
  * A stable signature for a set of changes pushed to the server.
  *
- * Purely a safety net. Convergence is the merge's job — a change derived
- * against the snapshot disappears from the next pass once it has been written
- * — and this only catches the case where that reasoning is wrong: the same
+ * Purely a safety net. Convergence is the merge's job: a change derived
+ * against the snapshot disappears from the next pass once it has been written.
+ * This only catches the case where that reasoning is wrong: the same
  * set of pushes twice in a row means the server is not recording what it is
  * told, so the pass is failed and backed off instead of hammering the API
  * until the rate limiter cuts in. Successful writes never trip the failure

@@ -18,7 +18,7 @@ type StoredNode = {
  * In-memory stand-in for `browser.bookmarks`, used by the bookmark specs.
  *
  * WXT's fake browser throws "not implemented" for every `bookmarks` method,
- * and the mirror's whole job is a sequence of native writes — testing it
+ * and the mirror's whole job is a sequence of native writes; testing it
  * against a real tree structure is the only way to catch ordering and
  * parenting mistakes. Sibling order is the insertion order, which is all the
  * mirror ever relies on.

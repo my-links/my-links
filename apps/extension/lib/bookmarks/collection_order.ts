@@ -11,7 +11,7 @@ import {
 
 /**
  * Reorders the collection folders directly under the mirror's root folder to
- * match the server's `collections` order — the same array order the sidebar
+ * match the server's `collections` order, the same array order the sidebar
  * already reflects, since `position` sorts it before it ever reaches here.
  */
 export function buildFolderReorder(

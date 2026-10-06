@@ -15,7 +15,7 @@ type UseFollowedCollectionsReturn = {
 };
 
 /**
- * Same read-only-fetch pattern as `useCollections` — the background worker is
+ * Same read-only-fetch pattern as `useCollections`: the background worker is
  * the sole network caller, this hook only mirrors `collectionsCacheStorage`
  * into its own query cache. Kept as a separate query key rather than folded
  * into `useCollections`'s `CollectionWithLinks[]` cache entry: every owned

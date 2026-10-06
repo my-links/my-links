@@ -37,7 +37,7 @@ export function CollectionSection({
 			section,
 			isOwner: true,
 		},
-		// Default layout-change animation scales rows to old/new height on reorder — wrong for wildly variable collapsed/expanded heights.
+		// Default layout-change animation scales rows to old/new height on reorder, wrong for wildly variable collapsed/expanded heights.
 		animateLayoutChanges: () => false,
 	});
 

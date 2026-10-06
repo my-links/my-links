@@ -17,7 +17,7 @@ export const MAX_CONCURRENT_BOOKMARK_WRITES = 4;
 export type BookmarkApplyResult = {
 	mapping: BookmarkMapping;
 	/**
-	 * Snapshot entries for the nodes this run created — the executor is the
+	 * Snapshot entries for the nodes this run created: the executor is the
 	 * first to learn their ids, so the plan could not carry them.
 	 */
 	snapshot: SyncedTree;
@@ -51,7 +51,7 @@ const NO_MAPPING_RESULT: OperationResult = { changes: [], snapshot: {} };
  *
  * A failing operation is isolated rather than aborting the batch: nodes the
  * successful ones created are already in the tree, and losing their mapping
- * would leave them unclaimed — the next pass would then read them as
+ * would leave them unclaimed: the next pass would then read them as
  * bookmarks the user added by hand and adopt them into duplicate links. The
  * caller persists this mapping and treats a non-zero failure count as a
  * failed pass, so the rest is retried under backoff.
@@ -181,7 +181,7 @@ async function createFolder(
 	rootId: string,
 	operation: Extract<BookmarkOperation, { kind: 'create-folder' }>
 ): Promise<OperationResult> {
-	// Always directly under the root — the mirror is one folder deep, and
+	// Always directly under the root: the mirror is one folder deep, and
 	// creating anywhere else would put writes outside the collections folder.
 	const folder = await api.create({ parentId: rootId, title: operation.title });
 

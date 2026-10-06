@@ -17,7 +17,7 @@ export function isRequestSyncMessage(
 
 /**
  * Fire-and-forget nudge sidebars send on mount so a freshly opened window
- * doesn't wait for the next alarm tick to see live data — the background
+ * doesn't wait for the next alarm tick to see live data: the background
  * worker still owns backoff/mutex, this just wakes it early.
  */
 export function requestBackgroundSync(): void {

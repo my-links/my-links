@@ -193,7 +193,7 @@ export function CollectionTree() {
 						</Tooltip>
 					</div>
 					<CollectionsDndProvider>
-						{/* Scoped off DndContext's own DOM parent — it injects hidden a11y sibling divs that would otherwise pick up a stray divide-y border too. */}
+						{/* Scoped off DndContext's own DOM parent: it injects hidden a11y sibling divs that would otherwise pick up a stray divide-y border too. */}
 						<div className="divide-y divide-gray-200 space-y-1 dark:divide-gray-700">
 							{inboxCollection && (
 								<PinnedInboxSection

@@ -30,7 +30,7 @@ function buildHaystackEntry(link: FuzzyLink): string {
 }
 
 /**
- * Keeps only the ranges that fall inside the name — the haystack also
+ * Keeps only the ranges that fall inside the name: the haystack also
  * contains the description and url, but only the name is highlighted.
  */
 function extractNameRanges(
@@ -78,7 +78,7 @@ function runSearch(
 /**
  * Matches `links` against `query` with a strict pass first (typo-tolerant
  * but requires terms in order and mostly contiguous), falling back to a
- * loose pass only when the strict one finds nothing — this is what lets
+ * loose pass only when the strict one finds nothing: this is what lets
  * `ytb` match `youtube` without ranking sloppy matches above precise ones.
  */
 export function matchLinks<TLink extends FuzzyLink>(

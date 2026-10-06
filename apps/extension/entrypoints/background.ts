@@ -41,7 +41,7 @@ export default defineBackground(() => {
 
 	// The mirror reads the cache, never the network, so a refreshed cache is
 	// its "the server changed" signal. Requests landing while a pass is
-	// already running are coalesced rather than dropped — see syncBookmarks.
+	// already running are coalesced rather than dropped, see syncBookmarks.
 	collectionsCacheStorage.watch(() => {
 		void syncBookmarks();
 	});
@@ -53,7 +53,7 @@ export default defineBackground(() => {
 	// `bookmarks` is an optional permission, so the namespace does not exist
 	// until the user turns mirroring on. Registering again on `onAdded` is
 	// what keeps native edits flowing within seconds of the grant instead of
-	// waiting for the alarm — this worker is already running when the
+	// waiting for the alarm: this worker is already running when the
 	// permission lands, so its startup pass has come and gone.
 	const registerBookmarkListeners = () => {
 		if (!browser.bookmarks) {
@@ -97,7 +97,7 @@ export default defineBackground(() => {
 	});
 
 	// This callback itself reruns on every service worker wake (install,
-	// browser start, any of the listeners above) — resync immediately rather
+	// browser start, any of the listeners above); resync immediately rather
 	// than waiting for the next alarm tick. Firefox runs a persistent MV2
 	// background page instead, so there it simply runs once and stays up; the
 	// wake triggers above are harmless extra resyncs, not the lifeline.

@@ -13,7 +13,7 @@ export class BookmarksPermissionDeniedError extends Error {}
  * mirror only ever adds its own nodes alongside the user's, and only nodes it
  * created are ever eligible for removal later.
  *
- * Must be called from a user gesture — `permissions.request` is rejected
+ * Must be called from a user gesture: `permissions.request` is rejected
  * outright otherwise.
  */
 export async function enableBookmarkMirror(): Promise<void> {
@@ -46,7 +46,7 @@ export async function enableBookmarkMirror(): Promise<void> {
 /**
  * Stops mirroring and leaves the bookmarks exactly where they are. Deleting
  * them would be the one irreversible thing this feature could do, and the
- * user may well want to keep the folder — the point of turning it off is that
+ * user may well want to keep the folder: the point of turning it off is that
  * it stops changing, not that it vanishes.
  */
 export async function disableBookmarkMirror(): Promise<void> {

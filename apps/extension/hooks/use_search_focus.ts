@@ -8,7 +8,7 @@ import {
 
 /**
  * Ref to hand to the search input so the `open-search` keyboard shortcut can
- * land the caret in it — whether the shortcut is what opened this page, or it
+ * land the caret in it, whether the shortcut is what opened this page, or it
  * was already open and in front.
  *
  * On Firefox the caret is placed but the sidebar never gets keyboard focus,

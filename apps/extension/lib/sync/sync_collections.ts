@@ -13,7 +13,7 @@ import {
 let isSyncing = false;
 
 /**
- * Sole writer of `collectionsCacheStorage` — the background worker calls
+ * Sole writer of `collectionsCacheStorage`: the background worker calls
  * this on every alarm tick and wake trigger, sidebars only ever read the
  * cache it produces. `isSyncing` dedupes overlapping triggers (e.g. an
  * alarm firing right as a tab-focus event does); backoff protects small
@@ -22,7 +22,7 @@ let isSyncing = false;
 export async function syncCollections(): Promise<void> {
 	// Set before the first `await` so two calls fired back-to-back in the
 	// same tick (e.g. a sidebar's request racing an alarm) can't both pass
-	// this check — the second sees `true` synchronously, not after a delay.
+	// this check: the second sees `true` synchronously, not after a delay.
 	if (isSyncing) {
 		return;
 	}
@@ -49,7 +49,7 @@ export async function syncCollections(): Promise<void> {
 				computeBackoffAfterFailure(backoffState, Date.now())
 			);
 			// Only claim the token is dead when the server explicitly said so
-			// (401) — a network blip must not masquerade as an auth failure.
+			// (401): a network blip must not masquerade as an auth failure.
 			await authInvalidStorage.setValue(error instanceof UnauthorizedApiError);
 		}
 	} finally {

@@ -17,7 +17,7 @@ import {
  * link rows: checking collection containers first made every hover over a
  * sibling row resolve to the surrounding collection, so an in-collection
  * reorder could never be expressed. A link only ever considers *owned*
- * collection containers — a followed collection isn't a legal drop target,
+ * collection containers: a followed collection isn't a legal drop target,
  * the follower doesn't manage its contents (see `isOwner` on
  * `CollectionDragData`).
  */

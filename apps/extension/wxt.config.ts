@@ -32,7 +32,7 @@ export default defineConfig({
 		// entrypoint (which becomes `sidebar_action` on Firefox).
 		// `contextMenus`/`notifications` back the quick-capture flow (Phase 2).
 		// `tabs` gives the sidebar's quick-add button reliable title/url
-		// access to whatever tab is currently active — the panel stays open
+		// access to whatever tab is currently active: the panel stays open
 		// across tab switches, so the gesture-scoped `activeTab` permission
 		// would go stale the moment the user changes tabs without reclicking
 		// the toolbar icon.
@@ -46,7 +46,7 @@ export default defineConfig({
 		],
 		// `bookmarks` is optional, not static: mirroring adds nodes to the
 		// user's bookmarks bar, so the grant is asked for from the options page
-		// at the moment they turn the mirror on — never at install time.
+		// at the moment they turn the mirror on, never at install time.
 		//
 		// MV2 has no `optional_host_permissions` (WXT strips the key), and
 		// carries optional origins in `optional_permissions` instead. Getting
@@ -56,7 +56,7 @@ export default defineConfig({
 		optional_permissions:
 			manifestVersion === 3 ? ['bookmarks'] : ['bookmarks', ANY_ORIGIN],
 		optional_host_permissions: [ANY_ORIGIN],
-		// Empty object: the extension has an action (icon), but no popup —
+		// Empty object: the extension has an action (icon), but no popup:
 		// clicking it opens the panel instead (see background.ts). WXT renames
 		// this to `browser_action` on MV2.
 		action: {},
@@ -80,7 +80,7 @@ export default defineConfig({
 					// Links, titles and folder structure leave the device for
 					// the user's own instance, which is exactly what
 					// `bookmarksInfo` covers. Declaring `none` here would be a
-					// lie — the extension does transmit them, just not to us.
+					// lie: the extension does transmit them, just not to us.
 					data_collection_permissions: { required: ['bookmarksInfo'] },
 				},
 			},

@@ -17,7 +17,7 @@ export type DesiredFolder = {
  * tree can actually hold: one folder per collection, one bookmark per
  * (collection, link) pair.
  *
- * The duplication is the point — native bookmarks are single-parent, so a
+ * The duplication is the point: native bookmarks are single-parent, so a
  * link filed in three collections has to exist as three nodes. That is why
  * multi-collection support had to land before any of this.
  */

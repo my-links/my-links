@@ -16,7 +16,7 @@ import { QuickAddButton } from '@/components/quick_add/quick_add_button';
 import { NewCollectionButton } from '@/components/collections/new_collection_button';
 
 /**
- * Shared between the sidepanel and newtab entrypoints (Phase 3) — same
+ * Shared between the sidepanel and newtab entrypoints (Phase 3), same
  * connected/not-connected shell, same TanStack Query cache, sidepanel just
  * renders it narrower.
  */

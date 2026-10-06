@@ -7,7 +7,7 @@
  * two sides out of sync until something else happens to trigger another run.
  * Here the request is remembered instead, and the task repeats once.
  *
- * Requests that pile up during a run collapse into that single repeat — the
+ * Requests that pile up during a run collapse into that single repeat: the
  * task reads current state, so running it three times in a row would do the
  * same work three times.
  */
