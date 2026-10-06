@@ -3,6 +3,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import { createUser } from '#tests/factories/user_factory';
 import { createLink } from '#tests/factories/link_factory';
+import { LANDING_PAGE } from '#enums/dashboard/landing_page';
 
 const HOME_PATH = '/';
 const FAVORITES_PATH = '/collections/favorites';
@@ -32,6 +33,21 @@ test.group('Landing redirect', (group) => {
 		const response = await client.get(HOME_PATH).loginAs(user).redirects(0);
 
 		response.assertHeader('location', FAVORITES_PATH);
+	});
+
+	test('should redirect to the inbox when the preference is inbox even with favorites', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'landing' });
+		user.defaultLandingPage = LANDING_PAGE.INBOX;
+		await user.save();
+		const link = await createLink({ author: user });
+		link.favorite = true;
+		await link.save();
+
+		const response = await client.get(HOME_PATH).loginAs(user).redirects(0);
+
+		response.assertHeader('location', INBOX_PATH);
 	});
 
 	test('should keep flash messages across the landing redirect', async ({

@@ -34,6 +34,13 @@ router
 			.as('user.settings.rename');
 
 		router
+			.put('/user/settings/landing-page', [
+				controllers.userSettings.UpdateLandingPage,
+				'execute',
+			])
+			.as('user.settings.landing_page');
+
+		router
 			.delete('/user/settings/account', [
 				controllers.userSettings.DeleteUserAccount,
 				'execute',
