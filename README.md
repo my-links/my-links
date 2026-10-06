@@ -25,7 +25,7 @@
 
 ```bash
 mkdir my-links-deployment && cd my-links-deployment
-# docker-compose.yml pulling sonny93/my-links, plus a .env, see the full guide
+# docker-compose.yml pulling sonny93/my-links, plus a .env (see the full guide)
 docker compose up -d
 ```
 

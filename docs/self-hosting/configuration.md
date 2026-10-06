@@ -1,6 +1,6 @@
 # Configuration
 
-`.env.example` lives at the repository root: start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
+`.env.example` lives at the repository root. Start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
 
 Where the actual `.env` goes depends on how you run the app. Docker Compose reads it from the repository root, next to the compose file. Native runs (migrations, `node ace`, the dev server) expect it inside `apps/webapp`, since that's where the `node ace` CLI itself resolves it from:
 
