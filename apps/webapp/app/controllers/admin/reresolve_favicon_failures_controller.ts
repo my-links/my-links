@@ -3,6 +3,9 @@ import { HttpContext } from '@adonisjs/core/http';
 
 import { FaviconAdminService } from '#services/favicons/favicon_admin_service';
 
+const reResolvedMessage = (succeeded: number, attempted: number) =>
+	`Re-resolved ${succeeded} of ${attempted} failing favicon(s)`;
+
 @inject()
 export default class ReResolveFaviconFailuresController {
 	constructor(protected readonly faviconAdminService: FaviconAdminService) {}
@@ -11,10 +14,7 @@ export default class ReResolveFaviconFailuresController {
 		const { attempted, succeeded } =
 			await this.faviconAdminService.reResolveFailures();
 
-		session.flash(
-			'success',
-			`Re-resolved ${succeeded} of ${attempted} failing favicon(s)`
-		);
+		session.flash('success', reResolvedMessage(succeeded, attempted));
 		return response.redirect().back();
 	}
 }
