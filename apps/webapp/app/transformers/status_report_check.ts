@@ -24,12 +24,12 @@ export type HealthCheckMeta = {
 	};
 };
 
-export interface StatusReportCheck {
+export type StatusReportCheck = {
 	name: string;
 	status: HealthCheckStatus;
 	message: string;
 	meta?: HealthCheckMeta;
-}
+};
 
 export default class StatusReportCheckTransformer extends BaseTransformer<StatusReportCheck> {
 	toObject() {
