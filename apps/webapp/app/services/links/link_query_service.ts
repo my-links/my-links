@@ -6,7 +6,7 @@ import type User from '#models/user';
 
 @inject()
 export class LinkQueryService {
-	async getLinkById(id: Link['id'], userId: Link['id']) {
+	async getLinkById(id: Link['id'], userId: User['id']) {
 		return await Link.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
