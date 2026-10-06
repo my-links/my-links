@@ -6,13 +6,13 @@ import type { FollowedCollectionWithLinks } from '@/lib/api/types';
 import { reorderFollowedCollectionsInTree } from '@/lib/collections_tree';
 import { FOLLOWED_COLLECTIONS_QUERY_KEY } from '@/hooks/use_followed_collections';
 
-export interface ReorderFollowedCollectionsVariables {
+export type ReorderFollowedCollectionsVariables = {
 	collectionIds: number[];
-}
+};
 
-interface ReorderFollowedCollectionsContext {
+type ReorderFollowedCollectionsContext = {
 	previousCollections: FollowedCollectionWithLinks[];
-}
+};
 
 /**
  * Own optimistic-update/rollback plumbing rather than reusing

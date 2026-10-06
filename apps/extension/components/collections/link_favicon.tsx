@@ -4,10 +4,10 @@ import { buildEmptyImageUrl } from '@/lib/instance_urls';
 
 const FAVICON_SIZE_PX = 20;
 
-interface LinkFaviconProps {
+type LinkFaviconProps = {
 	faviconUrl: string;
 	instanceUrl: string;
-}
+};
 
 export function LinkFavicon({
 	faviconUrl,

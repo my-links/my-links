@@ -8,9 +8,9 @@ import {
 	type CollectionFormValues,
 } from './collection_form_fields';
 
-interface CreateCollectionModalProps {
+type CreateCollectionModalProps = {
 	onClose: () => void;
-}
+};
 
 export function CreateCollectionModal({
 	onClose,

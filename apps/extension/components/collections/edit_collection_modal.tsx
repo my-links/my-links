@@ -9,10 +9,10 @@ import {
 	type CollectionFormValues,
 } from './collection_form_fields';
 
-interface EditCollectionModalProps {
+type EditCollectionModalProps = {
 	collection: CollectionWithLinks;
 	onClose: () => void;
-}
+};
 
 export function EditCollectionModal({
 	collection,

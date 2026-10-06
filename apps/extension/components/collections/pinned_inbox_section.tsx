@@ -4,11 +4,11 @@ import type { CollectionWithLinks } from '@/lib/api/types';
 import { collectionSortableId } from '@/lib/dnd/dnd_types';
 import { CollectionSectionBody } from './collection_section_body';
 
-interface PinnedInboxSectionProps {
+type PinnedInboxSectionProps = {
 	collection: CollectionWithLinks;
 	isExpanded: boolean;
 	onToggle: () => void;
-}
+};
 
 /**
  * The Inbox, pinned above the sortable sections rather than sitting inside

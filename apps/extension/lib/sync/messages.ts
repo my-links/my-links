@@ -1,8 +1,8 @@
 export const REQUEST_SYNC_MESSAGE_TYPE = 'mylinks:request-sync' as const;
 
-interface RequestSyncMessage {
+type RequestSyncMessage = {
 	type: typeof REQUEST_SYNC_MESSAGE_TYPE;
-}
+};
 
 export function isRequestSyncMessage(
 	message: unknown

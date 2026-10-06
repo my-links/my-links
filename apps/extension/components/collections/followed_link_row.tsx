@@ -3,9 +3,9 @@ import { useInstanceUrl } from '@/hooks/use_instance_url';
 import type { FollowedLinkResource } from '@/lib/api/types';
 import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
 
-interface FollowedLinkRowProps {
+type FollowedLinkRowProps = {
 	link: FollowedLinkResource;
-}
+};
 
 /**
  * Read-only counterpart to `LinkRow` — a followed link can be opened, never

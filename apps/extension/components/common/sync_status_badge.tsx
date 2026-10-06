@@ -6,9 +6,9 @@ import { requestBackgroundSync } from '@/lib/sync/messages';
 import { INITIAL_SYNC_BACKOFF_STATE } from '@/lib/sync/backoff';
 import { authInvalidStorage, syncBackoffStorage } from '@/lib/storage';
 
-interface SyncStatusBadgeProps {
+type SyncStatusBadgeProps = {
 	instanceUrl: string;
-}
+};
 
 /**
  * Sits next to the instance name in the workspace header. Stays invisible

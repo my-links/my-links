@@ -4,10 +4,10 @@ import {
 	MAX_BACKOFF_MS,
 } from '@/lib/sync/constants';
 
-export interface SyncBackoffState {
+export type SyncBackoffState = {
 	consecutiveFailures: number;
 	nextAttemptAt: number;
-}
+};
 
 export const INITIAL_SYNC_BACKOFF_STATE: SyncBackoffState = {
 	consecutiveFailures: 0,

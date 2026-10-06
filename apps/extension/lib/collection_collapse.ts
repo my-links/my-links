@@ -3,10 +3,10 @@ import {
 	type CollectionSection,
 } from '@/lib/dnd/dnd_types';
 
-export interface CollectionCollapseState {
+export type CollectionCollapseState = {
 	sections: Record<CollectionSection, boolean>;
 	collections: Record<number, boolean>;
-}
+};
 
 /**
  * Followed defaults collapsed — a follower opens the extension for their own

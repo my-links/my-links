@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 
-interface KebabMenuItemProps {
+type KebabMenuItemProps = {
 	icon: string;
 	onClick: () => void;
 	isDanger?: boolean;
 	disabled?: boolean;
 	children: ReactNode;
-}
+};
 
 export function KebabMenuItem({
 	icon,

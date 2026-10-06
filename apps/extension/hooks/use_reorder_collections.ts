@@ -3,10 +3,10 @@ import type { CollectionVisibility } from '@/lib/api/types';
 import { reorderCollectionsInTree } from '@/lib/collections_tree';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 
-export interface ReorderCollectionsVariables {
+export type ReorderCollectionsVariables = {
 	visibility: CollectionVisibility;
 	collectionIds: number[];
-}
+};
 
 export function useReorderCollections() {
 	return useCollectionsMutation<ReorderCollectionsVariables>({

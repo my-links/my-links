@@ -16,10 +16,10 @@ import { EditLinkModal } from '@/components/links/edit_link_modal';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
 
-interface LinkRowProps {
+type LinkRowProps = {
 	link: LinkResource;
 	collectionId: number;
-}
+};
 
 export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 	const instanceUrl = useInstanceUrl();

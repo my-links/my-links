@@ -27,14 +27,14 @@ import { useDeleteCollection } from '@/hooks/use_delete_collection';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { CreateLinkModal } from '@/components/links/create_link_modal';
 
-interface CollectionSectionBodyProps {
+type CollectionSectionBodyProps = {
 	collection: CollectionWithLinks;
 	isExpanded: boolean;
 	onToggle: () => void;
 	dragAttributes?: DraggableAttributes;
 	dragListeners?: DraggableSyntheticListeners;
 	setActivatorNodeRef?: (element: HTMLElement | null) => void;
-}
+};
 
 /**
  * A collection row: header, links, everything but how it participates in

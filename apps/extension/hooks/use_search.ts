@@ -4,10 +4,10 @@ import type { LinkResource } from '@/lib/api/types';
 import { useCollections } from '@/hooks/use_collections';
 import { matchLinks, type FuzzyMatch } from '@/lib/search/fuzzy_links';
 
-interface UseSearchReturn {
+type UseSearchReturn = {
 	results: FuzzyMatch<LinkResource>[];
 	isLoading: boolean;
-}
+};
 
 /**
  * A link can belong to several collections, so the cache is deduped by id

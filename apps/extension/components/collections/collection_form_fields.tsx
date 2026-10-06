@@ -3,23 +3,23 @@ import { Input, RadioOptions, Textarea } from '@minimalstuff/ui';
 
 import type { CollectionVisibility } from '@/lib/api/types';
 
-export interface CollectionFormValues {
+export type CollectionFormValues = {
 	name: string;
 	description: string | null;
 	visibility: CollectionVisibility;
 	icon: string | null;
-}
+};
 
 const VISIBILITY_OPTIONS = [
 	{ value: 'PRIVATE', label: 'Private', description: 'Visible only by you' },
 	{ value: 'PUBLIC', label: 'Public', description: 'Visible to everyone' },
 ];
 
-interface CollectionFormFieldsProps {
+type CollectionFormFieldsProps = {
 	values: CollectionFormValues;
 	onChange: (values: CollectionFormValues) => void;
 	isDisabled?: boolean;
-}
+};
 
 export function CollectionFormFields({
 	values,

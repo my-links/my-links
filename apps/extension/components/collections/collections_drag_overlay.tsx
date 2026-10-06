@@ -12,9 +12,9 @@ import {
 
 const OVERLAY_MODIFIERS = [restrictToWindowEdges];
 
-interface CollectionsDragOverlayProps {
+type CollectionsDragOverlayProps = {
 	isShiftPressed: boolean;
-}
+};
 
 export function CollectionsDragOverlay({
 	isShiftPressed,

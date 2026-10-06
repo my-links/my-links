@@ -8,11 +8,11 @@ import {
 	moveSectionUp as moveUpInOrder,
 } from '@/lib/section_order';
 
-interface UseSectionOrderReturn {
+type UseSectionOrderReturn = {
 	order: CollectionSection[];
 	moveSectionUp: (section: CollectionSection) => void;
 	moveSectionDown: (section: CollectionSection) => void;
-}
+};
 
 /**
  * Purely a local display preference, never synced to the server — the same

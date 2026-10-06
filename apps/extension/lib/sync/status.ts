@@ -1,10 +1,10 @@
 import type { SyncBackoffState } from '@/lib/sync/backoff';
 
-export interface SyncStatus {
+export type SyncStatus = {
 	isStale: boolean;
 	isAuthInvalid: boolean;
 	lastSyncedAt: number | null;
-}
+};
 
 /**
  * A failed sync attempt (`consecutiveFailures > 0`) means whatever is

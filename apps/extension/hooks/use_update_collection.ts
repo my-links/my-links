@@ -2,10 +2,10 @@ import { replaceCollectionInTree } from '@/lib/collections_tree';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 import { updateCollection, type CollectionInput } from '@/lib/api/collections';
 
-export interface UpdateCollectionVariables {
+export type UpdateCollectionVariables = {
 	collectionId: number;
 	input: CollectionInput;
-}
+};
 
 export function useUpdateCollection() {
 	return useCollectionsMutation<UpdateCollectionVariables>({
