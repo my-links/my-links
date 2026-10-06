@@ -4,7 +4,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { LOGIN_BURST_TIER } from '#start/limiter';
+import { LOGIN_BURST_TIER } from '#lib/limiter/attempt_tiers';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import {
