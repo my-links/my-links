@@ -10,7 +10,7 @@ export default class HomeController {
 	async render({ auth, inertia, response, session }: HttpContext) {
 		if (await auth.use(auth.defaultGuard).check()) {
 			const routeName = await this.landingPageService.resolveRouteName(
-				auth.getUserOrFail().id
+				auth.getUserOrFail()
 			);
 			session.reflash();
 			return response.redirect().toRoute(routeName);

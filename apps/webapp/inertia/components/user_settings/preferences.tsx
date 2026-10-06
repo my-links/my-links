@@ -1,8 +1,14 @@
-import type { ReactNode } from 'react';
-import { Trans } from '@lingui/react/macro';
-import { Card, ThemeToggle } from '@minimalstuff/ui';
+import { router } from '@inertiajs/react';
+import type { ChangeEvent, ReactNode } from 'react';
+import { Trans, useLingui } from '@lingui/react/macro';
+import { Card, Select, ThemeToggle } from '@minimalstuff/ui';
 
+import { urlFor } from '~/lib/tuyau';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
+import {
+	useLandingPageSettings,
+	type LandingPage,
+} from '~/hooks/use_landing_page_settings';
 
 interface PreferenceRowProps {
 	label: ReactNode;
@@ -26,27 +32,64 @@ const PreferenceRow = ({
 	</div>
 );
 
-export const Preferences = () => (
-	<Card
-		title={<Trans>Preferences</Trans>}
-		description={
-			<Trans>
-				Language is kept in a cookie and the theme in this browser's storage, so
-				both apply to this device only.
-			</Trans>
-		}
-	>
-		<div className="space-y-4">
-			<PreferenceRow
-				label={<Trans>Language</Trans>}
-				description={<Trans>The language MyLinks speaks to you in.</Trans>}
-				control={<LocaleSwitcher />}
-			/>
-			<PreferenceRow
-				label={<Trans>Theme</Trans>}
-				description={<Trans>Switch between the light and dark palette.</Trans>}
-				control={<ThemeToggle />}
-			/>
-		</div>
-	</Card>
-);
+export function Preferences() {
+	const { t } = useLingui();
+	const { defaultLandingPage } = useLandingPageSettings();
+
+	const landingPageOptions = [
+		{ value: 'favorites', label: t`Favorites` },
+		{ value: 'inbox', label: t`Inbox` },
+	];
+
+	const handleLandingPageChange = (event: ChangeEvent<HTMLSelectElement>) => {
+		router.put(
+			urlFor('user.settings.landing_page'),
+			{ defaultLandingPage: event.target.value as LandingPage },
+			{ preserveScroll: true }
+		);
+	};
+
+	return (
+		<Card
+			title={<Trans>Preferences</Trans>}
+			description={
+				<Trans>
+					Language and theme apply to this device only. The default page follows
+					your account.
+				</Trans>
+			}
+		>
+			<div className="space-y-4">
+				<PreferenceRow
+					label={<Trans>Language</Trans>}
+					description={<Trans>The language MyLinks speaks to you in.</Trans>}
+					control={<LocaleSwitcher />}
+				/>
+				<PreferenceRow
+					label={<Trans>Theme</Trans>}
+					description={
+						<Trans>Switch between the light and dark palette.</Trans>
+					}
+					control={<ThemeToggle />}
+				/>
+				<PreferenceRow
+					label={<Trans>Default page</Trans>}
+					description={
+						<Trans>
+							Where MyLinks opens after you sign in. Favorites falls back to the
+							Inbox while you have none.
+						</Trans>
+					}
+					control={
+						<Select
+							options={landingPageOptions}
+							value={defaultLandingPage}
+							onChange={handleLandingPageChange}
+							aria-label={t`Default page`}
+						/>
+					}
+				/>
+			</div>
+		</Card>
+	);
+}

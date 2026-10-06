@@ -143,11 +143,11 @@ msgstr "Add an email and password sign-in to this account, alongside the methods
 msgid "Add another sign-in method before removing this one"
 msgstr "Add another sign-in method before removing this one"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:119
+#: inertia/components/dashboard/collections/collection_controls.tsx:121
 msgid "Add link"
 msgstr "Add link"
 
-#: inertia/components/dashboard/links/link_controls.tsx:165
+#: inertia/components/dashboard/links/link_controls.tsx:191
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -251,6 +251,8 @@ msgstr "Can't create, edit, or delete anything"
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
 #: inertia/components/user_settings/sessions.tsx:24
+#: inertia/pages/admin/favicons.tsx:67
+#: inertia/pages/admin/favicons.tsx:84
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -379,7 +381,7 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/dashboard/links/link_controls.tsx:177
+#: inertia/components/dashboard/links/link_controls.tsx:203
 msgid "Copy link"
 msgstr "Copy link"
 
@@ -394,7 +396,7 @@ msgstr "Create"
 msgid "Create a collection"
 msgstr "Create a collection"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:55
+#: inertia/components/dashboard/collections/collection_controls.tsx:57
 #: inertia/consts/shortcuts.tsx:26
 #: inertia/pages/dashboard.tsx:97
 msgid "Create a link"
@@ -503,6 +505,11 @@ msgstr "Database connection"
 msgid "Database connections"
 msgstr "Database connections"
 
+#: inertia/components/user_settings/preferences.tsx:76
+#: inertia/components/user_settings/preferences.tsx:88
+msgid "Default page"
+msgstr "Default page"
+
 #: inertia/components/admin/users/account_actions.tsx:58
 #: inertia/components/admin/users/users_table.tsx:75
 #: inertia/components/dashboard/modals/delete_collection_modal.tsx:78
@@ -510,13 +517,13 @@ msgstr "Database connections"
 msgid "Delete"
 msgstr "Delete"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:81
+#: inertia/components/dashboard/collections/collection_controls.tsx:83
 #: inertia/pages/dashboard.tsx:87
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:101
-#: inertia/components/dashboard/links/link_controls.tsx:189
+#: inertia/components/dashboard/links/link_controls.tsx:106
+#: inertia/components/dashboard/links/link_controls.tsx:222
 msgid "Delete a link"
 msgstr "Delete a link"
 
@@ -537,7 +544,7 @@ msgstr "Delete Account"
 msgid "Delete accounts"
 msgstr "Delete accounts"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:131
+#: inertia/components/dashboard/collections/collection_controls.tsx:133
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:131
 msgid "Delete collection"
 msgstr "Delete collection"
@@ -616,17 +623,17 @@ msgstr "Download JSON"
 msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Drop in a link. Get back a bookmark you'll find again."
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:68
+#: inertia/components/dashboard/collections/collection_controls.tsx:70
 #: inertia/pages/dashboard.tsx:72
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:86
-#: inertia/components/dashboard/links/link_controls.tsx:182
+#: inertia/components/dashboard/links/link_controls.tsx:91
+#: inertia/components/dashboard/links/link_controls.tsx:208
 msgid "Edit a link"
 msgstr "Edit a link"
 
-#: inertia/components/dashboard/collections/collection_controls.tsx:124
+#: inertia/components/dashboard/collections/collection_controls.tsx:126
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:124
 msgid "Edit collection"
 msgstr "Edit collection"
@@ -671,9 +678,17 @@ msgstr "Every browser session and every extension token of this account will sto
 msgid "Every collection and link change this instance recorded, newest first."
 msgstr "Every collection and link change this instance recorded, newest first."
 
+#: inertia/pages/admin/favicons.tsx:77
+msgid "Every known domain is re-scraped in place — links keep their current icon until a fresher one actually lands. Can take a while on a large store."
+msgstr "Every known domain is re-scraped in place — links keep their current icon until a fresher one actually lands. Can take a while on a large store."
+
 #: inertia/components/user_settings/password.tsx:61
 msgid "Every other session and every extension token will be signed out."
 msgstr "Every other session and every extension token will be signed out."
+
+#: inertia/pages/admin/favicons.tsx:60
+msgid "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view — nothing is lost permanently, but every domain gets re-fetched again."
+msgstr "Every stored favicon is deleted. Links show a monogram until their icon is re-scraped on next view — nothing is lost permanently, but every domain gets re-fetched again."
 
 #: inertia/pages/auth/reset_password.tsx:50
 msgid "Everything else signed in on this account will be signed out."
@@ -709,6 +724,12 @@ msgstr "Export everything, any time"
 msgid "Failing"
 msgstr "Failing"
 
+#: inertia/components/admin/admin_tabs.tsx:45
+#: inertia/pages/admin/favicons.tsx:91
+#: inertia/pages/admin/favicons.tsx:144
+msgid "Favicons"
+msgstr "Favicons"
+
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:48
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:59
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:67
@@ -718,6 +739,7 @@ msgstr "Favorite"
 
 #: inertia/components/dashboard/headers/dashboard_header.tsx:70
 #: inertia/components/tour/dashboard_tour.tsx:30
+#: inertia/components/user_settings/preferences.tsx:40
 #: inertia/pages/dashboard.tsx:117
 msgid "Favorites"
 msgstr "Favorites"
@@ -729,6 +751,18 @@ msgstr "Find it in a search, not a scroll"
 #: inertia/components/common/navigation/account_menu.tsx:187
 msgid "Firefox extension"
 msgstr "Firefox extension"
+
+#: inertia/pages/admin/favicons.tsx:66
+msgid "Flush"
+msgstr "Flush"
+
+#: inertia/pages/admin/favicons.tsx:134
+msgid "Flush store"
+msgstr "Flush store"
+
+#: inertia/pages/admin/favicons.tsx:58
+msgid "Flush the favicon store"
+msgstr "Flush the favicon store"
 
 #: inertia/pages/shared.tsx:90
 msgid "Follow"
@@ -791,7 +825,7 @@ msgid "Global status"
 msgstr "Global status"
 
 #. placeholder {0}: collection.name
-#: inertia/components/dashboard/links/link_controls.tsx:152
+#: inertia/components/dashboard/links/link_controls.tsx:178
 msgid "Go to {0}"
 msgstr "Go to {0}"
 
@@ -828,7 +862,7 @@ msgstr "Icon"
 msgid "Import"
 msgstr "Import"
 
-#: inertia/components/dashboard/links/link_item.tsx:107
+#: inertia/components/dashboard/links/link_item.tsx:112
 msgid "In {collectionCount} collections"
 msgstr "In {collectionCount} collections"
 
@@ -853,6 +887,7 @@ msgid "In search"
 msgstr "In search"
 
 #: inertia/components/tour/dashboard_tour.tsx:38
+#: inertia/components/user_settings/preferences.tsx:41
 msgid "Inbox"
 msgstr "Inbox"
 
@@ -877,13 +912,13 @@ msgstr "Just now"
 msgid "Keyboard shortcuts"
 msgstr "Keyboard shortcuts"
 
-#: inertia/components/user_settings/preferences.tsx:41
+#: inertia/components/user_settings/preferences.tsx:64
 msgid "Language"
 msgstr "Language"
 
-#: inertia/components/user_settings/preferences.tsx:33
-msgid "Language is kept in a cookie and the theme in this browser's storage, so both apply to this device only."
-msgstr "Language is kept in a cookie and the theme in this browser's storage, so both apply to this device only."
+#: inertia/components/user_settings/preferences.tsx:56
+msgid "Language and theme apply to this device only. The default page follows your account."
+msgstr "Language and theme apply to this device only. The default page follows your account."
 
 #: inertia/components/admin/users/users_table.tsx:268
 msgid "Last seen at"
@@ -981,6 +1016,10 @@ msgstr "Logout"
 #: inertia/components/common/navigation/made_by.tsx:13
 msgid "Made by"
 msgstr "Made by"
+
+#: inertia/pages/admin/favicons.tsx:117
+msgid "Maintenance"
+msgstr "Maintenance"
 
 #: inertia/components/admin/users/account_actions.tsx:157
 #: inertia/components/admin/users/account_actions.tsx:160
@@ -1198,7 +1237,7 @@ msgstr "Picked up collection in {0}."
 msgid "Picked up link."
 msgstr "Picked up link."
 
-#: inertia/components/user_settings/preferences.tsx:31
+#: inertia/components/user_settings/preferences.tsx:54
 msgid "Preferences"
 msgstr "Preferences"
 
@@ -1225,9 +1264,26 @@ msgstr "Promote to administrator"
 msgid "Public"
 msgstr "Public"
 
+#: inertia/pages/admin/favicons.tsx:121
+msgid "Purge orphaned entries"
+msgstr "Purge orphaned entries"
+
 #: inertia/components/dashboard/headers/dashboard_quick_action.tsx:19
 msgid "Quick Actions"
 msgstr "Quick Actions"
+
+#: inertia/pages/admin/favicons.tsx:83
+#: inertia/pages/admin/favicons.tsx:131
+msgid "Re-resolve all"
+msgstr "Re-resolve all"
+
+#: inertia/pages/admin/favicons.tsx:75
+msgid "Re-resolve every favicon"
+msgstr "Re-resolve every favicon"
+
+#: inertia/pages/admin/favicons.tsx:124
+msgid "Re-resolve failures"
+msgstr "Re-resolve failures"
 
 #: inertia/components/api_tokens/api_tokens.tsx:142
 #: inertia/components/api_tokens/create_token_modal.tsx:29
@@ -1241,6 +1297,10 @@ msgstr "Redis"
 #: inertia/lib/health.ts:66
 msgid "Redis memory usage"
 msgstr "Redis memory usage"
+
+#: inertia/components/dashboard/links/link_controls.tsx:215
+msgid "Refresh favicon"
+msgstr "Refresh favicon"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:16
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:30
@@ -1256,7 +1316,7 @@ msgstr "Remembered it? <0>Sign in</0>"
 msgid "Remove"
 msgstr "Remove"
 
-#: inertia/components/dashboard/links/link_controls.tsx:163
+#: inertia/components/dashboard/links/link_controls.tsx:189
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
@@ -1278,6 +1338,10 @@ msgstr "Reset my password"
 #: inertia/pages/auth/forgot_password.tsx:32
 msgid "Reset your password"
 msgstr "Reset your password"
+
+#: inertia/pages/admin/favicons.tsx:108
+msgid "Resolution failures"
+msgstr "Resolution failures"
 
 #: inertia/pages/terms.tsx:142
 msgid "Responsibilities and Warranties"
@@ -1460,6 +1524,14 @@ msgstr "Start tour"
 msgid "Status"
 msgstr "Status"
 
+#: inertia/pages/admin/favicons.tsx:102
+msgid "Store size"
+msgstr "Store size"
+
+#: inertia/pages/admin/favicons.tsx:96
+msgid "Stored favicons"
+msgstr "Stored favicons"
+
 #: inertia/components/admin/activity_events/activity_events_table.tsx:60
 msgid "Subject"
 msgstr "Subject"
@@ -1468,7 +1540,7 @@ msgstr "Subject"
 msgid "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 msgstr "Switch between list, grid, masonry and compact. You can also drag a link to reorder it within its collection."
 
-#: inertia/components/user_settings/preferences.tsx:47
+#: inertia/components/user_settings/preferences.tsx:71
 msgid "Switch between the light and dark palette."
 msgstr "Switch between the light and dark palette."
 
@@ -1522,7 +1594,7 @@ msgstr "The content will be visible to everyone"
 msgid "The extension, in your toolbar"
 msgstr "The extension, in your toolbar"
 
-#: inertia/components/user_settings/preferences.tsx:42
+#: inertia/components/user_settings/preferences.tsx:65
 msgid "The language MyLinks speaks to you in."
 msgstr "The language MyLinks speaks to you in."
 
@@ -1543,7 +1615,7 @@ msgid "The ways you can prove who you are. At least one has to remain."
 msgstr "The ways you can prove who you are. At least one has to remain."
 
 #: inertia/components/common/navigation/account_menu.tsx:146
-#: inertia/components/user_settings/preferences.tsx:46
+#: inertia/components/user_settings/preferences.tsx:69
 msgid "Theme"
 msgstr "Theme"
 
@@ -1695,6 +1767,10 @@ msgstr "Welcome to MyLinks, a free and open-source bookmark manager focused on p
 #: inertia/components/admin/auth_events/auth_events_table.tsx:25
 msgid "When"
 msgstr "When"
+
+#: inertia/components/user_settings/preferences.tsx:78
+msgid "Where MyLinks opens after you sign in. Favorites falls back to the Inbox while you have none."
+msgstr "Where MyLinks opens after you sign in. Favorites falls back to the Inbox while you have none."
 
 #: inertia/components/user_settings/about.tsx:16
 msgid "Which version you are on, and the terms you agreed to."

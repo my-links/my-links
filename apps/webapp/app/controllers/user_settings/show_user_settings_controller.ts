@@ -27,6 +27,7 @@ export default class ShowUserSettingsController {
 		return inertia.render('user_settings/show', {
 			emailAddress: user.email,
 			displayName: user.fullname,
+			defaultLandingPage: user.defaultLandingPage,
 			// Both halves of an address change are links in mailboxes, so the form
 			// only exists where one can be sent — the endpoint answers 404 there,
 			// and offering the form anyway would send people straight into it.

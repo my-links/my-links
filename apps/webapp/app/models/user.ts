@@ -18,10 +18,14 @@ import Collection from '#models/collection';
 import AuditEvent from '#models/audit_event';
 import { UserSchema } from '#database/schema';
 import PasswordAuth from '#models/password_auth';
+import type { LandingPage } from '#enums/dashboard/landing_page';
 
 export default class User extends UserSchema {
 	@column()
 	declare nickName: string; // public username
+
+	@column()
+	declare defaultLandingPage: LandingPage;
 
 	@hasOne(() => PasswordAuth)
 	declare passwordAuth: HasOne<typeof PasswordAuth>;

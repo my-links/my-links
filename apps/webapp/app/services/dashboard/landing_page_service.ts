@@ -14,13 +14,20 @@ export class LandingPageService {
 	constructor(protected readonly linkService: LinkService) {}
 
 	async resolveRouteName(
-		userId: User['id']
+		user: User
 	): Promise<(typeof LANDING_PAGE_ROUTE_NAME)[LandingPage]> {
-		const hasFavoriteLinks = await this.linkService.hasFavoriteLinks(userId);
-		const landingPage = hasFavoriteLinks
-			? LANDING_PAGE.FAVORITES
-			: LANDING_PAGE.INBOX;
+		const landingPage = await this.resolveLandingPage(user);
 
 		return LANDING_PAGE_ROUTE_NAME[landingPage];
+	}
+
+	private async resolveLandingPage(user: User): Promise<LandingPage> {
+		if (user.defaultLandingPage === LANDING_PAGE.INBOX) {
+			return LANDING_PAGE.INBOX;
+		}
+
+		const hasFavoriteLinks = await this.linkService.hasFavoriteLinks(user.id);
+
+		return hasFavoriteLinks ? LANDING_PAGE.FAVORITES : LANDING_PAGE.INBOX;
 	}
 }
