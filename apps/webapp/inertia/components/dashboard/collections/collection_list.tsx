@@ -8,11 +8,11 @@ import { CollectionInboxItem } from './collection_inbox_item';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useSectionOrderStore } from '~/stores/section_order_store';
 import { CollectionFavoriteItem } from './collection_favorite_item';
+import { useDashboardDndCollections } from '~/hooks/use_dashboard_dnd_collections';
 import {
 	COLLECTION_SECTION,
 	type CollectionSection,
 } from '~/lib/dnd/dnd_types';
-import { useDashboardDndCollections } from '~/components/dashboard/dnd/dashboard_dnd_provider';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

@@ -1,4 +1,3 @@
-import { t } from '@lingui/core/macro';
 import { useRef, useState } from 'react';
 import type { Data } from '@generated/data';
 import type {
@@ -8,8 +7,7 @@ import type {
 
 import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
-import { LinkFavicon } from './link_favicon';
-import { hasCollectionIds } from '~/lib/link';
+import { LinkItemSummary } from './link_item_summary';
 import { LinkControls, LinkControlsRef } from './link_controls';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 
@@ -30,11 +28,8 @@ export function LinkItem({
 	dragListeners,
 	setActivatorNodeRef,
 }: Readonly<LinkItemProps>) {
-	const { name, url, description } = link;
+	const { url, description } = link;
 	const showFavoriteIcon = !hideMenu && 'favorite' in link && link.favorite;
-	const collectionCount = hasCollectionIds(link)
-		? link.collectionIds.length
-		: 0;
 	const linkControlsRef = useRef<LinkControlsRef>(null);
 	const [faviconCacheBust, setFaviconCacheBust] = useState(0);
 
@@ -95,44 +90,12 @@ export function LinkItem({
 			{...dragListeners}
 		>
 			<div className="flex items-start gap-3 flex-row">
-				<div className="flex items-start gap-3 flex-1 min-w-0">
-					<LinkFavicon
-						url={url}
-						size={isCompact ? 24 : 32}
-						cacheBust={faviconCacheBust}
-					/>
-					<div className="flex-1 min-w-0">
-						<div className="flex items-center gap-2 mb-1">
-							<h3
-								className={cn(
-									'font-medium text-blue-600 dark:text-blue-400 truncate',
-									isCompact ? 'text-sm' : 'text-base'
-								)}
-							>
-								{name}
-							</h3>
-							{collectionCount > 1 && (
-								<span
-									title={t`In ${collectionCount} collections`}
-									className="flex-shrink-0 rounded bg-gray-100 dark:bg-gray-700 px-1.5 text-xs text-gray-500 dark:text-gray-400"
-								>
-									{collectionCount}
-								</span>
-							)}
-							{showFavoriteIcon && (
-								<div className="i-ant-design-star-filled w-4 h-4 text-yellow-500 flex-shrink-0" />
-							)}
-						</div>
-						<p
-							className={cn(
-								'text-gray-500 dark:text-gray-400 truncate',
-								isCompact ? 'text-xs' : 'text-sm'
-							)}
-						>
-							{url}
-						</p>
-					</div>
-				</div>
+				<LinkItemSummary
+					link={link}
+					isCompact={isCompact}
+					showFavoriteIcon={showFavoriteIcon}
+					faviconCacheBust={faviconCacheBust}
+				/>
 				{!hideMenu && (
 					<div data-link-controls className="self-start">
 						<LinkControls

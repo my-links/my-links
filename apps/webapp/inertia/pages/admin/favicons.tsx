@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
+import { Button } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
-import { Button, ConfirmModal } from '@minimalstuff/ui';
 
 import { formatBytes } from '~/lib/format';
 import { AppLayout } from '~/layouts/app_layout';
@@ -21,41 +21,12 @@ function Favicons({
 	totalBytes,
 	failureCount,
 }: Readonly<FaviconsProps>) {
-	const { purgeOrphans, flushAll, reResolveFailures, reResolveAll } =
-		useFaviconActions();
-
-	const handleFlushAll = () => {
-		void ConfirmModal.call({
-			title: <Trans>Flush the favicon store</Trans>,
-			children: (
-				<Trans>
-					Every stored favicon is deleted. Links show a monogram until their
-					icon is re-scraped on next view. Nothing is lost permanently, but
-					every domain gets re-fetched again.
-				</Trans>
-			),
-			confirmLabel: <Trans>Flush</Trans>,
-			cancelLabel: <Trans>Cancel</Trans>,
-			confirmColor: 'danger',
-			onConfirm: flushAll,
-		});
-	};
-
-	const handleReResolveAll = () => {
-		void ConfirmModal.call({
-			title: <Trans>Re-resolve every favicon</Trans>,
-			children: (
-				<Trans>
-					Every known domain is re-scraped in place. Links keep their current
-					icon until a fresher one actually lands. Can take a while on a large
-					store.
-				</Trans>
-			),
-			confirmLabel: <Trans>Re-resolve all</Trans>,
-			cancelLabel: <Trans>Cancel</Trans>,
-			onConfirm: reResolveAll,
-		});
-	};
+	const {
+		purgeOrphans,
+		reResolveFailures,
+		handleFlushAll,
+		handleReResolveAll,
+	} = useFaviconActions();
 
 	return (
 		<div className="w-full flex flex-col md:h-full p-4">

@@ -1,30 +1,18 @@
-import { router } from '@inertiajs/react';
 import type { Data } from '@generated/data';
-import { Trans } from '@lingui/react/macro';
+import { ContextMenu, CopyButton, IconButton } from '@minimalstuff/ui';
 import {
-	ContextMenu,
-	CopyButton,
-	IconButton,
-	MenuItem,
-	Modal,
-} from '@minimalstuff/ui';
-import {
-	useCallback,
 	useImperativeHandle,
-	useMemo,
 	useRef,
-	useState,
 	type MouseEvent as ReactMouseEvent,
 } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
-import { hasCollectionIds } from '~/lib/link';
-import { EditLinkModal } from '../modals/edit_link_modal';
-import { DeleteLinkModal } from '../modals/delete_link_modal';
+import { useLinkActions } from '~/hooks/use_link_actions';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useLinkCollections } from '~/hooks/use_link_collections';
+import { dispatchContextMenuAt } from '~/lib/dispatch_context_menu';
+import { LinkMenuItems } from '~/components/dashboard/links/link_menu_items';
 
 type Link = Data.Link;
-type LinkWithCollections = Data.Link.Variants['withCollections'];
 
 export type LinkControlsRef = {
 	openContextMenu: (x: number, y: number) => void;
@@ -39,118 +27,24 @@ type LinkControlsProps = {
 	onFaviconRefreshed?: () => void;
 };
 
-const dispatchContextMenuAt = (
-	target: HTMLDivElement | null,
-	x: number,
-	y: number
-) => {
-	target?.dispatchEvent(
-		new MouseEvent('contextmenu', {
-			bubbles: true,
-			cancelable: true,
-			clientX: x,
-			clientY: y,
-		})
-	);
-};
-
 export function LinkControls({
 	link,
 	ref,
 	onAction,
 	onFaviconRefreshed,
 }: Readonly<LinkControlsProps>) {
-	const { activeCollection, myCollections } = useDashboardProps();
+	const { activeCollection } = useDashboardProps();
+	const { linkCollections } = useLinkCollections(link);
+	const actions = useLinkActions(link, onAction, onFaviconRefreshed);
 
 	const isOwner = activeCollection?.isOwner !== false;
 
 	const menuRef = useRef<HTMLDivElement>(null);
-	const [isRefreshingFavicon, setIsRefreshingFavicon] = useState(false);
 
-	const linkWithCollections: LinkWithCollections | null = hasCollectionIds(link)
-		? link
-		: null;
-
-	// Excludes the collection already being viewed, but a link can belong to others (e.g. from search).
-	const linkCollections = useMemo(() => {
-		if (!linkWithCollections) return [];
-		return myCollections.filter(
-			(collection) =>
-				linkWithCollections.collectionIds.includes(collection.id) &&
-				collection.id !== activeCollection?.id
-		);
-	}, [linkWithCollections, myCollections, activeCollection]);
-
-	const handleEditLink = (e: ReactMouseEvent<HTMLButtonElement>) => {
-		e.stopPropagation();
-		if (!linkWithCollections) return;
-		onAction?.();
-		const call = Modal.call({
-			title: <Trans>Edit a link</Trans>,
-			children: (
-				<EditLinkModal
-					link={linkWithCollections}
-					onClose={() => Modal.end(call, undefined)}
-				/>
-			),
-		});
-	};
-
-	const handleDeleteLink = (e: ReactMouseEvent<HTMLButtonElement>) => {
-		e.stopPropagation();
-		if (!linkWithCollections) return;
-		onAction?.();
-		const call = Modal.call({
-			title: <Trans>Delete a link</Trans>,
-			children: (
-				<DeleteLinkModal
-					link={linkWithCollections}
-					onClose={() => Modal.end(call, undefined)}
-				/>
-			),
-		});
-	};
-
-	const handleFavorite = useCallback(
-		(e: ReactMouseEvent<HTMLButtonElement>) => {
-			e.stopPropagation();
-			const toggleFavoriteUrl = urlFor('link.toggle-favorite', {
-				id: link.id,
-			});
-			router.put(toggleFavoriteUrl, { favorite: !link.favorite });
-			onAction?.();
-		},
-		[link.id, link.favorite, onAction]
-	);
-
-	const handleRefreshFavicon = useCallback(
-		(e: ReactMouseEvent<HTMLButtonElement>) => {
-			e.stopPropagation();
-			if (isRefreshingFavicon) return;
-
-			setIsRefreshingFavicon(true);
-			const refreshFaviconUrl = urlFor('link.refresh-favicon', { id: link.id });
-			router.post(
-				refreshFaviconUrl,
-				{},
-				{
-					preserveScroll: true,
-					onSuccess: () => onFaviconRefreshed?.(),
-					onFinish: () => setIsRefreshingFavicon(false),
-				}
-			);
-			onAction?.();
-		},
-		[link.id, onAction, onFaviconRefreshed, isRefreshingFavicon]
-	);
-
-	const handleGoToCollection = (
-		collectionId: number,
-		e: ReactMouseEvent<HTMLButtonElement>
-	) => {
-		e.stopPropagation();
-		onAction?.();
-		router.visit(urlFor('collection.show', { id: collectionId }));
+	const handleOpenMenu = (event: ReactMouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+		event.stopPropagation();
+		dispatchContextMenuAt(menuRef.current, event.clientX, event.clientY);
 	};
 
 	useImperativeHandle(ref, () => ({
@@ -161,80 +55,34 @@ export function LinkControls({
 
 	return (
 		<CopyButton value={link.url}>
-			{({ copy }) => (
-				<ContextMenu
-					ref={menuRef}
-					className="relative"
-					items={
-						<>
-							{linkCollections.map((collection) => (
-								<MenuItem
-									key={collection.id}
-									icon="i-fa6-regular-eye"
-									onClick={(e) => handleGoToCollection(collection.id, e)}
-								>
-									<Trans>Go to {collection.name}</Trans>
-								</MenuItem>
-							))}
-							{'favorite' in link && (
-								<MenuItem
-									icon={
-										link.favorite ? 'i-mdi-favorite' : 'i-mdi-favorite-border'
-									}
-									onClick={handleFavorite}
-								>
-									{link.favorite ? (
-										<Trans>Remove from favorites</Trans>
-									) : (
-										<Trans>Add to favorites</Trans>
-									)}
-								</MenuItem>
-							)}
-							<MenuItem
-								icon="i-mdi-content-copy"
-								onClick={(e) => {
-									e.stopPropagation();
-									void copy();
-									onAction?.();
-								}}
-							>
-								<Trans>Copy link</Trans>
-							</MenuItem>
-							{isOwner && (
-								<>
-									<MenuItem icon="i-octicon-pencil" onClick={handleEditLink}>
-										<Trans>Edit a link</Trans>
-									</MenuItem>
-									<MenuItem
-										icon="i-mdi-refresh"
-										onClick={handleRefreshFavicon}
-										disabled={isRefreshingFavicon}
-									>
-										<Trans>Refresh favicon</Trans>
-									</MenuItem>
-									<MenuItem
-										icon="i-ion-trash-outline"
-										onClick={handleDeleteLink}
-										danger
-									>
-										<Trans>Delete a link</Trans>
-									</MenuItem>
-								</>
-							)}
-						</>
-					}
-				>
-					<IconButton
-						icon="i-mdi-dots-vertical"
-						onClick={(e) => {
-							e.preventDefault();
-							e.stopPropagation();
-							dispatchContextMenuAt(menuRef.current, e.clientX, e.clientY);
-						}}
-						aria-label="Menu"
-					/>
-				</ContextMenu>
-			)}
+			{({ copy }) => {
+				const handleCopy = () => {
+					void copy();
+					onAction?.();
+				};
+
+				return (
+					<ContextMenu
+						ref={menuRef}
+						className="relative"
+						items={
+							<LinkMenuItems
+								link={link}
+								linkCollections={linkCollections}
+								isOwner={isOwner}
+								actions={actions}
+								onCopy={handleCopy}
+							/>
+						}
+					>
+						<IconButton
+							icon="i-mdi-dots-vertical"
+							onClick={handleOpenMenu}
+							aria-label="Menu"
+						/>
+					</ContextMenu>
+				);
+			}}
 		</CopyButton>
 	);
 }

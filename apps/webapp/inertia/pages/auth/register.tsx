@@ -1,20 +1,12 @@
 import { t } from '@lingui/core/macro';
+import { Head } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
-import { Head, useForm } from '@inertiajs/react';
-import { Button, Input } from '@minimalstuff/ui';
 
-import { urlFor } from '~/lib/tuyau';
 import { InertiaProps } from '~/lib/inertia_props';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
+import { RegisterForm } from '~/components/auth/register_form';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
-
-type RegisterFormData = {
-	name: string;
-	email: string;
-	password: string;
-	passwordConfirmation: string;
-};
 
 /**
  * The minimum comes from the server, so the hint under the field and the rule
@@ -26,30 +18,6 @@ type PageProps = InertiaProps<{
 
 function RegisterPage({ minimumPasswordLength }: Readonly<PageProps>) {
 	const { isGoogleEnabled } = useAuthProviders();
-	const { data, setData, submit, processing, errors } =
-		useForm<RegisterFormData>({
-			name: '',
-			email: '',
-			password: '',
-			passwordConfirmation: '',
-		});
-
-	const isSubmitDisabled =
-		processing ||
-		!data.name ||
-		!data.email ||
-		!data.password ||
-		!data.passwordConfirmation;
-
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		submit('post', urlFor('auth.register.submit'));
-	};
-
-	const handleChangeOf =
-		(field: keyof RegisterFormData) =>
-		(event: React.ChangeEvent<HTMLInputElement>) =>
-			setData(field, event.target.value);
 
 	return (
 		<>
@@ -62,70 +30,7 @@ function RegisterPage({ minimumPasswordLength }: Readonly<PageProps>) {
 					<Trans>Start collecting your links in one place</Trans>
 				</p>
 
-				<form onSubmit={handleSubmit} className="space-y-4">
-					<Input
-						label={t`Name`}
-						type="text"
-						id="name"
-						name="name"
-						value={data.name}
-						onChange={handleChangeOf('name')}
-						placeholder={t`Ada Lovelace`}
-						error={errors.name}
-						autoComplete="name"
-						autoFocus
-						required
-					/>
-
-					<Input
-						label={t`Email`}
-						type="email"
-						id="email"
-						name="email"
-						value={data.email}
-						onChange={handleChangeOf('email')}
-						placeholder={t`you@example.com`}
-						error={errors.email}
-						autoComplete="email"
-						required
-					/>
-
-					<Input
-						label={t`Password`}
-						type="password"
-						id="password"
-						name="password"
-						value={data.password}
-						onChange={handleChangeOf('password')}
-						placeholder={t`At least ${minimumPasswordLength} characters`}
-						error={errors.password}
-						autoComplete="new-password"
-						minLength={minimumPasswordLength}
-						required
-					/>
-
-					<Input
-						label={t`Confirm password`}
-						type="password"
-						id="passwordConfirmation"
-						name="passwordConfirmation"
-						value={data.passwordConfirmation}
-						onChange={handleChangeOf('passwordConfirmation')}
-						placeholder={t`Type it once more`}
-						error={errors.passwordConfirmation}
-						autoComplete="new-password"
-						required
-					/>
-
-					<Button
-						type="submit"
-						disabled={isSubmitDisabled}
-						loading={processing}
-						fullWidth
-					>
-						<Trans>Create my account</Trans>
-					</Button>
-				</form>
+				<RegisterForm minimumPasswordLength={minimumPasswordLength} />
 
 				{isGoogleEnabled && (
 					<div className="mt-6 space-y-4">

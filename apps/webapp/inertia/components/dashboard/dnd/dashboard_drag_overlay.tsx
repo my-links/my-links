@@ -5,7 +5,7 @@ import { DragOverlay, useDndContext } from '@dnd-kit/core';
 import { cn } from '~/lib/cn';
 import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '~/components/dashboard/links/link_item';
-import { useDashboardDndCollections } from './dashboard_dnd_provider';
+import { useDashboardDndCollections } from '~/hooks/use_dashboard_dnd_collections';
 import {
 	isCollectionDragData,
 	isLinkDropTargetData,
