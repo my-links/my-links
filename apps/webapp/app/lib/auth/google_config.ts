@@ -1,4 +1,4 @@
-import IncompleteGoogleAuthConfigException from '#exceptions/auth/incomplete_google_auth_config_exception';
+import { IncompleteGoogleAuthConfigException } from '#exceptions/auth/incomplete_google_auth_config_exception';
 
 export type GoogleAuthConfig =
 	| {

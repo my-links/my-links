@@ -6,9 +6,9 @@ import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
-import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
-import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
+import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 
 export type FaviconMetadata = {
 	contentHash: string;

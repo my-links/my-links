@@ -11,8 +11,8 @@ import type { LandingPage } from '#enums/dashboard/landing_page';
 import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
 import { AccountAccessService } from '#services/auth/account_access_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
-import LastAdministratorException from '#exceptions/admin/last_administrator_exception';
-import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
+import { LastAdministratorException } from '#exceptions/admin/last_administrator_exception';
+import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
 import {
 	ACCOUNT_DELETION_REASON,
 	type AccountDeletionReason,

@@ -1,5 +1,5 @@
 import User from '#models/user';
-import ApiTokenNotFoundException from '#exceptions/user/api_token_not_found_exception';
+import { ApiTokenNotFoundException } from '#exceptions/user/api_token_not_found_exception';
 import {
 	API_TOKEN_SCOPE,
 	API_TOKEN_SCOPE_ABILITIES,

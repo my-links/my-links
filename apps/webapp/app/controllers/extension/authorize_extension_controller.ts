@@ -4,8 +4,8 @@ import { HttpContext } from '@adonisjs/core/http';
 import { ApiTokenService } from '#services/user/api_token_service';
 import { authorizeExtensionValidator } from '#validators/extension/authorize_extension_validator';
 import { isValidExtensionRedirectUri } from '#validators/extension/is_valid_extension_redirect_uri';
-import UnusableExtensionTokenException from '#exceptions/extension/unusable_extension_token_exception';
-import InvalidExtensionRedirectUriException from '#exceptions/extension/invalid_extension_redirect_uri_exception';
+import { UnusableExtensionTokenException } from '#exceptions/extension/unusable_extension_token_exception';
+import { InvalidExtensionRedirectUriException } from '#exceptions/extension/invalid_extension_redirect_uri_exception';
 
 const TOKEN_NAME = 'Browser extension';
 

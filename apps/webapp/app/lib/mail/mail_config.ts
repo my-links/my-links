@@ -1,4 +1,4 @@
-import IncompleteMailConfigException from '#exceptions/mail/incomplete_mail_config_exception';
+import { IncompleteMailConfigException } from '#exceptions/mail/incomplete_mail_config_exception';
 
 const SUBMISSION_SMTP_PORT = 587;
 const IMPLICIT_TLS_SMTP_PORT = 465;

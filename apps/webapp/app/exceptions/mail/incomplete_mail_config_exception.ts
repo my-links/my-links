@@ -1,6 +1,6 @@
 import { Exception } from '@adonisjs/core/exceptions';
 
-export default class IncompleteMailConfigException extends Exception {
+export class IncompleteMailConfigException extends Exception {
 	static status = 500;
 	static code = 'E_INCOMPLETE_MAIL_CONFIG';
 

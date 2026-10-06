@@ -9,7 +9,7 @@ const CODE = 'E_INVALID_IMPORT_FILE';
  * used. Renders itself back onto the settings page, since the person who
  * picked the file is the only one who can fix it.
  */
-export default class InvalidImportFileException extends Exception {
+export class InvalidImportFileException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

@@ -12,7 +12,7 @@ const CODE = 'E_EMAIL_CHANGE_UNAVAILABLE';
  * This describes the instance, never an account: every visitor gets the same
  * answer.
  */
-export default class EmailChangeUnavailableException extends Exception {
+export class EmailChangeUnavailableException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

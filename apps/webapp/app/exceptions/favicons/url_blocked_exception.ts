@@ -3,7 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 const REFRESH_BLOCKED_MESSAGE = "That link's address can't be resolved";
 
-export default class UrlBlockedException extends Exception {
+export class UrlBlockedException extends Exception {
 	static status = 403;
 	static code = 'E_URL_BLOCKED';
 

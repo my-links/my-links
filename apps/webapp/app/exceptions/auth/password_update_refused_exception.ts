@@ -29,7 +29,7 @@ const REFUSAL_MESSAGES = {
  * cases mean a request reached an endpoint the settings page never offers,
  * so they fail loudly rather than guessing what was meant.
  */
-export default class PasswordUpdateRefusedException extends Exception {
+export class PasswordUpdateRefusedException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

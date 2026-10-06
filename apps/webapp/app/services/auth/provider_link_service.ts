@@ -9,8 +9,9 @@ import type { AuthProvider } from '#constants/auth';
 import { PasswordService } from '#services/auth/password_service';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
-import LastAuthMethodException from '#exceptions/auth/last_auth_method_exception';
-import ProviderLinkRefusedException, {
+import { LastAuthMethodException } from '#exceptions/auth/last_auth_method_exception';
+import {
+	ProviderLinkRefusedException,
 	PROVIDER_LINK_REFUSAL,
 } from '#exceptions/auth/provider_link_refused_exception';
 

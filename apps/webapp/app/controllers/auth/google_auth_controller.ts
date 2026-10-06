@@ -3,7 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
-import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
+import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
 
 @inject()
 export default class GoogleAuthController {

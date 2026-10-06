@@ -8,12 +8,12 @@ import { captureConsoleOutput } from '#tests/helpers/console';
 import FlagInactiveAccounts from '#commands/flag_inactive_accounts';
 import { ACCOUNT_INACTIVITY_THRESHOLD_DAYS } from '#constants/account';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
-import AccountDeletionRequestedNotification from '#mails/account_deletion_requested_notification';
 import {
 	createUser,
 	markLastSeen,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
+import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
 
 const STALE_CUTOFF = DateTime.now().minus({
 	days: ACCOUNT_INACTIVITY_THRESHOLD_DAYS + 1,

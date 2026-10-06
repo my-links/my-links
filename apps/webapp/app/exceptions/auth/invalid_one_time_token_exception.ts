@@ -12,7 +12,7 @@ const CODE = 'E_INVALID_ONE_TIME_TOKEN';
  */
 const INVALID_TOKEN_MESSAGE = 'This link is no longer valid';
 
-export default class InvalidOneTimeTokenException extends Exception {
+export class InvalidOneTimeTokenException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

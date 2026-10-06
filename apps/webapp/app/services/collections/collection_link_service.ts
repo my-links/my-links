@@ -11,8 +11,8 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
-import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
-import InvalidCollectionMembershipException from '#exceptions/collections/invalid_collection_membership_exception';
+import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
+import { InvalidCollectionMembershipException } from '#exceptions/collections/invalid_collection_membership_exception';
 
 const COLLECTION_LINK_TABLE = 'collection_link';
 

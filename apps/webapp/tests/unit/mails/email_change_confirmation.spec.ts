@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 
 import User from '#models/user';
-import EmailChangeConfirmation from '#mails/email_change_confirmation';
+import { EmailChangeConfirmation } from '#mails/email_change_confirmation';
 
 const NEW_EMAIL_ADDRESS = 'ada-new@example.com';
 const CONFIRMATION_URL = 'https://links.example.com/confirm-email?token=abc';

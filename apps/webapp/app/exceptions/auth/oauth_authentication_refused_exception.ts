@@ -26,7 +26,7 @@ export type OauthRefusalReason =
  * reason it hides is what stops a caller from ever pairing the two in a
  * response.
  */
-export default class OauthAuthenticationRefusedException extends Exception {
+export class OauthAuthenticationRefusedException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

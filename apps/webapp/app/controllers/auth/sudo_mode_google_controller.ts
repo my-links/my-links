@@ -9,8 +9,8 @@ import {
 	OAUTH_INTENT,
 	OauthIntentService,
 } from '#services/auth/oauth_intent_service';
-import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
-import SudoConfirmationFailedException from '#exceptions/auth/sudo_confirmation_failed_exception';
+import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
+import { SudoConfirmationFailedException } from '#exceptions/auth/sudo_confirmation_failed_exception';
 
 /**
  * Starts the round trip an account with no password takes to prove itself.

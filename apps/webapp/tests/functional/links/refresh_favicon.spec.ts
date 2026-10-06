@@ -5,8 +5,8 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import type { Favicon } from '#types/favicon_type';
 import { createLink } from '#tests/factories/link_factory';
 import { createUser } from '#tests/factories/user_factory';
-import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
+import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 
 const HOME_ROUTE = '/';
 

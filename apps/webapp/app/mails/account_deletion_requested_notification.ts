@@ -19,7 +19,7 @@ export type AccountDeletionRequestedPayload = {
  * has to point back at it. `reason` only changes the opening line: an
  * account nobody asked to delete should never read "your request".
  */
-export default class AccountDeletionRequestedNotification extends BaseMail {
+export class AccountDeletionRequestedNotification extends BaseMail {
 	subject = 'Your account is scheduled for deletion';
 
 	constructor(protected readonly payload: AccountDeletionRequestedPayload) {

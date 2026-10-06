@@ -8,7 +8,7 @@ import { AuthEventService } from '#services/auth/auth_event_service';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
 import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
-import PasswordResetUnavailableException from '#exceptions/auth/password_reset_unavailable_exception';
+import { PasswordResetUnavailableException } from '#exceptions/auth/password_reset_unavailable_exception';
 
 export const PASSWORD_RESET_SENT_MESSAGE = 'A reset link is on its way';
 

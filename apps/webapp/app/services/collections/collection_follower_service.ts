@@ -10,8 +10,8 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
-import NotFollowingCollectionException from '#exceptions/collections/not_following_collection_exception';
-import CannotFollowOwnCollectionException from '#exceptions/collections/cannot_follow_own_collection_exception';
+import { NotFollowingCollectionException } from '#exceptions/collections/not_following_collection_exception';
+import { CannotFollowOwnCollectionException } from '#exceptions/collections/cannot_follow_own_collection_exception';
 
 /**
  * Owns the follower relationship on public collections — a separate concern

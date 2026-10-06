@@ -1,6 +1,6 @@
 import { Exception } from '@adonisjs/core/exceptions';
 
-export default class InvalidFaviconHashException extends Exception {
+export class InvalidFaviconHashException extends Exception {
 	static status = 500;
 	static code = 'E_INVALID_FAVICON_HASH';
 

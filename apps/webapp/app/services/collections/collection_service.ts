@@ -14,11 +14,11 @@ import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
-import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
+import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
-import InvalidCollectionMembershipException from '#exceptions/collections/invalid_collection_membership_exception';
-import CannotShareDefaultCollectionException from '#exceptions/collections/cannot_share_default_collection_exception';
-import CannotDeleteDefaultCollectionException from '#exceptions/collections/cannot_delete_default_collection_exception';
+import { InvalidCollectionMembershipException } from '#exceptions/collections/invalid_collection_membership_exception';
+import { CannotShareDefaultCollectionException } from '#exceptions/collections/cannot_share_default_collection_exception';
+import { CannotDeleteDefaultCollectionException } from '#exceptions/collections/cannot_delete_default_collection_exception';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
 

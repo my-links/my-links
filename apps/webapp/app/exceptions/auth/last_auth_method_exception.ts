@@ -16,7 +16,7 @@ const REFUSED_MESSAGE =
  * button: an interface can only decline to offer the action, and this has to
  * be impossible.
  */
-export default class LastAuthMethodException extends Exception {
+export class LastAuthMethodException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

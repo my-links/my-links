@@ -3,11 +3,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
-import GoogleAuthDisabledException from '#exceptions/auth/google_auth_disabled_exception';
 import {
 	OAUTH_INTENT,
 	OauthIntentService,
 } from '#services/auth/oauth_intent_service';
+import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
 
 /**
  * Starts the round trip that adds Google as a second way into an account that

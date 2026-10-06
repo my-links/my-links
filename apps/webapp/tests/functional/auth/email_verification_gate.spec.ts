@@ -6,7 +6,7 @@ import OneTimeToken from '#models/one_time_token';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { VERIFICATION_RESEND_BURST_TIER } from '#start/limiter';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
-import VerifyEmailNotification from '#mails/verify_email_notification';
+import { VerifyEmailNotification } from '#mails/verify_email_notification';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
 import { VERIFICATION_RESEND_MESSAGE } from '#controllers/auth/resend_verification_controller';

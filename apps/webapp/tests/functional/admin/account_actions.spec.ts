@@ -10,7 +10,7 @@ import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { createUserSession } from '#tests/factories/user_session_factory';
-import ResetPasswordNotification from '#mails/reset_password_notification';
+import { ResetPasswordNotification } from '#mails/reset_password_notification';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import {
 	createUser,

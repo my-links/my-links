@@ -15,7 +15,7 @@ const REFUSED_MESSAGE =
  * console. Same shape as the guard standing in front of the last sign-in
  * method of an account, one level up.
  */
-export default class LastAdministratorException extends Exception {
+export class LastAdministratorException extends Exception {
 	static status = STATUS;
 	static code = CODE;
 

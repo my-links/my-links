@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 
 import { resolveGoogleAuthConfig } from '#lib/auth/google_config';
-import IncompleteGoogleAuthConfigException from '#exceptions/auth/incomplete_google_auth_config_exception';
+import { IncompleteGoogleAuthConfigException } from '#exceptions/auth/incomplete_google_auth_config_exception';
 
 test.group('resolveGoogleAuthConfig', () => {
 	test('should enable google auth when both credentials are provided', ({

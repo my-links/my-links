@@ -13,8 +13,8 @@ import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
-import ForeignCollectionException from '#exceptions/links/foreign_collection_exception';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
+import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
 
 type LinkPayload = {
 	name: string;

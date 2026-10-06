@@ -3,7 +3,7 @@ import { inject } from '@adonisjs/core';
 import env from '#start/env';
 import { UserService } from '#services/user/user_service';
 import { resolveRegistrationPolicy } from '#lib/auth/registration_policy';
-import RegistrationClosedException from '#exceptions/auth/registration_closed_exception';
+import { RegistrationClosedException } from '#exceptions/auth/registration_closed_exception';
 
 @inject()
 export class RegistrationPolicyService {

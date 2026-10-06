@@ -3,10 +3,10 @@ import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
 import { sniffImageType } from '#lib/favicons/image_sniffer';
-import UrlBlockedException from '#exceptions/favicons/url_blocked_exception';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import FaviconNotFoundException from '#exceptions/favicons/favicon_not_found_exception';
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { webAppManifestValidator } from '#validators/favicons/web_app_manifest_validator';
+import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 import {
 	parseDocument,
 	resolveUrl,
