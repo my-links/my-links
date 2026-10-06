@@ -26,7 +26,7 @@ type UseCollectionCollapseReturn = {
 };
 
 /**
- * Purely a local display preference, never synced to the server — same
+ * Purely a local display preference, never synced to the server; same
  * get-then-watch pattern as `useSectionOrder` so every open sidebar/newtab
  * stays in sync when collapse state changes in another window.
  */

@@ -37,7 +37,7 @@ type QuickCapture = {
 
 /**
  * Chrome's `contextMenus.OnClickData` has no `linkText` field (that's a
- * Firefox-only extra), so a link capture is named after its URL — the user
+ * Firefox-only extra), so a link capture is named after its URL: the user
  * can rename it from the edit modal afterwards, same as any other quick-add.
  */
 export function resolveQuickCapture(

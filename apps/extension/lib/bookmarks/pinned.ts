@@ -29,7 +29,7 @@ export const EMPTY_PINNED_RANKING: PinnedRanking = {
 /**
  * How long a ranking is trusted before click counts are consulted again.
  * Reordering the bar on every click is exactly the churn that made the old
- * extension unusable, so the order is a daily snapshot — plus an immediate
+ * extension unusable, so the order is a daily snapshot, plus an immediate
  * recompute whenever the set of favourites itself changes.
  */
 export const RANKING_REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1_000;
@@ -83,7 +83,7 @@ export function shouldRecomputeRanking(
 /**
  * Returns the favourites in the order they should appear on the bar, the
  * ranking to remember, and whether it was worked out afresh. Callers use that
- * last flag to decide whether to impose the order on the bar at all — a
+ * last flag to decide whether to impose the order on the bar at all: a
  * stale-but-valid ranking is reused verbatim so the bar stays put.
  */
 export function resolveRankedFavorites(

@@ -40,8 +40,8 @@ type CollectionSectionBodyProps = {
  * A collection row: header, links, everything but how it participates in
  * dnd-kit. `CollectionSection` wraps it as a draggable-and-sortable row;
  * `PinnedCollectionSection` wraps it as a fixed drop target for the Inbox.
- * Drag props are optional so the pinned variant can render this without them
- * — a droppable alone has no `attributes`/`listeners` to spread.
+ * Drag props are optional so the pinned variant can render this without them,
+ * since a droppable alone has no `attributes`/`listeners` to spread.
  */
 export function CollectionSectionBody({
 	collection,
@@ -168,7 +168,7 @@ export function CollectionSectionBody({
 	return (
 		<>
 			{/* The default (Inbox) collection can't be renamed or deleted, so it
-			carries no menu at all — right-click falls through to the browser's
+			carries no menu at all: right-click falls through to the browser's
 			native one. */}
 			{collection.isDefault ? (
 				<div className={rowClassName}>{rowContent}</div>

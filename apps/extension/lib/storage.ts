@@ -65,7 +65,7 @@ const EMPTY_COLLECTIONS_CACHE: CollectionsCache = {
 };
 
 /**
- * Written by the background worker, read by every open sidebar/newtab —
+ * Written by the background worker, read by every open sidebar/newtab:
  * the single source of truth the UI hydrates from instantly on mount so it
  * never shows a blank/loading state on reopen (see `use_collections.ts`).
  */
@@ -75,7 +75,7 @@ export const collectionsCacheStorage = storage.defineItem<CollectionsCache>(
 );
 
 /**
- * Which order the Followed/Public/Private sections render in — a per-device
+ * Which order the Followed/Public/Private sections render in: a per-device
  * display preference, never sent to the server (same choice the webapp made
  * for its own section order, kept in `localStorage` there).
  */
@@ -85,7 +85,7 @@ export const sectionOrderStorage = storage.defineItem<CollectionSection[]>(
 );
 
 /**
- * Which sections/collections are expanded — a per-device display preference,
+ * Which sections/collections are expanded: a per-device display preference,
  * never sent to the server (same choice made for `sectionOrderStorage`).
  */
 export const collectionCollapseStorage =
@@ -110,7 +110,7 @@ export const bookmarkBackoffStorage = storage.defineItem<SyncBackoffState>(
 );
 
 /**
- * True when the last sync attempt was rejected with a 401 — the stored token
+ * True when the last sync attempt was rejected with a 401: the stored token
  * is dead (deleted/expired) and needs a reconnect, not just a retry. Kept
  * separate from the backoff state so the UI can show a distinct "reconnect"
  * prompt rather than a generic "stale" badge.
@@ -132,7 +132,7 @@ export type BookmarkMirrorState = {
 	 */
 	enabledAt: number | null;
 	/**
-	 * Whether the mirror has a tree of its own on this bar yet — `adopted`
+	 * Whether the mirror has a tree of its own on this bar yet: `adopted`
 	 * once it either found one at enable time or settled one itself.
 	 *
 	 * It is what licenses recovering nodes by resemblance after storage has
@@ -151,7 +151,7 @@ const DISABLED_BOOKMARK_MIRROR: BookmarkMirrorState = {
 };
 
 /**
- * Off until the user turns it on from the options page — putting things on
+ * Off until the user turns it on from the options page: putting things on
  * someone's bookmarks bar is not something to do behind their back. The
  * `bookmarks` permission is optional for the same reason.
  */
@@ -162,8 +162,8 @@ export const bookmarkMirrorStorage = storage.defineItem<BookmarkMirrorState>(
 
 /**
  * Signature of the last set of native changes pushed to the server. A pass
- * that produces the very same set again has not converged — the server is
- * rewriting what it is told — so it is reported as a failure instead of
+ * that produces the very same set again has not converged (the server is
+ * rewriting what it is told) so it is reported as a failure instead of
  * being pushed a second time. Cleared as soon as a pass finds nothing to
  * push. See `lib/bookmarks/change_fingerprint.ts`.
  */
@@ -188,7 +188,7 @@ export const bookmarkMappingStorage = storage.defineItem<BookmarkMapping>(
  *
  * This is what lets a pass tell which side actually moved instead of merely
  * seeing that they differ. Only ever advanced after a pass that succeeded in
- * full — see `lib/bookmarks/snapshot.ts`.
+ * full: see `lib/bookmarks/snapshot.ts`.
  */
 export const syncedTreeStorage = storage.defineItem<SyncedTree>(
 	'local:syncedBookmarkTree',
@@ -211,7 +211,7 @@ export const pinnedRankingStorage = storage.defineItem<PinnedRanking>(
  * cache) is invalidated by the caller once this resolves.
  *
  * The cached tree and the bookmark mapping go too. They describe one
- * account's collections, and reconnecting may well be as somebody else — a
+ * account's collections, and reconnecting may well be as somebody else: a
  * mapping kept across that would point native bookmarks at entity ids
  * belonging to a different user. Clearing the cache also parks the mirror
  * (it refuses to run against a tree it has never fetched) until the new
@@ -237,7 +237,7 @@ export async function clearBookmarkMirrorState(): Promise<void> {
 }
 
 /**
- * The mirror's view of the tree, without the switch itself — reconnecting as
+ * The mirror's view of the tree, without the switch itself: reconnecting as
  * somebody else invalidates every id in here, but it does not mean the user
  * asked to stop mirroring.
  */

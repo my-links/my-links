@@ -40,7 +40,7 @@ export async function resolveBookmarksBarId(
 
 /**
  * Whether the folder was already there. `adopted` is the mirror's only proof
- * that it has run against this tree before — the state that says so lives in
+ * that it has run against this tree before: the state that says so lives in
  * extension storage, which a reinstall wipes while the bookmarks survive.
  * Anything that recovers nodes by resemblance rather than by id has to know
  * the difference, or a first run would claim bookmarks it never created.
@@ -97,7 +97,7 @@ export async function getOrCreateCollectionsFolder(
 
 /**
  * Matched by id first: the folder may have been renamed by the user, and
- * their name is worth keeping around only until the next pass retitles it —
+ * their name is worth keeping around only until the next pass retitles it;
  * losing track of it entirely would strand every mapped collection under it.
  */
 function findById(

@@ -1,7 +1,7 @@
 # MyLinks browser extension
 
 The official MyLinks browser extension, built with [WXT](https://wxt.dev) and React.
-It talks to any MyLinks instance — the public one or a self-hosted deployment —
+It talks to any MyLinks instance (the public one or a self-hosted deployment)
 over the REST API documented at [docs.mylinks.app/api](https://docs.mylinks.app/api/).
 
 Targets **Chromium (MV3)** and **Firefox (MV2)** from the same source.
@@ -37,7 +37,7 @@ Targets **Chromium (MV3)** and **Firefox (MV2)** from the same source.
   and on wake triggers (tab switch, window focus), deduped to a single in-flight
   request, with exponential backoff on failure.
 - **Bookmark mirroring** (opt-in): two-way sync between your collections and the
-  browser's native bookmarks — see [below](#bookmark-mirroring).
+  browser's native bookmarks (see [below](#bookmark-mirroring)).
 - **Click tracking**: opening a link from the extension goes through the instance's
   `/l/:id` redirect, so it feeds the same ranking as a click in the webapp.
 
@@ -66,15 +66,15 @@ For an auto-reloading browser instance during development, use `pnpm run dev` /
 1. Open the extension options page.
 2. Enter your instance URL (defaults to `http://localhost:3333` in dev builds and
    `https://mylinks.app` otherwise) and click **Connect**.
-3. The browser asks for permission to access that origin — self-hosted instances are
+3. The browser asks for permission to access that origin (self-hosted instances are
    arbitrary origins, so the host permission is requested at runtime rather than
-   being pinned in the manifest.
+   being pinned in the manifest).
 4. You are sent to `/extension/authorize` on the instance, which creates an API token
    named _Browser extension_ and hands it back through the extension's callback URL.
    The token travels in the URL fragment, so it never reaches any server.
 
 **Disconnect** clears the token and every cached artefact, including the bookmark
-mapping — reconnecting may well be as a different user, and a stale mapping would
+mapping: reconnecting may well be as a different user, and a stale mapping would
 point native bookmarks at another account's entities.
 
 > Firefox blocks mixed content: an instance served over plain `http://` on a LAN
@@ -95,7 +95,7 @@ Once on:
   bookmark between collection folders moves the link, dropping any bookmark into a
   collection folder saves it as a link, and starring a page adopts it.
 - Only nodes the extension itself created are ever modified or deleted. Bookmarks you
-  filed by hand — including ones inside a collection folder — are left alone, and
+  filed by hand (including ones inside a collection folder) are left alone, and
   anything already on the bar before you enabled the mirror is never adopted.
 - Reconciliation is a **three-way merge** between the browser tree, the server and a
   snapshot of the last agreed state, so a pass can tell which side actually changed
@@ -106,7 +106,7 @@ Once on:
 
 ## Development
 
-The webapp must be running for the extension to have anything to talk to — see
+The webapp must be running for the extension to have anything to talk to; see
 [Development setup](https://docs.mylinks.app/contributing#development-setup).
 
 ### Commands
@@ -132,10 +132,10 @@ The API client is typed from the webapp's OpenAPI document rather than by import
 webapp source, which keeps the two TypeScript projects decoupled:
 
 ```bash
-# from apps/webapp — writes .adonisjs/openapi.json
+# from apps/webapp: writes .adonisjs/openapi.json
 node ace openapi:generate
 
-# from apps/extension — writes lib/api/schema.d.ts
+# from apps/extension: writes lib/api/schema.d.ts
 pnpm run generate:api-types
 ```
 
@@ -174,7 +174,7 @@ suite runs without a browser.
 ## Known browser differences
 
 - **Firefox cannot focus its own sidebar.** The keyboard shortcut opens the sidebar,
-  but the cursor does not jump into the search field — an extension may not steal
+  but the cursor does not jump into the search field: an extension may not steal
   focus into a sidebar it has just opened. The field is selected on first click.
 - **MV2 has no `optional_host_permissions`**, so Firefox carries the optional origin
   in `optional_permissions` instead. Without it, self-hosted instances could never be
@@ -186,4 +186,4 @@ suite runs without a browser.
   Firefox issues ordinary cross-origin requests, so the instance answers them itself
   for `/api/v1/*` (credentials off, bearer token only).
 - **Firefox's background page is persistent**, where Chromium's MV3 service worker is
-  suspended between events — the sync alarm is the fallback for the latter.
+  suspended between events; the sync alarm is the fallback for the latter.

@@ -29,7 +29,7 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
 	// Falls back to the raw target only until `instanceUrl` hydrates from
-	// storage — the redirect is what counts the click.
+	// storage: the redirect is what counts the click.
 	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
 	const {
 		attributes,
@@ -42,13 +42,13 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 	} = useSortable({
 		id: linkSortableId(link.id),
 		data: { kind: 'link', linkId: link.id, collectionId },
-		// Overrides dnd-kit's default `role: 'button'` — wrong on an `<a>` that
+		// Overrides dnd-kit's default `role: 'button'`, wrong on an `<a>` that
 		// actually navigates.
 		attributes: { role: 'link' },
 	});
 
 	const handleClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
-		// A real DOM click still fires on mouseup after a whole-card drag —
+		// A real DOM click still fires on mouseup after a whole-card drag;
 		// suppressed here so it doesn't also navigate the link.
 		if (shouldSuppressClick()) {
 			event.preventDefault();

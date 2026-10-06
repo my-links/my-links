@@ -18,7 +18,7 @@ export function EditLinkModal({
 	onClose,
 }: Readonly<EditLinkModalProps>) {
 	const updateLink = useUpdateLink();
-	// Inbox membership is the "no collection" fallback, not an explicit choice —
+	// Inbox membership is the "no collection" fallback, not an explicit choice;
 	// strip it so an Inbox-only link opens with nothing checked, and clearing
 	// every box lands it back there.
 	const inboxCollectionId = collections.find(

@@ -2,7 +2,7 @@
 
 Publishing runs exclusively through a GitHub Actions workflow via `wxt submit`
 (see [WXT's publishing guide](https://wxt.dev/guide/essentials/publishing)).
-No local command ever pushes a version to a store — everything below is the
+No local command ever pushes a version to a store; everything below is the
 one-time setup used to obtain the credentials that workflow needs, done
 entirely through the Chrome / Firefox dashboards and Google's OAuth
 Playground (no CLI).
@@ -13,7 +13,7 @@ steps below are kept as reference for rotating a secret or re-authorizing
 after a credential expires.
 
 Both listings already exist (Chrome at v1.1.0, Firefox at v1.0.0), so `wxt
-submit` will **update** them directly — no manual "create a new listing"
+submit` will **update** them directly; no manual "create a new listing"
 step needed.
 
 ## What the workflow needs
@@ -30,7 +30,7 @@ step needed.
 
 ## 1. Chrome Web Store
 
-**Extension id** — already known:
+**Extension id**, already known:
 `agkmlplihacolkakgeccnbhphnepphma` (from your store URL).
 → `CHROME_EXTENSION_ID`
 
@@ -42,9 +42,9 @@ step needed.
 2. **APIs & Services → Library** → search "Chrome Web Store API" → **Enable**.
 3. **APIs & Services → OAuth consent screen** → configure it (External is
    fine; it only needs to work for your own account, "Testing" publish
-   status is enough — no Google review required for this use case).
+   status is enough; no Google review required for this use case).
 4. **APIs & Services → Credentials → Create Credentials → OAuth client ID**
-   → Application type **Web application** (not "Desktop app" — the OAuth
+   → Application type **Web application** (not "Desktop app"; the OAuth
    Playground flow below needs a registered redirect URI, which only the
    Web application type has).
 5. Under **Authorized redirect URIs**, add exactly:
@@ -53,7 +53,7 @@ step needed.
    ```
    → save. This gives you `CHROME_CLIENT_ID` and `CHROME_CLIENT_SECRET`.
 
-**Refresh token — via OAuth Playground (browser only, no CLI)**
+**Refresh token** (via OAuth Playground, browser only, no CLI)
 
 1. Go to [developers.google.com/oauthplayground](https://developers.google.com/oauthplayground).
 2. Click the gear icon (top right) → check **Use your own OAuth
@@ -72,7 +72,7 @@ step needed.
 
 ## 2. Firefox Add-ons (AMO)
 
-**Extension id** — the extension pins a stable id in `wxt.config.ts`
+**Extension id**: the extension pins a stable id in `wxt.config.ts`
 (`browser_specific_settings.gecko.id`), matching the live listing:
 
 ```
@@ -115,5 +115,5 @@ This runs `release-it` (config in `apps/extension/.release-it.json`):
 bumps `apps/extension/package.json`, runs `check` + both `build`s as a
 pre-flight, commits, tags `extension-v${version}`, pushes, and opens the
 GitHub release. That release event is what triggers `cd-extension.yml`,
-which submits to both stores — still nothing runs locally against either
+which submits to both stores; still nothing runs locally against either
 store.

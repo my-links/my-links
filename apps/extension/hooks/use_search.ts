@@ -11,7 +11,7 @@ type UseSearchReturn = {
 
 /**
  * A link can belong to several collections, so the cache is deduped by id
- * before matching — otherwise the same link could show up more than once.
+ * before matching: otherwise the same link could show up more than once.
  */
 function collectUniqueLinks(
 	collections: readonly { links?: LinkResource[] }[]

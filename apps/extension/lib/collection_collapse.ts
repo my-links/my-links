@@ -9,7 +9,7 @@ export type CollectionCollapseState = {
 };
 
 /**
- * Followed defaults collapsed — a follower opens the extension for their own
+ * Followed defaults collapsed: a follower opens the extension for their own
  * links far more often than someone else's, and a large followed collection
  * shouldn't push those below the fold on every open.
  */

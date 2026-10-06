@@ -14,7 +14,7 @@ type KebabMenuProps = {
 /**
  * Minimal dismissable dropdown for row-level actions (edit/delete on a
  * collection or link). Closes on blur rather than a document click
- * listener — cheaper and sidesteps the extra teardown a global listener
+ * listener: cheaper and sidesteps the extra teardown a global listener
  * would need across every open sidebar/newtab instance.
  */
 export function KebabMenu({ label, children }: Readonly<KebabMenuProps>) {

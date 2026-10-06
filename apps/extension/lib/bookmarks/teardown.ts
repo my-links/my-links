@@ -63,7 +63,7 @@ type TeardownStep = {
 
 /**
  * A folder is taken down whole only when every child in it is one the mirror
- * created — `removeTree` would take the user's own bookmarks with it. A folder
+ * created: `removeTree` would take the user's own bookmarks with it. A folder
  * holding anything else is simply forgotten and left to them, and the mirrored
  * bookmarks inside it are removed one by one.
  */
@@ -180,8 +180,8 @@ function resolveEmptiedFolderId(
  * Stops mirroring and takes back every node the mirror created, leaving the
  * bar as close to its pre-MyLinks state as the mapping can prove.
  *
- * The alternative — backing the user's own bookmarks up and restoring them
- * later — was deliberately not built: an extension cannot run bookmark writes
+ * The alternative (backing the user's own bookmarks up and restoring them
+ * later) was deliberately not built: an extension cannot run bookmark writes
  * on uninstall, so a user who removes it without disabling first would be left
  * with their bar locked inside a folder nothing is going to open again.
  */

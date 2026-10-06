@@ -27,14 +27,14 @@ export function SyncStatusBadge({
 			setIsReconnecting(true);
 			try {
 				await connectToInstance(instanceUrl);
-				// The reconnect stored a fresh token — clear the dead-token state
+				// The reconnect stored a fresh token; clear the dead-token state
 				// and the backoff so the next sync runs immediately instead of
 				// waiting out the delay accumulated while the token was invalid.
 				await syncBackoffStorage.setValue(INITIAL_SYNC_BACKOFF_STATE);
 				await authInvalidStorage.setValue(false);
 				requestBackgroundSync();
 			} catch {
-				// launchWebAuthFlow was cancelled or refused — leave the badge up.
+				// launchWebAuthFlow was cancelled or refused; leave the badge up.
 			} finally {
 				setIsReconnecting(false);
 			}

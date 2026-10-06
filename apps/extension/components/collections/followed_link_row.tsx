@@ -8,7 +8,7 @@ type FollowedLinkRowProps = {
 };
 
 /**
- * Read-only counterpart to `LinkRow` — a followed link can be opened, never
+ * Read-only counterpart to `LinkRow`: a followed link can be opened, never
  * edited or deleted, so there is no kebab menu, no context menu, and no
  * `collectionIds` badge (the API never sends that field for a followed
  * collection's links, see `lib/api/types.ts`).
@@ -19,7 +19,7 @@ export function FollowedLinkRow({ link }: Readonly<FollowedLinkRowProps>) {
 		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
 	// Falls back to the raw target only until `instanceUrl` hydrates from
-	// storage — the redirect is what counts the click.
+	// storage: the redirect is what counts the click.
 	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
 
 	return (

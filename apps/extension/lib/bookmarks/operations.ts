@@ -39,7 +39,7 @@ export type BookmarkOperation =
 	/** Drops a mapping entry whose node the browser has already reclaimed. */
 	| { kind: 'forget-bookmark'; linkKey: string }
 	/**
-	 * Re-files an existing node under another key — a bookmark dragged from one
+	 * Re-files an existing node under another key: a bookmark dragged from one
 	 * collection folder to another is the same node, and re-creating it would
 	 * lose its identity for no reason.
 	 */
@@ -53,7 +53,7 @@ export type BookmarkOperation =
 	/**
 	 * Ordering is one operation carrying the whole ranking rather than a move
 	 * per node: each move renumbers its siblings, so independently computed
-	 * indexes would land in the wrong final order. Parent-agnostic — used for
+	 * indexes would land in the wrong final order. Parent-agnostic: used for
 	 * the pinned bar, the collections folder, and the links inside one
 	 * collection folder alike.
 	 */
@@ -74,13 +74,13 @@ export type NodePlacement = 'pinned' | 'filed';
  * A write the server has to be told about.
  *
  * Never more than one per link per pass: a link dragged out of two folders at
- * once — or out of a folder *and* off the bar — has to produce a single
+ * once (or out of a folder *and* off the bar) has to produce a single
  * payload, or the second write would undo the first.
  */
 export type ServerChange =
 	| {
 			kind: 'create-link';
-			/** Native node being adopted — mapped to the new link once created. */
+			/** Native node being adopted, mapped to the new link once created. */
 			nodeId: string;
 			collectionId: number;
 			name: string;

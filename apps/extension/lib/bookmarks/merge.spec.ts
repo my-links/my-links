@@ -212,7 +212,7 @@ class FlakyBookmarksApi implements BookmarksApi {
 
 /**
  * Runs whole mirror passes: reclaim orphans, reconcile, push, write, and
- * advance the snapshot only when everything landed — the same sequence
+ * advance the snapshot only when everything landed, the same sequence
  * `runMirrorPass` performs, so a scenario proved here is proved against the
  * real orchestration and not against a convenient subset of it.
  */
@@ -224,7 +224,7 @@ class MirrorHarness {
 	snapshot: SyncedTree = EMPTY_SYNCED_TREE;
 	/**
 	 * The mirror was switched on at time zero, which is also what the fake
-	 * browser stamps until a scenario advances its clock — so bookmarks a
+	 * browser stamps until a scenario advances its clock, so bookmarks a
 	 * scenario sets up are "already there" and only the ones it saves after
 	 * moving the clock read as newly saved.
 	 */
@@ -395,7 +395,7 @@ async function buildSettledHarness(): Promise<{
 	return built;
 }
 
-describe('reconcile — first pass', () => {
+describe('reconcile: first pass', () => {
 	it('should build the collections and their links, then have nothing left to do', async () => {
 		const { harness } = buildHarness();
 
@@ -428,7 +428,7 @@ describe('reconcile — first pass', () => {
 	});
 });
 
-describe('reconcile — renames', () => {
+describe('reconcile: renames', () => {
 	it('should push a bookmark the user renamed in the browser', async () => {
 		const { harness, server, docs } = await buildSettledHarness();
 		await harness.api.update(await harness.nodeIdOf(`${WORK_ID}:${docs.id}`), {
@@ -504,7 +504,7 @@ describe('reconcile — renames', () => {
 	});
 });
 
-describe('reconcile — URLs', () => {
+describe('reconcile: URLs', () => {
 	it('should never push a URL the two sides merely normalise differently', async () => {
 		const server = new FakeServer();
 		server.addCollection(INBOX_ID, 'Inbox');
@@ -551,7 +551,7 @@ describe('reconcile — URLs', () => {
 	});
 });
 
-describe('reconcile — membership', () => {
+describe('reconcile: membership', () => {
 	it('should read a bookmark dragged into another folder as a move, not a copy', async () => {
 		const { harness, docs } = await buildSettledHarness();
 		await harness.api.move(await harness.nodeIdOf(`${WORK_ID}:${docs.id}`), {
@@ -616,7 +616,7 @@ describe('reconcile — membership', () => {
 	});
 });
 
-describe('reconcile — server-side deletions', () => {
+describe('reconcile: server-side deletions', () => {
 	it('should remove the bookmarks of a link the server no longer has', async () => {
 		const { harness, server, docs } = await buildSettledHarness();
 		server.deleteLink(docs.id);
@@ -658,7 +658,7 @@ describe('reconcile — server-side deletions', () => {
 	});
 });
 
-describe('reconcile — pinned favourites', () => {
+describe('reconcile: pinned favourites', () => {
 	it('should pin a favourite on the bar and unpin it when the server clears the flag', async () => {
 		const { harness, server, docs } = await buildSettledHarness();
 		server.editLink(docs.id, { favorite: true });
@@ -726,7 +726,7 @@ describe('reconcile — pinned favourites', () => {
 	});
 });
 
-describe('reconcile — bookmarks saved onto the bar', () => {
+describe('reconcile: bookmarks saved onto the bar', () => {
 	it('should turn a bookmark saved with the native star into a favourite in the default collection', async () => {
 		const { harness, server } = await buildSettledHarness();
 		harness.api.clock = 1;
@@ -833,11 +833,11 @@ describe('reconcile — bookmarks saved onto the bar', () => {
 
 /**
  * Chromium saves a new bookmark into the most recently modified folder, and
- * the mirror writes into its own folders on every pass — so the star button
+ * the mirror writes into its own folders on every pass, so the star button
  * lands wherever it likes, and being in a collection folder says nothing
  * about how the bookmark got there.
  */
-describe('reconcile — bookmarks saved into a collection folder', () => {
+describe('reconcile: bookmarks saved into a collection folder', () => {
 	it('should favourite a bookmark the browser created inside a collection folder', async () => {
 		const { harness, server } = await buildSettledHarness();
 		harness.api.clock = 1;
@@ -929,7 +929,7 @@ describe('reconcile — bookmarks saved into a collection folder', () => {
 	});
 });
 
-describe('reconcile — recovering from a broken pass', () => {
+describe('reconcile: recovering from a broken pass', () => {
 	it('should finish the job without duplicating anything after a half-applied pass', async () => {
 		const { harness } = buildHarness();
 

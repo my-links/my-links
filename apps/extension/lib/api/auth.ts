@@ -41,7 +41,7 @@ function permissionOriginPatterns(origin: string): string[] {
 /**
  * `redirect: 'error'` instead of the default `'follow'`: a cross-origin 30x
  * carries no CORS headers of its own, so the browser blocks it as a CORS
- * failure before it ever reaches the final response — following it is not an
+ * failure before it ever reaches the final response: following it is not an
  * option here, only detecting it is.
  */
 async function answersDirectly(origin: string): Promise<boolean> {
@@ -56,7 +56,7 @@ async function answersDirectly(origin: string): Promise<boolean> {
 /**
  * A typed origin can redirect to a different one (apex to `www` is the
  * common case) and that redirect is opaque to `fetch`, so this tries the
- * typed origin first and falls back to its `www` sibling before giving up —
+ * typed origin first and falls back to its `www` sibling before giving up:
  * whichever answers without redirecting is the one every later request,
  * bearer token included, must target directly.
  */
@@ -87,7 +87,7 @@ export function extractTokenFromAuthCallback(
  * auth handoff off to `launchWebAuthFlow`: it opens
  * `/extension/authorize?redirect_uri=...` on the instance (login there if
  * needed), and captures the final redirect once the server hands back a
- * token in the URL fragment. MyLinks is never an OAuth provider here — this
+ * token in the URL fragment. MyLinks is never an OAuth provider here: this
  * only reuses the browser API that OAuth flows also happen to use.
  * Permission request stays first (before resolveCanonicalOrigin's fetch) since Firefox requires it synchronous within the click handler.
  */

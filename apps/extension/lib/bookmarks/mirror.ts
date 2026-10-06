@@ -67,8 +67,8 @@ import {
  * argue with each other. Ordering the halves used to be the mechanism, and it
  * is what turned every ambiguity into an oscillation.
  *
- * Coalescing rather than a plain mutex: a request arriving mid-pass — the
- * cache write from the resync, a bookmark event, the alarm — is what carries
+ * Coalescing rather than a plain mutex: a request arriving mid-pass (the
+ * cache write from the resync, a bookmark event, the alarm) is what carries
  * the mirror to its next state, and dropping it would strand the two sides
  * apart until an unrelated trigger happened along.
  */
@@ -113,7 +113,7 @@ async function runMirrorPass(): Promise<void> {
 	}
 
 	// Reconciling against a cache the sync is currently failing to refresh
-	// means judging the server by an out-of-date picture of it — every native
+	// means judging the server by an out-of-date picture of it: every native
 	// edit would be re-detected and re-pushed until the instance comes back.
 	// The mirror waits alongside the sync instead.
 	const syncBackoff = await syncBackoffStorage.getValue();
@@ -229,7 +229,7 @@ async function runMirrorPass(): Promise<void> {
 }
 
 /**
- * From here on the mirror has a tree of its own on this bar — it has just
+ * From here on the mirror has a tree of its own on this bar: it has just
  * settled one. Recorded only after a pass that fully landed, and it is what
  * later licenses claiming a node back by resemblance: a mirror that has never
  * written here has nothing to recognise, and every match would be the user's.
@@ -249,12 +249,12 @@ async function rememberSettledTree(): Promise<void> {
 /**
  * Nodes the mirror created but can no longer recognise are claimed back before
  * anything is judged. Storage does not survive a reinstall while the bookmarks
- * do, and without this every one of them would be read as user content —
+ * do, and without this every one of them would be read as user content,
  * adopted into duplicate links, and shadowed by a second set of folders.
  *
  * Pins are only reclaimed once the mirror has a tree of its own here. Until
  * then it has left nothing on the bar to find, so a bookmark matching a
- * favourite's URL is one the user saved themselves — claiming it would put
+ * favourite's URL is one the user saved themselves: claiming it would put
  * their bookmark under MyLinks' control without them ever asking, down to
  * deleting it the day the link stops being a favourite.
  */
@@ -301,7 +301,7 @@ async function guardAgainstRepeatedPush(
 		(await lastPushedChangesStorage.getValue())
 	) {
 		throw new BookmarkMirrorError(
-			'The same changes came back after being pushed — the server is not recording them as sent'
+			'The same changes came back after being pushed. The server is not recording them as sent'
 		);
 	}
 }
@@ -350,7 +350,7 @@ async function applyPinnedOrder(
 }
 
 /**
- * Unlike the pinned bar, there is no local ranking to protect — server
+ * Unlike the pinned bar, there is no local ranking to protect: server
  * `position` is the only source of order here, and the extension has no UI of
  * its own to compete with it, so this runs every pass rather than being
  * throttled to a recompute.
@@ -401,7 +401,7 @@ async function applyCollectionOrder(
 /**
  * Settles every change instead of failing the batch on the first rejection:
  * one rate-limited write must not discard the adoptions the others earned,
- * or their nodes would be adopted again — and duplicated — next pass.
+ * or their nodes would be adopted again (and duplicated) next pass.
  */
 async function pushServerChanges(
 	changes: ServerChange[],

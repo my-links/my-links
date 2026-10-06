@@ -16,7 +16,7 @@ type ReorderFollowedCollectionsContext = {
 
 /**
  * Own optimistic-update/rollback plumbing rather than reusing
- * `useCollectionsMutation` — that hook is hardwired to `COLLECTIONS_QUERY_KEY`
+ * `useCollectionsMutation`: that hook is hardwired to `COLLECTIONS_QUERY_KEY`
  * and `CollectionWithLinks[]`, but followed collections live in their own
  * query cache with their own (position-less) type, same split as
  * `useFollowedCollections` vs `useCollections`.

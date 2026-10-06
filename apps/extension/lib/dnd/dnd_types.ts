@@ -11,7 +11,7 @@ export type CollectionSection =
 
 /**
  * Followed collections have no `CollectionVisibility` of their own (they
- * belong to whoever authored them) — only the two owned sections map to one,
+ * belong to whoever authored them): only the two owned sections map to one,
  * so `visibilityForSection`/`sectionForVisibility` are typed over this
  * narrower union rather than the full `CollectionSection`.
  */
@@ -52,7 +52,7 @@ export function sectionForVisibility(
  * `isOwner` gates link drops (see collision_detection.ts): only an owned
  * collection may receive a link dropped onto it, a followed collection isn't
  * a legal target since the follower doesn't manage its contents. Collection
- * ordering itself doesn't need the flag — a collection can only ever collide
+ * ordering itself doesn't need the flag: a collection can only ever collide
  * with containers sharing its own `section`, and `followed` is disjoint from
  * `public`/`private`, so followed collections only ever reorder among
  * themselves regardless of `isOwner`.

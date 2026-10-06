@@ -15,7 +15,7 @@ describe('drag click guard', () => {
 	});
 
 	// Order matters: `suppressUntil` is deliberately a module-level singleton,
-	// not something exposed for a test to reset — this case must run before
+	// not something exposed for a test to reset: this case must run before
 	// any other test arms the guard.
 	it('should not suppress a click when never armed', () => {
 		expect(shouldSuppressClick()).toBe(false);

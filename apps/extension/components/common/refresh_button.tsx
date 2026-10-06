@@ -5,7 +5,7 @@ import { requestBackgroundSync } from '@/lib/sync/messages';
 
 const MIN_REFRESH_INDICATOR_MS = 600;
 
-/** Manual sync nudge — the background worker already runs on a timer, this just skips the wait. */
+/** Manual sync nudge: the background worker already runs on a timer, this just skips the wait. */
 export function RefreshButton() {
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	// Set once the minimum indicator time has passed; the spin itself only

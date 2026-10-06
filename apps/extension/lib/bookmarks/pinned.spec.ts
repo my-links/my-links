@@ -226,7 +226,7 @@ describe('pinned favourites applied to a real tree', () => {
 		);
 
 		// Reversing the ranking must reshuffle the existing nodes, not recreate
-		// them — the mapping is what proves nothing was thrown away.
+		// them: the mapping is what proves nothing was thrown away.
 		const reversedPins = [...desiredPins].reverse();
 		const { mapping: afterReorder } = await applyBookmarkOperations(
 			api,

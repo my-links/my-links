@@ -22,9 +22,9 @@ type CollapsibleSectionProps = {
  * Shared chrome for the three top-level sidebar sections (Followed, Public,
  * Private): a collapse toggle plus a Move up/Move down action, backed by
  * `useSectionOrder`. Same dual kebab-menu/right-click-context-menu pattern as
- * `CollectionSection`/`LinkRow` — a hover-revealed kebab button and a
+ * `CollectionSection`/`LinkRow`: a hover-revealed kebab button and a
  * right-click both open the same set of actions. What renders inside is
- * entirely up to the caller — this component knows nothing about
+ * entirely up to the caller: this component knows nothing about
  * collections. The bottom divider between sections is drawn by the parent
  * (`divide-y` in `collection_tree.tsx`) rather than here, so the last
  * rendered section never ends in a dangling border.

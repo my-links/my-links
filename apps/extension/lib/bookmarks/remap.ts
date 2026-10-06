@@ -20,14 +20,14 @@ import {
  * longer recognise.
  *
  * The mapping is the only thing tying a native node to a server entity, and
- * it does not survive the extension's storage being cleared — a reinstall, a
+ * it does not survive the extension's storage being cleared: a reinstall, a
  * profile reset, or anything that forces a re-authentication. The bookmarks
  * themselves do survive, so without this every one of them reads as content
  * the user added by hand: the inbound pass adopts them into duplicate links
  * and the outbound pass builds a second set of folders beside the first.
  *
- * Recognition falls back to what the two sides actually share — a folder's
- * title, a bookmark's URL — and only ever claims nodes nothing else has
+ * Recognition falls back to what the two sides actually share (a folder's
+ * title, a bookmark's URL) and only ever claims nodes nothing else has
  * claimed. Matching the wrong same-named folder is harmless: the mapping
  * takes over from the next pass, and no node is created or destroyed here.
  *
@@ -36,7 +36,7 @@ import {
  * own ground. A pin is looked for on the bar, which is the user's: URL is all
  * there is to go on there, and it cannot tell a pin the mirror created from a
  * bookmark they had saved for the same page long before. So pins are only
- * reclaimed once `rootOrigin` says the mirror has a tree here to reclaim —
+ * reclaimed once `rootOrigin` says the mirror has a tree here to reclaim;
  * otherwise their bookmark would quietly change hands, to be retitled, ranked
  * and finally deleted the day the link stopped being a favourite.
  */

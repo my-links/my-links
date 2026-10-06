@@ -19,7 +19,7 @@ function toActiveTabInfo(
  * Tracks the current window's active tab for quick-add prefill. The side
  * panel stays open across tab switches (it's not tied to a single tab), so
  * this re-queries on `tabs.onActivated`/`onUpdated` rather than once on
- * mount — otherwise quick-add would keep offering to save whatever tab was
+ * mount: otherwise quick-add would keep offering to save whatever tab was
  * active when the panel first opened.
  */
 export function useActiveTab(): ActiveTabInfo | null {

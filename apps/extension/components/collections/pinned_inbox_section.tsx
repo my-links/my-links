@@ -12,7 +12,7 @@ type PinnedInboxSectionProps = {
 
 /**
  * The Inbox, pinned above the sortable sections rather than sitting inside
- * "Private" — same row as `CollectionSection`, but a plain drop target
+ * "Private": same row as `CollectionSection`, but a plain drop target
  * instead of a sortable one: it never reorders relative to other collections.
  */
 export function PinnedInboxSection({

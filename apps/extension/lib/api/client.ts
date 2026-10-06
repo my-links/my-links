@@ -6,7 +6,7 @@ import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
 /**
  * The instance URL and token can change (options page, logout), so the
  * client is rebuilt from current storage on every call rather than cached
- * as a module-level singleton — `createClient` itself is a cheap object,
+ * as a module-level singleton: `createClient` itself is a cheap object,
  * not a connection.
  */
 export async function createExtensionApiClient() {

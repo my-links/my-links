@@ -9,7 +9,7 @@ import type {
  * Pure read/write helpers over the collections tree held in TanStack Query's
  * cache. Kept side-effect free so mutation hooks (`use_create_link.ts` and
  * friends) can use them for optimistic updates without touching storage or
- * the network — the background worker remains the only writer of
+ * the network: the background worker remains the only writer of
  * `collectionsCacheStorage` (see storage.ts).
  */
 
@@ -36,7 +36,7 @@ export function removeLinkFromTree(
 
 /**
  * Splices `nextLink` in at its current index for every collection it was
- * already in, instead of dropping and re-appending it — a remove+insert would
+ * already in, instead of dropping and re-appending it: a remove+insert would
  * shove an edited link to the bottom of its collection(s) on every save, even
  * when the edit never touched `collectionIds`. Only a collection newly gained
  * gets an append; only one newly lost gets the entry dropped.
@@ -90,7 +90,7 @@ export function replaceCollectionInTree(
 
 /**
  * Takes the already-final ordered id list (post-`arrayMove`, not a pair of
- * indices) — the server's `assertOwnedCollectionIds` requires the exact,
+ * indices): the server's `assertOwnedCollectionIds` requires the exact,
  * complete id set for the section on every reorder call, so there is no
  * partial-move variant to compute here, only a full assignment of
  * `0..n-1` to the matching visibility. Collections outside `visibility` are
@@ -111,7 +111,7 @@ export function reorderCollectionsInTree(
 }
 
 /**
- * Followed collections carry no `position` field (see types.ts) — same
+ * Followed collections carry no `position` field (see types.ts), same
  * contract as `reorderLinksInTree`, the submitted id list already is the new
  * order, so reordering means resequencing the array to match it.
  */
@@ -138,7 +138,7 @@ export function removeCollectionFromTree(
 }
 
 /**
- * Links carry no pivot `position` field (unlike collections) — the array
+ * Links carry no pivot `position` field (unlike collections): the array
  * order returned by the server already *is* the order, so reordering means
  * resequencing the matching collection's `links` array to the submitted id
  * list, same contract as `reorderCollectionLinks` on the server.
@@ -163,7 +163,7 @@ export function reorderLinksInTree(
 }
 
 /**
- * Detach from the source collection, attach to the target — mirrors the
+ * Detach from the source collection, attach to the target; mirrors the
  * server's move semantics, never duplicates the `links` row. Only the two
  * collections involved are patched; a third collection also holding this
  * link keeps a stale `collectionIds` until the resync that follows every
@@ -206,7 +206,7 @@ export function moveLinkBetweenCollectionsInTree(
 
 /**
  * Shift+drop: attach to the target collection without detaching from the
- * source. Idempotent — a double drop (or a stale drag re-fired) must not
+ * source. Idempotent: a double drop (or a stale drag re-fired) must not
  * insert the link twice, matching the server's no-op-if-already-present rule.
  */
 export function addLinkToCollectionInTree(
@@ -257,7 +257,7 @@ export function findLinkByUrl(
  * The Inbox is where a link with no explicit collection lands. Returns its id
  * so an optimistic update can place a collection-less link there instead of
  * nowhere (else it would vanish until the resync). Undefined when the Inbox
- * hasn't been created yet (fresh account) — the backend makes it on submit.
+ * hasn't been created yet (fresh account): the backend makes it on submit.
  */
 export function getDefaultCollectionId(
 	collections: CollectionWithLinks[]
@@ -269,7 +269,7 @@ export function getDefaultCollectionId(
  * The owned collections a private/public reorder actually operates over,
  * ordered by position. The Inbox is excluded: it's pinned outside every
  * sortable section (see `collection_tree.tsx`), and the server excludes it
- * from that section's owned-id set the same way — submitting it here would
+ * from that section's owned-id set the same way: submitting it here would
  * fail the reorder's exact-match check as an unrecognised id.
  */
 export function sectionCollectionsForReorder(

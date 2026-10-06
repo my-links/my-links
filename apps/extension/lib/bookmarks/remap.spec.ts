@@ -60,7 +60,7 @@ function recoverPins(
 	});
 }
 
-describe('remapOrphanedNodes — collection folders', () => {
+describe('remapOrphanedNodes: collection folders', () => {
 	it('should claim back the folder and bookmark it created after storage was cleared', () => {
 		const mapping = recoverFolders(
 			[INBOX],
@@ -130,7 +130,7 @@ describe('remapOrphanedNodes — collection folders', () => {
 	});
 });
 
-describe('remapOrphanedNodes — duplicate links', () => {
+describe('remapOrphanedNodes: duplicate links', () => {
 	const TWIN_LINKS: DesiredFolder = {
 		collectionId: 1,
 		title: 'Inbox',
@@ -170,7 +170,7 @@ describe('remapOrphanedNodes — duplicate links', () => {
 	});
 });
 
-describe('remapOrphanedNodes — pinned favourites', () => {
+describe('remapOrphanedNodes: pinned favourites', () => {
 	it('should claim back a pin it left on the bar once it has a tree of its own', () => {
 		const mapping = recoverPins(
 			[GOOGLE_PIN],

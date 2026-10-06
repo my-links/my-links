@@ -10,7 +10,7 @@ const TEMPORARY_LINK_ID_FACTOR = -1;
 
 /**
  * Builds a placeholder link for the optimistic insert. Its id is
- * intentionally fake (negative, timestamp-derived) — the resync triggered
+ * intentionally fake (negative, timestamp-derived): the resync triggered
  * on settle replaces it with the server's real record within a network
  * round-trip, so nothing ever persists this id anywhere.
  */

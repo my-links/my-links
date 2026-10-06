@@ -66,7 +66,7 @@ function buildArgs({
 	};
 }
 
-describe('collectionsDndCollisionDetection — dragging a collection', () => {
+describe('collectionsDndCollisionDetection: dragging a collection', () => {
 	it('should only collide with collections from the same section, even when a foreign-section collection is geometrically closer', () => {
 		const active = buildActive('private-active', {
 			kind: 'collection',
@@ -100,8 +100,8 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 			rect(40, 0, 20, 20)
 		);
 
-		// Centered right on top of publicA (center 50,10) — the geometrically
-		// closest container overall — to prove the section filter, not luck,
+		// Centered right on top of publicA (center 50,10), the geometrically
+		// closest container overall, to prove the section filter, not luck,
 		// is what keeps it out of the result.
 		const collisions = collectionsDndCollisionDetection(
 			buildArgs({
@@ -197,7 +197,7 @@ describe('collectionsDndCollisionDetection — dragging a collection', () => {
 	});
 });
 
-describe('collectionsDndCollisionDetection — dragging a link', () => {
+describe('collectionsDndCollisionDetection: dragging a link', () => {
 	// A collection's droppable node wraps its own link rows, so every hover
 	// over a sibling row is geometrically inside the parent collection too.
 	it('should target the link row under the pointer over the collection containing it', () => {
@@ -343,7 +343,7 @@ describe('collectionsDndCollisionDetection — dragging a link', () => {
 	});
 });
 
-describe('collectionsDndCollisionDetection — malformed containers', () => {
+describe('collectionsDndCollisionDetection: malformed containers', () => {
 	it('should ignore a container with no drag data at all', () => {
 		const active = buildActive('link-active', {
 			kind: 'link',
@@ -374,7 +374,7 @@ describe('collectionsDndCollisionDetection — malformed containers', () => {
 	});
 });
 
-describe('collectionsDndCollisionDetection — the pinned Inbox', () => {
+describe('collectionsDndCollisionDetection: the pinned Inbox', () => {
 	it('should accept a dropped link', () => {
 		const active = buildActive('link-active', {
 			kind: 'link',
@@ -435,7 +435,7 @@ describe('collectionsDndCollisionDetection — the pinned Inbox', () => {
 	});
 });
 
-describe('collectionsDndCollisionDetection — dragging a link over a followed collection', () => {
+describe('collectionsDndCollisionDetection: dragging a link over a followed collection', () => {
 	it('should never target a followed (non-owned) collection as a drop target', () => {
 		const active = buildActive('link-active', {
 			kind: 'link',

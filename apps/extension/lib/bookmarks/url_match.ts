@@ -6,7 +6,7 @@
  * while the browser adds one back when it stores the bookmark. Compared as
  * plain strings, `https://example.com` and `https://example.com/` look like a
  * user edit, so the mirror pushes the browser's form, the server rewrites it,
- * and the next pass sees the same difference again — forever.
+ * and the next pass sees the same difference again, forever.
  *
  * `URL.href` gives both forms the same shape, so a difference here means the
  * user really did change something.
