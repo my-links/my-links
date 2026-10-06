@@ -5,7 +5,7 @@ import app from '@adonisjs/core/services/app';
 import type { ScheduledTask } from 'node-cron';
 import logger from '@adonisjs/core/services/logger';
 
-import { UserService } from '#services/user/user_service';
+import { AccountRetentionService } from '#services/user/account_retention_service';
 import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
 
 const timezone = process.env.TZ ?? 'UTC';
@@ -26,8 +26,10 @@ function logExecutionFailures(task: ScheduledTask, taskName: string): void {
 const flagInactiveAccountsTask = cron.schedule(
 	'0 3 * * *',
 	async () => {
-		const userService = await app.container.make(UserService);
-		const flaggedCount = await userService.flagInactiveAccounts();
+		const accountRetentionService = await app.container.make(
+			AccountRetentionService
+		);
+		const flaggedCount = await accountRetentionService.flagInactiveAccounts();
 		logger.info(`Flagged ${flaggedCount} inactive account(s) for deletion`);
 	},
 	{ name: 'account-flag-inactive', timezone }
@@ -37,8 +39,10 @@ logExecutionFailures(flagInactiveAccountsTask, 'account-flag-inactive');
 const pruneExpiredDeletionsTask = cron.schedule(
 	'30 3 * * *',
 	async () => {
-		const userService = await app.container.make(UserService);
-		const prunedCount = await userService.pruneExpiredDeletions();
+		const accountRetentionService = await app.container.make(
+			AccountRetentionService
+		);
+		const prunedCount = await accountRetentionService.pruneExpiredDeletions();
 		logger.info(
 			`Permanently deleted ${prunedCount} account(s) past the grace period`
 		);

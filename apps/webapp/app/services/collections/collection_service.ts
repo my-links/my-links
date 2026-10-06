@@ -1,12 +1,9 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
-import { idSetsMatch } from '#lib/id_set';
 import Collection from '#models/collection';
-import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
@@ -14,9 +11,8 @@ import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
-import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
+import { CollectionOrderingService } from '#services/collections/collection_ordering_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
-import { InvalidCollectionMembershipException } from '#exceptions/collections/invalid_collection_membership_exception';
 import { CannotShareDefaultCollectionException } from '#exceptions/collections/cannot_share_default_collection_exception';
 import { CannotDeleteDefaultCollectionException } from '#exceptions/collections/cannot_delete_default_collection_exception';
 
@@ -38,76 +34,20 @@ export class CollectionService {
 		protected readonly syncJournalService: SyncJournalService,
 		protected readonly activityEventService: ActivityEventService,
 		protected readonly collectionLinkService: CollectionLinkService,
+		protected readonly collectionOrderingService: CollectionOrderingService,
 		protected readonly collectionFollowerService: CollectionFollowerService
 	) {}
-
-	async getAccessibleCollectionByIdWithLinks(
-		id: Collection['id'],
-		userId: User['id']
-	) {
-		const collection = await Collection.query()
-			.where('id', id)
-			.where((query) => {
-				query.where('author_id', userId).orWhere((subQuery) => {
-					subQuery
-						.where('visibility', VISIBILITY.PUBLIC)
-						.whereHas('followers', (followerQuery) => {
-							followerQuery.where('users.id', userId);
-						});
-				});
-			})
-			.preload('links', (q) => {
-				q.apply((scopes) => scopes.orderedInCollection()).preload(
-					'collections'
-				);
-			})
-			.preload('author')
-			.withCount('followers', (query) => {
-				query.as('followersCount');
-			})
-			.firstOrFail();
-
-		return {
-			collection,
-			isOwner: collection.authorId === userId,
-		};
-	}
-
-	/**
-	 * Backs `GET /api/v1/collections` (the extension). Collections and links
-	 * are each ordered within their own `position` scope, same as the sidebar
-	 * — `position` is scoped `(author_id, visibility)` for collections and
-	 * `(collection_id)` for the pivot, so this cannot produce one merged
-	 * global order, only two internally-consistent ones. The client sorts
-	 * public/private into their own sections using `visibility`, already on
-	 * every collection.
-	 */
-	async getCollectionsForAuthenticatedUser(userId: User['id']) {
-		return await Collection.query()
-			.where('author_id', userId)
-			.orderBy('position', 'asc')
-			.orderBy('name', 'asc')
-			.preload('links', (q) => {
-				q.apply((scopes) => scopes.orderedInCollection()).preload(
-					'collections'
-				);
-			});
-	}
-
-	async getTotalCollectionsCount() {
-		const totalCount = await db.from('collections').count('* as total');
-		return Number(totalCount[0].total);
-	}
 
 	async createCollection(
 		userId: User['id'],
 		payload: CollectionPayload,
 		origin: RequestOrigin
 	) {
-		const position = await this.getNextCollectionPosition(
-			userId,
-			payload.visibility
-		);
+		const position =
+			await this.collectionOrderingService.getNextCollectionPosition(
+				userId,
+				payload.visibility
+			);
 		const collection = await Collection.create({
 			...payload,
 			authorId: userId,
@@ -158,10 +98,11 @@ export class CollectionService {
 		collection.merge(payload);
 
 		if (visibilityChanged) {
-			collection.position = await this.getNextCollectionPosition(
-				userId,
-				payload.visibility
-			);
+			collection.position =
+				await this.collectionOrderingService.getNextCollectionPosition(
+					userId,
+					payload.visibility
+				);
 		}
 
 		await collection.save();
@@ -290,121 +231,5 @@ export class CollectionService {
 		);
 
 		return defaultCollection;
-	}
-
-	getPublicCollectionById(id: Collection['id']) {
-		return Collection.query()
-			.where('id', id)
-			.andWhere('visibility', VISIBILITY.PUBLIC)
-			.preload('links', (q) => {
-				q.apply((scopes) => scopes.orderedInCollection()).preload(
-					'collections'
-				);
-			})
-			.preload('author')
-			.withCount('followers', (query) => {
-				query.as('followersCount');
-			})
-			.orderBy('name', 'asc')
-			.firstOrFail();
-	}
-
-	async getMyPublicCollections(userId: User['id']) {
-		return await Collection.query()
-			.where('author_id', userId)
-			.andWhere('visibility', VISIBILITY.PUBLIC)
-			.withCount('links', (query) => {
-				query.as('linksCount');
-			})
-			.orderBy('position', 'asc')
-			.orderBy('name', 'asc');
-	}
-
-	/**
-	 * The Inbox is deliberately absent: the sidebar pins it on its own, above
-	 * the sections the user orders. `getDefaultCollection` serves it instead.
-	 */
-	async getMyPrivateCollections(userId: User['id']) {
-		return await Collection.query()
-			.where('author_id', userId)
-			.andWhere('visibility', VISIBILITY.PRIVATE)
-			.andWhere('is_default', false)
-			.withCount('links', (query) => {
-				query.as('linksCount');
-			})
-			.orderBy('position', 'asc')
-			.orderBy('name', 'asc');
-	}
-
-	async reorderOwnedCollections(
-		userId: User['id'],
-		visibility: Visibility,
-		collectionIds: Collection['id'][]
-	): Promise<void> {
-		await this.assertOwnedCollectionIds(userId, visibility, collectionIds);
-
-		// `NOW()` freezes to transaction start under the tests' wrapped
-		// transaction, so the timestamp is computed here instead.
-		await reorderByRank(db, {
-			table: 'collections',
-			rankedColumn: 'id',
-			ids: collectionIds,
-			touchedAt: DateTime.now().toJSDate(),
-		});
-	}
-
-	/**
-	 * Ownership violation (422) and a stale/incomplete payload (409) are
-	 * different failures — the client should retry the latter after a
-	 * reload, not treat it as a permissions error.
-	 */
-	private async assertOwnedCollectionIds(
-		userId: User['id'],
-		visibility: Visibility,
-		collectionIds: Collection['id'][]
-	): Promise<void> {
-		const ownedCollections = await Collection.query()
-			.where('author_id', userId)
-			.whereIn('id', collectionIds);
-
-		if (ownedCollections.length !== new Set(collectionIds).size) {
-			throw new ForeignCollectionException(
-				'One or more collections do not belong to the authenticated user'
-			);
-		}
-
-		// Mirrors `getMyPrivateCollections`: the Inbox is pinned outside the
-		// sortable sections, so the client never submits it and counting it here
-		// would reject every private reorder as incomplete.
-		const currentSectionIds = (
-			await Collection.query()
-				.where('author_id', userId)
-				.andWhere('visibility', visibility)
-				.andWhere('is_default', false)
-				.select('id')
-		).map((collection) => collection.id);
-
-		if (!idSetsMatch(currentSectionIds, collectionIds)) {
-			throw new InvalidCollectionMembershipException(
-				'The submitted collections do not match the current section'
-			);
-		}
-	}
-
-	private async getNextCollectionPosition(
-		authorId: User['id'],
-		visibility: Visibility,
-		client?: TransactionClientContract
-	): Promise<number> {
-		const query = client ? client.from('collections') : db.from('collections');
-		const row = await query
-			.where('author_id', authorId)
-			.andWhere('visibility', visibility)
-			.andWhere('is_default', false)
-			.max('position as max_position')
-			.first();
-
-		const maxPosition = row?.max_position;
-		return typeof maxPosition === 'number' ? maxPosition + 1 : 0;
 	}
 }

@@ -4,6 +4,7 @@ import type User from '#models/user';
 import type { RequestOrigin } from '#lib/request_origin';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 /**
@@ -15,6 +16,7 @@ import { CollectionFollowerService } from '#services/collections/collection_foll
 export class DashboardSidebarService {
 	constructor(
 		protected readonly collectionService: CollectionService,
+		protected readonly collectionQueryService: CollectionQueryService,
 		protected readonly collectionFollowerService: CollectionFollowerService
 	) {}
 
@@ -26,8 +28,8 @@ export class DashboardSidebarService {
 			inboxCollection,
 		] = await Promise.all([
 			this.collectionFollowerService.getFollowedCollections(userId),
-			this.collectionService.getMyPublicCollections(userId),
-			this.collectionService.getMyPrivateCollections(userId),
+			this.collectionQueryService.getMyPublicCollections(userId),
+			this.collectionQueryService.getMyPrivateCollections(userId),
 			this.collectionService.getOrCreateDefaultCollection(userId, origin),
 		]);
 

@@ -11,22 +11,29 @@ import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
-import { ExportImportService } from '#services/user/export_import_service';
 import { CollectionService } from '#services/collections/collection_service';
+import { UserDataExportService } from '#services/user/user_data_export_service';
+import { UserDataImportService } from '#services/user/user_data_import_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionOrderingService } from '#services/collections/collection_ordering_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
-function buildService() {
+function buildExportService() {
+	return new UserDataExportService(new ActivityEventService());
+}
+
+function buildImportService() {
 	const collectionLinkService = new CollectionLinkService(
 		new SyncJournalService(),
 		new ActivityEventService()
 	);
-	return new ExportImportService(
+	return new UserDataImportService(
 		new CollectionService(
 			new SyncJournalService(),
 			new ActivityEventService(),
 			collectionLinkService,
+			new CollectionOrderingService(),
 			new CollectionFollowerService(new ActivityEventService())
 		),
 		new ActivityEventService(),
@@ -71,7 +78,7 @@ test.group('Export/import — multi-collection', (group) => {
 		});
 		await link.related('collections').attach([work.id, reading.id]);
 
-		const data = await buildService().exportUserData(
+		const data = await buildExportService().exportUserData(
 			user.id,
 			NO_REQUEST_ORIGIN
 		);
@@ -89,7 +96,7 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(
+		await buildImportService().importUserData(
 			user.id,
 			{
 				collections: [
@@ -123,7 +130,7 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(
+		await buildImportService().importUserData(
 			user.id,
 			{
 				collections: [
@@ -157,7 +164,7 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(
+		await buildImportService().importUserData(
 			user.id,
 			{
 				collections: [{ key: 'work-key', name: 'Work', visibility: 'PRIVATE' }],
@@ -186,7 +193,7 @@ test.group('Export/import — multi-collection', (group) => {
 	test('should import the legacy nested-links format', async ({ assert }) => {
 		const user = await createUser();
 
-		await buildService().importUserData(
+		await buildImportService().importUserData(
 			user.id,
 			{
 				collections: [
@@ -219,7 +226,7 @@ test.group('Export/import — multi-collection', (group) => {
 	}) => {
 		const user = await createUser();
 
-		await buildService().importUserData(
+		await buildImportService().importUserData(
 			user.id,
 			{
 				collections: [{ name: 'Work', visibility: 'PRIVATE' }],
@@ -258,13 +265,17 @@ test.group('Export/import — multi-collection', (group) => {
 		});
 		await link.related('collections').attach([work.id, reading.id]);
 
-		const exported = await buildService().exportUserData(
+		const exported = await buildExportService().exportUserData(
 			source.id,
 			NO_REQUEST_ORIGIN
 		);
 
 		const target = await createUser();
-		await buildService().importUserData(target.id, exported, NO_REQUEST_ORIGIN);
+		await buildImportService().importUserData(
+			target.id,
+			exported,
+			NO_REQUEST_ORIGIN
+		);
 
 		const targetCollections = await Collection.query()
 			.where('author_id', target.id)
@@ -289,7 +300,7 @@ test.group('Export/import — activity journal', (group) => {
 		const user = await createUser({ emailPrefix: 'activity-export' });
 		await createCollection(user, 'Secret collection');
 
-		await buildService().exportUserData(user.id, NO_REQUEST_ORIGIN);
+		await buildExportService().exportUserData(user.id, NO_REQUEST_ORIGIN);
 
 		const event = await AuditEvent.query()
 			.where('userId', user.id)
@@ -305,7 +316,7 @@ test.group('Export/import — activity journal', (group) => {
 	}) => {
 		const user = await createUser({ emailPrefix: 'activity-import' });
 
-		await buildService().importUserData(
+		await buildImportService().importUserData(
 			user.id,
 			{
 				collections: [

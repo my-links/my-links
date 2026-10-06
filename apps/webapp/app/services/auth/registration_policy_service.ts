@@ -1,18 +1,18 @@
 import { inject } from '@adonisjs/core';
 
 import env from '#start/env';
-import { UserService } from '#services/user/user_service';
 import { resolveRegistrationPolicy } from '#lib/auth/registration_policy';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { RegistrationClosedException } from '#exceptions/auth/registration_closed_exception';
 
 @inject()
 export class RegistrationPolicyService {
-	constructor(protected readonly userService: UserService) {}
+	constructor(protected readonly accountQueryService: AccountQueryService) {}
 
 	async isOpen(): Promise<boolean> {
 		return resolveRegistrationPolicy({
 			configuredPolicy: env.get('ALLOW_REGISTRATION'),
-			hasAnyAccount: await this.userService.hasAnyAccount(),
+			hasAnyAccount: await this.accountQueryService.hasAnyAccount(),
 		}).isOpen;
 	}
 

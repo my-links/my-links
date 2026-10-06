@@ -3,10 +3,10 @@ import { args, flags } from '@adonisjs/core/ace';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import AccountCommand from '#commands/_account_command';
-import { UserService } from '#services/user/user_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { registerValidator } from '#validators/auth/register_validator';
 import { RegistrationService } from '#services/auth/registration_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 
 export const DISPLAY_NAME_PROMPT = 'Display name';
 export const PASSWORD_PROMPT = 'Password';
@@ -37,7 +37,7 @@ export default class CreateUser extends AccountCommand {
 	@inject()
 	async run(
 		registrationService: RegistrationService,
-		userService: UserService,
+		accountQueryService: AccountQueryService,
 		authEventService: AuthEventService
 	): Promise<void> {
 		const email = await this.resolveEmail(this.email);
@@ -54,7 +54,7 @@ export default class CreateUser extends AccountCommand {
 			PASSWORD_CONFIRMATION_PROMPT
 		);
 		const isAdmin =
-			this.admin ?? (await this.promptForAdministrator(userService));
+			this.admin ?? (await this.promptForAdministrator(accountQueryService));
 
 		const payload = await registerValidator.validate({
 			name,
@@ -83,10 +83,10 @@ export default class CreateUser extends AccountCommand {
 	 * an instance gets is its administrator.
 	 */
 	private async promptForAdministrator(
-		userService: UserService
+		accountQueryService: AccountQueryService
 	): Promise<boolean> {
 		return this.prompt.confirm(ADMINISTRATOR_PROMPT, {
-			default: await userService.isNextAccountAdmin(),
+			default: await accountQueryService.isNextAccountAdmin(),
 		});
 	}
 }

@@ -9,6 +9,7 @@ import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { LinkService } from '#services/links/link_service';
+import { LinkQueryService } from '#services/links/link_query_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 
 const URL_HAS_SCHEME = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//;
@@ -46,6 +47,7 @@ async function serializeLink(link: Link | Link[]) {
 export function registerLinkTools(
 	server: McpServer,
 	linkService: LinkService,
+	linkQueryService: LinkQueryService,
 	collectionLinkService: CollectionLinkService
 ): void {
 	server.registerTool(
@@ -53,7 +55,9 @@ export function registerLinkTools(
 		{ description: "List every link in the authenticated user's account." },
 		() =>
 			runTool(TOKEN_ABILITY.READ, async () =>
-				serializeLink(await linkService.getMyLinks(getAuthenticatedUserId()))
+				serializeLink(
+					await linkQueryService.getMyLinks(getAuthenticatedUserId())
+				)
 			)
 	);
 
@@ -66,7 +70,7 @@ export function registerLinkTools(
 		({ id }) =>
 			runTool(TOKEN_ABILITY.READ, async () =>
 				serializeLink(
-					await linkService.getLinkById(id, getAuthenticatedUserId())
+					await linkQueryService.getLinkById(id, getAuthenticatedUserId())
 				)
 			)
 	);
@@ -81,7 +85,7 @@ export function registerLinkTools(
 		({ term }) =>
 			runTool(TOKEN_ABILITY.READ, async () =>
 				serializeLink(
-					await linkService.searchLinks(getAuthenticatedUserId(), term)
+					await linkQueryService.searchLinks(getAuthenticatedUserId(), term)
 				)
 			)
 	);
@@ -92,7 +96,7 @@ export function registerLinkTools(
 		() =>
 			runTool(TOKEN_ABILITY.READ, async () =>
 				serializeLink(
-					await linkService.getMyFavoriteLinks(getAuthenticatedUserId())
+					await linkQueryService.getMyFavoriteLinks(getAuthenticatedUserId())
 				)
 			)
 	);

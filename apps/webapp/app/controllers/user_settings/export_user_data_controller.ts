@@ -2,15 +2,17 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { ExportImportService } from '#services/user/export_import_service';
+import { UserDataExportService } from '#services/user/user_data_export_service';
 
 @inject()
 export default class ExportUserDataController {
-	constructor(protected readonly exportImportService: ExportImportService) {}
+	constructor(
+		protected readonly userDataExportService: UserDataExportService
+	) {}
 
 	async execute({ auth, request, response }: HttpContext) {
 		const user = auth.getUserOrFail();
-		const data = await this.exportImportService.exportUserData(
+		const data = await this.userDataExportService.exportUserData(
 			user.id,
 			resolveRequestOrigin({ request })
 		);

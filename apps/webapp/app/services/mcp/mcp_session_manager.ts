@@ -7,10 +7,12 @@ import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/
 
 import { LinkService } from '#services/links/link_service';
 import { registerLinkTools } from '#services/mcp/tools/link_tools';
+import { LinkQueryService } from '#services/links/link_query_service';
 import packageJson from '../../../package.json' with { type: 'json' };
 import { CollectionService } from '#services/collections/collection_service';
 import { registerCollectionTools } from '#services/mcp/tools/collection_tools';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 const MCP_SESSION_HEADER = 'mcp-session-id';
@@ -52,7 +54,9 @@ export class McpSessionManager {
 
 	constructor(
 		private readonly linkService: LinkService,
+		private readonly linkQueryService: LinkQueryService,
 		private readonly collectionService: CollectionService,
+		private readonly collectionQueryService: CollectionQueryService,
 		private readonly collectionLinkService: CollectionLinkService,
 		private readonly collectionFollowerService: CollectionFollowerService
 	) {
@@ -187,10 +191,16 @@ export class McpSessionManager {
 			name: 'my-links',
 			version: packageJson.version,
 		});
-		registerLinkTools(server, this.linkService, this.collectionLinkService);
+		registerLinkTools(
+			server,
+			this.linkService,
+			this.linkQueryService,
+			this.collectionLinkService
+		);
 		registerCollectionTools(
 			server,
 			this.collectionService,
+			this.collectionQueryService,
 			this.collectionFollowerService
 		);
 		return server;

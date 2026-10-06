@@ -2,8 +2,8 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { UserService } from '#services/user/user_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
@@ -20,7 +20,7 @@ export const EMAIL_ALREADY_VERIFIED_MESSAGE =
 @inject()
 export default class VerifyAccountEmailController {
 	constructor(
-		protected readonly userService: UserService,
+		protected readonly accountQueryService: AccountQueryService,
 		protected readonly emailVerificationService: EmailVerificationService,
 		protected readonly authEventService: AuthEventService
 	) {}
@@ -28,7 +28,7 @@ export default class VerifyAccountEmailController {
 	async execute(ctx: HttpContext) {
 		const { account, administrator } = await resolveAdminActionTarget(
 			ctx,
-			this.userService
+			this.accountQueryService
 		);
 
 		const wasConfirmed =

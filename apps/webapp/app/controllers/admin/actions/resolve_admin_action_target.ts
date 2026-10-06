@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
 import type User from '#models/user';
-import type { UserService } from '#services/user/user_service';
+import type { AccountQueryService } from '#services/user/account_query_service';
 import { accountTargetValidator } from '#validators/admin/account_target_validator';
 
 /**
@@ -11,13 +11,13 @@ import { accountTargetValidator } from '#validators/admin/account_target_validat
  */
 export async function resolveAdminActionTarget(
 	ctx: HttpContext,
-	userService: UserService
+	accountQueryService: AccountQueryService
 ): Promise<{ account: User; administrator: User }> {
 	const { id } = await ctx.request.validateUsing(accountTargetValidator, {
 		data: ctx.params,
 	});
 	const administrator = ctx.auth.getUserOrFail();
-	const account = await userService.findAccountOrFail(id);
+	const account = await accountQueryService.findAccountOrFail(id);
 
 	return { account, administrator };
 }

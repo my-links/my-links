@@ -1,9 +1,11 @@
 import type { ApplicationService } from '@adonisjs/core/types';
 
 import { LinkService } from '#services/links/link_service';
+import { LinkQueryService } from '#services/links/link_query_service';
 import { McpSessionManager } from '#services/mcp/mcp_session_manager';
 import { CollectionService } from '#services/collections/collection_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 /**
@@ -22,19 +24,25 @@ export default class McpProvider {
 		this.app.container.singleton(McpSessionManager, async (resolver) => {
 			const [
 				linkService,
+				linkQueryService,
 				collectionService,
+				collectionQueryService,
 				collectionLinkService,
 				collectionFollowerService,
 			] = await Promise.all([
 				resolver.make(LinkService),
+				resolver.make(LinkQueryService),
 				resolver.make(CollectionService),
+				resolver.make(CollectionQueryService),
 				resolver.make(CollectionLinkService),
 				resolver.make(CollectionFollowerService),
 			]);
 
 			return new McpSessionManager(
 				linkService,
+				linkQueryService,
 				collectionService,
+				collectionQueryService,
 				collectionLinkService,
 				collectionFollowerService
 			);

@@ -2,7 +2,7 @@ import { inject } from '@adonisjs/core';
 import { args, flags } from '@adonisjs/core/ace';
 
 import AccountCommand from '#commands/_account_command';
-import { UserService } from '#services/user/user_service';
+import { AccountRoleService } from '#services/user/account_role_service';
 import { accountRoleValidator } from '#validators/admin/account_role_validator';
 import {
 	ACCOUNT_ROLE,
@@ -25,16 +25,16 @@ export default class SetUserRole extends AccountCommand {
 	declare role?: string;
 
 	@inject()
-	async run(userService: UserService): Promise<void> {
+	async run(accountRoleService: AccountRoleService): Promise<void> {
 		const account = await this.loadAccount(this.email);
 		if (!account) return;
 
 		const role = await this.resolveRole();
 
 		if (role === ACCOUNT_ROLE.ADMINISTRATOR) {
-			await userService.promoteToAdministrator(account);
+			await accountRoleService.promoteToAdministrator(account);
 		} else {
-			await userService.demoteToMember(account);
+			await accountRoleService.demoteToMember(account);
 		}
 
 		this.logger.success(`${account.email} is now ${role}`);

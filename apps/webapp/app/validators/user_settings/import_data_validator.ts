@@ -16,7 +16,7 @@ const linkFields = {
 // Current format: links live at the top level and reference collections by
 // the per-collection `key` in the `collections` array (a link can belong to
 // several). `collectionIndexes` is still accepted for files exported before
-// keys existed — see ExportImportService.importUserData.
+// keys existed — see UserDataImportService.importUserData.
 const topLevelLinkSchema = vine.object({
 	...linkFields,
 	collectionKeys: vine.array(vine.string().trim().minLength(1)).optional(),
@@ -25,7 +25,7 @@ const topLevelLinkSchema = vine.object({
 
 // Legacy format (pre multi-collection): links are nested under a single
 // collection with no index/key references. Still accepted so old export
-// files keep importing — see ExportImportService.importUserData.
+// files keep importing — see UserDataImportService.importUserData.
 const nestedLinkSchema = vine.object(linkFields);
 
 const collectionSchema = vine.object({

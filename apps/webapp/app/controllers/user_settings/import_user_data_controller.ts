@@ -4,14 +4,16 @@ import { HttpContext } from '@adonisjs/core/http';
 import type { MultipartFile } from '@adonisjs/core/bodyparser';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { ExportImportService } from '#services/user/export_import_service';
+import { UserDataImportService } from '#services/user/user_data_import_service';
 import { importFileValidator } from '#validators/user_settings/import_file_validator';
 import { importDataValidator } from '#validators/user_settings/import_data_validator';
 import { InvalidImportFileException } from '#exceptions/user_settings/invalid_import_file_exception';
 
 @inject()
 export default class ImportUserDataController {
-	constructor(protected readonly exportImportService: ExportImportService) {}
+	constructor(
+		protected readonly userDataImportService: UserDataImportService
+	) {}
 
 	async execute({ auth, request, response }: HttpContext) {
 		const user = auth.getUserOrFail();
@@ -19,7 +21,7 @@ export default class ImportUserDataController {
 
 		const importedData = this.parseImportFile(await this.readUpload(file));
 		const validatedData = await importDataValidator.validate(importedData);
-		await this.exportImportService.importUserData(
+		await this.userDataImportService.importUserData(
 			user.id,
 			validatedData,
 			resolveRequestOrigin({ request })
