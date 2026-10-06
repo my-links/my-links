@@ -14,7 +14,7 @@ import { NotFollowingCollectionException } from '#exceptions/collections/not_fol
 import { CannotFollowOwnCollectionException } from '#exceptions/collections/cannot_follow_own_collection_exception';
 
 /**
- * Owns the follower relationship on public collections — a separate concern
+ * Owns the follower relationship on public collections: a separate concern
  * from ownership CRUD in `CollectionService`, with its own position scope
  * (`collection_followers`, keyed per follower) distinct from the owned
  * sections' `collections.position`.
@@ -25,7 +25,7 @@ export class CollectionFollowerService {
 
 	/**
 	 * An explicit join, not `whereHas`, because the follower's position on
-	 * `collection_followers` has to be readable for the `orderBy` below —
+	 * `collection_followers` has to be readable for the `orderBy` below:
 	 * an EXISTS subquery can't expose it.
 	 */
 	async getFollowedCollections(userId: User['id']) {
@@ -44,7 +44,7 @@ export class CollectionFollowerService {
 	}
 
 	/**
-	 * Same as `getFollowedCollections`, plus each collection's links —
+	 * Same as `getFollowedCollections`, plus each collection's links:
 	 * the extension renders a followed collection's contents directly on
 	 * fetch, unlike the webapp sidebar which only loads links once a
 	 * specific collection is opened.

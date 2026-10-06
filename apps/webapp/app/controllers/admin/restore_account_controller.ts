@@ -11,7 +11,7 @@ export const ACCOUNT_RESTORED_MESSAGE =
 
 /**
  * Cancels a pending deletion from the dashboard, self-service or
- * administrator-initiated alike — `AccountDeletionService.reactivateAccount` is the same
+ * administrator-initiated alike: `AccountDeletionService.reactivateAccount` is the same
  * one the login-time confirmation screen calls for the self-service case.
  */
 @inject()

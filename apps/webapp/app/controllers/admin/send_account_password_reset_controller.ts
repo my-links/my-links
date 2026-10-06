@@ -18,7 +18,7 @@ export const PASSWORD_RESET_SENT_MESSAGE = 'A reset link is on its way';
  * Nothing is written to the account itself: the link is what the owner
  * redeems, so an administrator who can send one still cannot take the account
  * over without reaching its mailbox. An instance with no outgoing mail does not
- * have this action at all — `node ace user:reset-password --link` prints the
+ * have this action at all: `node ace user:reset-password --link` prints the
  * same link for an operator to carry over.
  */
 @inject()

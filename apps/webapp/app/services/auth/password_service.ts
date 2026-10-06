@@ -40,7 +40,7 @@ export type ResetPasswordRequest = {
 
 /**
  * Everything that writes `password_auths`. Reset-link issuing lives in
- * `PasswordResetLinkService` — redeeming one, `resetPassword` below, is the
+ * `PasswordResetLinkService`: redeeming one, `resetPassword` below, is the
  * only point where the two meet.
  *
  * The write paths differ only in what they are allowed to assume, so they
@@ -84,7 +84,7 @@ export class PasswordService {
 	}
 
 	/**
-	 * Gives a first password to an account that had none — the migration path
+	 * Gives a first password to an account that had none: the migration path
 	 * off a sole OAuth identity.
 	 *
 	 * Nothing is revoked: no credential was replaced, so no existing session or
@@ -150,7 +150,7 @@ export class PasswordService {
 	 *
 	 * The write happens inside the transaction that burns the token, so a
 	 * failure anywhere leaves the link usable instead of spent. Everything the
-	 * old password reached is dropped afterwards, including the sessions —
+	 * old password reached is dropped afterwards, including the sessions:
 	 * whoever asked for this link is not signed in anywhere yet, and if
 	 * somebody else was, that is precisely who this is being taken away from.
 	 */

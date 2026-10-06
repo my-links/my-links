@@ -27,7 +27,7 @@ const FAVORITES_PATH = '/collections/favorites';
 const PASSWORD = 'correct-horse-battery-staple';
 
 // dnd-kit's `PointerSensor` only starts a drag once the pointer has moved
-// this many pixels from `mousedown` — mirrors `POINTER_SENSOR_OPTIONS` in
+// this many pixels from `mousedown`, mirrors `POINTER_SENSOR_OPTIONS` in
 // `dashboard_dnd_provider.tsx`. Playwright's own `dragTo()` doesn't drive the
 // sensor reliably, so every drag here is a manual mouse choreography instead.
 const DRAG_STEPS = 15;
@@ -35,7 +35,7 @@ const DRAG_STEP_DELAY_MS = 20;
 
 // The dashboard tour's welcome modal offers itself to any account that
 // hasn't completed it, and sits on top of everything a fresh login lands
-// on — blocking the very first click these specs make. Seed the tour
+// on: blocking the very first click these specs make. Seed the tour
 // store's persisted flag before the app boots so it never renders.
 async function skipDashboardTour(page: Page): Promise<void> {
 	await page.addInitScript(() => {
@@ -52,7 +52,7 @@ async function loginAsUser(
 	password: string
 ): Promise<void> {
 	// The login throttle's memory store outlives a rolled back transaction, and
-	// several specs in this suite log in for real — a shared address would let
+	// several specs in this suite log in for real: a shared address would let
 	// one test's attempt spend another's budget.
 	await page.setExtraHTTPHeaders({ 'x-forwarded-for': nextClientAddress() });
 	await skipDashboardTour(page);
@@ -420,8 +420,8 @@ test.group('Dashboard reordering (browser)', (group) => {
 		// The options button sits in a `pointer-events-none` overlay that only
 		// flips to `auto` on `.group:hover`, so hovering it directly fails the
 		// same actionability check its click would. Hovering the heading text
-		// instead — a plain descendant of the same `.group`, away from the
-		// overlay — establishes the hover state first, then the click lands.
+		// instead (a plain descendant of the same `.group`, away from the
+		// overlay) establishes the hover state first, then the click lands.
 		await page.getByText(PUBLIC_HEADING, { exact: true }).hover();
 		await sectionContainer(page, PUBLIC_HEADING)
 			.getByRole('button', { name: 'Section options' })

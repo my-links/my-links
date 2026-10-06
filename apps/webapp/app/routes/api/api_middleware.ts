@@ -13,7 +13,7 @@ export const apiMiddleware = [
 
 /**
  * `/api/mcp`: same session-less auth as the REST API, but its own throttle
- * bucket — an MCP client's own budget, not the extension's.
+ * bucket: an MCP client's own budget, not the extension's.
  */
 export const mcpMiddleware = [
 	middleware.auth({ guards: ['api'] }),

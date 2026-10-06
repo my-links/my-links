@@ -85,7 +85,7 @@ export class CollectionService {
 		const visibilityChanged = collection.visibility !== payload.visibility;
 
 		// The Inbox is pinned outside the ordered sections, and those are built
-		// per visibility — a public one would show up twice and make every
+		// per visibility: a public one would show up twice and make every
 		// reorder of the public section fail as incomplete. Only the sharing
 		// direction is refused: an Inbox made public before this rule existed
 		// has to keep its way back.
@@ -146,7 +146,7 @@ export class CollectionService {
 			.map((link) => link.id);
 
 		// Every link filed here changes membership, whether it lands back in
-		// the Inbox or merely loses one of its collections — the delta feed
+		// the Inbox or merely loses one of its collections: the delta feed
 		// only reports it if the link row itself is touched.
 		const affectedLinkIds = collection.links.map((link) => link.id);
 

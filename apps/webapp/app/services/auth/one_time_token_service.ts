@@ -13,7 +13,7 @@ import {
 } from '#constants/auth';
 
 /**
- * Counted in characters, not bytes — that is what `VerificationToken.seed`
+ * Counted in characters, not bytes: that is what `VerificationToken.seed`
  * takes, and reading it as a byte count is how a token silently ends up
  * weaker than intended. 43 base64url characters carry the same 256 bits as the
  * 32 random bytes they encode.
@@ -74,7 +74,7 @@ export type GuardedAction<TResult> = (
  *
  * Only `sha256(token)` is persisted. The value already carries 256 bits of
  * entropy, so a slow hash would buy nothing a dictionary could threaten while
- * making the column unindexable — but a plain-text column would hand every
+ * making the column unindexable, but a plain-text column would hand every
  * outstanding link to anyone who reads a database backup.
  *
  * The clear value never travels as a bare string. `Secret` renders as
@@ -110,8 +110,8 @@ export class OneTimeTokenService {
 	 * There is no way to consume a token without an action, and no way to run
 	 * the action without consuming the token: an interrupted request therefore
 	 * leaves the link usable rather than spent on nothing. The row is locked for
-	 * the duration so two clicks on the same link — a mail client prefetching it
-	 * while its owner clicks — cannot both get through.
+	 * the duration so two clicks on the same link (a mail client prefetching it
+	 * while its owner clicks) cannot both get through.
 	 */
 	async consume<TResult>(
 		{ secret, type }: OneTimeTokenPresentation,

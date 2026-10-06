@@ -20,7 +20,7 @@ const VALID_PASSWORD = 'correct-horse-battery-staple';
 
 // The dashboard tour's welcome modal offers itself to any account that
 // hasn't completed it, and sits on top of everything a fresh login lands
-// on — same reason `auth_journey.spec.ts` and `dashboard_reordering.spec.ts`
+// on: same reason `auth_journey.spec.ts` and `dashboard_reordering.spec.ts`
 // seed this before any navigation that could reach the dashboard.
 async function skipDashboardTour(page: Page): Promise<void> {
 	await page.addInitScript(() => {
@@ -37,7 +37,7 @@ async function submitLogin(
 	password: string
 ): Promise<void> {
 	// The login throttle's memory store outlives a rolled back transaction,
-	// and this journey signs in twice — a shared address would let the second
+	// and this journey signs in twice: a shared address would let the second
 	// attempt spend the first one's burst budget.
 	await page.setExtraHTTPHeaders({ 'x-forwarded-for': nextClientAddress() });
 	await page.goto(LOGIN_PATH);
@@ -48,7 +48,7 @@ async function submitLogin(
 /**
  * The settings page is SSR-rendered, so the button that opens the delete
  * modal exists in the DOM before React has hydrated and attached its
- * `onClick` — a click that lands in that window does nothing. There is no
+ * `onClick`: a click that lands in that window does nothing. There is no
  * DOM signal for "hydration finished" here (same problem
  * `fillFormOnceHydrated` works around for form fields), so this retries the
  * click until the dialog it should open actually shows up.
@@ -91,7 +91,7 @@ test.group('Account deletion journey (browser)', (group) => {
 		await submitLogin(page, user.email, VALID_PASSWORD);
 		await page.assertPath(FAVORITES_PATH);
 
-		// 1. Delete the account from the settings page — the trigger opens a
+		// 1. Delete the account from the settings page: the trigger opens a
 		// confirmation modal, and its own button carries the same label, so
 		// the confirm click is scoped to the dialog to disambiguate.
 		await page.goto(SETTINGS_PATH);
@@ -107,7 +107,7 @@ test.group('Account deletion journey (browser)', (group) => {
 		assert.equal(mail.Subject, 'Your account is scheduled for deletion');
 
 		// 3. Logging back in during the grace period does not silently
-		// restore the account — it lands on the reactivation prompt instead.
+		// restore the account: it lands on the reactivation prompt instead.
 		await submitLogin(page, user.email, VALID_PASSWORD);
 		await page.assertPath(REACTIVATE_PATH);
 

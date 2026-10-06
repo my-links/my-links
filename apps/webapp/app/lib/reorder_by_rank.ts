@@ -16,7 +16,7 @@ type ReorderByRankOptions = {
 
 /**
  * Rewrites `position` on every row named in `ids`, ranked by their order in
- * that array, in a single statement — this is what the reorder endpoints
+ * that array, in a single statement: this is what the reorder endpoints
  * hand a client-submitted order back to. `touchedAt`, when given, also bumps
  * `updated_at` (skipped where the caller doesn't want the row on the delta
  * feed for a mere reorder).

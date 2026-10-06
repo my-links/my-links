@@ -4,7 +4,7 @@ import type { ApiResponse } from '@japa/api-client';
  * The props of a rendered Inertia page.
  *
  * `assertInertiaPropsContains` covers most assertions, but not the ones that
- * have to look inside a collection the instance did not build alone — the
+ * have to look inside a collection the instance did not build alone: the
  * accounts table holds whatever the developer's database already had. Those
  * specs read the props and pick out the row they seeded.
  *
@@ -15,7 +15,7 @@ export function inertiaPageProps(response: ApiResponse) {
 	const body = response.body();
 	if (typeof body === 'string') {
 		throw new Error(
-			'the response is a rendered document, not an Inertia page — the request is missing withInertia()'
+			'the response is a rendered document, not an Inertia page. The request is missing withInertia()'
 		);
 	}
 

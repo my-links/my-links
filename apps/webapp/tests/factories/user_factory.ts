@@ -45,7 +45,7 @@ export async function verifyUserEmail(user: User): Promise<User> {
 
 /**
  * Attaches a password to an existing user. The plain value is handed to the
- * model so the `beforeSave` hook does the hashing — a spec that pre-hashed the
+ * model so the `beforeSave` hook does the hashing: a spec that pre-hashed the
  * value itself would stop covering that hook.
  */
 export async function setUserPassword(
@@ -72,7 +72,7 @@ export async function requestAccountDeletion(
 }
 
 /**
- * Backdates when a user was last seen — the inactivity sweep's whole signal.
+ * Backdates when a user was last seen: the inactivity sweep's whole signal.
  * `createUser` leaves it unset, which is what a never-signed-in account looks
  * like, so a spec covering the "seen, then went quiet" case says so
  * explicitly.

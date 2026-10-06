@@ -3,8 +3,8 @@
  * `@column.dateTime()`.
  *
  * Lucid drops the result of `withAggregate` into `$extras` untouched, so it
- * arrives as whatever the driver produced — a `Date` on pg, a string on the
- * drivers that hand timestamps back as text — and never as a `DateTime`. The
+ * arrives as whatever the driver produced (a `Date` on pg, a string on the
+ * drivers that hand timestamps back as text) and never as a `DateTime`. The
  * narrowing lives here rather than in each transformer, and anything else
  * (including the aggregate the caller forgot to ask for) reads as "no value",
  * which is exactly what an account that never triggered the aggregated event

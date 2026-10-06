@@ -28,7 +28,7 @@ export function EditLinkModal({ link, onClose }: Readonly<EditLinkModalProps>) {
 	const formId = useId();
 	const { allCollections } = useDashboardProps();
 	// The Inbox membership is the "no collection" fallback, not an explicit
-	// choice — strip it so an Inbox-only link opens with nothing checked (and
+	// choice: strip it so an Inbox-only link opens with nothing checked (and
 	// the "goes to your Inbox" hint), and clearing every box lands it back there.
 	const inboxCollectionId = allCollections.find(
 		(collection) => collection.isDefault

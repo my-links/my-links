@@ -47,7 +47,7 @@ function nextJourneyEmail(): string {
 
 /**
  * Registration is only open on an instance with no accounts yet, and this
- * suite runs against a developer's seeded database — the same trick
+ * suite runs against a developer's seeded database: the same trick
  * `registration.spec.ts` uses, safe here because every test runs inside a
  * rolled back transaction.
  */
@@ -72,7 +72,7 @@ async function logout(page: Page, fullname: string): Promise<void> {
 
 // The dashboard tour's welcome modal offers itself to any account that
 // hasn't completed it, and sits on top of everything a fresh login lands
-// on — blocking the logout click this journey makes right after signing in.
+// on: blocking the logout click this journey makes right after signing in.
 // Seed the tour store's persisted flag before the app boots so it never
 // renders.
 async function skipDashboardTour(page: Page): Promise<void> {
@@ -86,7 +86,7 @@ async function skipDashboardTour(page: Page): Promise<void> {
 
 test.group('Auth journey (browser)', (group) => {
 	// Shared across every local run, including manual poking through
-	// mailpit's own UI — a search scoped to a unique recipient is not enough
+	// mailpit's own UI: a search scoped to a unique recipient is not enough
 	// on its own to keep the inbox from growing without bound.
 	group.setup(() => resetMailpitInbox());
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
@@ -98,7 +98,7 @@ test.group('Auth journey (browser)', (group) => {
 		const email = nextJourneyEmail();
 
 		// 1. On an empty instance, registration is open and Google is not
-		// configured for this suite — the home page offers only credentials.
+		// configured for this suite: the home page offers only credentials.
 		const page = await visit(HOME_PATH);
 		await skipDashboardTour(page);
 		await page.assertExists('a[href="/register"]');
@@ -148,7 +148,7 @@ test.group('Auth journey (browser)', (group) => {
 		await page.assertPath(FAVORITES_PATH);
 
 		// 5. Registration closed the moment the first account landed, and
-		// Google is still off — the home page reflects both. Signed out
+		// Google is still off: the home page reflects both. Signed out
 		// first: `/` now redirects a signed-in visitor to their favorites.
 		await logout(page, NEW_ACCOUNT_NAME);
 		await page.assertPath(HOME_PATH);

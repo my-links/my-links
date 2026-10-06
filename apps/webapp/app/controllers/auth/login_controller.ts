@@ -55,7 +55,7 @@ export default class LoginController {
 		// Same placement, same reasoning: a disabled account only reveals itself
 		// once the password that unlocks it has already been proven right.
 		//
-		// An administrator's deletion is never reversible by logging back in —
+		// An administrator's deletion is never reversible by logging back in:
 		// offering the reactivation screen here would let the very account it
 		// targets undo the decision. It is answered exactly like a wrong
 		// password: same message, same journal shape as any other failed
@@ -86,7 +86,7 @@ export default class LoginController {
 		await this.sessionService.createAuthSession(user, ctx.session, origin);
 
 		// Journaled here rather than alongside the failures, because a login only
-		// succeeds once the session exists — verifying a password is also what
+		// succeeds once the session exists: verifying a password is also what
 		// sudo mode will do, and that must not read as a sign-in.
 		await this.authEventService.record({
 			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,

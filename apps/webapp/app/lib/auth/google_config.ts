@@ -11,7 +11,7 @@ export type GoogleAuthConfig =
 /**
  * Resolves the Google OAuth credentials into an explicit enabled/disabled
  * state. Both credentials present enables the provider, both absent disables
- * it, and anything in between throws rather than silently degrading — a
+ * it, and anything in between throws rather than silently degrading: a
  * half-configured provider is an operator mistake, not a valid state.
  */
 export function resolveGoogleAuthConfig(

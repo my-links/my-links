@@ -9,9 +9,9 @@ export const OAUTH_INTENT_SESSION_KEY = 'oauth_intent';
 /**
  * What a returning OAuth identity is supposed to mean.
  *
- * There is a single callback URL — it is fixed in the provider's own
+ * There is a single callback URL (it is fixed in the provider's own
  * configuration, and a second one would mean every self-hoster registering a
- * second redirect URI — so the meaning has to travel in the session instead of
+ * second redirect URI), so the meaning has to travel in the session instead of
  * in the route. One value rather than one flag per flow: two booleans can both
  * be armed at once, and the callback would then have to invent a precedence
  * rule for a state nothing should be able to produce.

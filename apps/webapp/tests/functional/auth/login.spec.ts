@@ -24,7 +24,7 @@ function disableGoogleAuth() {
 	app.container.swap(GoogleAuthConfigService, () => ({ isEnabled: false }));
 }
 
-test.group('Login — page', (group) => {
+test.group('Login: page', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should render the login page to a guest', async ({ client }) => {
@@ -62,7 +62,7 @@ test.group('Login — page', (group) => {
 	}).teardown(() => app.container.restore(GoogleAuthConfigService));
 });
 
-test.group('Login — credentials', (group) => {
+test.group('Login: credentials', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should authenticate the account when the credentials are valid', async ({
@@ -180,7 +180,7 @@ test.group('Login — credentials', (group) => {
 	});
 });
 
-test.group('Login — throttling', (group) => {
+test.group('Login: throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should flash a message and redirect back once the burst quota is spent', async ({

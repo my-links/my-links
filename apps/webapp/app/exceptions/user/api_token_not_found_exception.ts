@@ -6,7 +6,7 @@ const CODE = 'E_API_TOKEN_NOT_FOUND';
 const NOT_FOUND_MESSAGE = 'This API token no longer exists';
 
 /**
- * Raised when a revocation targets a token the account does not own — a stale
+ * Raised when a revocation targets a token the account does not own: a stale
  * settings page, or someone else's identifier. Renders itself back onto the
  * page the request came from: an empty 404 body told a browser nothing.
  */

@@ -46,11 +46,11 @@ const PROVIDER_LINKED_MESSAGE = 'That sign-in method has been added';
 
 /**
  * The single landing route for every Google round trip, because the
- * callback URL is fixed in the provider's own configuration — a second one
+ * callback URL is fixed in the provider's own configuration: a second one
  * would mean every self-hoster registering a second redirect URI.
  *
  * What the returning identity means is therefore decided here: it opens a
- * session, confirms one, or joins a second sign-in method to an account —
+ * session, confirms one, or joins a second sign-in method to an account,
  * whichever the departing request armed.
  */
 @inject()
@@ -130,7 +130,7 @@ export default class HandleOauthCallbackController {
 	/**
 	 * Joins the identity that came back to the account that asked for it. The
 	 * departing route sat behind sudo mode, and the intent it armed is spent
-	 * here — that single-use flag is what carries the proof across the round
+	 * here: that single-use flag is what carries the proof across the round
 	 * trip.
 	 */
 	private async linkProvider(
@@ -174,8 +174,8 @@ export default class HandleOauthCallbackController {
 
 	/**
 	 * Accepts the round trip as proof only when the identity that came back is
-	 * the one already signed in. Any other Google account — including one
-	 * linked to another user here — proves nothing about this session.
+	 * the one already signed in. Any other Google account (including one
+	 * linked to another user here) proves nothing about this session.
 	 */
 	private async confirmIdentity(
 		ctx: HttpContext,

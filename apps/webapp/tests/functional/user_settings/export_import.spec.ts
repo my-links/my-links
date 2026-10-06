@@ -60,7 +60,7 @@ async function collectionIdsForLinkNamed(user: User, name: string) {
 	return link.collections.map((collection) => collection.id);
 }
 
-test.group('Export/import — multi-collection', (group) => {
+test.group('Export/import: multi-collection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should export a link once with a key per collection it belongs to', async ({
@@ -291,7 +291,7 @@ test.group('Export/import — multi-collection', (group) => {
 	});
 });
 
-test.group('Export/import — activity journal', (group) => {
+test.group('Export/import: activity journal', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should journal an export, never the collection or link names', async ({

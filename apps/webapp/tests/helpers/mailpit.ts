@@ -1,7 +1,7 @@
 /**
  * The browser suite delivers through a real SMTP relay (mailpit, see
  * `dev.compose.yml`) rather than the `mail.fake()` queue functional tests
- * swap in — reading a link back out means asking mailpit's own HTTP API for
+ * swap in: reading a link back out means asking mailpit's own HTTP API for
  * what it actually received.
  */
 const MAILPIT_BASE_URL = process.env.MAILPIT_URL ?? 'http://localhost:8025';
@@ -21,7 +21,7 @@ export type MailpitMessage = {
 
 /**
  * `mail.sendLater()` queues delivery for right after the response, not
- * before it — so the message a browser action just triggered may not have
+ * before it, so the message a browser action just triggered may not have
  * reached mailpit yet by the time this is called. Polling is what a real
  * inbox would make a person do too.
  */
@@ -46,8 +46,8 @@ export async function waitForMailTo(
 }
 
 /**
- * Every template under `resources/views/emails` renders its link twice — the
- * button's `href` and a plain-text fallback right after it — so the first
+ * Every template under `resources/views/emails` renders its link twice (the
+ * button's `href` and a plain-text fallback right after it) so the first
  * match is exactly what a real recipient would click.
  */
 export function extractLinkFromMail(
@@ -107,7 +107,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 /**
  * `fetch().json()` types its result as `unknown`, and mailpit is an external
- * service — the two responses read here are narrowed by hand rather than
+ * service: the two responses read here are narrowed by hand rather than
  * cast, so a shape mailpit ever stops sending fails loudly instead of
  * producing `undefined` deep inside a test assertion.
  */

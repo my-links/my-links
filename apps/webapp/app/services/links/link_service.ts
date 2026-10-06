@@ -160,7 +160,7 @@ export class LinkService {
 
 	/**
 	 * Replaces membership without disturbing positions of collections the
-	 * link stays in — Lucid's `sync()` attaches new rows with no position,
+	 * link stays in. Lucid's `sync()` attaches new rows with no position,
 	 * which would silently drop them to the top of the collection.
 	 */
 	private async replaceLinkCollections(
@@ -226,7 +226,7 @@ export class LinkService {
 
 	/**
 	 * Saved through the model rather than a bare `update()` so `updated_at`
-	 * is bumped — a favourite toggle has to surface on the delta feed like
+	 * is bumped: a favourite toggle has to surface on the delta feed like
 	 * any other change (the extension ranks pinned bookmarks off it).
 	 */
 	async updateFavorite(

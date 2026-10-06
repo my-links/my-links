@@ -80,7 +80,7 @@ export class OauthAccountService {
 	/**
 	 * The account an OAuth identity belongs to, or `null` when no account has
 	 * ever claimed it. Public because confirming identity asks the same
-	 * question sign-in does — it just compares the answer to the session
+	 * question sign-in does: it just compares the answer to the session
 	 * instead of signing it in.
 	 */
 	async findLinkedUser(identity: OauthIdentity): Promise<User | null> {

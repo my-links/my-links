@@ -10,7 +10,7 @@ type ResendVerificationActionProps = {
 
 /**
  * Offered only to a visitor the server just turned away for an unconfirmed
- * address, and pre-filled with the address they signed in with — the flow
+ * address, and pre-filled with the address they signed in with: the flow
  * exists so nobody has to go hunting for a link that may have expired.
  */
 export const ResendVerificationAction = ({

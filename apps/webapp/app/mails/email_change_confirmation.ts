@@ -10,7 +10,7 @@ export type EmailChangeConfirmationPayload = {
 };
 
 /**
- * Goes to the address the account is moving to — it is the only address that
+ * Goes to the address the account is moving to: it is the only address that
  * can prove the change was asked for by someone who owns it.
  */
 export class EmailChangeConfirmation extends BaseMail {

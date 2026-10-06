@@ -24,7 +24,7 @@ async function getDefaultCollection(user: User) {
 		.firstOrFail();
 }
 
-test.group('API create link — description length', (group) => {
+test.group('API create link: description length', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should accept a description at the validator’s 300-character limit', async ({
@@ -54,7 +54,7 @@ test.group('API create link — description length', (group) => {
 	});
 });
 
-test.group('API create link — URL normalization', (group) => {
+test.group('API create link: URL normalization', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should preserve a www. prefix', async ({ client, assert }) => {
@@ -95,7 +95,7 @@ test.group('API create link — URL normalization', (group) => {
 	});
 });
 
-test.group('API create link — default collection', (group) => {
+test.group('API create link: default collection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should file a link under an auto-created default collection when collectionIds is omitted', async ({
@@ -172,7 +172,7 @@ test.group('API create link — default collection', (group) => {
 	});
 });
 
-test.group('API create link — multiple collections', (group) => {
+test.group('API create link: multiple collections', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should file a link under every collection listed in collectionIds', async ({
@@ -208,7 +208,7 @@ test.group('API create link — multiple collections', (group) => {
 	});
 });
 
-test.group('API update link — collection membership', (group) => {
+test.group('API update link: collection membership', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should sync a link to a different set of collections on update', async ({
@@ -297,7 +297,7 @@ test.group('API update link — collection membership', (group) => {
 	});
 });
 
-test.group('API create/update link — foreign collection rejection', (group) => {
+test.group('API create/update link: foreign collection rejection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should reject creating a link in another user’s collection', async ({
@@ -373,7 +373,7 @@ test.group('API create/update link — foreign collection rejection', (group) =>
 	});
 });
 
-test.group('API delete collection — orphaned links', (group) => {
+test.group('API delete collection: orphaned links', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should move links that were only in the deleted collection to the default collection', async ({

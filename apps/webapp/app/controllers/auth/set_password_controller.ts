@@ -9,7 +9,7 @@ import { AuthEventService } from '#services/auth/auth_event_service';
 import { newPasswordValidator } from '#validators/auth/new_password_validator';
 
 const PASSWORD_SET_MESSAGE =
-	'Your password is set — you can now sign in with your email address';
+	'Your password is set. You can now sign in with your email address';
 
 @inject()
 export default class SetPasswordController {
@@ -22,7 +22,7 @@ export default class SetPasswordController {
 	 * The way off a sole Google identity. Guarded by sudo mode rather than by
 	 * an emailed link: the visitor is already signed in and already controls
 	 * the account, so a mail round trip would add friction without adding a
-	 * barrier — and would break this path entirely on an instance with no SMTP,
+	 * barrier, and would break this path entirely on an instance with no SMTP,
 	 * which is exactly the instance that needs it most.
 	 */
 	async execute(ctx: HttpContext) {

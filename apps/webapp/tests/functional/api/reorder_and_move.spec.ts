@@ -244,7 +244,7 @@ test.group('API reorder collection links', (group) => {
 			.loginAs(follower);
 
 		// The ownership guard lives in the controller (`author_id` scoped
-		// lookup), not the service — a follower must get a 404 here, same as
+		// lookup), not the service: a follower must get a 404 here, same as
 		// any other missing-row API response, not the session-only redirect
 		// the Inertia controller falls back to.
 		response.assertStatus(404);

@@ -90,7 +90,7 @@ function expireTokensOf(user: User) {
 		.update({ expires_at: DateTime.now().minus({ hours: 1 }).toSQL() });
 }
 
-test.group('Email change — asking for one', (group) => {
+test.group('Email change: asking for one', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(enableOutgoingMail);
 
@@ -273,7 +273,7 @@ test.group('Email change — asking for one', (group) => {
 	});
 });
 
-test.group('Email change — without outgoing mail', (group) => {
+test.group('Email change: without outgoing mail', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should refuse the request outright', async ({ client }) => {
@@ -297,7 +297,7 @@ test.group('Email change — without outgoing mail', (group) => {
 	});
 });
 
-test.group('Email change — confirming it', (group) => {
+test.group('Email change: confirming it', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should move the account to the new address', async ({
@@ -436,7 +436,7 @@ test.group('Email change — confirming it', (group) => {
 	});
 });
 
-test.group('Email change — cancelling it', (group) => {
+test.group('Email change: cancelling it', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should keep the address the account has', async ({

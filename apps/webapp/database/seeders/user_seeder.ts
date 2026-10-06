@@ -16,8 +16,8 @@ const SEEDED_USERS_COUNT = 25;
  * The one seeded account a developer can actually sign in with: the random
  * users below only carry a Google identity, which is unusable on an instance
  * running without the provider configured. Seeders never run outside
- * development and testing — see `static environment` below and the guard in
- * `main/index_seeder.ts` — so this known password stays in throwaway
+ * development and testing (see `static environment` below and the guard in
+ * `main/index_seeder.ts`) so this known password stays in throwaway
  * databases.
  */
 export const ADMIN_EMAIL = 'admin@example.com';

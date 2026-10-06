@@ -4,7 +4,7 @@ import { InvalidSyncCursorException } from '#exceptions/sync/invalid_sync_cursor
 
 /**
  * The cursor a client sends back is the `syncedAt` it received on its
- * previous delta — an ISO 8601 timestamp. Parsing it here rather than
+ * previous delta: an ISO 8601 timestamp. Parsing it here rather than
  * downstream keeps a malformed value from silently degrading into "epoch",
  * which would look like a working sync while quietly re-sending everything.
  */

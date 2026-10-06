@@ -32,8 +32,8 @@ const CANCELLATION_TOKEN_TYPE = ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE_CANCELLATION;
  * intermediate state can lock anybody out of a sign-in that reads either
  * column.
  *
- * Two links go out, to two different mailboxes. The new one has to confirm —
- * that is the whole proof — and the old one can veto, which is what makes a
+ * Two links go out, to two different mailboxes. The new one has to confirm
+ * (that is the whole proof) and the old one can veto, which is what makes a
  * stolen session survivable.
  */
 @inject()
@@ -45,7 +45,7 @@ export class EmailChangeService {
 	) {}
 
 	/**
-	 * Starts a change, or does nothing at all — and tells the caller neither
+	 * Starts a change, or does nothing at all, and tells the caller neither
 	 * way. An address that already belongs to somebody is the one case this
 	 * flow must not report: doing so would turn the settings form into a way of
 	 * asking who has an account here.
@@ -101,7 +101,7 @@ export class EmailChangeService {
 	 * this link *is* the proof: an account that landed on an address nobody
 	 * confirmed would be one this instance could refuse to sign in.
 	 *
-	 * The address is checked again under the account's lock — the whole point
+	 * The address is checked again under the account's lock: the whole point
 	 * of a link is that time passes between issuing it and following it, and
 	 * somebody else may have registered that address meanwhile.
 	 */
@@ -201,7 +201,7 @@ export class EmailChangeService {
 
 	/**
 	 * Absolute, because nothing in a background mail job knows the host the
-	 * request came in on — the same reason the verification and reset links are
+	 * request came in on: the same reason the verification and reset links are
 	 * built this way.
 	 */
 	private buildUrl(routeName: string, secret: Secret<string>): string {

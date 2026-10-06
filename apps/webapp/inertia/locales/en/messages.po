@@ -87,7 +87,7 @@ msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:52
-#: inertia/components/api_tokens/create_token_modal.tsx:69
+#: inertia/components/api_tokens/create_token_modal.tsx:68
 msgid "Access"
 msgstr "Access"
 
@@ -198,7 +198,7 @@ msgstr "Are you sure you want to delete this link?"
 msgid "Are you sure you want to delete your account? It will be disabled right away and every session signed out. Logging back in within the grace period offers a chance to cancel. After that, everything is permanently deleted."
 msgstr "Are you sure you want to delete your account? It will be disabled right away and every session signed out. Logging back in within the grace period offers a chance to cancel. After that, everything is permanently deleted."
 
-#: inertia/hooks/use_api_token_modals.tsx:40
+#: inertia/hooks/use_api_token_modals.tsx:37
 msgid "Are you sure you want to revoke this token?"
 msgstr "Are you sure you want to revoke this token?"
 
@@ -241,7 +241,7 @@ msgstr "Can read and write everything"
 msgid "Can't create, edit, or delete anything"
 msgstr "Can't create, edit, or delete anything"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:81
+#: inertia/components/api_tokens/create_token_modal.tsx:80
 #: inertia/components/dashboard/modals/modal_form_footer.tsx:24
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
@@ -252,7 +252,7 @@ msgstr "Can't create, edit, or delete anything"
 #: inertia/hooks/admin/use_delete_selected_users.tsx:34
 #: inertia/hooks/admin/use_favicon_actions.tsx:35
 #: inertia/hooks/admin/use_favicon_actions.tsx:52
-#: inertia/hooks/use_api_token_modals.tsx:44
+#: inertia/hooks/use_api_token_modals.tsx:41
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -322,7 +322,7 @@ msgid "Collection order updated in {0}."
 msgstr "Collection order updated in {0}."
 
 #: inertia/components/admin/users/users_table_columns.tsx:60
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:61
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:58
 msgid "Collections"
 msgstr "Collections"
 
@@ -398,16 +398,16 @@ msgstr "Create a collection"
 
 #: inertia/consts/shortcuts.tsx:26
 #: inertia/hooks/use_collection_actions.tsx:27
-#: inertia/hooks/use_dashboard_modals.tsx:71
+#: inertia/hooks/use_dashboard_modals.tsx:65
 msgid "Create a link"
 msgstr "Create a link"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:57
+#: inertia/components/api_tokens/create_token_modal.tsx:56
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_COLLECTION_KEY}</Kbd>
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:79
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:76
 msgid "Create collection {0}"
 msgstr "Create collection {0}"
 
@@ -417,7 +417,7 @@ msgid "Create collection <0>{0}</0>"
 msgstr "Create collection <0>{0}</0>"
 
 #. placeholder {0}: !isMobile && <Kbd>{KEYS.OPEN_CREATE_LINK_KEY}</Kbd>
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:53
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:50
 msgid "Create link {0}"
 msgstr "Create link {0}"
 
@@ -435,7 +435,7 @@ msgid "Create new token"
 msgstr "Create new token"
 
 #: inertia/components/api_tokens/api_tokens.tsx:27
-#: inertia/components/api_tokens/create_token_modal.tsx:94
+#: inertia/components/api_tokens/create_token_modal.tsx:93
 msgid "Create token"
 msgstr "Create token"
 
@@ -517,13 +517,13 @@ msgstr "Default page"
 msgid "Delete"
 msgstr "Delete"
 
-#: inertia/hooks/use_collection_actions.tsx:55
-#: inertia/hooks/use_dashboard_modals.tsx:60
+#: inertia/hooks/use_collection_actions.tsx:52
+#: inertia/hooks/use_dashboard_modals.tsx:56
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
 #: inertia/components/dashboard/links/link_menu_items.tsx:71
-#: inertia/hooks/use_link_actions.tsx:58
+#: inertia/hooks/use_link_actions.tsx:55
 msgid "Delete a link"
 msgstr "Delete a link"
 
@@ -545,7 +545,7 @@ msgid "Delete accounts"
 msgstr "Delete accounts"
 
 #: inertia/components/dashboard/collections/collection_menu_items.tsx:35
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:100
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:97
 msgid "Delete collection"
 msgstr "Delete collection"
 
@@ -624,7 +624,7 @@ msgid "Drop in a link. Get back a bookmark you'll find again."
 msgstr "Drop in a link. Get back a bookmark you'll find again."
 
 #: inertia/hooks/use_collection_actions.tsx:41
-#: inertia/hooks/use_dashboard_modals.tsx:44
+#: inertia/hooks/use_dashboard_modals.tsx:42
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
@@ -634,7 +634,7 @@ msgid "Edit a link"
 msgstr "Edit a link"
 
 #: inertia/components/dashboard/collections/collection_menu_items.tsx:28
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:93
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:90
 msgid "Edit collection"
 msgstr "Edit collection"
 
@@ -657,7 +657,7 @@ msgstr "Email and password"
 msgid "Enabled"
 msgstr "Enabled"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:63
+#: inertia/components/api_tokens/create_token_modal.tsx:62
 msgid "Enter token name"
 msgstr "Enter token name"
 
@@ -1348,8 +1348,8 @@ msgid "Responsibilities and Warranties"
 msgstr "Responsibilities and Warranties"
 
 #: inertia/hooks/admin/use_account_confirmations.tsx:51
-#: inertia/hooks/use_api_token_modals.tsx:35
-#: inertia/hooks/use_api_token_modals.tsx:43
+#: inertia/hooks/use_api_token_modals.tsx:32
+#: inertia/hooks/use_api_token_modals.tsx:40
 msgid "Revoke"
 msgstr "Revoke"
 
@@ -1386,7 +1386,7 @@ msgstr "Save name"
 #: inertia/components/dashboard/sidebar/sidebar_header.tsx:60
 #: inertia/components/dashboard/sidebar/sidebar_header.tsx:65
 #: inertia/components/tour/dashboard_tour.tsx:22
-#: inertia/hooks/use_dashboard_modals.tsx:79
+#: inertia/hooks/use_dashboard_modals.tsx:73
 msgid "Search"
 msgstr "Search"
 
@@ -1466,7 +1466,7 @@ msgstr "Settings"
 msgid "Share a collection with one link"
 msgstr "Share a collection with one link"
 
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:70
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:67
 msgid "Share collection"
 msgstr "Share collection"
 
@@ -1664,7 +1664,7 @@ msgstr "Toggle sidebar"
 msgid "Token"
 msgstr "Token"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:60
+#: inertia/components/api_tokens/create_token_modal.tsx:59
 msgid "Token name"
 msgstr "Token name"
 
@@ -1694,8 +1694,8 @@ msgstr "Type it once more"
 msgid "Unconfirmed"
 msgstr "Unconfirmed"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:91
-#: inertia/components/dashboard/headers/quick_actions_content.tsx:110
+#: inertia/components/dashboard/headers/dashboard_header.tsx:93
+#: inertia/components/dashboard/headers/quick_actions_content.tsx:104
 #: inertia/pages/shared.tsx:89
 msgid "Unfollow"
 msgstr "Unfollow"

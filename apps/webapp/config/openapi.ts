@@ -7,7 +7,7 @@ import packageJson from '../package.json' with { type: 'json' };
 /**
  * `BaseTransformer.transform(...)` returns a `Collection<Transformer, MaxDepth,
  * Variant>` or `Item<Transformer, MaxDepth, Variant>` (from
- * `@adonisjs/http-transformers`) — a lazy builder that AdonisJS's response
+ * `@adonisjs/http-transformers`): a lazy builder that AdonisJS's response
  * layer resolves into plain JSON at request time. Statically, ts-morph only
  * sees the builder's own internal shape (`#private`, `transformerData`,
  * `variant`, ...), which isn't valid JSON Schema and crashes downstream
@@ -63,11 +63,11 @@ const openapiConfig = defineConfig({
 	},
 	generator: {
 		resolve: (specifier, parent) => import.meta.resolve(specifier, parent),
-		// Scoped to the token-guarded JSON surface — the webapp's own
+		// Scoped to the token-guarded JSON surface: the webapp's own
 		// Inertia routes render pages/redirects, not JSON, and don't belong
 		// in a client-facing API document (the generator also can't infer a
 		// real response type for those). Matched against the raw route
-		// pattern (`:id`, not `{id}`) with exact string equality — no glob
+		// pattern (`:id`, not `{id}`) with exact string equality; no glob
 		// support, so this must be kept in sync by hand when a new
 		// `/api/v1/*` or `/extension/*` route is added.
 		routes: {

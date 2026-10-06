@@ -41,7 +41,7 @@ async function setFollowerPosition(
 		.update({ position });
 }
 
-test.group('API get collections — order', (group) => {
+test.group('API get collections: order', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should order collections by position within each visibility, ahead of name', async ({
@@ -119,7 +119,7 @@ test.group('API get collections — order', (group) => {
 	});
 });
 
-test.group('API get collections — followed', (group) => {
+test.group('API get collections: followed', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should list followed public collections, ordered by the follower’s position, marked as not owned', async ({

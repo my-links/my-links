@@ -46,7 +46,7 @@ test.group('user:verify-email', (group) => {
 
 	/**
 	 * Running it twice is what an operator scripting a recovery does, so the
-	 * second run reports rather than fails — and leaves the date it found
+	 * second run reports rather than fails, and leaves the date it found
 	 * alone, because that date is when the address was actually confirmed.
 	 */
 	test('should leave an already confirmed address untouched', async ({

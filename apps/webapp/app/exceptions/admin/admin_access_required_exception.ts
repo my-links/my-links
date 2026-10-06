@@ -9,7 +9,7 @@ const REFUSED_MESSAGE = 'This area is reserved to administrators';
  * Raised when a signed-in account without the admin flag reaches an admin
  * route. Renders as a redirect rather than a 403 page: the person is
  * legitimately signed in, so their collections are a better landing place than
- * an error — but they are told why they were moved.
+ * an error, but they are told why they were moved.
  */
 export class AdminAccessRequiredException extends Exception {
 	static status = STATUS;

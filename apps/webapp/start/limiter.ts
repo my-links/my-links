@@ -27,9 +27,9 @@ import {
  * client tomorrow). Keyed per authenticated user so all of a user's
  * devices/tabs share one budget, falling back to IP for the one
  * unauthenticated route (`/api/v1/health`). The limit sits far above what
- * the extension's background worker ever needs — a 5-minute sync alarm plus
+ * the extension's background worker ever needs (a 5-minute sync alarm plus
  * wake triggers (tab switch, window focus), always deduped to a single
- * in-flight request — so it only ever catches a runaway client, never
+ * in-flight request) so it only ever catches a runaway client, never
  * normal usage. This protects small self-hosted instances, not the
  * extension itself.
  */
@@ -42,7 +42,7 @@ export const apiThrottle = limiter.define('api', (ctx) => {
 
 /**
  * A separate bucket from `apiThrottle`, keyed the same way but tracked under
- * its own name — an agent looping through MCP tool calls spends its own
+ * its own name: an agent looping through MCP tool calls spends its own
  * budget instead of the one the browser extension shares across a user's
  * devices. Same ceiling as `apiThrottle` today; the point of splitting it is
  * isolation, not a different number.
@@ -68,7 +68,7 @@ export const loginThrottles: MiddlewareFn[] = defineAttemptThrottles(
 /**
  * Sign-up is throttled by address only. Keying it on the submitted email too
  * would let anyone burn a chosen address's budget and keep its owner from ever
- * registering — and it would buy nothing, since a harvester walks a different
+ * registering, and it would buy nothing, since a harvester walks a different
  * address on every request anyway.
  */
 export const registrationThrottles: MiddlewareFn[] = defineAttemptThrottles(

@@ -26,7 +26,7 @@ const AuthMethodPill = ({ method }: Readonly<{ method: AuthMethod }>) =>
 	);
 
 /**
- * Every way the account can get in. An account with none is not a bug — it is
+ * Every way the account can get in. An account with none is not a bug: it is
  * one that outlived its only provider, and saying so is the point.
  */
 export const AuthMethodsCell = ({

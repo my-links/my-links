@@ -11,7 +11,7 @@ import { SudoConfirmationFailedException } from '#exceptions/auth/sudo_confirmat
 /**
  * Exported because the functional suite signs in through Japa's session
  * client, which writes session state directly instead of going through the
- * sign-in flow — a copy of the literal in the tests would be free to drift
+ * sign-in flow: a copy of the literal in the tests would be free to drift
  * away from this one.
  */
 export const SUDO_CONFIRMED_AT_SESSION_KEY = 'sudo_confirmed_at';
@@ -29,7 +29,7 @@ export type SudoConfirmationAttempt = {
  * Sudo mode: a recent proof of identity, required before an operation that
  * could hand the account to somebody else.
  *
- * What it defends against is the session itself — a browser left open, a
+ * What it defends against is the session itself: a browser left open, a
  * stolen cookie, a shared machine. Being signed in is therefore deliberately
  * not enough; the proof has to have been given in the last few minutes.
  *
@@ -61,8 +61,8 @@ export class SudoModeService {
 	}
 
 	/**
-	 * Accepts an explicit confirmation. Two flows reach it — a typed password
-	 * and a Google round trip — and neither should have to restate what
+	 * Accepts an explicit confirmation. Two flows reach it (a typed password
+	 * and a Google round trip) and neither should have to restate what
 	 * accepting one means.
 	 */
 	async grant(
@@ -82,7 +82,7 @@ export class SudoModeService {
 
 	/**
 	 * Journals the failure before throwing, because the exception renders
-	 * itself and nobody downstream catches it — this is the last place that
+	 * itself and nobody downstream catches it: this is the last place that
 	 * still knows an attempt was made. A run of these against one account is
 	 * the clearest intrusion signal the journal can carry.
 	 */

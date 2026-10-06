@@ -33,21 +33,21 @@ export class AccountDeletionService {
 
 	/**
 	 * Starts the grace period instead of wiping outright: the row is marked
-	 * disabled, not deleted, so a misclick — or an inactive account nobody
-	 * meant to abandon — stays recoverable until either the owner logs back in
+	 * disabled, not deleted, so a misclick (or an inactive account nobody
+	 * meant to abandon) stays recoverable until either the owner logs back in
 	 * and reactivates it, or `deleteUser` catches up with it once the grace
 	 * period has run out.
 	 *
 	 * `requestedByAdminId` null means self-service or the inactivity sweep; set
 	 * means which administrator requested it. That distinction is what the
 	 * login gate reads back later: only a request that did not come from an
-	 * administrator is something its own owner can undo by logging back in — an
+	 * administrator is something its own owner can undo by logging back in: an
 	 * administrator's decision must not be reversible by the very account it
 	 * targets. It also decides whether the confirmation mail goes out at all:
 	 * warning someone that a moderation action is about to land, and how to
 	 * stop it, would defeat the action.
 	 *
-	 * Every existing session and token is revoked here — a disabled account has
+	 * Every existing session and token is revoked here: a disabled account has
 	 * no business staying reachable anywhere it was already signed in.
 	 */
 	async requestAccountDeletion(
@@ -94,7 +94,7 @@ export class AccountDeletionService {
 	/**
 	 * Cancels a pending deletion. `reactivatedByAdminId` is null when the
 	 * confirmation screen a self-service login mid-grace-period lands on is the
-	 * caller — reaching here already proves the owner came back for it — and
+	 * caller (reaching here already proves the owner came back for it) and
 	 * set when an administrator restores the account from the dashboard
 	 * instead.
 	 */
@@ -119,7 +119,7 @@ export class AccountDeletionService {
 	}
 
 	/**
-	 * Same grace period as self-service, started by an administrator instead —
+	 * Same grace period as self-service, started by an administrator instead;
 	 * see `requestAccountDeletion`. An administrator account is never a valid
 	 * target, the same protection `bulkDeleteUsers` used to enforce with an
 	 * immediate wipe.

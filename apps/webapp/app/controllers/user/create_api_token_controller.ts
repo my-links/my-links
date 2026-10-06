@@ -19,7 +19,7 @@ export default class CreateApiTokenController {
 			scope,
 		});
 
-		// The only moment the secret exists in readable form — it is flashed so
+		// The only moment the secret exists in readable form: it is flashed so
 		// the settings page can show it once and never again.
 		session.flash('token', {
 			...token.toJSON(),

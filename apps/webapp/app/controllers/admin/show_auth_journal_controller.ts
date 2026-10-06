@@ -9,7 +9,7 @@ import { journalPageValidator } from '#validators/admin/journal_page_validator';
 const FIRST_PAGE = 1;
 
 /**
- * The authentication journal — what makes an intrusion visible after the fact.
+ * The authentication journal: what makes an intrusion visible after the fact.
  *
  * A page of it, never the whole thing: `auth_events` only grows, and an
  * instance that has been running a year would otherwise render every sign-in

@@ -1,6 +1,6 @@
 import { test } from '@japa/runner';
 
-test.group('API health — unauthenticated response', () => {
+test.group('API health: unauthenticated response', () => {
 	test('should not disclose the application version', async ({
 		client,
 		assert,

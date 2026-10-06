@@ -93,7 +93,7 @@ function describeAccount(account: User): string[] {
 }
 
 /**
- * Read off the relations the listing preloaded — the point of the whole
+ * Read off the relations the listing preloaded: the point of the whole
  * command is answering "how does this person get in", and an account with no
  * answer at all is the row an operator most needs to see.
  */

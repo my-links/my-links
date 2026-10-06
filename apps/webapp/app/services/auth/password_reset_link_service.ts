@@ -19,7 +19,7 @@ export type IssuedResetLink = {
 
 /**
  * Mints and mails the reset link a forgotten password is recovered through.
- * Split out of `PasswordService`: issuing a link touches no password —
+ * Split out of `PasswordService`: issuing a link touches no password;
  * redeeming one, `PasswordService.resetPassword`, is what does that.
  */
 @inject()
@@ -30,7 +30,7 @@ export class PasswordResetLinkService {
 	) {}
 
 	/**
-	 * Mails a reset link, or does nothing at all — and answers the same way
+	 * Mails a reset link, or does nothing at all, and answers the same way
 	 * either time. The caller is handed no result, so there is nothing it could
 	 * accidentally turn into "that address has an account here".
 	 */
@@ -44,7 +44,7 @@ export class PasswordResetLinkService {
 	}
 
 	/**
-	 * Mails a reset link to an account somebody else named — an administrator
+	 * Mails a reset link to an account somebody else named: an administrator
 	 * from the dashboard, where there is no address to keep secret because the
 	 * account is already on screen.
 	 *
@@ -87,7 +87,7 @@ export class PasswordResetLinkService {
 
 	/**
 	 * Absolute, because nothing in a background mail job knows the host the
-	 * request came in on — the same reason the verification link is built this
+	 * request came in on: the same reason the verification link is built this
 	 * way.
 	 */
 	private buildResetUrl(secret: Secret<string>): string {

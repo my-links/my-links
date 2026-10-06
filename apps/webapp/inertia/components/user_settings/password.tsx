@@ -13,8 +13,8 @@ type PasswordFormData = {
 
 /**
  * One section covering both "add a password" and "replace it". They differ
- * only in what they promise afterwards — a first password revokes nothing,
- * a replacement signs everything else out — so the copy changes and the
+ * only in what they promise afterwards (a first password revokes nothing,
+ * a replacement signs everything else out) so the copy changes and the
  * fields do not.
  */
 export function Password() {

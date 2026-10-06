@@ -134,7 +134,7 @@ export class UserDataImportService {
 	 * Resolves a link's collection references to freshly-created collection
 	 * ids: by key when present (current format, immune to a hand-edited file
 	 * dropping a collection), falling back to array index (older export
-	 * formats). Falls back to Inbox when nothing resolves — every link must
+	 * formats). Falls back to Inbox when nothing resolves: every link must
 	 * keep at least one collection.
 	 */
 	private async resolveImportedCollectionIds(
@@ -168,7 +168,7 @@ export class UserDataImportService {
 
 	/**
 	 * Flattens every export format into a single list: links nested under a
-	 * single collection (oldest, pre multi-collection — a nested link maps to
+	 * single collection (oldest, pre multi-collection: a nested link maps to
 	 * exactly its parent's index), top-level links keyed by collection index
 	 * (format predating per-collection keys), and top-level links keyed by
 	 * collection key (current format).

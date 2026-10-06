@@ -49,12 +49,12 @@ function parseToolResult(response: { body(): unknown }) {
 	const { result } = response.body() as JsonRpcResponse;
 	const isError = result?.isError ?? false;
 	const text = result?.content[0]?.text ?? 'null';
-	// An error result's text is a human-readable message, not JSON — only a
+	// An error result's text is a human-readable message, not JSON: only a
 	// successful result's text is the tool's JSON payload.
 	return { isError, data: isError ? text : JSON.parse(text) };
 }
 
-test.group('API MCP — auth', (group) => {
+test.group('API MCP: auth', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should reject a request without a bearer token', async ({ client }) => {
@@ -67,7 +67,7 @@ test.group('API MCP — auth', (group) => {
 	});
 });
 
-test.group('API MCP — session handshake', (group) => {
+test.group('API MCP: session handshake', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should hand out a session id and expose the registered tools', async ({
@@ -125,7 +125,7 @@ test.group('API MCP — session handshake', (group) => {
 	});
 });
 
-test.group('API MCP — session close', (group) => {
+test.group('API MCP: session close', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('a DELETE closes the session, and its id can no longer be used', async ({
@@ -161,7 +161,7 @@ test.group('API MCP — session close', (group) => {
 	});
 });
 
-test.group('API MCP — idle session eviction', (group) => {
+test.group('API MCP: idle session eviction', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('a session idle past the TTL is evicted and can no longer be used', async ({
@@ -205,7 +205,7 @@ test.group('API MCP — idle session eviction', (group) => {
 	});
 });
 
-test.group('API MCP — throttle isolation', (group) => {
+test.group('API MCP: throttle isolation', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('spends its own rate-limit budget, separate from /api/v1', async ({
@@ -230,7 +230,7 @@ test.group('API MCP — throttle isolation', (group) => {
 	});
 });
 
-test.group('API MCP — links tools/call', (group) => {
+test.group('API MCP: links tools/call', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should create a link through links.create and see it in links.list', async ({
@@ -319,7 +319,7 @@ test.group('API MCP — links tools/call', (group) => {
 	});
 });
 
-test.group('API MCP — collections tools/call', (group) => {
+test.group('API MCP: collections tools/call', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should create, get, list, update and delete a collection', async ({
@@ -499,7 +499,7 @@ test.group('API MCP — collections tools/call', (group) => {
 	});
 });
 
-test.group('API MCP — token abilities', (group) => {
+test.group('API MCP: token abilities', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('a read-only token can call a read tool but not a write tool', async ({

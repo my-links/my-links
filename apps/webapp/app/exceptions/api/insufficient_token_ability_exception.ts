@@ -7,7 +7,7 @@ const CODE = 'E_INSUFFICIENT_TOKEN_ABILITY';
 
 /**
  * Raised when the access token authenticating a `/api/v1/*` or `/api/mcp`
- * request lacks the ability the endpoint requires — a read-only token
+ * request lacks the ability the endpoint requires: a read-only token
  * reaching a write endpoint, for instance. No custom `handle()`: the
  * exception handler already renders API-prefixed routes as JSON, and MCP
  * tool calls catch this themselves to report it inside the JSON-RPC envelope

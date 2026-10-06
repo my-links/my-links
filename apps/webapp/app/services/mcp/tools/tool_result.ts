@@ -5,7 +5,7 @@ import { assertTokenAbility } from '#lib/api/tokens/abilities';
 
 /**
  * A thrown error inside a tool handler never reaches AdonisJS's exception
- * handler — the MCP transport's HTTP response is already committed to the
+ * handler: the MCP transport's HTTP response is already committed to the
  * JSON-RPC envelope by the time a handler runs. Tools report failure inside
  * that envelope instead, via `isError`, which is why every handler runs
  * through this instead of letting exceptions propagate.

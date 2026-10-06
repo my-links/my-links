@@ -29,7 +29,7 @@ async function followerPosition(collectionId: number, userId: number) {
 	return row?.position as number;
 }
 
-test.group('Collection ordering — collections', (group) => {
+test.group('Collection ordering: collections', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should append a newly created collection at the end of its section', async ({
@@ -134,7 +134,7 @@ test.group('Collection ordering — collections', (group) => {
 	});
 });
 
-test.group('Collection ordering — links', (group) => {
+test.group('Collection ordering: links', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should append a newly created link at the end of its collections', async ({

@@ -42,7 +42,7 @@ export default class ConfirmSudoModeWithGoogleController {
 		}
 
 		// Armed before leaving, because the callback URL is the one Google was
-		// configured with — the intent is what tells the shared callback that the
+		// configured with: the intent is what tells the shared callback that the
 		// identity coming back confirms a session instead of opening one.
 		this.oauthIntentService.arm(ctx.session, OAUTH_INTENT.SUDO_CONFIRMATION);
 

@@ -1,7 +1,7 @@
 import { router, usePage } from '@inertiajs/react';
 
 /**
- * Mirrors the backend's `API_TOKEN_SCOPE` (`#constants/api_token`) — kept as
+ * Mirrors the backend's `API_TOKEN_SCOPE` (`#constants/api_token`), kept as
  * a plain literal union here since frontend code can't reach into the
  * backend's `#`-aliased modules.
  */

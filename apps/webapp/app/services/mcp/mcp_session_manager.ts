@@ -18,7 +18,7 @@ import { CollectionFollowerService } from '#services/collections/collection_foll
 const MCP_SESSION_HEADER = 'mcp-session-id';
 
 /**
- * A session outlives no client crash or dropped connection on its own — the
+ * A session outlives no client crash or dropped connection on its own: the
  * only clean-close signal is a client sending `DELETE`, which an unhealthy
  * client is exactly the one that never will. Idle sessions are swept instead
  * of relying on that.
@@ -34,7 +34,7 @@ type McpSession = {
 /**
  * One `McpServer` + `WebStandardStreamableHTTPServerTransport` pair per MCP
  * session, keyed by the session id the transport generates on `initialize`.
- * Safe as a container singleton — the injected services only ever reach into
+ * Safe as a container singleton: the injected services only ever reach into
  * the *current* request's `HttpContext` for the authenticated user at call
  * time, never into anything captured at construction, so the same instances
  * stay correct across every session and every request within a session.
@@ -44,7 +44,7 @@ type McpSession = {
  * (which wraps `@hono/node-server`'s `getRequestListener`): that wrapper
  * writes the response with `res.writeHead(status, headers)`, which replaces
  * the Node response's existing header set outright rather than merging into
- * it — silently dropping every header Adonis middleware staged earlier
+ * it: silently dropping every header Adonis middleware staged earlier
  * (shield, CORS, the rate limiter). Going through `ctx.response` instead
  * keeps this on the same header-writing path as the rest of the app.
  */
@@ -98,8 +98,8 @@ export class McpSessionManager {
 
 		const transport = new WebStandardStreamableHTTPServerTransport({
 			sessionIdGenerator: () => randomUUID(),
-			// Every tool here is a plain request/response call — nothing ever
-			// pushes a server-initiated notification — so there's no reason to
+			// Every tool here is a plain request/response call (nothing ever
+			// pushes a server-initiated notification) so there's no reason to
 			// hold a streaming connection open per session. Plain JSON responses
 			// are also far friendlier to a self-hosted instance's reverse proxy
 			// than long-lived SSE.

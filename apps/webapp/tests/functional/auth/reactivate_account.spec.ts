@@ -32,7 +32,7 @@ async function createAdmin(prefix = 'admin'): Promise<User> {
 	return user;
 }
 
-test.group('Account reactivation — login-time gate', (group) => {
+test.group('Account reactivation: login-time gate', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should redirect to the reactivation screen instead of opening a session', async ({
@@ -94,7 +94,7 @@ test.group('Account reactivation — login-time gate', (group) => {
 	});
 });
 
-test.group('Account reactivation — the prompt', (group) => {
+test.group('Account reactivation: the prompt', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should render the reactivation page for the armed account', async ({
@@ -118,7 +118,7 @@ test.group('Account reactivation — the prompt', (group) => {
 	});
 });
 
-test.group('Account reactivation — confirming', (group) => {
+test.group('Account reactivation: confirming', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should clear the pending deletion and open a session', async ({
@@ -169,7 +169,7 @@ test.group('Account reactivation — confirming', (group) => {
 	});
 });
 
-test.group('Account reactivation — declining', (group) => {
+test.group('Account reactivation: declining', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should leave the account pending and open no session', async ({
@@ -193,7 +193,7 @@ test.group('Account reactivation — declining', (group) => {
 	});
 });
 
-test.group('Account reactivation — admin-initiated deletion', (group) => {
+test.group('Account reactivation: admin-initiated deletion', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should refuse the login outright, without offering to reactivate', async ({

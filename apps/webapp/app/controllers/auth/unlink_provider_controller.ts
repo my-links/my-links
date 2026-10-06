@@ -11,8 +11,8 @@ import { authProviderValidator } from '#validators/auth/auth_provider_validator'
 const PROVIDER_UNLINKED_MESSAGE = 'That sign-in method has been removed';
 
 /**
- * Detaching is provider-agnostic — it deletes a row, it does not talk to
- * anyone — so the provider travels as a route parameter rather than in the
+ * Detaching is provider-agnostic (it deletes a row, it does not talk to
+ * anyone) so the provider travels as a route parameter rather than in the
  * route name.
  */
 @inject()

@@ -7,7 +7,7 @@ export default class extends BaseSchema {
 		this.schema.alterTable(this.tableName, (table) => {
 			// Who did it, when that is somebody other than the account it happened
 			// to. Without it an administrator marking an address confirmed is
-			// written exactly like its owner confirming it — with the
+			// written exactly like its owner confirming it, with the
 			// administrator's address and user agent attached to the target
 			// account, which is worse than saying nothing.
 			//

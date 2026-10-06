@@ -5,7 +5,7 @@ const CODE = 'E_UNUSABLE_EXTENSION_TOKEN';
 
 /**
  * Raised when token creation returns without a readable secret. The secret is
- * only ever readable at creation, so there is no recovery — the request must
+ * only ever readable at creation, so there is no recovery: the request must
  * fail loudly rather than redirect the extension to a callback carrying
  * nothing.
  */

@@ -12,7 +12,7 @@ import { newPasswordValidator } from '#validators/auth/new_password_validator';
 import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 
 const PASSWORD_RESET_MESSAGE =
-	'Your password is reset — sign in with it, everything else was signed out';
+	'Your password is reset. Sign in with it, everything else was signed out';
 
 @inject()
 export default class ResetPasswordController {

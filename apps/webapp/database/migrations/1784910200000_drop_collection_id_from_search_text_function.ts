@@ -2,7 +2,7 @@ import { BaseSchema } from '@adonisjs/lucid/schema';
 
 export default class DropCollectionIdFromSearchTextFunction extends BaseSchema {
 	async up() {
-		// Return type changes (dropped column) — Postgres requires DROP before
+		// Return type changes (dropped column). Postgres requires DROP before
 		// CREATE OR REPLACE can't just widen/narrow an existing signature.
 		this.schema.raw('DROP FUNCTION IF EXISTS search_text(text, integer);');
 		this.schema.raw(`

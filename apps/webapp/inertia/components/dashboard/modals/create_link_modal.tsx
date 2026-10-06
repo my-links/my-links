@@ -24,7 +24,7 @@ export function CreateLinkModal({
 	const formId = useId();
 	const { activeCollection, allCollections } = useDashboardProps();
 	// Pre-check the requested collection, falling back to the collection
-	// being viewed, unless it's the Inbox (the "no collection" fallback) —
+	// being viewed, unless it's the Inbox (the "no collection" fallback),
 	// leaving the boxes empty already lands there.
 	const seededCollectionIds = collectionId
 		? [collectionId]

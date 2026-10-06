@@ -9,7 +9,7 @@ export default class AuditEvent extends AuditEventSchema {
 	@column()
 	declare type: AuditEventType;
 
-	// Whoever caused the event, when that is not the account it happened to — an administrator acting from the dashboard. Null everywhere else.
+	// Whoever caused the event, when that is not the account it happened to: an administrator acting from the dashboard. Null everywhere else.
 	@column()
 	declare actorId: number | null;
 

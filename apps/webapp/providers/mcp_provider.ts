@@ -13,8 +13,8 @@ import { CollectionFollowerService } from '#services/collections/collection_foll
  * survive across requests for the lifetime of an MCP session, so it needs
  * the container's singleton lifetime rather than the per-resolution default.
  *
- * The factory below builds it by hand rather than `resolver.make(McpSessionManager)`
- * — asking the resolver to make the very class this binding is registered
+ * The factory below builds it by hand rather than `resolver.make(McpSessionManager)`:
+ * asking the resolver to make the very class this binding is registered
  * for routes straight back into this same factory, recursing forever.
  */
 export default class McpProvider {

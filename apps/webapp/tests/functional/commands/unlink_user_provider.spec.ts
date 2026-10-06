@@ -68,7 +68,7 @@ test.group('user:unlink-provider', (group) => {
 
 	/**
 	 * The guard lives in `ProviderLinkService`, which is exactly why the
-	 * command inherits it for free — the console is one more caller, not a way
+	 * command inherits it for free: the console is one more caller, not a way
 	 * around the rule.
 	 */
 	test('should refuse to detach the only way into the account', async ({

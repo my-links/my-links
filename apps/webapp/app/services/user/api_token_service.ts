@@ -38,7 +38,7 @@ export class ApiTokenService {
 	 * A browser extension holds a bearer token that outlives any session, so a
 	 * password change that only cleared sessions would leave the compromised
 	 * access it was meant to cut exactly where it was. The owner pairs their
-	 * extension again — that is the intended cost.
+	 * extension again: that is the intended cost.
 	 */
 	async revokeAllTokens(user: User): Promise<void> {
 		const tokens = await User.accessTokens.all(user);

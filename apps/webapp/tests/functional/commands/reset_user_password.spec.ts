@@ -61,7 +61,7 @@ async function runLinkIssuance(email: string) {
 	return command;
 }
 
-test.group('user:reset-password — writing a password', (group) => {
+test.group('user:reset-password: writing a password', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
@@ -188,7 +188,7 @@ test.group('user:reset-password — writing a password', (group) => {
  * The printed link is what an instance with no outgoing mail has instead of a
  * reset email, so nothing here enables the mailer.
  */
-test.group('user:reset-password — printing a link', (group) => {
+test.group('user:reset-password: printing a link', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 

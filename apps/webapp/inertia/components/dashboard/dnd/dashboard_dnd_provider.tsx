@@ -20,7 +20,7 @@ import { DashboardDndContext } from '~/components/dashboard/dnd/dashboard_dnd_co
 import { useReorderFollowedCollections } from '~/hooks/use_reorder_followed_collections';
 
 /**
- * Module-level so the reference never changes — `useSensor` memoizes on
+ * Module-level so the reference never changes: `useSensor` memoizes on
  * `[sensor, options]`, and an inline object literal here would invalidate
  * that every render. A re-render mid-drag (e.g. the shift-modifier tracking
  * below) would then hand `<DndContext>` a brand new `sensors` array, which

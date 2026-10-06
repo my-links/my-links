@@ -20,8 +20,8 @@ export function SortableCollectionItem({
 	const isMobile = useIsMobile();
 	const { active } = useDndContext();
 	const isOwner = collection.isOwner !== false;
-	// A followed collection isn't a legal drop target for a link — collision
-	// detection already excludes it, this is the belt-and-suspenders guard.
+	// A followed collection isn't a legal drop target for a link: collision
+	// detection already excludes it; this is the belt-and-suspenders guard.
 	const isLinkDraggedOverForeignCollection =
 		isLinkDragData(active?.data.current) && !isOwner;
 
@@ -39,7 +39,7 @@ export function SortableCollectionItem({
 		disabled: isMobile
 			? true
 			: { droppable: isLinkDraggedOverForeignCollection },
-		// The card is a navigating <a>, not a button — role stays "link" so
+		// The card is a navigating <a>, not a button: role stays "link" so
 		// screen readers keep announcing it as one.
 		attributes: { role: 'link' },
 	});

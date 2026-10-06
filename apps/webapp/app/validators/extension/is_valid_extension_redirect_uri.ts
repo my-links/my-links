@@ -8,7 +8,7 @@
  * Chromium ends on `https://<32-char-id>.chromiumapp.org/*`, built from the
  * extension id itself. Firefox ends on
  * `https://<40-hex>.extensions.allizom.org/*`, built from the SHA-1 of the
- * add-on id — hence the different length and alphabet.
+ * add-on id, hence the different length and alphabet.
  */
 const EXTENSION_REDIRECT_PATTERNS = [
 	/^https:\/\/[a-p]{32}\.chromiumapp\.org(\/.*)?$/,

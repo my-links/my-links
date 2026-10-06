@@ -55,7 +55,7 @@ export default class RequestPasswordResetController {
 
 	/**
 	 * A reset link is a link in a mailbox, so an instance with no outgoing mail
-	 * does not have this feature at all — 404, the way the Google routes answer
+	 * does not have this feature at all (404), the way the Google routes answer
 	 * when Google is not configured. Recovery there is
 	 * `node ace user:reset-password`.
 	 */

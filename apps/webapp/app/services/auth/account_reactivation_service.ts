@@ -16,7 +16,7 @@ type PendingReactivationAccount = {
 
 /**
  * Carries a disabled account's identity across the round trip from "password
- * just verified" to "owner explicitly chose to reactivate or not" — the
+ * just verified" to "owner explicitly chose to reactivate or not": the
  * password check already proved who is asking, so this is the same trust
  * level `SudoModeService` relies on for its own session state.
  *
@@ -33,7 +33,7 @@ export class AccountReactivationService {
 	}
 
 	/**
-	 * Read-only, for rendering the confirmation page — the visitor just typed
+	 * Read-only, for rendering the confirmation page: the visitor just typed
 	 * this address themselves, so showing it back is a reassurance, not an
 	 * enumeration risk.
 	 */

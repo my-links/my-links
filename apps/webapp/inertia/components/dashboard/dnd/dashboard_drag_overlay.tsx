@@ -68,7 +68,7 @@ export function DashboardDragOverlay({
 			overData.collectionId !== activeData.collectionId;
 		// Matches the card's own width so the overlay doesn't fall back to
 		// whatever intrinsic width LinkItem gets outside of its grid/compact
-		// column — a plain pill here was the actual bug: it looked the same
+		// column: a plain pill here was the actual bug; it looked the same
 		// in every layout instead of mirroring the one being dragged from.
 		const width = active.rect.current.initial?.width;
 

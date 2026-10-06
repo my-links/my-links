@@ -16,7 +16,7 @@ export const baseLinkValidator = vine.object({
 		.maxLength(MAXIMUM_URL_LENGTH)
 		.trim(),
 	favorite: vine.boolean(),
-	// May be empty — the service falls back to the user's Inbox collection so
+	// May be empty: the service falls back to the user's Inbox collection so
 	// a link is never left without a home (see LinkService.resolveCollectionIds).
 	collectionIds: vine.array(vine.number()),
 });

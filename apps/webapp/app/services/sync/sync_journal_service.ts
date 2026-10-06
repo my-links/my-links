@@ -32,7 +32,7 @@ const LINKS_TABLE = 'links';
  *
  * Everything in this app is hard-deleted (`ON DELETE CASCADE` all the way
  * down), so a client syncing on `updated_at` alone can never learn that a row
- * disappeared — this append-only journal is what tells it. A tombstone table
+ * disappeared: this append-only journal is what tells it. A tombstone table
  * is deliberately preferred over a `deleted_at` column on every table: soft
  * deletes would force every existing query in the app to filter them out, and
  * one missed `whereNull` would leak deleted rows back to users.
@@ -61,7 +61,7 @@ export class SyncJournalService {
 
 	/**
 	 * Membership lives in the `collection_link` pivot, so attaching or
-	 * detaching a link leaves the link row itself untouched — and therefore
+	 * detaching a link leaves the link row itself untouched, and therefore
 	 * invisible to a cursor based on `links.updated_at`. Bumping it here is
 	 * what turns a pure membership change into a "move" event on the feed.
 	 */

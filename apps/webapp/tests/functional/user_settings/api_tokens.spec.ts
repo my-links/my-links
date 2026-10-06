@@ -8,7 +8,7 @@ const TOKENS_ROUTE = '/user/api-tokens';
 const UNKNOWN_TOKEN_ID = '999999';
 const TOKEN_NOT_FOUND_MESSAGE = 'This API token no longer exists';
 
-test.group('API tokens — revocation', (group) => {
+test.group('API tokens: revocation', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should revoke a token the account owns', async ({ assert, client }) => {

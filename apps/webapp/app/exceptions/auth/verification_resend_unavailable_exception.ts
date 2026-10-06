@@ -5,7 +5,7 @@ const CODE = 'E_VERIFICATION_RESEND_UNAVAILABLE';
 
 /**
  * Confirming an address is done by following a link from a mailbox, so an
- * instance with no outgoing mail has nothing to resend — and nothing to
+ * instance with no outgoing mail has nothing to resend, and nothing to
  * confirm either, since the sign-in gate is off there. The route answers 404
  * the way `/forgot-password` does.
  *

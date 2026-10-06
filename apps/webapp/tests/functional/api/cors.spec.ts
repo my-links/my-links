@@ -5,8 +5,8 @@ const ALLOW_ORIGIN_HEADER = 'access-control-allow-origin';
 const ALLOW_CREDENTIALS_HEADER = 'access-control-allow-credentials';
 
 /**
- * Firefox extension pages issue an ordinary cross-origin request — preflight
- * included — where Chromium bypasses CORS entirely on a host permission. The
+ * Firefox extension pages issue an ordinary cross-origin request (preflight
+ * included) where Chromium bypasses CORS entirely on a host permission. The
  * sidebar loaded nothing at all on Firefox until the API answered these.
  */
 test.group('API CORS policy', () => {

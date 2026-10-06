@@ -14,13 +14,13 @@ type ExportLink = {
 	description: string | null;
 	url: string;
 	favorite: boolean;
-	// Keys into `collections` above — a link can belong to several.
+	// Keys into `collections` above: a link can belong to several.
 	collectionKeys: string[];
 };
 
 type ExportData = {
 	collections: Array<{
-		// Random per-export identifier, unrelated to the real DB id — lets a
+		// Random per-export identifier, unrelated to the real DB id: lets a
 		// hand-edited file drop a collection without shifting every other
 		// link's references (see git history for the index-based bug this
 		// replaced).
@@ -53,7 +53,7 @@ export class UserDataExportService {
 			collections.map((collection, index) => [collection.id, exportKeys[index]])
 		);
 
-		// A link can be nested under several collections above — dedupe by id
+		// A link can be nested under several collections above; dedupe by id
 		// so it appears once in the export, with all its collectionKeys.
 		const linksById = new Map<number, Link>();
 		for (const collection of collections) {

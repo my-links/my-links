@@ -60,7 +60,7 @@ function findAccount(
 	return account;
 }
 
-test.group('Admin dashboard — account authentication info', (group) => {
+test.group('Admin dashboard: account authentication info', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
 	test('should say whether an address was ever confirmed', async ({

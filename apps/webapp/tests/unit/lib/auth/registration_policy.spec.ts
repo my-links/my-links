@@ -3,7 +3,7 @@ import { test } from '@japa/runner';
 import { REGISTRATION_POLICY } from '#constants/auth';
 import { resolveRegistrationPolicy } from '#lib/auth/registration_policy';
 
-test.group('Registration policy — configured by the operator', () => {
+test.group('Registration policy: configured by the operator', () => {
 	test('should open registration when the operator asked for open', ({
 		assert,
 	}) => {
@@ -27,7 +27,7 @@ test.group('Registration policy — configured by the operator', () => {
 	});
 });
 
-test.group('Registration policy — left to its default', () => {
+test.group('Registration policy: left to its default', () => {
 	test('should open registration while the instance has no account', ({
 		assert,
 	}) => {

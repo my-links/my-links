@@ -22,7 +22,7 @@ export default class ConfirmSudoModeController {
 	/**
 	 * The prompt offers whichever proofs the account actually owns. An account
 	 * with only a Google identity has no password to type, and one on an
-	 * instance where Google was switched off has no round trip to take — the
+	 * instance where Google was switched off has no round trip to take: the
 	 * page states what is available rather than assuming.
 	 */
 	async render({ auth, inertia }: HttpContext) {

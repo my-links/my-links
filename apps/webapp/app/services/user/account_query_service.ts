@@ -29,8 +29,8 @@ export class AccountQueryService {
 
 	/**
 	 * The first account an instance ever gets is its administrator, whichever
-	 * authentication method opened it. Both account creation paths — the OAuth
-	 * callback and the registration form — ask here instead of restating the
+	 * authentication method opened it. Both account creation paths (the OAuth
+	 * callback and the registration form) ask here instead of restating the
 	 * rule.
 	 */
 	async isNextAccountAdmin(trx?: TransactionClientContract): Promise<boolean> {
@@ -82,7 +82,7 @@ export class AccountQueryService {
 	 *
 	 * Everything is aggregated or preloaded in the same round of queries rather
 	 * than read per row. The dashboard lists the whole instance, so a lookup
-	 * per account is a lookup per account — the cost grows with the very number
+	 * per account is a lookup per account: the cost grows with the very number
 	 * the page exists to show.
 	 */
 	getAccountsOverview() {

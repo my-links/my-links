@@ -21,7 +21,7 @@ type UseAccountActionsReturn = {
 /**
  * The four things an administrator can do to an account from the table.
  *
- * Every one of them is refused again server-side — this only decides what is
+ * Every one of them is refused again server-side: this only decides what is
  * offered.
  */
 export function useAccountActions(): UseAccountActionsReturn {
@@ -62,7 +62,7 @@ export function useAccountActions(): UseAccountActionsReturn {
 
 	/**
 	 * Reuses the bulk-delete endpoint with a single id rather than opening a
-	 * dedicated route for it — the same grace-period request either way, and
+	 * dedicated route for it: the same grace-period request either way, and
 	 * the backend already accepts any array length.
 	 */
 	const requestDeletion = (accountId: number) =>

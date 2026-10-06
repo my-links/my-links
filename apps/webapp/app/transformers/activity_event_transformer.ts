@@ -5,7 +5,7 @@ import type AuditEvent from '#models/audit_event';
 /**
  * One line of the activity journal.
  *
- * `subjectId` names a row, never its content — the transformer carries an
+ * `subjectId` names a row, never its content: the transformer carries an
  * identifier, and rendering it as `link #4102` rather than a title is a
  * decision the UI makes, not this layer.
  */

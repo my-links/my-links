@@ -250,7 +250,7 @@ test.group('user:create', (group) => {
 	});
 });
 
-test.group('user:create — the registration policy of the instance', (group) => {
+test.group('user:create: the registration policy of the instance', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 	group.each.setup(captureConsoleOutput);
 
@@ -273,7 +273,7 @@ test.group('user:create — the registration policy of the instance', (group) =>
 
 	/**
 	 * Trapped without a reply, the prompt answers with the default the command
-	 * gave it — which is the very thing under test here.
+	 * gave it, which is the very thing under test here.
 	 */
 	test('should default to administrator on an instance with no account yet', async ({
 		assert,

@@ -32,7 +32,7 @@ export default class ImportUserDataController {
 
 	/**
 	 * A validated upload has been buffered to disk, so a missing path is an
-	 * operational fault rather than a bad file — but the person waiting on the
+	 * operational fault rather than a bad file, but the person waiting on the
 	 * page can only ever act on it as "this upload did not work".
 	 */
 	private async readUpload(file: MultipartFile): Promise<string> {
