@@ -1,16 +1,16 @@
 import uFuzzy from '@leeoniya/ufuzzy';
 
-export interface FuzzyLink {
+export type FuzzyLink = {
 	id: number;
 	name: string;
 	description: string | null;
 	url: string;
-}
+};
 
-export interface FuzzyMatch<TLink extends FuzzyLink> {
+export type FuzzyMatch<TLink extends FuzzyLink> = {
 	link: TLink;
 	nameRanges: readonly number[];
-}
+};
 
 const STRICT_INTRA_INSERTIONS = 1;
 const LOOSE_INTRA_INSERTIONS = 3;

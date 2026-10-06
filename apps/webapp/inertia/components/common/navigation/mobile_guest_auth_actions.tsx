@@ -3,9 +3,9 @@ import { Link } from '@adonisjs/inertia/react';
 
 import { useRegistrationPolicy } from '~/hooks/use_registration_policy';
 
-interface MobileGuestAuthActionsProps {
+type MobileGuestAuthActionsProps = {
 	onNavigate: () => void;
-}
+};
 
 export const MobileGuestAuthActions = ({
 	onNavigate,

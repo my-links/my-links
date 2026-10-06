@@ -9,9 +9,9 @@ import {
 	SIDEBAR_RAIL_WIDTH,
 } from '~/stores/dashboard_layout_store';
 
-interface ResizableSidebarProps {
+type ResizableSidebarProps = {
 	children: ReactNode;
-}
+};
 
 export function ResizableSidebar({
 	children,

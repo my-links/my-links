@@ -1,8 +1,8 @@
 import { BaseLayout } from '~/layouts/base_layout';
 
-interface AppLayoutProps {
+type AppLayoutProps = {
 	children: React.ReactNode;
-}
+};
 
 /**
  * Shell for the dashboard, settings and admin pages: no navbar, no footer.

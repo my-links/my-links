@@ -5,8 +5,8 @@ import { Modal } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
-import useShortcut from '~/hooks/use_shortcut';
 import { AppLayout } from '~/layouts/app_layout';
+import { useShortcut } from '~/hooks/use_shortcut';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
@@ -27,7 +27,7 @@ import { CreateCollectionModal } from '~/components/dashboard/modals/create_coll
 import { DeleteCollectionModal } from '~/components/dashboard/modals/delete_collection_modal';
 import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard_layout_store';
 
-export interface DashboardProps {
+export type DashboardProps = {
 	followedCollections?: Data.Collection[];
 	myPublicCollections?: Data.Collection[];
 	myPrivateCollections?: Data.Collection[];
@@ -36,7 +36,7 @@ export interface DashboardProps {
 	inboxCollection: Data.Collection;
 	activeCollection?: Data.Collection.Variants['withLinks'] | null;
 	favoriteLinks?: Data.Link[];
-}
+};
 
 export default function Dashboard() {
 	const { activeCollection, favoriteLinks } = useDashboardProps();

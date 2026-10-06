@@ -16,7 +16,7 @@ import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
-interface CollapsibleSectionProps {
+type CollapsibleSectionProps = {
 	title: ReactNode;
 	collections: CollectionWithLinks[];
 	section: CollectionSection;
@@ -26,7 +26,7 @@ interface CollapsibleSectionProps {
 	canMoveDown: boolean;
 	onMoveUp: () => void;
 	onMoveDown: () => void;
-}
+};
 
 export function CollapsibleSection({
 	title,

@@ -1,8 +1,8 @@
 import { cn } from '~/lib/cn';
 
-interface AuthEventTypeBadgeProps {
+type AuthEventTypeBadgeProps = {
 	type: string;
-}
+};
 
 const REFUSAL_MARKERS = ['failed', 'blocked', 'revoked', 'cancelled'];
 

@@ -13,10 +13,10 @@ import {
 	type FormLinkData,
 } from '~/components/dashboard/forms/form_link_content';
 
-interface EditLinkModalProps {
+type EditLinkModalProps = {
 	link: Data.Link.Variants['withCollections'];
 	onClose: () => void;
-}
+};
 
 function sameMembers(left: number[], right: number[]): boolean {
 	if (left.length !== right.length) return false;

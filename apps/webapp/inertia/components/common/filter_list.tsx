@@ -29,9 +29,9 @@ function getLayoutOptions(): Array<{
 	];
 }
 
-interface FilterListProps {
+type FilterListProps = {
 	layoutStoreKey: string;
-}
+};
 
 export function FilterList({ layoutStoreKey }: Readonly<FilterListProps>) {
 	const { layout, setLayout } = useLayoutStore(layoutStoreKey);

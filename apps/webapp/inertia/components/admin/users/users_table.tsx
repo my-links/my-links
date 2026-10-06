@@ -26,9 +26,9 @@ import { EmailVerificationBadge } from '~/components/admin/users/email_verificat
 
 type UserWithCounters = Data.User.Variants['withCounters'];
 
-export interface UsersTableProps {
+export type UsersTableProps = {
 	users: UserWithCounters[];
-}
+};
 
 export function UsersTable({ users }: Readonly<UsersTableProps>) {
 	const {

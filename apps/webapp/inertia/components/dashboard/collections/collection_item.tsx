@@ -20,16 +20,16 @@ import {
 	CollectionControlsRef,
 } from './collection_controls';
 
-interface CollectionItemProps {
+type CollectionItemProps = {
 	collection: Data.Collection;
 	dragAttributes?: DraggableAttributes;
 	dragListeners?: DraggableSyntheticListeners;
 	setActivatorNodeRef?: (element: HTMLElement | null) => void;
-}
+};
 
-interface PagePropsWithActiveCollection extends PageProps {
+type PagePropsWithActiveCollection = PageProps & {
 	activeCollection?: Data.Collection | null;
-}
+};
 
 export function CollectionItem({
 	collection,

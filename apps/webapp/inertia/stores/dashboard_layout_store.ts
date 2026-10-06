@@ -8,13 +8,13 @@ const SIDEBAR_MAX_WIDTH = 500;
 const SIDEBAR_DEFAULT_WIDTH = 256;
 const SIDEBAR_RAIL_WIDTH = 64;
 
-interface DashboardLayoutStore {
+type DashboardLayoutStore = {
 	sidebarOpen: boolean;
 	setSidebarOpen: (open: boolean) => void;
 	toggleSidebar: () => void;
 	sidebarWidth: number;
 	setSidebarWidth: (width: number) => void;
-}
+};
 
 const STORAGE_KEY = 'dashboard-layout-preferences';
 

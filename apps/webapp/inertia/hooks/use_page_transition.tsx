@@ -16,10 +16,10 @@ type InertiaSuccessEvent = CustomEvent<InertiaSuccessDetail>;
 
 type Pattern = string | RegExp;
 
-interface UsePageTransitionProps {
+type UsePageTransitionProps = {
 	querySelector: string;
 	ignorePatterns?: Pattern[];
-}
+};
 
 function matchesPattern(path: string, pattern: Pattern): boolean {
 	if (pattern instanceof RegExp) {

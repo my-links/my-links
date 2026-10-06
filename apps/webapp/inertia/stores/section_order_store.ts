@@ -12,11 +12,11 @@ const DEFAULT_SECTION_ORDER: CollectionSection[] = [
 	COLLECTION_SECTION.PRIVATE,
 ];
 
-interface SectionOrderStore {
+type SectionOrderStore = {
 	order: CollectionSection[];
 	moveSectionUp: (section: CollectionSection) => void;
 	moveSectionDown: (section: CollectionSection) => void;
-}
+};
 
 const STORAGE_KEY = 'section-order-preferences';
 

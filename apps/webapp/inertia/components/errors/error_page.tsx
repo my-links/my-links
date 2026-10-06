@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
 
-interface ErrorPageProps {
+type ErrorPageProps = {
 	title: React.ReactNode;
 	message: React.ReactNode;
 	statusCode?: number;
-}
+};
 
 export const ErrorPage = ({
 	title,

@@ -13,10 +13,10 @@ import {
 	type FormCollectionData,
 } from '~/components/dashboard/forms/form_collection_content';
 
-interface DeleteCollectionModalProps {
+type DeleteCollectionModalProps = {
 	onClose: () => void;
 	collection?: Data.Collection;
-}
+};
 
 export function DeleteCollectionModal({
 	onClose,

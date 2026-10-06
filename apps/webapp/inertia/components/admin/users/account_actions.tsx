@@ -9,9 +9,9 @@ import {
 	useAccountActions,
 } from '~/hooks/admin/use_account_actions';
 
-interface AccountActionsProps {
+type AccountActionsProps = {
 	account: Data.User.Variants['withCounters'];
-}
+};
 
 /**
  * What an administrator can do to one account, on the row that describes it.

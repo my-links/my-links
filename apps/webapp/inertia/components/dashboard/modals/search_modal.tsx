@@ -5,14 +5,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { tuyauClient, urlFor } from '~/lib/tuyau';
 import { matchLinks, type FuzzyMatch } from '~/lib/fuzzy_links';
-import useShortcut, { UseShortcutProps } from '~/hooks/use_shortcut';
+import { useShortcut, UseShortcutProps } from '~/hooks/use_shortcut';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
 
 const DEFAULT_INDEX = 0;
 
-interface SearchModalProps {
+type SearchModalProps = {
 	onClose: () => void;
-}
+};
 
 /**
  * The generated tuyau types claim `GET /links` resolves to a bare

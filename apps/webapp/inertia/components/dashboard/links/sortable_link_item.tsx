@@ -10,11 +10,11 @@ import {
 	getLinkItemWrapperStyle,
 } from '~/lib/link_layout';
 
-interface SortableLinkItemProps {
+type SortableLinkItemProps = {
 	link: Data.Link;
 	collectionId: number;
 	layout: Layout;
-}
+};
 
 export function SortableLinkItem({
 	link,

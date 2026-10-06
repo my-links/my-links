@@ -2,9 +2,9 @@ import { BaseLayout } from '~/layouts/base_layout';
 import { Footer } from '~/components/common/navigation/footer';
 import { Navbar } from '~/components/common/navigation/navbar';
 
-interface PublicLayoutProps {
+type PublicLayoutProps = {
 	children: React.ReactNode;
-}
+};
 
 export const PublicLayout = ({ children }: Readonly<PublicLayoutProps>) => (
 	<BaseLayout>

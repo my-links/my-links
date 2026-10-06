@@ -2,11 +2,11 @@ import type { PropsWithChildren } from 'react';
 
 import { cn } from '~/lib/cn';
 
-interface SortableThProps extends PropsWithChildren {
+type SortableThProps = PropsWithChildren & {
 	reversed: boolean;
 	sorted: boolean;
 	onSort(): void;
-}
+};
 
 export function SortableTh({
 	children,

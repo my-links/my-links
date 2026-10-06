@@ -13,14 +13,14 @@ import { hasCollectionIds } from '~/lib/link';
 import { LinkControls, LinkControlsRef } from './link_controls';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 
-interface LinkItemProps {
+type LinkItemProps = {
 	link: Data.Link;
 	hideMenu?: boolean;
 	layout?: 'grid' | 'list' | 'compact' | 'masonry';
 	dragAttributes?: DraggableAttributes;
 	dragListeners?: DraggableSyntheticListeners;
 	setActivatorNodeRef?: (element: HTMLElement | null) => void;
-}
+};
 
 export function LinkItem({
 	link,

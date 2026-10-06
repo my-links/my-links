@@ -13,11 +13,11 @@ import {
 	getLinkItemWrapperStyle,
 } from '~/lib/link_layout';
 
-interface LinkListProps {
+type LinkListProps = {
 	links: Data.Link[];
 	layoutStoreKey: string;
 	emptyStateHint?: ReactNode;
-}
+};
 
 export function LinkList({
 	links,

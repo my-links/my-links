@@ -26,18 +26,18 @@ import { useDashboardProps } from '~/hooks/use_dashboard_props';
 type Link = Data.Link;
 type LinkWithCollections = Data.Link.Variants['withCollections'];
 
-export interface LinkControlsRef {
+export type LinkControlsRef = {
 	openContextMenu: (x: number, y: number) => void;
-}
+};
 
-interface LinkControlsProps {
+type LinkControlsProps = {
 	ref: React.RefObject<LinkControlsRef | null>;
 	link: Link;
 	/** Notified after a menu item runs its action, so a host like the search modal can close itself. */
 	onAction?: () => void;
 	/** Notified once the refresh request completes so the favicon image can bust its own cache. */
 	onFaviconRefreshed?: () => void;
-}
+};
 
 const dispatchContextMenuAt = (
 	target: HTMLDivElement | null,

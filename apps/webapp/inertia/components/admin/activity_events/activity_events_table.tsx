@@ -10,9 +10,9 @@ import { AuthEventTypeBadge } from '~/components/admin/auth_events/auth_event_ty
 
 type ActivityEvent = Data.ActivityEvent;
 
-interface ActivityEventsTableProps {
+type ActivityEventsTableProps = {
 	events: ActivityEvent[];
-}
+};
 
 /**
  * `link #4102` / `collection #77` — an identifier, never a name. Resolving it

@@ -5,10 +5,10 @@ import { IconButton, Tooltip } from '@minimalstuff/ui';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { SearchButton } from '~/components/dashboard/search/search_button';
 
-interface SidebarHeaderProps {
+type SidebarHeaderProps = {
 	onToggleSidebar: () => void;
 	onOpenSearch: () => void;
-}
+};
 
 /**
  * The rail has room for one thing on its top row, and it has to be the toggle

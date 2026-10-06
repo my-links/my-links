@@ -2,9 +2,9 @@ import type { Data } from '@generated/data';
 
 import { formatBytes, formatPercentage } from '~/lib/format';
 
-interface ThresholdDisplayProps {
+type ThresholdDisplayProps = {
 	meta: Data.StatusReportCheck['meta'];
-}
+};
 
 export const ThresholdDisplay = ({ meta }: Readonly<ThresholdDisplayProps>) => {
 	if (meta?.sizeInPercentage) {

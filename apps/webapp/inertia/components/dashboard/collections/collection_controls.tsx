@@ -18,11 +18,11 @@ import { DeleteCollectionModal } from '../modals/delete_collection_modal';
 type Collection = Data.Collection;
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 
-export interface CollectionControlsRef {
+export type CollectionControlsRef = {
 	openContextMenu: (x: number, y: number) => void;
-}
+};
 
-interface CollectionControlsProps {
+type CollectionControlsProps = {
 	collection: Collection;
 	/**
 	 * Drops the hover buttons, which a collapsed rail has no room for, and
@@ -30,11 +30,11 @@ interface CollectionControlsProps {
 	 * that menu reachable at all: the row opens it through this ref.
 	 */
 	showQuickActions?: boolean;
-}
+};
 
-interface PagePropsWithActiveCollection extends PageProps {
+type PagePropsWithActiveCollection = PageProps & {
 	activeCollection?: CollectionWithLinks | null;
-}
+};
 
 export const CollectionControls = forwardRef<
 	CollectionControlsRef,

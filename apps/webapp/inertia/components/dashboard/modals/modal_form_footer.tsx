@@ -2,14 +2,14 @@ import type { ReactNode } from 'react';
 import { Trans } from '@lingui/react/macro';
 import { Button, type ButtonColor } from '@minimalstuff/ui';
 
-interface ModalFormFooterProps {
+type ModalFormFooterProps = {
 	formId: string;
 	onCancel: () => void;
 	canSubmit: boolean;
 	processing: boolean;
 	submitLabel: ReactNode;
 	submitColor?: ButtonColor;
-}
+};
 
 export const ModalFormFooter = ({
 	formId,

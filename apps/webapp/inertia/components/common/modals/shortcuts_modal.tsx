@@ -5,10 +5,10 @@ import type { KEYS } from '~/consts/keys';
 import { formatShortcut } from '~/lib/format_shortcut';
 import { SHORTCUT_SECTIONS } from '~/consts/shortcuts';
 
-interface ShortcutRowProps {
+type ShortcutRowProps = {
 	keys: readonly (keyof typeof KEYS)[];
 	label: ReactNode;
-}
+};
 
 const ShortcutRow = ({ keys, label }: Readonly<ShortcutRowProps>) => (
 	<div className="flex items-center justify-between gap-4 py-1.5">

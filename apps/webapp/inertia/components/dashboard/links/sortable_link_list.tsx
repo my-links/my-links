@@ -13,11 +13,11 @@ import {
 	getLinkContainerStyle,
 } from '~/lib/link_layout';
 
-interface SortableLinkListProps {
+type SortableLinkListProps = {
 	links: Data.Link[];
 	collectionId: number;
 	layout: Layout;
-}
+};
 
 export function SortableLinkList({
 	links,

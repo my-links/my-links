@@ -10,9 +10,9 @@ import { AuthEventTypeBadge } from '~/components/admin/auth_events/auth_event_ty
 
 type AuthEvent = Data.AuthEvent;
 
-interface AuthEventsTableProps {
+type AuthEventsTableProps = {
 	events: AuthEvent[];
-}
+};
 
 export const AuthEventsTable = ({ events }: Readonly<AuthEventsTableProps>) => (
 	<DataTable<AuthEvent>

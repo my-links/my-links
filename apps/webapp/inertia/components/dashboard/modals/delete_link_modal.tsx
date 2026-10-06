@@ -12,10 +12,10 @@ import {
 	type FormLinkData,
 } from '~/components/dashboard/forms/form_link_content';
 
-interface DeleteLinkModalProps {
+type DeleteLinkModalProps = {
 	link: Data.Link.Variants['withCollections'];
 	onClose: () => void;
-}
+};
 
 export function DeleteLinkModal({
 	link,

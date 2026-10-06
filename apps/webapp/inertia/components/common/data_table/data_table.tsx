@@ -23,7 +23,7 @@ export type DataTableLeadingColumn<TData> = {
 	cellClassName?: string;
 };
 
-interface DataTableProps<TData> {
+type DataTableProps<TData> = {
 	data: TData[];
 	getRowKey: (row: TData) => string;
 	columns: Array<DataTableColumn<TData>>;
@@ -39,7 +39,7 @@ interface DataTableProps<TData> {
 	headerCellClassName?: string;
 	minWidthClassName?: string;
 	bordered?: boolean;
-}
+};
 
 export function DataTable<TData>({
 	data,

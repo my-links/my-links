@@ -3,10 +3,10 @@ import { Trans } from '@lingui/react/macro';
 import { cn } from '~/lib/cn';
 import { AUTHOR_GITHUB_URL, AUTHOR_NAME } from '~/consts/project';
 
-interface MadeByProps {
+type MadeByProps = {
 	onClick?: () => void;
 	className?: string;
-}
+};
 
 export const MadeBy = ({ onClick, className }: Readonly<MadeByProps>) => (
 	<span className={cn('flex items-center gap-2', className)}>

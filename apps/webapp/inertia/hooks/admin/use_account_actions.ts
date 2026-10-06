@@ -9,14 +9,14 @@ export const ACCOUNT_ROLE = {
 
 export type AccountRole = (typeof ACCOUNT_ROLE)[keyof typeof ACCOUNT_ROLE];
 
-interface UseAccountActionsReturn {
+type UseAccountActionsReturn = {
 	sendPasswordReset: (accountId: number) => void;
 	markEmailConfirmed: (accountId: number) => void;
 	revokeAccess: (accountId: number) => void;
 	setRole: (accountId: number, role: AccountRole) => void;
 	restoreAccount: (accountId: number) => void;
 	requestDeletion: (accountId: number) => void;
-}
+};
 
 /**
  * The four things an administrator can do to an account from the table.

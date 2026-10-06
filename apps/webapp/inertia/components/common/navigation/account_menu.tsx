@@ -28,11 +28,11 @@ import {
 
 const EXTERNAL_HINT = '↗';
 
-interface ThemeOption {
+type ThemeOption = {
 	value: Theme;
 	icon: string;
 	label: ReactNode;
-}
+};
 
 const THEMES: readonly ThemeOption[] = [
 	{
@@ -44,11 +44,11 @@ const THEMES: readonly ThemeOption[] = [
 	{ value: 'system', icon: 'i-mdi-monitor', label: <Trans>System</Trans> },
 ];
 
-interface ThemeMenuItemProps {
+type ThemeMenuItemProps = {
 	option: ThemeOption;
 	isSelected: boolean;
 	onSelect: (theme: Theme) => void;
-}
+};
 
 function ThemeMenuItem({
 	option,
@@ -64,11 +64,11 @@ function ThemeMenuItem({
 	);
 }
 
-interface AccountMenuProps {
+type AccountMenuProps = {
 	side?: MenuSide;
 	/** Shows the avatar alone, for the collapsed sidebar rail. */
 	iconOnly?: boolean;
-}
+};
 
 /**
  * Everything that concerns the account rather than the content: preferences,

@@ -12,11 +12,11 @@ import {
 	useLandingPageSettings,
 } from '~/hooks/use_landing_page_settings';
 
-interface PreferenceRowProps {
+type PreferenceRowProps = {
 	label: ReactNode;
 	description: ReactNode;
 	control: ReactNode;
-}
+};
 
 const PreferenceRow = ({
 	label,

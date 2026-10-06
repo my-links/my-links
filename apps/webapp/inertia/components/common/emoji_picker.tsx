@@ -10,11 +10,11 @@ import { useClickOutside } from '~/hooks/use_click_outside';
 
 const DEFAULT_EMOJI = '📁';
 
-interface EmojiPickerProps {
+type EmojiPickerProps = {
 	selectedEmoji: string | null;
 	setSelectedEmoji: (emoji: string | null) => void;
 	disabled?: boolean;
-}
+};
 
 export function EmojiPicker({
 	selectedEmoji,

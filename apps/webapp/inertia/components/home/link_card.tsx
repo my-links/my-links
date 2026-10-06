@@ -1,11 +1,11 @@
 import { cn } from '~/lib/cn';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
 
-interface LinkCardProps {
+type LinkCardProps = {
 	url: string;
 	title: string;
 	icon?: string;
-}
+};
 
 export function LinkCard({ url, title, icon }: Readonly<LinkCardProps>) {
 	return (
