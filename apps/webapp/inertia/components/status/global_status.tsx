@@ -4,9 +4,9 @@ import { Trans } from '@lingui/react/macro';
 import { cn } from '~/lib/cn';
 import { getHealthStatusIcon, getHealthStatusVariant } from '~/lib/health';
 
-interface GlobalStatusProps {
+type GlobalStatusProps = {
 	isHealthy: boolean;
-}
+};
 
 export function GlobalStatus({ isHealthy }: Readonly<GlobalStatusProps>) {
 	const overallStatus = isHealthy ? ('ok' as const) : ('error' as const);

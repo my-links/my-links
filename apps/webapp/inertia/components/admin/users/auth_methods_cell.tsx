@@ -5,9 +5,9 @@ import { NaContent } from '~/components/common/na_content';
 
 type AuthMethod = Data.User.Variants['withCounters']['authMethods'][number];
 
-interface AuthMethodsCellProps {
+type AuthMethodsCellProps = {
 	authMethods: readonly AuthMethod[];
-}
+};
 
 const PILL_CLASS =
 	'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300';

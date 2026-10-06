@@ -10,10 +10,10 @@ import {
 	type FormCollectionData,
 } from '~/components/dashboard/forms/form_collection_content';
 
-interface CreateCollectionModalProps {
+type CreateCollectionModalProps = {
 	onClose: () => void;
 	message?: string;
-}
+};
 
 export function CreateCollectionModal({
 	onClose,

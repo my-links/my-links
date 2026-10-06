@@ -10,13 +10,13 @@ import {
 	LinkControlsRef,
 } from '~/components/dashboard/links/link_controls';
 
-interface SearchLinkResultProps {
+type SearchLinkResultProps = {
 	match: FuzzyMatch<Data.Link>;
 	resultIndex: number;
 	isSelected: boolean;
 	handleResultClick: (link: Data.Link) => void;
 	onCloseModal: () => void;
-}
+};
 
 export const SearchLinkResult = ({
 	match,

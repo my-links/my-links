@@ -14,7 +14,7 @@ export type FormCollectionData = {
 	icon: string | null;
 };
 
-interface FormCollectionContentProps {
+type FormCollectionContentProps = {
 	data: FormCollectionData;
 	setData: <TKey extends keyof FormCollectionData>(
 		name: TKey,
@@ -22,7 +22,7 @@ interface FormCollectionContentProps {
 	) => void;
 	errors?: Record<string, string | string[]>;
 	disableInputs?: boolean;
-}
+};
 
 export const FormCollectionContent = ({
 	data,

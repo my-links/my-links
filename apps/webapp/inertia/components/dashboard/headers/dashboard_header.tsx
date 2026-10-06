@@ -10,7 +10,7 @@ import { FilterList } from '~/components/common/filter_list';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
 
-export interface DashboardHeaderProps {
+export type DashboardHeaderProps = {
 	isFavorite: boolean;
 	onToggleSidebar: () => void;
 	onCreateCollection: () => void;
@@ -18,7 +18,7 @@ export interface DashboardHeaderProps {
 	onDeleteCollection: () => void;
 	onCreateLink: () => void;
 	onOpenSearch: () => void;
-}
+};
 
 export function DashboardHeader({
 	isFavorite,

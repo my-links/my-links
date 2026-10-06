@@ -8,7 +8,7 @@ export type UseShortcutProps = {
 	disableGlobalCheck?: boolean;
 };
 
-export default function useShortcut(
+export function useShortcut(
 	key: keyof typeof KEYS,
 	cb: () => void,
 	{ enabled, disableGlobalCheck }: Readonly<UseShortcutProps> = {

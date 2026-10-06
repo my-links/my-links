@@ -11,13 +11,13 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
-interface CollectionInboxItemProps {
+type CollectionInboxItemProps = {
 	collection: Data.Collection;
-}
+};
 
-interface PagePropsWithActiveCollection extends PageProps {
+type PagePropsWithActiveCollection = PageProps & {
 	activeCollection?: Data.Collection | null;
-}
+};
 
 /**
  * The Inbox, pinned beside the favorites rather than listed among the

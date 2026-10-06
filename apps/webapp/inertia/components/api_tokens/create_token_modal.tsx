@@ -4,10 +4,10 @@ import { RadioOptions, Button, Input } from '@minimalstuff/ui';
 
 import type { ApiTokenScope } from '~/hooks/use_api_tokens';
 
-interface CreateTokenModalProps {
+type CreateTokenModalProps = {
 	onCreate: (name: string, scope: ApiTokenScope) => Promise<void>;
 	onClose: () => void;
-}
+};
 
 export function CreateTokenModal({
 	onCreate,

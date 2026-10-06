@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-interface AnnouncementStore {
+type AnnouncementStore = {
 	dismissedMajorVersion: number;
 	dismiss: (majorVersion: number) => void;
-}
+};
 
 const STORAGE_KEY = 'announcement-preferences';
 

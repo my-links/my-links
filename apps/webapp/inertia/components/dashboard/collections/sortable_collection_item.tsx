@@ -8,10 +8,10 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { isLinkDragData } from '~/lib/dnd/drag_data';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
 
-interface SortableCollectionItemProps {
+type SortableCollectionItemProps = {
 	collection: Data.Collection;
 	section: CollectionSection;
-}
+};
 
 export function SortableCollectionItem({
 	collection,

@@ -147,7 +147,7 @@ msgstr "Ajoutez une autre méthode de connexion avant de retirer celle-ci"
 msgid "Add link"
 msgstr "Ajouter un lien"
 
-#: inertia/components/dashboard/links/link_controls.tsx:191
+#: inertia/components/dashboard/links/link_controls.tsx:189
 msgid "Add to favorites"
 msgstr "Ajouter aux favoris"
 
@@ -381,7 +381,7 @@ msgstr "Copié !"
 msgid "Copy"
 msgstr "Copier"
 
-#: inertia/components/dashboard/links/link_controls.tsx:203
+#: inertia/components/dashboard/links/link_controls.tsx:201
 msgid "Copy link"
 msgstr "Copier le lien"
 
@@ -522,8 +522,8 @@ msgstr "Supprimer"
 msgid "Delete a collection"
 msgstr "Supprimer une collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:106
-#: inertia/components/dashboard/links/link_controls.tsx:222
+#: inertia/components/dashboard/links/link_controls.tsx:104
+#: inertia/components/dashboard/links/link_controls.tsx:220
 msgid "Delete a link"
 msgstr "Supprimer un lien"
 
@@ -628,8 +628,8 @@ msgstr "Déposez un lien. Récupérez un favori que vous retrouverez."
 msgid "Edit a collection"
 msgstr "Modifier une collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:91
-#: inertia/components/dashboard/links/link_controls.tsx:208
+#: inertia/components/dashboard/links/link_controls.tsx:89
+#: inertia/components/dashboard/links/link_controls.tsx:206
 msgid "Edit a link"
 msgstr "Modifier un lien"
 
@@ -825,7 +825,7 @@ msgid "Global status"
 msgstr "Statut global"
 
 #. placeholder {0}: collection.name
-#: inertia/components/dashboard/links/link_controls.tsx:178
+#: inertia/components/dashboard/links/link_controls.tsx:176
 msgid "Go to {0}"
 msgstr "Aller à {0}"
 
@@ -1298,7 +1298,7 @@ msgstr "Redis"
 msgid "Redis memory usage"
 msgstr "Utilisation mémoire Redis"
 
-#: inertia/components/dashboard/links/link_controls.tsx:215
+#: inertia/components/dashboard/links/link_controls.tsx:213
 msgid "Refresh favicon"
 msgstr "Rafraîchir le favicon"
 
@@ -1316,7 +1316,7 @@ msgstr "Ça vous revient ? <0>Se connecter</0>"
 msgid "Remove"
 msgstr "Supprimer"
 
-#: inertia/components/dashboard/links/link_controls.tsx:189
+#: inertia/components/dashboard/links/link_controls.tsx:187
 msgid "Remove from favorites"
 msgstr "Supprimer des favoris"
 

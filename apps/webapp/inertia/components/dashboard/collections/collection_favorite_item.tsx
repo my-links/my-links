@@ -12,9 +12,9 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
-interface PagePropsWithActiveCollection extends PageProps {
+type PagePropsWithActiveCollection = PageProps & {
 	activeCollection?: Data.Collection.Variants['withLinks'] | null;
-}
+};
 
 export function CollectionFavoriteItem() {
 	const { props } = usePage<PagePropsWithActiveCollection>();

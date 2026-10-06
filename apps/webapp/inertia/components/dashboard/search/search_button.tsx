@@ -1,10 +1,10 @@
 import { Kbd } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
 
-interface SearchButtonProps {
+type SearchButtonProps = {
 	onClick: () => void;
 	'data-tour'?: string;
-}
+};
 
 export const SearchButton = ({
 	onClick,

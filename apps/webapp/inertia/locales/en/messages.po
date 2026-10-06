@@ -147,7 +147,7 @@ msgstr "Add another sign-in method before removing this one"
 msgid "Add link"
 msgstr "Add link"
 
-#: inertia/components/dashboard/links/link_controls.tsx:191
+#: inertia/components/dashboard/links/link_controls.tsx:189
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -381,7 +381,7 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/dashboard/links/link_controls.tsx:203
+#: inertia/components/dashboard/links/link_controls.tsx:201
 msgid "Copy link"
 msgstr "Copy link"
 
@@ -522,8 +522,8 @@ msgstr "Delete"
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:106
-#: inertia/components/dashboard/links/link_controls.tsx:222
+#: inertia/components/dashboard/links/link_controls.tsx:104
+#: inertia/components/dashboard/links/link_controls.tsx:220
 msgid "Delete a link"
 msgstr "Delete a link"
 
@@ -628,8 +628,8 @@ msgstr "Drop in a link. Get back a bookmark you'll find again."
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
-#: inertia/components/dashboard/links/link_controls.tsx:91
-#: inertia/components/dashboard/links/link_controls.tsx:208
+#: inertia/components/dashboard/links/link_controls.tsx:89
+#: inertia/components/dashboard/links/link_controls.tsx:206
 msgid "Edit a link"
 msgstr "Edit a link"
 
@@ -825,7 +825,7 @@ msgid "Global status"
 msgstr "Global status"
 
 #. placeholder {0}: collection.name
-#: inertia/components/dashboard/links/link_controls.tsx:178
+#: inertia/components/dashboard/links/link_controls.tsx:176
 msgid "Go to {0}"
 msgstr "Go to {0}"
 
@@ -1298,7 +1298,7 @@ msgstr "Redis"
 msgid "Redis memory usage"
 msgstr "Redis memory usage"
 
-#: inertia/components/dashboard/links/link_controls.tsx:215
+#: inertia/components/dashboard/links/link_controls.tsx:213
 msgid "Refresh favicon"
 msgstr "Refresh favicon"
 
@@ -1316,7 +1316,7 @@ msgstr "Remembered it? <0>Sign in</0>"
 msgid "Remove"
 msgstr "Remove"
 
-#: inertia/components/dashboard/links/link_controls.tsx:189
+#: inertia/components/dashboard/links/link_controls.tsx:187
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 

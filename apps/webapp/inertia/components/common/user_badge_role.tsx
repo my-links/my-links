@@ -3,9 +3,9 @@ import { Trans } from '@lingui/react/macro';
 
 import { cn } from '~/lib/cn';
 
-interface UserBadgeRoleProps {
+type UserBadgeRoleProps = {
 	user: Data.User.Variants['withCounters'];
-}
+};
 
 export const UserBadgeRole = ({ user }: Readonly<UserBadgeRoleProps>) => (
 	<span

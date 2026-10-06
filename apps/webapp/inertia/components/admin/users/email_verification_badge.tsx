@@ -2,9 +2,9 @@ import { Trans } from '@lingui/react/macro';
 
 import { cn } from '~/lib/cn';
 
-interface EmailVerificationBadgeProps {
+type EmailVerificationBadgeProps = {
 	emailVerifiedAt: string | null;
-}
+};
 
 const CONFIRMED_CLASS =
 	'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';

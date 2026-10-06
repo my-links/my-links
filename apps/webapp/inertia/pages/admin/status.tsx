@@ -8,10 +8,10 @@ import { GlobalStatus } from '~/components/status/global_status';
 import { ServiceDetails } from '~/components/status/service_details';
 import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 
-interface StatusProps {
+type StatusProps = {
 	isHealthy: boolean;
 	checks: Data.StatusReportCheck[];
-}
+};
 
 function Status({ isHealthy, checks }: Readonly<StatusProps>) {
 	return (

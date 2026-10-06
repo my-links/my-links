@@ -12,10 +12,10 @@ import {
 	type FormCollectionData,
 } from '~/components/dashboard/forms/form_collection_content';
 
-interface EditCollectionModalProps {
+type EditCollectionModalProps = {
 	onClose: () => void;
 	collection?: Data.Collection;
-}
+};
 
 export function EditCollectionModal({
 	onClose,

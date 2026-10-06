@@ -12,10 +12,10 @@ const DEFAULT_EXPANDED: Record<CollectionSection, boolean> = {
 	[COLLECTION_SECTION.PRIVATE]: true,
 };
 
-interface SectionCollapseStore {
+type SectionCollapseStore = {
 	expanded: Record<CollectionSection, boolean>;
 	toggleSection: (section: CollectionSection) => void;
-}
+};
 
 const STORAGE_KEY = 'section-collapse-preferences';
 

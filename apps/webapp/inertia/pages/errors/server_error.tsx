@@ -2,11 +2,11 @@ import { Trans } from '@lingui/react/macro';
 
 import { ErrorPage } from '~/components/errors/error_page';
 
-interface ServerErrorProps {
+type ServerErrorProps = {
 	error: {
 		message: string;
 	};
-}
+};
 
 const ServerError = ({ error }: Readonly<ServerErrorProps>) => (
 	<ErrorPage

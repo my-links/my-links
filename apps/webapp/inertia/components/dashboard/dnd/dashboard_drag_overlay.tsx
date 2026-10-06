@@ -12,9 +12,9 @@ import {
 	isLinkDragData,
 } from '~/lib/dnd/drag_data';
 
-interface DashboardDragOverlayProps {
+type DashboardDragOverlayProps = {
 	isShiftPressed: boolean;
-}
+};
 
 // Module-level so the array reference never changes across renders.
 const OVERLAY_MODIFIERS = [restrictToWindowEdges];

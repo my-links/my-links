@@ -6,10 +6,10 @@ import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardHeaderProps } from '~/components/dashboard/headers/dashboard_header';
 
-interface DashboardQuickActionProps extends DashboardHeaderProps {
+type DashboardQuickActionProps = DashboardHeaderProps & {
 	onHandleShareCollection: () => void;
 	onHandleUnfollow: () => void;
-}
+};
 
 export function DashboardQuickAction(
 	props: Readonly<DashboardQuickActionProps>
@@ -39,9 +39,9 @@ export function DashboardQuickAction(
 	);
 }
 
-interface QuickActionsContentProps extends DashboardQuickActionProps {
+type QuickActionsContentProps = DashboardQuickActionProps & {
 	onClose: () => void;
-}
+};
 
 function QuickActionsContent({
 	onCreateLink,

@@ -5,15 +5,15 @@ export type Layout = 'list' | 'grid' | 'masonry' | 'compact';
 
 const DEFAULT_LAYOUT = 'list';
 
-interface LayoutsState {
+type LayoutsState = {
 	[key: string]: Layout;
-}
+};
 
-interface LayoutStore {
+type LayoutStore = {
 	layouts: LayoutsState;
 	setLayoutForKey: (key: string, layout: Layout) => void;
 	getLayoutForKey: (key: string) => Layout;
-}
+};
 
 const STORAGE_KEY = 'layout-preferences';
 

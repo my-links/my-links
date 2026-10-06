@@ -12,10 +12,10 @@ import {
 	type FormLinkData,
 } from '~/components/dashboard/forms/form_link_content';
 
-interface CreateLinkModalProps {
+type CreateLinkModalProps = {
 	onClose: () => void;
 	collectionId?: number;
-}
+};
 
 export function CreateLinkModal({
 	onClose,

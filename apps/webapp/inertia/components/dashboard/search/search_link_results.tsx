@@ -4,12 +4,12 @@ import { Trans } from '@lingui/react/macro';
 import type { FuzzyMatch } from '~/lib/fuzzy_links';
 import { SearchLinkResult } from '~/components/dashboard/search/search_link_result';
 
-interface SearchLinkResultsProps {
+type SearchLinkResultsProps = {
 	results: FuzzyMatch<Data.Link>[];
 	selectedIndex: number;
 	handleResultClick: (link: Data.Link) => void;
 	onCloseModal: () => void;
-}
+};
 
 export const SearchLinkResults = ({
 	results,

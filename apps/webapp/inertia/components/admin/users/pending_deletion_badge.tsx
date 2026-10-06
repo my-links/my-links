@@ -4,10 +4,10 @@ import { Trans } from '@lingui/react/macro';
 import { cn } from '~/lib/cn';
 import { formatDate } from '~/lib/format';
 
-interface PendingDeletionBadgeProps {
+type PendingDeletionBadgeProps = {
 	pendingDeletionAt: string | null;
 	requestedByAdmin: boolean;
-}
+};
 
 const PENDING_DELETION_CLASS =
 	'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';

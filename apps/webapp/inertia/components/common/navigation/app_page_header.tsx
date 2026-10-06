@@ -4,9 +4,9 @@ import { Link } from '@adonisjs/inertia/react';
 
 import { AccountMenu } from '~/components/common/navigation/account_menu';
 
-interface AppPageHeaderProps {
+type AppPageHeaderProps = {
 	title: ReactNode;
-}
+};
 
 /**
  * Slim navigation bar for app pages that have no sidebar of their own

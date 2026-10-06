@@ -1,13 +1,13 @@
 import { cn } from '~/lib/cn';
 
-interface LifecycleSectionProps {
+type LifecycleSectionProps = {
 	verb: string;
 	icon: string;
 	title: React.ReactNode;
 	description: React.ReactNode;
 	isLast?: boolean;
 	children?: React.ReactNode;
-}
+};
 
 export function LifecycleSection({
 	verb,

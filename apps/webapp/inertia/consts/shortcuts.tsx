@@ -3,16 +3,16 @@ import { Trans } from '@lingui/react/macro';
 
 import type { KEYS } from '~/consts/keys';
 
-interface Shortcut {
+type Shortcut = {
 	keys: readonly (keyof typeof KEYS)[];
 	label: ReactNode;
-}
+};
 
-interface ShortcutSection {
+type ShortcutSection = {
 	id: string;
 	title: ReactNode;
 	shortcuts: readonly Shortcut[];
-}
+};
 
 // Kept apart from `KEYS`, which also holds internal key names the user never
 // presses as a shortcut. Referencing its entries keeps the combos shown here

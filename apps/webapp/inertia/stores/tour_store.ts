@@ -3,14 +3,14 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
-interface TourStore {
+type TourStore = {
 	hasCompletedDashboardTour: boolean;
 	run: boolean;
 	stepIndex: number;
 	startTour: () => void;
 	advanceStep: (stepIndex: number) => void;
 	stopTour: () => void;
-}
+};
 
 const STORAGE_KEY = 'tour-preferences';
 

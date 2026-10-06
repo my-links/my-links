@@ -18,9 +18,9 @@ import { useFlashToast } from '~/hooks/use_flash_toast';
 import { usePageTransition } from '~/hooks/use_page_transition';
 import { AnnouncementBanner } from '~/components/common/announcement_banner';
 
-interface BaseLayoutProps {
+type BaseLayoutProps = {
 	children: React.ReactNode;
-}
+};
 
 export function BaseLayout({ children }: Readonly<BaseLayoutProps>) {
 	const { props } = usePage<PageProps & { locale: Locale }>();

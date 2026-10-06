@@ -6,9 +6,9 @@ import { BaseLayout } from '~/layouts/base_layout';
 import { AccountMenu } from '~/components/common/navigation/account_menu';
 import { GuestAuthActions } from '~/components/common/navigation/guest_auth_actions';
 
-interface SharedLayoutProps {
+type SharedLayoutProps = {
 	children: ReactNode;
-}
+};
 
 /**
  * Shell for a publicly shared collection: logo, sign-in bar for a visitor or

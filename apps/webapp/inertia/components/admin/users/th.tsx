@@ -2,11 +2,11 @@ import { PropsWithChildren } from 'react';
 
 import { cn } from '~/lib/cn';
 
-interface ThProps extends PropsWithChildren {
+type ThProps = PropsWithChildren & {
 	reversed: boolean;
 	sorted: boolean;
 	onSort(): void;
-}
+};
 
 export function Th({ children, reversed, sorted, onSort }: Readonly<ThProps>) {
 	const iconClass = sorted

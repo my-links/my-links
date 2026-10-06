@@ -16,7 +16,7 @@ export type FormLinkData = {
 
 const COLLECTION_SEARCH_THRESHOLD = 6;
 
-interface FormLinkContentProps {
+type FormLinkContentProps = {
 	data: FormLinkData;
 	setData: <TKey extends keyof FormLinkData>(
 		name: TKey,
@@ -25,7 +25,7 @@ interface FormLinkContentProps {
 	errors?: Record<string, string | string[]>;
 	collections: Data.Collection[];
 	disableInputs?: boolean;
-}
+};
 
 export const FormLinkContent = ({
 	data,
