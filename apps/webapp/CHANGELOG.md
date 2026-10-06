@@ -1,5 +1,33 @@
 # Changelog
 
+## [5.5.0](https://github.com/my-links/my-links/compare/webapp-v5.4.0...webapp-v5.5.0) (2026-10-06)
+
+### Features
+
+* **webapp:** add an admin page for favicon store aggregates and maintenance ([543403e](https://github.com/my-links/my-links/commit/543403ee452460ee2774e31b7da30e3ff501b269))
+* **webapp:** land on the inbox when the user has no favorites ([1814fa6](https://github.com/my-links/my-links/commit/1814fa69fc1bf569ec22b5eea06203471643ac9b))
+* **webapp:** let a user manually refresh their own link's favicon ([0df1339](https://github.com/my-links/my-links/commit/0df13393978395663a976e44934bbb14bfe921c5))
+* **webapp:** let users choose their default landing page ([4aeeee2](https://github.com/my-links/my-links/commit/4aeeee2750a6e6a3ef9332a026983b67c0d69b5e))
+* **webapp:** persist favicons in a content-addressed disk store ([9ac7ab9](https://github.com/my-links/my-links/commit/9ac7ab9714f161e82ae03f930c7467b782ca457d))
+* **webapp:** resolve favicons at write time, GET becomes a pure store read ([537acf3](https://github.com/my-links/my-links/commit/537acf360648dc05eb24f394ce86a33f11cc073a))
+* **webapp:** show a local monogram instead of a generic placeholder ([1cfcac0](https://github.com/my-links/my-links/commit/1cfcac01db91b13041bb05bb8d06d5ce889ce1d8))
+* **webapp:** track favicon resolution failures and add a forced re-resolve path ([297aaf0](https://github.com/my-links/my-links/commit/297aaf075ce7ed6af3d93fca25285d428e459a2a))
+
+### Bug Fixes
+
+* **webapp:** accept link URLs up to 8192 characters ([85aa394](https://github.com/my-links/my-links/commit/85aa394a5ac25dfc765a6cf1dae1a8f861f5a28c))
+* **webapp:** cache favicons per origin instead of per URL ([73a5073](https://github.com/my-links/my-links/commit/73a50735284f3d531d89401320d0f2cc08978fc2))
+* **webapp:** cap favicon image downloads mid-stream, sandbox the response ([10e27da](https://github.com/my-links/my-links/commit/10e27da1b946ba4b009c25b53699761fcf5850d4))
+* **webapp:** correct favicon URL resolution and add candidate fallback chain ([902e4fc](https://github.com/my-links/my-links/commit/902e4fcf7503b6ec010495da5bb04c0fdad1fbc9))
+* **webapp:** encode the link url in favicon requests ([3a85d10](https://github.com/my-links/my-links/commit/3a85d10b101f130eed43b25aa0b7c196450a60eb))
+* **webapp:** follow meta-refresh redirects when resolving favicons ([0888c68](https://github.com/my-links/my-links/commit/0888c68d58d99c28d53cdf6fcf71fc61eaf10935))
+* **webapp:** reword the favicon admin flash messages ([199449b](https://github.com/my-links/my-links/commit/199449bc59117a5a5459016fdfa9c0f36cbb192b))
+* **webapp:** stop collection add-link button from navigating to the collection ([842310a](https://github.com/my-links/my-links/commit/842310a5b4e875f297cb9554ba973a013e5cf961))
+* **webapp:** stop the browser from serving a stale or still-resolving favicon ([9addc37](https://github.com/my-links/my-links/commit/9addc370dccb0619ff37c03bca3613c69c9acadc))
+* **webapp:** throttle and bound outbound favicon fetches ([9f1d133](https://github.com/my-links/my-links/commit/9f1d1331cad0a0776add399a498f65d9d863146e))
+* **webapp:** translate favicon admin strings and drop em-dashes from UI copy ([a18046f](https://github.com/my-links/my-links/commit/a18046fc0f9ab760dd43025a4423e8a55c3096a2))
+* **webapp:** type the link owner id as a user id ([92593ee](https://github.com/my-links/my-links/commit/92593eebc8b36638319b1a52add6784c97326800))
+
 ## [5.4.0](https://github.com/my-links/my-links/compare/webapp-v5.3.0...webapp-v5.4.0) (2026-09-04)
 
 ### Features
