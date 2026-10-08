@@ -23,3 +23,16 @@ node ace user:list --unverified
 Passwords are only ever asked for, never read from a flag: an argument would sit in the shell history and in the process list of every user on the machine. Deleting an account likewise always asks for its address to be retyped; there is no flag to skip that, and nothing here can undo it.
 
 Two refusals are deliberate. A provider cannot be unlinked when it is the only way into the account, and the last administrator of an instance cannot be demoted; both would produce a state no page in the interface can repair.
+
+## Maintenance
+
+These sweeps are meant to run on a schedule, not by hand. The Docker image schedules them inside the application itself, in your timezone (`TZ`, `UTC` by default). A native deployment runs them from system cron instead, see [Docker & compose](/self-hosting/docker#native-deployment).
+
+| Command                 | Schedule (Docker) | What it does                                                                                                                                                         |
+| ----------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `account:flag-inactive` | daily, 03:00      | Starts the deletion grace period of every member account unseen for 365 days (counted from creation for an account that never signed in). Administrators are skipped |
+| `account:prune-deleted` | daily, 03:30      | Permanently deletes the accounts whose 30-day grace period has run out, with everything they own                                                                     |
+| `favicon:purge-orphans` | daily, 04:00      | Deletes the cached favicons no link refers to any more, and the stored image files no cached favicon uses                                                            |
+| `activity:prune`        | daily, 04:30      | Deletes activity journal rows older than 90 days                                                                                                                     |
+
+`activity:prune` only touches the activity journal (what members and administrators did to collections, links and account data). Authentication rows are security evidence and are never pruned.

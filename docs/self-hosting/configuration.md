@@ -2,29 +2,32 @@
 
 `.env.example` lives at the repository root. Start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
 
-Where the actual `.env` goes depends on how you run the app. Docker Compose reads it from the repository root, next to the compose file. Native runs (migrations, `node ace`, the dev server) expect it inside `apps/webapp`, since that's where the `node ace` CLI itself resolves it from:
+In a repository checkout the actual `.env` lives at the root too, next to the compose file. Docker Compose and every `just` recipe read it there:
 
 ```bash
-cp .env.example apps/webapp/.env
+cp .env.example .env
 ```
+
+AdonisJS itself looks for `.env` inside `apps/webapp`. A bare `node ace ...` run from `apps/webapp` outside `just` must be prefixed with `ENV_PATH=../..` (or have it exported), otherwise it does not find your variables. A built app (`apps/webapp/build`) reads `build/.env`, see [Docker & compose](/self-hosting/docker#native-deployment).
 
 ## Required variables
 
-| Variable                                                          | Notes                                                            |
-| ----------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `NODE_ENV`                                                        | `development`, `production`, or `test`                           |
-| `PORT`                                                            | Port the application listens on, e.g. `3333`                     |
-| `APP_KEY`                                                         | Application secret key, generate with `openssl rand -base64 32` |
-| `HOST`                                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`            |
-| `LOG_LEVEL`                                                       | e.g. `info`, `debug`                                             |
-| `APP_URL`                                                         | Public application URL, e.g. `https://your-domain.com`           |
-| `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_PASSWORD` / `DB_DATABASE` | PostgreSQL connection                                            |
+| Variable                                          | Notes                                                           |
+| ------------------------------------------------- | --------------------------------------------------------------- |
+| `NODE_ENV`                                        | `development`, `production`, or `test`                          |
+| `PORT`                                            | Port the application listens on, e.g. `3333`                    |
+| `APP_KEY`                                         | Application secret key, generate with `openssl rand -base64 32` |
+| `HOST`                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`           |
+| `LOG_LEVEL`                                       | e.g. `info`, `debug`                                            |
+| `APP_URL`                                         | Public application URL, e.g. `https://your-domain.com`          |
+| `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_DATABASE` | PostgreSQL connection                                           |
 
 ## Optional variables
 
-| Variable                                    | Notes                                                                                      |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `TZ`                                        | Timezone, e.g. `UTC`                                                                       |
+| Variable                                    | Notes                                                                                     |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `DB_PASSWORD`                               | PostgreSQL password, may be omitted for a passwordless local database                     |
+| `TZ`                                        | Timezone, e.g. `UTC`                                                                      |
 | `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups, see [Authentication](/self-hosting/authentication) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                        |
 | `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                  |
@@ -72,12 +75,12 @@ Setting any one of them commits you to a complete configuration: `SMTP_HOST` and
 
 Four behaviors switch on or off depending on whether mail is configured:
 
-| Behavior                    | Without outgoing mail                                      | With outgoing mail                                                        |
-| --------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
-| Signing in with a password  | No confirmation required                                   | A confirmed address is required; the login page offers to resend the link |
+| Behavior                    | Without outgoing mail                                     | With outgoing mail                                                        |
+| --------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Signing in with a password  | No confirmation required                                  | A confirmed address is required; the login page offers to resend the link |
 | `/forgot-password`          | Unavailable: reset with `node ace user:reset-password`    | Sends a self-service reset link                                           |
 | Changing your email address | Unavailable from the settings page: use `node ace user:*` | Two-party confirmation: new address confirms, old address is notified     |
-| Admin-issued password reset | Console only: `node ace user:reset-password --link`        | The admin area can email the reset link directly                          |
+| Admin-issued password reset | Console only: `node ace user:reset-password --link`       | The admin area can email the reset link directly                          |
 
 ### In development
 
