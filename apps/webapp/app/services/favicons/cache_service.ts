@@ -9,6 +9,7 @@ import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
 
 export type FaviconMetadata = {
 	contentHash: string;
@@ -300,7 +301,8 @@ export class CacheService {
 			error instanceof Error &&
 			error.cause instanceof Error &&
 			(error.cause instanceof FaviconNotFoundException ||
-				error.cause instanceof UrlBlockedException)
+				error.cause instanceof UrlBlockedException ||
+				error.cause instanceof UnresolvableHostException)
 		) {
 			return error.cause;
 		}

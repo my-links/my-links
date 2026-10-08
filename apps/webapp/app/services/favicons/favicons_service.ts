@@ -6,7 +6,6 @@ import { decodeDataUri } from '#lib/favicons/data_uri';
 import { sniffImageType } from '#lib/favicons/image_sniffer';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import type { FaviconCandidate } from '#lib/favicons/favicon_candidate_resolver';
 import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
@@ -29,9 +28,7 @@ export class FaviconService {
 	async getFavicon(url: string): Promise<Favicon> {
 		const normalizedUrl = this.normalizeUrl(url);
 
-		if (!(await this.urlValidator.isUrlAllowed(normalizedUrl))) {
-			throw new UrlBlockedException(`URL is blocked: ${normalizedUrl}`);
-		}
+		await this.urlValidator.assertUrlAllowed(normalizedUrl);
 
 		const { candidates, documentFailure } =
 			await this.faviconCandidateService.resolveCandidates(normalizedUrl);

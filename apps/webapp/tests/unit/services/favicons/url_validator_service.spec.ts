@@ -93,3 +93,41 @@ test.group('UrlValidatorService.isUrlAllowed', () => {
 		);
 	});
 });
+
+test.group('UrlValidatorService.checkUrl', () => {
+	test('should report an unresolvable hostname as unresolvable', async ({
+		assert,
+	}) => {
+		const validator = validatorResolvingTo({});
+
+		assert.equal(
+			await validator.checkUrl('http://does-not-exist.example/'),
+			'unresolvable'
+		);
+	});
+
+	test('should report a private address as blocked', async ({ assert }) => {
+		const validator = validatorResolvingTo({
+			'metadata.example': [{ address: '169.254.169.254', family: 4 }],
+		});
+
+		assert.equal(
+			await validator.checkUrl('http://metadata.example/'),
+			'blocked'
+		);
+	});
+
+	test('should report a local domain as blocked', async ({ assert }) => {
+		const validator = validatorResolvingTo({});
+
+		assert.equal(await validator.checkUrl('http://nas.local/'), 'blocked');
+	});
+
+	test('should report a public address as allowed', async ({ assert }) => {
+		const validator = validatorResolvingTo({
+			'example.com': [{ address: '93.184.216.34', family: 4 }],
+		});
+
+		assert.equal(await validator.checkUrl('https://example.com/'), 'allowed');
+	});
+});

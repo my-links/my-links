@@ -2,8 +2,13 @@ import dns from 'node:dns/promises';
 import { BlockList, isIP } from 'node:net';
 import logger from '@adonisjs/core/services/logger';
 
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
+import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
+
 type DnsLookupResult = { address: string; family: number };
 type HostnameResolver = (hostname: string) => Promise<DnsLookupResult[]>;
+
+export type UrlCheckOutcome = 'allowed' | 'blocked' | 'unresolvable';
 
 const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
 
@@ -36,40 +41,54 @@ export class UrlValidatorService {
 	}
 
 	async isUrlAllowed(url: string): Promise<boolean> {
+		return (await this.checkUrl(url)) === 'allowed';
+	}
+
+	async assertUrlAllowed(url: string): Promise<void> {
+		const outcome = await this.checkUrl(url);
+		if (outcome === 'blocked') {
+			throw new UrlBlockedException(`URL is blocked: ${url}`);
+		}
+		if (outcome === 'unresolvable') {
+			throw new UnresolvableHostException(`Host could not be resolved: ${url}`);
+		}
+	}
+
+	async checkUrl(url: string): Promise<UrlCheckOutcome> {
 		const parsedUrl = this.tryParseUrl(url);
 		if (!parsedUrl) {
-			return false;
+			return 'blocked';
 		}
 
 		if (!ALLOWED_PROTOCOLS.has(parsedUrl.protocol)) {
 			logger.debug(`Blocked non-http(s) URL: ${url}`);
-			return false;
+			return 'blocked';
 		}
 
 		const hostname = this.stripBrackets(parsedUrl.hostname.toLowerCase());
 
 		if (this.isLocalDomain(hostname)) {
 			logger.debug(`Blocked local domain URL: ${url}`);
-			return false;
+			return 'blocked';
 		}
 
 		if (!this.isIpLiteral(hostname) && !this.isFullyQualified(hostname)) {
 			logger.debug(`Blocked non-FQDN hostname: ${url}`);
-			return false;
+			return 'blocked';
 		}
 
 		const resolvedAddresses = await this.resolveSafely(hostname);
 		if (resolvedAddresses.length === 0) {
 			logger.debug(`Blocked unresolvable hostname: ${url}`);
-			return false;
+			return 'unresolvable';
 		}
 
 		if (resolvedAddresses.some((resolved) => this.isBlockedAddress(resolved))) {
 			logger.debug(`Blocked internal/private target: ${url}`);
-			return false;
+			return 'blocked';
 		}
 
-		return true;
+		return 'allowed';
 	}
 
 	private tryParseUrl(url: string): URL | undefined {
