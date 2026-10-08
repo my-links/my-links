@@ -15,6 +15,7 @@ export const OAUTH_REFUSAL_REASON = {
 	MISSING_EMAIL: 'missing_email',
 	UNVERIFIED_EMAIL: 'unverified_email',
 	EMAIL_ALREADY_REGISTERED: 'email_already_registered',
+	ADMIN_DELETION_PENDING: 'admin_deletion_pending',
 } as const;
 
 export type OauthRefusalReason =

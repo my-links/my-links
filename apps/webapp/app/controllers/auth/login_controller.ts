@@ -10,7 +10,10 @@ import { SessionService } from '#services/user/session_service';
 import { loginValidator } from '#validators/auth/login_validator';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
-import { AccountReactivationService } from '#services/auth/account_reactivation_service';
+import {
+	PendingDeletionGuard,
+	PENDING_DELETION_OUTCOME,
+} from '#services/auth/pending_deletion_guard';
 import {
 	CredentialsAuthService,
 	INVALID_CREDENTIALS_MESSAGE,
@@ -21,7 +24,7 @@ export default class LoginController {
 	constructor(
 		protected readonly credentialsAuthService: CredentialsAuthService,
 		protected readonly emailVerificationService: EmailVerificationService,
-		protected readonly accountReactivationService: AccountReactivationService,
+		protected readonly pendingDeletionGuard: PendingDeletionGuard,
 		protected readonly authEventService: AuthEventService,
 		protected readonly sessionService: SessionService
 	) {}
@@ -52,33 +55,18 @@ export default class LoginController {
 		// verified, is an account enumeration oracle.
 		await this.emailVerificationService.assertCanSignIn(user, origin);
 
-		// Same placement, same reasoning: a disabled account only reveals itself
-		// once the password that unlocks it has already been proven right.
-		//
-		// An administrator's deletion is never reversible by logging back in:
-		// offering the reactivation screen here would let the very account it
-		// targets undo the decision. It is answered exactly like a wrong
-		// password: same message, same journal shape as any other failed
-		// attempt, nothing that tells the visitor the account exists at all,
-		// let alone why it is unreachable.
-		if (user.pendingDeletionAt && user.pendingDeletionRequestedById) {
-			await this.authEventService.record({
-				type: AUTH_EVENT_TYPE.LOGIN_BLOCKED_ADMIN_DELETION,
-				userId: user.id,
-				...origin,
-			});
-
+		const pendingDeletionOutcome = await this.pendingDeletionGuard.evaluate(
+			user,
+			ctx.session,
+			origin
+		);
+		if (pendingDeletionOutcome === PENDING_DELETION_OUTCOME.BLOCKED_BY_ADMIN) {
 			throw new errors.E_INVALID_CREDENTIALS(INVALID_CREDENTIALS_MESSAGE);
 		}
 
-		if (user.pendingDeletionAt) {
-			await this.authEventService.record({
-				type: AUTH_EVENT_TYPE.LOGIN_BLOCKED_PENDING_DELETION,
-				userId: user.id,
-				...origin,
-			});
-			this.accountReactivationService.armPendingConfirmation(ctx.session, user);
-
+		if (
+			pendingDeletionOutcome === PENDING_DELETION_OUTCOME.REACTIVATION_REQUIRED
+		) {
 			return ctx.response.redirectToNamedRoute('auth.reactivate');
 		}
 

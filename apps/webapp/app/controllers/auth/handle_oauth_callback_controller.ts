@@ -19,6 +19,14 @@ import {
 	OauthIntentService,
 } from '#services/auth/oauth_intent_service';
 import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
+import {
+	PendingDeletionGuard,
+	PENDING_DELETION_OUTCOME,
+} from '#services/auth/pending_deletion_guard';
+import {
+	OauthAuthenticationRefusedException,
+	OAUTH_REFUSAL_REASON,
+} from '#exceptions/auth/oauth_authentication_refused_exception';
 
 /**
  * The subset of the Ally driver this controller reads after a callback.
@@ -62,6 +70,7 @@ export default class HandleOauthCallbackController {
 		protected readonly oauthIntentService: OauthIntentService,
 		protected readonly providerLinkService: ProviderLinkService,
 		protected readonly oauthAccountService: OauthAccountService,
+		protected readonly pendingDeletionGuard: PendingDeletionGuard,
 		protected readonly googleAuthConfigService: GoogleAuthConfigService
 	) {}
 
@@ -155,6 +164,23 @@ export default class HandleOauthCallbackController {
 	private async signIn(ctx: HttpContext, identity: OauthIdentity) {
 		const origin = resolveRequestOrigin(ctx);
 		const user = await this.oauthAccountService.authenticate(identity, origin);
+
+		const pendingDeletionOutcome = await this.pendingDeletionGuard.evaluate(
+			user,
+			ctx.session,
+			origin
+		);
+		if (pendingDeletionOutcome === PENDING_DELETION_OUTCOME.BLOCKED_BY_ADMIN) {
+			throw new OauthAuthenticationRefusedException(
+				OAUTH_REFUSAL_REASON.ADMIN_DELETION_PENDING
+			);
+		}
+
+		if (
+			pendingDeletionOutcome === PENDING_DELETION_OUTCOME.REACTIVATION_REQUIRED
+		) {
+			return ctx.response.redirectToNamedRoute('auth.reactivate');
+		}
 
 		await ctx.auth.use('web').login(user);
 		await this.sessionService.createAuthSession(user, ctx.session, origin);
