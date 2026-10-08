@@ -3,7 +3,6 @@ import logger from '@adonisjs/core/services/logger';
 
 import { describeFailure } from '#lib/favicons/failure_summary';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { webAppManifestValidator } from '#validators/favicons/web_app_manifest_validator';
 import {
 	parseDocument,
@@ -31,10 +30,7 @@ export type CandidateResolution = {
 
 @inject()
 export class FaviconCandidateService {
-	constructor(
-		private readonly urlValidator: UrlValidatorService,
-		private readonly faviconHttpClient: FaviconHttpClient
-	) {}
+	constructor(private readonly faviconHttpClient: FaviconHttpClient) {}
 
 	// Tiers from most to least authoritative: link icons, manifest icons, tile/og images, then /favicon.ico.
 	async resolveCandidates(normalizedUrl: string): Promise<CandidateResolution> {
@@ -87,11 +83,8 @@ export class FaviconCandidateService {
 
 	private async fetchWebAppManifest(manifestUrl: string) {
 		try {
-			if (!(await this.urlValidator.isUrlAllowed(manifestUrl))) {
-				return undefined;
-			}
-
-			const response = await this.faviconHttpClient.fetchOnce(manifestUrl);
+			const response =
+				await this.faviconHttpClient.fetchWithUserAgent(manifestUrl);
 			if (!response.ok) {
 				return undefined;
 			}

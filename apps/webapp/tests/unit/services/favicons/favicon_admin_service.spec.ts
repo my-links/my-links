@@ -9,6 +9,7 @@ import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
 import { CacheService } from '#services/favicons/cache_service';
+import { ImpitFetcher } from '#services/favicons/impit_fetcher';
 import { FaviconService } from '#services/favicons/favicons_service';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
@@ -22,12 +23,15 @@ import { FaviconResolutionService } from '#services/favicons/favicon_resolution_
 
 class FakeFaviconService extends FaviconService {
 	constructor(private readonly outcome: (url: string) => Promise<Favicon>) {
-		const faviconHttpClient = new FaviconHttpClient(new UrlValidatorService());
+		const faviconHttpClient = new FaviconHttpClient(
+			new UrlValidatorService(),
+			new ImpitFetcher()
+		);
 		super(
 			new UrlValidatorService(),
 			faviconHttpClient,
 			new FaviconImageProcessor(),
-			new FaviconCandidateService(new UrlValidatorService(), faviconHttpClient)
+			new FaviconCandidateService(faviconHttpClient)
 		);
 	}
 
