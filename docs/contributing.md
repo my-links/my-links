@@ -32,11 +32,13 @@ MyLinks is a pnpm workspace:
 
 ### Environment
 
-`.env.example` lives at the repository root; `node ace` and migrations expect the actual `.env` inside `apps/webapp`; see [Configuration](/self-hosting/configuration) for the full list of variables.
+`.env.example` lives at the repository root, and so does the actual `.env`. Docker Compose and every `just` recipe read it there; see [Configuration](/self-hosting/configuration) for the full list of variables.
 
 ```bash
-cp .env.example apps/webapp/.env
+cp .env.example .env
 ```
+
+AdonisJS itself looks for `.env` inside `apps/webapp`. The `Justfile` exports `ENV_PATH=../..` to point it at the root, so a bare `node ace ...` run from `apps/webapp` outside `just` needs the same prefix (or an `export ENV_PATH=../..` in your shell).
 
 ### Running with Docker
 
@@ -52,17 +54,17 @@ This starts a PostgreSQL container, resets the database and applies every migrat
 
 If you prefer a locally installed PostgreSQL:
 
-1. Make sure PostgreSQL is running, and configure `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` and `DB_DATABASE` in `apps/webapp/.env`.
+1. Make sure PostgreSQL is running, and configure `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` and `DB_DATABASE` in the root `.env`.
 2. Reset the database and apply migrations:
 
    ```bash
-   cd apps/webapp && node ace migration:fresh
+   cd apps/webapp && ENV_PATH=../.. node ace migration:fresh
    ```
 
-3. Start the development server:
+3. Start the development server, from the repository root:
 
    ```bash
-   pnpm run dev:webapp
+   ENV_PATH=../.. pnpm run dev:webapp
    ```
 
 The server is reachable at `http://localhost:3333` (or the port set in your `.env`).
@@ -81,23 +83,34 @@ See [`apps/extension/README.md`](https://github.com/my-links/my-links/blob/main/
 
 Run from the repository root:
 
-| Command                                 | What it does                                                |
-| --------------------------------------- | ----------------------------------------------------------- |
-| `just dev`                              | Database container + migrations + webapp dev server         |
-| `just fresh`                            | Reset the database and re-run every migration               |
-| `just seed`                             | Seed the database                                           |
-| `just down`                             | Stop the dev and production containers                      |
-| `just prod`                             | Run the production compose stack locally                    |
-| `just extract` / `just compile`         | Extract and compile the i18n catalogs                       |
-| `just test`                             | Dev stack + every suite, unit through browser               |
-| `just release`                          | Cut a release: checks, then `just test`, then the build    |
-| `pnpm run dev:webapp` / `dev:extension` | Dev server for one workspace                                |
-| `pnpm run build`                        | Build every workspace                                       |
-| `pnpm run test`                         | Webapp test suite (needs PostgreSQL on the configured host) |
-| `pnpm run test:browser`                 | Browser suite for the auth journey, see below              |
-| `pnpm run check`                        | Lint, format check and typecheck across the monorepo        |
+| Command                                           | What it does                                                          |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| `just dev`                                        | Database container + migrations + webapp dev server                   |
+| `just fresh`                                      | Reset the database and re-run every migration                         |
+| `just seed`                                       | Seed the database                                                     |
+| `just down`                                       | Stop the dev and production containers                                |
+| `just prod`                                       | Build and run the production compose stack locally                    |
+| `just prod-pull`                                  | Run the production compose stack from the published image             |
+| `just build-image`                                | Build the Docker image the release ships, as `my-links:release-check` |
+| `just extract` / `just compile`                   | Extract and compile the i18n catalogs                                 |
+| `just tuyau`                                      | Regenerate the Tuyau client types, then format the repository         |
+| `just docs` / `just docs-preview`                 | Docs dev server / production build served locally                     |
+| `just test`                                       | Dev stack + every suite, unit through browser                         |
+| `just test-unit-functional`                       | Unit and functional suites only, against the running database         |
+| `just test-e2e`                                   | Browser suite only                                                    |
+| `just release`                                    | Cut a release: runs `pnpm run release:webapp` (release-it)            |
+| `just kill`                                       | Stop a dev server left running in the background                      |
+| `just update`                                     | Interactively bump dependencies, then reinstall                       |
+| `just docker-weight` / `just dw`                  | Print the size of the locally built production image                  |
+| `pnpm run dev:webapp` / `dev:extension`           | Dev server for one workspace                                          |
+| `pnpm run build`                                  | Build every workspace                                                 |
+| `pnpm run test`                                   | Webapp test suite (needs PostgreSQL on the configured host)           |
+| `pnpm --filter @my-links/webapp run test:browser` | Browser suite for the auth journey, see below                         |
+| `pnpm run check`                                  | Lint, format check and typecheck across the monorepo                  |
 
-`just test` brings the dev containers up and runs `migration:fresh` before the suites, so it **wipes whatever is in the development database**. That also applies to `just release`, which runs it. This is also what the [CI workflow](https://github.com/my-links/my-links/blob/main/.github/workflows/ci.yml) runs on every pull request and push to `main`.
+`just test` brings the dev containers up and runs `migration:fresh` before the suites, so it **wipes whatever is in the development database**. The [CI workflow](https://github.com/my-links/my-links/blob/main/.github/workflows/ci.yml) does not call it: on every pull request and push to `main` it runs `pnpm run check`, then `pnpm run test` and `pnpm run test:browser` against a fresh database of its own.
+
+`just release` does not run the tests and leaves the development database alone. release-it first runs `pnpm run check`, `pnpm run build` and `just build-image`, so a broken check, build or Dockerfile fails before the tag and the release exist.
 
 ### Browser test suite
 
@@ -110,14 +123,14 @@ It needs two things a plain `pnpm run test` doesn't:
 
 No separate build or dev server is required: `node ace test` boots the app the same way `node ace serve` does, embedded Vite dev middleware included, and serves real pages to the browser directly from source. If `apps/webapp/public/assets` exists from a previous `pnpm run build`, remove it first: its presence makes the app try to read a production manifest instead, which fails immediately.
 
-With mailpit up and Chromium installed, `pnpm run test:browser` (webapp workspace) runs it. `pnpm run test` never includes it; the two suites are deliberately kept apart so a routine `pnpm run test` never needs mailpit or a browser.
+With mailpit up and Chromium installed, `pnpm --filter @my-links/webapp run test:browser` runs it. `pnpm run test` never includes it; the two suites are deliberately kept apart so a routine `pnpm run test` never needs mailpit or a browser.
 
 ## Pull requests
 
 1. Fork the repository and create your branch from `main`.
 2. Run `pnpm run check` (lint, format check and typecheck across the monorepo) and make sure it passes.
 3. Add tests for new features or bug fixes, co-located with the code they cover.
-4. Ensure existing tests still pass: `pnpm run test` for the webapp (needs PostgreSQL), and `pnpm --filter @my-links/extension run check` when touching the extension (it runs the suite against both the Chromium and Firefox targets). If your change touches the auth UI, also run `pnpm run test:browser` (see above): it isn't part of `pnpm run test` and reviewers won't assume it ran otherwise.
+4. Ensure existing tests still pass: `pnpm run test` for the webapp (needs PostgreSQL), and `pnpm --filter @my-links/extension run check` when touching the extension (it runs the suite against both the Chromium and Firefox targets). If your change touches the auth UI, also run `pnpm --filter @my-links/webapp run test:browser` (see above): it isn't part of `pnpm run test` and reviewers won't assume it ran otherwise.
 5. Write commit messages in the imperative mood, one logical change per commit.
 6. Clearly describe the purpose of your pull request, with relevant issue numbers if applicable.
 
