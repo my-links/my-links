@@ -12,7 +12,7 @@ just: `pnpm run release:extension` → tag push → GitHub Action → store. The
 steps below are kept as reference for rotating a secret or re-authorizing
 after a credential expires.
 
-Both listings already exist (Chrome at v1.1.0, Firefox at v1.0.0), so `wxt
+Both listings already exist, so `wxt
 submit` will **update** them directly; no manual "create a new listing"
 step needed.
 
