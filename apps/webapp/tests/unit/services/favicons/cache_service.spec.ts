@@ -1,10 +1,12 @@
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { DateTime } from 'luxon';
 import { test } from '@japa/runner';
-import { mkdtemp } from 'node:fs/promises';
+import { mkdtemp, rm } from 'node:fs/promises';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import { cache } from '#lib/cache';
+import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
 import { CacheService } from '#services/favicons/cache_service';
@@ -87,6 +89,92 @@ test.group('CacheService.getOrSetFavicon', (group) => {
 		});
 
 		assert.isTrue(afterEviction.buffer.equals(original.buffer));
+	});
+});
+
+test.group('CacheService.getOrSetFavicon missing bytes', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	async function resolveThenLoseBytes(url: string) {
+		const storageDir = await mkdtemp(join(tmpdir(), 'favicon-missing-bytes-'));
+		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		await cacheService.getOrSetFavicon(url, () =>
+			Promise.resolve(fakeFavicon(url))
+		);
+		await rm(storageDir, { recursive: true, force: true });
+		return cacheService;
+	}
+
+	test("should re-run the resolver when the stored entry's bytes are missing", async ({
+		assert,
+	}) => {
+		const url = `https://missing-bytes-rerun-test-${Date.now()}.example`;
+		const cacheService = await resolveThenLoseBytes(url);
+		const fresh: Favicon = {
+			buffer: Buffer.from('fresh-icon-bytes'),
+			url,
+			type: 'image/png',
+			size: 16,
+		};
+
+		const healed = await cacheService.getOrSetFavicon(url, () =>
+			Promise.resolve(fresh)
+		);
+
+		assert.isTrue(healed.buffer.equals(fresh.buffer));
+		assert.equal(healed.type, 'image/png');
+	});
+
+	test('should update the existing row instead of creating a second one', async ({
+		assert,
+	}) => {
+		const url = `https://missing-bytes-row-test-${Date.now()}.example`;
+		const cacheService = await resolveThenLoseBytes(url);
+
+		await cacheService.getOrSetFavicon(url, () =>
+			Promise.resolve(fakeFavicon(`${url}/other`))
+		);
+
+		const entries = await FaviconEntry.query().where(
+			'origin',
+			normalizeFaviconOrigin(url)
+		);
+		assert.lengthOf(entries, 1);
+	});
+
+	test('should serve the healed bytes on the next call without re-running the resolver', async ({
+		assert,
+	}) => {
+		const url = `https://missing-bytes-next-test-${Date.now()}.example`;
+		const cacheService = await resolveThenLoseBytes(url);
+		const fresh = fakeFavicon(`${url}/fresh`);
+		await cacheService.getOrSetFavicon(url, () => Promise.resolve(fresh));
+
+		const second = await cacheService.getOrSetFavicon(url, () => {
+			throw new Error('factory should not run once the bytes are restored');
+		});
+
+		assert.isTrue(second.buffer.equals(fresh.buffer));
+	});
+
+	test('should clear a recorded failure once the bytes are healed', async ({
+		assert,
+	}) => {
+		const url = `https://missing-bytes-failure-test-${Date.now()}.example`;
+		const cacheService = await resolveThenLoseBytes(url);
+		const origin = normalizeFaviconOrigin(url);
+		await FaviconFailure.create({
+			origin,
+			reason: 'Stored favicon bytes missing',
+			failedAt: DateTime.now(),
+			attempts: 1,
+		});
+
+		await cacheService.getOrSetFavicon(url, () =>
+			Promise.resolve(fakeFavicon(url))
+		);
+
+		assert.isNull(await FaviconFailure.findBy('origin', origin));
 	});
 });
 

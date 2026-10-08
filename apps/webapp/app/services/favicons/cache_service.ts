@@ -45,6 +45,7 @@ export class CacheService {
 		}
 
 		try {
+			await this.evictMetadataWithMissingBytes(origin);
 			const metadata = await this.metadataCacheNs.getOrSet({
 				key: origin,
 				ttl: this.successTtl,
@@ -169,12 +170,16 @@ export class CacheService {
 		factory: () => Promise<Favicon>
 	): Promise<FaviconMetadata> {
 		const existingEntry = await FaviconEntry.findBy('origin', origin);
-		if (existingEntry) {
+		if (existingEntry && (await this.store.read(existingEntry.contentHash))) {
 			return this.metadataFromEntry(existingEntry);
 		}
 
 		const favicon = await factory();
 		const contentHash = await this.store.write(favicon.buffer);
+
+		if (existingEntry) {
+			return this.refreshEntry(existingEntry, favicon, contentHash);
+		}
 
 		try {
 			const entry = await FaviconEntry.create({
@@ -198,6 +203,35 @@ export class CacheService {
 				return this.metadataFromEntry(raceWinner);
 			}
 			throw error;
+		}
+	}
+
+	private async refreshEntry(
+		entry: FaviconEntry,
+		favicon: Favicon,
+		contentHash: string
+	): Promise<FaviconMetadata> {
+		entry.merge({
+			contentHash,
+			contentType: favicon.type,
+			byteSize: favicon.size,
+			source: 'scraped',
+			resolvedUrl: this.resolvedUrlOf(favicon),
+			resolvedAt: DateTime.now(),
+			etag: favicon.etag ?? null,
+			lastModified: favicon.lastModified ?? null,
+		});
+		await entry.save();
+		await this.clearFailure(entry.origin);
+		return this.metadataFromEntry(entry);
+	}
+
+	private async evictMetadataWithMissingBytes(origin: string): Promise<void> {
+		const cached = await this.metadataCacheNs.get<FaviconMetadata>({
+			key: origin,
+		});
+		if (cached && !(await this.store.read(cached.contentHash))) {
+			await this.metadataCacheNs.delete({ key: origin });
 		}
 	}
 
