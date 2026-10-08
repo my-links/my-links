@@ -124,19 +124,99 @@ Create a new link in a collection.
 **Response:**
 
 ```json
-[
-	{
-		"id": 1,
-		"name": "Favorite Link",
-		"description": "Link description",
-		"url": "https://example.com",
-		"favorite": true,
-		"clicks": 12,
-		"lastClickedAt": "2024-01-02T00:00:00.000Z",
-		"collectionIds": [1],
-		"authorId": 1,
-		"createdAt": "2024-01-01T00:00:00.000Z",
-		"updatedAt": "2024-01-01T00:00:00.000Z"
-	}
-]
+{
+	"data": [
+		{
+			"id": 1,
+			"name": "Favorite Link",
+			"description": "Link description",
+			"url": "https://example.com",
+			"favorite": true,
+			"clicks": 12,
+			"lastClickedAt": "2024-01-02T00:00:00.000Z",
+			"collectionIds": [1],
+			"authorId": 1,
+			"createdAt": "2024-01-01T00:00:00.000Z",
+			"updatedAt": "2024-01-01T00:00:00.000Z"
+		}
+	]
+}
 ```
+
+Each entry is a [Link object](/api/data-types#link-object).
+
+## Move link to another collection
+
+Removes the link from one of its collections and files it in another. Both collections must belong to the user.
+
+**Endpoint:** `PUT /api/v1/links/:id/collection`
+
+**Headers:**
+
+- `Authorization: Bearer <token>`
+- `Content-Type: application/json`
+
+**URL parameters:**
+
+- `id` (required): Link ID
+
+**Request body:**
+
+```json
+{
+	"fromCollectionId": 1,
+	"toCollectionId": 2
+}
+```
+
+**Fields:**
+
+- `fromCollectionId` (required): A collection currently holding the link
+- `toCollectionId` (required): The collection to move it to. If the link is already there, it is only removed from the source. Equal ids do nothing.
+
+**Response:**
+
+```json
+{
+	"message": "Link moved successfully"
+}
+```
+
+A link or collection that is not the user's returns `422`. A link that is not in `fromCollectionId` returns `409`.
+
+## Add link to a collection
+
+Files the link in one more collection, keeping the ones it already belongs to. The link is appended at the end of the collection.
+
+**Endpoint:** `POST /api/v1/links/:id/collections`
+
+**Headers:**
+
+- `Authorization: Bearer <token>`
+- `Content-Type: application/json`
+
+**URL parameters:**
+
+- `id` (required): Link ID
+
+**Request body:**
+
+```json
+{
+	"collectionId": 2
+}
+```
+
+**Fields:**
+
+- `collectionId` (required): The collection to add the link to. Nothing happens if the link is already in it.
+
+**Response:**
+
+```json
+{
+	"message": "Link added to collection successfully"
+}
+```
+
+A link or collection that is not the user's returns `422`.

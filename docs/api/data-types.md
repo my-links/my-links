@@ -16,8 +16,9 @@
 	favorite: boolean;
 	clicks: number; // Visits counted through /l/:id
 	lastClickedAt: string | null; // ISO 8601 date string
-	collectionIds: number[];
+	collectionIds?: number[]; // Left out of the links inside a followed collection
 	authorId: number;
+	author?: User; // Only when the endpoint loads it
 	createdAt: string | null; // ISO 8601 date string
 	updatedAt: string | null; // ISO 8601 date string
 }
@@ -40,22 +41,31 @@ It behaves like any other collection on read, with one restriction: it cannot be
   description: string | null;
   visibility: "PUBLIC" | "PRIVATE";
   authorId: number;
-  author?: User;
-  links: Link[];
+  author?: User;  // Only when the endpoint loads it, e.g. on followed collections
+  links?: Link[];  // Left out by endpoints that do not carry links, e.g. sync
+  position?: number;  // Own collections only: rank within the visibility section
+  linksCount?: number;  // Only when the server computed it, not part of the REST endpoints
+  followersCount?: number;  // Only when the server computed it, not part of the REST endpoints
   icon: string | null;  // Emoji string
   isDefault: boolean;  // True for the user's Inbox collection
   createdAt: string | null;  // ISO 8601 date string
   updatedAt: string | null;  // ISO 8601 date string
-  isOwner?: boolean;
+  isOwner: boolean;  // True when the authenticated user is the author
 }
 ```
+
+Which optional keys are present depends on the endpoint. `GET /api/v1/collections` returns `links` and `position` for the user's own collections, and `links` and `author` for followed ones. [Sync](/api/sync) returns collections without `links`.
 
 ## User object
 
 ```typescript
 {
 	id: number;
-	name: string;
-	email: string;
+	fullname: string;
+	isAdmin: boolean;
+	createdAt: string | null; // ISO 8601 date string
+	updatedAt: string | null; // ISO 8601 date string
 }
 ```
+
+The REST API never returns an email address.
