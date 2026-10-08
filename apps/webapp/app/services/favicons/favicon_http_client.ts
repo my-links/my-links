@@ -1,5 +1,6 @@
 import { inject } from '@adonisjs/core';
 
+import { isTimeoutError } from '#lib/favicons/timeout_error';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
@@ -36,6 +37,8 @@ export class FaviconHttpClient {
 					break;
 				}
 			}
+		} catch (error) {
+			throw this.mapTimeout(error, 'timeout');
 		} finally {
 			await reader.cancel().catch(() => {});
 		}
@@ -66,6 +69,8 @@ export class FaviconHttpClient {
 
 				chunks.push(value);
 			}
+		} catch (error) {
+			throw this.mapTimeout(error, 'timeout');
 		} finally {
 			await reader.cancel().catch(() => {});
 		}
@@ -105,31 +110,25 @@ export class FaviconHttpClient {
 		return status >= 300 && status < 400;
 	}
 
+	// The timeout signal stays attached to the response, so it also bounds the body read.
 	async fetchOnce(
 		url: string,
 		extraHeaders: Record<string, string> = {}
 	): Promise<Response> {
-		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), this.requestTimeout);
-
 		try {
-			const headers = new Headers({
-				'User-Agent': this.userAgent,
-				...extraHeaders,
-			});
-			const response = await fetch(url, {
-				headers,
-				signal: controller.signal,
+			return await fetch(url, {
+				headers: new Headers({ 'User-Agent': this.userAgent, ...extraHeaders }),
+				signal: AbortSignal.timeout(this.requestTimeout),
 				redirect: 'manual',
 			});
-			clearTimeout(timeoutId);
-			return response;
 		} catch (error) {
-			clearTimeout(timeoutId);
-			if (error instanceof Error && error.name === 'AbortError') {
-				throw new FaviconNotFoundException(`Request timeout for ${url}`);
-			}
-			throw error;
+			throw this.mapTimeout(error, 'timeout');
 		}
+	}
+
+	private mapTimeout(error: unknown, message: string): unknown {
+		return isTimeoutError(error)
+			? new FaviconNotFoundException(message)
+			: error;
 	}
 }
