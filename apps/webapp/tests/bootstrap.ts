@@ -13,6 +13,8 @@ import { sessionApiClient } from '@adonisjs/session/plugins/api_client';
 
 import env from '#start/env';
 import type { Registry } from '../.adonisjs/client/registry/schema.d.ts';
+import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
+import { InertFaviconResolutionService } from '#tests/helpers/inert_favicon_resolution_service';
 
 declare module '@japa/api-client/types' {
 	interface RoutesRegistry extends Registry {}
@@ -47,6 +49,16 @@ export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
 };
 
 export const configureSuite: Config['configureSuite'] = (suite) => {
+	if (suite.name === 'functional') {
+		suite.onGroup((group) => {
+			group.each.setup(() => {
+				app.container.swap(FaviconResolutionService, () =>
+					app.container.make(InertFaviconResolutionService)
+				);
+			});
+		});
+	}
+
 	if (['browser', 'functional', 'e2e'].includes(suite.name)) {
 		return suite.setup(() => testUtils.httpServer().start());
 	}
