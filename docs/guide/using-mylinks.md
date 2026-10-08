@@ -33,6 +33,14 @@ Full-text search covers both collections and links, matching on name and URL. It
 
 Any collection set to **Public** gets a single shareable URL. Anyone who opens it can browse the collection's links without signing in. Making a collection private again immediately closes that URL to anyone but you.
 
+### Following a public collection
+
+Signed in, you can **follow** someone else's public collection from its shared page: the **Follow** button at the top of the page turns into **Unfollow** once you do. Your own collections cannot be followed, and a visitor who is not signed in only sees the collection.
+
+Followed collections appear in their own **Followed Collections** section of your sidebar, where you can drag them into the order you prefer. That order is yours alone. Inside a followed collection you see the author's links in the author's order, and they stay in sync with the author's changes. Following is read-only: you cannot edit the collection or reorder its links.
+
+If the author makes the collection private again, it disappears from your followed collections along with the shared URL.
+
 ## Export and import
 
 Your links export as plain JSON at any time, from your account settings. The same page accepts that JSON back in, so moving between instances (or just keeping an offline copy) never depends on MyLinks staying available.
