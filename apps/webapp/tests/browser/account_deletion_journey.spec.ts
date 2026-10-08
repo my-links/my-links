@@ -15,7 +15,7 @@ const LOGIN_PATH = '/login';
 const HOME_PATH = '/';
 const SETTINGS_PATH = '/user/settings';
 const REACTIVATE_PATH = '/reactivate';
-const FAVORITES_PATH = '/collections/favorites';
+const INBOX_PATH = '/collections/inbox';
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 
 // The dashboard tour's welcome modal offers itself to any account that
@@ -89,7 +89,7 @@ test.group('Account deletion journey (browser)', (group) => {
 		const page = await visit(LOGIN_PATH);
 		await skipDashboardTour(page);
 		await submitLogin(page, user.email, VALID_PASSWORD);
-		await page.assertPath(FAVORITES_PATH);
+		await page.assertPath(INBOX_PATH);
 
 		// 1. Delete the account from the settings page: the trigger opens a
 		// confirmation modal, and its own button carries the same label, so
@@ -115,6 +115,6 @@ test.group('Account deletion journey (browser)', (group) => {
 		await page
 			.getByRole('button', { name: 'Log in and cancel deletion' })
 			.click();
-		await page.assertPath(FAVORITES_PATH);
+		await page.assertPath(INBOX_PATH);
 	});
 });
