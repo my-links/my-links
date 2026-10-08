@@ -1,12 +1,17 @@
 import { inject } from '@adonisjs/core';
+import logger from '@adonisjs/core/services/logger';
 
 import { isTimeoutError } from '#lib/favicons/timeout_error';
+import type { FaviconHttpResponse } from '#types/favicon_http_response';
+import { ImpersonatedFetcher } from '#services/favicons/impersonated_fetcher';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import {
 	isBlockedStatus,
 	isRetryableNetworkError,
 } from '#lib/favicons/block_detection';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
 
 const MAX_HTML_BYTES = 256 * 1024;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
@@ -30,7 +35,10 @@ export class FaviconHttpClient {
 	private readonly requestTimeout = 10000;
 	private readonly maxRedirects = 5;
 
-	constructor(private readonly urlValidator: UrlValidatorService) {}
+	constructor(
+		private readonly urlValidator: UrlValidatorService,
+		private readonly impersonatedFetcher: ImpersonatedFetcher
+	) {}
 
 	// Cloudflare's default error page is ~1.3 MB; the icon declarations live in <head>, no need to buffer past it.
 	async readBodyCapped(body: ReadableStream<Uint8Array>): Promise<string> {
@@ -93,7 +101,62 @@ export class FaviconHttpClient {
 	async fetchWithUserAgent(
 		url: string,
 		extraHeaders: Record<string, string> = {}
-	): Promise<Response> {
+	): Promise<FaviconHttpResponse> {
+		const impersonatedResponse = await this.tryFetchImpersonated(
+			url,
+			extraHeaders
+		);
+		if (impersonatedResponse && !isBlockedStatus(impersonatedResponse.status)) {
+			return impersonatedResponse;
+		}
+		await impersonatedResponse?.body?.cancel().catch(() => {});
+
+		return this.fetchWithUserAgentCascade(url, extraHeaders);
+	}
+
+	private async tryFetchImpersonated(
+		url: string,
+		extraHeaders: Record<string, string>
+	): Promise<FaviconHttpResponse | undefined> {
+		try {
+			return await this.fetchFollowingRedirects(url, (targetUrl) =>
+				this.fetchImpersonatedOnce(targetUrl, extraHeaders)
+			);
+		} catch (error) {
+			if (this.isDomainException(error)) {
+				throw error;
+			}
+			logger.debug(`Impersonated fetch failed for ${url}`, error);
+			return undefined;
+		}
+	}
+
+	private isDomainException(error: unknown): boolean {
+		return (
+			error instanceof UrlBlockedException ||
+			error instanceof UnresolvableHostException ||
+			error instanceof FaviconNotFoundException
+		);
+	}
+
+	private async fetchImpersonatedOnce(
+		url: string,
+		extraHeaders: Record<string, string>
+	): Promise<FaviconHttpResponse> {
+		try {
+			return await this.impersonatedFetcher.fetch(url, {
+				headers: extraHeaders,
+				signal: AbortSignal.timeout(this.requestTimeout),
+			});
+		} catch (error) {
+			throw this.mapTimeout(error, 'timeout');
+		}
+	}
+
+	private async fetchWithUserAgentCascade(
+		url: string,
+		extraHeaders: Record<string, string>
+	): Promise<FaviconHttpResponse> {
 		const fallbackUserAgents = USER_AGENT_CASCADE.slice(0, -1);
 		for (const userAgent of fallbackUserAgents) {
 			const response = await this.tryFetchFollowingRedirects(
@@ -107,10 +170,12 @@ export class FaviconHttpClient {
 			await response?.body?.cancel().catch(() => {});
 		}
 
-		return this.fetchFollowingRedirects(
-			url,
-			USER_AGENT_CASCADE[USER_AGENT_CASCADE.length - 1],
-			extraHeaders
+		return this.fetchFollowingRedirects(url, (targetUrl) =>
+			this.fetchOnce(
+				targetUrl,
+				extraHeaders,
+				USER_AGENT_CASCADE[USER_AGENT_CASCADE.length - 1]
+			)
 		);
 	}
 
@@ -118,9 +183,11 @@ export class FaviconHttpClient {
 		url: string,
 		userAgent: string,
 		extraHeaders: Record<string, string>
-	): Promise<Response | undefined> {
+	): Promise<FaviconHttpResponse | undefined> {
 		try {
-			return await this.fetchFollowingRedirects(url, userAgent, extraHeaders);
+			return await this.fetchFollowingRedirects(url, (targetUrl) =>
+				this.fetchOnce(targetUrl, extraHeaders, userAgent)
+			);
 		} catch (error) {
 			if (isRetryableNetworkError(error)) {
 				return undefined;
@@ -131,15 +198,14 @@ export class FaviconHttpClient {
 
 	private async fetchFollowingRedirects(
 		url: string,
-		userAgent: string,
-		extraHeaders: Record<string, string>
-	): Promise<Response> {
+		fetchHop: (targetUrl: string) => Promise<FaviconHttpResponse>
+	): Promise<FaviconHttpResponse> {
 		let targetUrl = url;
 
 		for (let hop = 0; hop <= this.maxRedirects; hop += 1) {
 			await this.urlValidator.assertUrlAllowed(targetUrl);
 
-			const response = await this.fetchOnce(targetUrl, extraHeaders, userAgent);
+			const response = await fetchHop(targetUrl);
 
 			if (!this.isRedirect(response.status)) {
 				return response;
@@ -161,11 +227,11 @@ export class FaviconHttpClient {
 	}
 
 	// The timeout signal stays attached to the response, so it also bounds the body read.
-	async fetchOnce(
+	private async fetchOnce(
 		url: string,
-		extraHeaders: Record<string, string> = {},
-		userAgent: string = CHROME_USER_AGENT
-	): Promise<Response> {
+		extraHeaders: Record<string, string>,
+		userAgent: string
+	): Promise<FaviconHttpResponse> {
 		try {
 			return await fetch(url, {
 				headers: new Headers({ 'User-Agent': userAgent, ...extraHeaders }),

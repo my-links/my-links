@@ -8,6 +8,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import FaviconEntry from '#models/favicon_entry';
 import type { Favicon } from '#types/favicon_type';
 import { CacheService } from '#services/favicons/cache_service';
+import { ImpitFetcher } from '#services/favicons/impit_fetcher';
 import { FaviconService } from '#services/favicons/favicons_service';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
@@ -31,12 +32,15 @@ class FakeFaviconService extends FaviconService {
 	getFaviconCallCount = 0;
 
 	constructor(private readonly outcome: () => Promise<Favicon>) {
-		const faviconHttpClient = new FaviconHttpClient(new UrlValidatorService());
+		const faviconHttpClient = new FaviconHttpClient(
+			new UrlValidatorService(),
+			new ImpitFetcher()
+		);
 		super(
 			new UrlValidatorService(),
 			faviconHttpClient,
 			new FaviconImageProcessor(),
-			new FaviconCandidateService(new UrlValidatorService(), faviconHttpClient)
+			new FaviconCandidateService(faviconHttpClient)
 		);
 	}
 

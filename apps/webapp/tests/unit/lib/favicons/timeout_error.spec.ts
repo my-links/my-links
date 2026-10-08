@@ -17,6 +17,14 @@ test.group('isTimeoutError', () => {
 		assert.isTrue(isTimeoutError(error));
 	});
 
+	test('should recognize the plain Error impit raises when the signal aborts a body read', ({
+		assert,
+	}) => {
+		const error = new Error('impit: Request was aborted through AbortSignal');
+
+		assert.isTrue(isTimeoutError(error));
+	});
+
 	test('should reject an unrelated error', ({ assert }) => {
 		assert.isFalse(isTimeoutError(new Error('boom')));
 	});
