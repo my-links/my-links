@@ -1,6 +1,6 @@
 # MCP server
 
-MyLinks exposes a [Model Context Protocol](https://modelcontextprotocol.io) server so an LLM agent can manage bookmarks through natural language, with the same reach as the REST API, minus admin actions and reordering (a UI-only concern).
+MyLinks exposes a [Model Context Protocol](https://modelcontextprotocol.io) server so an LLM agent can manage bookmarks through natural language, with the same reach as the REST API, minus admin actions and reordering: the REST API has [reorder routes](/api/collections#reorder-own-collections), but MCP has no reorder tools.
 
 **Endpoint:** `/api/mcp`
 
@@ -10,7 +10,7 @@ MyLinks exposes a [Model Context Protocol](https://modelcontextprotocol.io) serv
 
 - `Authorization: Bearer <token>`
 
-Uses the same bearer tokens as the REST API, created from `/user/settings`. There is no separate MCP-specific scope: a token grants the same access either way.
+Uses the same bearer tokens as the REST API, created from `/user/settings`. Tokens are shared: there is no MCP-specific token, and a token's [scope](/api/tokens#scopes) applies per tool. A `full_access` token can call every tool, a `read_only` token can only call the read tools below, and a write tool called with it reports the refusal as a tool error inside the JSON-RPC response.
 
 ## Connecting a client
 

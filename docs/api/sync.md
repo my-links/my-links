@@ -31,7 +31,7 @@ Returns everything that changed since a given cursor, including deletions. This 
 
 - `syncedAt`: cursor to send back as `since` on the next call
 - `isFullSync`: `true` when the response is a complete snapshot rather than a delta, either because `since` was omitted, or because it predates the tombstone retention window (see below). A client receiving `true` must replace its local state instead of merging into it.
-- `collections`: full [Collection objects](/api/data-types#collection-object) created or updated since the cursor
+- `collections`: [Collection objects](/api/data-types#collection-object) created or updated since the cursor, **without** their `links` (and without `position`): a collection here carries only its own fields. The links come in the `links` array.
 - `links`: full [Link objects](/api/data-types#link-object) created or updated since the cursor, each carrying `collectionIds`
 - `deletedCollectionIds` / `deletedLinkIds`: ids removed since the cursor
 

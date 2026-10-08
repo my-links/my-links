@@ -12,13 +12,23 @@ Redirects to a link's target URL and counts the click. Clicks feed the ranking t
 
 **Response:** `302 Found` with the target URL in `Location`. The redirect is deliberately temporary so browsers keep asking the server and the counter keeps moving.
 
-Rate-limited like the API (see [Rate limiting](/api/#rate-limiting)), falling back to the client IP when there is no user.
+Rate-limited like the API (see [Rate limiting](/api/#rate-limiting)), sharing its bucket and falling back to the client IP when there is no user.
 
 ## Favicon proxy
 
 **Endpoint:** `GET /favicon?url=<encoded-target-url>`
 
 Returns the favicon for a target URL, so clients do not have to reach out to third-party origins themselves.
+
+**Authentication:** none required.
+
+**Query parameters:**
+
+- `url` (optional): The page whose favicon is wanted. When it is missing, the default icon is returned.
+
+**Response:** the image, with its `Content-Type`. While the icon is still being resolved, a placeholder is served with `Cache-Control: no-store` so the real icon replaces it on the next request. Otherwise the image is served with `Cache-Control: public, max-age=604800` (one week).
+
+Rate-limited like the link redirect, in the same bucket (see [Rate limiting](/api/#rate-limiting)): the route is public and triggers outbound requests, so it needs the same protection.
 
 ## Extension authorization handoff
 
