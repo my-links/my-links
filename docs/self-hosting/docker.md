@@ -57,6 +57,8 @@ volumes:
 
 `favicon-volume` holds the cached favicon images (see [Configuration](/self-hosting/configuration#favicon-store)). Unlike `postgres-volume`, losing it isn't a data loss (the app re-downloads what it needs), but keeping it out of your backup strategy means a restore re-fetches every favicon from scratch instead of serving them immediately.
 
+`/app/storage/favicons` must be a persistent volume. The compose file above already declares it, but platforms that build only the Dockerfile (Dokploy in "Application" mode, Coolify, a plain `docker run`) do not read it: add the mount yourself, for example `-v favicon-volume:/app/storage/favicons`. Without it, every redeploy wipes the stored icons while their database rows survive. The app re-downloads a missing icon the next time it is requested, but until then each affected link shows its placeholder.
+
 ## 3. Create your `.env`
 
 Use [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example) from the repository as a template, and see [Configuration](/self-hosting/configuration) for what each variable does. It sits next to your `docker-compose.yml`, at the root of your deployment directory.
