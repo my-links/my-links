@@ -2,7 +2,6 @@ import { inject } from '@adonisjs/core';
 
 import { isTimeoutError } from '#lib/favicons/timeout_error';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import {
 	isBlockedStatus,
 	isRetryableNetworkError,
@@ -138,9 +137,7 @@ export class FaviconHttpClient {
 		let targetUrl = url;
 
 		for (let hop = 0; hop <= this.maxRedirects; hop += 1) {
-			if (!(await this.urlValidator.isUrlAllowed(targetUrl))) {
-				throw new UrlBlockedException(`URL is blocked: ${targetUrl}`);
-			}
+			await this.urlValidator.assertUrlAllowed(targetUrl);
 
 			const response = await this.fetchOnce(targetUrl, extraHeaders, userAgent);
 
