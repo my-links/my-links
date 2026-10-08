@@ -23,7 +23,7 @@ const ERROR_TOAST_SELECTOR = '[data-sonner-toast][data-type="error"]';
 const HOME_PATH = '/';
 const LOGIN_PATH = '/login';
 const REGISTER_PATH = '/register';
-const FAVORITES_PATH = '/collections/favorites';
+const INBOX_PATH = '/collections/inbox';
 const VERIFICATION_PATH_PREFIX = '/verify-email/';
 
 const NEW_ACCOUNT_NAME = 'Ada Lovelace';
@@ -137,7 +137,7 @@ test.group('Auth journey (browser)', (group) => {
 
 		// 4. Sign in, then out, then in again.
 		await submitCredentials(page, email, VALID_PASSWORD);
-		await page.assertPath(FAVORITES_PATH);
+		await page.assertPath(INBOX_PATH);
 
 		await logout(page, NEW_ACCOUNT_NAME);
 		await page.assertPath(HOME_PATH);
@@ -145,11 +145,11 @@ test.group('Auth journey (browser)', (group) => {
 
 		await page.goto(LOGIN_PATH);
 		await submitCredentials(page, email, VALID_PASSWORD);
-		await page.assertPath(FAVORITES_PATH);
+		await page.assertPath(INBOX_PATH);
 
 		// 5. Registration closed the moment the first account landed, and
 		// Google is still off: the home page reflects both. Signed out
-		// first: `/` now redirects a signed-in visitor to their favorites.
+		// first: `/` now redirects a signed-in visitor to their landing page.
 		await logout(page, NEW_ACCOUNT_NAME);
 		await page.assertPath(HOME_PATH);
 		await page.assertNotExists('a[href="/register"]');

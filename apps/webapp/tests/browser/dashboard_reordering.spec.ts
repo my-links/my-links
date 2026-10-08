@@ -23,7 +23,7 @@ import {
 } from '#tests/factories/collection_factory';
 
 const LOGIN_PATH = '/login';
-const FAVORITES_PATH = '/collections/favorites';
+const INBOX_PATH = '/collections/inbox';
 const PASSWORD = 'correct-horse-battery-staple';
 
 // dnd-kit's `PointerSensor` only starts a drag once the pointer has moved
@@ -59,7 +59,7 @@ async function loginAsUser(
 	await page.goto(LOGIN_PATH);
 	await fillFormOnceHydrated(page, { email, password });
 	await page.locator('button[type="submit"]').click();
-	await page.assertPath(FAVORITES_PATH);
+	await page.assertPath(INBOX_PATH);
 }
 
 async function dragOnto(
