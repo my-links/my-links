@@ -14,6 +14,7 @@ import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
+import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
@@ -34,6 +35,7 @@ class FakeFaviconService extends FaviconService {
 		super(
 			new UrlValidatorService(),
 			faviconHttpClient,
+			new FaviconImageProcessor(),
 			new FaviconCandidateService(new UrlValidatorService(), faviconHttpClient)
 		);
 	}
