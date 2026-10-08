@@ -10,7 +10,14 @@ The official extension works against **any** MyLinks instance: the public one at
 
 ## Installing
 
-The extension is not published to the stores yet. Build it, then side-load it:
+Install it from the store of your browser:
+
+- **Chrome and other Chromium browsers**: [Chrome Web Store](https://chromewebstore.google.com/detail/my-links-extension/agkmlplihacolkakgeccnbhphnepphma)
+- **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/mylinks-extension/)
+
+### Development or unreleased build
+
+To try changes that are not in the stores yet, build the extension and side-load it:
 
 ```bash
 git clone https://github.com/my-links/my-links.git
@@ -49,15 +56,16 @@ Once on:
 
 ## Permissions
 
-| Permission                      | Why                                                  |
-| ------------------------------- | ---------------------------------------------------- |
-| `storage`                       | Token, cached collections, mirror bookkeeping        |
-| `identity`                      | The auth handoff's callback URL                      |
-| `alarms`                        | Periodic background sync                             |
-| `contextMenus`, `notifications` | Quick capture and its feedback                       |
-| `tabs`                          | Title and URL of the active tab for quick-add        |
-| `bookmarks` _(optional)_        | Requested only when bookmark mirroring is turned on  |
-| Host access _(optional)_        | Requested at runtime for the instance you connect to |
+| Permission                      | Why                                                                                                       |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `storage`                       | Token, cached collections, mirror bookkeeping                                                             |
+| `sidePanel` _(Chromium only)_   | The side panel. Added by the build from the side panel entry point; Firefox uses `sidebar_action` instead |
+| `identity`                      | The auth handoff's callback URL                                                                           |
+| `alarms`                        | Periodic background sync                                                                                  |
+| `contextMenus`, `notifications` | Quick capture and its feedback                                                                            |
+| `tabs`                          | Title and URL of the active tab for quick-add                                                             |
+| `bookmarks` _(optional)_        | Requested only when bookmark mirroring is turned on                                                       |
+| Host access _(optional)_        | Requested at runtime for the instance you connect to                                                      |
 
 ## Known browser differences
 
