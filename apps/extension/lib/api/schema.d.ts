@@ -794,7 +794,6 @@ export interface components {
 		};
 		HealthRenderResponse: {
 			capabilities: {
-				apiSearch: boolean;
 				clickTracking: boolean;
 				extensionAuthHandoff: boolean;
 				syncDelta: boolean;

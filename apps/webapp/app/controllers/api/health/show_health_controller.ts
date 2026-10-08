@@ -11,7 +11,6 @@ import { healthChecks } from '#start/health';
  */
 const capabilities = {
 	extensionAuthHandoff: true,
-	apiSearch: true,
 	syncDelta: true,
 	clickTracking: true,
 } as const;
