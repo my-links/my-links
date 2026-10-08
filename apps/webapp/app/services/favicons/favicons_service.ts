@@ -11,6 +11,11 @@ import type { FaviconCandidate } from '#lib/favicons/favicon_candidate_resolver'
 import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import {
+	labelCandidate,
+	describeFailure,
+	summarizeAttempts,
+} from '#lib/favicons/failure_summary';
 
 @inject()
 export class FaviconService {
@@ -28,19 +33,24 @@ export class FaviconService {
 			throw new UrlBlockedException(`URL is blocked: ${normalizedUrl}`);
 		}
 
-		for (const candidate of await this.faviconCandidateService.resolveCandidates(
-			normalizedUrl
-		)) {
+		const { candidates, documentFailure } =
+			await this.faviconCandidateService.resolveCandidates(normalizedUrl);
+		const attempts = documentFailure ? [`document: ${documentFailure}`] : [];
+
+		for (const candidate of candidates) {
 			try {
 				return await this.fetchCandidate(candidate);
 			} catch (error) {
 				logger.debug(`Favicon candidate failed: ${candidate.url}`, error);
+				attempts.push(
+					`${labelCandidate(candidate.url)}: ${describeFailure(error)}`
+				);
 			}
 		}
 
-		throw new FaviconNotFoundException(
-			`Unable to retrieve favicon from ${normalizedUrl}`
-		);
+		const summary = summarizeAttempts(attempts);
+		logger.warn(`Favicon resolution failed for ${normalizedUrl}: ${summary}`);
+		throw new FaviconNotFoundException(summary);
 	}
 
 	async checkForUpdate(
@@ -65,8 +75,7 @@ export class FaviconService {
 			}
 
 			const buffer = await this.faviconHttpClient.readImageBodyCapped(
-				response.body,
-				url
+				response.body
 			);
 			const sniffedType = sniffImageType(buffer);
 			if (!sniffedType || buffer.length === 0) {
@@ -110,7 +119,7 @@ export class FaviconService {
 		const buffer = decodeDataUri(dataUri);
 		const sniffedType = buffer && sniffImageType(buffer);
 		if (!buffer || !sniffedType) {
-			throw new FaviconNotFoundException('Invalid inline favicon data');
+			throw new FaviconNotFoundException('invalid inline data');
 		}
 
 		const image = await this.faviconImageProcessor.downscale(
@@ -128,16 +137,15 @@ export class FaviconService {
 	private async fetchFavicon(url: string): Promise<Favicon> {
 		const response = await this.faviconHttpClient.fetchWithUserAgent(url);
 		if (!response.ok || !response.body) {
-			throw new FaviconNotFoundException(`Request to favicon ${url} failed`);
+			throw new FaviconNotFoundException(`HTTP ${response.status}`);
 		}
 
 		const buffer = await this.faviconHttpClient.readImageBodyCapped(
-			response.body,
-			url
+			response.body
 		);
 		const sniffedType = sniffImageType(buffer);
 		if (!sniffedType || buffer.length === 0) {
-			throw new FaviconNotFoundException(`Invalid image at ${url}`);
+			throw new FaviconNotFoundException('invalid image');
 		}
 		const image = await this.faviconImageProcessor.downscale(
 			buffer,

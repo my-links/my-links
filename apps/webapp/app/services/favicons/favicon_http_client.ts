@@ -63,10 +63,7 @@ export class FaviconHttpClient {
 	}
 
 	// Rejected mid-stream, not buffered then measured, a decompression bomb never sits fully in memory first.
-	async readImageBodyCapped(
-		body: ReadableStream<Uint8Array>,
-		url: string
-	): Promise<Buffer> {
+	async readImageBodyCapped(body: ReadableStream<Uint8Array>): Promise<Buffer> {
 		const reader = body.getReader();
 		const chunks: Uint8Array[] = [];
 		let totalBytes = 0;
@@ -80,7 +77,7 @@ export class FaviconHttpClient {
 
 				totalBytes += value.length;
 				if (totalBytes > MAX_IMAGE_BYTES) {
-					throw new FaviconNotFoundException(`Image too large at ${url}`);
+					throw new FaviconNotFoundException('too large');
 				}
 
 				chunks.push(value);
@@ -159,7 +156,7 @@ export class FaviconHttpClient {
 			targetUrl = new URL(location, targetUrl).toString();
 		}
 
-		throw new FaviconNotFoundException(`Too many redirects for ${url}`);
+		throw new FaviconNotFoundException('too many redirects');
 	}
 
 	private isRedirect(status: number): boolean {
