@@ -2,6 +2,7 @@ import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
+import { decodeDataUri } from '#lib/favicons/data_uri';
 import { sniffImageType } from '#lib/favicons/image_sniffer';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
@@ -100,17 +101,13 @@ export class FaviconService {
 	}
 
 	private decodeDataImage(dataUri: string): Favicon {
-		const buffer = this.convertBase64ToBuffer(dataUri);
-		const type = sniffImageType(buffer);
-		if (!type) {
+		const buffer = decodeDataUri(dataUri);
+		const type = buffer && sniffImageType(buffer);
+		if (!buffer || !type) {
 			throw new FaviconNotFoundException('Invalid inline favicon data');
 		}
 
 		return { buffer, type, size: buffer.length, url: dataUri };
-	}
-
-	private convertBase64ToBuffer(dataUri: string): Buffer {
-		return Buffer.from(dataUri.split(',')[1] ?? '', 'base64');
 	}
 
 	private async fetchFavicon(url: string): Promise<Favicon> {
