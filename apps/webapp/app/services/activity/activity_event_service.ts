@@ -1,4 +1,4 @@
-import type { DateTime } from 'luxon';
+import { DateTime } from 'luxon';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import AuditEvent from '#models/audit_event';
@@ -76,5 +76,13 @@ export class ActivityEventService {
 			.delete();
 
 		return Number(deletedRowCount ?? 0);
+	}
+
+	async pruneExpired(): Promise<number> {
+		const cutoff = DateTime.now().minus({
+			days: ACTIVITY_EVENT_RETENTION_DAYS,
+		});
+
+		return this.pruneBefore(cutoff);
 	}
 }

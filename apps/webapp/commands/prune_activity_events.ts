@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import { BaseCommand } from '@adonisjs/core/ace';
 import type { CommandOptions } from '@adonisjs/core/types/ace';
@@ -20,10 +19,7 @@ export default class PruneActivityEvents extends BaseCommand {
 
 	@inject()
 	async run(activityEventService: ActivityEventService): Promise<void> {
-		const cutoff = DateTime.now().minus({
-			days: ACTIVITY_EVENT_RETENTION_DAYS,
-		});
-		const deletedCount = await activityEventService.pruneBefore(cutoff);
+		const deletedCount = await activityEventService.pruneExpired();
 
 		this.logger.success(`Pruned ${deletedCount} activity event(s)`);
 	}

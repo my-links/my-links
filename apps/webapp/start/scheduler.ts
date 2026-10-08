@@ -1,10 +1,11 @@
-// Runs the account sweeps and favicon purge in-process (web env only); native deployments use system cron.
+// Runs the account sweeps, favicon purge and activity journal prune in-process (web env only); native deployments use system cron.
 
 import cron from 'node-cron';
 import app from '@adonisjs/core/services/app';
 import type { ScheduledTask } from 'node-cron';
 import logger from '@adonisjs/core/services/logger';
 
+import { ActivityEventService } from '#services/activity/activity_event_service';
 import { AccountRetentionService } from '#services/user/account_retention_service';
 import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
 
@@ -63,3 +64,14 @@ const purgeFaviconOrphansTask = cron.schedule(
 	{ name: 'favicon-purge-orphans', timezone }
 );
 logExecutionFailures(purgeFaviconOrphansTask, 'favicon-purge-orphans');
+
+const pruneActivityEventsTask = cron.schedule(
+	'30 4 * * *',
+	async () => {
+		const activityEventService = await app.container.make(ActivityEventService);
+		const prunedCount = await activityEventService.pruneExpired();
+		logger.info(`Pruned ${prunedCount} expired activity event(s)`);
+	},
+	{ name: 'activity-prune', timezone }
+);
+logExecutionFailures(pruneActivityEventsTask, 'activity-prune');
