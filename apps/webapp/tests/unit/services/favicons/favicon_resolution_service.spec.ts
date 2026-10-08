@@ -19,6 +19,31 @@ import { FaviconImageProcessor } from '#services/favicons/favicon_image_processo
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
+const pendingCacheWrites: Promise<unknown>[] = [];
+
+class TrackingCacheService extends CacheService {
+	override getOrSetFavicon(
+		...args: Parameters<CacheService['getOrSetFavicon']>
+	) {
+		const pending = super.getOrSetFavicon(...args);
+		pendingCacheWrites.push(pending);
+		return pending;
+	}
+
+	override markRevalidated(
+		...args: Parameters<CacheService['markRevalidated']>
+	) {
+		const pending = super.markRevalidated(...args);
+		pendingCacheWrites.push(pending);
+		return pending;
+	}
+}
+
+// Fire-and-forget resolutions would otherwise query the global test transaction after the test ends.
+async function settlePendingCacheWrites(): Promise<void> {
+	await Promise.allSettled(pendingCacheWrites.splice(0));
+}
+
 function fakeFavicon(url: string): Favicon {
 	return {
 		buffer: Buffer.from(`fake-icon-bytes-${url}`),
@@ -66,7 +91,9 @@ function buildFailingResolver(): FakeFaviconService {
 
 async function buildService(favicon: Favicon) {
 	const storageDir = await mkdtemp(join(tmpdir(), 'favicon-resolution-test-'));
-	const cacheService = new CacheService(new FaviconStoreService(storageDir));
+	const cacheService = new TrackingCacheService(
+		new FaviconStoreService(storageDir)
+	);
 	const resolver = buildFakeResolver(favicon);
 	const service = new FaviconResolutionService(
 		cacheService,
@@ -78,6 +105,7 @@ async function buildService(favicon: Favicon) {
 
 test.group('FaviconResolutionService.triggerResolution', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.teardown(settlePendingCacheWrites);
 
 	test('should resolve and store a favicon that has never been seen', async ({
 		assert,
@@ -107,6 +135,7 @@ test.group('FaviconResolutionService.triggerResolution', (group) => {
 
 test.group('FaviconResolutionService.forceRefresh', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.teardown(settlePendingCacheWrites);
 
 	test('should re-run the factory even when an entry already exists', async ({
 		assert,
@@ -127,7 +156,9 @@ test.group('FaviconResolutionService.forceRefresh', (group) => {
 		const storageDir = await mkdtemp(
 			join(tmpdir(), 'favicon-resolution-test-')
 		);
-		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		const cacheService = new TrackingCacheService(
+			new FaviconStoreService(storageDir)
+		);
 		const original = fakeFavicon(url);
 		const resolver = buildFakeResolver(original);
 		const service = new FaviconResolutionService(
@@ -157,7 +188,9 @@ test.group('FaviconResolutionService.forceRefresh', (group) => {
 		const storageDir = await mkdtemp(
 			join(tmpdir(), 'favicon-resolution-test-')
 		);
-		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		const cacheService = new TrackingCacheService(
+			new FaviconStoreService(storageDir)
+		);
 		const alwaysFailingResolver = buildFailingResolver();
 		const service = new FaviconResolutionService(
 			cacheService,
@@ -171,6 +204,7 @@ test.group('FaviconResolutionService.forceRefresh', (group) => {
 
 test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.teardown(settlePendingCacheWrites);
 
 	test('should return a monogram when nothing is stored yet', async ({
 		assert,
@@ -266,7 +300,9 @@ test.group('FaviconResolutionService.getFreshOrStale', (group) => {
 		const storageDir = await mkdtemp(
 			join(tmpdir(), 'favicon-resolution-test-')
 		);
-		const cacheService = new CacheService(new FaviconStoreService(storageDir));
+		const cacheService = new TrackingCacheService(
+			new FaviconStoreService(storageDir)
+		);
 		const alwaysFailingResolver = buildFailingResolver();
 		const service = new FaviconResolutionService(
 			cacheService,
