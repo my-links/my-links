@@ -33,6 +33,8 @@ cp .env.example apps/webapp/.env
 
 The application caches favicon images on disk instead of re-fetching them on every visit, at a fixed path (`storage/favicons` under the app root, `/app/storage/favicons` in the Docker image, persisted via the `favicon-volume` volume, see [Docker & compose](/self-hosting/docker)). Nothing to configure.
 
+Outside the provided compose file, make sure `/app/storage/favicons` is mounted as a persistent volume (see [Docker & compose](/self-hosting/docker)), or every redeploy wipes the stored icons.
+
 This is a cache, not user data: losing it just means the next visit to each site re-downloads its favicon. It's still worth keeping in your backup strategy for one reason: restoring it avoids a fresh round of outbound requests to every domain your instance has ever bookmarked, all at once, right after a restore.
 
 That leads to the actual thing to know before self-hosting this: resolving a favicon fetches it from the site itself, from your instance's server. On a single-user instance (the common case here) that means the site operator sees your instance's IP request its own favicon at the moment you bookmark it, which is a weaker anonymity property than on a shared multi-user instance where the same request is one among many users' traffic. No third-party fallback provider is contacted unless you explicitly configure one (a future setting, opt-in and disabled by default).
