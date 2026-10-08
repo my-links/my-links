@@ -164,6 +164,7 @@ suite runs without a browser.
 | Permission                      | Why                                                                                                            |
 | ------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `storage`                       | Token, cached collections, mirror bookkeeping                                                                  |
+| `sidePanel` _(Chromium only)_   | The side panel. WXT adds it from the `sidepanel` entry point; Firefox uses `sidebar_action` instead            |
 | `identity`                      | The auth handoff's callback URL                                                                                |
 | `alarms`                        | The periodic sync                                                                                              |
 | `contextMenus`, `notifications` | Quick capture and its feedback                                                                                 |
