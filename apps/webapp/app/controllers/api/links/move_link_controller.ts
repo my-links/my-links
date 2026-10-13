@@ -1,7 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import { moveLinkAction } from '#controllers/links/actions/move_link_action';
+import { resolveRequestOrigin } from '#lib/request_origin';
+import { moveLinkValidator } from '#validators/links/move_link_validator';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 
 @inject()
@@ -10,9 +11,21 @@ export default class MoveLinkController {
 		protected readonly collectionLinkService: CollectionLinkService
 	) {}
 
-	async execute(ctx: HttpContext) {
-		await moveLinkAction(ctx, this.collectionLinkService);
+	async execute({ request, auth, response }: HttpContext) {
+		const {
+			params: { id: linkId },
+			fromCollectionId,
+			toCollectionId,
+		} = await request.validateUsing(moveLinkValidator);
 
-		return ctx.response.json({ message: 'Link moved successfully' });
+		await this.collectionLinkService.moveLinkBetweenCollections(
+			auth.getUserOrFail().id,
+			linkId,
+			fromCollectionId,
+			toCollectionId,
+			resolveRequestOrigin({ request })
+		);
+
+		return response.json({ message: 'Link moved successfully' });
 	}
 }

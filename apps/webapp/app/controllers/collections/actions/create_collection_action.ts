@@ -1,24 +1,29 @@
-import type { HttpContext } from '@adonisjs/core/http';
+import type { Infer } from '@vinejs/vine/types';
 
+import type User from '#models/user';
 import type Collection from '#models/collection';
-import { resolveRequestOrigin } from '#lib/request_origin';
+import type { RequestOrigin } from '#lib/request_origin';
 import type { CollectionService } from '#services/collections/collection_service';
 import { createCollectionValidator } from '#validators/collections/create_collection_validator';
 
+type CreateCollectionActionInput = {
+	payload: Infer<typeof createCollectionValidator>;
+	userId: User['id'];
+	origin: RequestOrigin;
+};
+
 export async function createCollectionAction(
-	{ request, auth }: HttpContext,
+	{ payload, userId, origin }: CreateCollectionActionInput,
 	collectionService: CollectionService
 ): Promise<Collection> {
-	const payload = await request.validateUsing(createCollectionValidator);
-
 	return collectionService.createCollection(
-		auth.getUserOrFail().id,
+		userId,
 		{
 			name: payload.name,
 			description: payload.description,
 			visibility: payload.visibility,
 			icon: payload.icon ?? null,
 		},
-		resolveRequestOrigin({ request })
+		origin
 	);
 }

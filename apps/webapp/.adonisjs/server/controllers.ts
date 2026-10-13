@@ -82,10 +82,7 @@ export const controllers = {
   collections: {
     actions: {
       CreateCollectionAction: () => import('#controllers/collections/actions/create_collection_action'),
-      DeleteCollectionAction: () => import('#controllers/collections/actions/delete_collection_action'),
       ReorderCollectionLinksAction: () => import('#controllers/collections/actions/reorder_collection_links_action'),
-      ReorderFollowedCollectionsAction: () => import('#controllers/collections/actions/reorder_followed_collections_action'),
-      ReorderOwnedCollectionsAction: () => import('#controllers/collections/actions/reorder_owned_collections_action'),
       UpdateCollectionAction: () => import('#controllers/collections/actions/update_collection_action'),
     },
     CreateCollection: () => import('#controllers/collections/create_collection_controller'),
@@ -110,10 +107,7 @@ export const controllers = {
   },
   links: {
     actions: {
-      AddLinkToCollectionAction: () => import('#controllers/links/actions/add_link_to_collection_action'),
       DeleteLinkAction: () => import('#controllers/links/actions/delete_link_action'),
-      MoveLinkAction: () => import('#controllers/links/actions/move_link_action'),
-      UpdateLinkAction: () => import('#controllers/links/actions/update_link_action'),
     },
     AddLinkToCollection: () => import('#controllers/links/add_link_to_collection_controller'),
     CreateLink: () => import('#controllers/links/create_link_controller'),
