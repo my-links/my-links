@@ -66,7 +66,7 @@ export class FaviconResolutionService {
 				this.faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
 			);
 		} catch (error) {
-			logger.debug(`Background favicon resolution failed for ${url}`, error);
+			logger.debug({ err: error, url }, 'Background favicon resolution failed');
 		}
 	}
 
@@ -92,7 +92,7 @@ export class FaviconResolutionService {
 			);
 			await this.cacheService.markRevalidated(url, outcome);
 		} catch (error) {
-			logger.debug(`Favicon revalidation failed for ${url}`, error);
+			logger.debug({ err: error, url }, 'Favicon revalidation failed');
 		}
 	}
 

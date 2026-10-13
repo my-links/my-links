@@ -131,3 +131,29 @@ test.group('UrlValidatorService.checkUrl', () => {
 		assert.equal(await validator.checkUrl('https://example.com/'), 'allowed');
 	});
 });
+
+test.group('UrlValidatorService.assertUrlAllowed', () => {
+	test('should throw a message without the URL when the target is blocked', async ({
+		assert,
+	}) => {
+		const validator = validatorResolvingTo({});
+
+		const error = await validator
+			.assertUrlAllowed('http://secret-intranet.local/page')
+			.catch((thrown: Error) => thrown);
+
+		assert.notInclude((error as Error).message, 'secret-intranet');
+	});
+
+	test('should throw a message without the URL when the host cannot be resolved', async ({
+		assert,
+	}) => {
+		const validator = validatorResolvingTo({});
+
+		const error = await validator
+			.assertUrlAllowed('https://unknown-host.example.org/page')
+			.catch((thrown: Error) => thrown);
+
+		assert.notInclude((error as Error).message, 'unknown-host');
+	});
+});

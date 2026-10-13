@@ -93,8 +93,8 @@ export class FaviconCandidateService {
 			return await webAppManifestValidator.validate(json);
 		} catch (error) {
 			logger.debug(
-				`Failed to fetch or parse web app manifest ${manifestUrl}`,
-				error
+				{ err: error, url: manifestUrl },
+				'Failed to fetch or parse web app manifest'
 			);
 			return undefined;
 		}
@@ -141,7 +141,7 @@ export class FaviconCandidateService {
 				},
 			};
 		} catch (error) {
-			logger.debug(`Failed to fetch document from ${url}`, error);
+			logger.debug({ err: error, url }, 'Failed to fetch document');
 			return { failure: describeFailure(error) };
 		}
 	}

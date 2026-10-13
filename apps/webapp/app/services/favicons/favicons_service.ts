@@ -38,7 +38,10 @@ export class FaviconService {
 			try {
 				return await this.fetchCandidate(candidate);
 			} catch (error) {
-				logger.debug(`Favicon candidate failed: ${candidate.url}`, error);
+				logger.debug(
+					{ err: error, url: candidate.url },
+					'Favicon candidate failed'
+				);
 				attempts.push(
 					`${labelCandidate(candidate.url)}: ${describeFailure(error)}`
 				);
@@ -46,7 +49,7 @@ export class FaviconService {
 		}
 
 		const summary = summarizeAttempts(attempts);
-		logger.warn(`Favicon resolution failed for ${normalizedUrl}: ${summary}`);
+		logger.warn({ reason: summary }, 'Favicon resolution failed');
 		throw new FaviconNotFoundException(summary);
 	}
 
@@ -95,7 +98,7 @@ export class FaviconService {
 				},
 			};
 		} catch (error) {
-			logger.debug(`Favicon revalidation request failed for ${url}`, error);
+			logger.debug({ err: error, url }, 'Favicon revalidation request failed');
 			return { changed: false };
 		}
 	}
