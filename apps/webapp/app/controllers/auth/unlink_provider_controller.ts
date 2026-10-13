@@ -1,5 +1,4 @@
 import { inject } from '@adonisjs/core';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
@@ -38,7 +37,7 @@ export default class UnlinkProviderController {
 		});
 
 		ctx.session.flash('success', PROVIDER_UNLINKED_MESSAGE);
-		logger.info(`[${user.email}] unlinked ${provider}`);
+		ctx.logger.info({ userId: user.id, provider }, 'provider unlinked');
 
 		return ctx.response.redirectToNamedRoute('user.settings');
 	}

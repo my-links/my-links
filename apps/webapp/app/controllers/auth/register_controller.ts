@@ -1,5 +1,4 @@
 import { inject } from '@adonisjs/core';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import type User from '#models/user';
@@ -62,6 +61,7 @@ export default class RegisterController {
 		);
 		if (registeredUser) {
 			await this.welcome(registeredUser, origin);
+			ctx.logger.info({ userId: registeredUser.id }, 'registered');
 		}
 
 		ctx.session.flash('success', this.confirmationMessage());
@@ -76,8 +76,6 @@ export default class RegisterController {
 			userId: user.id,
 			...origin,
 		});
-
-		logger.info(`[${user.email}] registered`);
 	}
 
 	private confirmationMessage(): string {

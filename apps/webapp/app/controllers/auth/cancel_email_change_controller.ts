@@ -1,6 +1,5 @@
 import { inject } from '@adonisjs/core';
 import { Secret } from '@adonisjs/core/helpers';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
@@ -40,7 +39,7 @@ export default class CancelEmailChangeController {
 		});
 
 		ctx.session.flash('success', EMAIL_CHANGE_CANCELLED_MESSAGE);
-		logger.info(`[${user.email}] email change cancelled`);
+		ctx.logger.info({ userId: user.id }, 'email change cancelled');
 
 		return ctx.response.redirectToNamedRoute('auth.login');
 	}

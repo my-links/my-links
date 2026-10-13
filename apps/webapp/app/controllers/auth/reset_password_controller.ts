@@ -1,6 +1,5 @@
 import { inject } from '@adonisjs/core';
 import { Secret } from '@adonisjs/core/helpers';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
@@ -58,7 +57,7 @@ export default class ResetPasswordController {
 		});
 
 		ctx.session.flash('success', PASSWORD_RESET_MESSAGE);
-		logger.info(`[${user.email}] password reset`);
+		ctx.logger.info({ userId: user.id }, 'password reset');
 
 		// Never signs the visitor in. A reset link arrives in a mailbox, and
 		// turning "I read this inbox" straight into a session would make a

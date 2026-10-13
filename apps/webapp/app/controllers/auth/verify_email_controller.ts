@@ -1,6 +1,5 @@
 import { inject } from '@adonisjs/core';
 import { Secret } from '@adonisjs/core/helpers';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
@@ -39,7 +38,7 @@ export default class VerifyEmailController {
 		});
 
 		ctx.session.flash('success', CONFIRMED_MESSAGE);
-		logger.info(`[${user.email}] email verified`);
+		ctx.logger.info({ userId: user.id }, 'email verified');
 
 		return ctx.response.redirectToNamedRoute('auth.login');
 	}
