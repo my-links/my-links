@@ -44,6 +44,7 @@ export const controllers = {
       CreateLink: () => import('#controllers/api/links/create_link_controller'),
       DeleteLink: () => import('#controllers/api/links/delete_link_controller'),
       MoveLink: () => import('#controllers/api/links/move_link_controller'),
+      RecordLinkVisit: () => import('#controllers/api/links/record_link_visit_controller'),
       ShowFavoriteLinks: () => import('#controllers/api/links/show_favorite_links_controller'),
       UpdateLink: () => import('#controllers/api/links/update_link_controller'),
     },

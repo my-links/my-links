@@ -84,6 +84,7 @@ export type ScannedRoutes = {
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-links.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-mcp.handle': { paramsTuple?: []; params?: {} }
     'api-mcp.stream': { paramsTuple?: []; params?: {} }
     'api-mcp.close': { paramsTuple?: []; params?: {} }
@@ -208,6 +209,7 @@ export type ScannedRoutes = {
     'api-collections.create': { paramsTuple?: []; params?: {} }
     'api-links.create': { paramsTuple?: []; params?: {} }
     'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'api-links.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-mcp.handle': { paramsTuple?: []; params?: {} }
     'link.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.create': { paramsTuple?: []; params?: {} }
