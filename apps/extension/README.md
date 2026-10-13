@@ -38,8 +38,9 @@ Targets **Chromium (MV3)** and **Firefox (MV2)** from the same source.
   request, with exponential backoff on failure.
 - **Bookmark mirroring** (opt-in): two-way sync between your collections and the
   browser's native bookmarks (see [below](#bookmark-mirroring)).
-- **Click tracking**: opening a link from the extension goes through the instance's
-  `/l/:id` redirect, so it feeds the same ranking as a click in the webapp.
+- **Click tracking**: opening a link from the extension navigates straight to
+  the target and records the click in the background (`POST /api/v1/links/:id/visits`),
+  so it feeds the same ranking as a click in the webapp.
 
 ## Installing a development build
 

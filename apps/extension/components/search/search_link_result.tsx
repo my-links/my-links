@@ -1,11 +1,13 @@
 import clsx from 'clsx';
+import type { MouseEvent } from 'react';
 import { Highlight } from '@minimalstuff/ui';
 
 import type { LinkResource } from '@/lib/api/types';
+import { buildFaviconUrl } from '@/lib/instance_urls';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
 import type { FuzzyMatch } from '@/lib/search/fuzzy_links';
 import { LinkFavicon } from '@/components/collections/link_favicon';
-import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
+import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
 
 const ROW_CLASS =
 	'flex items-center gap-2 rounded-md border-l-2 border-transparent px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800';
@@ -32,17 +34,28 @@ export function SearchLinkResult({
 	const faviconUrl = instanceUrl
 		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
-	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
+
+	const handleClick = () => {
+		reportLinkVisit(link.id);
+		onActivate();
+	};
+
+	const handleAuxClick = (event: MouseEvent<HTMLAnchorElement>) => {
+		if (isMiddleClick(event)) {
+			reportLinkVisit(link.id);
+		}
+	};
 
 	return (
 		<a
-			href={href}
+			href={link.url}
 			target="_blank"
 			rel="noreferrer"
 			title={link.url}
 			data-result-index={resultIndex}
 			aria-current={isSelected}
-			onClick={onActivate}
+			onClick={handleClick}
+			onAuxClick={handleAuxClick}
 			className={clsx(ROW_CLASS, isSelected && ROW_SELECTED_CLASS)}
 		>
 			{faviconUrl && instanceUrl && (

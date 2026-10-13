@@ -6,6 +6,7 @@ export class UpdateLinkError extends Error {}
 export class DeleteLinkError extends Error {}
 export class MoveLinkError extends Error {}
 export class AddLinkToCollectionError extends Error {}
+export class RecordLinkVisitError extends Error {}
 
 export type CreateLinkInput = {
 	name: string;
@@ -98,5 +99,16 @@ export async function addLinkToCollection(
 		throw new AddLinkToCollectionError(
 			'Failed to add the link to the collection.'
 		);
+	}
+}
+
+export async function recordLinkVisit(linkId: number): Promise<void> {
+	const client = await createExtensionApiClient();
+	const { error } = await client.POST('/api/v1/links/{id}/visits', {
+		params: { path: { id: linkId } },
+	});
+
+	if (error) {
+		throw new RecordLinkVisitError('Failed to record the link visit.');
 	}
 }
