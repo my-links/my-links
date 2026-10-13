@@ -132,6 +132,9 @@ The API client is typed from the webapp's OpenAPI document rather than by import
 webapp source, which keeps the two TypeScript projects decoupled:
 
 ```bash
+# from apps/webapp: refresh the route type registry (stop it once "tuyau: created api client registry" shows)
+node ace serve
+
 # from apps/webapp: writes .adonisjs/openapi.json
 node ace openapi:generate
 
@@ -140,6 +143,9 @@ pnpm run generate:api-types
 ```
 
 Run this after any change to an API controller, validator or transformer.
+Request bodies come from the route registry, which only `node ace serve`
+rewrites, and only for controllers that call `request.validateUsing(...)`
+themselves: skip the first step and they silently drop out of the document.
 
 ### Project layout
 
