@@ -486,6 +486,12 @@ const routes = {
     tokens: [{"old":"/api/v1/links/:id/collections","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id/collections","type":1,"val":"id","end":""},{"old":"/api/v1/links/:id/collections","type":0,"val":"collections","end":""}],
     types: placeholder as Registry['api-links.add-to-collection']['types'],
   },
+  'api-links.record-visit': {
+    methods: ["POST"],
+    pattern: '/api/v1/links/:id/visits',
+    tokens: [{"old":"/api/v1/links/:id/visits","type":0,"val":"api","end":""},{"old":"/api/v1/links/:id/visits","type":0,"val":"v1","end":""},{"old":"/api/v1/links/:id/visits","type":0,"val":"links","end":""},{"old":"/api/v1/links/:id/visits","type":1,"val":"id","end":""},{"old":"/api/v1/links/:id/visits","type":0,"val":"visits","end":""}],
+    types: placeholder as Registry['api-links.record-visit']['types'],
+  },
   'api-mcp.handle': {
     methods: ["POST"],
     pattern: '/api/mcp',

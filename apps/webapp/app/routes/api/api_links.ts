@@ -23,6 +23,9 @@ router
 				'execute',
 			])
 			.as('api-links.add-to-collection');
+		router
+			.post('/:id/visits', [controllers.api.links.RecordLinkVisit, 'execute'])
+			.as('api-links.record-visit');
 	})
 	.prefix('/api/v1/links')
 	.middleware(apiMiddleware);

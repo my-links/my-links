@@ -123,6 +123,7 @@ export interface ApiDefinition {
     delete: typeof routes['api-links.delete']
     moveToCollection: typeof routes['api-links.move-to-collection']
     addToCollection: typeof routes['api-links.add-to-collection']
+    recordVisit: typeof routes['api-links.record-visit']
   }
   apiMcp: {
     handle: typeof routes['api-mcp.handle']

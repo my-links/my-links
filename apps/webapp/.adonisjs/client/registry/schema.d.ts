@@ -967,6 +967,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/add_link_to_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'api-links.record-visit': {
+    methods: ["POST"]
+    pattern: '/api/v1/links/:id/visits'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/links/visit_link_validator').visitLinkValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/links/visit_link_validator').visitLinkValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/links/record_link_visit_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/links/record_link_visit_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'api-mcp.handle': {
     methods: ["POST"]
     pattern: '/api/mcp'
