@@ -11,6 +11,8 @@
 import logger from '@adonisjs/core/services/logger';
 import emitter from '@adonisjs/core/services/emitter';
 
+import { pickDeliveryDiagnostics } from '#lib/logging/delivery_diagnostics';
+
 /**
  * Emails are queued rather than awaited, so a delivery failure happens long
  * after the request that triggered it has answered. This listener is the only
@@ -18,5 +20,12 @@ import emitter from '@adonisjs/core/services/emitter';
  * never sends the verification email its users are waiting for.
  */
 emitter.on('queued:mail:error', ({ error, mailerName }) => {
-	logger.error({ err: error, mailerName }, 'Queued email delivery failed');
+	logger.error(
+		{ mailerName, ...pickDeliveryDiagnostics(error) },
+		'Queued email delivery failed'
+	);
+	logger.debug(
+		{ err: error, mailerName },
+		'Queued email delivery failure detail'
+	);
 });
