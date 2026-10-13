@@ -7,6 +7,7 @@ import { ContextMenu, MenuItem, Modal, ConfirmModal } from '@minimalstuff/ui';
 import { LinkFavicon } from './link_favicon';
 import type { LinkResource } from '@/lib/api/types';
 import { linkSortableId } from '@/lib/dnd/dnd_types';
+import { buildFaviconUrl } from '@/lib/instance_urls';
 import { useDeleteLink } from '@/hooks/use_delete_link';
 import { useCollections } from '@/hooks/use_collections';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
@@ -14,7 +15,7 @@ import { KebabMenu } from '@/components/common/kebab_menu';
 import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import { EditLinkModal } from '@/components/links/edit_link_modal';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
-import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
+import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
 
 type LinkRowProps = {
 	link: LinkResource;
@@ -28,9 +29,6 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 	const faviconUrl = instanceUrl
 		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
-	// Falls back to the raw target only until `instanceUrl` hydrates from
-	// storage: the redirect is what counts the click.
-	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
 	const {
 		attributes,
 		listeners,
@@ -52,6 +50,14 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 		// suppressed here so it doesn't also navigate the link.
 		if (shouldSuppressClick()) {
 			event.preventDefault();
+			return;
+		}
+		reportLinkVisit(link.id);
+	};
+
+	const handleAuxClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+		if (isMiddleClick(event)) {
+			reportLinkVisit(link.id);
 		}
 	};
 
@@ -114,11 +120,12 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 					ref={setActivatorNodeRef}
 					{...attributes}
 					{...listeners}
-					href={href}
+					href={link.url}
 					target="_blank"
 					rel="noreferrer"
 					title={link.url}
 					onClick={handleClick}
+					onAuxClick={handleAuxClick}
 					// Anchors are natively draggable: Chrome's own link drag would race
 					// the pointer sensor and drop the gesture.
 					draggable={false}

@@ -1,7 +1,10 @@
+import type { MouseEvent } from 'react';
+
 import { LinkFavicon } from './link_favicon';
+import { buildFaviconUrl } from '@/lib/instance_urls';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
 import type { FollowedLinkResource } from '@/lib/api/types';
-import { buildFaviconUrl, buildVisitUrl } from '@/lib/instance_urls';
+import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
 
 type FollowedLinkRowProps = {
 	link: FollowedLinkResource;
@@ -18,16 +21,21 @@ export function FollowedLinkRow({ link }: Readonly<FollowedLinkRowProps>) {
 	const faviconUrl = instanceUrl
 		? buildFaviconUrl(instanceUrl, link.url)
 		: null;
-	// Falls back to the raw target only until `instanceUrl` hydrates from
-	// storage: the redirect is what counts the click.
-	const href = instanceUrl ? buildVisitUrl(instanceUrl, link.id) : link.url;
+
+	const handleAuxClick = (event: MouseEvent<HTMLAnchorElement>) => {
+		if (isMiddleClick(event)) {
+			reportLinkVisit(link.id);
+		}
+	};
 
 	return (
 		<a
-			href={href}
+			href={link.url}
 			target="_blank"
 			rel="noreferrer"
 			title={link.url}
+			onClick={() => reportLinkVisit(link.id)}
+			onAuxClick={handleAuxClick}
 			className="flex min-w-0 items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-700 hover:bg-white/50 dark:text-gray-300 dark:hover:bg-gray-800/50"
 		>
 			{faviconUrl &&
