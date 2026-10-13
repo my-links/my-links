@@ -16,9 +16,17 @@ cd my-links-deployment
 
 ```yaml
 name: my-links
+# Docker keeps container output forever by default: cap it so old log lines age out.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: '3'
+
 services:
   postgres:
     restart: always
+    logging: *default-logging
     image: postgres:18
     environment:
       - POSTGRES_DB=${DB_DATABASE}
@@ -40,6 +48,7 @@ services:
   my-links:
     container_name: my-links
     restart: always
+    logging: *default-logging
     image: sonny93/my-links:latest
     environment:
       - DB_HOST=postgres
@@ -66,6 +75,8 @@ The PostgreSQL port is bound to `127.0.0.1` on purpose: the database is reachabl
 `favicon-volume` holds the cached favicon images (see [Configuration](/self-hosting/configuration#favicon-store)). Unlike `postgres-volume`, losing it isn't a data loss (the app re-downloads what it needs), but keeping it out of your backup strategy means a restore re-fetches every favicon from scratch instead of serving them immediately.
 
 `/app/storage/favicons` must be a persistent volume. The compose file above already declares it, but platforms that build only the Dockerfile (Dokploy in "Application" mode, Coolify, a plain `docker run`) do not read it: add the mount yourself, for example `-v favicon-volume:/app/storage/favicons`. Without it, every redeploy wipes the stored icons while their database rows survive. The app re-downloads a missing icon the next time it is requested, but until then each affected link shows its placeholder.
+
+`x-logging` caps what Docker keeps of each container's output at three 10 MB files, the oldest dropped first. Docker's default keeps everything for as long as the container exists. Platforms that do not read the compose file need the same limit set on their side, for example `--log-opt max-size=10m --log-opt max-file=3` on `docker run`. See [Logging](/self-hosting/configuration#logging) for what the log contains.
 
 ## 3. Create your `.env`
 

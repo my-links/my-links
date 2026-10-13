@@ -1,7 +1,15 @@
 name: my-links
+# Docker keeps container output forever by default: cap it so old log lines age out.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: '3'
+
 services:
   postgres:
     restart: always
+    logging: *default-logging
     image: postgres:18
     environment:
       - POSTGRES_DB=${DB_DATABASE}
@@ -23,6 +31,7 @@ services:
   my-links:
     container_name: my-links
     restart: always
+    logging: *default-logging
     build:
       context: .
       dockerfile: apps/webapp/Dockerfile
@@ -53,6 +62,7 @@ services:
   smtp:
     profiles: ['smtp']
     restart: always
+    logging: *default-logging
     image: boky/postfix
     environment:
       - ALLOWED_SENDER_DOMAINS=${SMTP_ALLOWED_SENDER_DOMAINS}
