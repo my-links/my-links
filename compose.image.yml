@@ -1,9 +1,17 @@
 # Runs the published image instead of building from source. No smtp service:
 # self-hosters on this path are expected to use an external SMTP provider.
 name: my-links
+# Docker keeps container output forever by default: cap it so old log lines age out.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: '3'
+
 services:
   postgres:
     restart: always
+    logging: *default-logging
     image: postgres:18
     environment:
       - POSTGRES_DB=${DB_DATABASE}
@@ -25,6 +33,7 @@ services:
   my-links:
     container_name: my-links
     restart: always
+    logging: *default-logging
     image: sonny93/my-links:latest
     environment:
       - DB_HOST=postgres
