@@ -26,7 +26,7 @@ export interface paths {
 						[name: string]: unknown;
 					};
 					content: {
-						'application/json': components['schemas']['GetCollectionsRenderResponse'];
+						'application/json': components['schemas']['ShowCollectionsRenderResponse'];
 					};
 				};
 			};
@@ -265,7 +265,7 @@ export interface paths {
 						[name: string]: unknown;
 					};
 					content: {
-						'application/json': components['schemas']['HealthRenderResponse'];
+						'application/json': components['schemas']['ShowHealthRenderResponse'];
 					};
 				};
 			};
@@ -339,7 +339,7 @@ export interface paths {
 						[name: string]: unknown;
 					};
 					content: {
-						'application/json': components['schemas']['GetFavoriteLinksRenderResponse'];
+						'application/json': components['schemas']['ShowFavoriteLinksRenderResponse'];
 					};
 				};
 			};
@@ -520,7 +520,7 @@ export interface paths {
 						[name: string]: unknown;
 					};
 					content: {
-						'application/json': components['schemas']['SyncRenderResponse'];
+						'application/json': components['schemas']['ShowSyncDeltaRenderResponse'];
 					};
 				};
 			};
@@ -555,7 +555,7 @@ export interface paths {
 						[name: string]: unknown;
 					};
 					content: {
-						'application/json': components['schemas']['ApiTokenRenderResponse'];
+						'application/json': components['schemas']['CheckApiTokenRenderResponse'];
 					};
 				};
 			};
@@ -615,10 +615,10 @@ export interface components {
 		AddLinkToCollectionProps: {
 			collectionId: string | number;
 		};
-		ApiTokenRenderResponse: {
+		AuthorizeExtensionRenderResponse: unknown;
+		CheckApiTokenRenderResponse: {
 			message: string;
 		};
-		AuthorizeExtensionRenderResponse: unknown;
 		CreateCollectionExecuteResponse: {
 			collection: {
 				author?: {
@@ -700,7 +700,34 @@ export interface components {
 		DeleteLinkExecuteResponse: {
 			message: string;
 		};
-		GetCollectionsRenderResponse: {
+		MoveLinkExecuteResponse: {
+			message: string;
+		};
+		MoveLinkProps: {
+			fromCollectionId: string | number;
+			toCollectionId: string | number;
+		};
+		ReorderCollectionLinksExecuteResponse: {
+			message: string;
+		};
+		ReorderCollectionLinksProps: {
+			linkIds: (string | number)[];
+		};
+		ReorderCollectionsProps: {
+			collectionIds: (string | number)[];
+			/** @enum {string} */
+			visibility: 'PRIVATE' | 'PUBLIC';
+		};
+		ReorderFollowedCollectionsExecuteResponse: {
+			message: string;
+		};
+		ReorderFollowedCollectionsProps: {
+			collectionIds: (string | number)[];
+		};
+		ReorderOwnedCollectionsExecuteResponse: {
+			message: string;
+		};
+		ShowCollectionsRenderResponse: {
 			data: {
 				author?: {
 					createdAt: string;
@@ -770,7 +797,7 @@ export interface components {
 				visibility: components['schemas']['Visibility'];
 			}[];
 		};
-		GetFavoriteLinksRenderResponse: {
+		ShowFavoriteLinksRenderResponse: {
 			data: {
 				author?: {
 					createdAt: string;
@@ -792,7 +819,7 @@ export interface components {
 				url: string;
 			}[];
 		};
-		HealthRenderResponse: {
+		ShowHealthRenderResponse: {
 			capabilities: {
 				clickTracking: boolean;
 				extensionAuthHandoff: boolean;
@@ -800,34 +827,7 @@ export interface components {
 			};
 			isHealthy: boolean;
 		};
-		MoveLinkExecuteResponse: {
-			message: string;
-		};
-		MoveLinkProps: {
-			fromCollectionId: string | number;
-			toCollectionId: string | number;
-		};
-		ReorderCollectionLinksExecuteResponse: {
-			message: string;
-		};
-		ReorderCollectionLinksProps: {
-			linkIds: (string | number)[];
-		};
-		ReorderCollectionsProps: {
-			collectionIds: (string | number)[];
-			/** @enum {string} */
-			visibility: 'PRIVATE' | 'PUBLIC';
-		};
-		ReorderFollowedCollectionsExecuteResponse: {
-			message: string;
-		};
-		ReorderFollowedCollectionsProps: {
-			collectionIds: (string | number)[];
-		};
-		ReorderOwnedCollectionsExecuteResponse: {
-			message: string;
-		};
-		SyncRenderResponse: {
+		ShowSyncDeltaRenderResponse: {
 			collections: {
 				author?: {
 					createdAt: string;
