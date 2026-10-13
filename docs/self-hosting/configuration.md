@@ -18,7 +18,7 @@ AdonisJS itself looks for `.env` inside `apps/webapp`. A bare `node ace ...` run
 | `PORT`                                            | Port the application listens on, e.g. `3333`                    |
 | `APP_KEY`                                         | Application secret key, generate with `openssl rand -base64 32` |
 | `HOST`                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`           |
-| `LOG_LEVEL`                                       | e.g. `info`, `debug`                                            |
+| `LOG_LEVEL`                                       | `info` recommended, see [Logging](#logging)                     |
 | `APP_URL`                                         | Public application URL, e.g. `https://your-domain.com`          |
 | `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_DATABASE` | PostgreSQL connection                                           |
 
@@ -97,3 +97,34 @@ docker compose --profile smtp up -d
 with `SMTP_ALLOWED_SENDER_DOMAINS` set to the domains it may send for, `SMTP_RELAYHOST` set if it should forward to an upstream, and the app configured with `SMTP_HOST=smtp` and `SMTP_PORT=587`.
 
 Be aware of what self-hosting a mail transfer agent involves: without SPF, DKIM, DMARC records and a matching reverse DNS entry, Gmail and Outlook drop the mail, and many hosting providers block outbound port 25 outright.
+
+## Logging
+
+`LOG_LEVEL` sets the verbosity of the server log. Use `info` in production.
+
+At `info`, `warn` and `error`, the log records events: which user did what, with the id of the request that triggered it. It never contains email addresses, link URLs, hostnames or search terms.
+
+| Level   | Contains                                                           |
+| ------- | ------------------------------------------------------------------ |
+| `info`  | Auth events (user id, request id), scheduled job counts            |
+| `warn`  | Recoverable problems, such as a favicon that could not be resolved |
+| `error` | Failures, such as an email that could not be delivered             |
+| `debug` | Everything above, plus link URLs, hostnames and full error details |
+
+`debug` is meant for short troubleshooting sessions: turn it back to `info` afterwards. Even at `debug`, email addresses are never logged.
+
+If you ship logs to a third-party service, keep them at `info`.
+
+### Correlating an event
+
+- Every request-scoped line carries a `request_id`, so you can follow one request across lines.
+- A favicon that failed to resolve is logged without its address. The failing origin and the reason are listed on the admin Favicons page.
+- Authentication events are also recorded in the authentication journal, which names the account.
+
+### Upgrading from 5.5.0 or earlier
+
+Earlier versions wrote email addresses on every authentication event and link URLs on every favicon failure, at levels that are always on, and the Docker image defaulted to `debug`. Upgrading changes what gets written from now on, not what is already stored:
+
+- Check `LOG_LEVEL` in your `.env`: an `.env` copied from an older `.env.example` still says `debug`. Set it to `info`.
+- Drop the old output. With Docker Compose, `docker compose up -d --force-recreate my-links` starts a fresh container and discards the previous one's log. The `postgres` container's log can hold email addresses too, in constraint violation details: recreate it the same way.
+- If you ship logs to another service, delete or let expire what it received before the upgrade, according to its own retention settings.
