@@ -113,6 +113,7 @@ export const controllers = {
     CreateLink: () => import('#controllers/links/create_link_controller'),
     DeleteLink: () => import('#controllers/links/delete_link_controller'),
     MoveLink: () => import('#controllers/links/move_link_controller'),
+    RecordLinkVisit: () => import('#controllers/links/record_link_visit_controller'),
     RefreshLinkFavicon: () => import('#controllers/links/refresh_link_favicon_controller'),
     ShowLinks: () => import('#controllers/links/show_links_controller'),
     ToggleLinkFavorite: () => import('#controllers/links/toggle_link_favorite_controller'),

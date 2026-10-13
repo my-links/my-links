@@ -90,6 +90,7 @@ export type ScannedRoutes = {
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'link.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -208,6 +209,7 @@ export type ScannedRoutes = {
     'api-links.create': { paramsTuple?: []; params?: {} }
     'api-links.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-mcp.handle': { paramsTuple?: []; params?: {} }
+    'link.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.create': { paramsTuple?: []; params?: {} }
     'link.refresh-favicon': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
