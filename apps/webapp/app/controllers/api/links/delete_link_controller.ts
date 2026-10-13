@@ -1,8 +1,10 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { resolveRequestOrigin } from '#lib/request_origin';
 import { LinkService } from '#services/links/link_service';
 import { LinkQueryService } from '#services/links/link_query_service';
+import { deleteLinkValidator } from '#validators/links/delete_link_validator';
 import { deleteLinkAction } from '#controllers/links/actions/delete_link_action';
 
 @inject()
@@ -12,11 +14,19 @@ export default class DeleteLinkController {
 		protected linkQueryService: LinkQueryService
 	) {}
 
-	async execute(ctx: HttpContext) {
-		await deleteLinkAction(ctx, this.linkService, this.linkQueryService);
+	async execute({ request, auth, response }: HttpContext) {
+		const payload = await request.validateUsing(deleteLinkValidator);
 
-		return ctx.response.json({
-			message: 'Link deleted successfully',
-		});
+		await deleteLinkAction(
+			{
+				payload,
+				userId: auth.getUserOrFail().id,
+				origin: resolveRequestOrigin({ request }),
+			},
+			this.linkService,
+			this.linkQueryService
+		);
+
+		return response.json({ message: 'Link deleted successfully' });
 	}
 }
