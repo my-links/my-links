@@ -115,6 +115,10 @@ At `info`, `warn` and `error`, the log records events: which user did what, with
 
 If you ship logs to a third-party service, keep them at `info`.
 
+### Slow requests
+
+A request that takes 500 ms or more is logged at `info` as `slow request`, with its HTTP method, route pattern (such as `/l/:id`), status and duration. The URL and query string are never part of the line. Every response also carries a `Server-Timing` header, so the browser's network panel shows the server time of each request.
+
 ### Correlating an event
 
 - Every request-scoped line carries a `request_id`, so you can follow one request across lines.
