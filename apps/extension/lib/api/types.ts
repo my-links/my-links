@@ -1,7 +1,7 @@
 import type { components } from '@/lib/api/schema';
 
 export type CollectionWithLinks =
-	components['schemas']['GetCollectionsRenderResponse']['data'][number];
+	components['schemas']['ShowCollectionsRenderResponse']['data'][number];
 
 export type LinkResource = NonNullable<CollectionWithLinks['links']>[number];
 
@@ -14,7 +14,7 @@ export type CollectionVisibility = components['schemas']['Visibility'];
  * never sees which other collections a link belongs to).
  */
 export type FollowedCollectionWithLinks =
-	components['schemas']['GetCollectionsRenderResponse']['followedCollections'][number];
+	components['schemas']['ShowCollectionsRenderResponse']['followedCollections'][number];
 
 export type FollowedLinkResource = NonNullable<
 	FollowedCollectionWithLinks['links']
