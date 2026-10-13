@@ -1,5 +1,4 @@
 import { inject } from '@adonisjs/core';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import User from '#models/user';
@@ -59,7 +58,7 @@ export default class ReactivateAccountController {
 			...resolveRequestOrigin(ctx),
 		});
 
-		logger.info(`[${user.email}] reactivated and signed in`);
+		ctx.logger.info({ userId: user.id }, 'reactivated and signed in');
 
 		return ctx.response.redirect().toIntendedRoute('home');
 	}

@@ -1,7 +1,6 @@
 import { errors } from '@adonisjs/auth';
 import { inject } from '@adonisjs/core';
 import type { Session } from '@adonisjs/session';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
@@ -82,7 +81,7 @@ export default class LoginController {
 			...resolveRequestOrigin(ctx),
 		});
 
-		logger.info(`[${user.email}] auth success`);
+		ctx.logger.info({ userId: user.id }, 'auth success');
 		// Honors an intended URL stashed by AuthMiddleware, so a guest sent to
 		// the form from a deep link lands back on it instead of the dashboard.
 		return ctx.response.redirect().toIntendedRoute('home');

@@ -1,5 +1,4 @@
 import { inject } from '@adonisjs/core';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
@@ -40,7 +39,7 @@ export default class ChangePasswordController {
 		});
 
 		ctx.session.flash('success', PASSWORD_CHANGED_MESSAGE);
-		logger.info(`[${user.email}] password changed`);
+		ctx.logger.info({ userId: user.id }, 'password changed');
 
 		return ctx.response.redirectToNamedRoute('user.settings');
 	}

@@ -1,5 +1,4 @@
 import { inject } from '@adonisjs/core';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { RoutesList } from '@adonisjs/core/types/http';
 
@@ -156,7 +155,10 @@ export default class HandleOauthCallbackController {
 		});
 
 		ctx.session.flash('success', PROVIDER_LINKED_MESSAGE);
-		logger.info(`[${user.email}] linked ${identity.provider}`);
+		ctx.logger.info(
+			{ userId: user.id, provider: identity.provider },
+			'provider linked'
+		);
 
 		return ctx.response.redirectToNamedRoute('user.settings');
 	}
@@ -192,7 +194,7 @@ export default class HandleOauthCallbackController {
 		});
 
 		ctx.session.flash('success', 'Successfully authenticated');
-		logger.info(`[${user.email}] auth success`);
+		ctx.logger.info({ userId: user.id }, 'auth success');
 
 		// Honors an intended URL stashed by AuthMiddleware so the extension auth handoff survives a login round-trip.
 		return ctx.response.redirect().toIntendedRoute('home');
