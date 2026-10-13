@@ -126,7 +126,7 @@ export class FaviconHttpClient {
 			if (this.isDomainException(error)) {
 				throw error;
 			}
-			logger.debug(`Impersonated fetch failed for ${url}`, error);
+			logger.debug({ err: error, url }, 'Impersonated fetch failed');
 			return undefined;
 		}
 	}

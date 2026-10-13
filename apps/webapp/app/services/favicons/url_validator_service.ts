@@ -47,10 +47,10 @@ export class UrlValidatorService {
 	async assertUrlAllowed(url: string): Promise<void> {
 		const outcome = await this.checkUrl(url);
 		if (outcome === 'blocked') {
-			throw new UrlBlockedException(`URL is blocked: ${url}`);
+			throw new UrlBlockedException('URL is blocked');
 		}
 		if (outcome === 'unresolvable') {
-			throw new UnresolvableHostException(`Host could not be resolved: ${url}`);
+			throw new UnresolvableHostException('Host could not be resolved');
 		}
 	}
 
@@ -61,30 +61,30 @@ export class UrlValidatorService {
 		}
 
 		if (!ALLOWED_PROTOCOLS.has(parsedUrl.protocol)) {
-			logger.debug(`Blocked non-http(s) URL: ${url}`);
+			logger.debug({ url }, 'Blocked non-http(s) URL');
 			return 'blocked';
 		}
 
 		const hostname = this.stripBrackets(parsedUrl.hostname.toLowerCase());
 
 		if (this.isLocalDomain(hostname)) {
-			logger.debug(`Blocked local domain URL: ${url}`);
+			logger.debug({ url }, 'Blocked local domain URL');
 			return 'blocked';
 		}
 
 		if (!this.isIpLiteral(hostname) && !this.isFullyQualified(hostname)) {
-			logger.debug(`Blocked non-FQDN hostname: ${url}`);
+			logger.debug({ url }, 'Blocked non-FQDN hostname');
 			return 'blocked';
 		}
 
 		const resolvedAddresses = await this.resolveSafely(hostname);
 		if (resolvedAddresses.length === 0) {
-			logger.debug(`Blocked unresolvable hostname: ${url}`);
+			logger.debug({ url }, 'Blocked unresolvable hostname');
 			return 'unresolvable';
 		}
 
 		if (resolvedAddresses.some((resolved) => this.isBlockedAddress(resolved))) {
-			logger.debug(`Blocked internal/private target: ${url}`);
+			logger.debug({ url }, 'Blocked internal/private target');
 			return 'blocked';
 		}
 
@@ -95,7 +95,7 @@ export class UrlValidatorService {
 		try {
 			return new URL(url);
 		} catch (error) {
-			logger.warn(`Invalid URL format: ${url}`, error);
+			logger.debug({ err: error, url }, 'Invalid URL format');
 			return undefined;
 		}
 	}
@@ -104,7 +104,7 @@ export class UrlValidatorService {
 		try {
 			return await this.resolveHostname(hostname);
 		} catch (error) {
-			logger.debug(`DNS resolution failed for ${hostname}`, error);
+			logger.debug({ err: error, hostname }, 'DNS resolution failed');
 			return [];
 		}
 	}
