@@ -37,6 +37,10 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
 	.tap((app) => {
 		app.booting(async () => {
 			await import('#start/env');
+			app.rcFile.providers.push({
+				file: () => import('#tests/helpers/captured_logs_provider'),
+				environment: ['test'],
+			});
 		});
 		app.listen('SIGTERM', () => app.terminate());
 		app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate());
