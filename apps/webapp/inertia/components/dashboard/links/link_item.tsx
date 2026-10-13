@@ -6,10 +6,12 @@ import type {
 } from '@dnd-kit/core';
 
 import { cn } from '~/lib/cn';
-import { urlFor } from '~/lib/tuyau';
 import { LinkItemSummary } from './link_item_summary';
 import { LinkControls, LinkControlsRef } from './link_controls';
+import { recordLinkVisit } from '~/lib/links/record_link_visit';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
+
+const MIDDLE_MOUSE_BUTTON = 1;
 
 type LinkItemProps = {
 	link: Data.Link;
@@ -37,18 +39,25 @@ export function LinkItem({
 		setFaviconCacheBust((version) => version + 1);
 	};
 
+	const isInsideControls = (e: React.MouseEvent) =>
+		!hideMenu && (e.target as HTMLElement).closest('[data-link-controls]');
+
 	const handleClick = (e: React.MouseEvent) => {
 		if (shouldSuppressClick()) {
 			e.preventDefault();
 			return;
 		}
-		if (
-			!hideMenu &&
-			(e.target as HTMLElement).closest('[data-link-controls]')
-		) {
+		if (isInsideControls(e)) {
 			e.preventDefault();
 			e.stopPropagation();
+			return;
 		}
+		recordLinkVisit(link.id);
+	};
+
+	const handleAuxClick = (e: React.MouseEvent) => {
+		if (e.button !== MIDDLE_MOUSE_BUTTON || isInsideControls(e)) return;
+		recordLinkVisit(link.id);
 	};
 
 	const handleContextMenu = (e: React.MouseEvent) => {
@@ -64,17 +73,15 @@ export function LinkItem({
 	const isCompact = layout === 'compact';
 	const isList = layout === 'list';
 
-	// Opened through the server redirect rather than straight to `url`, so a
-	// click counts the same here as it does from the browser extension.
-	const visitUrl = urlFor('link.visit', { id: link.id });
-
+	// Navigates straight to `url` (no redirect hop); the click is recorded on the side.
 	return (
 		<a
 			ref={setActivatorNodeRef}
-			href={visitUrl}
+			href={url}
 			target="_blank"
 			rel="noreferrer"
 			onClick={handleClick}
+			onAuxClick={handleAuxClick}
 			onContextMenu={handleContextMenu}
 			className={cn(
 				'block rounded-lg border',

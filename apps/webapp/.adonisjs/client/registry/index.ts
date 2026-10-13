@@ -522,6 +522,12 @@ const routes = {
     tokens: [{"old":"/l/:id","type":0,"val":"l","end":""},{"old":"/l/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['link.visit']['types'],
   },
+  'link.record-visit': {
+    methods: ["POST"],
+    pattern: '/l/:id',
+    tokens: [{"old":"/l/:id","type":0,"val":"l","end":""},{"old":"/l/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['link.record-visit']['types'],
+  },
   'link.index': {
     methods: ["GET","HEAD"],
     pattern: '/links',

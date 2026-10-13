@@ -2,8 +2,8 @@ import { Data } from '@generated/data';
 import { Input } from '@minimalstuff/ui';
 import { ChangeEvent, useCallback, useState } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
 import { useSearchResults } from '~/hooks/use_search_results';
+import { recordLinkVisit } from '~/lib/links/record_link_visit';
 import { useSearchNavigation } from '~/hooks/use_search_navigation';
 import { SearchResultsContent } from '~/components/dashboard/search/search_results_content';
 
@@ -15,15 +15,11 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 	const [searchTerm, setSearchTerm] = useState('');
 	const { results, isLoading } = useSearchResults(searchTerm);
 
-	// Opened through the server redirect rather than straight to `link.url`,
-	// so a click counts the same here as it does from `LinkItem`.
+	// Opens `link.url` directly (no redirect hop); the click is recorded on the side.
 	const handleResultClick = useCallback(
 		(link: Data.Link) => {
-			window.open(
-				urlFor('link.visit', { id: link.id }),
-				'_blank',
-				'noopener,noreferrer'
-			);
+			window.open(link.url, '_blank', 'noopener,noreferrer');
+			recordLinkVisit(link.id);
 			onClose();
 		},
 		[onClose]
