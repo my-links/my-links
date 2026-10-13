@@ -15,6 +15,7 @@ const loggerConfig = defineConfig({
 			enabled: true,
 			name: env.get('APP_NAME'),
 			level: env.get('LOG_LEVEL'),
+			redact: { paths: ['err.detail'], remove: true },
 			transport: {
 				targets: targets()
 					.pushIf(!app.inProduction, targets.pretty())
