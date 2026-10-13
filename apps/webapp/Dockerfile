@@ -34,7 +34,7 @@ RUN pnpm --filter @my-links/webapp deploy --prod --ignore-scripts --legacy /depl
 FROM base AS production
 
 ENV NODE_ENV=production
-ENV LOG_LEVEL=debug
+ENV LOG_LEVEL=info
 ENV CACHE_VIEWS=false
 ENV PORT=$PORT
 
