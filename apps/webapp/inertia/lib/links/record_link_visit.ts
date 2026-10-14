@@ -16,6 +16,8 @@ export function recordLinkVisit(linkId: number): void {
 		method: 'POST',
 		keepalive: true,
 		credentials: 'same-origin',
+		// Shield answers a CSRF rejection with a redirect back, which would otherwise land as a silent 200.
+		redirect: 'error',
 		headers: { [XSRF_HEADER_NAME]: readXsrfToken() },
 	})
 		.then((response) => {
