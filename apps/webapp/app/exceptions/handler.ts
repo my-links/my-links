@@ -1,5 +1,6 @@
 import { errors } from '@adonisjs/lucid';
 import app from '@adonisjs/core/services/app';
+import { errors as shieldErrors } from '@adonisjs/shield';
 import { errors as limiterErrors } from '@adonisjs/limiter';
 import { ExceptionHandler, type HttpContext } from '@adonisjs/core/http';
 import type {
@@ -7,6 +8,8 @@ import type {
 	StatusPageRange,
 	StatusPageRenderer,
 } from '@adonisjs/core/types/http';
+
+import { toLoggableUrl } from '#lib/logging/loggable_url';
 
 const API_PREFIX = '/api/v1';
 
@@ -99,6 +102,26 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	 * @note You should not attempt to send a response from this method.
 	 */
 	async report(error: unknown, ctx: HttpContext) {
+		if (error instanceof shieldErrors.E_BAD_CSRF_TOKEN) {
+			return this.reportRejectedCsrfToken(error, ctx);
+		}
+
 		return super.report(error, ctx);
+	}
+
+	// Expected bot and stale-tab traffic that shield recovers with a redirect, so info rather than warn.
+	private reportRejectedCsrfToken(
+		error: InstanceType<typeof shieldErrors.E_BAD_CSRF_TOKEN>,
+		ctx: HttpContext
+	) {
+		ctx.logger.info(
+			{
+				...this.context(ctx),
+				method: ctx.request.method(),
+				url: toLoggableUrl(ctx.request.url()),
+				hasSessionCookie: !ctx.session.fresh,
+			},
+			error.message
+		);
 	}
 }
