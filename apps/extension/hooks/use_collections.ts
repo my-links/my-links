@@ -5,6 +5,7 @@ import { collectionsCacheStorage } from '@/lib/storage';
 import { fetchCollections } from '@/lib/api/collections';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { requestBackgroundSync } from '@/lib/sync/messages';
+import { useQueryDataSnapshot } from '@/hooks/use_query_data_snapshot';
 
 export const COLLECTIONS_QUERY_KEY = ['collections'] as const;
 
@@ -30,6 +31,9 @@ export function useCollections(): UseCollectionsReturn {
 		staleTime: Infinity,
 	});
 
+	const collections =
+		useQueryDataSnapshot<CollectionWithLinks[]>(COLLECTIONS_QUERY_KEY) ?? [];
+
 	useEffect(() => {
 		requestBackgroundSync();
 
@@ -41,7 +45,7 @@ export function useCollections(): UseCollectionsReturn {
 	}, [queryClient]);
 
 	return {
-		collections: query.data ?? [],
+		collections,
 		isLoading: query.isPending,
 		error: query.error,
 	};

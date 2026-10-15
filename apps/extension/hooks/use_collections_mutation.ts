@@ -42,7 +42,9 @@ export function useCollectionsMutation<TVariables>({
 	return useMutation({
 		mutationFn,
 		onMutate: async (variables) => {
-			await queryClient.cancelQueries({ queryKey: COLLECTIONS_QUERY_KEY });
+			if (queryClient.isFetching({ queryKey: COLLECTIONS_QUERY_KEY }) > 0) {
+				await queryClient.cancelQueries({ queryKey: COLLECTIONS_QUERY_KEY });
+			}
 
 			const previousCollections =
 				queryClient.getQueryData<CollectionWithLinks[]>(

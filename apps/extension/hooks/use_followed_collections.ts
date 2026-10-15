@@ -5,6 +5,7 @@ import { collectionsCacheStorage } from '@/lib/storage';
 import { fetchCollections } from '@/lib/api/collections';
 import { requestBackgroundSync } from '@/lib/sync/messages';
 import type { FollowedCollectionWithLinks } from '@/lib/api/types';
+import { useQueryDataSnapshot } from '@/hooks/use_query_data_snapshot';
 
 export const FOLLOWED_COLLECTIONS_QUERY_KEY = ['followedCollections'] as const;
 
@@ -33,6 +34,11 @@ export function useFollowedCollections(): UseFollowedCollectionsReturn {
 		staleTime: Infinity,
 	});
 
+	const followedCollections =
+		useQueryDataSnapshot<FollowedCollectionWithLinks[]>(
+			FOLLOWED_COLLECTIONS_QUERY_KEY
+		) ?? [];
+
 	useEffect(() => {
 		requestBackgroundSync();
 
@@ -47,7 +53,7 @@ export function useFollowedCollections(): UseFollowedCollectionsReturn {
 	}, [queryClient]);
 
 	return {
-		followedCollections: query.data ?? [],
+		followedCollections,
 		isLoading: query.isPending,
 		error: query.error,
 	};
