@@ -33,9 +33,13 @@ export function useReorderFollowedCollections() {
 		mutationFn: ({ collectionIds }) =>
 			reorderFollowedCollections(collectionIds),
 		onMutate: async ({ collectionIds }) => {
-			await queryClient.cancelQueries({
-				queryKey: FOLLOWED_COLLECTIONS_QUERY_KEY,
-			});
+			if (
+				queryClient.isFetching({ queryKey: FOLLOWED_COLLECTIONS_QUERY_KEY }) > 0
+			) {
+				await queryClient.cancelQueries({
+					queryKey: FOLLOWED_COLLECTIONS_QUERY_KEY,
+				});
+			}
 
 			const previousCollections =
 				queryClient.getQueryData<FollowedCollectionWithLinks[]>(
