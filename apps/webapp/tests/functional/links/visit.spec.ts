@@ -71,7 +71,7 @@ test.group('Link visit redirect', (group) => {
 		assert.equal(visited.updatedAt.toMillis(), updatedAtBeforeVisit);
 	});
 
-	test('should let an anonymous visitor follow a link in a public collection', async ({
+	test('should let an anonymous visitor follow a link in a public collection without counting the click', async ({
 		client,
 		assert,
 	}) => {
@@ -81,8 +81,28 @@ test.group('Link visit redirect', (group) => {
 		const response = await client.get(`/l/${link.id}`).redirects(0);
 
 		response.assertStatus(302);
+		response.assertHeader('location', 'https://example.com/target');
 		const visited = await Link.findOrFail(link.id);
-		assert.equal(visited.clicks, 1);
+		assert.equal(visited.clicks, 0);
+	});
+
+	test('should let another user follow a public link without counting the click', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser();
+		const otherUser = await createUser();
+		const link = await createLinkIn(owner, VISIBILITY.PUBLIC);
+
+		const response = await client
+			.get(`/l/${link.id}`)
+			.loginAs(otherUser)
+			.redirects(0);
+
+		response.assertStatus(302);
+		response.assertHeader('location', 'https://example.com/target');
+		const visited = await Link.findOrFail(link.id);
+		assert.equal(visited.clicks, 0);
 	});
 
 	test('should not disclose a private link to someone who does not own it', async ({
@@ -154,17 +174,36 @@ test.group('Link visit recording', (group) => {
 		assert.equal(visited.updatedAt.toMillis(), updatedAtBeforeVisit);
 	});
 
-	test('should count the click when an anonymous visitor records a visit on a public collection link', async ({
+	test('should answer 204 without counting the click when an anonymous visitor records a visit on a public collection link', async ({
 		client,
 		assert,
 	}) => {
 		const user = await createUser();
 		const link = await createLinkIn(user, VISIBILITY.PUBLIC);
 
-		await client.post(`/l/${link.id}`).withCsrfToken();
+		const response = await client.post(`/l/${link.id}`).withCsrfToken();
 
+		response.assertStatus(204);
 		const visited = await Link.findOrFail(link.id);
-		assert.equal(visited.clicks, 1);
+		assert.equal(visited.clicks, 0);
+	});
+
+	test('should answer 204 without counting the click when another user records a visit on a public link', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser();
+		const otherUser = await createUser();
+		const link = await createLinkIn(owner, VISIBILITY.PUBLIC);
+
+		const response = await client
+			.post(`/l/${link.id}`)
+			.withCsrfToken()
+			.loginAs(otherUser);
+
+		response.assertStatus(204);
+		const visited = await Link.findOrFail(link.id);
+		assert.equal(visited.clicks, 0);
 	});
 
 	test('should not count the click when someone records a visit on a private link they do not own', async ({

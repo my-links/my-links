@@ -11,11 +11,13 @@ export default class RecordLinkVisitController {
 	async execute({ request, response, auth }: HttpContext) {
 		const { params } = await request.validateUsing(visitLinkValidator);
 
+		const visitorId = auth.user?.id;
+
 		const link = await this.linkVisitService.getVisitableLink(
 			params.id,
-			auth.user?.id
+			visitorId
 		);
-		await this.linkVisitService.recordVisit(link.id);
+		await this.linkVisitService.recordVisit(link, visitorId);
 
 		return response.noContent();
 	}

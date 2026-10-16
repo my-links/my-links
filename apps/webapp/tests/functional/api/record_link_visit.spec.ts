@@ -65,7 +65,7 @@ test.group('API record link visit', (group) => {
 		assert.isNotNull(visited.lastClickedAt);
 	});
 
-	test('should count the click when the link is in another user public collection', async ({
+	test('should answer 204 without counting the click when the link is in another user public collection', async ({
 		client,
 		assert,
 	}) => {
@@ -73,13 +73,14 @@ test.group('API record link visit', (group) => {
 		const follower = await createUser({ emailPrefix: 'visit-public-follower' });
 		const link = await createLinkIn(author, VISIBILITY.PUBLIC);
 
-		await client
+		const response = await client
 			.post(`/api/v1/links/${link.id}/visits`)
 			.withGuard('api')
 			.loginAs(follower);
 
+		response.assertStatus(HTTP_NO_CONTENT);
 		const visited = await Link.findOrFail(link.id);
-		assert.equal(visited.clicks, 1);
+		assert.equal(visited.clicks, 0);
 	});
 
 	test('should answer 404 and not count the click when the link is private and owned by someone else', async ({
