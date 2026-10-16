@@ -6,8 +6,40 @@ import {
 
 export class ExtensionAuthError extends Error {}
 
+export class InsecureInstanceUrlError extends ExtensionAuthError {
+	constructor() {
+		super(
+			'Use an https:// URL. Plain http is only allowed for localhost and loopback addresses.'
+		);
+	}
+}
+
+const LOOPBACK_IPV4_PATTERN = /^127(\.\d{1,3}){3}$/;
+const LOOPBACK_IPV6_HOSTNAME = '[::1]';
+const LOCALHOST_HOSTNAME = 'localhost';
+
+function isLoopbackHostname(hostname: string): boolean {
+	return (
+		hostname === LOCALHOST_HOSTNAME ||
+		hostname.endsWith(`.${LOCALHOST_HOSTNAME}`) ||
+		hostname === LOOPBACK_IPV6_HOSTNAME ||
+		LOOPBACK_IPV4_PATTERN.test(hostname)
+	);
+}
+
+function isAllowedInstanceUrl(url: URL): boolean {
+	if (url.protocol === 'https:') {
+		return true;
+	}
+	return url.protocol === 'http:' && isLoopbackHostname(url.hostname);
+}
+
 export function normalizeInstanceUrl(rawInstanceUrl: string): string {
-	return new URL(rawInstanceUrl.trim()).origin;
+	const url = new URL(rawInstanceUrl.trim());
+	if (!isAllowedInstanceUrl(url)) {
+		throw new InsecureInstanceUrlError();
+	}
+	return url.origin;
 }
 
 function withWwwPrefix(origin: string): string | null {

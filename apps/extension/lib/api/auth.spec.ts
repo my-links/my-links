@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
 	ExtensionAuthError,
+	InsecureInstanceUrlError,
 	extractTokenFromAuthCallback,
 	normalizeInstanceUrl,
 	resolveCanonicalOrigin,
@@ -28,6 +29,30 @@ describe('normalizeInstanceUrl', () => {
 
 	it('should throw when the input is not a valid URL', () => {
 		expect(() => normalizeInstanceUrl('not-a-url')).toThrow();
+	});
+
+	it.each([
+		'http://mylinks.example.com',
+		'http://192.168.1.10:3333',
+		'http://localhost.example.com',
+		'http://128.0.0.1',
+		'ftp://mylinks.example.com',
+		'localhost:3333',
+	])('should reject %s as an insecure instance', (rawInstanceUrl) => {
+		expect(() => normalizeInstanceUrl(rawInstanceUrl)).toThrow(
+			InsecureInstanceUrlError
+		);
+	});
+
+	it.each([
+		['http://localhost:3333', 'http://localhost:3333'],
+		['http://app.localhost:3333', 'http://app.localhost:3333'],
+		['http://127.0.0.1:3333', 'http://127.0.0.1:3333'],
+		['http://127.1.2.3', 'http://127.1.2.3'],
+		['http://[::1]:3333', 'http://[::1]:3333'],
+		['https://mylinks.example.com', 'https://mylinks.example.com'],
+	])('should accept %s', (rawInstanceUrl, expectedOrigin) => {
+		expect(normalizeInstanceUrl(rawInstanceUrl)).toBe(expectedOrigin);
 	});
 });
 
