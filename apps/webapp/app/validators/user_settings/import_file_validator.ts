@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine';
 
-const MAX_IMPORT_FILE_SIZE = '10mb';
+import { MAXIMUM_IMPORT_FILE_SIZE } from '#constants/data_import';
 
 /**
  * Guards the upload itself. Declaring the constraints here rather than in the
@@ -10,7 +10,7 @@ const MAX_IMPORT_FILE_SIZE = '10mb';
 export const importFileValidator = vine.create(
 	vine.object({
 		file: vine.file({
-			size: MAX_IMPORT_FILE_SIZE,
+			size: MAXIMUM_IMPORT_FILE_SIZE,
 			extnames: ['json'],
 		}),
 	})
