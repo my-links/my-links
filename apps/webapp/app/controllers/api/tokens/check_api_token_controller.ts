@@ -8,12 +8,14 @@ import { UnAuthorizedException } from '#exceptions/api/tokens/un_authorized_exce
 export default class CheckApiTokenController {
 	async render(ctx: HttpContext) {
 		const token = getTokenFromHeader(ctx);
-		if (!token) {
+		const user = ctx.auth.use('api').user;
+		if (!token || !user) {
 			throw new UnAuthorizedException();
 		}
 
 		return ctx.response.json({
 			message: 'Token is valid',
+			userId: user.id,
 		});
 	}
 }

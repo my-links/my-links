@@ -291,4 +291,18 @@ test.group('DELETE /api/v1/tokens/current', (group) => {
 
 		response.assertStatus(HTTP_OK);
 	});
+
+	test('should return the owner id from the check route', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'check-owner' });
+		const token = await apiTokenService.createExtensionToken(user);
+
+		const response = await client
+			.get(CHECK_ROUTE)
+			.header('Authorization', `Bearer ${token.value!.release()}`);
+
+		assert.equal(response.body().userId, user.id);
+	});
 });
