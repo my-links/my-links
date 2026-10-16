@@ -21,6 +21,14 @@ msgstr "{email} a été désactivé après une demande de suppression et n'a pas
 msgid "{field}"
 msgstr "{field}"
 
+#: inertia/components/dashboard/modals/make_collection_private_confirmation.tsx:13
+msgid "{followersCount, plural, one {# follower will lose access to this collection} other {# followers will lose access to this collection}}"
+msgstr "{followersCount, plural, one {# abonné perdra l'accès à cette collection} other {# abonnés perdront l'accès à cette collection}}"
+
+#: inertia/components/dashboard/modals/make_collection_public_confirmation.tsx:20
+msgid "{linksCount, plural, one {# link will become public} other {# links will become public}}"
+msgstr "{linksCount, plural, one {# lien deviendra public} other {# liens deviendront publics}}"
+
 #: inertia/pages/admin/activity_journal.tsx:40
 #: inertia/pages/admin/auth_journal.tsx:39
 msgid "{totalEvents} events"
@@ -178,15 +186,19 @@ msgstr "Vous avez déjà un compte ? <0>Connectez-vous</0>"
 msgid "An unexpected error occurred."
 msgstr "Une erreur inattendue est survenue."
 
+#: inertia/components/dashboard/modals/make_collection_public_confirmation.tsx:34
+msgid "Anyone with the link will be able to see this collection and its links."
+msgstr "Toute personne disposant du lien pourra voir cette collection et ses liens."
+
 #: inertia/components/api_tokens/api_tokens.tsx:18
 msgid "API Tokens"
 msgstr "Jetons API"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:53
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:49
 msgid "Are you sure you want to delete this collection and {linksCount, plural, one {its # link} other {its # links}}?"
 msgstr "Êtes-vous sûr de vouloir supprimer cette collection et {linksCount, plural, one {son # lien} other {ses # liens}} ?"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:55
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:51
 msgid "Are you sure you want to delete this collection?"
 msgstr "Êtes-vous sûr de vouloir supprimer cette collection ?"
 
@@ -221,6 +233,7 @@ msgstr "Journal d'authentification"
 msgid "Authentication journal"
 msgstr "Journal d'authentification"
 
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:101
 #: inertia/components/tour/tour_tooltip.tsx:55
 msgid "Back"
 msgstr "Retour"
@@ -242,7 +255,7 @@ msgid "Can't create, edit, or delete anything"
 msgstr "Ne peut rien créer, modifier ou supprimer"
 
 #: inertia/components/api_tokens/create_token_modal.tsx:80
-#: inertia/components/dashboard/modals/modal_form_footer.tsx:24
+#: inertia/components/dashboard/modals/modal_form_footer.tsx:22
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
 #: inertia/components/user_settings/sessions.tsx:27
@@ -510,7 +523,7 @@ msgstr "Connexions base de données"
 msgid "Default page"
 msgstr "Page par défaut"
 
-#: inertia/components/dashboard/modals/delete_collection_modal.tsx:78
+#: inertia/components/dashboard/modals/delete_collection_modal.tsx:74
 #: inertia/components/dashboard/modals/delete_link_modal.tsx:70
 #: inertia/hooks/admin/use_account_confirmations.tsx:33
 #: inertia/hooks/admin/use_delete_selected_users.tsx:33
@@ -1021,6 +1034,18 @@ msgstr "Créé par"
 msgid "Maintenance"
 msgstr "Maintenance"
 
+#: inertia/components/dashboard/modals/visibility_change_confirmation.tsx:45
+msgid "Make private"
+msgstr "Rendre privée"
+
+#: inertia/components/dashboard/modals/visibility_change_confirmation.tsx:47
+msgid "Make public"
+msgstr "Rendre publique"
+
+#: inertia/components/dashboard/modals/make_collection_private_confirmation.tsx:19
+msgid "Making it public again will not bring them back."
+msgstr "La rendre de nouveau publique ne les ramènera pas."
+
 #: inertia/components/admin/users/account_actions.tsx:81
 #: inertia/components/admin/users/account_actions.tsx:84
 msgid "Mark the address as confirmed"
@@ -1470,6 +1495,10 @@ msgstr "Partagez une collection avec un seul lien"
 msgid "Share collection"
 msgstr "Partager la collection"
 
+#: inertia/components/dashboard/modals/make_collection_public_confirmation.tsx:41
+msgid "Share URL"
+msgstr "URL de partage"
+
 #: inertia/components/home/call_to_action_auth_actions.tsx:30
 #: inertia/components/home/hero_auth_actions.tsx:38
 msgid "Sign In"
@@ -1543,6 +1572,10 @@ msgstr "Basculez entre liste, grille, mosaïque et compact. Vous pouvez aussi fa
 #: inertia/components/user_settings/preferences.tsx:80
 msgid "Switch between the light and dark palette."
 msgstr "Basculer entre la palette claire et la palette sombre."
+
+#: inertia/components/dashboard/modals/make_collection_public_confirmation.tsx:48
+msgid "Switching back to private later cuts access, but it cannot undo copies already made."
+msgstr "Repasser en privé coupera l'accès par la suite, mais ne pourra pas annuler les copies déjà faites."
 
 #: inertia/components/common/navigation/account_menu_theme_group.tsx:16
 msgid "System"
@@ -1635,6 +1668,10 @@ msgstr "Ce compte pourra gérer tous les comptes de cette instance."
 msgid "This account will lose access to the admin area, including this page."
 msgstr "Ce compte perdra l'accès à l'espace d'administration, y compris cette page."
 
+#: inertia/components/dashboard/modals/make_collection_public_confirmation.tsx:14
+msgid "This collection has no links yet"
+msgstr "Cette collection ne contient pas encore de liens"
+
 #: inertia/hooks/admin/use_account_confirmations.tsx:26
 msgid "This disables the account and revokes every session and token immediately. It is permanently deleted once the grace period ends, unless you restore it before then."
 msgstr "Ceci désactive le compte et révoque immédiatement toutes les sessions et tous les jetons. Il est définitivement supprimé une fois la période de grâce écoulée, sauf si vous le restaurez avant."
@@ -1694,7 +1731,7 @@ msgstr "Saisissez-le à nouveau"
 msgid "Unconfirmed"
 msgstr "Non confirmée"
 
-#: inertia/components/dashboard/headers/dashboard_header.tsx:93
+#: inertia/components/dashboard/headers/dashboard_header.tsx:94
 #: inertia/components/dashboard/headers/quick_actions_content.tsx:104
 #: inertia/pages/shared.tsx:89
 msgid "Unfollow"
@@ -1709,7 +1746,7 @@ msgstr "Délier"
 msgid "Unlink Google"
 msgstr "Délier Google"
 
-#: inertia/components/dashboard/modals/edit_collection_modal.tsx:70
+#: inertia/components/dashboard/modals/edit_collection_modal.tsx:109
 #: inertia/components/dashboard/modals/edit_link_modal.tsx:96
 msgid "Update"
 msgstr "Mettre à jour"

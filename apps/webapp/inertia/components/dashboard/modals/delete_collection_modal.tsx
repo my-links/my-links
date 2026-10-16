@@ -6,7 +6,7 @@ import { plural, t } from '@lingui/core/macro';
 import { ModalFooter } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useTargetCollection } from '~/hooks/use_target_collection';
 import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	FormCollectionContent,
@@ -23,11 +23,7 @@ export function DeleteCollectionModal({
 	collection,
 }: Readonly<DeleteCollectionModalProps>) {
 	const formId = useId();
-	const { activeCollection } = useDashboardProps();
-	const targetCollection = collection ?? activeCollection;
-	const linksCount = collection
-		? collection.linksCount
-		: activeCollection?.links?.length;
+	const { targetCollection, linksCount } = useTargetCollection(collection);
 	const { data, setData, submit, processing, errors } =
 		useForm<FormCollectionData>({
 			icon: targetCollection?.icon ?? null,
