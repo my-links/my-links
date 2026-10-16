@@ -3,6 +3,7 @@ import { Env } from '@adonisjs/core/env';
 import { REGISTRATION_POLICIES } from '#constants/auth';
 import { parseExtensionIds } from '#lib/extension/extension_ids';
 import { parseAdminSetupToken } from '#lib/auth/admin_setup_token';
+import { parseTrustedProxies } from '#lib/network/trusted_proxies';
 
 export default await Env.create(new URL('../', import.meta.url), {
 	NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
@@ -77,6 +78,18 @@ export default await Env.create(new URL('../', import.meta.url), {
 	 * extensions.
 	 */
 	EXTENSION_IDS: parseExtensionIds,
+
+	/*
+|----------------------------------------------------------
+| Variables for configuring the reverse proxy
+|----------------------------------------------------------
+*/
+	/**
+	 * Optional: comma-separated proxy-addr names, IPs or CIDR ranges trusted to
+	 * set forwarded headers, replacing the default private ranges. See
+	 * `parseTrustedProxies`.
+	 */
+	TRUSTED_PROXIES: parseTrustedProxies,
 
 	/*
 |----------------------------------------------------------
