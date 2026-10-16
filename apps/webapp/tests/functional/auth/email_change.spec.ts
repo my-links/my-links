@@ -11,6 +11,7 @@ import UserSession from '#models/user_session';
 import OneTimeToken from '#models/one_time_token';
 import { createUser } from '#tests/factories/user_factory';
 import { freshSudoSession } from '#tests/helpers/sudo_mode';
+import { newPasswordForm } from '#tests/helpers/password_forms';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { createUserSession } from '#tests/factories/user_session_factory';
@@ -27,6 +28,7 @@ const SETTINGS_PATH = '/user/settings';
 const LOGIN_PATH = '/login';
 const SUDO_PATH = '/sudo';
 const INVALID_LINK_MESSAGE = 'This link is no longer valid';
+const RESET_PASSWORD = 'another-horse-battery-staple';
 
 function requestChange(client: ApiClient, user: User, newEmail: string) {
 	return client
@@ -65,6 +67,25 @@ async function issueChangeToken(
 	});
 
 	return secret;
+}
+
+async function issueResetToken(user: User): Promise<Secret<string>> {
+	const oneTimeTokenService = await app.container.make(OneTimeTokenService);
+	const { secret } = await oneTimeTokenService.issue({
+		userId: user.id,
+		type: ONE_TIME_TOKEN_TYPE.PASSWORD_RESET,
+	});
+
+	return secret;
+}
+
+function submitReset(client: ApiClient, secret: Secret<string>) {
+	return client
+		.post(`/reset-password/${secret.release()}`)
+		.header('x-forwarded-for', nextClientAddress())
+		.form(newPasswordForm(RESET_PASSWORD))
+		.withCsrfToken()
+		.redirects(0);
 }
 
 async function issueCancellationToken(user: User): Promise<Secret<string>> {
@@ -341,6 +362,19 @@ test.group('Email change: confirming it', (group) => {
 			ONE_TIME_TOKEN_TYPE.EMAIL_CHANGE_CANCELLATION
 		);
 		assert.isEmpty(outstandingTokens);
+	});
+
+	test('should refuse a password reset link issued before the move', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'email-confirm-reset' });
+		const resetSecret = await issueResetToken(user);
+		const changeSecret = await issueChangeToken(user, NEW_EMAIL);
+		await followConfirmationLink(client, changeSecret);
+
+		const response = await submitReset(client, resetSecret);
+
+		response.assertFlashMessage('error', INVALID_LINK_MESSAGE);
 	});
 
 	test('should record an email changed event', async ({ assert, client }) => {

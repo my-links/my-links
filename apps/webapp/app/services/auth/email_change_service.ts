@@ -130,9 +130,9 @@ export class EmailChangeService {
 			}
 		);
 
-		// The veto has nothing left to veto, and a verification link addressed
-		// to the mailbox this account just left proves nothing about the one it
-		// moved to.
+		// The veto has nothing left to veto, and a verification or reset link
+		// addressed to the mailbox this account just left proves nothing about
+		// the one it moved to.
 		await this.oneTimeTokenService.invalidateAll({
 			userId: user.id,
 			type: CANCELLATION_TOKEN_TYPE,
@@ -140,6 +140,10 @@ export class EmailChangeService {
 		await this.oneTimeTokenService.invalidateAll({
 			userId: user.id,
 			type: ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION,
+		});
+		await this.oneTimeTokenService.invalidateAll({
+			userId: user.id,
+			type: ONE_TIME_TOKEN_TYPE.PASSWORD_RESET,
 		});
 
 		return user;
