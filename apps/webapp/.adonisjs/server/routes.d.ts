@@ -29,6 +29,7 @@ export type ScannedRoutes = {
     'collection.reorder-owned': { paramsTuple?: []; params?: {} }
     'collection.reorder-followed': { paramsTuple?: []; params?: {} }
     'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'collection.move-section': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -223,6 +224,7 @@ export type ScannedRoutes = {
     'collection.reorder-owned': { paramsTuple?: []; params?: {} }
     'collection.reorder-followed': { paramsTuple?: []; params?: {} }
     'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'collection.move-section': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user.settings.rename': { paramsTuple?: []; params?: {} }
     'user.settings.landing_page': { paramsTuple?: []; params?: {} }

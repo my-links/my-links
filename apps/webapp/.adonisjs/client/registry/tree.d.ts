@@ -33,6 +33,7 @@ export interface ApiDefinition {
     reorderOwned: typeof routes['collection.reorder-owned']
     reorderFollowed: typeof routes['collection.reorder-followed']
     reorderLinks: typeof routes['collection.reorder-links']
+    moveSection: typeof routes['collection.move-section']
     show: typeof routes['collection.show']
     edit: typeof routes['collection.edit']
     delete: typeof routes['collection.delete']

@@ -76,41 +76,119 @@ export class CollectionService {
 		payload: CollectionPayload,
 		origin: RequestOrigin
 	) {
-		const collection = await Collection.query()
+		const collection = await db.transaction(async (transaction) => {
+			const ownedCollection = await this.findOwnedCollection(
+				userId,
+				id,
+				transaction
+			);
+
+			ownedCollection.merge({
+				name: payload.name,
+				description: payload.description,
+				icon: payload.icon,
+			});
+			await this.applyVisibilityChange(
+				ownedCollection,
+				payload.visibility,
+				transaction
+			);
+			await ownedCollection.save();
+
+			return ownedCollection;
+		});
+
+		await this.recordCollectionUpdated(userId, id, origin);
+
+		return collection;
+	}
+
+	/** `collectionIds` is the full ordered target section, moved collection included. */
+	async moveOwnedCollectionToSection(
+		userId: User['id'],
+		id: Collection['id'],
+		visibility: Visibility,
+		collectionIds: Collection['id'][],
+		origin: RequestOrigin
+	) {
+		await db.transaction(async (transaction) => {
+			const collection = await this.findOwnedCollection(
+				userId,
+				id,
+				transaction
+			);
+
+			await this.applyVisibilityChange(collection, visibility, transaction);
+			await this.collectionOrderingService.assertSectionMembership(
+				userId,
+				visibility,
+				collectionIds,
+				collection,
+				transaction
+			);
+			await collection.save();
+			await this.collectionOrderingService.rankSection(
+				collectionIds,
+				transaction
+			);
+		});
+
+		await this.recordCollectionUpdated(userId, id, origin);
+	}
+
+	private async findOwnedCollection(
+		userId: User['id'],
+		id: Collection['id'],
+		client: TransactionClientContract
+	) {
+		return await Collection.query({ client })
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
 			.firstOrFail();
+	}
 
-		const wasPublic = collection.visibility === VISIBILITY.PUBLIC;
-		const visibilityChanged = collection.visibility !== payload.visibility;
-
+	/** Does not save: the caller persists, and leaving public drops the followers. */
+	private async applyVisibilityChange(
+		collection: Collection,
+		visibility: Visibility,
+		client: TransactionClientContract
+	): Promise<void> {
 		// The Inbox is pinned outside the ordered sections, and those are built
 		// per visibility: a public one would show up twice and make every
 		// reorder of the public section fail as incomplete. Only the sharing
 		// direction is refused: an Inbox made public before this rule existed
 		// has to keep its way back.
-		if (collection.isDefault && payload.visibility === VISIBILITY.PUBLIC) {
+		if (collection.isDefault && visibility === VISIBILITY.PUBLIC) {
 			throw new CannotShareDefaultCollectionException(
 				'The default collection cannot be made public'
 			);
 		}
 
-		collection.merge(payload);
+		if (collection.visibility === visibility) return;
 
-		if (visibilityChanged) {
-			collection.position =
-				await this.collectionOrderingService.getNextCollectionPosition(
-					userId,
-					payload.visibility
-				);
+		const wasPublic = collection.visibility === VISIBILITY.PUBLIC;
+
+		collection.visibility = visibility;
+		collection.position =
+			await this.collectionOrderingService.getNextCollectionPosition(
+				collection.authorId,
+				visibility,
+				client
+			);
+
+		if (wasPublic) {
+			await this.collectionFollowerService.removeAllFollowers(
+				collection.id,
+				client
+			);
 		}
+	}
 
-		await collection.save();
-
-		if (wasPublic && payload.visibility === VISIBILITY.PRIVATE) {
-			await this.collectionFollowerService.removeAllFollowers(id);
-		}
-
+	private async recordCollectionUpdated(
+		userId: User['id'],
+		id: Collection['id'],
+		origin: RequestOrigin
+	): Promise<void> {
 		await this.activityEventService.record({
 			type: ACTIVITY_EVENT_TYPE.COLLECTION_UPDATED,
 			userId,
@@ -118,8 +196,6 @@ export class CollectionService {
 			subjectType: AUDIT_SUBJECT_TYPE.COLLECTION,
 			subjectId: id,
 		});
-
-		return collection;
 	}
 
 	async deleteCollection(

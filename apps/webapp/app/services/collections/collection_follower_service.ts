@@ -1,5 +1,6 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
+import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import User from '#models/user';
 import { idSetsMatch } from '#lib/id_set';
@@ -130,11 +131,14 @@ export class CollectionFollowerService {
 		});
 	}
 
-	async removeAllFollowers(collectionId: Collection['id']) {
-		await db
-			.from('collection_followers')
-			.where('collection_id', collectionId)
-			.delete();
+	async removeAllFollowers(
+		collectionId: Collection['id'],
+		client?: TransactionClientContract
+	) {
+		const query = client
+			? client.from('collection_followers')
+			: db.from('collection_followers');
+		await query.where('collection_id', collectionId).delete();
 	}
 
 	async reorderFollowedCollections(

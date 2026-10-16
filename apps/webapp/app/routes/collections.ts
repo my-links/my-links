@@ -41,6 +41,13 @@ router
 					.as('collection.reorder-links');
 
 				router
+					.put('/:id/section', [
+						controllers.collections.MoveOwnedCollection,
+						'execute',
+					])
+					.as('collection.move-section');
+
+				router
 					.get('/:id', [controllers.collections.ShowCollection, 'render'])
 					.as('collection.show');
 
