@@ -49,4 +49,31 @@ test.group('Security headers', (group) => {
 		assert.isNotNull(nonceMatch);
 		assert.include(response.text(), `nonce="${nonceMatch?.[1]}"`);
 	});
+
+	test('should send a same-origin referrer policy and a deny-all permissions policy on a rendered page', async ({
+		client,
+		assert,
+	}) => {
+		const response = await client.get('/login');
+
+		response.assertHeader('referrer-policy', 'same-origin');
+		const permissionsPolicy = response.headers()['permissions-policy'];
+		assert.include(permissionsPolicy, 'camera=()');
+		assert.include(permissionsPolicy, 'microphone=()');
+		assert.include(permissionsPolicy, 'geolocation=()');
+		assert.include(permissionsPolicy, 'payment=()');
+		assert.include(permissionsPolicy, 'usb=()');
+		assert.include(permissionsPolicy, 'browsing-topics=()');
+	});
+
+	test('should send the same policies on an API response', async ({
+		client,
+		assert,
+	}) => {
+		const response = await client.get('/api/v1/collections');
+
+		response.assertStatus(401);
+		response.assertHeader('referrer-policy', 'same-origin');
+		assert.include(response.headers()['permissions-policy'], 'camera=()');
+	});
 });
