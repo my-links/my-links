@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import db from '@adonisjs/lucid/services/db';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 
@@ -8,8 +9,13 @@ export default class UpdateUserLastSeenMiddleware {
 	async handle(ctx: HttpContext, next: NextFn) {
 		const user = ctx.auth.user;
 		if (user && this.isLastSeenStale(user.lastSeenAt)) {
-			user.lastSeenAt = DateTime.local();
-			await user.save();
+			const lastSeenAt = DateTime.local();
+			// Query builder on purpose: save() would bump users.updated_at, which is not a profile change.
+			await db
+				.from('users')
+				.where('id', user.id)
+				.update({ last_seen_at: lastSeenAt.toJSDate() });
+			user.lastSeenAt = lastSeenAt;
 		}
 
 		const output = await next();
