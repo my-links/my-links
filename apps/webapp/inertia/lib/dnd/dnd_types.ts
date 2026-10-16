@@ -24,10 +24,20 @@ export type InboxDropData = {
 	collectionId: number;
 };
 
+/** An owned sidebar section as a drop zone, for empty or collapsed ones. */
+export type SectionDropData = {
+	kind: 'section';
+	section: CollectionSection;
+};
+
 export type LinkDragData = {
 	kind: 'link';
 	linkId: number;
 	collectionId: number;
 };
 
-export type DragData = CollectionDragData | InboxDropData | LinkDragData;
+export type DragData =
+	| CollectionDragData
+	| InboxDropData
+	| SectionDropData
+	| LinkDragData;

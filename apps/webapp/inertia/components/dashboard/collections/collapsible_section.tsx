@@ -7,8 +7,12 @@ import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { SortableCollectionGroup } from './sortable_collection_group';
 import { CollapsibleSectionHeader } from './collapsible_section_header';
 import { useSectionCollapseStore } from '~/stores/section_collapse_store';
+import { useSectionMoveDropZone } from '~/hooks/use_section_move_drop_zone';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
+
+const HOVERED_MOVE_CLASSES =
+	'rounded-lg bg-blue-50 ring-1 ring-blue-300 opacity-100 dark:bg-blue-900/20 dark:ring-blue-400/40';
 
 type CollapsibleSectionProps = {
 	title: ReactNode;
@@ -37,6 +41,7 @@ export function CollapsibleSection({
 		(state) => state.expanded[section]
 	);
 	const isRail = useSidebarMode() === 'rail';
+	const { setNodeRef, isHoveredByMove } = useSectionMoveDropZone(section);
 
 	if (collections.length === 0 && !alwaysShow) {
 		return null;
@@ -52,7 +57,13 @@ export function CollapsibleSection({
 		if (isEmpty) return null;
 
 		return (
-			<div className="mb-2 space-y-1">
+			<div
+				ref={setNodeRef}
+				className={cn(
+					'mb-2 space-y-1',
+					isHoveredByMove && HOVERED_MOVE_CLASSES
+				)}
+			>
 				<hr className="mx-3 my-2 border-gray-200/50 dark:border-gray-700/50" />
 				<SortableCollectionGroup collections={collections} section={section} />
 			</div>
@@ -60,7 +71,14 @@ export function CollapsibleSection({
 	}
 
 	return (
-		<div className={cn('mb-2', isEmpty && 'opacity-40')}>
+		<div
+			ref={setNodeRef}
+			className={cn(
+				'mb-2',
+				isEmpty && 'opacity-40',
+				isHoveredByMove && HOVERED_MOVE_CLASSES
+			)}
+		>
 			<CollapsibleSectionHeader
 				title={title}
 				section={section}

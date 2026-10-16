@@ -2,6 +2,7 @@ import type {
 	CollectionDragData,
 	InboxDropData,
 	LinkDragData,
+	SectionDropData,
 } from './dnd_types';
 
 export function isCollectionDragData(
@@ -21,6 +22,15 @@ export function isInboxDropData(data: unknown): data is InboxDropData {
 		data !== null &&
 		'kind' in data &&
 		data.kind === 'inbox'
+	);
+}
+
+export function isSectionDropData(data: unknown): data is SectionDropData {
+	return (
+		typeof data === 'object' &&
+		data !== null &&
+		'kind' in data &&
+		data.kind === 'section'
 	);
 }
 

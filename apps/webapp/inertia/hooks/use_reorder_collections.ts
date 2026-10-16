@@ -10,7 +10,8 @@ export function useReorderCollections(
 	visibility: Visibility,
 	serverCollections: CollectionWithLinks[]
 ) {
-	const { items, moveAndCommit } = useOptimisticOrder(serverCollections);
+	const { items, moveAndCommit, replaceItems } =
+		useOptimisticOrder(serverCollections);
 
 	const reorder = (activeId: number, overId: number) => {
 		moveAndCommit(
@@ -21,5 +22,5 @@ export function useReorderCollections(
 		);
 	};
 
-	return { collections: items, reorder };
+	return { collections: items, reorder, replaceCollections: replaceItems };
 }

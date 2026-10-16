@@ -324,15 +324,25 @@ msgstr "Collapse"
 msgid "Collection managed by <0>{0}</0>"
 msgstr "Collection managed by <0>{0}</0>"
 
+#. placeholder {0}: sectionLabel(targetSection)
+#: inertia/lib/dnd/dnd_announcements.ts:77
+msgid "Collection moved to {0}."
+msgstr "Collection moved to {0}."
+
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:40
+#: inertia/lib/dnd/dnd_announcements.ts:55
 msgid "Collection moved within {0}."
 msgstr "Collection moved within {0}."
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:60
+#: inertia/lib/dnd/dnd_announcements.ts:79
 msgid "Collection order updated in {0}."
 msgstr "Collection order updated in {0}."
+
+#. placeholder {0}: sectionLabel(targetSection)
+#: inertia/lib/dnd/dnd_announcements.ts:53
+msgid "Collection over {0}."
+msgstr "Collection over {0}."
 
 #: inertia/components/admin/users/users_table_columns.tsx:60
 #: inertia/components/dashboard/headers/quick_actions_content.tsx:58
@@ -786,7 +796,7 @@ msgid "Followed"
 msgstr "Followed"
 
 #: inertia/components/dashboard/collections/collection_list.tsx:34
-#: inertia/lib/dnd/dnd_announcements.ts:14
+#: inertia/lib/dnd/dnd_announcements.ts:15
 msgid "Followed Collections"
 msgstr "Followed Collections"
 
@@ -963,7 +973,7 @@ msgstr "link"
 msgid "Link"
 msgstr "Link"
 
-#: inertia/lib/dnd/dnd_announcements.ts:71
+#: inertia/lib/dnd/dnd_announcements.ts:90
 msgid "Link filed into another collection."
 msgstr "Link filed into another collection."
 
@@ -971,15 +981,15 @@ msgstr "Link filed into another collection."
 msgid "Link layout"
 msgstr "Link layout"
 
-#: inertia/lib/dnd/dnd_announcements.ts:50
+#: inertia/lib/dnd/dnd_announcements.ts:65
 msgid "Link moved."
 msgstr "Link moved."
 
-#: inertia/lib/dnd/dnd_announcements.ts:73
+#: inertia/lib/dnd/dnd_announcements.ts:92
 msgid "Link order updated."
 msgstr "Link order updated."
 
-#: inertia/lib/dnd/dnd_announcements.ts:48
+#: inertia/lib/dnd/dnd_announcements.ts:63
 msgid "Link over another collection."
 msgstr "Link over another collection."
 
@@ -1042,6 +1052,14 @@ msgstr "Make private"
 msgid "Make public"
 msgstr "Make public"
 
+#: inertia/hooks/use_move_collection_to_section.tsx:63
+msgid "Make this collection private"
+msgstr "Make this collection private"
+
+#: inertia/hooks/use_move_collection_to_section.tsx:62
+msgid "Make this collection public"
+msgstr "Make this collection public"
+
 #: inertia/components/dashboard/modals/make_collection_private_confirmation.tsx:19
 msgid "Making it public again will not bring them back."
 msgstr "Making it public again will not bring them back."
@@ -1072,12 +1090,12 @@ msgid "Move up"
 msgstr "Move up"
 
 #: inertia/components/dashboard/collections/collection_list.tsx:44
-#: inertia/lib/dnd/dnd_announcements.ts:18
+#: inertia/lib/dnd/dnd_announcements.ts:19
 msgid "My Private Collections"
 msgstr "My Private Collections"
 
 #: inertia/components/dashboard/collections/collection_list.tsx:39
-#: inertia/lib/dnd/dnd_announcements.ts:16
+#: inertia/lib/dnd/dnd_announcements.ts:17
 msgid "My Public Collections"
 msgstr "My Public Collections"
 
@@ -1254,11 +1272,11 @@ msgid "Personal Data"
 msgstr "Personal Data"
 
 #. placeholder {0}: sectionLabel(data.section)
-#: inertia/lib/dnd/dnd_announcements.ts:27
+#: inertia/lib/dnd/dnd_announcements.ts:38
 msgid "Picked up collection in {0}."
 msgstr "Picked up collection in {0}."
 
-#: inertia/lib/dnd/dnd_announcements.ts:30
+#: inertia/lib/dnd/dnd_announcements.ts:41
 msgid "Picked up link."
 msgstr "Picked up link."
 
@@ -1345,9 +1363,9 @@ msgstr "Remove"
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
-#: inertia/lib/dnd/dnd_announcements.ts:58
-#: inertia/lib/dnd/dnd_announcements.ts:64
-#: inertia/lib/dnd/dnd_announcements.ts:78
+#: inertia/lib/dnd/dnd_announcements.ts:73
+#: inertia/lib/dnd/dnd_announcements.ts:83
+#: inertia/lib/dnd/dnd_announcements.ts:97
 msgid "Reorder cancelled."
 msgstr "Reorder cancelled."
 
