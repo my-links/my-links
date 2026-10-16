@@ -1,5 +1,6 @@
 import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
+import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import AuditEvent from '#models/audit_event';
@@ -180,6 +181,28 @@ test.group('Login: credentials', (group) => {
 	});
 });
 
+async function createVerifiedUserWithPassword() {
+	const user = await createUser({ emailPrefix: 'login-throttle' });
+	await verifyUserEmail(user);
+	await setUserPassword(user, VALID_PASSWORD);
+
+	return user;
+}
+
+function postLogin(
+	client: ApiClient,
+	email: string,
+	password: string,
+	clientAddress: string
+) {
+	return client
+		.post('/login')
+		.header('x-forwarded-for', clientAddress)
+		.form({ email, password })
+		.withCsrfToken()
+		.redirects(0);
+}
+
 test.group('Login: throttling', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
@@ -201,5 +224,83 @@ test.group('Login: throttling', (group) => {
 		const response = await attempt();
 
 		response.assertFlashMessage('error', 'Too many requests');
+	});
+
+	test('should throttle the address on every request, successful ones included', async ({
+		client,
+	}) => {
+		const clientAddress = nextClientAddress();
+		const user = await createVerifiedUserWithPassword();
+		for (let index = 0; index < LOGIN_BURST_TIER.requests; index += 1) {
+			await postLogin(client, user.email, VALID_PASSWORD, clientAddress);
+		}
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			clientAddress
+		);
+
+		response.assertFlashMessage('error', 'Too many requests');
+	});
+
+	test('should never throttle the account however many sign-ins succeed', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		for (let index = 0; index <= LOGIN_BURST_TIER.requests; index += 1) {
+			await postLogin(client, user.email, VALID_PASSWORD, nextClientAddress());
+		}
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			nextClientAddress()
+		);
+
+		response.assertHeader('location', '/');
+	});
+
+	test('should throttle the account once failures from many addresses exhaust its budget', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		for (let index = 0; index < LOGIN_BURST_TIER.requests; index += 1) {
+			await postLogin(client, user.email, WRONG_PASSWORD, nextClientAddress());
+		}
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			nextClientAddress()
+		);
+
+		response.assertFlashMessage('error', 'Too many requests');
+	});
+
+	test('should reset the failure count of the account on a successful sign-in', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		const failuresBeforeBudget = LOGIN_BURST_TIER.requests - 1;
+		for (let index = 0; index < failuresBeforeBudget; index += 1) {
+			await postLogin(client, user.email, WRONG_PASSWORD, nextClientAddress());
+		}
+		await postLogin(client, user.email, VALID_PASSWORD, nextClientAddress());
+		for (let index = 0; index < failuresBeforeBudget; index += 1) {
+			await postLogin(client, user.email, WRONG_PASSWORD, nextClientAddress());
+		}
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			nextClientAddress()
+		);
+
+		response.assertHeader('location', '/');
 	});
 });
