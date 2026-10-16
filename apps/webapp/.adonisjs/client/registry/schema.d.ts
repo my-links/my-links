@@ -43,18 +43,6 @@ export interface Registry {
       errorResponse: unknown
     }
   }
-  'shared': {
-    methods: ["GET","HEAD"]
-    pattern: '/shared/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/shared_collections/shared_collection').getSharedCollectionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'admin.dashboard': {
     methods: ["GET","HEAD"]
     pattern: '/admin'
@@ -379,6 +367,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/unfollow_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'shared': {
+    methods: ["GET","HEAD"]
+    pattern: '/shared/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/shared_collections/shared_collection').getSharedCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'extension.authorize': {
     methods: ["GET","HEAD"]
     pattern: '/extension/authorize'
@@ -389,6 +389,18 @@ export interface Registry {
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/extension/authorize_extension_validator').authorizeExtensionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/extension/authorize_extension_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/extension/authorize_extension_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'extension.authorize.submit': {
+    methods: ["POST"]
+    pattern: '/extension/authorize'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/extension/authorize_extension_validator').authorizeExtensionValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/extension/authorize_extension_validator').authorizeExtensionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/extension/authorize_extension_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/extension/authorize_extension_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'user.api-tokens.store': {

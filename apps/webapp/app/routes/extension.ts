@@ -8,6 +8,9 @@ router
 		router
 			.get('/authorize', [controllers.extension.AuthorizeExtension, 'render'])
 			.as('extension.authorize');
+		router
+			.post('/authorize', [controllers.extension.AuthorizeExtension, 'execute'])
+			.as('extension.authorize.submit');
 	})
 	.prefix('/extension')
 	.middleware([middleware.auth()]);

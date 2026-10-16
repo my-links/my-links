@@ -5,7 +5,6 @@ export interface ApiDefinition {
   home: typeof routes['home']
   terms: typeof routes['terms']
   privacy: typeof routes['privacy']
-  shared: typeof routes['shared']
   admin: {
     dashboard: typeof routes['admin.dashboard']
     status: typeof routes['admin.status']
@@ -40,8 +39,11 @@ export interface ApiDefinition {
     follow: typeof routes['collection.follow']
     unfollow: typeof routes['collection.unfollow']
   }
+  shared: typeof routes['shared']
   extension: {
-    authorize: typeof routes['extension.authorize']
+    authorize: typeof routes['extension.authorize'] & {
+      submit: typeof routes['extension.authorize.submit']
+    }
   }
   user: {
     apiTokens: {

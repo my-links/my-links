@@ -159,7 +159,7 @@ msgstr "Add another sign-in method before removing this one"
 msgid "Add link"
 msgstr "Add link"
 
-#: inertia/components/dashboard/links/link_menu_items.tsx:47
+#: inertia/components/dashboard/links/link_menu_items.tsx:48
 msgid "Add to favorites"
 msgstr "Add to favorites"
 
@@ -185,6 +185,10 @@ msgstr "Administrators see your email, how you sign in, how many collections and
 #: inertia/components/status/global_status.tsx:46
 msgid "All services are operational"
 msgstr "All services are operational"
+
+#: inertia/pages/extension/authorize.tsx:37
+msgid "Allow the MyLinks browser extension to access your account?"
+msgstr "Allow the MyLinks browser extension to access your account?"
 
 #: inertia/pages/auth/register.tsx:42
 msgid "Already have an account? <0>Sign in</0>"
@@ -249,6 +253,10 @@ msgstr "Auth Journal"
 msgid "Authentication journal"
 msgstr "Authentication journal"
 
+#: inertia/pages/extension/authorize.tsx:59
+msgid "Authorize"
+msgstr "Authorize"
+
 #: inertia/components/dashboard/modals/edit_collection_modal.tsx:101
 #: inertia/components/tour/tour_tooltip.tsx:55
 msgid "Back"
@@ -286,6 +294,7 @@ msgstr "Can't create, edit, or delete anything"
 #: inertia/hooks/admin/use_favicon_actions.tsx:35
 #: inertia/hooks/admin/use_favicon_actions.tsx:52
 #: inertia/hooks/use_api_token_modals.tsx:41
+#: inertia/pages/extension/authorize.tsx:66
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -318,6 +327,10 @@ msgstr "Choose a new password"
 #: inertia/components/common/navigation/account_menu_external_links.tsx:29
 msgid "Chrome extension"
 msgstr "Chrome extension"
+
+#: inertia/pages/extension/authorize.tsx:17
+msgid "Chrome or another Chromium browser"
+msgstr "Chrome or another Chromium browser"
 
 #: inertia/components/admin/users/users_table_toolbar.tsx:64
 msgid "Clear"
@@ -402,6 +415,10 @@ msgstr "Confirm your identity"
 msgid "Confirmed"
 msgstr "Confirmed"
 
+#: inertia/pages/extension/authorize.tsx:34
+msgid "Connect the browser extension"
+msgstr "Connect the browser extension"
+
 #: inertia/components/auth/google_sign_in_action.tsx:18
 #: inertia/components/home/call_to_action_auth_actions.tsx:34
 #: inertia/components/home/hero_auth_actions.tsx:42
@@ -420,7 +437,7 @@ msgstr "Copied!"
 msgid "Copy"
 msgstr "Copy"
 
-#: inertia/components/dashboard/links/link_menu_items.tsx:52
+#: inertia/components/dashboard/links/link_menu_items.tsx:53
 msgid "Copy link"
 msgstr "Copy link"
 
@@ -545,8 +562,8 @@ msgstr "Delete"
 msgid "Delete a collection"
 msgstr "Delete a collection"
 
-#: inertia/components/dashboard/links/link_menu_items.tsx:71
-#: inertia/hooks/use_link_actions.tsx:55
+#: inertia/components/dashboard/links/link_menu_items.tsx:72
+#: inertia/hooks/use_link_actions.tsx:54
 msgid "Delete a link"
 msgstr "Delete a link"
 
@@ -651,8 +668,8 @@ msgstr "Drop in a link. Get back a bookmark you'll find again."
 msgid "Edit a collection"
 msgstr "Edit a collection"
 
-#: inertia/components/dashboard/links/link_menu_items.tsx:57
-#: inertia/hooks/use_link_actions.tsx:42
+#: inertia/components/dashboard/links/link_menu_items.tsx:58
+#: inertia/hooks/use_link_actions.tsx:41
 msgid "Edit a link"
 msgstr "Edit a link"
 
@@ -775,6 +792,10 @@ msgstr "Favorites"
 msgid "Find it in a search, not a scroll"
 msgstr "Find it in a search, not a scroll"
 
+#: inertia/pages/extension/authorize.tsx:16
+msgid "Firefox"
+msgstr "Firefox"
+
 #: inertia/components/common/navigation/account_menu_external_links.tsx:37
 msgid "Firefox extension"
 msgstr "Firefox extension"
@@ -848,7 +869,7 @@ msgid "Global status"
 msgstr "Global status"
 
 #. placeholder {0}: collection.name
-#: inertia/components/dashboard/links/link_menu_items.tsx:36
+#: inertia/components/dashboard/links/link_menu_items.tsx:37
 msgid "Go to {0}"
 msgstr "Go to {0}"
 
@@ -889,7 +910,7 @@ msgstr "If you use the browser extension, it syncs your collections only while y
 msgid "Import"
 msgstr "Import"
 
-#: inertia/components/dashboard/links/link_item_summary.tsx:45
+#: inertia/components/dashboard/links/link_item_summary.tsx:44
 msgid "In {collectionCount} collections"
 msgstr "In {collectionCount} collections"
 
@@ -1365,7 +1386,7 @@ msgstr "Redis"
 msgid "Redis memory usage"
 msgstr "Redis memory usage"
 
-#: inertia/components/dashboard/links/link_menu_items.tsx:64
+#: inertia/components/dashboard/links/link_menu_items.tsx:65
 msgid "Refresh favicon"
 msgstr "Refresh favicon"
 
@@ -1383,7 +1404,7 @@ msgstr "Remembered it? <0>Sign in</0>"
 msgid "Remove"
 msgstr "Remove"
 
-#: inertia/components/dashboard/links/link_menu_items.tsx:45
+#: inertia/components/dashboard/links/link_menu_items.tsx:46
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
@@ -1668,6 +1689,10 @@ msgstr "The collection and use of personal data is governed by our Privacy Polic
 #: inertia/components/dashboard/forms/form_collection_content.tsx:55
 msgid "The content will be visible to everyone"
 msgstr "The content will be visible to everyone"
+
+#: inertia/pages/extension/authorize.tsx:42
+msgid "The extension for <0><1/></0> asks for full access to your links and collections. Only continue if you started this from the extension yourself."
+msgstr "The extension for <0><1/></0> asks for full access to your links and collections. Only continue if you started this from the extension yourself."
 
 #: inertia/components/home/browser_bar_callout.tsx:12
 msgid "The extension, in your toolbar"
