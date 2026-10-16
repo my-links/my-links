@@ -83,6 +83,13 @@ export const SUDO_MODE_WINDOW_MINUTES = 15;
  */
 export const AUTH_EVENT_ORIGIN_RETENTION_DAYS = 180;
 
+/**
+ * How long a spent or expired credential token lingers before the nightly
+ * prune removes it. A day of slack keeps "this link has expired" answerable
+ * for people who click late.
+ */
+export const STALE_TOKEN_RETENTION_DAYS = 1;
+
 export const AUTH_EVENT_TYPE = {
 	LOGIN_SUCCEEDED: 'login_succeeded',
 	LOGIN_FAILED: 'login_failed',
