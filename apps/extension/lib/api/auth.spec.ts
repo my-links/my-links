@@ -1,8 +1,12 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { fakeBrowser } from 'wxt/testing/fake-browser';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
+	AuthorizationDeclinedError,
+	connectToInstance,
 	ExtensionAuthError,
 	InsecureInstanceUrlError,
+	extractErrorFromAuthCallback,
 	extractTokenFromAuthCallback,
 	normalizeInstanceUrl,
 	resolveCanonicalOrigin,
@@ -139,5 +143,59 @@ describe('extractTokenFromAuthCallback', () => {
 			'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/#error=access_denied';
 
 		expect(extractTokenFromAuthCallback(callbackUrl)).toBeNull();
+	});
+});
+
+describe('extractErrorFromAuthCallback', () => {
+	it('should read the error from the callback URL fragment', () => {
+		const callbackUrl =
+			'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/#error=access_denied';
+
+		expect(extractErrorFromAuthCallback(callbackUrl)).toBe('access_denied');
+	});
+
+	it('should return null when the fragment has no error key', () => {
+		const callbackUrl =
+			'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/#token=abc';
+
+		expect(extractErrorFromAuthCallback(callbackUrl)).toBeNull();
+	});
+});
+
+describe('connectToInstance', () => {
+	beforeEach(() => {
+		fakeBrowser.reset();
+		vi.stubGlobal('fetch', vi.fn().mockResolvedValue({}));
+		vi.spyOn(fakeBrowser.permissions, 'request').mockResolvedValue(
+			true as never
+		);
+		vi.spyOn(fakeBrowser.identity, 'getRedirectURL').mockReturnValue(
+			'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/'
+		);
+	});
+
+	afterEach(() => {
+		vi.unstubAllGlobals();
+		vi.restoreAllMocks();
+	});
+
+	it('should throw a declined error when the consent page was cancelled', async () => {
+		vi.spyOn(fakeBrowser.identity, 'launchWebAuthFlow').mockResolvedValue(
+			'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/#error=access_denied' as never
+		);
+
+		await expect(
+			connectToInstance('https://mylinks.example.com')
+		).rejects.toBeInstanceOf(AuthorizationDeclinedError);
+	});
+
+	it('should explain the cancellation to the user', async () => {
+		vi.spyOn(fakeBrowser.identity, 'launchWebAuthFlow').mockResolvedValue(
+			'https://abcdefghijklmnopabcdefghijklmnop.chromiumapp.org/#error=access_denied' as never
+		);
+
+		await expect(
+			connectToInstance('https://mylinks.example.com')
+		).rejects.toThrow('Authorization was cancelled.');
 	});
 });
