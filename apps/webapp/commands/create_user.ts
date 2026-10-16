@@ -78,15 +78,15 @@ export default class CreateUser extends AccountCommand {
 	}
 
 	/**
-	 * Offered as the default on an instance holding no account yet, because
-	 * that is the very rule both other creation paths follow: the first account
-	 * an instance gets is its administrator.
+	 * Offered as the default on an instance holding no administrator yet: the
+	 * operator typing this at a shell needs no setup token, and somebody has to
+	 * own the instance.
 	 */
 	private async promptForAdministrator(
 		accountQueryService: AccountQueryService
 	): Promise<boolean> {
 		return this.prompt.confirm(ADMINISTRATOR_PROMPT, {
-			default: await accountQueryService.isNextAccountAdmin(),
+			default: !(await accountQueryService.hasAdministrator()),
 		});
 	}
 }

@@ -27,6 +27,8 @@ export const REGISTRATION_CONFIRMATION_MESSAGES = {
 		'If that email address is available, the account is ready. Sign in below',
 } as const;
 
+const SETUP_TOKEN_QUERY_PARAMETER = 'setup_token';
+
 @inject()
 export default class RegisterController {
 	constructor(
@@ -37,11 +39,14 @@ export default class RegisterController {
 		protected readonly mailService: MailService
 	) {}
 
-	async render({ inertia }: HttpContext) {
+	async render({ inertia, request }: HttpContext) {
 		await this.registrationPolicyService.assertIsOpen();
 
 		return inertia.render('auth/register', {
 			minimumPasswordLength: MINIMUM_PASSWORD_LENGTH,
+			setupToken: this.readSetupToken(
+				request.input(SETUP_TOKEN_QUERY_PARAMETER)
+			),
 		});
 	}
 
@@ -67,6 +72,10 @@ export default class RegisterController {
 		ctx.session.flash('success', this.confirmationMessage());
 
 		return ctx.response.redirectToNamedRoute('auth.login');
+	}
+
+	private readSetupToken(submittedToken: unknown): string {
+		return typeof submittedToken === 'string' ? submittedToken : '';
 	}
 
 	private async welcome(user: User, origin: RequestOrigin): Promise<void> {

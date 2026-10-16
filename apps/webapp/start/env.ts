@@ -2,6 +2,7 @@ import { Env } from '@adonisjs/core/env';
 
 import { REGISTRATION_POLICIES } from '#constants/auth';
 import { parseExtensionIds } from '#lib/extension/extension_ids';
+import { parseAdminSetupToken } from '#lib/auth/admin_setup_token';
 
 export default await Env.create(new URL('../', import.meta.url), {
 	NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
@@ -50,6 +51,13 @@ export default await Env.create(new URL('../', import.meta.url), {
 	 * its first account, closed afterwards. See `resolveRegistrationPolicy`.
 	 */
 	ALLOW_REGISTRATION: Env.schema.enum.optional(REGISTRATION_POLICIES),
+
+	/**
+	 * Optional: the secret that lets a registration claim the administrator role
+	 * while the instance has none. Left unset, one is generated at boot and its
+	 * setup link logged. See `AdminSetupService`.
+	 */
+	ADMIN_SETUP_TOKEN: parseAdminSetupToken,
 
 	/**
 	 * Optional: the minimum response time, in milliseconds, of the sign-up,

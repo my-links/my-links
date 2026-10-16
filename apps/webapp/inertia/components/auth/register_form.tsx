@@ -6,10 +6,12 @@ import { useRegisterForm } from '~/hooks/use_register_form';
 
 type RegisterFormProps = {
 	minimumPasswordLength: number;
+	setupToken: string;
 };
 
 export function RegisterForm({
 	minimumPasswordLength,
+	setupToken,
 }: Readonly<RegisterFormProps>) {
 	const {
 		data,
@@ -18,7 +20,7 @@ export function RegisterForm({
 		isSubmitDisabled,
 		handleSubmit,
 		handleChangeOf,
-	} = useRegisterForm();
+	} = useRegisterForm(setupToken);
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4">

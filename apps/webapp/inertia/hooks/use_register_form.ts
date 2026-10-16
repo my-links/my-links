@@ -8,6 +8,7 @@ type RegisterFormData = {
 	email: string;
 	password: string;
 	passwordConfirmation: string;
+	setupToken: string;
 };
 
 type UseRegisterFormReturn = {
@@ -21,13 +22,14 @@ type UseRegisterFormReturn = {
 	) => (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function useRegisterForm(): UseRegisterFormReturn {
+export function useRegisterForm(setupToken: string): UseRegisterFormReturn {
 	const { data, setData, submit, processing, errors } =
 		useForm<RegisterFormData>({
 			name: '',
 			email: '',
 			password: '',
 			passwordConfirmation: '',
+			setupToken,
 		});
 
 	const isSubmitDisabled =

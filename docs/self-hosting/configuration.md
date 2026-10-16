@@ -24,14 +24,15 @@ AdonisJS itself looks for `.env` inside `apps/webapp`. A bare `node ace ...` run
 
 ## Optional variables
 
-| Variable                                    | Notes                                                                                     |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `DB_PASSWORD`                               | PostgreSQL password, may be omitted for a passwordless local database                     |
-| `TZ`                                        | Timezone, e.g. `UTC`                                                                      |
-| `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups, see [Authentication](/self-hosting/authentication) |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                        |
-| `EXTENSION_IDS`                             | Extra browser extension ids allowed to connect, see below                                 |
-| `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                  |
+| Variable                                    | Notes                                                                                                                                  |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `DB_PASSWORD`                               | PostgreSQL password, may be omitted for a passwordless local database                                                                  |
+| `TZ`                                        | Timezone, e.g. `UTC`                                                                                                                   |
+| `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups, see [Authentication](/self-hosting/authentication)                                              |
+| `ADMIN_SETUP_TOKEN`                         | Secret that lets a registration become the first administrator, see [Authentication](/self-hosting/authentication#first-administrator) |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                                                                     |
+| `EXTENSION_IDS`                             | Extra browser extension ids allowed to connect, see below                                                                              |
+| `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                                                               |
 
 ## Favicon store
 

@@ -28,13 +28,16 @@ export class AccountQueryService {
 	}
 
 	/**
-	 * The first account an instance ever gets is its administrator, whichever
-	 * authentication method opened it. Both account creation paths (the OAuth
-	 * callback and the registration form) ask here instead of restating the
-	 * rule.
+	 * Whether any account holds the administrator role. The setup token only
+	 * counts while the answer is no.
 	 */
-	async isNextAccountAdmin(trx?: TransactionClientContract): Promise<boolean> {
-		return !(await this.hasAnyAccount(trx));
+	async hasAdministrator(trx?: TransactionClientContract): Promise<boolean> {
+		const administrator = await User.query({ client: trx })
+			.select('id')
+			.where('isAdmin', true)
+			.first();
+
+		return administrator !== null;
 	}
 
 	/**

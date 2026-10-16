@@ -10,11 +10,16 @@ import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { createUser } from '#tests/factories/user_factory';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { REGISTRATION_BURST_TIER } from '#lib/limiter/attempt_tiers';
+import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { AccountQueryService } from '#services/user/account_query_service';
 import { VerifyEmailNotification } from '#mails/verify_email_notification';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 import { REGISTRATION_CONFIRMATION_MESSAGES } from '#controllers/auth/register_controller';
+import {
+	ADMIN_SETUP_TOKEN_MINIMUM_LENGTH,
+	resolveAdminSetupToken,
+} from '#lib/auth/admin_setup_token';
 
 const NEW_ACCOUNT_NAME = 'Ada Lovelace';
 const VALID_PASSWORD = 'correct-horse-battery-staple';
@@ -70,11 +75,15 @@ function openRegistration() {
 	return () => app.container.restore(RegistrationPolicyService);
 }
 
-function submitRegistration(client: ApiClient, email: string) {
+function submitRegistration(
+	client: ApiClient,
+	email: string,
+	setupToken?: string
+) {
 	return client
 		.post('/register')
 		.header('x-forwarded-for', nextClientAddress())
-		.form(registrationForm(email))
+		.form({ ...registrationForm(email), ...(setupToken && { setupToken }) })
 		.withCsrfToken()
 		.redirects(0);
 }
@@ -190,18 +199,6 @@ test.group('Registration: a brand new instance', (group) => {
 			.andWhere('type', AUTH_EVENT_TYPE.REGISTERED)
 			.first();
 		assert.isNotNull(event);
-	});
-
-	test('should make the very first account an administrator', async ({
-		assert,
-		client,
-	}) => {
-		const email = nextEmail();
-
-		await submitRegistration(client, email);
-
-		const registeredUser = await User.findByOrFail('email', email);
-		assert.isTrue(registeredUser.isAdmin);
 	});
 });
 
@@ -325,6 +322,119 @@ test.group('Registration: administrator rights', (group) => {
 
 		const registeredUser = await User.findByOrFail('email', email);
 		assert.isFalse(registeredUser.isAdmin);
+	});
+});
+
+async function currentSetupToken(): Promise<string> {
+	const adminSetupService = await app.container.make(AdminSetupService);
+
+	return adminSetupService.setupToken;
+}
+
+async function createAdministrator(): Promise<User> {
+	const administrator = await createUser({ emailPrefix: 'setup-admin' });
+	administrator.isAdmin = true;
+
+	return administrator.save();
+}
+
+test.group('Registration: the setup token', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.setup(() => emptyInstance());
+	group.each.teardown(() => app.container.restore(AdminSetupService));
+	group.each.teardown(() => app.container.restore(RegistrationPolicyService));
+
+	test('should make the first account an administrator when it carries the setup token', async ({
+		assert,
+		client,
+	}) => {
+		const email = nextEmail();
+
+		await submitRegistration(client, email, await currentSetupToken());
+
+		const registeredUser = await User.findByOrFail('email', email);
+		assert.isTrue(registeredUser.isAdmin);
+	});
+
+	test('should leave the first account a regular user when it carries no token', async ({
+		assert,
+		client,
+	}) => {
+		const email = nextEmail();
+
+		await submitRegistration(client, email);
+
+		const registeredUser = await User.findByOrFail('email', email);
+		assert.isFalse(registeredUser.isAdmin);
+	});
+
+	test('should leave the account a regular user when the token is wrong', async ({
+		assert,
+		client,
+	}) => {
+		const email = nextEmail();
+
+		await submitRegistration(client, email, 'not-the-setup-token');
+
+		const registeredUser = await User.findByOrFail('email', email);
+		assert.isFalse(registeredUser.isAdmin);
+	});
+
+	test('should still complete the registration when the token is wrong', async ({
+		client,
+	}) => {
+		const response = await submitRegistration(
+			client,
+			nextEmail(),
+			'not-the-setup-token'
+		);
+
+		response.assertHeader('location', LOGIN_PATH);
+	});
+
+	test('should ignore a valid token once an administrator exists', async ({
+		assert,
+		client,
+	}) => {
+		await createAdministrator();
+		openRegistration();
+		const email = nextEmail();
+
+		await submitRegistration(client, email, await currentSetupToken());
+
+		const registeredUser = await User.findByOrFail('email', email);
+		assert.isFalse(registeredUser.isAdmin);
+	});
+
+	test('should accept the token an operator configured', async ({
+		assert,
+		client,
+	}) => {
+		const configuredToken = 'c'.repeat(ADMIN_SETUP_TOKEN_MINIMUM_LENGTH);
+		app.container.swap(
+			AdminSetupService,
+			async () =>
+				new AdminSetupService(
+					await app.container.make(AccountQueryService),
+					resolveAdminSetupToken(configuredToken)
+				)
+		);
+		const email = nextEmail();
+
+		await submitRegistration(client, email, configuredToken);
+
+		const registeredUser = await User.findByOrFail('email', email);
+		assert.isTrue(registeredUser.isAdmin);
+	});
+
+	test('should hand the token of the setup link to the register page', async ({
+		client,
+	}) => {
+		const response = await client
+			.get('/register?setup_token=from-the-link')
+			.withInertia();
+
+		response.assertInertiaPropsContains({ setupToken: 'from-the-link' });
 	});
 });
 
