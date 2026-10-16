@@ -1,6 +1,7 @@
 import { Env } from '@adonisjs/core/env';
 
 import { REGISTRATION_POLICIES } from '#constants/auth';
+import { parseExtensionIds } from '#lib/extension/extension_ids';
 
 export default await Env.create(new URL('../', import.meta.url), {
 	NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
@@ -49,6 +50,18 @@ export default await Env.create(new URL('../', import.meta.url), {
 	 * its first account, closed afterwards. See `resolveRegistrationPolicy`.
 	 */
 	ALLOW_REGISTRATION: Env.schema.enum.optional(REGISTRATION_POLICIES),
+
+	/*
+|----------------------------------------------------------
+| Variables for configuring the browser extension
+|----------------------------------------------------------
+*/
+	/**
+	 * Optional: comma-separated Chromium extension ids or Firefox add-on ids
+	 * trusted in addition to the official store builds, for dev or self-built
+	 * extensions.
+	 */
+	EXTENSION_IDS: parseExtensionIds,
 
 	/*
 |----------------------------------------------------------

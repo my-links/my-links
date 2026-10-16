@@ -30,6 +30,7 @@ AdonisJS itself looks for `.env` inside `apps/webapp`. A bare `node ace ...` run
 | `TZ`                                        | Timezone, e.g. `UTC`                                                                      |
 | `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups, see [Authentication](/self-hosting/authentication) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                        |
+| `EXTENSION_IDS`                             | Extra browser extension ids allowed to connect, see below                                 |
 | `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                  |
 
 ## Favicon store
@@ -54,6 +55,10 @@ To obtain a Client ID and Secret:
 6. Set the resulting Client ID and Secret as `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
 
 Leave both empty to run without Google sign-in. Setting only one of the two is rejected at boot.
+
+## Browser extension
+
+Only the official MyLinks extension builds (Chrome Web Store and Firefox add-on) can be connected to an instance. Connecting asks for your consent first. To allow a development or self-built extension too, list its id in `EXTENSION_IDS`, comma-separated: a 32 letter Chromium id (letters `a` to `p`) or a Firefox add-on id such as `my-extension@example.com`. A malformed entry is rejected at boot.
 
 ## Outgoing mail
 

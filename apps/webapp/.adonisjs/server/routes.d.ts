@@ -7,7 +7,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
-    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.favicons': { paramsTuple?: []; params?: {} }
@@ -35,7 +34,9 @@ export type ScannedRoutes = {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
+    'extension.authorize.submit': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
     'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
@@ -107,7 +108,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
-    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.favicons': { paramsTuple?: []; params?: {} }
@@ -116,6 +116,7 @@ export type ScannedRoutes = {
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
@@ -146,7 +147,6 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
-    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.favicons': { paramsTuple?: []; params?: {} }
@@ -155,6 +155,7 @@ export type ScannedRoutes = {
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'user.settings': { paramsTuple?: []; params?: {} }
     'user.settings.export': { paramsTuple?: []; params?: {} }
@@ -194,6 +195,7 @@ export type ScannedRoutes = {
     'collection.create': { paramsTuple?: []; params?: {} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'extension.authorize.submit': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.settings.import': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }

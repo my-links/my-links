@@ -24,12 +24,6 @@ const routes = {
     tokens: [{"old":"/privacy","type":0,"val":"privacy","end":""}],
     types: placeholder as Registry['privacy']['types'],
   },
-  'shared': {
-    methods: ["GET","HEAD"],
-    pattern: '/shared/:id',
-    tokens: [{"old":"/shared/:id","type":0,"val":"shared","end":""},{"old":"/shared/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['shared']['types'],
-  },
   'admin.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/admin',
@@ -192,11 +186,23 @@ const routes = {
     tokens: [{"old":"/collections/:id/unfollow","type":0,"val":"collections","end":""},{"old":"/collections/:id/unfollow","type":1,"val":"id","end":""},{"old":"/collections/:id/unfollow","type":0,"val":"unfollow","end":""}],
     types: placeholder as Registry['collection.unfollow']['types'],
   },
+  'shared': {
+    methods: ["GET","HEAD"],
+    pattern: '/shared/:id',
+    tokens: [{"old":"/shared/:id","type":0,"val":"shared","end":""},{"old":"/shared/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['shared']['types'],
+  },
   'extension.authorize': {
     methods: ["GET","HEAD"],
     pattern: '/extension/authorize',
     tokens: [{"old":"/extension/authorize","type":0,"val":"extension","end":""},{"old":"/extension/authorize","type":0,"val":"authorize","end":""}],
     types: placeholder as Registry['extension.authorize']['types'],
+  },
+  'extension.authorize.submit': {
+    methods: ["POST"],
+    pattern: '/extension/authorize',
+    tokens: [{"old":"/extension/authorize","type":0,"val":"extension","end":""},{"old":"/extension/authorize","type":0,"val":"authorize","end":""}],
+    types: placeholder as Registry['extension.authorize.submit']['types'],
   },
   'user.api-tokens.store': {
     methods: ["POST"],

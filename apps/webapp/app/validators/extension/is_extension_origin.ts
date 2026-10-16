@@ -7,10 +7,11 @@
  * for itself. Hence this predicate: it exists because of Firefox, not because
  * the API wants to be callable from the open web.
  *
- * Only the scheme is checked, never the extension id. Pinning ids would buy
- * nothing: every route this gates is bearer-token authenticated, and the
- * policy that uses this predicate sends no credentials, so an extension
- * without a token reaches exactly the same 401 an anonymous caller does.
+ * Only the scheme is checked, never the extension id. Pinning ids here would
+ * buy nothing: every route this gates is bearer-token authenticated, and the
+ * policy that uses this predicate sends no credentials. Getting a token is
+ * what the extension id allowlist guards, see `resolveExtensionBrowser`: an
+ * extension outside it never receives one from `/extension/authorize`.
  */
 const EXTENSION_ORIGIN_PROTOCOLS = ['chrome-extension:', 'moz-extension:'];
 

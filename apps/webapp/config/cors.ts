@@ -23,7 +23,8 @@ const API_PATH_PREFIX = '/api/v1/';
  * `credentials` is off, which is what makes the extension-origin allowance
  * safe: the browser never attaches the session cookie, so a hostile extension
  * gains nothing it could not already do with an unauthenticated fetch. The
- * API's own auth is a bearer token it has no way of obtaining.
+ * API's own auth is a bearer token, and `/extension/authorize` only hands one
+ * to an allowlisted extension id after the user consents.
  */
 const corsConfig = defineConfig({
 	enabled: true,
