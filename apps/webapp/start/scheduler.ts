@@ -1,4 +1,4 @@
-// Runs the account sweeps, favicon purge and activity journal prune in-process (web env only); native deployments use system cron.
+// Runs the account sweeps, favicon purge, journal retention and token prune in-process (web env only); system cron is only needed if this preload is disabled.
 
 import cron from 'node-cron';
 import app from '@adonisjs/core/services/app';
@@ -7,6 +7,7 @@ import logger from '@adonisjs/core/services/logger';
 
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { StaleTokenPruneService } from '#services/auth/stale_token_prune_service';
 import { AccountRetentionService } from '#services/user/account_retention_service';
 import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
 
@@ -93,3 +94,19 @@ logExecutionFailures(
 	anonymizeAuthEventOriginsTask,
 	'auth-events-anonymize-origins'
 );
+
+const pruneStaleTokensTask = cron.schedule(
+	'30 5 * * *',
+	async () => {
+		const staleTokenPruneService = await app.container.make(
+			StaleTokenPruneService
+		);
+		const { deletedOneTimeTokens, deletedAccessTokens } =
+			await staleTokenPruneService.pruneStale();
+		logger.info(
+			`Pruned ${deletedOneTimeTokens} one-time token(s) and ${deletedAccessTokens} access token(s)`
+		);
+	},
+	{ name: 'token-prune-stale', timezone }
+);
+logExecutionFailures(pruneStaleTokensTask, 'token-prune-stale');
