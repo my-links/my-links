@@ -13,10 +13,11 @@ export default class PurgeFaviconOrphans extends BaseCommand {
 
 	@inject()
 	async run(purgeService: FaviconOrphanPurgeService): Promise<void> {
-		const { deletedEntries, deletedFiles } = await purgeService.purgeOrphans();
+		const { deletedEntries, deletedFiles, deletedFailures } =
+			await purgeService.purgeOrphans();
 
 		this.logger.success(
-			`Purged ${deletedEntries} orphaned favicon entrie(s) and ${deletedFiles} orphaned favicon file(s)`
+			`Purged ${deletedEntries} orphaned favicon entrie(s), ${deletedFiles} orphaned favicon file(s) and ${deletedFailures} orphaned favicon failure(s)`
 		);
 	}
 }
