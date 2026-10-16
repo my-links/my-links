@@ -37,6 +37,14 @@ function isAllowedInstanceUrl(url: URL): boolean {
 	return url.protocol === 'http:' && isLoopbackHostname(url.hostname);
 }
 
+export class AuthorizationDeclinedError extends ExtensionAuthError {
+	constructor() {
+		super('Authorization was cancelled.');
+	}
+}
+
+const ACCESS_DENIED_ERROR = 'access_denied';
+
 export function normalizeInstanceUrl(rawInstanceUrl: string): string {
 	const url = new URL(rawInstanceUrl.trim());
 	if (!isAllowedInstanceUrl(url)) {
@@ -117,6 +125,13 @@ export function extractTokenFromAuthCallback(
 	return new URLSearchParams(fragment).get('token');
 }
 
+export function extractErrorFromAuthCallback(
+	callbackUrl: string
+): string | null {
+	const fragment = callbackUrl.split('#')[1] ?? '';
+	return new URLSearchParams(fragment).get('error');
+}
+
 /**
  * Requests host permission for the instance origin, then hands the whole
  * auth handoff off to `launchWebAuthFlow`: it opens
@@ -150,6 +165,10 @@ export async function connectToInstance(rawInstanceUrl: string): Promise<void> {
 
 	if (!callbackUrl) {
 		throw new ExtensionAuthError('Authentication was cancelled.');
+	}
+
+	if (extractErrorFromAuthCallback(callbackUrl) === ACCESS_DENIED_ERROR) {
+		throw new AuthorizationDeclinedError();
 	}
 
 	const token = extractTokenFromAuthCallback(callbackUrl);
