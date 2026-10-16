@@ -184,8 +184,8 @@ export async function connectToInstance(rawInstanceUrl: string): Promise<void> {
 
 /**
  * Runs before the new token is stored so no sync can ever see the previous
- * account's cache or bookmark mapping next to the new session. An unknown
- * identity on either side counts as a different account.
+ * account's cache or bookmark mapping next to the new session. A missing
+ * stored identity counts as a different account.
  */
 async function dropDataOfPreviousAccount(
 	instanceUrl: string,
@@ -194,7 +194,7 @@ async function dropDataOfPreviousAccount(
 	const connectedIdentity = await fetchAccountIdentity(instanceUrl, token);
 	const storedIdentity = await accountIdentityStorage.getValue();
 
-	if (connectedIdentity === null || connectedIdentity !== storedIdentity) {
+	if (connectedIdentity !== storedIdentity) {
 		await clearAccountBoundData();
 	}
 	await accountIdentityStorage.setValue(connectedIdentity);
