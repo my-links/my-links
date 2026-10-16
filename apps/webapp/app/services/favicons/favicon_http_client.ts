@@ -3,6 +3,7 @@ import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
 import { isTimeoutError } from '#lib/favicons/timeout_error';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import type { FaviconHttpResponse } from '#types/favicon_http_response';
 import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import { ImpersonatedFetcher } from '#services/favicons/impersonated_fetcher';
@@ -146,7 +147,10 @@ export class FaviconHttpClient {
 			if (this.isDomainException(error)) {
 				throw error;
 			}
-			logger.debug({ err: error, url }, 'Impersonated fetch failed');
+			logger.debug(
+				{ err: error, origin: toLoggableOrigin(url) },
+				'Impersonated fetch failed'
+			);
 			return undefined;
 		}
 	}

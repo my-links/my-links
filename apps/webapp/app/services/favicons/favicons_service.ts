@@ -4,6 +4,7 @@ import logger from '@adonisjs/core/services/logger';
 import type { Favicon } from '#types/favicon_type';
 import { decodeDataUri } from '#lib/favicons/data_uri';
 import { sniffImageType } from '#lib/favicons/image_sniffer';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import type { FaviconCandidate } from '#lib/favicons/favicon_candidate_resolver';
@@ -41,7 +42,7 @@ export class FaviconService {
 				return await this.fetchCandidate(candidate);
 			} catch (error) {
 				logger.debug(
-					{ err: error, url: candidate.url },
+					{ err: error, origin: toLoggableOrigin(candidate.url) },
 					'Favicon candidate failed'
 				);
 				attempts.push(
@@ -100,7 +101,10 @@ export class FaviconService {
 				},
 			};
 		} catch (error) {
-			logger.debug({ err: error, url }, 'Favicon revalidation request failed');
+			logger.debug(
+				{ err: error, origin: toLoggableOrigin(url) },
+				'Favicon revalidation request failed'
+			);
 			return { changed: false };
 		}
 	}
