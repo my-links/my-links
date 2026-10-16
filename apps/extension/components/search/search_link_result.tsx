@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import type { MouseEvent } from 'react';
 import { Highlight } from '@minimalstuff/ui';
 
+import { toSafeHref } from '@/lib/safe_link_url';
 import type { LinkResource } from '@/lib/api/types';
 import { buildFaviconUrl } from '@/lib/instance_urls';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
@@ -48,7 +49,7 @@ export function SearchLinkResult({
 
 	return (
 		<a
-			href={link.url}
+			href={toSafeHref(link.url)}
 			target="_blank"
 			rel="noreferrer"
 			title={link.url}

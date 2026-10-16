@@ -1,3 +1,4 @@
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 import type { CollectionWithLinks } from '@/lib/api/types';
 
 export type DesiredBookmark = {
@@ -33,11 +34,13 @@ export function buildDesiredFolder(
 	return {
 		collectionId: collection.id,
 		title: collection.name,
-		bookmarks: (collection.links ?? []).map((link) => ({
-			linkId: link.id,
-			title: link.name,
-			url: link.url,
-		})),
+		bookmarks: (collection.links ?? [])
+			.filter((link) => isSafeLinkUrl(link.url))
+			.map((link) => ({
+				linkId: link.id,
+				title: link.name,
+				url: link.url,
+			})),
 	};
 }
 

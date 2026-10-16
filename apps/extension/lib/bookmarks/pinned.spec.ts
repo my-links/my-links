@@ -75,6 +75,17 @@ describe('collectFavoriteLinks', () => {
 		expect(favorites.map((link) => link.id)).toEqual([1]);
 	});
 
+	it('should skip favourites whose URL is not a web URL', () => {
+		const favorites = collectFavoriteLinks([
+			buildCollection([
+				buildLink({ id: 1, url: 'javascript:alert(1)' }),
+				buildLink({ id: 2, url: 'https://docs.example.com' }),
+			]),
+		]);
+
+		expect(favorites.map((link) => link.id)).toEqual([2]);
+	});
+
 	it('should list a favourite once even when it sits in several collections', () => {
 		const shared = buildLink({ id: 1, collectionIds: [1, 2] });
 
@@ -255,6 +266,26 @@ describe('pinned favourites applied to a real tree', () => {
 				afterReorder
 			)
 		).toEqual([]);
+	});
+
+	it('should not write a bookmark whose URL is not a web URL', async () => {
+		const api = new FakeBookmarksApi();
+		const barId = api.createFolder(api.rootId, 'Bookmarks bar');
+		api.createLink(barId, 'Their own', 'https://own.example.com');
+
+		await applyBookmarkOperations(
+			api,
+			barId,
+			buildPinCreations(
+				[{ linkId: 11, title: 'Evil', url: 'javascript:alert(1)' }],
+				barId
+			),
+			EMPTY_BOOKMARK_MAPPING
+		);
+
+		expect((await childrenOf(api, barId)).map((child) => child.title)).toEqual([
+			'Their own',
+		]);
 	});
 
 	it('should leave the bookmarks already on the bar alone while pinning', async () => {

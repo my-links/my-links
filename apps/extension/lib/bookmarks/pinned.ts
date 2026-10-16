@@ -1,3 +1,4 @@
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 import { buildReorderOperation } from '@/lib/bookmarks/ordering';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import type { BookmarkOperation } from '@/lib/bookmarks/operations';
@@ -56,7 +57,7 @@ export function collectFavoriteLinks(
 
 	for (const collection of collections) {
 		for (const link of collection.links ?? []) {
-			if (link.favorite) {
+			if (link.favorite && isSafeLinkUrl(link.url)) {
 				favoritesById.set(link.id, link);
 			}
 		}

@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react';
 
 import { LinkFavicon } from './link_favicon';
+import { toSafeHref } from '@/lib/safe_link_url';
 import { buildFaviconUrl } from '@/lib/instance_urls';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
 import type { FollowedLinkResource } from '@/lib/api/types';
@@ -30,7 +31,7 @@ export function FollowedLinkRow({ link }: Readonly<FollowedLinkRowProps>) {
 
 	return (
 		<a
-			href={link.url}
+			href={toSafeHref(link.url)}
 			target="_blank"
 			rel="noreferrer"
 			title={link.url}

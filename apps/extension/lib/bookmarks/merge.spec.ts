@@ -411,6 +411,21 @@ describe('reconcile: first pass', () => {
 		]);
 	});
 
+	it('should not write a link whose URL is not a web URL', async () => {
+		const { harness, server } = buildHarness();
+		server.addLink({
+			name: 'Bookmarklet',
+			url: 'javascript:alert(1)',
+			collectionIds: [WORK_ID],
+		});
+
+		await harness.settle();
+
+		expect(await harness.titlesIn(await harness.folderIdOf(WORK_ID))).toEqual([
+			'Docs',
+		]);
+	});
+
 	it('should leave the bookmarks already on the bar exactly where they are', async () => {
 		const { harness } = buildHarness();
 		harness.api.createLink(

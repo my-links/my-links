@@ -5,6 +5,7 @@ import type { MouseEvent as ReactMouseEvent } from 'react';
 import { ContextMenu, MenuItem, Modal, ConfirmModal } from '@minimalstuff/ui';
 
 import { LinkFavicon } from './link_favicon';
+import { toSafeHref } from '@/lib/safe_link_url';
 import type { LinkResource } from '@/lib/api/types';
 import { linkSortableId } from '@/lib/dnd/dnd_types';
 import { buildFaviconUrl } from '@/lib/instance_urls';
@@ -120,7 +121,7 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 					ref={setActivatorNodeRef}
 					{...attributes}
 					{...listeners}
-					href={link.url}
+					href={toSafeHref(link.url)}
 					target="_blank"
 					rel="noreferrer"
 					title={link.url}

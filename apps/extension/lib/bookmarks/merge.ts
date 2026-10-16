@@ -1,3 +1,4 @@
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
 import { getDefaultCollectionId } from '@/lib/collections_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
@@ -1057,10 +1058,9 @@ function indexLinksById(
 ): Map<number, LinkResource> {
 	return new Map(
 		collections.flatMap((collection) =>
-			(collection.links ?? []).map((link): [number, LinkResource] => [
-				link.id,
-				link,
-			])
+			(collection.links ?? [])
+				.filter((link) => isSafeLinkUrl(link.url))
+				.map((link): [number, LinkResource] => [link.id, link])
 		)
 	);
 }
