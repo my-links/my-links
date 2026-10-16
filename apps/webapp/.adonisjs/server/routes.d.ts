@@ -92,6 +92,7 @@ export type ScannedRoutes = {
     'api-mcp.close': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
+    'api-tokens.revoke-current': { paramsTuple?: []; params?: {} }
     'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
@@ -250,6 +251,7 @@ export type ScannedRoutes = {
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-mcp.close': { paramsTuple?: []; params?: {} }
+    'api-tokens.revoke-current': { paramsTuple?: []; params?: {} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }

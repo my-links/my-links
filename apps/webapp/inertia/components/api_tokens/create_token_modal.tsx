@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { RadioOptions, Button, Input } from '@minimalstuff/ui';
+import { RadioOptions, Button, Input, Select } from '@minimalstuff/ui';
 
-import type { ApiTokenScope } from '~/hooks/use_api_tokens';
+import type { ApiTokenExpiry, ApiTokenScope } from '~/hooks/use_api_tokens';
 
 type CreateTokenModalProps = {
-	onCreate: (name: string, scope: ApiTokenScope) => Promise<void>;
+	onCreate: (
+		name: string,
+		scope: ApiTokenScope,
+		expiry: ApiTokenExpiry
+	) => Promise<void>;
 	onClose: () => void;
 };
 
@@ -16,6 +20,7 @@ export function CreateTokenModal({
 	const { t } = useLingui();
 	const [tokenName, setTokenName] = useState('');
 	const [scope, setScope] = useState<ApiTokenScope>('full_access');
+	const [expiry, setExpiry] = useState<ApiTokenExpiry>('90_days');
 	const [isLoading, setIsLoading] = useState(false);
 
 	const scopeOptions = [
@@ -31,12 +36,19 @@ export function CreateTokenModal({
 		},
 	];
 
+	const expiryOptions = [
+		{ value: '30_days', label: t({ message: '30 days' }) },
+		{ value: '90_days', label: t({ message: '90 days' }) },
+		{ value: '1_year', label: t({ message: '1 year' }) },
+		{ value: 'never', label: t({ message: 'Never' }) },
+	];
+
 	const handleCreate = async () => {
 		if (!tokenName.trim()) return;
 
 		setIsLoading(true);
 		try {
-			await onCreate(tokenName, scope);
+			await onCreate(tokenName, scope, expiry);
 			onClose();
 		} finally {
 			setIsLoading(false);
@@ -49,6 +61,9 @@ export function CreateTokenModal({
 		setTokenName(event.target.value);
 
 	const handleScopeChange = (value: string) => setScope(value as ApiTokenScope);
+
+	const handleExpiryChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
+		setExpiry(event.target.value as ApiTokenExpiry);
 
 	return (
 		<div className="space-y-4">
@@ -69,6 +84,13 @@ export function CreateTokenModal({
 				options={scopeOptions}
 				value={scope}
 				onChange={handleScopeChange}
+			/>
+			<Select
+				label={t({ message: 'Expires after' })}
+				id="token-expiry"
+				options={expiryOptions}
+				value={expiry}
+				onChange={handleExpiryChange}
 			/>
 			<div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
 				<Button

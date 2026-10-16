@@ -7,6 +7,9 @@ import { router, usePage } from '@inertiajs/react';
  */
 export type ApiTokenScope = 'read_only' | 'full_access';
 
+/** Mirrors the backend's `API_TOKEN_EXPIRY` (`#constants/api_token`). */
+export type ApiTokenExpiry = '30_days' | '90_days' | '1_year' | 'never';
+
 export type ApiToken = {
 	identifier: number;
 	token: string | undefined;
@@ -28,9 +31,9 @@ export function useApiTokens() {
 	const createToken = async (
 		name: string,
 		scope: ApiTokenScope,
-		expiresAt?: Date
+		expiry: ApiTokenExpiry
 	) => {
-		return router.post('/user/api-tokens', { name, scope, expiresAt });
+		return router.post('/user/api-tokens', { name, scope, expiry });
 	};
 
 	const revokeToken = async (tokenId: number) => {

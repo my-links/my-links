@@ -534,6 +534,12 @@ const routes = {
     tokens: [{"old":"/api/v1/tokens/check","type":0,"val":"api","end":""},{"old":"/api/v1/tokens/check","type":0,"val":"v1","end":""},{"old":"/api/v1/tokens/check","type":0,"val":"tokens","end":""},{"old":"/api/v1/tokens/check","type":0,"val":"check","end":""}],
     types: placeholder as Registry['api-tokens.index']['types'],
   },
+  'api-tokens.revoke-current': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/tokens/current',
+    tokens: [{"old":"/api/v1/tokens/current","type":0,"val":"api","end":""},{"old":"/api/v1/tokens/current","type":0,"val":"v1","end":""},{"old":"/api/v1/tokens/current","type":0,"val":"tokens","end":""},{"old":"/api/v1/tokens/current","type":0,"val":"current","end":""}],
+    types: placeholder as Registry['api-tokens.revoke-current']['types'],
+  },
   'link.visit': {
     methods: ["GET","HEAD"],
     pattern: '/l/:id',

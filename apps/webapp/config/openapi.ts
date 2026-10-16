@@ -86,6 +86,7 @@ const openapiConfig = defineConfig({
 				'/api/v1/links/:id/visits',
 				'/api/v1/sync',
 				'/api/v1/tokens/check',
+				'/api/v1/tokens/current',
 				'/extension/authorize',
 			],
 		},

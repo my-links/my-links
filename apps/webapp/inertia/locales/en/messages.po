@@ -42,6 +42,10 @@ msgstr "{value, plural, one {# hour} other {# hours}} ago"
 msgid "{value, plural, one {# minute} other {# minutes}} ago"
 msgstr "{value, plural, one {# minute} other {# minutes}} ago"
 
+#: inertia/components/api_tokens/create_token_modal.tsx:42
+msgid "1 year"
+msgstr "1 year"
+
 #: inertia/pages/privacy.tsx:80
 msgid "1.1 Your account"
 msgstr "1.1 Your account"
@@ -78,6 +82,10 @@ msgstr "3.1 Collection and Use"
 msgid "3.2 Account Deletion"
 msgstr "3.2 Account Deletion"
 
+#: inertia/components/api_tokens/create_token_modal.tsx:40
+msgid "30 days"
+msgstr "30 days"
+
 #: inertia/pages/terms.tsx:148
 msgid "4.1 Responsibility"
 msgstr "4.1 Responsibility"
@@ -85,6 +93,10 @@ msgstr "4.1 Responsibility"
 #: inertia/pages/terms.tsx:160
 msgid "4.2 Warranties"
 msgstr "4.2 Warranties"
+
+#: inertia/components/api_tokens/create_token_modal.tsx:41
+msgid "90 days"
+msgstr "90 days"
 
 #: inertia/pages/privacy.tsx:89
 msgid "A password hash if you sign in with a password, or your Google identifier if you sign in with Google. Your password is never stored in clear."
@@ -99,7 +111,7 @@ msgid "Acceptance of Terms"
 msgstr "Acceptance of Terms"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:52
-#: inertia/components/api_tokens/create_token_modal.tsx:68
+#: inertia/components/api_tokens/create_token_modal.tsx:83
 msgid "Access"
 msgstr "Access"
 
@@ -274,15 +286,15 @@ msgstr "By accessing MyLinks and using our services, you agree to comply with th
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 
-#: inertia/components/api_tokens/create_token_modal.tsx:25
+#: inertia/components/api_tokens/create_token_modal.tsx:30
 msgid "Can read and write everything"
 msgstr "Can read and write everything"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:30
+#: inertia/components/api_tokens/create_token_modal.tsx:35
 msgid "Can't create, edit, or delete anything"
 msgstr "Can't create, edit, or delete anything"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:80
+#: inertia/components/api_tokens/create_token_modal.tsx:102
 #: inertia/components/dashboard/modals/modal_form_footer.tsx:22
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
@@ -458,7 +470,7 @@ msgstr "Create a collection"
 msgid "Create a link"
 msgstr "Create a link"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:56
+#: inertia/components/api_tokens/create_token_modal.tsx:71
 msgid "Create a new API token to access the API"
 msgstr "Create a new API token to access the API"
 
@@ -491,7 +503,7 @@ msgid "Create new token"
 msgstr "Create new token"
 
 #: inertia/components/api_tokens/api_tokens.tsx:27
-#: inertia/components/api_tokens/create_token_modal.tsx:93
+#: inertia/components/api_tokens/create_token_modal.tsx:115
 msgid "Create token"
 msgstr "Create token"
 
@@ -697,7 +709,7 @@ msgstr "Email and password"
 msgid "Enabled"
 msgstr "Enabled"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:62
+#: inertia/components/api_tokens/create_token_modal.tsx:77
 msgid "Enter token name"
 msgstr "Enter token name"
 
@@ -737,6 +749,10 @@ msgstr "Everything else signed in on this account will be signed out."
 #: inertia/components/dashboard/collections/collapsible_section_header.tsx:89
 msgid "Expand"
 msgstr "Expand"
+
+#: inertia/components/api_tokens/create_token_modal.tsx:89
+msgid "Expires after"
+msgstr "Expires after"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:76
 #: inertia/components/user_settings/sessions.tsx:96
@@ -852,7 +868,7 @@ msgid "Free to start, open-source to inspect, yours to run anywhere."
 msgstr "Free to start, open-source to inspect, yours to run anywhere."
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:56
-#: inertia/components/api_tokens/create_token_modal.tsx:24
+#: inertia/components/api_tokens/create_token_modal.tsx:29
 msgid "Full access"
 msgstr "Full access"
 
@@ -1170,6 +1186,10 @@ msgstr "MyLinks turns scattered tabs into collections you can search, share and 
 msgid "Name"
 msgstr "Name"
 
+#: inertia/components/api_tokens/create_token_modal.tsx:43
+msgid "Never"
+msgstr "Never"
+
 #: inertia/components/user_settings/email_address.tsx:50
 msgid "New email address"
 msgstr "New email address"
@@ -1374,7 +1394,7 @@ msgid "Re-resolve failures"
 msgstr "Re-resolve failures"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:58
-#: inertia/components/api_tokens/create_token_modal.tsx:29
+#: inertia/components/api_tokens/create_token_modal.tsx:34
 msgid "Read only"
 msgstr "Read only"
 
@@ -1776,7 +1796,7 @@ msgstr "Toggle sidebar"
 msgid "Token"
 msgstr "Token"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:59
+#: inertia/components/api_tokens/create_token_modal.tsx:74
 msgid "Token name"
 msgstr "Token name"
 
