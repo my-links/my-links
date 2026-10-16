@@ -1,7 +1,6 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
-import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import {
 	OAUTH_INTENT,
@@ -34,8 +33,6 @@ export default class LinkProviderController {
 
 		this.oauthIntentService.arm(ctx.session, OAUTH_INTENT.PROVIDER_LINK);
 
-		const redirectUrl = await ctx.ally.use('google').redirectUrl();
-
-		return redirectToOauthProvider(ctx, redirectUrl);
+		return ctx.ally.use('google').redirect();
 	}
 }

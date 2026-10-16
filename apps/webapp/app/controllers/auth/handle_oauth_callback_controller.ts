@@ -49,6 +49,8 @@ const ABORTED_ROUND_TRIP_ROUTE = {
 	[OAUTH_INTENT.PROVIDER_LINK]: 'user.settings',
 } as const satisfies Record<OauthIntent, keyof RoutesList['GET']>;
 
+const OAUTH_STATE_PARAMETER = 'state';
+
 const PROVIDER_LINKED_MESSAGE = 'That sign-in method has been added';
 
 /**
@@ -83,7 +85,10 @@ export default class HandleOauthCallbackController {
 		// callback expecting something that never comes.
 		const intent = this.oauthIntentService.take(ctx.session);
 
-		const callbackError = this.getCallbackError(google);
+		const callbackError = this.getCallbackError(
+			google,
+			ctx.request.input(OAUTH_STATE_PARAMETER)
+		);
 		if (callbackError) {
 			ctx.session.flash('error', callbackError);
 
@@ -227,12 +232,16 @@ export default class HandleOauthCallbackController {
 			.toPath(this.sudoModeService.takeReturnUrl(ctx.session));
 	}
 
-	private getCallbackError(callback: OauthCallbackState): string | null {
+	private getCallbackError(
+		callback: OauthCallbackState,
+		returnedState: unknown
+	): string | null {
 		if (callback.accessDenied()) {
 			return 'Access was denied';
 		}
 
-		if (callback.stateMisMatch()) {
+		// Ally compares undefined with undefined as a match, so a missing state must be refused here.
+		if (!returnedState || callback.stateMisMatch()) {
 			return 'Request expired. Retry again';
 		}
 

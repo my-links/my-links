@@ -2,7 +2,6 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_PROVIDER } from '#constants/auth';
-import { redirectToOauthProvider } from '#lib/auth/oauth_redirect';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import {
@@ -46,8 +45,6 @@ export default class ConfirmSudoModeWithGoogleController {
 		// identity coming back confirms a session instead of opening one.
 		this.oauthIntentService.arm(ctx.session, OAUTH_INTENT.SUDO_CONFIRMATION);
 
-		const redirectUrl = await ctx.ally.use('google').redirectUrl();
-
-		return redirectToOauthProvider(ctx, redirectUrl);
+		return ctx.ally.use('google').redirect();
 	}
 }
