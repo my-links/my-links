@@ -16,6 +16,8 @@ import {
 	summarizeAttempts,
 } from '#lib/favicons/failure_summary';
 
+const OPAQUE_ORIGIN = 'null';
+
 @inject()
 export class FaviconService {
 	constructor(
@@ -162,12 +164,14 @@ export class FaviconService {
 		};
 	}
 
+	/**
+	 * Entries are keyed by origin, so the document is fetched from the origin
+	 * root: fetching the bookmarked path could trigger a single-use link.
+	 */
 	private normalizeUrl(url: string): string {
 		try {
-			const parsed = new URL(url);
-			parsed.search = '';
-			parsed.hash = '';
-			return parsed.toString().replace(/\/$/, '');
+			const { origin } = new URL(url);
+			return origin === OPAQUE_ORIGIN ? url : `${origin}/`;
 		} catch {
 			return url;
 		}
