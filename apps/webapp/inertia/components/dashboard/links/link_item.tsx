@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
-import type { Data } from '@generated/data';
 import type {
 	DraggableAttributes,
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
 
 import { cn } from '~/lib/cn';
+import type { DisplayLink } from '~/lib/link';
 import { LinkItemSummary } from './link_item_summary';
 import { LinkControls, LinkControlsRef } from './link_controls';
 import { recordLinkVisit } from '~/lib/links/record_link_visit';
@@ -14,7 +14,7 @@ import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 const MIDDLE_MOUSE_BUTTON = 1;
 
 type LinkItemProps = {
-	link: Data.Link;
+	link: DisplayLink;
 	hideMenu?: boolean;
 	layout?: 'grid' | 'list' | 'compact' | 'masonry';
 	dragAttributes?: DraggableAttributes;

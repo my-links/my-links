@@ -1,12 +1,11 @@
 import { t } from '@lingui/core/macro';
-import type { Data } from '@generated/data';
 
 import { cn } from '~/lib/cn';
 import { LinkFavicon } from './link_favicon';
-import { hasCollectionIds } from '~/lib/link';
+import { hasCollectionIds, type DisplayLink } from '~/lib/link';
 
 type LinkItemSummaryProps = {
-	link: Data.Link;
+	link: DisplayLink;
 	isCompact: boolean;
 	showFavoriteIcon: boolean;
 	faviconCacheBust: number;

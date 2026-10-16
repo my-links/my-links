@@ -43,7 +43,7 @@ export default class CollectionTransformer extends BaseTransformer<Collection> {
 			...base,
 			links: base.isOwner
 				? LinkTransformer.transform(links)?.useVariant('withCollections')
-				: LinkTransformer.transform(links),
+				: LinkTransformer.transform(links)?.useVariant('forVisitor'),
 		};
 	}
 

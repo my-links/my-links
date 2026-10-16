@@ -1,11 +1,10 @@
-import type { Data } from '@generated/data';
-
 import { urlFor } from '~/lib/tuyau';
+import type { DisplayLink } from '~/lib/link';
 import { useOptimisticOrder } from './use_optimistic_order';
 
 export function useReorderLinks(
 	collectionId: number,
-	serverLinks: Data.Link[]
+	serverLinks: DisplayLink[]
 ) {
 	const { items, moveAndCommit } = useOptimisticOrder(serverLinks);
 

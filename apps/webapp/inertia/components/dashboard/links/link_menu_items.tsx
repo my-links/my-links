@@ -3,10 +3,11 @@ import { Trans } from '@lingui/react/macro';
 import { MenuItem } from '@minimalstuff/ui';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 
+import type { DisplayLink } from '~/lib/link';
 import type { LinkActions } from '~/hooks/use_link_actions';
 
 type LinkMenuItemsProps = {
-	link: Data.Link;
+	link: DisplayLink;
 	linkCollections: Data.Collection[];
 	isOwner: boolean;
 	actions: LinkActions;

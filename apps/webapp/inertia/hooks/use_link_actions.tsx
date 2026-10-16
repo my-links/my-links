@@ -1,6 +1,5 @@
 import { Modal } from '@minimalstuff/ui';
 import { router } from '@inertiajs/react';
-import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import {
 	useCallback,
@@ -9,7 +8,7 @@ import {
 } from 'react';
 
 import { urlFor } from '~/lib/tuyau';
-import { hasCollectionIds } from '~/lib/link';
+import { hasCollectionIds, type DisplayLink } from '~/lib/link';
 import { EditLinkModal } from '~/components/dashboard/modals/edit_link_modal';
 import { DeleteLinkModal } from '~/components/dashboard/modals/delete_link_modal';
 
@@ -25,7 +24,7 @@ export type LinkActions = {
 };
 
 export function useLinkActions(
-	link: Data.Link,
+	link: DisplayLink,
 	onAction?: () => void,
 	onFaviconRefreshed?: () => void
 ): LinkActions {
@@ -59,16 +58,18 @@ export function useLinkActions(
 		});
 	};
 
+	const isFavorite = 'favorite' in link ? link.favorite : false;
+
 	const handleFavorite = useCallback<MenuClickHandler>(
 		(event) => {
 			event.stopPropagation();
 			const toggleFavoriteUrl = urlFor('link.toggle-favorite', {
 				id: link.id,
 			});
-			router.put(toggleFavoriteUrl, { favorite: !link.favorite });
+			router.put(toggleFavoriteUrl, { favorite: !isFavorite });
 			onAction?.();
 		},
-		[link.id, link.favorite, onAction]
+		[link.id, isFavorite, onAction]
 	);
 
 	const handleRefreshFavicon = useCallback<MenuClickHandler>(
