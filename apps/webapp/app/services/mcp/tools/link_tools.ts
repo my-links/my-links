@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { errors } from '@vinejs/vine';
 import { HttpContext } from '@adonisjs/core/http';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
@@ -10,17 +11,26 @@ import { runTool } from '#services/mcp/tools/tool_result';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { LinkService } from '#services/links/link_service';
 import { LinkQueryService } from '#services/links/link_query_service';
+import { linkUrlValidator } from '#validators/links/link_url_validator';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
-
-const URL_HAS_SCHEME = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//;
+import { InvalidLinkUrlException } from '#exceptions/links/invalid_link_url_exception';
 
 /**
- * Mirrors `baseLinkValidator`'s `normalizeUrl({ defaultProtocol: 'https' })`
- * (a VineJS-only modifier) so a bare domain from an MCP client behaves the
- * same as one submitted through the REST API.
+ * Runs the URL through the exact rule the REST validators use, so a scheme
+ * such as `javascript:` or `file:` never gets stored through MCP.
  */
-function withDefaultProtocol(url: string): string {
-	return URL_HAS_SCHEME.test(url) ? url : `https://${url}`;
+async function normalizeLinkUrl(url: string): Promise<string> {
+	try {
+		const { url: normalizedUrl } = await linkUrlValidator.validate({ url });
+		return normalizedUrl;
+	} catch (error) {
+		if (error instanceof errors.E_VALIDATION_ERROR) {
+			throw new InvalidLinkUrlException(
+				`Invalid url: ${error.messages[0]?.message ?? 'the url is not valid'}`
+			);
+		}
+		throw error;
+	}
 }
 
 function getAuthenticatedUserId() {
@@ -120,7 +130,7 @@ export function registerLinkTools(
 			runTool(TOKEN_ABILITY.WRITE, async () => {
 				const link = await linkService.createLink(
 					getAuthenticatedUserId(),
-					{ ...payload, url: withDefaultProtocol(url) },
+					{ ...payload, url: await normalizeLinkUrl(url) },
 					getRequestOrigin()
 				);
 				return {
@@ -154,7 +164,7 @@ export function registerLinkTools(
 				await linkService.updateLink(
 					getAuthenticatedUserId(),
 					id,
-					{ ...payload, url: withDefaultProtocol(url) },
+					{ ...payload, url: await normalizeLinkUrl(url) },
 					getRequestOrigin()
 				);
 				return { message: 'Link updated successfully' };
