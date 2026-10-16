@@ -1,5 +1,6 @@
 import { BaseTransformer } from '@adonisjs/core/transformers';
 
+import { maskIp } from '#lib/network/mask_ip';
 import type AuditEvent from '#models/audit_event';
 
 /**
@@ -18,9 +19,8 @@ export default class ActivityEventTransformer extends BaseTransformer<AuditEvent
 				'subjectType',
 				'subjectId',
 				'metadata',
-				'ip',
-				'userAgent',
 			]),
+			maskedIp: maskIp(this.resource.ip),
 			fullname: this.resource.user?.fullname ?? null,
 			actorFullname: this.resource.actor?.fullname ?? null,
 			createdAt: this.resource.createdAt?.toString(),
