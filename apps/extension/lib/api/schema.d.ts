@@ -716,6 +716,7 @@ export interface components {
 			  };
 		CheckApiTokenRenderResponse: {
 			message: string;
+			userId: number;
 		};
 		CreateCollectionExecuteResponse: {
 			collection: {
