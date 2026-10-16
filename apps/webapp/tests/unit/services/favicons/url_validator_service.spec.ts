@@ -157,3 +157,60 @@ test.group('UrlValidatorService.assertUrlAllowed', () => {
 		assert.notInclude((error as Error).message, 'unknown-host');
 	});
 });
+
+test.group('UrlValidatorService: non-public address ranges', () => {
+	const blockedLiterals = [
+		{ literal: '[::]', family: 6, address: '::' },
+		{ literal: '[::127.0.0.1]', family: 6, address: '::7f00:1' },
+		{ literal: '[64:ff9b::7f00:1]', family: 6, address: '64:ff9b::7f00:1' },
+		{ literal: '[2002:7f00:1::]', family: 6, address: '2002:7f00:1::' },
+		{ literal: '[100::1]', family: 6, address: '100::1' },
+		{ literal: '[ff02::1]', family: 6, address: 'ff02::1' },
+		{ literal: '[::ffff:127.0.0.1]', family: 6, address: '::ffff:7f00:1' },
+		{ literal: '100.64.0.1', family: 4, address: '100.64.0.1' },
+		{ literal: '192.0.0.1', family: 4, address: '192.0.0.1' },
+		{ literal: '198.18.0.1', family: 4, address: '198.18.0.1' },
+		{ literal: '224.0.0.1', family: 4, address: '224.0.0.1' },
+		{ literal: '255.255.255.255', family: 4, address: '255.255.255.255' },
+	];
+
+	for (const { literal, family, address } of blockedLiterals) {
+		test(`should block the address literal ${literal}`, async ({ assert }) => {
+			const validator = new UrlValidatorService(async () => [
+				{ address, family },
+			]);
+
+			assert.isFalse(await validator.isUrlAllowed(`http://${literal}/`));
+		});
+	}
+
+	test('should allow a public IPv4 literal', async ({ assert }) => {
+		const validator = validatorResolvingTo({
+			'93.184.216.34': [{ address: '93.184.216.34', family: 4 }],
+		});
+
+		assert.isTrue(await validator.isUrlAllowed('http://93.184.216.34/'));
+	});
+
+	test('should allow a public IPv6 literal', async ({ assert }) => {
+		const validator = validatorResolvingTo({
+			'2606:2800:220:1:248:1893:25c8:1946': [
+				{ address: '2606:2800:220:1:248:1893:25c8:1946', family: 6 },
+			],
+		});
+
+		assert.isTrue(
+			await validator.isUrlAllowed(
+				'http://[2606:2800:220:1:248:1893:25c8:1946]/'
+			)
+		);
+	});
+
+	test('should allow an IPv4-mapped public address', async ({ assert }) => {
+		const validator = validatorResolvingTo({
+			'::ffff:5db8:d822': [{ address: '::ffff:5db8:d822', family: 6 }],
+		});
+
+		assert.isTrue(await validator.isUrlAllowed('http://[::ffff:5db8:d822]/'));
+	});
+});
