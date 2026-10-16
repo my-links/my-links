@@ -1,14 +1,15 @@
 import { fetchCollections, UnauthorizedApiError } from '@/lib/api/collections';
 import {
-	authInvalidStorage,
-	collectionsCacheStorage,
-	syncBackoffStorage,
-} from '@/lib/storage';
-import {
 	computeBackoffAfterFailure,
 	INITIAL_SYNC_BACKOFF_STATE,
 	isSyncBackingOff,
 } from '@/lib/sync/backoff';
+import {
+	apiTokenStorage,
+	authInvalidStorage,
+	collectionsCacheStorage,
+	syncBackoffStorage,
+} from '@/lib/storage';
 
 let isSyncing = false;
 
@@ -29,6 +30,10 @@ export async function syncCollections(): Promise<void> {
 	isSyncing = true;
 
 	try {
+		if (!(await apiTokenStorage.getValue())) {
+			return;
+		}
+
 		const backoffState = await syncBackoffStorage.getValue();
 		if (isSyncBackingOff(backoffState, Date.now())) {
 			return;
