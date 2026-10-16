@@ -39,11 +39,11 @@ Once the grace period has run out, the daily maintenance sweep permanently delet
 
 Shows what the instance's authentication log recorded (sign-ins, refusals, password and address changes, provider links, sudo confirmations), newest first, 50 at a time. An action an administrator took on somebody else's account names both the account and the administrator, so an admin action is never mistaken for something the owner did.
 
-Authentication rows are security evidence and are never pruned.
+Rows are security evidence and are kept. The IP and user agent they hold are erased after 180 days, and IPs are shown masked (/24 for IPv4, /48 for IPv6). See [Data & privacy](/self-hosting/privacy#journals-and-retention).
 
 ## Activity journal
 
-Shows what members and administrators did to collections, links and account data: creating, editing and deleting collections and links, following and unfollowing, imports and exports, account deletion requests and reactivations. Never what a collection or a link contained. Newest first, 50 at a time, and an administrator's action names both parties like in the authentication journal.
+Shows what members and administrators did to collections, links and account data: creating, editing and deleting collections and links, following and unfollowing, imports and exports, account deletion requests and reactivations. Never what a collection or a link contained. IPs are shown masked like in the authentication journal. Newest first, 50 at a time, and an administrator's action names both parties like in the authentication journal.
 
 Rows older than 90 days are pruned by the daily `activity:prune` sweep, see [Console commands](/self-hosting/console-commands#maintenance).
 
@@ -53,9 +53,11 @@ Runs the instance's health checks (disk space and memory heap) when the page loa
 
 ## Favicons
 
-Three counters (stored favicons, store size, resolution failures), the 100 most recent resolution failures with the origin, the reason, the number of attempts and the time of the last one, and the maintenance actions:
+Three counters (stored favicons, store size, resolution failures) and the maintenance actions. No origin is listed. See [Data & privacy](/self-hosting/privacy#favicons) for what the store holds. The actions:
 
-- **Purge orphaned entries**: deletes the cached favicons no link refers to any more, and the stored image files no cached favicon uses. The same as the `favicon:purge-orphans` sweep.
+- **Purge orphaned entries**: deletes the cached favicons no link refers to any more, the recorded failures of origins no link refers to any more, and the stored image files no cached favicon uses. The same as the `favicon:purge-orphans` sweep.
 - **Re-resolve failures**: retries every origin that failed to resolve. A success clears its failure row, a repeat failure stays recorded.
 - **Re-resolve all**: re-scrapes every known origin. Nothing is deleted first, so links keep their current icon until the new one lands.
 - **Flush store**: deletes every stored favicon and every recorded failure. Links resolve their icon again the next time they are viewed.
+
+For what the instance stores and for how long, see [Data & privacy](/self-hosting/privacy).

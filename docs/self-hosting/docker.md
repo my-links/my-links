@@ -88,7 +88,7 @@ Use [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example
 docker compose up -d
 ```
 
-This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies database migrations automatically, and starts the application in production mode, reachable on the port set in `PORT` (default `3333`). Account maintenance runs alongside it in the same container, flagging inactive accounts, deleting expired ones once their grace period runs out, purging orphaned favicons and pruning old activity journal rows, with no separate setup needed.
+This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies database migrations automatically, and starts the application in production mode, reachable on the port set in `PORT` (default `3333`). Account maintenance runs alongside it in the same container, flagging inactive accounts, deleting expired ones once their grace period runs out, purging orphaned favicons, pruning old activity journal rows, erasing old authentication IPs and purging stale tokens, with no separate setup needed.
 
 ## Native deployment
 
@@ -142,11 +142,13 @@ If you would rather run it without Docker:
 
 The application is reachable on the port set in `PORT`.
 
-Account maintenance (flagging inactive accounts, deleting expired ones), the favicon store's orphan purge and the activity journal pruning are not automatic here: the Docker path gets them for free, scheduled inside the application itself, but a native deployment needs its own system cron calling, from `build/` (see [Console commands](/self-hosting/console-commands#maintenance)):
+Account maintenance (flagging inactive accounts, deleting expired ones), the favicon store's orphan purge, the journal pruning, the authentication journal IP erasure and the token purge are scheduled inside the application itself, on Docker and on a native `pnpm run start` alike: it runs `bin/server.js`, which loads the in-process scheduler. A system cron is only needed if you disable the scheduler preload or run the application without the web process. Running both is harmless, the sweeps are idempotent. From `build/` (see [Console commands](/self-hosting/console-commands#maintenance)):
 
 ```bash
 node bin/console.js account:flag-inactive
 node bin/console.js account:prune-deleted
 node bin/console.js favicon:purge-orphans
 node bin/console.js activity:prune
+node bin/console.js auth-events:anonymize-origins
+node bin/console.js token:prune-stale
 ```

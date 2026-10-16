@@ -12,6 +12,7 @@ Targets **Chromium (MV3)** and **Firefox (MV2)** from the same source.
 - [Installing a development build](#installing-a-development-build)
 - [Connecting to an instance](#connecting-to-an-instance)
 - [Bookmark mirroring](#bookmark-mirroring)
+- [Privacy](#privacy)
 - [Development](#development)
   - [Commands](#commands)
   - [Generating the API types](#generating-the-api-types)
@@ -104,6 +105,22 @@ Once on:
 - Turning it off stops the syncing and leaves everything in place. The options page
   additionally offers to remove the bookmarks MyLinks added, which removes only
   mapped nodes.
+
+## Privacy
+
+The extension talks only to the MyLinks instance you connected to and contacts no
+third party. Until you connect, it makes no network request at all. Once connected,
+it sends your instance, authenticated with your API token:
+
+- **Collection sync**: a periodic request (on a timer and when you switch tabs or
+  focus a window) that fetches your collections and links.
+- **Saves and edits**: the title, URL and collection of a page you save, plus any
+  edit, move or deletion you make in the panel.
+- **Link visits**: which saved link you opened, and when, so favourites can be
+  ordered by use.
+- **Bookmark mirror** _(off by default)_: once on, new bookmarks you save on the bar
+  and bookmarks you add to a collection folder are uploaded to your account, and
+  renames, moves and deletions of mirrored nodes are sent too.
 
 ## Development
 

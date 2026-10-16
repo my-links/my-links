@@ -46,6 +46,7 @@ export default defineConfig({
 							link: '/self-hosting/console-commands',
 						},
 						{ text: 'Administration', link: '/self-hosting/administration' },
+						{ text: 'Data & privacy', link: '/self-hosting/privacy' },
 					],
 				},
 			],
