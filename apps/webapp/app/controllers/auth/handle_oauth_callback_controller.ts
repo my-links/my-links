@@ -36,7 +36,6 @@ type OauthCallbackState = {
 	accessDenied(): boolean;
 	stateMisMatch(): boolean;
 	hasError(): boolean;
-	getError(): string | null;
 };
 
 /**
@@ -50,6 +49,9 @@ const ABORTED_ROUND_TRIP_ROUTE = {
 } as const satisfies Record<OauthIntent, keyof RoutesList['GET']>;
 
 const OAUTH_STATE_PARAMETER = 'state';
+
+// The provider's own error text is attacker-controlled on this URL, so it is never echoed.
+const PROVIDER_ERROR_MESSAGE = 'Something went wrong';
 
 const PROVIDER_LINKED_MESSAGE = 'That sign-in method has been added';
 
@@ -246,7 +248,7 @@ export default class HandleOauthCallbackController {
 		}
 
 		if (callback.hasError()) {
-			return callback.getError() ?? 'Something went wrong';
+			return PROVIDER_ERROR_MESSAGE;
 		}
 
 		return null;

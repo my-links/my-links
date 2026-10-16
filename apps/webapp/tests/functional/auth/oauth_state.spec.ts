@@ -26,6 +26,9 @@ const ATTACKER_CODE = 'attacker-authorization-code';
 const COOKIE_STATE = 'state-held-in-the-cookie';
 const OTHER_STATE = 'state-from-another-round-trip';
 const EXPIRED_MESSAGE = 'Request expired. Retry again';
+const DENIED_MESSAGE = 'Access was denied';
+const PROVIDER_ERROR_MESSAGE = 'Something went wrong';
+const ATTACKER_ERROR_TEXT = 'Your account is suspended, call 555-0100 now';
 
 function enableGoogleAuth() {
 	app.container.swap(GoogleAuthConfigService, () => ({ isEnabled: true }));
@@ -199,5 +202,38 @@ test.group('OAuth state: the callback', (group) => {
 
 		const usersAfter = await User.query().count('* as total').firstOrFail();
 		assert.equal(usersAfter.$extras.total, usersBefore.$extras.total);
+	});
+});
+
+test.group('OAuth callback: provider errors', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.teardown(() => app.container.restore(GoogleAuthConfigService));
+
+	test('should flash a fixed message instead of the error the provider sent', async ({
+		client,
+	}) => {
+		enableGoogleAuth();
+
+		const response = await client
+			.get(CALLBACK_PATH)
+			.qs({ error: ATTACKER_ERROR_TEXT, state: COOKIE_STATE })
+			.encryptedCookie(STATE_COOKIE_NAME, COOKIE_STATE)
+			.redirects(0);
+
+		response.assertFlashMessage('error', PROVIDER_ERROR_MESSAGE);
+	});
+
+	test('should keep the access denied message when the visitor declines', async ({
+		client,
+	}) => {
+		enableGoogleAuth();
+
+		const response = await client
+			.get(CALLBACK_PATH)
+			.qs({ error: 'access_denied', state: COOKIE_STATE })
+			.encryptedCookie(STATE_COOKIE_NAME, COOKIE_STATE)
+			.redirects(0);
+
+		response.assertFlashMessage('error', DENIED_MESSAGE);
 	});
 });
