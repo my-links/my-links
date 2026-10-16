@@ -89,7 +89,14 @@ export class FaviconCandidateService {
 				return undefined;
 			}
 
-			const json: unknown = await response.json();
+			if (!response.body) {
+				return undefined;
+			}
+
+			const manifestText = await this.faviconHttpClient.readManifestBodyCapped(
+				response.body
+			);
+			const json: unknown = JSON.parse(manifestText);
 			return await webAppManifestValidator.validate(json);
 		} catch (error) {
 			logger.debug(
