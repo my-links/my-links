@@ -1,9 +1,15 @@
 import { test } from '@japa/runner';
+import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
+import env from '#start/env';
+import type User from '#models/user';
 import { createUser } from '#tests/factories/user_factory';
+import { SUDO_RETURN_URL_SESSION_KEY } from '#services/auth/sudo_mode_service';
 
 const SUDO_PATH = '/sudo';
+const SETTINGS_PATH = '/user/settings';
+const SAME_ORIGIN = `http://${env.get('HOST')}:${env.get('PORT')}`;
 const API_TOKENS_PATH = '/user/api-tokens';
 const DELETE_ACCOUNT_PATH = '/user/settings/account';
 const HOME_PATH = '/';
@@ -92,5 +98,75 @@ test.group('Sudo mode: token creation and account deletion', (group) => {
 			.redirects(0);
 
 		response.assertHeader('location', SUDO_PATH);
+	});
+});
+
+test.group('Sudo mode: the return path of a refused submission', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	function refuseDeletionFrom(client: ApiClient, user: User, referer?: string) {
+		const request = client
+			.delete(DELETE_ACCOUNT_PATH)
+			.withCsrfToken()
+			.loginAs(user)
+			.redirects(0);
+
+		return referer ? request.header('referer', referer) : request;
+	}
+
+	test('should come back to the same-origin page the submission came from', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'sudo-return' });
+
+		const response = await refuseDeletionFrom(
+			client,
+			user,
+			`${SAME_ORIGIN}/admin?page=2`
+		);
+
+		response.assertSession(SUDO_RETURN_URL_SESSION_KEY, '/admin?page=2');
+	});
+
+	test('should drop the origin of the referer and keep only its path', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'sudo-return' });
+
+		const response = await refuseDeletionFrom(
+			client,
+			user,
+			`${SAME_ORIGIN}/admin#fragment`
+		);
+
+		response.assertSession(SUDO_RETURN_URL_SESSION_KEY, '/admin');
+	});
+
+	for (const referer of [
+		'https://evil.example/x',
+		'//evil.example/x',
+		'\\\\evil.example\\x',
+		`${SAME_ORIGIN}//evil.example/x`,
+		`${SAME_ORIGIN}/\\evil.example/x`,
+	]) {
+		test(`should fall back to the settings page for the referer ${referer}`, async ({
+			client,
+		}) => {
+			const user = await createUser({ emailPrefix: 'sudo-return' });
+
+			const response = await refuseDeletionFrom(client, user, referer);
+
+			response.assertSession(SUDO_RETURN_URL_SESSION_KEY, SETTINGS_PATH);
+		});
+	}
+
+	test('should fall back to the settings page without a referer', async ({
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'sudo-return' });
+
+		const response = await refuseDeletionFrom(client, user);
+
+		response.assertSession(SUDO_RETURN_URL_SESSION_KEY, SETTINGS_PATH);
 	});
 });
