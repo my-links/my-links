@@ -1,6 +1,7 @@
 import vine from '@vinejs/vine';
 
 import { baseLinkValidator } from '#validators/links/base_link_validator';
+import { databaseIdListSchema } from '#validators/rules/database_id_schema';
 
 /**
  * API-only variant of the create-link validator: `collectionIds` is optional
@@ -13,6 +14,6 @@ import { baseLinkValidator } from '#validators/links/base_link_validator';
 export const createLinkApiValidator = vine.create(
 	vine.object({
 		...baseLinkValidator.getProperties(),
-		collectionIds: vine.array(vine.number()).optional(),
+		collectionIds: databaseIdListSchema().optional(),
 	})
 );

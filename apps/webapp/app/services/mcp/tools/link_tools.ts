@@ -12,6 +12,7 @@ import { resolveRequestOrigin } from '#lib/request_origin';
 import { LinkService } from '#services/links/link_service';
 import { LinkQueryService } from '#services/links/link_query_service';
 import { linkUrlValidator } from '#validators/links/link_url_validator';
+import { mcpIdSchema, mcpIdListSchema } from '#services/mcp/tools/id_schema';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import { InvalidLinkUrlException } from '#exceptions/links/invalid_link_url_exception';
 
@@ -75,7 +76,7 @@ export function registerLinkTools(
 		'links.get',
 		{
 			description: 'Get a single link by id.',
-			inputSchema: { id: z.number().int().positive() },
+			inputSchema: { id: mcpIdSchema },
 		},
 		({ id }) =>
 			runTool(TOKEN_ABILITY.READ, async () =>
@@ -120,8 +121,7 @@ export function registerLinkTools(
 				description: z.string().trim().max(300).optional(),
 				url: z.string().trim().min(1).max(MAXIMUM_URL_LENGTH),
 				favorite: z.boolean(),
-				collectionIds: z
-					.array(z.number().int().positive())
+				collectionIds: mcpIdListSchema
 					.optional()
 					.describe('Defaults to the Inbox collection when omitted or empty.'),
 			},
@@ -146,13 +146,12 @@ export function registerLinkTools(
 			description:
 				"Update a link's fields and/or the collections it belongs to.",
 			inputSchema: {
-				id: z.number().int().positive(),
+				id: mcpIdSchema,
 				name: z.string().trim().min(1).max(254),
 				description: z.string().trim().max(300).optional(),
 				url: z.string().trim().min(1).max(MAXIMUM_URL_LENGTH),
 				favorite: z.boolean(),
-				collectionIds: z
-					.array(z.number().int().positive())
+				collectionIds: mcpIdListSchema
 					.optional()
 					.describe(
 						'Omit to leave the current collection membership untouched.'
@@ -175,7 +174,7 @@ export function registerLinkTools(
 		'links.delete',
 		{
 			description: 'Delete a link.',
-			inputSchema: { id: z.number().int().positive() },
+			inputSchema: { id: mcpIdSchema },
 		},
 		({ id }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
@@ -192,7 +191,7 @@ export function registerLinkTools(
 		'links.toggle_favorite',
 		{
 			description: 'Set whether a link is marked as favorite.',
-			inputSchema: { id: z.number().int().positive(), favorite: z.boolean() },
+			inputSchema: { id: mcpIdSchema, favorite: z.boolean() },
 		},
 		({ id, favorite }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
@@ -212,9 +211,9 @@ export function registerLinkTools(
 			description:
 				'Move a link from one of the owner’s collections to another.',
 			inputSchema: {
-				linkId: z.number().int().positive(),
-				fromCollectionId: z.number().int().positive(),
-				toCollectionId: z.number().int().positive(),
+				linkId: mcpIdSchema,
+				fromCollectionId: mcpIdSchema,
+				toCollectionId: mcpIdSchema,
 			},
 		},
 		({ linkId, fromCollectionId, toCollectionId }) =>
@@ -235,8 +234,8 @@ export function registerLinkTools(
 		{
 			description: 'Add a link to one more of the owner’s collections.',
 			inputSchema: {
-				linkId: z.number().int().positive(),
-				collectionId: z.number().int().positive(),
+				linkId: mcpIdSchema,
+				collectionId: mcpIdSchema,
 			},
 		},
 		({ linkId, collectionId }) =>
