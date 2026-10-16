@@ -65,6 +65,20 @@ test.group('Request overhead: last seen throttle', (group) => {
 		assert.isTrue(refreshedUser.lastSeenAt?.equals(lastSeenBefore as DateTime));
 	});
 
+	test('should leave updatedAt untouched when refreshing lastSeenAt', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'updated-at-stable' });
+		const updatedAtBefore = (await User.findOrFail(user.id)).updatedAt;
+
+		await client.get(PROTECTED_ROUTE).loginAs(user).redirects(0);
+
+		const refreshedUser = await User.findOrFail(user.id);
+		assert.isNotNull(refreshedUser.lastSeenAt);
+		assert.isTrue(refreshedUser.updatedAt?.equals(updatedAtBefore as DateTime));
+	});
+
 	test('should rewrite lastSeenAt once the throttle window has passed', async ({
 		assert,
 		client,
