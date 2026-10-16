@@ -19,7 +19,7 @@ export async function skipDashboardTour(page: Page): Promise<void> {
 	});
 }
 
-export async function loginAsUser(
+export async function submitLoginForm(
 	page: Page,
 	email: string,
 	password: string
@@ -28,9 +28,17 @@ export async function loginAsUser(
 	// several specs in this suite log in for real: a shared address would let
 	// one test's attempt spend another's budget.
 	await page.setExtraHTTPHeaders({ 'x-forwarded-for': nextClientAddress() });
-	await skipDashboardTour(page);
 	await page.goto(LOGIN_PATH);
 	await fillFormOnceHydrated(page, { email, password });
 	await page.locator('button[type="submit"]').click();
+}
+
+export async function loginAsUser(
+	page: Page,
+	email: string,
+	password: string
+): Promise<void> {
+	await skipDashboardTour(page);
+	await submitLoginForm(page, email, password);
 	await page.assertPath(INBOX_PATH);
 }

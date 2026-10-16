@@ -13,13 +13,14 @@ import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
 import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
 import {
+	ERROR_TOAST_SELECTOR,
+	SUCCESS_TOAST_SELECTOR,
+} from '#tests/helpers/browser_toasts';
+import {
 	waitForMailTo,
 	resetMailpitInbox,
 	extractLinkFromMail,
 } from '#tests/helpers/mailpit';
-
-const SUCCESS_TOAST_SELECTOR = '[data-sonner-toast][data-type="success"]';
-const ERROR_TOAST_SELECTOR = '[data-sonner-toast][data-type="error"]';
 
 const HOME_PATH = '/';
 const LOGIN_PATH = '/login';
