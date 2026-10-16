@@ -3,6 +3,7 @@ import { test } from '@japa/runner';
 import { ImpitFetcher } from '#services/favicons/impit_fetcher';
 import { FaviconService } from '#services/favicons/favicons_service';
 import type { FaviconHttpResponse } from '#types/favicon_http_response';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
@@ -45,9 +46,11 @@ function buildRecordingService() {
 	const validator = new UrlValidatorService(async () => [
 		{ address: '93.184.216.34', family: 4 },
 	]);
+	const egressGuard = new EgressGuardProxy();
 	const faviconHttpClient = new RecordingHttpClient(
 		validator,
-		new ImpitFetcher()
+		new ImpitFetcher(egressGuard),
+		egressGuard
 	);
 	const faviconService = new FaviconService(
 		validator,

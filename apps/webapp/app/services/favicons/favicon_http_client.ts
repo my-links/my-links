@@ -1,8 +1,10 @@
+import { ProxyAgent } from 'undici';
 import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
 import { isTimeoutError } from '#lib/favicons/timeout_error';
 import type { FaviconHttpResponse } from '#types/favicon_http_response';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import { ImpersonatedFetcher } from '#services/favicons/impersonated_fetcher';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
@@ -35,10 +37,12 @@ const USER_AGENT_CASCADE = [
 export class FaviconHttpClient {
 	private readonly requestTimeout = 10000;
 	private readonly maxRedirects = 5;
+	private dispatcher?: Promise<NonNullable<RequestInit['dispatcher']>>;
 
 	constructor(
 		private readonly urlValidator: UrlValidatorService,
-		private readonly impersonatedFetcher: ImpersonatedFetcher
+		private readonly impersonatedFetcher: ImpersonatedFetcher,
+		private readonly egressGuard: EgressGuardProxy
 	) {}
 
 	// Cloudflare's default error page is ~1.3 MB; the icon declarations live in <head>, no need to buffer past it.
@@ -249,14 +253,34 @@ export class FaviconHttpClient {
 		userAgent: string
 	): Promise<FaviconHttpResponse> {
 		try {
-			return await fetch(url, {
+			const init: RequestInit = {
 				headers: new Headers({ 'User-Agent': userAgent, ...extraHeaders }),
 				signal: AbortSignal.timeout(this.requestTimeout),
 				redirect: 'manual',
-			});
+				dispatcher: await this.getDispatcher(),
+			};
+			return await fetch(url, init);
 		} catch (error) {
 			throw this.mapTimeout(error, 'timeout');
 		}
+	}
+
+	// Every connection goes through the guard proxy, which connects to the address it vetted instead of resolving the host again.
+	private getDispatcher(): Promise<NonNullable<RequestInit['dispatcher']>> {
+		this.dispatcher ??= this.egressGuard
+			.ensureStarted()
+			.then(({ url, authorizationHeader }) => {
+				const proxyUri = new URL(url);
+				proxyUri.username = '';
+				proxyUri.password = '';
+				const proxyAgent = new ProxyAgent({
+					uri: proxyUri.toString(),
+					token: authorizationHeader,
+				});
+				// undici and @types/node ship distinct but runtime-compatible Dispatcher typings.
+				return proxyAgent as unknown as NonNullable<RequestInit['dispatcher']>;
+			});
+		return this.dispatcher;
 	}
 
 	private mapTimeout(error: unknown, message: string): unknown {

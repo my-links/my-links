@@ -1,6 +1,7 @@
 import { test } from '@japa/runner';
 
 import type { FaviconHttpResponse } from '#types/favicon_http_response';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
@@ -52,7 +53,8 @@ function buildClient(fetcher: ImpersonatedFetcher) {
 		}
 		return addresses;
 	});
-	return new FaviconHttpClient(validator, fetcher);
+	const egressGuard = new EgressGuardProxy();
+	return new FaviconHttpClient(validator, fetcher, egressGuard);
 }
 
 test.group('FaviconHttpClient.fetchWithUserAgent', (group) => {
@@ -112,6 +114,23 @@ test.group('FaviconHttpClient.fetchWithUserAgent', (group) => {
 		const response = await client.fetchWithUserAgent(TARGET_URL);
 
 		assert.equal(response.headers.get('x-source'), 'node');
+	});
+
+	test('should send Node fetch requests through the egress guard dispatcher', async ({
+		assert,
+	}) => {
+		let receivedInit: RequestInit | undefined;
+		globalThis.fetch = async (_input, init) => {
+			receivedInit = init;
+			return new Response(null, { status: 200 });
+		};
+		const client = buildClient(
+			new FakeImpersonatedFetcher([new Response('no', { status: 403 })])
+		);
+
+		await client.fetchWithUserAgent(TARGET_URL);
+
+		assert.isDefined(receivedInit?.dispatcher);
 	});
 
 	test('should fall back to the Node cascade when the impersonated fetch throws a transport error', async ({

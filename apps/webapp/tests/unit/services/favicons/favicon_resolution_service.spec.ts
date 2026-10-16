@@ -11,6 +11,7 @@ import { CacheService } from '#services/favicons/cache_service';
 import { ImpitFetcher } from '#services/favicons/impit_fetcher';
 import { FaviconService } from '#services/favicons/favicons_service';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
@@ -57,9 +58,11 @@ class FakeFaviconService extends FaviconService {
 	getFaviconCallCount = 0;
 
 	constructor(private readonly outcome: () => Promise<Favicon>) {
+		const egressGuard = new EgressGuardProxy();
 		const faviconHttpClient = new FaviconHttpClient(
 			new UrlValidatorService(),
-			new ImpitFetcher()
+			new ImpitFetcher(egressGuard),
+			egressGuard
 		);
 		super(
 			new UrlValidatorService(),

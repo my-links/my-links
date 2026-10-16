@@ -1,64 +1,27 @@
-import dns from 'node:dns/promises';
-import { BlockList, isIP } from 'node:net';
+import { isIP } from 'node:net';
 import logger from '@adonisjs/core/services/logger';
 
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
-
-type DnsLookupResult = { address: string; family: number };
-type HostnameResolver = (hostname: string) => Promise<DnsLookupResult[]>;
+import {
+	isBlockedAddress,
+	type ResolvedAddress,
+} from '#lib/network/blocked_address_list';
+import {
+	type HostnameResolver,
+	resolveHostnameWithDns,
+} from '#lib/network/hostname_resolver';
 
 export type UrlCheckOutcome = 'allowed' | 'blocked' | 'unresolvable';
 
 const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
 
-type BlockedSubnet = readonly [network: string, prefixLength: number];
-
-// Loopback, RFC1918, link-local (cloud metadata), "this network", CGNAT, IETF protocol assignments, benchmarking, multicast and reserved (incl. broadcast).
-const BLOCKED_IPV4_SUBNETS: readonly BlockedSubnet[] = [
-	['127.0.0.0', 8],
-	['10.0.0.0', 8],
-	['172.16.0.0', 12],
-	['192.168.0.0', 16],
-	['169.254.0.0', 16],
-	['0.0.0.0', 8],
-	['100.64.0.0', 10],
-	['192.0.0.0', 24],
-	['198.18.0.0', 15],
-	['224.0.0.0', 4],
-	['240.0.0.0', 4],
-];
-
-// Unspecified and IPv4-compatible, loopback, ULA, link-local, NAT64, 6to4, discard and multicast; `::ffff:a.b.c.d` is covered by the ipv4 list.
-const BLOCKED_IPV6_SUBNETS: readonly BlockedSubnet[] = [
-	['::', 96],
-	['::1', 128],
-	['fc00::', 7],
-	['fe80::', 10],
-	['64:ff9b::', 96],
-	['2002::', 16],
-	['100::', 64],
-	['ff00::', 8],
-];
-
 export class UrlValidatorService {
-	private readonly blockedAddresses = new BlockList();
 	private readonly localDomains = ['.local', '.localhost', '.internal', '.lan'];
-	private readonly resolveHostname: HostnameResolver;
 
 	constructor(
-		resolveHostname: HostnameResolver = (hostname) =>
-			dns.lookup(hostname, { all: true, verbatim: true })
-	) {
-		this.resolveHostname = resolveHostname;
-
-		BLOCKED_IPV4_SUBNETS.forEach(([network, prefix]) =>
-			this.blockedAddresses.addSubnet(network, prefix, 'ipv4')
-		);
-		BLOCKED_IPV6_SUBNETS.forEach(([network, prefix]) =>
-			this.blockedAddresses.addSubnet(network, prefix, 'ipv6')
-		);
-	}
+		private readonly resolveHostname: HostnameResolver = resolveHostnameWithDns
+	) {}
 
 	async isUrlAllowed(url: string): Promise<boolean> {
 		return (await this.checkUrl(url)) === 'allowed';
@@ -103,7 +66,7 @@ export class UrlValidatorService {
 			return 'unresolvable';
 		}
 
-		if (resolvedAddresses.some((resolved) => this.isBlockedAddress(resolved))) {
+		if (resolvedAddresses.some((resolved) => isBlockedAddress(resolved))) {
 			logger.debug({ url }, 'Blocked internal/private target');
 			return 'blocked';
 		}
@@ -120,17 +83,13 @@ export class UrlValidatorService {
 		}
 	}
 
-	private async resolveSafely(hostname: string): Promise<DnsLookupResult[]> {
+	private async resolveSafely(hostname: string): Promise<ResolvedAddress[]> {
 		try {
 			return await this.resolveHostname(hostname);
 		} catch (error) {
 			logger.debug({ err: error, hostname }, 'DNS resolution failed');
 			return [];
 		}
-	}
-
-	private isBlockedAddress({ address, family }: DnsLookupResult): boolean {
-		return this.blockedAddresses.check(address, family === 6 ? 'ipv6' : 'ipv4');
 	}
 
 	private stripBrackets(hostname: string): string {

@@ -1,6 +1,7 @@
 import { test } from '@japa/runner';
 
 import type { FaviconHttpResponse } from '#types/favicon_http_response';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
@@ -27,7 +28,11 @@ class UnusedImpersonatedFetcher extends ImpersonatedFetcher {
 
 class ScriptedHttpClient extends FaviconHttpClient {
 	constructor(private readonly responsesByUrl: Record<string, string>) {
-		super(new UrlValidatorService(), new UnusedImpersonatedFetcher());
+		super(
+			new UrlValidatorService(),
+			new UnusedImpersonatedFetcher(),
+			new EgressGuardProxy()
+		);
 	}
 
 	async fetchWithUserAgent(url: string): Promise<FaviconHttpResponse> {
