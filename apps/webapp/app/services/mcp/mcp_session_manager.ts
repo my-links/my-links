@@ -5,6 +5,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 
+import type User from '#models/user';
 import { LinkService } from '#services/links/link_service';
 import { registerLinkTools } from '#services/mcp/tools/link_tools';
 import { LinkQueryService } from '#services/links/link_query_service';
@@ -13,6 +14,10 @@ import { CollectionService } from '#services/collections/collection_service';
 import { registerCollectionTools } from '#services/mcp/tools/collection_tools';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import { CollectionQueryService } from '#services/collections/collection_query_service';
+import {
+	MAXIMUM_MCP_SESSIONS,
+	MAXIMUM_MCP_SESSIONS_PER_USER,
+} from '#constants/mcp';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 
 const MCP_SESSION_HEADER = 'mcp-session-id';
@@ -26,7 +31,23 @@ const MCP_SESSION_HEADER = 'mcp-session-id';
 const SESSION_IDLE_TTL_MS = 30 * 60 * 1000;
 const SESSION_SWEEP_INTERVAL_MS = 5 * 60 * 1000;
 
+const HTTP_NOT_FOUND = 404;
+const HTTP_SERVICE_UNAVAILABLE = 503;
+const JSON_RPC_SESSION_NOT_FOUND = -32001;
+const JSON_RPC_SERVER_AT_CAPACITY = -32002;
+
+export type McpSessionLimits = {
+	maximumSessions: number;
+	maximumSessionsPerUser: number;
+};
+
+export const DEFAULT_MCP_SESSION_LIMITS: McpSessionLimits = {
+	maximumSessions: MAXIMUM_MCP_SESSIONS,
+	maximumSessionsPerUser: MAXIMUM_MCP_SESSIONS_PER_USER,
+};
+
 type McpSession = {
+	userId: User['id'];
 	transport: WebStandardStreamableHTTPServerTransport;
 	lastActivityAt: number;
 };
@@ -58,7 +79,8 @@ export class McpSessionManager {
 		private readonly collectionService: CollectionService,
 		private readonly collectionQueryService: CollectionQueryService,
 		private readonly collectionLinkService: CollectionLinkService,
-		private readonly collectionFollowerService: CollectionFollowerService
+		private readonly collectionFollowerService: CollectionFollowerService,
+		private readonly limits: McpSessionLimits = DEFAULT_MCP_SESSION_LIMITS
 	) {
 		setInterval(() => {
 			void this.evictIdleSessions();
@@ -66,21 +88,11 @@ export class McpSessionManager {
 	}
 
 	async handleRequest(ctx: HttpContext): Promise<void> {
+		const userId = ctx.auth.getUserOrFail().id;
 		const sessionId = ctx.request.header(MCP_SESSION_HEADER);
 
-		const session = sessionId ? this.sessions.get(sessionId) : undefined;
-		if (session) {
-			session.lastActivityAt = Date.now();
-			await this.respond(ctx, session.transport);
-			return;
-		}
-
 		if (sessionId) {
-			ctx.response.status(404).json({
-				jsonrpc: '2.0',
-				error: { code: -32001, message: 'Session not found' },
-				id: null,
-			});
+			await this.handleExistingSession(ctx, userId, sessionId);
 			return;
 		}
 
@@ -96,6 +108,10 @@ export class McpSessionManager {
 			return;
 		}
 
+		if (!(await this.makeRoomForSession(ctx, userId))) {
+			return;
+		}
+
 		const transport = new WebStandardStreamableHTTPServerTransport({
 			sessionIdGenerator: () => randomUUID(),
 			// Every tool here is a plain request/response call (nothing ever
@@ -105,7 +121,11 @@ export class McpSessionManager {
 			// than long-lived SSE.
 			enableJsonResponse: true,
 			onsessioninitialized: (id) => {
-				this.sessions.set(id, { transport, lastActivityAt: Date.now() });
+				this.sessions.set(id, {
+					userId,
+					transport,
+					lastActivityAt: Date.now(),
+				});
 			},
 		});
 		transport.onclose = () => {
@@ -142,6 +162,79 @@ export class McpSessionManager {
 
 	get sessionCount(): number {
 		return this.sessions.size;
+	}
+
+	/**
+	 * A session id owned by someone else answers exactly like an unknown one,
+	 * so a token holder cannot tell which ids are live.
+	 */
+	private async handleExistingSession(
+		ctx: HttpContext,
+		userId: User['id'],
+		sessionId: string
+	): Promise<void> {
+		const session = this.sessions.get(sessionId);
+		if (!session || session.userId !== userId) {
+			ctx.response.status(HTTP_NOT_FOUND).json({
+				jsonrpc: '2.0',
+				error: {
+					code: JSON_RPC_SESSION_NOT_FOUND,
+					message: 'Session not found',
+				},
+				id: null,
+			});
+			return;
+		}
+
+		session.lastActivityAt = Date.now();
+		await this.respond(ctx, session.transport);
+	}
+
+	/**
+	 * Past the per-user cap the user's least recently used session is closed
+	 * instead of refusing the new one: the usual cause is a client that
+	 * crashed and re-initialized, and refusing would lock it out until the
+	 * dead session idles out. The global cap has no such owner to evict from,
+	 * so it refuses.
+	 */
+	private async makeRoomForSession(
+		ctx: HttpContext,
+		userId: User['id']
+	): Promise<boolean> {
+		const userSessions = [...this.sessions.entries()].filter(
+			([, session]) => session.userId === userId
+		);
+		if (userSessions.length >= this.limits.maximumSessionsPerUser) {
+			await this.closeLeastRecentlyUsed(userSessions);
+		}
+
+		if (this.sessions.size < this.limits.maximumSessions) {
+			return true;
+		}
+
+		ctx.response.status(HTTP_SERVICE_UNAVAILABLE).json({
+			jsonrpc: '2.0',
+			error: {
+				code: JSON_RPC_SERVER_AT_CAPACITY,
+				message: 'Too many active MCP sessions, try again later',
+			},
+			id: null,
+		});
+		return false;
+	}
+
+	private async closeLeastRecentlyUsed(
+		sessions: Array<[string, McpSession]>
+	): Promise<void> {
+		const [leastRecentlyUsedId, leastRecentlyUsed] = sessions.reduce(
+			(oldest, candidate) =>
+				candidate[1].lastActivityAt < oldest[1].lastActivityAt
+					? candidate
+					: oldest
+		);
+
+		this.sessions.delete(leastRecentlyUsedId);
+		await leastRecentlyUsed.transport.close();
 	}
 
 	private async respond(

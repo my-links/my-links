@@ -6,7 +6,16 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import type User from '#models/user';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
-import { McpSessionManager } from '#services/mcp/mcp_session_manager';
+import { LinkService } from '#services/links/link_service';
+import { LinkQueryService } from '#services/links/link_query_service';
+import { CollectionService } from '#services/collections/collection_service';
+import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
+import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import {
+	McpSessionManager,
+	type McpSessionLimits,
+} from '#services/mcp/mcp_session_manager';
 
 const SESSION_HEADER = 'mcp-session-id';
 const ACCEPT_BOTH = 'application/json, text/event-stream';
@@ -723,5 +732,148 @@ test.group('API MCP: link url validation', (group) => {
 			id: created.data.link.id,
 		});
 		assert.equal(fetched.data.url, 'https://example.org');
+	});
+});
+
+async function openSession(client: ApiClient, user: User) {
+	const response = await client
+		.post('/api/mcp')
+		.header('Accept', ACCEPT_BOTH)
+		.json(initializeRequest())
+		.withGuard('api')
+		.loginAs(user);
+
+	return { response, sessionId: response.headers()[SESSION_HEADER] };
+}
+
+async function listTools(client: ApiClient, user: User, sessionId: string) {
+	return client
+		.post('/api/mcp')
+		.header('Accept', ACCEPT_BOTH)
+		.header(SESSION_HEADER, sessionId)
+		.json({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} })
+		.withGuard('api')
+		.loginAs(user);
+}
+
+test.group('API MCP: session ownership', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should answer a stranger using someone else session like an unknown session', async ({
+		client,
+		assert,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'mcp-session-owner' });
+		const stranger = await createUser({ emailPrefix: 'mcp-session-stranger' });
+		const { sessionId } = await openSession(client, owner);
+
+		const strangerResponse = await listTools(client, stranger, sessionId);
+		const unknownResponse = await listTools(client, stranger, 'does-not-exist');
+
+		strangerResponse.assertStatus(404);
+		assert.deepEqual(strangerResponse.body(), unknownResponse.body());
+	});
+
+	test('should not let a stranger close someone else session', async ({
+		client,
+	}) => {
+		const owner = await createUser({ emailPrefix: 'mcp-delete-owner' });
+		const stranger = await createUser({ emailPrefix: 'mcp-delete-stranger' });
+		const { sessionId } = await openSession(client, owner);
+
+		const deleteResponse = await client
+			.delete('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.header(SESSION_HEADER, sessionId)
+			.withGuard('api')
+			.loginAs(stranger);
+
+		deleteResponse.assertStatus(404);
+		const ownerResponse = await listTools(client, owner, sessionId);
+		ownerResponse.assertStatus(200);
+	});
+});
+
+const TEST_LIMITS: McpSessionLimits = {
+	maximumSessions: 3,
+	maximumSessionsPerUser: 2,
+};
+
+async function buildSessionManager(limits: McpSessionLimits) {
+	return new McpSessionManager(
+		await app.container.make(LinkService),
+		await app.container.make(LinkQueryService),
+		await app.container.make(CollectionService),
+		await app.container.make(CollectionQueryService),
+		await app.container.make(CollectionLinkService),
+		await app.container.make(CollectionFollowerService),
+		limits
+	);
+}
+
+test.group('API MCP: session caps', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.setup(async () => {
+		const limitedManager = await buildSessionManager(TEST_LIMITS);
+		app.container.swap(McpSessionManager, () => limitedManager);
+	});
+	group.each.teardown(() => app.container.restore(McpSessionManager));
+
+	test('should close the oldest session of a user who goes over the per-user cap', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-per-user-cap' });
+		const { sessionId: oldestSessionId } = await openSession(client, user);
+		await openSession(client, user);
+
+		const { response, sessionId: newestSessionId } = await openSession(
+			client,
+			user
+		);
+
+		response.assertStatus(200);
+		const sessionManager = await app.container.make(McpSessionManager);
+		assert.equal(
+			sessionManager.sessionCount,
+			TEST_LIMITS.maximumSessionsPerUser
+		);
+		const oldestResponse = await listTools(client, user, oldestSessionId);
+		oldestResponse.assertStatus(404);
+		const newestResponse = await listTools(client, user, newestSessionId);
+		newestResponse.assertStatus(200);
+	});
+
+	test('should keep one user sessions from using up another user cap', async ({
+		client,
+	}) => {
+		const busyUser = await createUser({ emailPrefix: 'mcp-busy-user' });
+		const otherUser = await createUser({ emailPrefix: 'mcp-other-user' });
+		const { sessionId: otherSessionId } = await openSession(client, otherUser);
+
+		await openSession(client, busyUser);
+		await openSession(client, busyUser);
+		await openSession(client, busyUser);
+
+		const otherResponse = await listTools(client, otherUser, otherSessionId);
+		otherResponse.assertStatus(200);
+	});
+
+	test('should refuse a new session once the instance is full', async ({
+		client,
+		assert,
+	}) => {
+		const firstUser = await createUser({ emailPrefix: 'mcp-full-first' });
+		const secondUser = await createUser({ emailPrefix: 'mcp-full-second' });
+		await openSession(client, firstUser);
+		await openSession(client, firstUser);
+		await openSession(client, secondUser);
+
+		const latecomer = await createUser({ emailPrefix: 'mcp-full-latecomer' });
+		const { response } = await openSession(client, latecomer);
+
+		response.assertStatus(503);
+		const sessionManager = await app.container.make(McpSessionManager);
+		assert.equal(sessionManager.sessionCount, TEST_LIMITS.maximumSessions);
 	});
 });
