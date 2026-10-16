@@ -1,7 +1,28 @@
 import { HttpContext } from '@adonisjs/core/http';
+import logger from '@adonisjs/core/services/logger';
+import { Exception } from '@adonisjs/core/exceptions';
 
 import type { TokenAbility } from '#constants/api_token';
 import { assertTokenAbility } from '#lib/api/tokens/abilities';
+
+const FIRST_SERVER_ERROR_STATUS = 500;
+const INTERNAL_ERROR_MESSAGE = 'Internal error';
+
+/**
+ * Typed exceptions with a client-error status (not found, forbidden, invalid
+ * input...) are written for the person on the other end, so their message
+ * goes through. Anything else (a database error, a bug, a server-status
+ * exception) can carry table names or query text, so it is logged here and
+ * the caller only learns that it failed.
+ */
+function describeToolFailure(error: unknown): string {
+	if (error instanceof Exception && error.status < FIRST_SERVER_ERROR_STATUS) {
+		return error.message;
+	}
+
+	logger.error({ err: error }, 'MCP tool failed unexpectedly');
+	return INTERNAL_ERROR_MESSAGE;
+}
 
 /**
  * A thrown error inside a tool handler never reaches AdonisJS's exception
@@ -25,7 +46,9 @@ export async function runTool(
 			content: [{ type: 'text', text: JSON.stringify(result, null, 2) }],
 		};
 	} catch (error) {
-		const message = error instanceof Error ? error.message : String(error);
-		return { content: [{ type: 'text', text: message }], isError: true };
+		return {
+			content: [{ type: 'text', text: describeToolFailure(error) }],
+			isError: true,
+		};
 	}
 }

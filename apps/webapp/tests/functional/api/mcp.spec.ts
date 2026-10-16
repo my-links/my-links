@@ -4,9 +4,11 @@ import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import type User from '#models/user';
+import { MAXIMUM_DATABASE_ID } from '#constants/database';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { LinkService } from '#services/links/link_service';
+import { MAXIMUM_SEARCH_TERM_LENGTH } from '#constants/search';
 import { LinkQueryService } from '#services/links/link_query_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
@@ -20,6 +22,7 @@ import {
 const SESSION_HEADER = 'mcp-session-id';
 const ACCEPT_BOTH = 'application/json, text/event-stream';
 const SESSION_IDLE_TTL_MS = 30 * 60 * 1000;
+const INTERNAL_ERROR_MESSAGE = 'Internal error';
 
 type ToolCallResult = {
 	content: Array<{ type: 'text'; text: string }>;
@@ -875,5 +878,119 @@ test.group('API MCP: session caps', (group) => {
 		response.assertStatus(503);
 		const sessionManager = await app.container.make(McpSessionManager);
 		assert.equal(sessionManager.sessionCount, TEST_LIMITS.maximumSessions);
+	});
+});
+
+async function callTool(
+	client: ApiClient,
+	user: User,
+	sessionId: string,
+	name: string,
+	args: Record<string, unknown>
+) {
+	const response = await client
+		.post('/api/mcp')
+		.header('Accept', ACCEPT_BOTH)
+		.header(SESSION_HEADER, sessionId)
+		.json(toolCallRequest(2, name, args))
+		.withGuard('api')
+		.loginAs(user);
+
+	return parseToolResult(response);
+}
+
+test.group('API MCP: tool errors', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should keep the message of a known typed exception', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-known-error' });
+		const { sessionId } = await openSession(client, user);
+
+		const result = await callTool(client, user, sessionId, 'links.create', {
+			name: 'Orphan link',
+			url: 'https://example.com',
+			favorite: false,
+			collectionIds: [MAXIMUM_DATABASE_ID],
+		});
+
+		assert.isTrue(result.isError);
+		assert.equal(
+			result.data,
+			'One or more collections do not belong to the authenticated user'
+		);
+	});
+
+	test('should answer a generic message when an unexpected error is thrown', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-unexpected-error' });
+		const { sessionId } = await openSession(client, user);
+
+		const result = await callTool(client, user, sessionId, 'links.create', {
+			name: 'Unstorable \u0000 link',
+			url: 'https://example.com',
+			favorite: false,
+		});
+
+		assert.isTrue(result.isError);
+		assert.equal(result.data, INTERNAL_ERROR_MESSAGE);
+	});
+});
+
+test.group('API MCP: links.search', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should treat a percent sign as a literal character', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-search-percent' });
+		const { sessionId } = await openSession(client, user);
+		await callTool(client, user, sessionId, 'links.create', {
+			name: 'Fifty percent off',
+			url: 'https://example.com/50%25',
+			favorite: false,
+		});
+		await callTool(client, user, sessionId, 'links.create', {
+			name: 'Plain link',
+			url: 'https://example.com/plain',
+			favorite: false,
+		});
+
+		const result = await callTool(client, user, sessionId, 'links.search', {
+			term: '%',
+		});
+
+		assert.deepEqual(
+			result.data.map((link: { name: string }) => link.name),
+			['Fifty percent off']
+		);
+	});
+
+	test('should refuse a search term longer than the maximum', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-search-long' });
+		const { sessionId } = await openSession(client, user);
+
+		const response = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.header(SESSION_HEADER, sessionId)
+			.json(
+				toolCallRequest(2, 'links.search', {
+					term: 'a'.repeat(MAXIMUM_SEARCH_TERM_LENGTH + 1),
+				})
+			)
+			.withGuard('api')
+			.loginAs(user);
+
+		const { result, error } = response.body() as unknown as JsonRpcResponse;
+		assert.isTrue(result?.isError === true || error !== undefined);
 	});
 });

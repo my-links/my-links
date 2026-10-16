@@ -3,6 +3,7 @@ import db from '@adonisjs/lucid/services/db';
 
 import Link from '#models/link';
 import type User from '#models/user';
+import { escapeLikePattern } from '#lib/escape_like_pattern';
 
 @inject()
 export class LinkQueryService {
@@ -49,7 +50,7 @@ export class LinkQueryService {
 	 * substitute rather than an attempt to match its ranking.
 	 */
 	async searchLinks(userId: User['id'], term: string) {
-		const pattern = `%${term}%`;
+		const pattern = `%${escapeLikePattern(term)}%`;
 		return await Link.query()
 			.where('author_id', userId)
 			.where((query) => {
