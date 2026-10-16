@@ -129,3 +129,19 @@ export const EMAIL_CHANGE_REQUEST_TIERS = [
 ] as const satisfies readonly AttemptTier[];
 
 export const VERIFICATION_RESEND_BURST_TIER = MAILED_LINK_REQUEST_BURST_TIER;
+
+/**
+ * An import rewrites a whole library inside one transaction, so a handful per
+ * hour is generous for the real use (moving between instances, restoring a
+ * backup) while stopping a signed-in account from looping it.
+ */
+export const DATA_IMPORT_BURST_TIER = {
+	name: 'burst',
+	requests: 5,
+	window: '1 hour',
+	blockFor: '1 hour',
+} as const satisfies AttemptTier;
+
+export const DATA_IMPORT_TIERS = [
+	DATA_IMPORT_BURST_TIER,
+] as const satisfies readonly AttemptTier[];

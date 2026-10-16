@@ -1,6 +1,10 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
 import { MAXIMUM_URL_LENGTH } from '#constants/link';
+import {
+	MAXIMUM_IMPORT_LINKS,
+	MAXIMUM_IMPORT_COLLECTIONS,
+} from '#constants/data_import';
 
 const linkFields = {
 	name: vine.string().trim().minLength(1).maxLength(254),
@@ -36,13 +40,21 @@ const collectionSchema = vine.object({
 	description: vine.string().trim().maxLength(254).nullable().optional(),
 	visibility: vine.string(),
 	icon: vine.string().trim().maxLength(10).nullable().optional(),
-	links: vine.array(nestedLinkSchema).optional(),
+	links: vine
+		.array(nestedLinkSchema)
+		.maxLength(MAXIMUM_IMPORT_LINKS)
+		.optional(),
 });
 
 export const importDataValidator = vine.create(
 	vine.object({
-		collections: vine.array(collectionSchema),
-		links: vine.array(topLevelLinkSchema).optional(),
+		collections: vine
+			.array(collectionSchema)
+			.maxLength(MAXIMUM_IMPORT_COLLECTIONS),
+		links: vine
+			.array(topLevelLinkSchema)
+			.maxLength(MAXIMUM_IMPORT_LINKS)
+			.optional(),
 	})
 );
 

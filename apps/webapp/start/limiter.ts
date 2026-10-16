@@ -21,6 +21,7 @@ import {
 	MAILED_LINK_REQUEST_TIERS,
 	SUDO_CONFIRMATION_TIERS,
 	EMAIL_CHANGE_REQUEST_TIERS,
+	DATA_IMPORT_TIERS,
 } from '#lib/limiter/attempt_tiers';
 
 /**
@@ -133,3 +134,13 @@ export const emailChangeRequestThrottles: MiddlewareFn[] =
 		'address',
 		'actor',
 	]);
+
+/**
+ * Keyed on the signed-in account alone: the route sits behind the session, and
+ * an address key would only let users sharing a proxy spend each other's budget.
+ */
+export const dataImportThrottles: MiddlewareFn[] = defineAttemptThrottles(
+	'data_import',
+	DATA_IMPORT_TIERS,
+	['actor']
+);
