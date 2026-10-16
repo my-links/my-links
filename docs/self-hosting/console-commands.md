@@ -26,13 +26,15 @@ Two refusals are deliberate. A provider cannot be unlinked when it is the only w
 
 ## Maintenance
 
-These sweeps are meant to run on a schedule, not by hand. The Docker image schedules them inside the application itself, in your timezone (`TZ`, `UTC` by default). A native deployment runs them from system cron instead, see [Docker & compose](/self-hosting/docker#native-deployment).
+These sweeps are meant to run on a schedule, not by hand. The application schedules them itself, in your timezone (`TZ`, `UTC` by default), whenever the web process runs, on Docker and on a native `pnpm run start`. A system cron is only needed if the scheduler preload is disabled or the web process is not used, see [Docker & compose](/self-hosting/docker#native-deployment).
 
-| Command                 | Schedule (Docker) | What it does                                                                                                                                                         |
-| ----------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `account:flag-inactive` | daily, 03:00      | Starts the deletion grace period of every member account unseen for 365 days (counted from creation for an account that never signed in). Administrators are skipped |
-| `account:prune-deleted` | daily, 03:30      | Permanently deletes the accounts whose 30-day grace period has run out, with everything they own                                                                     |
-| `favicon:purge-orphans` | daily, 04:00      | Deletes the cached favicons no link refers to any more, and the stored image files no cached favicon uses                                                            |
-| `activity:prune`        | daily, 04:30      | Deletes activity journal rows older than 90 days                                                                                                                     |
+| Command                         | Schedule (Docker) | What it does                                                                                                                                                         |
+| ------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `account:flag-inactive`         | daily, 03:00      | Starts the deletion grace period of every member account unseen for 365 days (counted from creation for an account that never signed in). Administrators are skipped |
+| `account:prune-deleted`         | daily, 03:30      | Permanently deletes the accounts whose 30-day grace period has run out, with everything they own                                                                     |
+| `favicon:purge-orphans`         | daily, 04:00      | Deletes the cached favicons and recorded resolution failures no link refers to any more, and the stored image files no cached favicon uses                           |
+| `activity:prune`                | daily, 04:30      | Deletes activity journal rows older than 90 days                                                                                                                     |
+| `auth-events:anonymize-origins` | daily, 05:00      | Erases the IP and user agent of authentication journal rows older than 180 days. The rows themselves are kept                                                        |
+| `token:prune-stale`             | daily, 05:30      | Deletes one-time tokens (verification, reset, address change) and API tokens a day after they expired or were used                                                   |
 
-`activity:prune` only touches the activity journal (what members and administrators did to collections, links and account data). Authentication rows are security evidence and are never pruned.
+`activity:prune` only touches the activity journal (what members and administrators did to collections, links and account data). Authentication rows are security evidence and are kept: only their IP and user agent are erased, after 180 days.
