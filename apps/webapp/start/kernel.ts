@@ -52,4 +52,6 @@ export const middleware = router.named({
 	sudo: () => import('#middleware/auth/sudo_mode_middleware'),
 	tokenAbility: () =>
 		import('#middleware/api/require_token_ability_middleware'),
+	renewExtensionToken: () =>
+		import('#middleware/api/renew_extension_token_middleware'),
 });

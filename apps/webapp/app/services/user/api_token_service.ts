@@ -1,6 +1,13 @@
+import { DateTime } from 'luxon';
+import db from '@adonisjs/lucid/services/db';
+import type { AccessToken } from '@adonisjs/auth/access_tokens';
+
 import User from '#models/user';
 import { ApiTokenNotFoundException } from '#exceptions/user/api_token_not_found_exception';
 import {
+	EXTENSION_TOKEN_LIFETIME_DAYS,
+	EXTENSION_TOKEN_MARKER_ABILITY,
+	EXTENSION_TOKEN_RENEWAL_THRESHOLD_DAYS,
 	API_TOKEN_SCOPE,
 	API_TOKEN_SCOPE_ABILITIES,
 	type ApiTokenScope,
@@ -12,12 +19,18 @@ type CreateTokenParams = {
 	scope?: ApiTokenScope;
 };
 
+const MILLISECONDS_PER_SECOND = 1000;
+const ACCESS_TOKENS_TABLE = 'auth_access_tokens';
+const EXTENSION_TOKEN_NAME = 'Browser extension';
+
 export class ApiTokenService {
 	createToken(
 		user: User,
 		{ name, expiresAt, scope = API_TOKEN_SCOPE.FULL_ACCESS }: CreateTokenParams
 	) {
-		const expiresIn = expiresAt ? expiresAt.getTime() - Date.now() : undefined;
+		const expiresIn = expiresAt
+			? Math.round((expiresAt.getTime() - Date.now()) / MILLISECONDS_PER_SECOND)
+			: undefined;
 		return User.accessTokens.create(
 			user,
 			[...API_TOKEN_SCOPE_ABILITIES[scope]],
@@ -26,6 +39,45 @@ export class ApiTokenService {
 				expiresIn,
 			}
 		);
+	}
+
+	createExtensionToken(user: User) {
+		return User.accessTokens.create(
+			user,
+			[
+				...API_TOKEN_SCOPE_ABILITIES[API_TOKEN_SCOPE.FULL_ACCESS],
+				EXTENSION_TOKEN_MARKER_ABILITY,
+			],
+			{
+				name: EXTENSION_TOKEN_NAME,
+				expiresIn: `${EXTENSION_TOKEN_LIFETIME_DAYS} days`,
+			}
+		);
+	}
+
+	/**
+	 * Rolling expiry for extension tokens: a token that keeps being used never
+	 * lapses, one left alone for the whole lifetime does. The write happens at
+	 * most once per threshold, never on every request.
+	 */
+	async renewExtensionToken(token: AccessToken): Promise<void> {
+		if (!token.abilities.includes(EXTENSION_TOKEN_MARKER_ABILITY)) return;
+		if (!token.expiresAt) return;
+
+		const renewalDeadline = DateTime.now().plus({
+			days:
+				EXTENSION_TOKEN_LIFETIME_DAYS - EXTENSION_TOKEN_RENEWAL_THRESHOLD_DAYS,
+		});
+		if (DateTime.fromJSDate(token.expiresAt) > renewalDeadline) return;
+
+		await db
+			.from(ACCESS_TOKENS_TABLE)
+			.where('id', Number(token.identifier))
+			.update({
+				expires_at: DateTime.now()
+					.plus({ days: EXTENSION_TOKEN_LIFETIME_DAYS })
+					.toJSDate(),
+			});
 	}
 
 	getTokens(user: User) {

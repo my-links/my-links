@@ -1,6 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { resolveExpiryDate } from '#lib/api/tokens/expiry';
+import { DEFAULT_API_TOKEN_EXPIRY } from '#constants/api_token';
 import { ApiTokenService } from '#services/user/api_token_service';
 import { createApiTokenValidator } from '#validators/user/token/create_api_token';
 
@@ -9,13 +11,15 @@ export default class CreateApiTokenController {
 	constructor(protected readonly apiTokenService: ApiTokenService) {}
 
 	async execute({ request, response, auth, session }: HttpContext) {
-		const { name, expiresAt, scope } = await request.validateUsing(
-			createApiTokenValidator
-		);
+		const {
+			name,
+			expiry = DEFAULT_API_TOKEN_EXPIRY,
+			scope,
+		} = await request.validateUsing(createApiTokenValidator);
 
 		const token = await this.apiTokenService.createToken(auth.getUserOrFail(), {
 			name,
-			expiresAt: expiresAt?.toJSDate(),
+			expiresAt: resolveExpiryDate(expiry),
 			scope,
 		});
 

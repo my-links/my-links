@@ -1,7 +1,10 @@
 import router from '@adonisjs/core/services/router';
 
 import { controllers } from '#generated/controllers';
-import { apiMiddleware } from '#routes/api/api_middleware';
+import {
+	apiMiddleware,
+	tokenSelfRevocationMiddleware,
+} from '#routes/api/api_middleware';
 
 router
 	.group(() => {
@@ -11,3 +14,11 @@ router
 	})
 	.prefix('/api/v1/tokens')
 	.middleware(apiMiddleware);
+
+router
+	.delete('/api/v1/tokens/current', [
+		controllers.api.tokens.RevokeCurrentApiToken,
+		'execute',
+	])
+	.as('api-tokens.revoke-current')
+	.middleware(tokenSelfRevocationMiddleware);

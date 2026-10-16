@@ -9,6 +9,16 @@ export const apiMiddleware = [
 	middleware.auth({ guards: ['api'] }),
 	middleware.tokenAbility(),
 	apiThrottle,
+	middleware.renewExtensionToken(),
+];
+
+/**
+ * A token must always be able to revoke itself, read-only ones included, so
+ * the method-derived ability check is left out. Used by that one route only.
+ */
+export const tokenSelfRevocationMiddleware = [
+	middleware.auth({ guards: ['api'] }),
+	apiThrottle,
 ];
 
 /**

@@ -595,6 +595,31 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
+	'/api/v1/tokens/current': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		delete: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody?: never;
+			responses: never;
+		};
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	'/extension/authorize': {
 		parameters: {
 			query?: never;
@@ -625,7 +650,30 @@ export interface paths {
 			};
 		};
 		put?: never;
-		post?: never;
+		post: {
+			parameters: {
+				query?: never;
+				header?: never;
+				path?: never;
+				cookie?: never;
+			};
+			requestBody: {
+				content: {
+					'application/json': components['schemas']['AuthorizeExtensionProps'];
+				};
+			};
+			responses: {
+				/** @description OK */
+				200: {
+					headers: {
+						[name: string]: unknown;
+					};
+					content: {
+						'application/json': components['schemas']['AuthorizeExtensionExecuteResponse'];
+					};
+				};
+			};
+		};
 		delete?: never;
 		options?: never;
 		head?: never;
@@ -642,7 +690,30 @@ export interface components {
 		AddLinkToCollectionProps: {
 			collectionId: string | number;
 		};
-		AuthorizeExtensionRenderResponse: unknown;
+		AuthorizeExtensionExecuteResponse: unknown;
+		AuthorizeExtensionProps: {
+			redirect_uri: string;
+		};
+		AuthorizeExtensionRenderResponse:
+			| string
+			| {
+					clearHistory?: boolean;
+					component: unknown;
+					deepMergeProps?: string[];
+					deferredProps?: Record<string, never>;
+					encryptHistory?: boolean;
+					flash?: components['schemas']['FlashData'];
+					matchPropsOn?: string[];
+					mergeProps?: string[];
+					onceProps?: Record<string, never>;
+					prependProps?: string[];
+					props: unknown;
+					rescuedProps?: string[];
+					scrollProps?: Record<string, never>;
+					sharedProps?: string[];
+					url: string;
+					version: string | number;
+			  };
 		CheckApiTokenRenderResponse: {
 			message: string;
 		};
@@ -721,6 +792,7 @@ export interface components {
 		DeleteLinkExecuteResponse: {
 			message: string;
 		};
+		FlashData: Record<string, never>;
 		MoveLinkExecuteResponse: {
 			message: string;
 		};

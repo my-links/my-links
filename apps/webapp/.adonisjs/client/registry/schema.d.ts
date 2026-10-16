@@ -1063,6 +1063,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/check_api_token_controller').default['render']>>>
     }
   }
+  'api-tokens.revoke-current': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/tokens/current'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/api/tokens/revoke_current_api_token_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/revoke_current_api_token_controller').default['execute']>>>
+    }
+  }
   'link.visit': {
     methods: ["GET","HEAD"]
     pattern: '/l/:id'

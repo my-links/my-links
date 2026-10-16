@@ -56,6 +56,7 @@ export const controllers = {
     },
     tokens: {
       CheckApiToken: () => import('#controllers/api/tokens/check_api_token_controller'),
+      RevokeCurrentApiToken: () => import('#controllers/api/tokens/revoke_current_api_token_controller'),
     },
   },
   auth: {

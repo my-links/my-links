@@ -6,7 +6,6 @@ import { ExtensionCallbackService } from '#services/extension/extension_callback
 import { authorizeExtensionValidator } from '#validators/extension/authorize_extension_validator';
 import { UnusableExtensionTokenException } from '#exceptions/extension/unusable_extension_token_exception';
 
-const TOKEN_NAME = 'Browser extension';
 const ACCESS_DENIED_FRAGMENT = 'error=access_denied';
 
 @inject()
@@ -42,9 +41,9 @@ export default class AuthorizeExtensionController {
 		);
 		this.extensionCallbackService.assertTrusted(redirectUri);
 
-		const token = await this.apiTokenService.createToken(auth.getUserOrFail(), {
-			name: TOKEN_NAME,
-		});
+		const token = await this.apiTokenService.createExtensionToken(
+			auth.getUserOrFail()
+		);
 		const tokenValue = token.value?.release();
 		if (!tokenValue) {
 			throw new UnusableExtensionTokenException();

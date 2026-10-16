@@ -42,6 +42,10 @@ msgstr "il y a {value, plural, one {# heure} other {# heures}}"
 msgid "{value, plural, one {# minute} other {# minutes}} ago"
 msgstr "il y a {value, plural, one {# minute} other {# minutes}}"
 
+#: inertia/components/api_tokens/create_token_modal.tsx:42
+msgid "1 year"
+msgstr "1 an"
+
 #: inertia/pages/privacy.tsx:80
 msgid "1.1 Your account"
 msgstr "1.1 Votre compte"
@@ -78,6 +82,10 @@ msgstr "3.1 Collecte et utilisation"
 msgid "3.2 Account Deletion"
 msgstr "3.2 Suppression de compte"
 
+#: inertia/components/api_tokens/create_token_modal.tsx:40
+msgid "30 days"
+msgstr "30 jours"
+
 #: inertia/pages/terms.tsx:148
 msgid "4.1 Responsibility"
 msgstr "4.1 Responsabilité"
@@ -85,6 +93,10 @@ msgstr "4.1 Responsabilité"
 #: inertia/pages/terms.tsx:160
 msgid "4.2 Warranties"
 msgstr "4.2 Garanties"
+
+#: inertia/components/api_tokens/create_token_modal.tsx:41
+msgid "90 days"
+msgstr "90 jours"
 
 #: inertia/pages/privacy.tsx:89
 msgid "A password hash if you sign in with a password, or your Google identifier if you sign in with Google. Your password is never stored in clear."
@@ -99,7 +111,7 @@ msgid "Acceptance of Terms"
 msgstr "Acceptation des conditions"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:52
-#: inertia/components/api_tokens/create_token_modal.tsx:68
+#: inertia/components/api_tokens/create_token_modal.tsx:83
 msgid "Access"
 msgstr "Accès"
 
@@ -274,15 +286,15 @@ msgstr "En accédant à MyLinks et en utilisant nos services, vous acceptez de v
 msgid "By posting content on MyLinks, you grant MyLinks a worldwide, non-exclusive, transferable, and free license to use, reproduce, distribute, and display this content."
 msgstr "En publiant du contenu sur MyLinks, vous accordez à MyLinks une licence mondiale, non exclusive, transférable et gratuite d'utiliser, reproduire, distribuer et afficher ce contenu."
 
-#: inertia/components/api_tokens/create_token_modal.tsx:25
+#: inertia/components/api_tokens/create_token_modal.tsx:30
 msgid "Can read and write everything"
 msgstr "Peut tout lire et modifier"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:30
+#: inertia/components/api_tokens/create_token_modal.tsx:35
 msgid "Can't create, edit, or delete anything"
 msgstr "Ne peut rien créer, modifier ou supprimer"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:80
+#: inertia/components/api_tokens/create_token_modal.tsx:102
 #: inertia/components/dashboard/modals/modal_form_footer.tsx:22
 #: inertia/components/user_settings/auth_methods.tsx:33
 #: inertia/components/user_settings/delete_account.tsx:22
@@ -458,7 +470,7 @@ msgstr "Créer une collection"
 msgid "Create a link"
 msgstr "Créer un lien"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:56
+#: inertia/components/api_tokens/create_token_modal.tsx:71
 msgid "Create a new API token to access the API"
 msgstr "Créez un nouveau jeton API pour accéder à l'API"
 
@@ -491,7 +503,7 @@ msgid "Create new token"
 msgstr "Créer un nouveau jeton"
 
 #: inertia/components/api_tokens/api_tokens.tsx:27
-#: inertia/components/api_tokens/create_token_modal.tsx:93
+#: inertia/components/api_tokens/create_token_modal.tsx:115
 msgid "Create token"
 msgstr "Créer un jeton"
 
@@ -697,7 +709,7 @@ msgstr "Adresse email et mot de passe"
 msgid "Enabled"
 msgstr "Activée"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:62
+#: inertia/components/api_tokens/create_token_modal.tsx:77
 msgid "Enter token name"
 msgstr "Entrer le nom du jeton"
 
@@ -737,6 +749,10 @@ msgstr "Tout le reste connecté sur ce compte sera déconnecté."
 #: inertia/components/dashboard/collections/collapsible_section_header.tsx:89
 msgid "Expand"
 msgstr "Développer"
+
+#: inertia/components/api_tokens/create_token_modal.tsx:89
+msgid "Expires after"
+msgstr "Expire après"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:76
 #: inertia/components/user_settings/sessions.tsx:96
@@ -852,7 +868,7 @@ msgid "Free to start, open-source to inspect, yours to run anywhere."
 msgstr "Gratuit pour commencer, open-source à inspecter, à vous d'héberger où vous voulez."
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:56
-#: inertia/components/api_tokens/create_token_modal.tsx:24
+#: inertia/components/api_tokens/create_token_modal.tsx:29
 msgid "Full access"
 msgstr "Accès complet"
 
@@ -1170,6 +1186,10 @@ msgstr "MyLinks transforme vos onglets éparpillés en collections que vous pouv
 msgid "Name"
 msgstr "Nom"
 
+#: inertia/components/api_tokens/create_token_modal.tsx:43
+msgid "Never"
+msgstr "Jamais"
+
 #: inertia/components/user_settings/email_address.tsx:50
 msgid "New email address"
 msgstr "Nouvelle adresse e-mail"
@@ -1374,7 +1394,7 @@ msgid "Re-resolve failures"
 msgstr "Résoudre à nouveau les échecs"
 
 #: inertia/components/api_tokens/api_tokens_table.tsx:58
-#: inertia/components/api_tokens/create_token_modal.tsx:29
+#: inertia/components/api_tokens/create_token_modal.tsx:34
 msgid "Read only"
 msgstr "Lecture seule"
 
@@ -1776,7 +1796,7 @@ msgstr "Afficher ou replier la barre latérale"
 msgid "Token"
 msgstr "Jeton"
 
-#: inertia/components/api_tokens/create_token_modal.tsx:59
+#: inertia/components/api_tokens/create_token_modal.tsx:74
 msgid "Token name"
 msgstr "Nom du jeton"
 
