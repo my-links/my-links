@@ -15,11 +15,13 @@ import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
 type PageProps = InertiaProps<{
 	minimumPasswordLength: number;
 	setupToken: string;
+	isSetupLinkRequired: boolean;
 }>;
 
 function RegisterPage({
 	minimumPasswordLength,
 	setupToken,
+	isSetupLinkRequired,
 }: Readonly<PageProps>) {
 	const { isGoogleEnabled } = useAuthProviders();
 
@@ -33,6 +35,16 @@ function RegisterPage({
 				<p className="text-sm text-ink/60 dark:text-ink-dark/60 mb-6">
 					<Trans>Start collecting your links in one place</Trans>
 				</p>
+
+				{isSetupLinkRequired && (
+					<p className="mb-6 rounded-lg border border-rule dark:border-rule-dark p-3 text-sm text-ink/80 dark:text-ink-dark/80">
+						<Trans>
+							This instance has no administrator yet. Sign-up needs the setup
+							link printed in the server logs, or create the first account with
+							the console.
+						</Trans>
+					</p>
+				)}
 
 				<RegisterForm
 					minimumPasswordLength={minimumPasswordLength}

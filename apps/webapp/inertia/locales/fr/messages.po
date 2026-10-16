@@ -147,7 +147,7 @@ msgstr "Journal d'activité"
 msgid "Activity Journal"
 msgstr "Journal d'activité"
 
-#: inertia/components/auth/register_form.tsx:32
+#: inertia/components/auth/register_form.tsx:34
 msgid "Ada Lovelace"
 msgstr "Ada Lovelace"
 
@@ -202,7 +202,7 @@ msgstr "Tous les services sont opérationnels"
 msgid "Allow the MyLinks browser extension to access your account?"
 msgstr "Autoriser l'extension de navigateur MyLinks à accéder à votre compte ?"
 
-#: inertia/pages/auth/register.tsx:42
+#: inertia/pages/auth/register.tsx:61
 msgid "Already have an account? <0>Sign in</0>"
 msgstr "Vous avez déjà un compte ? <0>Connectez-vous</0>"
 
@@ -214,7 +214,7 @@ msgstr "Un journal d'activité de ce que vous avez fait (création, modification
 msgid "An authentication journal (sign-ins, refusals, password and address changes, linked providers) with your IP address and browser. They are erased after 180 days. The event itself (type, account, time) is kept as security evidence."
 msgstr "Un journal d'authentification (connexions, refus, changements de mot de passe et d'adresse, fournisseurs liés) avec votre adresse IP et votre navigateur. Ils sont effacés après 180 jours. L'événement lui-même (type, compte, date) est conservé comme preuve de sécurité."
 
-#: inertia/pages/errors/server_error.tsx:14
+#: inertia/pages/errors/server_error.tsx:15
 msgid "An unexpected error occurred."
 msgstr "Une erreur inattendue est survenue."
 
@@ -250,7 +250,7 @@ msgstr "Êtes-vous sûr de vouloir révoquer ce jeton ?"
 msgid "Are you sure you want to sign out this session?"
 msgstr "Êtes-vous sûr de vouloir déconnecter cette session ?"
 
-#: inertia/components/auth/register_form.tsx:59
+#: inertia/components/auth/register_form.tsx:61
 #: inertia/components/user_settings/password.tsx:81
 #: inertia/pages/auth/reset_password.tsx:63
 msgid "At least {minimumPasswordLength} characters"
@@ -408,7 +408,7 @@ msgstr "Compact"
 msgid "Confirm"
 msgstr "Confirmer"
 
-#: inertia/components/auth/register_form.tsx:67
+#: inertia/components/auth/register_form.tsx:69
 #: inertia/components/user_settings/password.tsx:89
 #: inertia/pages/auth/reset_password.tsx:72
 msgid "Confirm password"
@@ -494,7 +494,7 @@ msgstr "Créer un lien {0}"
 msgid "Create link <0>{0}</0>"
 msgstr "Créer un lien <0>{0}</0>"
 
-#: inertia/components/auth/register_form.tsx:85
+#: inertia/components/auth/register_form.tsx:87
 msgid "Create my account"
 msgstr "Créer mon compte"
 
@@ -507,7 +507,7 @@ msgstr "Créer un nouveau jeton"
 msgid "Create token"
 msgstr "Créer un jeton"
 
-#: inertia/pages/auth/register.tsx:27
+#: inertia/pages/auth/register.tsx:33
 msgid "Create your account"
 msgstr "Créez votre compte"
 
@@ -691,7 +691,7 @@ msgid "Edit collection"
 msgstr "Modifier une collection"
 
 #: inertia/components/admin/users/users_table_columns.tsx:39
-#: inertia/components/auth/register_form.tsx:40
+#: inertia/components/auth/register_form.tsx:42
 #: inertia/pages/auth/forgot_password.tsx:43
 #: inertia/pages/auth/login.tsx:63
 msgid "Email"
@@ -1178,7 +1178,7 @@ msgstr "MyLinks transforme vos onglets éparpillés en collections que vous pouv
 
 #: inertia/components/admin/users/users_table_columns.tsx:24
 #: inertia/components/api_tokens/api_tokens_table.tsx:46
-#: inertia/components/auth/register_form.tsx:26
+#: inertia/components/auth/register_form.tsx:28
 #: inertia/components/dashboard/forms/form_collection_content.tsx:89
 #: inertia/components/dashboard/forms/form_collection_content.tsx:94
 #: inertia/components/dashboard/forms/form_link_content.tsx:57
@@ -1311,7 +1311,7 @@ msgid "Page not found"
 msgstr "Page non trouvée"
 
 #: inertia/components/admin/users/auth_methods_cell.tsx:19
-#: inertia/components/auth/register_form.tsx:53
+#: inertia/components/auth/register_form.tsx:55
 #: inertia/pages/auth/login.tsx:77
 msgid "Password"
 msgstr "Mot de passe"
@@ -1412,7 +1412,7 @@ msgstr "Rafraîchir le favicon"
 
 #: inertia/components/common/navigation/guest_auth_actions.tsx:16
 #: inertia/components/common/navigation/mobile_guest_auth_actions.tsx:30
-#: inertia/pages/auth/register.tsx:24
+#: inertia/pages/auth/register.tsx:30
 msgid "Register"
 msgstr "Inscription"
 
@@ -1548,7 +1548,7 @@ msgstr "Envoyez une seule URL et n'importe qui peut consulter une collection pub
 msgid "Send the link"
 msgstr "Envoyer le lien"
 
-#: inertia/pages/errors/server_error.tsx:13
+#: inertia/pages/errors/server_error.tsx:14
 msgid "Server Error"
 msgstr "Erreur serveur"
 
@@ -1628,7 +1628,7 @@ msgstr "Rangez-le dans une collection, pas un dossier"
 msgid "Source code"
 msgstr "Code source"
 
-#: inertia/pages/auth/register.tsx:30
+#: inertia/pages/auth/register.tsx:36
 msgid "Start collecting your links in one place"
 msgstr "Rassemblez vos liens au même endroit"
 
@@ -1775,6 +1775,10 @@ msgstr "Cette collection ne contient pas encore de liens"
 msgid "This disables the account and revokes every session and token immediately. It is permanently deleted once the grace period ends, unless you restore it before then."
 msgstr "Ceci désactive le compte et révoque immédiatement toutes les sessions et tous les jetons. Il est définitivement supprimé une fois la période de grâce écoulée, sauf si vous le restaurez avant."
 
+#: inertia/pages/auth/register.tsx:41
+msgid "This instance has no administrator yet. Sign-up needs the setup link printed in the server logs, or create the first account with the console."
+msgstr "Cette instance n'a pas encore d'administrateur. L'inscription demande le lien d'installation affiché dans les logs du serveur, ou créez le premier compte depuis la console."
+
 #: inertia/components/user_settings/email_address.tsx:80
 msgid "This instance sends no email, so the address cannot be changed from here."
 msgstr "Cette instance n'envoie aucun e-mail : l'adresse ne peut pas être changée ici."
@@ -1816,7 +1820,7 @@ msgstr "Total des utilisateurs"
 msgid "Try adjusting your search criteria"
 msgstr "Essayez d'ajuster vos critères de recherche"
 
-#: inertia/components/auth/register_form.tsx:73
+#: inertia/components/auth/register_form.tsx:75
 #: inertia/components/user_settings/password.tsx:95
 #: inertia/pages/auth/reset_password.tsx:78
 msgid "Type it once more"
@@ -1933,7 +1937,7 @@ msgstr "Vous vous engagez à utiliser MyLinks conformément aux lois applicables
 msgid "You will no longer be able to sign in with Google on this account."
 msgstr "Vous ne pourrez plus vous connecter à ce compte avec Google."
 
-#: inertia/components/auth/register_form.tsx:46
+#: inertia/components/auth/register_form.tsx:48
 #: inertia/components/user_settings/email_address.tsx:56
 #: inertia/pages/auth/forgot_password.tsx:49
 #: inertia/pages/auth/login.tsx:69

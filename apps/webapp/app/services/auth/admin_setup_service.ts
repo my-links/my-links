@@ -15,6 +15,10 @@ export class AdminSetupService {
 		readonly setupToken: string
 	) {}
 
+	isValidSetupToken(submittedToken: string | undefined): boolean {
+		return isMatchingSetupToken(this.setupToken, submittedToken);
+	}
+
 	/**
 	 * Once any administrator exists the token is dead weight: it can never
 	 * mint a second one.
@@ -25,7 +29,7 @@ export class AdminSetupService {
 	): Promise<boolean> {
 		if (await this.accountQueryService.hasAdministrator(trx)) return false;
 
-		return isMatchingSetupToken(this.setupToken, submittedToken);
+		return this.isValidSetupToken(submittedToken);
 	}
 
 	async isSetupPending(): Promise<boolean> {

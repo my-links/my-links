@@ -7,6 +7,8 @@ import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
 import type { RequestOrigin } from '#lib/request_origin';
 import { CollectionService } from '#services/collections/collection_service';
+import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
+import { SetupLinkRequiredException } from '#exceptions/auth/setup_link_required_exception';
 import {
 	OauthAuthenticationRefusedException,
 	OAUTH_REFUSAL_REASON,
@@ -27,7 +29,10 @@ export type OauthIdentity = {
 
 @inject()
 export class OauthAccountService {
-	constructor(protected readonly collectionService: CollectionService) {}
+	constructor(
+		protected readonly collectionService: CollectionService,
+		protected readonly registrationPolicyService: RegistrationPolicyService
+	) {}
 
 	/**
 	 * Resolves an OAuth identity to the account it belongs to, creating that
@@ -48,9 +53,20 @@ export class OauthAccountService {
 			return this.refreshProfile(linkedUser, identity);
 		}
 
+		await this.assertMayOpenAccount();
 		await this.assertEmailIsAvailable(trustedEmail);
 
 		return this.createAccount(identity, trustedEmail, origin);
+	}
+
+	/**
+	 * A provider carries no setup token, so while the instance waits for its
+	 * first administrator a new Google account is refused.
+	 */
+	private async assertMayOpenAccount(): Promise<void> {
+		if (await this.registrationPolicyService.isSetupLinkRequired(undefined)) {
+			throw new SetupLinkRequiredException();
+		}
 	}
 
 	private getTrustedEmail(identity: OauthIdentity): string {
