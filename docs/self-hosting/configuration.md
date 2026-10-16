@@ -32,6 +32,7 @@ AdonisJS itself looks for `.env` inside `apps/webapp`. A bare `node ace ...` run
 | `ADMIN_SETUP_TOKEN`                         | Secret that lets a registration become the first administrator, see [Authentication](/self-hosting/authentication#first-administrator) |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                                                                     |
 | `EXTENSION_IDS`                             | Extra browser extension ids allowed to connect, see below                                                                              |
+| `TRUSTED_PROXIES`                           | Reverse proxies trusted to forward client IPs, see below                                                                               |
 | `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                                                               |
 
 ## Favicon store
@@ -60,6 +61,18 @@ Leave both empty to run without Google sign-in. Setting only one of the two is r
 ## Browser extension
 
 Only the official MyLinks extension builds (Chrome Web Store and Firefox add-on) can be connected to an instance. Connecting asks for your consent first. To allow a development or self-built extension too, list its id in `EXTENSION_IDS`, comma-separated: a 32 letter Chromium id (letters `a` to `p`) or a Firefox add-on id such as `my-extension@example.com`. A malformed entry is rejected at boot.
+
+## Reverse proxy
+
+Behind a reverse proxy, the instance reads the real client IP from `X-Forwarded-For`, but only when the connection comes from a trusted proxy. By default the loopback, link-local and unique local (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`) ranges are trusted, which covers the common Docker and local reverse proxy setups.
+
+That default is wider than most deployments need. Any host in those ranges can claim an arbitrary client IP, which defeats the rate limits and falsifies the IPs recorded in the audit log. Set `TRUSTED_PROXIES` to the exact addresses of your proxy to narrow it, for example:
+
+```
+TRUSTED_PROXIES=172.18.0.2,10.0.5.0/24
+```
+
+Entries are comma-separated proxy-addr names (`loopback`, `linklocal`, `uniquelocal`), IP addresses or CIDR ranges. When set, the list replaces the default entirely, so include `loopback` if your proxy runs on the same host. A malformed entry is rejected at boot.
 
 ## Outgoing mail
 
