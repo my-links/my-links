@@ -3,11 +3,14 @@ import createClient from 'openapi-fetch';
 import type { paths } from '@/lib/api/schema';
 import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
 
+export class MissingApiTokenError extends Error {}
+
 /**
  * The instance URL and token can change (options page, logout), so the
  * client is rebuilt from current storage on every call rather than cached
  * as a module-level singleton: `createClient` itself is a cheap object,
- * not a connection.
+ * not a connection. Throws without a token so an install that never
+ * connected cannot reach the default instance.
  */
 export async function createExtensionApiClient() {
 	const [instanceUrl, token] = await Promise.all([
@@ -15,13 +18,15 @@ export async function createExtensionApiClient() {
 		apiTokenStorage.getValue(),
 	]);
 
+	if (!token) {
+		throw new MissingApiTokenError('No API token: connect an instance first.');
+	}
+
 	const client = createClient<paths>({ baseUrl: instanceUrl });
 
 	client.use({
 		onRequest({ request }) {
-			if (token) {
-				request.headers.set('Authorization', `Bearer ${token}`);
-			}
+			request.headers.set('Authorization', `Bearer ${token}`);
 			return request;
 		},
 	});

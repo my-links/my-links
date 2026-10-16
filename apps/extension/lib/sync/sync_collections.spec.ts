@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { syncCollections } from '@/lib/sync/sync_collections';
 import { fetchCollections, UnauthorizedApiError } from '@/lib/api/collections';
 import {
+	apiTokenStorage,
 	authInvalidStorage,
 	collectionsCacheStorage,
 	syncBackoffStorage,
@@ -16,12 +17,21 @@ vi.mock('@/lib/api/collections', async (importOriginal) => ({
 
 const mockedFetchCollections = vi.mocked(fetchCollections);
 
-beforeEach(() => {
+beforeEach(async () => {
 	fakeBrowser.reset();
 	mockedFetchCollections.mockReset();
+	await apiTokenStorage.setValue('test-token');
 });
 
 describe('syncCollections', () => {
+	it('should not call the API when no token is stored', async () => {
+		await apiTokenStorage.setValue(null);
+
+		await syncCollections();
+
+		expect(mockedFetchCollections).not.toHaveBeenCalled();
+	});
+
 	it('should cache the fetched collections and reset backoff on success', async () => {
 		mockedFetchCollections.mockResolvedValue({
 			collections: [],
