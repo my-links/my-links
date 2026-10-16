@@ -6,7 +6,6 @@ import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
 import type { RequestOrigin } from '#lib/request_origin';
-import { AccountQueryService } from '#services/user/account_query_service';
 import { CollectionService } from '#services/collections/collection_service';
 import {
 	OauthAuthenticationRefusedException,
@@ -28,10 +27,7 @@ export type OauthIdentity = {
 
 @inject()
 export class OauthAccountService {
-	constructor(
-		protected readonly accountQueryService: AccountQueryService,
-		protected readonly collectionService: CollectionService
-	) {}
+	constructor(protected readonly collectionService: CollectionService) {}
 
 	/**
 	 * Resolves an OAuth identity to the account it belongs to, creating that
@@ -140,7 +136,7 @@ export class OauthAccountService {
 					email,
 					name: identity.name,
 					nickName: identity.nickName,
-					isAdmin: await this.accountQueryService.isNextAccountAdmin(trx),
+					isAdmin: false,
 					emailVerifiedAt: DateTime.now(),
 				},
 				{ client: trx }

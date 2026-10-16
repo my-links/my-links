@@ -7,7 +7,7 @@ import User from '#models/user';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import type { RequestOrigin } from '#lib/request_origin';
 import { PasswordHasher } from '#services/auth/password_hasher';
-import { AccountQueryService } from '#services/user/account_query_service';
+import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { CollectionService } from '#services/collections/collection_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 
@@ -15,6 +15,10 @@ export type RegistrationRequest = {
 	readonly name: string;
 	readonly email: string;
 	readonly password: string;
+};
+
+export type VisitorRegistrationRequest = RegistrationRequest & {
+	readonly setupToken?: string;
 };
 
 export type ProvisionRequest = RegistrationRequest & {
@@ -32,7 +36,7 @@ type AccountIdentity = {
 export class RegistrationService {
 	constructor(
 		protected readonly registrationPolicyService: RegistrationPolicyService,
-		protected readonly accountQueryService: AccountQueryService,
+		protected readonly adminSetupService: AdminSetupService,
 		protected readonly passwordHasher: PasswordHasher,
 		protected readonly collectionService: CollectionService
 	) {}
@@ -47,7 +51,7 @@ export class RegistrationService {
 	 * path still spends one argon2 budget instead of returning straight away.
 	 */
 	async register(
-		request: RegistrationRequest,
+		request: VisitorRegistrationRequest,
 		origin: RequestOrigin
 	): Promise<User | null> {
 		await this.registrationPolicyService.assertIsOpen();
@@ -65,7 +69,10 @@ export class RegistrationService {
 				{
 					name: request.name,
 					email: request.email,
-					isAdmin: await this.accountQueryService.isNextAccountAdmin(trx),
+					isAdmin: await this.adminSetupService.canClaimAdministrator(
+						request.setupToken,
+						trx
+					),
 					emailVerifiedAt: null,
 				},
 				origin

@@ -14,9 +14,13 @@ import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
  */
 type PageProps = InertiaProps<{
 	minimumPasswordLength: number;
+	setupToken: string;
 }>;
 
-function RegisterPage({ minimumPasswordLength }: Readonly<PageProps>) {
+function RegisterPage({
+	minimumPasswordLength,
+	setupToken,
+}: Readonly<PageProps>) {
 	const { isGoogleEnabled } = useAuthProviders();
 
 	return (
@@ -30,7 +34,10 @@ function RegisterPage({ minimumPasswordLength }: Readonly<PageProps>) {
 					<Trans>Start collecting your links in one place</Trans>
 				</p>
 
-				<RegisterForm minimumPasswordLength={minimumPasswordLength} />
+				<RegisterForm
+					minimumPasswordLength={minimumPasswordLength}
+					setupToken={setupToken}
+				/>
 
 				{isGoogleEnabled && (
 					<div className="mt-6 space-y-4">
