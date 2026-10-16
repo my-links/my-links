@@ -200,8 +200,44 @@ async function dropDataOfPreviousAccount(
 	await accountIdentityStorage.setValue(connectedIdentity);
 }
 
+const HTTP_NO_CONTENT = 204;
+const HTTP_UNAUTHORIZED = 401;
+
+// Best effort: a failed revoke must never trap the user in a connected state.
+async function revokeCurrentToken(
+	instanceUrl: string,
+	token: string
+): Promise<void> {
+	try {
+		const response = await fetch(`${instanceUrl}/api/v1/tokens/current`, {
+			method: 'DELETE',
+			headers: { Authorization: `Bearer ${token}` },
+		});
+		const isRevoked =
+			response.status === HTTP_NO_CONTENT ||
+			response.status === HTTP_UNAUTHORIZED;
+		if (!isRevoked) {
+			console.error(
+				`MyLinks could not revoke the API token (status ${response.status})`
+			);
+		}
+	} catch {
+		console.error(
+			'MyLinks could not reach the instance to revoke the API token'
+		);
+	}
+}
+
 export async function disconnectFromInstance(): Promise<void> {
-	const instanceUrl = await instanceUrlStorage.getValue();
+	const [instanceUrl, token] = await Promise.all([
+		instanceUrlStorage.getValue(),
+		apiTokenStorage.getValue(),
+	]);
+
+	if (instanceUrl && token) {
+		await revokeCurrentToken(instanceUrl, token);
+	}
+
 	await clearExtensionSession();
 	await releaseInstancePermission(instanceUrl);
 }
