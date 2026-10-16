@@ -57,7 +57,7 @@ export const AuthEventsTable = ({ events }: Readonly<AuthEventsTableProps>) => (
 				header: <Trans>Address</Trans>,
 				cellClassName:
 					'px-6 py-3 text-sm font-mono text-gray-600 dark:text-gray-400',
-				render: (event) => event.ip ?? <NaContent />,
+				render: (event) => event.maskedIp ?? <NaContent />,
 			},
 			{
 				key: 'userAgent',

@@ -17,6 +17,7 @@ type JournalLine = {
 	readonly subjectType: string | null;
 	readonly subjectId: number | null;
 	readonly fullname: string | null;
+	readonly maskedIp: string | null;
 };
 
 async function createAdmin(): Promise<User> {
@@ -42,6 +43,8 @@ async function recordActivityEvent(user: User): Promise<void> {
 		userId: user.id,
 		subjectType: AUDIT_SUBJECT_TYPE.LINK,
 		subjectId: 4102,
+		ip: '203.0.113.7',
+		userAgent: 'Test Agent',
 	});
 }
 
@@ -61,6 +64,29 @@ test.group('Admin activity journal', (group) => {
 
 		response.assertStatus(200);
 		response.assertInertiaComponent('admin/activity_journal');
+	});
+
+	test('should send the network of the address and no user agent', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin();
+		const account = await createUser({
+			emailPrefix: 'activity-journal-masked',
+		});
+		await recordActivityEvent(account);
+
+		const response = await client
+			.get(ACTIVITY_JOURNAL_ROUTE)
+			.withInertia()
+			.loginAs(administrator);
+
+		const events = inertiaPageProps(response).events as Array<
+			JournalLine & { userAgent?: string; ip?: string }
+		>;
+		assert.equal(events[0]?.maskedIp, '203.0.113.0/24');
+		assert.isUndefined(events[0]?.ip);
+		assert.isUndefined(events[0]?.userAgent);
 	});
 
 	test('should name the account and the subject an activity event happened to', async ({

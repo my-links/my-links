@@ -16,7 +16,7 @@ type JournalLine = {
 	readonly type: string;
 	readonly fullname: string | null;
 	readonly actorFullname: string | null;
-	readonly ip: string | null;
+	readonly maskedIp: string | null;
 };
 
 async function createAdmin(): Promise<User> {
@@ -72,6 +72,48 @@ test.group('Admin authentication journal', (group) => {
 
 		const events: JournalLine[] = inertiaPageProps(response).events;
 		assert.equal(events[0]?.fullname, account.fullname);
+	});
+
+	test('should send the network of the address instead of the address itself', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin();
+		const account = await createUser({ emailPrefix: 'journal-masked' });
+		await recordAuthEvent({
+			user: account,
+			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
+		});
+
+		const response = await client
+			.get(AUTH_JOURNAL_ROUTE)
+			.withInertia()
+			.loginAs(administrator);
+
+		const events: JournalLine[] = inertiaPageProps(response).events;
+		assert.equal(events[0]?.maskedIp, '203.0.113.0/24');
+	});
+
+	test('should not send the full address in any field', async ({
+		assert,
+		client,
+	}) => {
+		const administrator = await createAdmin();
+		const account = await createUser({ emailPrefix: 'journal-no-full-ip' });
+		await recordAuthEvent({
+			user: account,
+			type: AUTH_EVENT_TYPE.LOGIN_SUCCEEDED,
+		});
+
+		const response = await client
+			.get(AUTH_JOURNAL_ROUTE)
+			.withInertia()
+			.loginAs(administrator);
+
+		assert.notInclude(
+			JSON.stringify(inertiaPageProps(response).events),
+			'203.0.113.7'
+		);
 	});
 
 	test('should name the administrator behind an action taken on somebody else', async ({
