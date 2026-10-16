@@ -16,8 +16,6 @@ export class PasswordChangedNotification extends BaseMail {
 	prepare(): void {
 		const { user } = this.payload;
 
-		this.message
-			.to(user.email)
-			.htmlView('emails/password_changed', { name: user.name });
+		this.message.to(user.email).htmlView('emails/password_changed');
 	}
 }

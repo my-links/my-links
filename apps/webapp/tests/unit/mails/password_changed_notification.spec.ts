@@ -3,15 +3,30 @@ import { test } from '@japa/runner';
 import User from '#models/user';
 import { PasswordChangedNotification } from '#mails/password_changed_notification';
 
+const ACCOUNT_NAME = 'Mallory Phisher';
+
 function buildUser(): User {
 	const user = new User();
 	user.email = 'reader@example.com';
-	user.name = 'Ada';
+	user.name = ACCOUNT_NAME;
 
 	return user;
 }
 
 test.group('PasswordChangedNotification', () => {
+	test('should not greet the account by the name it chose', async ({
+		assert,
+	}) => {
+		const notification = new PasswordChangedNotification({ user: buildUser() });
+
+		await notification.buildWithContents();
+
+		assert.notInclude(
+			notification.message.toJSON().message.html ?? '',
+			ACCOUNT_NAME
+		);
+	});
+
 	test('should address the email to the account whose password changed', async () => {
 		const notification = new PasswordChangedNotification({
 			user: buildUser(),

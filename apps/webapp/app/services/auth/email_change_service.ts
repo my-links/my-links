@@ -78,7 +78,6 @@ export class EmailChangeService {
 
 		await this.mailService.send(
 			new EmailChangeConfirmation({
-				user,
 				newEmailAddress: newEmail,
 				confirmationUrl: this.buildUrl(CONFIRM_ROUTE, confirmationSecret),
 				expiresInHours: lifetimeInHours,

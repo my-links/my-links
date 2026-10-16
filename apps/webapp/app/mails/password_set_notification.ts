@@ -22,8 +22,6 @@ export class PasswordSetNotification extends BaseMail {
 	prepare(): void {
 		const { user } = this.payload;
 
-		this.message
-			.to(user.email)
-			.htmlView('emails/password_set', { name: user.name });
+		this.message.to(user.email).htmlView('emails/password_set');
 	}
 }

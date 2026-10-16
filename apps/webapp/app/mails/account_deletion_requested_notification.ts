@@ -30,7 +30,6 @@ export class AccountDeletionRequestedNotification extends BaseMail {
 		const { user, gracePeriodDays, reason } = this.payload;
 
 		this.message.to(user.email).htmlView('emails/account_deletion_requested', {
-			name: user.name,
 			gracePeriodDays,
 			reason,
 			loginUrl: urlFor('auth.login', undefined, {

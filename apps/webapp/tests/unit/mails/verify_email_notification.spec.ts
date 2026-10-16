@@ -6,15 +6,34 @@ import { VerifyEmailNotification } from '#mails/verify_email_notification';
 const VERIFICATION_URL = 'https://links.example.com/verify-email?token=abc';
 const EXPIRES_IN_HOURS = 24;
 
+const ACCOUNT_NAME = 'Mallory Phisher';
+
 function buildUser(): User {
 	const user = new User();
 	user.email = 'reader@example.com';
-	user.name = 'Ada';
+	user.name = ACCOUNT_NAME;
 
 	return user;
 }
 
 test.group('VerifyEmailNotification', () => {
+	test('should not greet the account by the name it chose', async ({
+		assert,
+	}) => {
+		const notification = new VerifyEmailNotification({
+			user: buildUser(),
+			verificationUrl: VERIFICATION_URL,
+			expiresInHours: EXPIRES_IN_HOURS,
+		});
+
+		await notification.buildWithContents();
+
+		assert.notInclude(
+			notification.message.toJSON().message.html ?? '',
+			ACCOUNT_NAME
+		);
+	});
+
 	test('should address the email to the account being verified', async () => {
 		const notification = new VerifyEmailNotification({
 			user: buildUser(),

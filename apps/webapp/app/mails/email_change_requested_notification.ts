@@ -28,7 +28,6 @@ export class EmailChangeRequestedNotification extends BaseMail {
 			this.payload;
 
 		this.message.to(user.email).htmlView('emails/email_change_requested', {
-			name: user.name,
 			newEmailAddress,
 			cancellationUrl,
 			expiresInHours,

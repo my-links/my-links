@@ -1,9 +1,6 @@
 import { BaseMail } from '@adonisjs/mail';
 
-import type User from '#models/user';
-
 export type EmailChangeConfirmationPayload = {
-	readonly user: User;
 	readonly newEmailAddress: string;
 	readonly confirmationUrl: string;
 	readonly expiresInHours: number;
@@ -21,13 +18,11 @@ export class EmailChangeConfirmation extends BaseMail {
 	}
 
 	prepare(): void {
-		const { user, newEmailAddress, confirmationUrl, expiresInHours } =
-			this.payload;
+		const { newEmailAddress, confirmationUrl, expiresInHours } = this.payload;
 
 		this.message
 			.to(newEmailAddress)
 			.htmlView('emails/email_change_confirmation', {
-				name: user.name,
 				newEmailAddress,
 				confirmationUrl,
 				expiresInHours,
