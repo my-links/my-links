@@ -182,5 +182,17 @@ async function dropDataOfPreviousAccount(
 }
 
 export async function disconnectFromInstance(): Promise<void> {
+	const instanceUrl = await instanceUrlStorage.getValue();
 	await clearExtensionSession();
+	await releaseInstancePermission(instanceUrl);
+}
+
+async function releaseInstancePermission(instanceUrl: string): Promise<void> {
+	try {
+		await browser.permissions.remove({
+			origins: permissionOriginPatterns(normalizeInstanceUrl(instanceUrl)),
+		});
+	} catch (error) {
+		console.error('MyLinks could not release the instance permission', error);
+	}
 }
