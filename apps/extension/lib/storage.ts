@@ -43,6 +43,16 @@ export const apiTokenStorage = storage.defineItem<string | null>(
 );
 
 /**
+ * Which account the cached data and bookmark mapping belong to, as
+ * `<instance>#<user id>`. Compared on every connect so reconnecting as
+ * somebody else drops the previous account's data.
+ */
+export const accountIdentityStorage = storage.defineItem<string | null>(
+	'local:accountIdentity',
+	{ fallback: null }
+);
+
+/**
  * Whether opening a new tab shows the collections workspace. On by default;
  * turning it off leaves new tabs blank instead, since browsers give
  * extensions no way to hand the native new tab page back at runtime.
@@ -220,6 +230,12 @@ export const pinnedRankingStorage = storage.defineItem<PinnedRanking>(
 export async function clearExtensionSession(): Promise<void> {
 	await apiTokenStorage.removeValue();
 	await authInvalidStorage.removeValue();
+	await accountIdentityStorage.removeValue();
+	await clearAccountBoundData();
+}
+
+/** Everything cached from one account's collections, token and mirror switch aside. */
+export async function clearAccountBoundData(): Promise<void> {
 	await collectionsCacheStorage.removeValue();
 	await clearBookmarkBookkeeping();
 }

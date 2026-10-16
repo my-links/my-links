@@ -1,5 +1,8 @@
+import { fetchAccountIdentity } from '@/lib/api/account_identity';
 import {
+	accountIdentityStorage,
 	apiTokenStorage,
+	clearAccountBoundData,
 	clearExtensionSession,
 	instanceUrlStorage,
 } from '@/lib/storage';
@@ -154,8 +157,28 @@ export async function connectToInstance(rawInstanceUrl: string): Promise<void> {
 		throw new ExtensionAuthError('The instance did not return a token.');
 	}
 
+	await dropDataOfPreviousAccount(instanceUrl, token);
+
 	await instanceUrlStorage.setValue(instanceUrl);
 	await apiTokenStorage.setValue(token);
+}
+
+/**
+ * Runs before the new token is stored so no sync can ever see the previous
+ * account's cache or bookmark mapping next to the new session. An unknown
+ * identity on either side counts as a different account.
+ */
+async function dropDataOfPreviousAccount(
+	instanceUrl: string,
+	token: string
+): Promise<void> {
+	const connectedIdentity = await fetchAccountIdentity(instanceUrl, token);
+	const storedIdentity = await accountIdentityStorage.getValue();
+
+	if (connectedIdentity === null || connectedIdentity !== storedIdentity) {
+		await clearAccountBoundData();
+	}
+	await accountIdentityStorage.setValue(connectedIdentity);
 }
 
 export async function disconnectFromInstance(): Promise<void> {
