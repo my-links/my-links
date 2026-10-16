@@ -7,6 +7,7 @@ import AuditEvent from '#models/audit_event';
 import UserSession from '#models/user_session';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { createUser, markLastSeen } from '#tests/factories/user_factory';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
@@ -34,6 +35,7 @@ test.group('Account deletion: self service', (group) => {
 			.delete('/user/settings/account')
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const stillExists = await User.find(user.id);
@@ -51,6 +53,7 @@ test.group('Account deletion: self service', (group) => {
 			.delete('/user/settings/account')
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const event = await AuditEvent.query()
@@ -69,6 +72,7 @@ test.group('Account deletion: self service', (group) => {
 			.delete('/user/settings/account')
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		queuedMails().assertQueued(AccountDeletionRequestedNotification, (mail) =>
@@ -87,6 +91,7 @@ test.group('Account deletion: self service', (group) => {
 			.delete('/user/settings/account')
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingSession = await UserSession.find(otherSession.id);
@@ -111,6 +116,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [target.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const stillExists = await User.find(target.id);
@@ -130,6 +136,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [target.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const event = await AuditEvent.query()
@@ -153,6 +160,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [target.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await target.refresh();
@@ -172,6 +180,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [target.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingSession = await UserSession.find(targetSession.id);
@@ -187,6 +196,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [target.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		queuedMails().assertNotQueued(
@@ -207,6 +217,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [protectedAdmin.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await protectedAdmin.refresh();
@@ -241,6 +252,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 			.json({ userIds: [target.id] })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const reloaded = await User.findOrFail(target.id);

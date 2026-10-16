@@ -3,6 +3,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
 import { createUser } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 const TOKENS_ROUTE = '/user/api-tokens';
 
@@ -20,6 +21,7 @@ test.group('API token creation: scope', (group) => {
 			.json({ name: 'Read-only token', scope: 'read_only' })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const [token] = await User.accessTokens.all(user);
@@ -37,6 +39,7 @@ test.group('API token creation: scope', (group) => {
 			.json({ name: 'Full access token', scope: 'full_access' })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const [token] = await User.accessTokens.all(user);
@@ -54,6 +57,7 @@ test.group('API token creation: scope', (group) => {
 			.json({ name: 'Legacy client token' })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const [token] = await User.accessTokens.all(user);

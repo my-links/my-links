@@ -5,6 +5,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 import User from '#models/user';
 import FaviconEntry from '#models/favicon_entry';
 import { createUser } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
@@ -79,6 +80,7 @@ test.group('Admin favicon mass actions', (group) => {
 			.post('/admin/favicons/purge-orphans')
 			.withCsrfToken()
 			.loginAs(admin)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertStatus(302);
@@ -96,6 +98,7 @@ test.group('Admin favicon mass actions', (group) => {
 			.post('/admin/favicons/flush')
 			.withCsrfToken()
 			.loginAs(admin)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertStatus(302);
@@ -111,6 +114,7 @@ test.group('Admin favicon mass actions', (group) => {
 			.post('/admin/favicons/reresolve-failures')
 			.withCsrfToken()
 			.loginAs(admin)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertStatus(302);
@@ -145,6 +149,7 @@ test.group('Admin favicon mass actions', (group) => {
 			.post('/admin/favicons/reresolve-all')
 			.withCsrfToken()
 			.loginAs(admin)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertStatus(302);
@@ -164,6 +169,7 @@ test.group('Admin favicon mass actions', (group) => {
 			.post('/admin/favicons/flush')
 			.withCsrfToken()
 			.loginAs(admin)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const after = await client
@@ -188,6 +194,7 @@ test.group('Admin favicon mass actions', (group) => {
 			.post('/admin/favicons/purge-orphans')
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertHeader('location', HOME_ROUTE);

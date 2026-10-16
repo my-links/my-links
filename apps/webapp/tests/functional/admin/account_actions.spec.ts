@@ -8,6 +8,7 @@ import OneTimeToken from '#models/one_time_token';
 import { ACCOUNT_ROLE } from '#constants/account';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import { ResetPasswordNotification } from '#mails/reset_password_notification';
@@ -78,6 +79,7 @@ test.group('Admin account actions: sending a reset link', (group) => {
 			.post(passwordResetRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		queuedMails().assertQueued(ResetPasswordNotification);
@@ -98,6 +100,7 @@ test.group('Admin account actions: sending a reset link', (group) => {
 			.post(passwordResetRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const events = await AuditEvent.query()
@@ -120,6 +123,7 @@ test.group('Admin account actions: without outgoing mail', (group) => {
 			.post(passwordResetRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertStatus(404);
@@ -140,6 +144,7 @@ test.group('Admin account actions: confirming an address', (group) => {
 			.post(verifyEmailRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -159,6 +164,7 @@ test.group('Admin account actions: confirming an address', (group) => {
 			.post(verifyEmailRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -181,6 +187,7 @@ test.group('Admin account actions: revoking access', (group) => {
 			.post(revokeAccessRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingSessions = await UserSession.query().where(
@@ -202,6 +209,7 @@ test.group('Admin account actions: revoking access', (group) => {
 			.post(revokeAccessRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingTokens = await User.accessTokens.all(account);
@@ -218,6 +226,7 @@ test.group('Admin account actions: revoking access', (group) => {
 			.post(revokeAccessRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingSessions = await UserSession.query().where(
@@ -243,6 +252,7 @@ test.group('Admin account actions: changing a role', (group) => {
 			.form({ role: ADMINISTRATOR_ROLE })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -261,6 +271,7 @@ test.group('Admin account actions: changing a role', (group) => {
 			.form({ role: MEMBER_ROLE })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -279,6 +290,7 @@ test.group('Admin account actions: changing a role', (group) => {
 			.form({ role: MEMBER_ROLE })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await administrator.refresh();
@@ -297,6 +309,7 @@ test.group('Admin account actions: changing a role', (group) => {
 			.form({ role: ADMINISTRATOR_ROLE })
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const events = await AuditEvent.query()
@@ -321,6 +334,7 @@ test.group('Admin account actions: restoring a pending deletion', (group) => {
 			.post(restoreRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -340,6 +354,7 @@ test.group('Admin account actions: restoring a pending deletion', (group) => {
 			.post(restoreRoute(account))
 			.withCsrfToken()
 			.loginAs(administrator)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const event = await AuditEvent.query()
@@ -364,6 +379,7 @@ test.group('Admin account actions: reserved to administrators', (group) => {
 			.post(passwordResetRoute(account))
 			.withCsrfToken()
 			.loginAs(visitor)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertHeader('location', HOME_ROUTE);
@@ -381,6 +397,7 @@ test.group('Admin account actions: reserved to administrators', (group) => {
 			.form({ role: ADMINISTRATOR_ROLE })
 			.withCsrfToken()
 			.loginAs(visitor)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -398,6 +415,7 @@ test.group('Admin account actions: reserved to administrators', (group) => {
 			.post(verifyEmailRoute(account))
 			.withCsrfToken()
 			.loginAs(visitor)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();
@@ -416,6 +434,7 @@ test.group('Admin account actions: reserved to administrators', (group) => {
 			.post(revokeAccessRoute(account))
 			.withCsrfToken()
 			.loginAs(visitor)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingSessions = await UserSession.query().where(
@@ -437,6 +456,7 @@ test.group('Admin account actions: reserved to administrators', (group) => {
 			.post(restoreRoute(account))
 			.withCsrfToken()
 			.loginAs(visitor)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		await account.refresh();

@@ -29,12 +29,22 @@ export default class SudoModeMiddleware {
 
 	/**
 	 * A refused page is worth coming back to; a refused submission is not: the
-	 * body is gone by then, so the visitor is sent to the settings page they
-	 * submitted from and fills the form once more.
+	 * body is gone by then, so the visitor is sent back to the page they
+	 * submitted from (the settings page when that is unknown) and tries again.
 	 */
 	private returnUrlOf(ctx: HttpContext): string {
-		return ctx.request.method() === GET_METHOD
-			? ctx.request.url(true)
-			: urlFor('user.settings');
+		if (ctx.request.method() === GET_METHOD) return ctx.request.url(true);
+
+		return this.sameOriginRefererOf(ctx) ?? urlFor('user.settings');
+	}
+
+	private sameOriginRefererOf(ctx: HttpContext): string | null {
+		const referer = ctx.request.header('referer');
+		if (!referer) return null;
+
+		const refererUrl = URL.parse(referer);
+		if (refererUrl?.host !== ctx.request.host()) return null;
+
+		return `${refererUrl.pathname}${refererUrl.search}`;
 	}
 }

@@ -21,25 +21,29 @@ router
 				controllers.admin.PurgeFaviconOrphans,
 				'execute',
 			])
-			.as('admin.favicons.purge-orphans');
+			.as('admin.favicons.purge-orphans')
+			.use(middleware.sudo());
 
 		router
 			.post('/favicons/flush', [controllers.admin.FlushFaviconCache, 'execute'])
-			.as('admin.favicons.flush');
+			.as('admin.favicons.flush')
+			.use(middleware.sudo());
 
 		router
 			.post('/favicons/reresolve-failures', [
 				controllers.admin.ReresolveFaviconFailures,
 				'execute',
 			])
-			.as('admin.favicons.reresolve-failures');
+			.as('admin.favicons.reresolve-failures')
+			.use(middleware.sudo());
 
 		router
 			.post('/favicons/reresolve-all', [
 				controllers.admin.ReresolveAllFavicons,
 				'execute',
 			])
-			.as('admin.favicons.reresolve-all');
+			.as('admin.favicons.reresolve-all')
+			.use(middleware.sudo());
 
 		router
 			.get('/auth-events', [controllers.admin.ShowAuthJournal, 'render'])
@@ -57,36 +61,42 @@ router
 				controllers.admin.BulkDeleteUsers,
 				'execute',
 			])
-			.as('admin.users.bulk-delete');
+			.as('admin.users.bulk-delete')
+			.use(middleware.sudo());
 
 		router
 			.post('/users/:id/password-reset', [
 				controllers.admin.SendAccountPasswordReset,
 				'execute',
 			])
-			.as('admin.users.send-password-reset');
+			.as('admin.users.send-password-reset')
+			.use(middleware.sudo());
 
 		router
 			.post('/users/:id/revoke-access', [
 				controllers.admin.RevokeAccountAccess,
 				'execute',
 			])
-			.as('admin.users.revoke-access');
+			.as('admin.users.revoke-access')
+			.use(middleware.sudo());
 
 		router
 			.post('/users/:id/verify-email', [
 				controllers.admin.VerifyAccountEmail,
 				'execute',
 			])
-			.as('admin.users.verify-email');
+			.as('admin.users.verify-email')
+			.use(middleware.sudo());
 
 		router
 			.patch('/users/:id/role', [controllers.admin.SetAccountRole, 'execute'])
-			.as('admin.users.set-role');
+			.as('admin.users.set-role')
+			.use(middleware.sudo());
 
 		router
 			.post('/users/:id/restore', [controllers.admin.RestoreAccount, 'execute'])
-			.as('admin.users.restore');
+			.as('admin.users.restore')
+			.use(middleware.sudo());
 	})
 	.middleware([middleware.auth(), middleware.admin()])
 	.prefix('/admin');
