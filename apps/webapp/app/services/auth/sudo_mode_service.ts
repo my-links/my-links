@@ -16,7 +16,7 @@ import { SudoConfirmationFailedException } from '#exceptions/auth/sudo_confirmat
  */
 export const SUDO_CONFIRMED_AT_SESSION_KEY = 'sudo_confirmed_at';
 
-const RETURN_URL_KEY = 'sudo_return_url';
+export const SUDO_RETURN_URL_SESSION_KEY = 'sudo_return_url';
 
 export const SUDO_CONFIRMED_MESSAGE = 'Identity confirmed';
 
@@ -102,12 +102,12 @@ export class SudoModeService {
 	 * turned into an open redirect.
 	 */
 	rememberReturnUrl(session: Session, url: string): void {
-		session.put(RETURN_URL_KEY, url);
+		session.put(SUDO_RETURN_URL_SESSION_KEY, url);
 	}
 
 	takeReturnUrl(session: Session): string {
-		const returnUrl: unknown = session.get(RETURN_URL_KEY);
-		session.forget(RETURN_URL_KEY);
+		const returnUrl: unknown = session.get(SUDO_RETURN_URL_SESSION_KEY);
+		session.forget(SUDO_RETURN_URL_SESSION_KEY);
 
 		return typeof returnUrl === 'string' ? returnUrl : urlFor('user.settings');
 	}

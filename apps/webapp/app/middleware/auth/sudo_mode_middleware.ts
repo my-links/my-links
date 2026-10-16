@@ -7,6 +7,9 @@ import { SudoModeService } from '#services/auth/sudo_mode_service';
 
 const GET_METHOD = 'GET';
 
+// A path starting with two slashes (a backslash parses to one) is a host for the browser, not a path.
+const PROTOCOL_RELATIVE_PREFIX = '//';
+
 /**
  * Stands in front of the operations that could hand an account to somebody
  * else, and demands that identity was proved recently, not merely that a
@@ -44,6 +47,8 @@ export default class SudoModeMiddleware {
 
 		const refererUrl = URL.parse(referer);
 		if (refererUrl?.host !== ctx.request.host()) return null;
+
+		if (refererUrl.pathname.startsWith(PROTOCOL_RELATIVE_PREFIX)) return null;
 
 		return `${refererUrl.pathname}${refererUrl.search}`;
 	}
