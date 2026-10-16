@@ -45,6 +45,7 @@ router
 				controllers.userSettings.DeleteUserAccount,
 				'execute',
 			])
-			.as('user.settings.delete');
+			.as('user.settings.delete')
+			.use(middleware.sudo());
 	})
 	.use(middleware.auth());

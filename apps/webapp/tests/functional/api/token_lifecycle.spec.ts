@@ -6,6 +6,7 @@ import type { AccessToken } from '@adonisjs/auth/access_tokens';
 
 import User from '#models/user';
 import { createUser } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { ApiTokenService } from '#services/user/api_token_service';
 import { API_TOKEN_SCOPE, TOKEN_ABILITY } from '#constants/api_token';
 
@@ -146,6 +147,7 @@ test.group('Manual API token: expiry', (group) => {
 			.form({ name: 'CI', scope: API_TOKEN_SCOPE.FULL_ACCESS })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const [token] = await User.accessTokens.all(user);
@@ -167,6 +169,7 @@ test.group('Manual API token: expiry', (group) => {
 			.form({ name: 'CI', expiry: '30_days' })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const [token] = await User.accessTokens.all(user);
@@ -188,6 +191,7 @@ test.group('Manual API token: expiry', (group) => {
 			.form({ name: 'CI', expiry: 'never' })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const [token] = await User.accessTokens.all(user);
@@ -202,6 +206,7 @@ test.group('Manual API token: expiry', (group) => {
 			.fields({ name: 'CI', expiry: 'forever' })
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		assert.isEmpty(await User.accessTokens.all(user));
@@ -268,7 +273,8 @@ test.group('DELETE /api/v1/tokens/current', (group) => {
 		const response = await client
 			.delete('/api/v1/links/1')
 			.withGuard('api')
-			.loginAs(user, [TOKEN_ABILITY.READ]);
+			.loginAs(user, [TOKEN_ABILITY.READ])
+			.withSession(freshSudoSession());
 
 		response.assertStatus(HTTP_FORBIDDEN);
 	});

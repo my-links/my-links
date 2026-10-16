@@ -3,6 +3,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
 import { createUser } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 const TOKENS_ROUTE = '/user/api-tokens';
 const UNKNOWN_TOKEN_ID = '999999';
@@ -21,6 +22,7 @@ test.group('API tokens: revocation', (group) => {
 			.delete(`${TOKENS_ROUTE}/${String(token.identifier)}`)
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const remainingTokens = await User.accessTokens.all(user);
@@ -41,6 +43,7 @@ test.group('API tokens: revocation', (group) => {
 			.delete(`${TOKENS_ROUTE}/${String(token.identifier)}`)
 			.withCsrfToken()
 			.loginAs(intruder)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		const ownerTokens = await User.accessTokens.all(owner);
@@ -56,6 +59,7 @@ test.group('API tokens: revocation', (group) => {
 			.delete(`${TOKENS_ROUTE}/${UNKNOWN_TOKEN_ID}`)
 			.withCsrfToken()
 			.loginAs(user)
+			.withSession(freshSudoSession())
 			.redirects(0);
 
 		response.assertFlashMessage('error', TOKEN_NOT_FOUND_MESSAGE);

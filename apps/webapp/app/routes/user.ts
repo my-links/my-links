@@ -7,7 +7,8 @@ router
 	.group(() => {
 		router
 			.post('/', [controllers.user.CreateApiToken, 'execute'])
-			.as('user.api-tokens.store');
+			.as('user.api-tokens.store')
+			.use(middleware.sudo());
 		router
 			.delete('/:tokenId', [controllers.user.DeleteApiToken, 'execute'])
 			.as('user.api-tokens.destroy');
