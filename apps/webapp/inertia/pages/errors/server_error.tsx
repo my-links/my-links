@@ -4,15 +4,16 @@ import { ErrorPage } from '~/components/errors/error_page';
 
 type ServerErrorProps = {
 	error: {
-		message: string;
+		status: number;
+		message?: string;
 	};
 };
 
 const ServerError = ({ error }: Readonly<ServerErrorProps>) => (
 	<ErrorPage
 		title={<Trans>Server Error</Trans>}
-		message={error.message || <Trans>An unexpected error occurred.</Trans>}
-		statusCode={500}
+		message={error.message ?? <Trans>An unexpected error occurred.</Trans>}
+		statusCode={error.status}
 	/>
 );
 
