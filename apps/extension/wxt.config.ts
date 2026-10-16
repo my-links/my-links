@@ -17,6 +17,9 @@ const ANY_ORIGIN = '*://*/*';
  * hand the instance a different callback URL.
  */
 const GECKO_EXTENSION_ID = 'my-links@mylinks.app';
+// Firefox honors data_collection_permissions from 140 (142 on Android).
+const FIREFOX_MIN_VERSION = '140.0';
+const FIREFOX_ANDROID_MIN_VERSION = '142.0';
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -77,12 +80,17 @@ export default defineConfig({
 			browser_specific_settings: {
 				gecko: {
 					id: GECKO_EXTENSION_ID,
+					strict_min_version: FIREFOX_MIN_VERSION,
 					// Links, titles and folder structure leave the device for
 					// the user's own instance, which is exactly what
 					// `bookmarksInfo` covers. Declaring `none` here would be a
 					// lie: the extension does transmit them, just not to us.
-					data_collection_permissions: { required: ['bookmarksInfo'] },
+					// `browsingActivity`: opened saved links are reported to the instance.
+					data_collection_permissions: {
+						required: ['bookmarksInfo', 'browsingActivity'],
+					},
 				},
+				gecko_android: { strict_min_version: FIREFOX_ANDROID_MIN_VERSION },
 			},
 		}),
 	}),
