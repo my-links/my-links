@@ -19,7 +19,7 @@ router
 router
 	.group(() => {
 		router
-			.delete('/:sessionId', [controllers.user.DeleteSession, 'execute'])
+			.delete('/:publicId', [controllers.user.DeleteSession, 'execute'])
 			.as('user.sessions.destroy');
 	})
 	.prefix('/user/sessions')

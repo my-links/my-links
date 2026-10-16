@@ -13,7 +13,7 @@ export default class UserSessionTransformer extends BaseTransformer<UserSession>
 	toObject() {
 		const client = this.resource.client;
 		return {
-			sessionId: this.resource.id,
+			publicId: this.resource.publicId,
 			ip: client?.ip,
 			browser: client?.browser,
 			engine: client?.engine,

@@ -269,7 +269,7 @@ export class SyncDeletionSchema extends BaseModel {
 }
 
 export class UserSessionSchema extends BaseModel {
-  static $columns = ['createdAt', 'data', 'expiresAt', 'id', 'userId'] as const
+  static $columns = ['createdAt', 'data', 'expiresAt', 'id', 'publicId', 'userId'] as const
   $columns = UserSessionSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -279,6 +279,8 @@ export class UserSessionSchema extends BaseModel {
   declare expiresAt: DateTime
   @column({ isPrimary: true })
   declare id: string
+  @column()
+  declare publicId: string
   @column()
   declare userId: string | null
 }

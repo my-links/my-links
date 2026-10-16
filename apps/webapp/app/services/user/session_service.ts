@@ -75,12 +75,10 @@ export class SessionService {
 		await query.delete();
 	}
 
-	async revokeSession(user: User, sessionId: string): Promise<void> {
-		const session = await UserSession.query()
+	async findSession(user: User, publicId: string): Promise<UserSession> {
+		return UserSession.query()
 			.where('userId', String(user.id))
-			.where('id', sessionId)
+			.where('publicId', publicId)
 			.firstOrFail();
-
-		await session.delete();
 	}
 }

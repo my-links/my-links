@@ -13,9 +13,13 @@ const SESSION_LIFETIME_DAYS = 7;
  * is asserting against.
  */
 export async function createUserSession(user: User): Promise<UserSession> {
-	return UserSession.create({
+	const userSession = await UserSession.create({
 		userId: String(user.id),
 		data: JSON.stringify({ message: {} }),
 		expiresAt: DateTime.now().plus({ days: SESSION_LIFETIME_DAYS }),
 	});
+
+	// The public id comes from a database default, so the created model doesn't know it yet.
+	await userSession.refresh();
+	return userSession;
 }
