@@ -10,6 +10,7 @@ import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { LinkService } from '#services/links/link_service';
+import { MAXIMUM_SEARCH_TERM_LENGTH } from '#constants/search';
 import { LinkQueryService } from '#services/links/link_query_service';
 import { linkUrlValidator } from '#validators/links/link_url_validator';
 import { mcpIdSchema, mcpIdListSchema } from '#services/mcp/tools/id_schema';
@@ -91,7 +92,9 @@ export function registerLinkTools(
 		{
 			description:
 				'Search the authenticated user’s links by name, URL, or description.',
-			inputSchema: { term: z.string().trim().min(1) },
+			inputSchema: {
+				term: z.string().trim().min(1).max(MAXIMUM_SEARCH_TERM_LENGTH),
+			},
 		},
 		({ term }) =>
 			runTool(TOKEN_ABILITY.READ, async () =>
