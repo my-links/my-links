@@ -66,6 +66,35 @@ test.group('Security headers', (group) => {
 		assert.include(permissionsPolicy, 'browsing-topics=()');
 	});
 
+	test('should send nosniff on a static file', async ({ client }) => {
+		const response = await client.get('/favicon.ico');
+
+		response.assertStatus(200);
+		response.assertHeader('x-content-type-options', 'nosniff');
+	});
+
+	test('should deny framing on a static file', async ({ client }) => {
+		const response = await client.get('/favicon.ico');
+
+		response.assertHeader('x-frame-options', 'DENY');
+	});
+
+	test('should send the referrer policy on a static file', async ({
+		client,
+	}) => {
+		const response = await client.get('/favicon.ico');
+
+		response.assertHeader('referrer-policy', 'same-origin');
+	});
+
+	test('should send the shield HSTS max-age on a static file', async ({
+		client,
+	}) => {
+		const response = await client.get('/favicon.ico');
+
+		response.assertHeader('strict-transport-security', 'max-age=15552000');
+	});
+
 	test('should send the same policies on an API response', async ({
 		client,
 		assert,
