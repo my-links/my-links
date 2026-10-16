@@ -22,8 +22,14 @@ const linkFields = {
 // keys existed: see UserDataImportService.importUserData.
 const topLevelLinkSchema = vine.object({
 	...linkFields,
-	collectionKeys: vine.array(vine.string().trim().minLength(1)).optional(),
-	collectionIndexes: vine.array(vine.number().min(0)).optional(),
+	collectionKeys: vine
+		.array(vine.string().trim().minLength(1))
+		.maxLength(MAXIMUM_IMPORT_COLLECTIONS)
+		.optional(),
+	collectionIndexes: vine
+		.array(vine.number().withoutDecimals().min(0))
+		.maxLength(MAXIMUM_IMPORT_COLLECTIONS)
+		.optional(),
 });
 
 // Legacy format (pre multi-collection): links are nested under a single

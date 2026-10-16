@@ -7,6 +7,7 @@ import { TOKEN_ABILITY } from '#constants/api_token';
 import { runTool } from '#services/mcp/tools/tool_result';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { VISIBILITY } from '#enums/collections/visibility';
+import { mcpIdSchema } from '#services/mcp/tools/id_schema';
 import CollectionTransformer from '#transformers/collection';
 import { CollectionService } from '#services/collections/collection_service';
 import { CollectionQueryService } from '#services/collections/collection_query_service';
@@ -75,7 +76,7 @@ export function registerCollectionTools(
 		{
 			description:
 				'Get a single collection by id: the owner’s own, or a public one they follow.',
-			inputSchema: { id: z.number().int().positive() },
+			inputSchema: { id: mcpIdSchema },
 		},
 		({ id }) =>
 			runTool(TOKEN_ABILITY.READ, async () => {
@@ -145,7 +146,7 @@ export function registerCollectionTools(
 			description:
 				'Update a collection’s name, description, visibility, or icon.',
 			inputSchema: {
-				id: z.number().int().positive(),
+				id: mcpIdSchema,
 				name: z.string().trim().min(1).max(254),
 				description: z.string().trim().max(254).nullable().optional(),
 				visibility: z.enum([VISIBILITY.PUBLIC, VISIBILITY.PRIVATE]),
@@ -172,7 +173,7 @@ export function registerCollectionTools(
 		'collections.delete',
 		{
 			description: 'Delete a collection. Its links fall back to the Inbox.',
-			inputSchema: { id: z.number().int().positive() },
+			inputSchema: { id: mcpIdSchema },
 		},
 		({ id }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
@@ -189,7 +190,7 @@ export function registerCollectionTools(
 		'collections.follow',
 		{
 			description: 'Follow another user’s public collection.',
-			inputSchema: { collectionId: z.number().int().positive() },
+			inputSchema: { collectionId: mcpIdSchema },
 		},
 		({ collectionId }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
@@ -206,7 +207,7 @@ export function registerCollectionTools(
 		'collections.unfollow',
 		{
 			description: 'Unfollow a public collection.',
-			inputSchema: { collectionId: z.number().int().positive() },
+			inputSchema: { collectionId: mcpIdSchema },
 		},
 		({ collectionId }) =>
 			runTool(TOKEN_ABILITY.WRITE, async () => {
