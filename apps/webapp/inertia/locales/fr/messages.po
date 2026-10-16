@@ -17,10 +17,6 @@ msgstr ""
 msgid "{email} was disabled after a deletion request and hasn't been permanently deleted yet. Log in anyway to cancel the deletion and restore the account?"
 msgstr "{email} a été désactivé après une demande de suppression et n'a pas encore été définitivement supprimé. Se connecter quand même pour annuler la suppression et restaurer le compte ?"
 
-#: inertia/pages/privacy.tsx:69
-msgid "{field}"
-msgstr "{field}"
-
 #: inertia/components/dashboard/modals/make_collection_private_confirmation.tsx:13
 msgid "{followersCount, plural, one {# follower will lose access to this collection} other {# followers will lose access to this collection}}"
 msgstr "{followersCount, plural, one {# abonné perdra l'accès à cette collection} other {# abonnés perdront l'accès à cette collection}}"
@@ -46,13 +42,21 @@ msgstr "il y a {value, plural, one {# heure} other {# heures}}"
 msgid "{value, plural, one {# minute} other {# minutes}} ago"
 msgstr "il y a {value, plural, one {# minute} other {# minutes}}"
 
-#: inertia/pages/privacy.tsx:40
-msgid "1.1 Cookies"
-msgstr "1.1 Cookies"
+#: inertia/pages/privacy.tsx:80
+msgid "1.1 Your account"
+msgstr "1.1 Votre compte"
 
-#: inertia/pages/privacy.tsx:53
-msgid "1.2 User Data"
-msgstr "1.2 Données utilisateur"
+#: inertia/pages/privacy.tsx:103
+msgid "1.2 Your content"
+msgstr "1.2 Votre contenu"
+
+#: inertia/pages/privacy.tsx:124
+msgid "1.3 Security records"
+msgstr "1.3 Données de sécurité"
+
+#: inertia/pages/privacy.tsx:159
+msgid "1.4 Cookies"
+msgstr "1.4 Cookies"
 
 #: inertia/pages/terms.tsx:61
 msgid "2.1 User Account"
@@ -70,10 +74,6 @@ msgstr "2.3 Contenu utilisateur"
 msgid "3.1 Collection and Use"
 msgstr "3.1 Collecte et utilisation"
 
-#: inertia/pages/privacy.tsx:116
-msgid "3.1 Data Retention Period"
-msgstr "3.1 Période de conservation des données"
-
 #: inertia/pages/terms.tsx:124
 msgid "3.2 Account Deletion"
 msgstr "3.2 Suppression de compte"
@@ -85,6 +85,10 @@ msgstr "4.1 Responsabilité"
 #: inertia/pages/terms.tsx:160
 msgid "4.2 Warranties"
 msgstr "4.2 Garanties"
+
+#: inertia/pages/privacy.tsx:89
+msgid "A password hash if you sign in with a password, or your Google identifier if you sign in with Google. Your password is never stored in clear."
+msgstr "Une empreinte de mot de passe si vous vous connectez avec un mot de passe, ou votre identifiant Google si vous vous connectez avec Google. Votre mot de passe n'est jamais stocké en clair."
 
 #: inertia/components/user_settings/about.tsx:14
 msgid "About"
@@ -174,6 +178,10 @@ msgstr "Administrateur"
 msgid "Admin Dashboard"
 msgstr "Tableau de bord administrateur"
 
+#: inertia/pages/privacy.tsx:184
+msgid "Administrators see your email, how you sign in, how many collections and links you have and when you were last active. They see the journals with IP addresses partly masked. They never see your links, addresses, collection names or searches."
+msgstr "Les administrateurs voient votre email, votre mode de connexion, le nombre de collections et de liens que vous avez et votre dernière activité. Ils voient les journaux avec les adresses IP partiellement masquées. Ils ne voient jamais vos liens, leurs adresses, les noms de vos collections ni vos recherches."
+
 #: inertia/components/status/global_status.tsx:46
 msgid "All services are operational"
 msgstr "Tous les services sont opérationnels"
@@ -181,6 +189,14 @@ msgstr "Tous les services sont opérationnels"
 #: inertia/pages/auth/register.tsx:42
 msgid "Already have an account? <0>Sign in</0>"
 msgstr "Vous avez déjà un compte ? <0>Connectez-vous</0>"
+
+#: inertia/pages/privacy.tsx:142
+msgid "An activity journal of what you did (creating, editing or deleting collections and links, following, importing, exporting, deletion requests), with your IP address. It records identifiers and counts, never the content. Entries are deleted after 90 days."
+msgstr "Un journal d'activité de ce que vous avez fait (création, modification ou suppression de collections et de liens, abonnements, imports, exports, demandes de suppression), avec votre adresse IP. Il enregistre des identifiants et des nombres, jamais le contenu. Les entrées sont supprimées après 90 jours."
+
+#: inertia/pages/privacy.tsx:134
+msgid "An authentication journal (sign-ins, refusals, password and address changes, linked providers) with your IP address and browser. They are erased after 180 days. The event itself (type, account, time) is kept as security evidence."
+msgstr "Un journal d'authentification (connexions, refus, changements de mot de passe et d'adresse, fournisseurs liés) avec votre adresse IP et votre navigateur. Ils sont effacés après 180 jours. L'événement lui-même (type, compte, date) est conservé comme preuve de sécurité."
 
 #: inertia/pages/errors/server_error.tsx:14
 msgid "An unexpected error occurred."
@@ -237,6 +253,10 @@ msgstr "Journal d'authentification"
 #: inertia/components/tour/tour_tooltip.tsx:55
 msgid "Back"
 msgstr "Retour"
+
+#: inertia/pages/privacy.tsx:215
+msgid "Browser extension"
+msgstr "Extension de navigateur"
 
 #: inertia/pages/terms.tsx:41
 msgid "By accessing MyLinks and using our services, you agree to comply with these Terms and Conditions of Use."
@@ -388,10 +408,6 @@ msgstr "Confirmée"
 msgid "Continue with Google"
 msgstr "Continuer avec Google"
 
-#: inertia/pages/privacy.tsx:43
-msgid "Cookies used on MyLinks are essential to ensure the proper functioning of the site. By continuing to use our service, you consent to the use of these cookies."
-msgstr "Les cookies utilisés sur MyLinks sont essentiels pour assurer le bon fonctionnement du site. En continuant à utiliser notre service, vous consentez à l'utilisation de ces cookies."
-
 #: inertia/components/api_tokens/new_token_cell.tsx:34
 msgid "Copied"
 msgstr "Copié"
@@ -500,25 +516,9 @@ msgstr "Sombre"
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: inertia/pages/privacy.tsx:34
-msgid "Data Collection"
-msgstr "Collecte de données"
-
 #: inertia/components/user_settings/import_form.tsx:48
 msgid "Data imported successfully!"
 msgstr "Données importées avec succès !"
-
-#: inertia/pages/privacy.tsx:111
-msgid "Data is stored securely to protect your privacy."
-msgstr "Les données sont stockées de manière sécurisée pour protéger votre vie privée."
-
-#: inertia/pages/privacy.tsx:106
-msgid "Data Storage"
-msgstr "Stockage des données"
-
-#: inertia/pages/privacy.tsx:84
-msgid "Data Use"
-msgstr "Utilisation des données"
 
 #: inertia/lib/health.ts:60
 msgid "Database connection"
@@ -753,6 +753,10 @@ msgstr "Défaillant"
 msgid "Favicons"
 msgstr "Favicons"
 
+#: inertia/pages/privacy.tsx:207
+msgid "Favicons are stored without any link to you and are removed once no link uses that website any more. Your browser loads them through this instance only. Links to other websites do not send a referrer."
+msgstr "Les favicons sont stockés sans aucun lien avec vous et supprimés dès qu'aucun lien n'utilise plus ce site. Votre navigateur les charge uniquement via cette instance. Les liens vers d'autres sites n'envoient pas de référent."
+
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:48
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:59
 #: inertia/components/dashboard/collections/collection_favorite_item.tsx:67
@@ -814,6 +818,10 @@ msgstr "abonné"
 msgid "followers"
 msgstr "abonnés"
 
+#: inertia/pages/privacy.tsx:115
+msgid "For each link, a click counter and the time of the last click. No IP address, browser or referrer is recorded with a click, and there is no per-visit record. Only you see these totals."
+msgstr "Pour chaque lien, un compteur de clics et la date du dernier clic. Aucune adresse IP, navigateur ou référent n'est enregistré avec un clic, et il n'y a pas d'historique par visite. Vous seul voyez ces totaux."
+
 #: inertia/pages/auth/login.tsx:111
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
@@ -826,14 +834,6 @@ msgstr "Gratuit pour commencer, open-source à inspecter, à vous d'héberger o�
 #: inertia/components/api_tokens/create_token_modal.tsx:24
 msgid "Full access"
 msgstr "Accès complet"
-
-#: inertia/pages/privacy.tsx:119
-msgid "Functional data is retained until the user requests deletion. Once this request is made, the data will be permanently deleted."
-msgstr "Les données fonctionnelles sont conservées jusqu'à ce que l'utilisateur demande leur suppression. Une fois cette demande effectuée, les données seront définitivement supprimées."
-
-#: inertia/pages/privacy.tsx:155
-msgid "GDPR Compliance"
-msgstr "Conformité RGPD"
 
 #: inertia/components/home/hero_auth_actions.tsx:29
 msgid "Get Started"
@@ -879,6 +879,10 @@ msgstr "Mémoire heap"
 #: inertia/components/dashboard/forms/form_collection_content.tsx:66
 msgid "Icon"
 msgstr "Icône"
+
+#: inertia/pages/privacy.tsx:217
+msgid "If you use the browser extension, it syncs your collections only while you are connected. It sends a link only when you save it, and reports visits to saved links opened from the extension. If you turn on the optional bookmark mirror, it uploads the bookmarks you save afterwards to your bookmarks bar and those you add to collection folders. It talks to this instance only and has no third-party service."
+msgstr "Si vous utilisez l'extension de navigateur, elle synchronise vos collections uniquement lorsque vous êtes connecté. Elle n'envoie un lien que lorsque vous l'enregistrez, et signale les visites des liens enregistrés ouverts depuis l'extension. Si vous activez le miroir de favoris facultatif, elle envoie les favoris que vous enregistrez ensuite dans votre barre de favoris et ceux que vous ajoutez aux dossiers de collections. Elle ne communique qu'avec cette instance et n'utilise aucun service tiers."
 
 #: inertia/components/user_settings/import_form.tsx:20
 #: inertia/components/user_settings/import_form.tsx:67
@@ -951,7 +955,7 @@ msgstr "Dernière connexion le"
 msgid "Last sign-in"
 msgstr "Dernière connexion"
 
-#: inertia/pages/privacy.tsx:13
+#: inertia/pages/privacy.tsx:62
 #: inertia/pages/terms.tsx:14
 msgid "Last updated: {date}"
 msgstr "Dernière mise à jour : {date}"
@@ -1052,11 +1056,11 @@ msgstr "Rendre privée"
 msgid "Make public"
 msgstr "Rendre publique"
 
-#: inertia/hooks/use_move_collection_to_section.tsx:63
+#: inertia/hooks/use_move_collection_to_section.tsx:65
 msgid "Make this collection private"
 msgstr "Rendre cette collection privée"
 
-#: inertia/hooks/use_move_collection_to_section.tsx:62
+#: inertia/hooks/use_move_collection_to_section.tsx:64
 msgid "Make this collection public"
 msgstr "Rendre cette collection publique"
 
@@ -1103,17 +1107,25 @@ msgstr "Mes collections publiques"
 msgid "MyLinks cannot be held responsible for direct or indirect damages arising from the use of our services."
 msgstr "MyLinks ne peut être tenu responsable des dommages directs ou indirects résultant de l'utilisation de nos services."
 
-#: inertia/pages/privacy.tsx:161
-msgid "MyLinks complies with the General Data Protection Regulation (GDPR) of the European Union."
-msgstr "MyLinks est conforme au Règlement général sur la protection des données (RGPD) de l'Union européenne."
-
 #: inertia/pages/terms.tsx:163
 msgid "MyLinks does not guarantee that the service will be free from errors or interruptions."
 msgstr "MyLinks ne garantit pas que le service sera exempt d'erreurs ou d'interruptions."
 
+#: inertia/pages/privacy.tsx:69
+msgid "MyLinks is a free and open-source bookmark manager that you can host yourself. This page explains what this instance stores about you, who can see it, how long it is kept and how to get rid of it. The administrator of this instance is the data controller and your contact for any request."
+msgstr "MyLinks est un gestionnaire de favoris libre et open source que vous pouvez héberger vous-même. Cette page explique ce que cette instance stocke sur vous, qui peut le voir, combien de temps c'est conservé et comment s'en débarrasser. L'administrateur de cette instance est le responsable du traitement et votre contact pour toute demande."
+
+#: inertia/pages/privacy.tsx:253
+msgid "MyLinks is built to comply with the General Data Protection Regulation (GDPR) of the European Union."
+msgstr "MyLinks est conçu pour respecter le Règlement général sur la protection des données (RGPD) de l'Union européenne."
+
 #: inertia/components/home/lifecycle_sections.tsx:72
 msgid "MyLinks is open-source. Host it on your own server with Docker and keep every link on hardware you control."
 msgstr "MyLinks est open-source. Hébergez-le sur votre propre serveur avec Docker et gardez chaque lien sur un matériel que vous contrôlez."
+
+#: inertia/pages/privacy.tsx:161
+msgid "MyLinks only uses the cookies required to keep you signed in and to protect your session. There are no advertising or tracking cookies."
+msgstr "MyLinks n'utilise que les cookies nécessaires pour vous garder connecté et protéger votre session. Il n'y a aucun cookie publicitaire ou de suivi."
 
 #: inertia/pages/terms.tsx:183
 msgid "MyLinks reserves the right to modify these Terms and Conditions of Use at any time. Users will be notified of changes through a notification on the site."
@@ -1289,13 +1301,17 @@ msgstr "Préférences"
 msgid "Privacy"
 msgstr "Confidentialité"
 
-#: inertia/pages/privacy.tsx:9
+#: inertia/pages/privacy.tsx:58
 msgid "Privacy Policy of MyLinks"
 msgstr "Politique de confidentialité de MyLinks"
 
 #: inertia/components/dashboard/forms/form_collection_content.tsx:49
 msgid "Private"
 msgstr "Privé"
+
+#: inertia/pages/privacy.tsx:173
+msgid "Private collections are visible to you only."
+msgstr "Les collections privées ne sont visibles que par vous."
 
 #: inertia/components/admin/users/account_actions.tsx:104
 #: inertia/components/admin/users/account_actions.tsx:110
@@ -1306,6 +1322,14 @@ msgstr "Promouvoir administrateur"
 #: inertia/components/dashboard/forms/form_collection_content.tsx:54
 msgid "Public"
 msgstr "Public"
+
+#: inertia/pages/privacy.tsx:176
+msgid "Public and shared collections show their name, description, icon and links, your display name and the number of followers to anyone who has access, including through the API. Your email, favorites, click counts and other collections are never exposed."
+msgstr "Les collections publiques et partagées affichent leur nom, leur description, leur icône et leurs liens, votre nom d'affichage et le nombre d'abonnés à toute personne y ayant accès, y compris via l'API. Votre email, vos favoris, vos nombres de clics et vos autres collections ne sont jamais exposés."
+
+#: inertia/pages/privacy.tsx:241
+msgid "Public collections of an account pending deletion are hidden during the grace period. For any other request about your data, contact the administrator of this instance."
+msgstr "Les collections publiques d'un compte en attente de suppression sont masquées pendant le délai de grâce. Pour toute autre demande concernant vos données, contactez l'administrateur de cette instance."
 
 #: inertia/pages/admin/favicons.tsx:63
 msgid "Purge orphaned entries"
@@ -1491,6 +1515,10 @@ msgstr "Erreur serveur"
 msgid "Services"
 msgstr "Services"
 
+#: inertia/pages/privacy.tsx:127
+msgid "Sessions, with the IP address and browser of each sign-in. You can see and revoke them on your sessions page. They expire after 7 days."
+msgstr "Les sessions, avec l'adresse IP et le navigateur de chaque connexion. Vous pouvez les consulter et les révoquer sur votre page de sessions. Elles expirent après 7 jours."
+
 #: inertia/components/user_settings/password.tsx:56
 msgid "Set a password"
 msgstr "Définir un mot de passe"
@@ -1516,6 +1544,10 @@ msgstr "Partager la collection"
 #: inertia/components/dashboard/modals/make_collection_public_confirmation.tsx:41
 msgid "Share URL"
 msgstr "URL de partage"
+
+#: inertia/pages/privacy.tsx:150
+msgid "Short-lived tokens for email confirmation, password reset and address change, removed a day after they expire or are used. Rate limiting counters are transient."
+msgstr "Des jetons de courte durée pour la confirmation de l'email, la réinitialisation du mot de passe et le changement d'adresse, supprimés un jour après leur expiration ou leur utilisation. Les compteurs de limitation de débit sont temporaires."
 
 #: inertia/components/home/call_to_action_auth_actions.tsx:30
 #: inertia/components/home/hero_auth_actions.tsx:38
@@ -1629,10 +1661,6 @@ msgstr "L'adresse avec laquelle vous vous connectez, et celle qui reçoit les li
 msgid "the app"
 msgstr "l'app"
 
-#: inertia/pages/privacy.tsx:90
-msgid "The collected data is neither resold nor used for purposes other than initially intended, namely the management of collections and links created by the user."
-msgstr "Les données collectées ne sont ni revendues ni utilisées à des fins autres que celles initialement prévues, à savoir la gestion des collections et des liens créés par l'utilisateur."
-
 #: inertia/pages/terms.tsx:114
 msgid "The collection and use of personal data is governed by our Privacy Policy. Please refer to it for detailed information about how we collect, use, and protect your data."
 msgstr "La collecte et l'utilisation des données personnelles sont régies par notre Politique de confidentialité. Veuillez vous y référer pour des informations détaillées sur la manière dont nous collectons, utilisons et protégeons vos données."
@@ -1649,6 +1677,10 @@ msgstr "L'extension, dans votre barre d'outils"
 msgid "The language MyLinks speaks to you in."
 msgstr "La langue dans laquelle MyLinks s'adresse à vous."
 
+#: inertia/pages/privacy.tsx:96
+msgid "The last time you were seen, updated at most every 5 minutes."
+msgstr "La dernière fois que vous avez été vu, mise à jour au plus toutes les 5 minutes."
+
 #: inertia/components/user_settings/display_name.tsx:36
 msgid "The name shown for your account throughout MyLinks."
 msgstr "Le nom affiché pour votre compte partout dans MyLinks."
@@ -1656,10 +1688,6 @@ msgstr "Le nom affiché pour votre compte partout dans MyLinks."
 #: inertia/components/user_settings/email_address.tsx:63
 msgid "The new address has to confirm the change, and the current one is told about it so you can cancel."
 msgstr "La nouvelle adresse doit confirmer le changement, et l'actuelle en est informée pour que vous puissiez l'annuler."
-
-#: inertia/pages/privacy.tsx:140
-msgid "The user has the right to retrieve all their data at any time and/or request the complete deletion of their data."
-msgstr "L'utilisateur a le droit de récupérer toutes ses données à tout moment et/ou de demander la suppression complète de ses données."
 
 #: inertia/components/user_settings/auth_methods.tsx:49
 msgid "The ways you can prove who you are. At least one has to remain."
@@ -1669,6 +1697,14 @@ msgstr "Les façons dont vous pouvez prouver votre identité. Il doit en rester 
 #: inertia/components/user_settings/preferences.tsx:78
 msgid "Theme"
 msgstr "Thème"
+
+#: inertia/pages/privacy.tsx:197
+msgid "There is no analytics, no error tracking and no advertising. The server makes only a few outbound requests: it fetches the favicon of the website of each link you save, from the root address of that site only (never the full address), without any third-party favicon service; it contacts Google if you sign in with Google; and it sends emails through the mail server configured by the administrator."
+msgstr "Il n'y a ni outil d'analyse, ni suivi des erreurs, ni publicité. Le serveur n'effectue que quelques requêtes sortantes : il récupère le favicon du site de chaque lien que vous enregistrez, depuis la racine de ce site uniquement (jamais l'adresse complète), sans service de favicons tiers ; il contacte Google si vous vous connectez avec Google ; et il envoie des emails via le serveur de messagerie configuré par l'administrateur."
+
+#: inertia/pages/privacy.tsx:195
+msgid "Third parties"
+msgstr "Tiers"
 
 #: inertia/pages/auth/sudo.tsx:105
 msgid "This account has no way left to confirm its identity on this instance. Sign out and sign in again to continue."
@@ -1705,10 +1741,6 @@ msgstr "Cette page n'existe pas."
 #: inertia/pages/terms.tsx:64
 msgid "To access certain features of MyLinks, you will need to create a user account. You are responsible for the confidentiality of your account and credentials."
 msgstr "Pour accéder à certaines fonctionnalités de MyLinks, vous devrez créer un compte utilisateur. Vous êtes responsable de la confidentialité de votre compte et de vos identifiants."
-
-#: inertia/pages/privacy.tsx:56
-msgid "To create personalized collections and links and associate them with their author, we collect the following information:"
-msgstr "Pour créer des collections et des liens personnalisés et les associer à leur auteur, nous collectons les informations suivantes :"
 
 #: inertia/components/dashboard/sidebar/sidebar_header.tsx:27
 #: inertia/components/dashboard/sidebar/sidebar_header.tsx:36
@@ -1786,10 +1818,6 @@ msgstr "Utilisateur"
 msgid "User agent"
 msgstr "Agent utilisateur"
 
-#: inertia/pages/privacy.tsx:134
-msgid "User Rights"
-msgstr "Droits de l'utilisateur"
-
 #: inertia/components/user_settings/about.tsx:21
 msgid "Version {appVersion}"
 msgstr "Version {appVersion}"
@@ -1814,9 +1842,9 @@ msgstr "Content de vous revoir"
 msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. By using this service, you agree to the terms and conditions of use outlined below. Please read them carefully."
 msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-source axé sur la confidentialité et l'auto-hébergement. En utilisant ce service, vous acceptez les conditions générales d'utilisation décrites ci-dessous. Veuillez les lire attentivement."
 
-#: inertia/pages/privacy.tsx:20
-msgid "Welcome to MyLinks, a free and open-source bookmark manager focused on privacy and self-hosting. This privacy policy aims to inform you about how we collect, use, and protect your data."
-msgstr "Bienvenue sur MyLinks, un gestionnaire de marque-pages gratuit et open-source axé sur la confidentialité et l'auto-hébergement. Cette politique de confidentialité vise à vous informer sur la manière dont nous collectons, utilisons et protégeons vos données."
+#: inertia/pages/privacy.tsx:79
+msgid "What we store about you"
+msgstr "Ce que nous stockons sur vous"
 
 #: inertia/components/admin/activity_events/activity_events_table.tsx:46
 #: inertia/components/admin/auth_events/auth_events_table.tsx:27
@@ -1831,6 +1859,10 @@ msgstr "La page sur laquelle MyLinks s'ouvre après la connexion. Favoris bascul
 msgid "Which version you are on, and the terms you agreed to."
 msgstr "La version que vous utilisez, et les conditions que vous avez acceptées."
 
+#: inertia/pages/privacy.tsx:169
+msgid "Who can see it"
+msgstr "Qui peut le voir"
+
 #: inertia/pages/auth/sudo.tsx:44
 msgid "You are about to change something that protects your account, so we ask once more who you are."
 msgstr "Vous allez modifier quelque chose qui protège votre compte, nous vous redemandons donc qui vous êtes."
@@ -1839,6 +1871,10 @@ msgstr "Vous allez modifier quelque chose qui protège votre compte, nous vous r
 #: inertia/hooks/admin/use_delete_selected_users.tsx:26
 msgid "You are about to disable {0} account(s). Every session and token is revoked immediately. Collections and links are permanently deleted once the grace period ends, unless you restore the account before then."
 msgstr "Vous êtes sur le point de désactiver {0} compte(s). Toutes les sessions et tous les jetons sont révoqués immédiatement. Les collections et les liens sont définitivement supprimés une fois la période de grâce écoulée, sauf si vous restaurez le compte avant."
+
+#: inertia/pages/privacy.tsx:230
+msgid "You can export your data from your settings at any time. When you request deletion, your account has a 30-day grace period during which you can change your mind. An account unused for 365 days, or one an administrator deletes, goes through the same grace period. Afterwards your account and everything you own are permanently deleted. The only thing that remains is the authentication journal events, detached from any account and stripped of IP address and browser after 180 days."
+msgstr "Vous pouvez exporter vos données depuis vos paramètres à tout moment. Lorsque vous demandez la suppression, votre compte bénéficie d'un délai de grâce de 30 jours pendant lequel vous pouvez changer d'avis. Un compte inutilisé pendant 365 jours, ou supprimé par un administrateur, suit le même délai. Ensuite, votre compte et tout ce qu'il contient sont définitivement supprimés. Seuls subsistent les événements du journal d'authentification, détachés de tout compte et privés de l'adresse IP et du navigateur après 180 jours."
 
 #: inertia/pages/terms.tsx:127
 msgid "You can request the deletion of your account at any time in accordance with our Privacy Policy."
@@ -1867,6 +1903,18 @@ msgstr "Votre adresse doit encore être confirmée. Nous pouvons vous renvoyer l
 msgid "Your collections"
 msgstr "Vos collections"
 
+#: inertia/pages/privacy.tsx:106
+msgid "Your collections (name, description, icon, visibility) and the links they contain (address, name, description)."
+msgstr "Vos collections (nom, description, icône, visibilité) et les liens qu'elles contiennent (adresse, nom, description)."
+
+#: inertia/pages/privacy.tsx:83
+msgid "Your email address, your name or nickname, and the dates your account was created and last updated."
+msgstr "Votre adresse email, votre nom ou pseudo, et les dates de création et de dernière mise à jour de votre compte."
+
+#: inertia/pages/privacy.tsx:112
+msgid "Your favorites and the collections you follow."
+msgstr "Vos favoris et les collections que vous suivez."
+
 #: inertia/components/home/lifecycle_sections.tsx:49
 msgid "Your links download as plain JSON whenever you want. Nothing kept hostage."
 msgstr "Vos liens se téléchargent en JSON brut quand vous le souhaitez. Rien n'est retenu en otage."
@@ -1883,3 +1931,7 @@ msgstr "Votre nom"
 #: inertia/pages/auth/sudo.tsx:59
 msgid "Your password"
 msgstr "Votre mot de passe"
+
+#: inertia/pages/privacy.tsx:228
+msgid "Your rights and deletion"
+msgstr "Vos droits et la suppression"
