@@ -1,7 +1,9 @@
 import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
+import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
+import type User from '#models/user';
 import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 import { McpSessionManager } from '#services/mcp/mcp_session_manager';
@@ -575,5 +577,151 @@ test.group('API MCP: token abilities', (group) => {
 
 		const created = parseToolResult(createResponse);
 		assert.isFalse(created.isError);
+	});
+});
+
+test.group('API MCP: link url validation', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	const REJECTED_URLS = ['javascript://%0aalert(1)', 'file:///etc/passwd'];
+	let nextRequestId = 2;
+
+	async function openSession(client: ApiClient, user: User) {
+		const initializeResponse = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.json(initializeRequest())
+			.withGuard('api')
+			.loginAs(user);
+
+		return String(initializeResponse.headers()[SESSION_HEADER]);
+	}
+
+	async function callTool(
+		client: ApiClient,
+		user: User,
+		sessionId: string,
+		name: string,
+		args: Record<string, unknown>
+	) {
+		nextRequestId += 1;
+		const response = await client
+			.post('/api/mcp')
+			.header('Accept', ACCEPT_BOTH)
+			.header(SESSION_HEADER, sessionId)
+			.json(toolCallRequest(nextRequestId, name, args))
+			.withGuard('api')
+			.loginAs(user);
+
+		return parseToolResult(response);
+	}
+
+	function linkArguments(url: string) {
+		return { name: 'MCP url check', url, favorite: false };
+	}
+
+	for (const rejectedUrl of REJECTED_URLS) {
+		test(`should reject ${rejectedUrl} through links.create`, async ({
+			client,
+			assert,
+		}) => {
+			const user = await createUser({ emailPrefix: 'mcp-url-create' });
+			const sessionId = await openSession(client, user);
+
+			const created = await callTool(
+				client,
+				user,
+				sessionId,
+				'links.create',
+				linkArguments(rejectedUrl)
+			);
+
+			assert.isTrue(created.isError);
+			assert.include(String(created.data), 'Invalid url');
+		});
+
+		test(`should reject ${rejectedUrl} through links.update`, async ({
+			client,
+			assert,
+		}) => {
+			const user = await createUser({ emailPrefix: 'mcp-url-update' });
+			const sessionId = await openSession(client, user);
+			const created = await callTool(
+				client,
+				user,
+				sessionId,
+				'links.create',
+				linkArguments('example.com')
+			);
+
+			const updated = await callTool(client, user, sessionId, 'links.update', {
+				id: created.data.link.id,
+				...linkArguments(rejectedUrl),
+			});
+
+			assert.isTrue(updated.isError);
+			assert.include(String(updated.data), 'Invalid url');
+		});
+	}
+
+	test('should normalize a bare domain to https through links.create', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-url-bare' });
+		const sessionId = await openSession(client, user);
+
+		const created = await callTool(
+			client,
+			user,
+			sessionId,
+			'links.create',
+			linkArguments('example.com')
+		);
+
+		assert.equal(created.data.link.url, 'https://example.com');
+	});
+
+	test('should keep an http url through links.create', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-url-http' });
+		const sessionId = await openSession(client, user);
+
+		const created = await callTool(
+			client,
+			user,
+			sessionId,
+			'links.create',
+			linkArguments('http://example.com/page')
+		);
+
+		assert.equal(created.data.link.url, 'http://example.com/page');
+	});
+
+	test('should normalize a bare domain to https through links.update', async ({
+		client,
+		assert,
+	}) => {
+		const user = await createUser({ emailPrefix: 'mcp-url-update-bare' });
+		const sessionId = await openSession(client, user);
+		const created = await callTool(
+			client,
+			user,
+			sessionId,
+			'links.create',
+			linkArguments('example.com')
+		);
+
+		await callTool(client, user, sessionId, 'links.update', {
+			id: created.data.link.id,
+			...linkArguments('example.org'),
+		});
+
+		const fetched = await callTool(client, user, sessionId, 'links.get', {
+			id: created.data.link.id,
+		});
+		assert.equal(fetched.data.url, 'https://example.org');
 	});
 });
