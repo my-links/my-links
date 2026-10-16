@@ -50,6 +50,8 @@ export const middleware = router.named({
 	guest: () => import('#middleware/auth/guest_middleware'),
 	auth: () => import('#middleware/auth/auth_middleware'),
 	sudo: () => import('#middleware/auth/sudo_mode_middleware'),
+	minimumResponseTime: () =>
+		import('#middleware/timing/minimum_response_time_middleware'),
 	tokenAbility: () =>
 		import('#middleware/api/require_token_ability_middleware'),
 	renewExtensionToken: () =>

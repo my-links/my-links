@@ -51,6 +51,13 @@ export default await Env.create(new URL('../', import.meta.url), {
 	 */
 	ALLOW_REGISTRATION: Env.schema.enum.optional(REGISTRATION_POLICIES),
 
+	/**
+	 * Optional: the minimum response time, in milliseconds, of the sign-up,
+	 * password reset, verification resend and email change routes. See
+	 * `MinimumResponseTimeMiddleware`.
+	 */
+	ACCOUNT_LOOKUP_MIN_RESPONSE_MS: Env.schema.number.optional(),
+
 	/*
 |----------------------------------------------------------
 | Variables for configuring the browser extension

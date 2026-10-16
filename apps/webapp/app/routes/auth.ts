@@ -30,7 +30,7 @@ router
 		router
 			.post('/register', [controllers.auth.Register, 'execute'])
 			.as('auth.register.submit')
-			.use(registrationThrottles);
+			.use([...registrationThrottles, middleware.minimumResponseTime()]);
 
 		router
 			.get('/forgot-password', [
@@ -44,7 +44,10 @@ router
 				'execute',
 			])
 			.as('auth.password.forgot.submit')
-			.use(passwordResetRequestThrottles);
+			.use([
+				...passwordResetRequestThrottles,
+				middleware.minimumResponseTime(),
+			]);
 
 		// Offered by the login page to whoever was just turned away for an
 		// unconfirmed address, and open to anyone who lost the first link.
@@ -54,7 +57,7 @@ router
 				'execute',
 			])
 			.as('auth.verification.resend')
-			.use(verificationResendThrottles);
+			.use([...verificationResendThrottles, middleware.minimumResponseTime()]);
 	})
 	.use(guestOnly);
 
@@ -181,7 +184,7 @@ router
 		router
 			.post('/email', [controllers.auth.RequestEmailChange, 'execute'])
 			.as('auth.email.change')
-			.use(emailChangeRequestThrottles);
+			.use([...emailChangeRequestThrottles, middleware.minimumResponseTime()]);
 
 		// Adding or removing a way into the account is the same class of
 		// operation as replacing its password, and the anti-lockout guard in
