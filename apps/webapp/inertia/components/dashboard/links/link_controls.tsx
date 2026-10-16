@@ -1,4 +1,3 @@
-import type { Data } from '@generated/data';
 import { ContextMenu, CopyButton, IconButton } from '@minimalstuff/ui';
 import {
 	useImperativeHandle,
@@ -6,13 +5,14 @@ import {
 	type MouseEvent as ReactMouseEvent,
 } from 'react';
 
+import type { DisplayLink } from '~/lib/link';
 import { useLinkActions } from '~/hooks/use_link_actions';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { useLinkCollections } from '~/hooks/use_link_collections';
 import { dispatchContextMenuAt } from '~/lib/dispatch_context_menu';
 import { LinkMenuItems } from '~/components/dashboard/links/link_menu_items';
 
-type Link = Data.Link;
+type Link = DisplayLink;
 
 export type LinkControlsRef = {
 	openContextMenu: (x: number, y: number) => void;

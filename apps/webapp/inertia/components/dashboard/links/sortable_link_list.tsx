@@ -1,4 +1,3 @@
-import type { Data } from '@generated/data';
 import {
 	SortableContext,
 	rectSortingStrategy,
@@ -6,6 +5,7 @@ import {
 } from '@dnd-kit/sortable';
 
 import { cn } from '~/lib/cn';
+import type { DisplayLink } from '~/lib/link';
 import type { Layout } from '~/stores/layout_store';
 import { SortableLinkItem } from './sortable_link_item';
 import {
@@ -14,7 +14,7 @@ import {
 } from '~/lib/link_layout';
 
 type SortableLinkListProps = {
-	links: Data.Link[];
+	links: DisplayLink[];
 	collectionId: number;
 	layout: Layout;
 };

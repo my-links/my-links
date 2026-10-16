@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import type { Data } from '@generated/data';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import {
 	DndContext,
@@ -9,6 +8,7 @@ import {
 	useSensors,
 } from '@dnd-kit/core';
 
+import type { DisplayLink } from '~/lib/link';
 import { useReorderLinks } from '~/hooks/use_reorder_links';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardDragOverlay } from './dashboard_drag_overlay';
@@ -35,7 +35,7 @@ const KEYBOARD_SENSOR_OPTIONS = {
 
 // Stable reference: an inline `[]` fallback below would change identity every
 // render and retrigger useOptimisticOrder's sync effect forever.
-const EMPTY_LINKS: Data.Link[] = [];
+const EMPTY_LINKS: DisplayLink[] = [];
 
 export function DashboardDndProvider({
 	children,

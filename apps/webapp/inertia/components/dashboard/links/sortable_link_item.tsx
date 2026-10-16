@@ -1,9 +1,9 @@
 import { CSS } from '@dnd-kit/utilities';
-import type { Data } from '@generated/data';
 import { useSortable } from '@dnd-kit/sortable';
 
 import { cn } from '~/lib/cn';
 import { LinkItem } from './link_item';
+import type { DisplayLink } from '~/lib/link';
 import type { Layout } from '~/stores/layout_store';
 import {
 	getLinkItemWrapperClassName,
@@ -11,7 +11,7 @@ import {
 } from '~/lib/link_layout';
 
 type SortableLinkItemProps = {
-	link: Data.Link;
+	link: DisplayLink;
 	collectionId: number;
 	layout: Layout;
 };

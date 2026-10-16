@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
-import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
 import { cn } from '~/lib/cn';
+import type { DisplayLink } from '~/lib/link';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useLayoutStore } from '~/stores/layout_store';
 import { LinkItem } from '~/components/dashboard/links/link_item';
@@ -14,7 +14,7 @@ import {
 } from '~/lib/link_layout';
 
 type LinkListProps = {
-	links: Data.Link[];
+	links: DisplayLink[];
 	layoutStoreKey: string;
 	emptyStateHint?: ReactNode;
 };

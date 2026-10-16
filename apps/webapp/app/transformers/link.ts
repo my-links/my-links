@@ -6,13 +6,20 @@ import UserTransformer from '#transformers/user';
 export default class LinkTransformer extends BaseTransformer<Link> {
 	toObject() {
 		return {
+			...this.forVisitor(),
+			favorite: this.resource.favorite,
+			clicks: this.resource.clicks,
+			lastClickedAt: this.resource.lastClickedAt?.toString() ?? null,
+		};
+	}
+
+	/** A link as a non-owner sees it: the owner's usage stats stay private. */
+	forVisitor() {
+		return {
 			id: this.resource.id,
 			name: this.resource.name,
 			description: this.resource.description ?? null,
 			url: this.resource.url,
-			favorite: this.resource.favorite,
-			clicks: this.resource.clicks,
-			lastClickedAt: this.resource.lastClickedAt?.toString() ?? null,
 			authorId: this.resource.authorId,
 			author: UserTransformer.transform(this.whenLoaded(this.resource.author)),
 			createdAt: this.resource.createdAt?.toString(),

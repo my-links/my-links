@@ -5,11 +5,18 @@ import { listAuthMethods } from '#lib/auth/auth_methods';
 import { toIsoTimestamp } from '#lib/database/aggregate_timestamp';
 
 export default class UserTransformer extends BaseTransformer<User> {
+	/**
+	 * What anyone who can see a link or a collection learns about its author.
+	 */
 	toObject() {
+		return this.pick(this.resource, ['id', 'fullname']);
+	}
+
+	/** The signed-in user's own shared prop: the one place the role is exposed. */
+	forSession() {
 		return {
-			...this.pick(this.resource, ['id', 'fullname', 'isAdmin']),
-			createdAt: this.resource.createdAt?.toString(),
-			updatedAt: this.resource.updatedAt?.toString(),
+			...this.toObject(),
+			isAdmin: this.resource.isAdmin,
 		};
 	}
 
@@ -22,7 +29,9 @@ export default class UserTransformer extends BaseTransformer<User> {
 	 */
 	withCounters() {
 		return {
-			...this.toObject(),
+			...this.forSession(),
+			createdAt: this.resource.createdAt?.toString(),
+			updatedAt: this.resource.updatedAt?.toString(),
 			email: this.resource.email,
 			emailVerifiedAt: this.resource.emailVerifiedAt?.toString() ?? null,
 			pendingDeletionAt: this.resource.pendingDeletionAt?.toString() ?? null,

@@ -1,14 +1,16 @@
 import { useMemo } from 'react';
 import type { Data } from '@generated/data';
 
-import { hasCollectionIds } from '~/lib/link';
+import { hasCollectionIds, type DisplayLink } from '~/lib/link';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
 
 type UseLinkCollectionsReturn = {
 	linkCollections: Data.Collection[];
 };
 
-export function useLinkCollections(link: Data.Link): UseLinkCollectionsReturn {
+export function useLinkCollections(
+	link: DisplayLink
+): UseLinkCollectionsReturn {
 	const { activeCollection, myCollections } = useDashboardProps();
 
 	// Excludes the collection already being viewed, but a link can belong to others (e.g. from search).

@@ -19,7 +19,9 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
 
 		const serializedUser =
 			isAuthenticated && user
-				? await ctx.serialize(UserTransformer.transform(user))
+				? await ctx.serialize(
+						UserTransformer.transform(user).useVariant('forSession')
+					)
 				: null;
 
 		const userAuth =
