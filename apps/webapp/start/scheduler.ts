@@ -5,6 +5,7 @@ import app from '@adonisjs/core/services/app';
 import type { ScheduledTask } from 'node-cron';
 import logger from '@adonisjs/core/services/logger';
 
+import { AuthEventService } from '#services/auth/auth_event_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { AccountRetentionService } from '#services/user/account_retention_service';
 import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
@@ -76,3 +77,19 @@ const pruneActivityEventsTask = cron.schedule(
 	{ name: 'activity-prune', timezone }
 );
 logExecutionFailures(pruneActivityEventsTask, 'activity-prune');
+
+const anonymizeAuthEventOriginsTask = cron.schedule(
+	'0 5 * * *',
+	async () => {
+		const authEventService = await app.container.make(AuthEventService);
+		const anonymizedCount = await authEventService.anonymizeExpiredOrigins();
+		logger.info(
+			`Anonymized ${anonymizedCount} expired authentication event(s)`
+		);
+	},
+	{ name: 'auth-events-anonymize-origins', timezone }
+);
+logExecutionFailures(
+	anonymizeAuthEventOriginsTask,
+	'auth-events-anonymize-origins'
+);

@@ -1,8 +1,15 @@
+import { DateTime } from 'luxon';
+import db from '@adonisjs/lucid/services/db';
+
 import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import type { RequestOrigin } from '#lib/request_origin';
 import { paginateAuditJournal } from '#lib/audit_journal_query';
-import { AUTH_EVENT_TYPE, type AuthEventType } from '#constants/auth';
+import {
+	AUTH_EVENT_ORIGIN_RETENTION_DAYS,
+	AUTH_EVENT_TYPE,
+	type AuthEventType,
+} from '#constants/auth';
 
 export type AuthEventRecord = RequestOrigin & {
 	readonly type: AuthEventType;
@@ -89,5 +96,32 @@ export class AuthEventService {
 			ip,
 			userAgent,
 		});
+	}
+
+	/**
+	 * Blanks the address and user agent of authentication rows older than
+	 * `date`, keeping the row. Scoped to `subject_type IS NULL` so activity
+	 * rows, which have their own retention, are never touched. A bare update
+	 * leaves `updated_at` alone: this is not a change to the event.
+	 */
+	async anonymizeOriginsBefore(date: DateTime): Promise<number> {
+		const anonymizedRowCount = await db
+			.from('audit_events')
+			.whereNull('subject_type')
+			.where('created_at', '<', date.toJSDate())
+			.where((query) => {
+				query.whereNotNull('ip').orWhereNotNull('user_agent');
+			})
+			.update({ ip: null, user_agent: null });
+
+		return Number(anonymizedRowCount);
+	}
+
+	async anonymizeExpiredOrigins(): Promise<number> {
+		const cutoff = DateTime.now().minus({
+			days: AUTH_EVENT_ORIGIN_RETENTION_DAYS,
+		});
+
+		return this.anonymizeOriginsBefore(cutoff);
 	}
 }

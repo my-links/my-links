@@ -77,6 +77,12 @@ export const REGISTRATION_POLICIES = [
  */
 export const SUDO_MODE_WINDOW_MINUTES = 15;
 
+/**
+ * How long an authentication journal row keeps the address and user agent it
+ * was recorded with. The row itself stays: only the network identifiers go.
+ */
+export const AUTH_EVENT_ORIGIN_RETENTION_DAYS = 180;
+
 export const AUTH_EVENT_TYPE = {
 	LOGIN_SUCCEEDED: 'login_succeeded',
 	LOGIN_FAILED: 'login_failed',
