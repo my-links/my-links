@@ -35,6 +35,31 @@ test.group('normalizeFaviconOrigin', () => {
 		);
 	});
 
+	test('should keep a non-default port in the origin', ({ assert }) => {
+		assert.equal(
+			normalizeFaviconOrigin('https://example.com:8443/page'),
+			'https://example.com:8443'
+		);
+	});
+
+	test('should treat a non-default port as a different origin', ({
+		assert,
+	}) => {
+		assert.notEqual(
+			normalizeFaviconOrigin('https://example.com:8443/'),
+			normalizeFaviconOrigin('https://example.com/')
+		);
+	});
+
+	test('should treat an explicit default port as the same origin', ({
+		assert,
+	}) => {
+		assert.equal(
+			normalizeFaviconOrigin('https://example.com:443/'),
+			normalizeFaviconOrigin('https://example.com/')
+		);
+	});
+
 	test('should lowercase an unparsable URL rather than throw', ({ assert }) => {
 		assert.equal(normalizeFaviconOrigin('NOT-A-URL'), 'not-a-url');
 	});

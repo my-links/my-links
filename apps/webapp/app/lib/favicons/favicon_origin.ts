@@ -2,7 +2,7 @@
 export function normalizeFaviconOrigin(url: string): string {
 	try {
 		const parsed = new URL(url);
-		return `${parsed.protocol}//${parsed.hostname}`.toLowerCase();
+		return `${parsed.protocol}//${parsed.host}`.toLowerCase();
 	} catch {
 		return url.toLowerCase();
 	}
