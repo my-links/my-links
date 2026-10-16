@@ -12,6 +12,35 @@ export type UrlCheckOutcome = 'allowed' | 'blocked' | 'unresolvable';
 
 const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
 
+type BlockedSubnet = readonly [network: string, prefixLength: number];
+
+// Loopback, RFC1918, link-local (cloud metadata), "this network", CGNAT, IETF protocol assignments, benchmarking, multicast and reserved (incl. broadcast).
+const BLOCKED_IPV4_SUBNETS: readonly BlockedSubnet[] = [
+	['127.0.0.0', 8],
+	['10.0.0.0', 8],
+	['172.16.0.0', 12],
+	['192.168.0.0', 16],
+	['169.254.0.0', 16],
+	['0.0.0.0', 8],
+	['100.64.0.0', 10],
+	['192.0.0.0', 24],
+	['198.18.0.0', 15],
+	['224.0.0.0', 4],
+	['240.0.0.0', 4],
+];
+
+// Unspecified and IPv4-compatible, loopback, ULA, link-local, NAT64, 6to4, discard and multicast; `::ffff:a.b.c.d` is covered by the ipv4 list.
+const BLOCKED_IPV6_SUBNETS: readonly BlockedSubnet[] = [
+	['::', 96],
+	['::1', 128],
+	['fc00::', 7],
+	['fe80::', 10],
+	['64:ff9b::', 96],
+	['2002::', 16],
+	['100::', 64],
+	['ff00::', 8],
+];
+
 export class UrlValidatorService {
 	private readonly blockedAddresses = new BlockList();
 	private readonly localDomains = ['.local', '.localhost', '.internal', '.lan'];
@@ -23,21 +52,12 @@ export class UrlValidatorService {
 	) {
 		this.resolveHostname = resolveHostname;
 
-		// Loopback, RFC1918 private ranges, link-local (incl. cloud metadata
-		// endpoint), and "any" address.
-		this.blockedAddresses.addSubnet('127.0.0.0', 8, 'ipv4');
-		this.blockedAddresses.addSubnet('10.0.0.0', 8, 'ipv4');
-		this.blockedAddresses.addSubnet('172.16.0.0', 12, 'ipv4');
-		this.blockedAddresses.addSubnet('192.168.0.0', 16, 'ipv4');
-		this.blockedAddresses.addSubnet('169.254.0.0', 16, 'ipv4');
-		this.blockedAddresses.addSubnet('0.0.0.0', 8, 'ipv4');
-
-		// IPv6 loopback, unique local (ULA), and link-local. IPv4-mapped
-		// addresses (`::ffff:a.b.c.d`) need no separate rule: Node's
-		// BlockList checks them against the ipv4 subnets above already.
-		this.blockedAddresses.addSubnet('::1', 128, 'ipv6');
-		this.blockedAddresses.addSubnet('fc00::', 7, 'ipv6');
-		this.blockedAddresses.addSubnet('fe80::', 10, 'ipv6');
+		BLOCKED_IPV4_SUBNETS.forEach(([network, prefix]) =>
+			this.blockedAddresses.addSubnet(network, prefix, 'ipv4')
+		);
+		BLOCKED_IPV6_SUBNETS.forEach(([network, prefix]) =>
+			this.blockedAddresses.addSubnet(network, prefix, 'ipv6')
+		);
 	}
 
 	async isUrlAllowed(url: string): Promise<boolean> {
