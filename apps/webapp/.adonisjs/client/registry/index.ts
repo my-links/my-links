@@ -156,6 +156,12 @@ const routes = {
     tokens: [{"old":"/collections/:id/links/reorder","type":0,"val":"collections","end":""},{"old":"/collections/:id/links/reorder","type":1,"val":"id","end":""},{"old":"/collections/:id/links/reorder","type":0,"val":"links","end":""},{"old":"/collections/:id/links/reorder","type":0,"val":"reorder","end":""}],
     types: placeholder as Registry['collection.reorder-links']['types'],
   },
+  'collection.move-section': {
+    methods: ["PUT"],
+    pattern: '/collections/:id/section',
+    tokens: [{"old":"/collections/:id/section","type":0,"val":"collections","end":""},{"old":"/collections/:id/section","type":1,"val":"id","end":""},{"old":"/collections/:id/section","type":0,"val":"section","end":""}],
+    types: placeholder as Registry['collection.move-section']['types'],
+  },
   'collection.show': {
     methods: ["GET","HEAD"],
     pattern: '/collections/:id',

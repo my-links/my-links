@@ -307,6 +307,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/reorder_collection_links_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'collection.move-section': {
+    methods: ["PUT"]
+    pattern: '/collections/:id/section'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/collections/move_owned_collection_validator').moveOwnedCollectionValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/collections/move_owned_collection_validator').moveOwnedCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/collections/move_owned_collection_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/move_owned_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'collection.show': {
     methods: ["GET","HEAD"]
     pattern: '/collections/:id'

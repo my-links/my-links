@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
+import type { Database } from '@adonisjs/lucid/database';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
 import type User from '#models/user';
@@ -18,11 +19,17 @@ export class CollectionOrderingService {
 		visibility: Visibility,
 		collectionIds: Collection['id'][]
 	): Promise<void> {
-		await this.assertOwnedCollectionIds(userId, visibility, collectionIds);
+		await this.assertSectionMembership(userId, visibility, collectionIds);
+		await this.rankSection(collectionIds, db);
+	}
 
+	async rankSection(
+		collectionIds: Collection['id'][],
+		client: Database | TransactionClientContract
+	): Promise<void> {
 		// `NOW()` freezes to transaction start under the tests' wrapped
 		// transaction, so the timestamp is computed here instead.
-		await reorderByRank(db, {
+		await reorderByRank(client, {
 			table: 'collections',
 			rankedColumn: 'id',
 			ids: collectionIds,
@@ -34,13 +41,16 @@ export class CollectionOrderingService {
 	 * Ownership violation (422) and a stale/incomplete payload (409) are
 	 * different failures: the client should retry the latter after a
 	 * reload, not treat it as a permissions error.
+	 * `movedCollection` joins the section and is expected in the payload.
 	 */
-	private async assertOwnedCollectionIds(
+	async assertSectionMembership(
 		userId: User['id'],
 		visibility: Visibility,
-		collectionIds: Collection['id'][]
+		collectionIds: Collection['id'][],
+		movedCollection?: Collection,
+		client?: TransactionClientContract
 	): Promise<void> {
-		const ownedCollections = await Collection.query()
+		const ownedCollections = await Collection.query({ client })
 			.where('author_id', userId)
 			.whereIn('id', collectionIds);
 
@@ -54,14 +64,19 @@ export class CollectionOrderingService {
 		// sortable sections, so the client never submits it and counting it here
 		// would reject every private reorder as incomplete.
 		const currentSectionIds = (
-			await Collection.query()
+			await Collection.query({ client })
 				.where('author_id', userId)
 				.andWhere('visibility', visibility)
 				.andWhere('is_default', false)
 				.select('id')
 		).map((collection) => collection.id);
 
-		if (!idSetsMatch(currentSectionIds, collectionIds)) {
+		const expectedSectionIds =
+			movedCollection && !movedCollection.isDefault
+				? [...new Set([...currentSectionIds, movedCollection.id])]
+				: currentSectionIds;
+
+		if (!idSetsMatch(expectedSectionIds, collectionIds)) {
 			throw new InvalidCollectionMembershipException(
 				'The submitted collections do not match the current section'
 			);

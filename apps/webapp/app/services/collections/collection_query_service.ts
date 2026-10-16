@@ -89,6 +89,9 @@ export class CollectionQueryService {
 			.withCount('links', (query) => {
 				query.as('linksCount');
 			})
+			.withCount('followers', (query) => {
+				query.as('followersCount');
+			})
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc');
 	}

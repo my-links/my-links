@@ -89,6 +89,7 @@ export const controllers = {
     CreateCollection: () => import('#controllers/collections/create_collection_controller'),
     DeleteCollection: () => import('#controllers/collections/delete_collection_controller'),
     FollowCollection: () => import('#controllers/collections/follow_collection_controller'),
+    MoveOwnedCollection: () => import('#controllers/collections/move_owned_collection_controller'),
     ReorderCollectionLinks: () => import('#controllers/collections/reorder_collection_links_controller'),
     ReorderFollowedCollections: () => import('#controllers/collections/reorder_followed_collections_controller'),
     ReorderOwnedCollections: () => import('#controllers/collections/reorder_owned_collections_controller'),
