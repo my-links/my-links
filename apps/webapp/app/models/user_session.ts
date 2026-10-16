@@ -1,5 +1,4 @@
 import crypto from 'node:crypto';
-import encryption from '@adonisjs/core/services/encryption';
 import {
 	beforeCreate,
 	CamelCaseNamingStrategy,
@@ -16,18 +15,6 @@ export default class UserSession extends UserSessionSchema {
 
 	@column()
 	declare userId: string;
-
-	@computed()
-	get publicId() {
-		return this.createPublicId();
-	}
-
-	private createPublicId(): string {
-		return encryption.encrypt(
-			{ userId: this.userId },
-			{ purpose: 'session-public-id' }
-		);
-	}
 
 	@computed()
 	get client(): SessionData | null {

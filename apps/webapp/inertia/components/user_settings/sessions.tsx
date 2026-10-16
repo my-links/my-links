@@ -7,13 +7,13 @@ import { NaContent } from '~/components/common/na_content';
 import { DataTable } from '~/components/common/data_table/data_table';
 import { RevokeSessionButton } from '~/components/user_settings/revoke_session_button';
 
-const getRowKey = (session: { sessionId: string }) => session.sessionId;
+const getRowKey = (session: { publicId: string }) => session.publicId;
 
 export function Sessions() {
 	const { sessions, revokeSession } = useSessions();
 
-	const handleRevokeSession = (sessionId: string) => {
-		const session = sessions.find((s) => s.sessionId === sessionId);
+	const handleRevokeSession = (publicId: string) => {
+		const session = sessions.find((s) => s.publicId === publicId);
 		if (!session) return;
 
 		void ConfirmModal.call({
@@ -26,7 +26,7 @@ export function Sessions() {
 			confirmLabel: <Trans>Sign out</Trans>,
 			cancelLabel: <Trans>Cancel</Trans>,
 			confirmColor: 'danger',
-			onConfirm: () => revokeSession(sessionId),
+			onConfirm: () => revokeSession(publicId),
 		});
 	};
 
@@ -110,7 +110,7 @@ export function Sessions() {
 								'px-4 py-3 text-sm text-gray-900 dark:text-gray-100',
 							render: (session) => (
 								<RevokeSessionButton
-									sessionId={session.sessionId}
+									publicId={session.publicId}
 									onRevoke={handleRevokeSession}
 								/>
 							),

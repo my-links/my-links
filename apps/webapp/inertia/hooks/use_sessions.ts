@@ -8,8 +8,8 @@ export function useSessions() {
 		sessions: Data.UserSession[];
 	}>();
 
-	const revokeSession = (sessionId: string) =>
-		router.delete(`/user/sessions/${sessionId}`);
+	const revokeSession = (publicId: string) =>
+		router.delete(`/user/sessions/${publicId}`);
 
 	return {
 		sessions,

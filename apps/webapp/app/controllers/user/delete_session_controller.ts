@@ -12,13 +12,18 @@ export default class DeleteSessionController {
 		const user = await auth.authenticate();
 		const { params } = await request.validateUsing(deleteSessionValidator);
 
+		const targetSession = await this.sessionService.findSession(
+			user,
+			params.publicId
+		);
+
 		// Deleting the row directly wouldn't sign out the request that's running it.
-		if (params.sessionId === session.sessionId) {
+		if (targetSession.id === session.sessionId) {
 			await auth.use('web').logout();
 			return response.redirect().withQs().back();
 		}
 
-		await this.sessionService.revokeSession(user, params.sessionId);
+		await targetSession.delete();
 		return response.redirect().withQs().back();
 	}
 }

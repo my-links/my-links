@@ -1,15 +1,15 @@
 import { IconButton } from '@minimalstuff/ui';
 
 type RevokeSessionButtonProps = {
-	sessionId: string;
-	onRevoke: (sessionId: string) => void;
+	publicId: string;
+	onRevoke: (publicId: string) => void;
 };
 
 export function RevokeSessionButton({
-	sessionId,
+	publicId,
 	onRevoke,
 }: Readonly<RevokeSessionButtonProps>) {
-	const handleClick = () => onRevoke(sessionId);
+	const handleClick = () => onRevoke(publicId);
 
 	return (
 		<IconButton
