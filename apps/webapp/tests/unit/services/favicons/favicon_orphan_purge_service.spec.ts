@@ -1,10 +1,12 @@
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
+import { DateTime } from 'luxon';
 import { test } from '@japa/runner';
 import { mkdtemp } from 'node:fs/promises';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import FaviconEntry from '#models/favicon_entry';
+import FaviconFailure from '#models/favicon_failure';
 import { createLink } from '#tests/factories/link_factory';
 import { createUser } from '#tests/factories/user_factory';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
@@ -31,6 +33,19 @@ async function createEntry(
 		byteSize: 15,
 		source: 'scraped',
 	});
+}
+
+async function recordFailure(origin: string): Promise<void> {
+	await FaviconFailure.create({
+		origin,
+		reason: 'unreachable',
+		failedAt: DateTime.now(),
+		attempts: 1,
+	});
+}
+
+async function hasFailure(origin: string): Promise<boolean> {
+	return (await FaviconFailure.findBy('origin', origin)) !== null;
 }
 
 test.group('FaviconOrphanPurgeService.purgeOrphans', (group) => {
@@ -101,5 +116,42 @@ test.group('FaviconOrphanPurgeService.purgeOrphans', (group) => {
 		assert.isNotNull(await FaviconEntry.find(keptEntry.id));
 		assert.isNull(await FaviconEntry.find(orphanedEntry.id));
 		assert.isDefined(await store.read(sharedHash));
+	});
+
+	test('should delete failures whose origin no link references anymore', async ({
+		assert,
+	}) => {
+		const { purgeService } = await buildPurgeService();
+		await recordFailure('https://orphaned-failure.example');
+
+		await purgeService.purgeOrphans();
+
+		assert.isFalse(await hasFailure('https://orphaned-failure.example'));
+	});
+
+	test('should keep failures whose origin still has a link', async ({
+		assert,
+	}) => {
+		const { purgeService } = await buildPurgeService();
+		const user = await createUser({ emailPrefix: 'favicon-purge-failure' });
+		await createLink({
+			author: user,
+			url: 'https://kept-failure.example/page',
+		});
+		await recordFailure('https://kept-failure.example');
+
+		await purgeService.purgeOrphans();
+
+		assert.isTrue(await hasFailure('https://kept-failure.example'));
+	});
+
+	test('should report the number of purged failures', async ({ assert }) => {
+		const { purgeService } = await buildPurgeService();
+		await recordFailure('https://counted-failure-a.example');
+		await recordFailure('https://counted-failure-b.example');
+
+		const result = await purgeService.purgeOrphans();
+
+		assert.isAtLeast(result.deletedFailures, 2);
 	});
 });

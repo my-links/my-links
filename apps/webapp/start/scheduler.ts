@@ -56,9 +56,10 @@ const purgeFaviconOrphansTask = cron.schedule(
 	'0 4 * * *',
 	async () => {
 		const purgeService = await app.container.make(FaviconOrphanPurgeService);
-		const { deletedEntries, deletedFiles } = await purgeService.purgeOrphans();
+		const { deletedEntries, deletedFiles, deletedFailures } =
+			await purgeService.purgeOrphans();
 		logger.info(
-			`Purged ${deletedEntries} orphaned favicon entrie(s) and ${deletedFiles} orphaned favicon file(s)`
+			`Purged ${deletedEntries} orphaned favicon entrie(s), ${deletedFiles} orphaned favicon file(s) and ${deletedFailures} orphaned favicon failure(s)`
 		);
 	},
 	{ name: 'favicon-purge-orphans', timezone }

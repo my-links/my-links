@@ -2,12 +2,14 @@ import { inject } from '@adonisjs/core';
 
 import Link from '#models/link';
 import FaviconEntry from '#models/favicon_entry';
+import FaviconFailure from '#models/favicon_failure';
 import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 
 export type FaviconPurgeResult = {
 	deletedEntries: number;
 	deletedFiles: number;
+	deletedFailures: number;
 };
 
 @inject()
@@ -15,15 +17,17 @@ export class FaviconOrphanPurgeService {
 	constructor(private readonly store: FaviconStoreService) {}
 
 	async purgeOrphans(): Promise<FaviconPurgeResult> {
-		const deletedEntries = await this.purgeOrphanedEntries();
+		const referencedOrigins = await this.collectReferencedOrigins();
+		const deletedEntries = await this.purgeOrphanedEntries(referencedOrigins);
 		const deletedFiles = await this.purgeOrphanedFiles();
+		const deletedFailures = await this.purgeOrphanedFailures(referencedOrigins);
 
-		return { deletedEntries, deletedFiles };
+		return { deletedEntries, deletedFiles, deletedFailures };
 	}
 
-	private async purgeOrphanedEntries(): Promise<number> {
-		const referencedOrigins = await this.collectReferencedOrigins();
-
+	private async purgeOrphanedEntries(
+		referencedOrigins: ReadonlySet<string>
+	): Promise<number> {
 		const query = FaviconEntry.query();
 		if (referencedOrigins.size > 0) {
 			query.whereNotIn('origin', [...referencedOrigins]);
@@ -35,6 +39,25 @@ export class FaviconOrphanPurgeService {
 		}
 
 		return orphanedEntries.length;
+	}
+
+	private async purgeOrphanedFailures(
+		referencedOrigins: ReadonlySet<string>
+	): Promise<number> {
+		const query = FaviconFailure.query();
+		if (referencedOrigins.size > 0) {
+			query.whereNotIn('origin', [...referencedOrigins]);
+		}
+
+		const orphanedFailures = await query.select('id');
+		await FaviconFailure.query()
+			.whereIn(
+				'id',
+				orphanedFailures.map((failure) => failure.id)
+			)
+			.delete();
+
+		return orphanedFailures.length;
 	}
 
 	private async purgeOrphanedFiles(): Promise<number> {
