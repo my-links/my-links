@@ -8,6 +8,7 @@ import User from '#models/user';
 import OneTimeToken from '#models/one_time_token';
 import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { createUser } from '#tests/factories/user_factory';
+import { skipDashboardTour } from '#tests/helpers/browser_session';
 import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
 import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
@@ -68,20 +69,6 @@ async function submitCredentials(
 async function logout(page: Page, fullname: string): Promise<void> {
 	await page.getByRole('button', { name: fullname }).first().click();
 	await page.getByRole('menuitem', { name: 'Logout' }).click();
-}
-
-// The dashboard tour's welcome modal offers itself to any account that
-// hasn't completed it, and sits on top of everything a fresh login lands
-// on: blocking the logout click this journey makes right after signing in.
-// Seed the tour store's persisted flag before the app boots so it never
-// renders.
-async function skipDashboardTour(page: Page): Promise<void> {
-	await page.addInitScript(() => {
-		localStorage.setItem(
-			'tour-preferences',
-			JSON.stringify({ state: { hasCompletedDashboardTour: true }, version: 0 })
-		);
-	});
 }
 
 test.group('Auth journey (browser)', (group) => {

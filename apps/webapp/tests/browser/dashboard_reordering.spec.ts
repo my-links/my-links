@@ -4,9 +4,9 @@ import type { Locator, Page, Response } from 'playwright';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Collection from '#models/collection';
+import { dragOnto } from '#tests/helpers/browser_drag';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
+import { loginAsUser } from '#tests/helpers/browser_session';
 import {
 	createLink,
 	attachLinkToCollection,
@@ -23,82 +23,7 @@ import {
 } from '#tests/factories/collection_factory';
 
 const LOGIN_PATH = '/login';
-const INBOX_PATH = '/collections/inbox';
 const PASSWORD = 'correct-horse-battery-staple';
-
-// dnd-kit's `PointerSensor` only starts a drag once the pointer has moved
-// this many pixels from `mousedown`, mirrors `POINTER_SENSOR_OPTIONS` in
-// `dashboard_dnd_provider.tsx`. Playwright's own `dragTo()` doesn't drive the
-// sensor reliably, so every drag here is a manual mouse choreography instead.
-const DRAG_STEPS = 15;
-const DRAG_STEP_DELAY_MS = 20;
-
-// The dashboard tour's welcome modal offers itself to any account that
-// hasn't completed it, and sits on top of everything a fresh login lands
-// on: blocking the very first click these specs make. Seed the tour
-// store's persisted flag before the app boots so it never renders.
-async function skipDashboardTour(page: Page): Promise<void> {
-	await page.addInitScript(() => {
-		localStorage.setItem(
-			'tour-preferences',
-			JSON.stringify({ state: { hasCompletedDashboardTour: true }, version: 0 })
-		);
-	});
-}
-
-async function loginAsUser(
-	page: Page,
-	email: string,
-	password: string
-): Promise<void> {
-	// The login throttle's memory store outlives a rolled back transaction, and
-	// several specs in this suite log in for real: a shared address would let
-	// one test's attempt spend another's budget.
-	await page.setExtraHTTPHeaders({ 'x-forwarded-for': nextClientAddress() });
-	await skipDashboardTour(page);
-	await page.goto(LOGIN_PATH);
-	await fillFormOnceHydrated(page, { email, password });
-	await page.locator('button[type="submit"]').click();
-	await page.assertPath(INBOX_PATH);
-}
-
-async function dragOnto(
-	page: Page,
-	source: Locator,
-	target: Locator,
-	{ shift = false }: { shift?: boolean } = {}
-): Promise<void> {
-	const sourceBox = await source.boundingBox();
-	const targetBox = await target.boundingBox();
-	if (!sourceBox || !targetBox) {
-		throw new Error('Drag source or target has no bounding box');
-	}
-
-	const startX = sourceBox.x + sourceBox.width / 2;
-	const startY = sourceBox.y + sourceBox.height / 2;
-	const endX = targetBox.x + targetBox.width / 2;
-	const endY = targetBox.y + targetBox.height / 2;
-
-	await page.mouse.move(startX, startY);
-	await page.mouse.down();
-	if (shift) {
-		await page.keyboard.down('Shift');
-	}
-
-	for (let step = 1; step <= DRAG_STEPS; step += 1) {
-		const progress = step / DRAG_STEPS;
-		await page.mouse.move(
-			startX + (endX - startX) * progress,
-			startY + (endY - startY) * progress
-		);
-		await page.waitForTimeout(DRAG_STEP_DELAY_MS);
-	}
-
-	await page.mouse.up();
-	if (shift) {
-		await page.keyboard.up('Shift');
-	}
-}
 
 function sectionContainer(page: Page, heading: string): Locator {
 	return page.locator('div.mb-2', { hasText: heading });
