@@ -1,16 +1,17 @@
-import { createHash } from 'node:crypto';
 import limiter from '@adonisjs/limiter/services/main';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { MiddlewareFn } from '@adonisjs/core/types/http';
 
+import env from '#start/env';
 import type { AttemptTier } from '#lib/limiter/attempt_tiers';
+import { deriveAccountThrottleKey } from '#lib/limiter/account_throttle_key';
 
 function resolveClientAddress(ctx: HttpContext): string {
 	return ctx.request.ip();
 }
 
 /**
- * Digests the address so the rate-limit table never holds a list of the
+ * Keys the address by an HMAC so the rate-limit table never holds a list of the
  * emails people tried to sign in with.
  */
 function resolveTargetedAccount(ctx: HttpContext): string | null {
@@ -20,7 +21,7 @@ function resolveTargetedAccount(ctx: HttpContext): string | null {
 	const normalizedEmail = submittedEmail.trim().toLowerCase();
 	if (!normalizedEmail) return null;
 
-	return createHash('sha256').update(normalizedEmail).digest('hex');
+	return deriveAccountThrottleKey(normalizedEmail, env.get('APP_KEY'));
 }
 
 /**
