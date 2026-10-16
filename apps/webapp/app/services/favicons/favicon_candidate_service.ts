@@ -1,6 +1,7 @@
 import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import { describeFailure } from '#lib/favicons/failure_summary';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import { webAppManifestValidator } from '#validators/favicons/web_app_manifest_validator';
@@ -100,7 +101,7 @@ export class FaviconCandidateService {
 			return await webAppManifestValidator.validate(json);
 		} catch (error) {
 			logger.debug(
-				{ err: error, url: manifestUrl },
+				{ err: error, origin: toLoggableOrigin(manifestUrl) },
 				'Failed to fetch or parse web app manifest'
 			);
 			return undefined;
@@ -148,7 +149,10 @@ export class FaviconCandidateService {
 				},
 			};
 		} catch (error) {
-			logger.debug({ err: error, url }, 'Failed to fetch document');
+			logger.debug(
+				{ err: error, origin: toLoggableOrigin(url) },
+				'Failed to fetch document'
+			);
 			return { failure: describeFailure(error) };
 		}
 	}

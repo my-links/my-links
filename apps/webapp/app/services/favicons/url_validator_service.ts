@@ -1,6 +1,7 @@
 import { isIP } from 'node:net';
 import logger from '@adonisjs/core/services/logger';
 
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
 import {
@@ -44,30 +45,45 @@ export class UrlValidatorService {
 		}
 
 		if (!ALLOWED_PROTOCOLS.has(parsedUrl.protocol)) {
-			logger.debug({ url }, 'Blocked non-http(s) URL');
+			logger.debug(
+				{ origin: toLoggableOrigin(url) },
+				'Blocked non-http(s) URL'
+			);
 			return 'blocked';
 		}
 
 		const hostname = this.stripBrackets(parsedUrl.hostname.toLowerCase());
 
 		if (this.isLocalDomain(hostname)) {
-			logger.debug({ url }, 'Blocked local domain URL');
+			logger.debug(
+				{ origin: toLoggableOrigin(url) },
+				'Blocked local domain URL'
+			);
 			return 'blocked';
 		}
 
 		if (!this.isIpLiteral(hostname) && !this.isFullyQualified(hostname)) {
-			logger.debug({ url }, 'Blocked non-FQDN hostname');
+			logger.debug(
+				{ origin: toLoggableOrigin(url) },
+				'Blocked non-FQDN hostname'
+			);
 			return 'blocked';
 		}
 
 		const resolvedAddresses = await this.resolveSafely(hostname);
 		if (resolvedAddresses.length === 0) {
-			logger.debug({ url }, 'Blocked unresolvable hostname');
+			logger.debug(
+				{ origin: toLoggableOrigin(url) },
+				'Blocked unresolvable hostname'
+			);
 			return 'unresolvable';
 		}
 
 		if (resolvedAddresses.some((resolved) => isBlockedAddress(resolved))) {
-			logger.debug({ url }, 'Blocked internal/private target');
+			logger.debug(
+				{ origin: toLoggableOrigin(url) },
+				'Blocked internal/private target'
+			);
 			return 'blocked';
 		}
 
@@ -77,8 +93,8 @@ export class UrlValidatorService {
 	private tryParseUrl(url: string): URL | undefined {
 		try {
 			return new URL(url);
-		} catch (error) {
-			logger.debug({ err: error, url }, 'Invalid URL format');
+		} catch {
+			logger.debug('Invalid URL format');
 			return undefined;
 		}
 	}

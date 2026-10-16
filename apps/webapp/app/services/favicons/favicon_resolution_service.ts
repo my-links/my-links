@@ -3,6 +3,7 @@ import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
 import type { Favicon } from '#types/favicon_type';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import { generateMonogram } from '#lib/favicons/monogram_generator';
 import { FaviconService } from '#services/favicons/favicons_service';
 import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
@@ -66,7 +67,10 @@ export class FaviconResolutionService {
 				this.faviconFetchLimiter.run(() => this.faviconService.getFavicon(url))
 			);
 		} catch (error) {
-			logger.debug({ err: error, url }, 'Background favicon resolution failed');
+			logger.debug(
+				{ err: error, origin: toLoggableOrigin(url) },
+				'Background favicon resolution failed'
+			);
 		}
 	}
 
@@ -92,7 +96,10 @@ export class FaviconResolutionService {
 			);
 			await this.cacheService.markRevalidated(url, outcome);
 		} catch (error) {
-			logger.debug({ err: error, url }, 'Favicon revalidation failed');
+			logger.debug(
+				{ err: error, origin: toLoggableOrigin(url) },
+				'Favicon revalidation failed'
+			);
 		}
 	}
 
