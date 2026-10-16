@@ -10,6 +10,7 @@ import type {
 } from '@adonisjs/core/types/http';
 
 import { toLoggableUrl } from '#lib/logging/loggable_url';
+import { buildServerErrorProps } from '#lib/errors/server_error_props';
 
 const API_PREFIX = '/api/v1';
 
@@ -32,10 +33,12 @@ export default class HttpExceptionHandler extends ExceptionHandler {
 	 * to return the HTML contents to send as a response.
 	 */
 	protected statusPages: Record<StatusPageRange, StatusPageRenderer> = {
-		'404': (error, { inertia }) =>
-			inertia.render('errors/not_found', { error }),
+		'404': (_error, { inertia }) => inertia.render('errors/not_found', {}),
 		'500..599': (error, { inertia }) =>
-			inertia.render('errors/server_error', { error }),
+			inertia.render(
+				'errors/server_error',
+				buildServerErrorProps(error, app.inProduction)
+			),
 	};
 
 	/**
