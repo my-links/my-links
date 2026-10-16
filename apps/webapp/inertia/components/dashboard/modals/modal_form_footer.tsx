@@ -9,6 +9,7 @@ type ModalFormFooterProps = {
 	processing: boolean;
 	submitLabel: ReactNode;
 	submitColor?: ButtonColor;
+	cancelLabel?: ReactNode;
 };
 
 export const ModalFormFooter = ({
@@ -18,10 +19,11 @@ export const ModalFormFooter = ({
 	processing,
 	submitLabel,
 	submitColor,
+	cancelLabel = <Trans>Cancel</Trans>,
 }: Readonly<ModalFormFooterProps>) => (
 	<>
 		<Button variant="outline" color="neutral" type="button" onClick={onCancel}>
-			<Trans>Cancel</Trans>
+			{cancelLabel}
 		</Button>
 		<Button
 			type="submit"

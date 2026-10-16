@@ -6,6 +6,7 @@ import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { buildCollectionShareUrl } from '~/lib/collection_share_url';
 import { DashboardHeaderMeta } from '~/components/dashboard/headers/dashboard_header_meta';
 import { DashboardHeaderTitle } from '~/components/dashboard/headers/dashboard_header_title';
 import { DashboardHeaderActions } from '~/components/dashboard/headers/dashboard_header_actions';
@@ -35,7 +36,7 @@ export function DashboardHeader({
 	const collectionDescription = activeCollection?.description ?? undefined;
 
 	const shareUrl = activeCollection?.id
-		? `${window.location.origin}${urlFor('shared', { id: activeCollection.id })}`
+		? buildCollectionShareUrl(activeCollection.id)
 		: '';
 
 	const handleUnfollow = () => {
