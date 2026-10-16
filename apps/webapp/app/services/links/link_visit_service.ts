@@ -7,10 +7,11 @@ import type User from '#models/user';
 const LINKS_TABLE = 'links';
 
 /**
- * Backs the `/l/:id` redirect: every click (from the webapp, the browser
- * extension's sidebar or a shared collection page) is counted in one place,
- * so the ranking that pins favourites to the bookmarks bar sees a single
- * consistent number instead of per-surface tallies.
+ * Backs the `/l/:id` redirect: every click an owner makes (from the webapp,
+ * the browser extension's sidebar or their own shared collection page) is
+ * counted in one place, so the ranking that pins favourites to the bookmarks
+ * bar sees a single consistent number instead of per-surface tallies.
+ * Visitors can still follow a public link, but never move its counter.
  */
 export class LinkVisitService {
 	/**
@@ -42,12 +43,21 @@ export class LinkVisitService {
 	 * Deliberately writes through a bare `update()` so `updated_at` stays
 	 * put: a click is not a content change, and bumping it would push every
 	 * visit onto the delta feed (`GET /api/v1/sync`), exactly the per-click
-	 * churn the ranking is throttled to avoid.
+	 * churn the ranking is throttled to avoid. Only the owner's clicks count:
+	 * the counter ranks the owner's own favourites, and anyone could otherwise
+	 * inflate it on a public link.
 	 */
-	async recordVisit(id: Link['id']): Promise<void> {
+	async recordVisit(
+		link: Link,
+		visitorId: User['id'] | undefined
+	): Promise<void> {
+		if (visitorId === undefined || link.authorId !== visitorId) {
+			return;
+		}
+
 		await db
 			.from(LINKS_TABLE)
-			.where('id', id)
+			.where('id', link.id)
 			.update({
 				clicks: db.raw('clicks + 1'),
 				last_clicked_at: DateTime.now().toJSDate(),
