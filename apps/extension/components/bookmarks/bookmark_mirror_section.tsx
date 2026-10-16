@@ -74,8 +74,8 @@ export function BookmarkMirrorSection() {
 			<h2 className="text-sm font-semibold">Browser bookmarks</h2>
 			<p className="text-sm text-gray-600 dark:text-gray-400">
 				{isMirroring
-					? 'Your favourites sit on the bookmarks bar, most used first, and your collections are in a Collections folder kept at the front of it. Bookmarks you added yourself are never touched.'
-					: 'Put your favourites straight onto the bookmarks bar, ordered by how often you open them, with your collections in a Collections folder alongside them. Nothing already on your bar is moved or deleted, and turning this off simply stops the syncing.'}
+					? 'Your favourites sit on the bookmarks bar, most used first, and your collections are in a Collections folder kept at the front of it. Bookmarks you added yourself are never modified or deleted, but new bookmarks you save on the bar and bookmarks you add to a collection folder are uploaded to your MyLinks account.'
+					: 'Put your favourites straight onto the bookmarks bar, ordered by how often you open them, with your collections in a Collections folder alongside them. Nothing already on your bar is moved or deleted, and turning this off simply stops the syncing. Once on, new bookmarks you save on the bar and bookmarks you add to a collection folder are uploaded to your MyLinks account.'}
 			</p>
 
 			{isMirroring ? (
