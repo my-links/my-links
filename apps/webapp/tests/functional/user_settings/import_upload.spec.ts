@@ -1,8 +1,16 @@
 import { test } from '@japa/runner';
+import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
 
 import Link from '#models/link';
+import type User from '#models/user';
+import Collection from '#models/collection';
 import { createUser } from '#tests/factories/user_factory';
+import { DATA_IMPORT_BURST_TIER } from '#lib/limiter/attempt_tiers';
+import {
+	MAXIMUM_IMPORT_LINKS,
+	MAXIMUM_IMPORT_COLLECTIONS,
+} from '#constants/data_import';
 
 const IMPORT_ROUTE = '/user/settings/import';
 
@@ -131,5 +139,161 @@ test.group('User settings import: upload', (group) => {
 
 		response.assertStatus(302);
 		response.assertFlashMessage('error', 'The uploaded file is not valid JSON');
+	});
+});
+
+function linkEntry(index: number, collectionKey: string) {
+	return {
+		name: `Link ${index}`,
+		description: null,
+		url: 'https://example.com',
+		favorite: false,
+		collectionKeys: [collectionKey],
+	};
+}
+
+function exportWithLinkCount(linkCount: number) {
+	return {
+		collections: [{ key: 'bulk', name: 'Bulk', visibility: 'PRIVATE' }],
+		links: Array.from({ length: linkCount }, (_, index) =>
+			linkEntry(index, 'bulk')
+		),
+	};
+}
+
+async function postImport(
+	client: ApiClient,
+	user: User,
+	exportContents: unknown
+) {
+	const upload = uploadOf(JSON.stringify(exportContents), 'export.json');
+
+	return client
+		.post(IMPORT_ROUTE)
+		.file('file', upload.buffer, { filename: upload.filename })
+		.withCsrfToken()
+		.loginAs(user)
+		.redirects(0);
+}
+
+async function countCollectionsOf(user: User) {
+	const row = await Collection.query()
+		.where('authorId', user.id)
+		.count('* as total')
+		.firstOrFail();
+
+	return Number(row.$extras.total);
+}
+
+test.group('User settings import: size limits', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should refuse a file with more collections than allowed and write nothing', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({
+			emailPrefix: 'import-too-many-collections',
+		});
+		const tooManyCollections = Array.from(
+			{ length: MAXIMUM_IMPORT_COLLECTIONS + 1 },
+			(_, index) => ({ name: `Collection ${index}`, visibility: 'PRIVATE' })
+		);
+
+		const response = await postImport(client, user, {
+			collections: tooManyCollections,
+		});
+
+		response.assertStatus(302);
+		assert.equal(await countCollectionsOf(user), 0);
+	});
+
+	test('should refuse a file with more links than allowed in total and write nothing', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-too-many-links' });
+		const halfOfTheLimit = MAXIMUM_IMPORT_LINKS / 2;
+		const nestedLinks = Array.from({ length: halfOfTheLimit }, (_, index) => ({
+			name: `Nested ${index}`,
+			url: 'https://example.com',
+			favorite: false,
+		}));
+		const topLevelLinks = exportWithLinkCount(halfOfTheLimit + 1).links;
+
+		const response = await postImport(client, user, {
+			collections: [
+				{
+					key: 'bulk',
+					name: 'Bulk',
+					visibility: 'PRIVATE',
+					links: nestedLinks,
+				},
+			],
+			links: topLevelLinks,
+		});
+
+		response.assertFlashMessage(
+			'error',
+			`An import can hold at most ${MAXIMUM_IMPORT_COLLECTIONS} collections and ${MAXIMUM_IMPORT_LINKS} links`
+		);
+		assert.equal(await countCollectionsOf(user), 0);
+	});
+
+	test('should import a file at the link limit', async ({ assert, client }) => {
+		const user = await createUser({ emailPrefix: 'import-at-limit' });
+
+		await postImport(client, user, exportWithLinkCount(MAXIMUM_IMPORT_LINKS));
+
+		const importedLinks = await Link.query()
+			.where('authorId', user.id)
+			.count('* as total')
+			.firstOrFail();
+		assert.equal(Number(importedLinks.$extras.total), MAXIMUM_IMPORT_LINKS);
+	});
+
+	test('should number imported links in file order within their collection', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-positions' });
+
+		await postImport(client, user, exportWithLinkCount(3));
+
+		const collection = await Collection.query()
+			.where('authorId', user.id)
+			.preload('links', (query) => {
+				query.apply((scopes) => scopes.orderedInCollection());
+			})
+			.firstOrFail();
+		assert.deepEqual(
+			collection.links.map((link) => link.name),
+			['Link 0', 'Link 1', 'Link 2']
+		);
+	});
+});
+
+test.group('User settings import: throttle', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should refuse imports once the hourly budget is spent', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-throttled' });
+
+		for (
+			let attempt = 0;
+			attempt < DATA_IMPORT_BURST_TIER.requests;
+			attempt++
+		) {
+			await postImport(client, user, VALID_EXPORT);
+		}
+		await postImport(client, user, VALID_EXPORT);
+
+		assert.equal(
+			await countCollectionsOf(user),
+			DATA_IMPORT_BURST_TIER.requests
+		);
 	});
 });

@@ -1,6 +1,7 @@
 import router from '@adonisjs/core/services/router';
 
 import { middleware } from '#start/kernel';
+import { dataImportThrottles } from '#start/limiter';
 import { controllers } from '#generated/controllers';
 
 router
@@ -24,7 +25,8 @@ router
 				controllers.userSettings.ImportUserData,
 				'execute',
 			])
-			.as('user.settings.import');
+			.as('user.settings.import')
+			.use(dataImportThrottles);
 
 		router
 			.put('/user/settings/account', [

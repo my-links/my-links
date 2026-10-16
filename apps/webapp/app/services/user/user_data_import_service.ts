@@ -2,7 +2,6 @@ import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
-import Link from '#models/link';
 import type User from '#models/user';
 import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
@@ -11,6 +10,12 @@ import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { ImportTooLargeException } from '#exceptions/user_settings/import_too_large_exception';
+import {
+	IMPORT_INSERT_CHUNK_SIZE,
+	MAXIMUM_IMPORT_LINKS,
+	MAXIMUM_IMPORT_COLLECTIONS,
+} from '#constants/data_import';
 
 type ImportLink = {
 	name: string;
@@ -40,6 +45,12 @@ type CollectionRef = {
 	collectionKeys?: string[];
 	collectionIndexes?: number[];
 };
+type AttachmentRow = {
+	collection_id: number;
+	link_id: number;
+	position: number;
+	created_at: Date;
+};
 type LinkToCreate = { link: ImportLink } & CollectionRef;
 
 @inject()
@@ -55,6 +66,8 @@ export class UserDataImportService {
 		validatedData: ValidatedImportData,
 		origin: RequestOrigin
 	) {
+		this.assertWithinLimits(validatedData);
+
 		return db.transaction(async (transaction) => {
 			const createdCollections = await Collection.createMany(
 				validatedData.collections.map((collectionData) => ({
@@ -80,38 +93,46 @@ export class UserDataImportService {
 			);
 
 			const linksToCreate = this.collectLinksToImport(validatedData);
+			const createdLinkIds = await this.insertLinks(
+				userId,
+				linksToCreate.map(({ link }) => link),
+				transaction
+			);
 
-			for (const {
-				link: linkData,
-				collectionKeys,
-				collectionIndexes,
-			} of linksToCreate) {
-				const link = await Link.create(
-					{
-						name: linkData.name,
-						description: linkData.description ?? null,
-						url: linkData.url,
-						favorite: linkData.favorite,
-						authorId: userId,
-					},
-					{ client: transaction }
-				);
+			const resolveDefaultCollectionId = this.memoizeDefaultCollectionId(
+				userId,
+				origin,
+				transaction
+			);
+			const nextPositionByCollectionId = new Map<number, number>(
+				createdCollections.map((collection) => [collection.id, 0])
+			);
+			const attachmentRows: AttachmentRow[] = [];
 
+			for (const [index, collectionRef] of linksToCreate.entries()) {
 				const collectionIds = await this.resolveImportedCollectionIds(
-					userId,
-					{ collectionKeys, collectionIndexes },
+					collectionRef,
 					createdCollections,
 					createdCollectionIdByKey,
-					transaction,
-					origin
+					resolveDefaultCollectionId
 				);
-				const attachments =
-					await this.collectionLinkService.buildPositionedAttachments(
-						collectionIds,
+
+				for (const collectionId of collectionIds) {
+					const position = await this.takeNextPosition(
+						collectionId,
+						nextPositionByCollectionId,
 						transaction
 					);
-				await link.related('collections').attach(attachments, transaction);
+					attachmentRows.push({
+						collection_id: collectionId,
+						link_id: createdLinkIds[index],
+						position,
+						created_at: new Date(),
+					});
+				}
 			}
+
+			await this.insertAttachments(attachmentRows, transaction);
 
 			await this.activityEventService.record(
 				{
@@ -135,15 +156,14 @@ export class UserDataImportService {
 	 * ids: by key when present (current format, immune to a hand-edited file
 	 * dropping a collection), falling back to array index (older export
 	 * formats). Falls back to Inbox when nothing resolves: every link must
-	 * keep at least one collection.
+	 * keep at least one collection. Ids are deduplicated because the pivot's
+	 * primary key is (collection, link).
 	 */
 	private async resolveImportedCollectionIds(
-		userId: User['id'],
 		{ collectionKeys, collectionIndexes }: CollectionRef,
 		createdCollections: Collection[],
 		createdCollectionIdByKey: Map<string, number>,
-		transaction: TransactionClientContract,
-		origin: RequestOrigin
+		resolveDefaultCollectionId: () => Promise<number>
 	): Promise<number[]> {
 		const collectionIds = collectionKeys?.length
 			? collectionKeys
@@ -154,16 +174,116 @@ export class UserDataImportService {
 					.filter((id): id is number => id !== undefined);
 
 		if (collectionIds.length > 0) {
-			return collectionIds;
+			return [...new Set(collectionIds)];
 		}
 
-		const defaultCollection =
-			await this.collectionService.getOrCreateDefaultCollection(
-				userId,
-				origin,
+		return [await resolveDefaultCollectionId()];
+	}
+
+	private memoizeDefaultCollectionId(
+		userId: User['id'],
+		origin: RequestOrigin,
+		transaction: TransactionClientContract
+	): () => Promise<number> {
+		let defaultCollectionId: number | undefined;
+
+		return async () => {
+			if (defaultCollectionId === undefined) {
+				const defaultCollection =
+					await this.collectionService.getOrCreateDefaultCollection(
+						userId,
+						origin,
+						transaction
+					);
+				defaultCollectionId = defaultCollection.id;
+			}
+
+			return defaultCollectionId;
+		};
+	}
+
+	private async takeNextPosition(
+		collectionId: number,
+		nextPositionByCollectionId: Map<number, number>,
+		transaction: TransactionClientContract
+	): Promise<number> {
+		const position =
+			nextPositionByCollectionId.get(collectionId) ??
+			(await this.collectionLinkService.getNextLinkPosition(
+				collectionId,
 				transaction
+			));
+		nextPositionByCollectionId.set(collectionId, position + 1);
+
+		return position;
+	}
+
+	private async insertLinks(
+		userId: User['id'],
+		links: ImportLink[],
+		transaction: TransactionClientContract
+	): Promise<number[]> {
+		const now = new Date();
+		const linkRows = links.map((link) => ({
+			name: link.name,
+			description: link.description ?? null,
+			url: link.url,
+			favorite: link.favorite,
+			author_id: userId,
+			created_at: now,
+			updated_at: now,
+		}));
+		const createdLinkIds: number[] = [];
+
+		for (const chunk of this.chunkRows(linkRows)) {
+			const insertedRows: Array<{ id: number }> = await transaction
+				.insertQuery()
+				.table('links')
+				.multiInsert(chunk)
+				.returning('id');
+			createdLinkIds.push(...insertedRows.map((row) => row.id));
+		}
+
+		return createdLinkIds;
+	}
+
+	private async insertAttachments(
+		attachmentRows: AttachmentRow[],
+		transaction: TransactionClientContract
+	): Promise<void> {
+		for (const chunk of this.chunkRows(attachmentRows)) {
+			await transaction
+				.insertQuery()
+				.table('collection_link')
+				.multiInsert(chunk);
+		}
+	}
+
+	private chunkRows<Row>(rows: Row[]): Row[][] {
+		const chunks: Row[][] = [];
+
+		for (
+			let offset = 0;
+			offset < rows.length;
+			offset += IMPORT_INSERT_CHUNK_SIZE
+		) {
+			chunks.push(rows.slice(offset, offset + IMPORT_INSERT_CHUNK_SIZE));
+		}
+
+		return chunks;
+	}
+
+	private assertWithinLimits(validatedData: ValidatedImportData): void {
+		const linkCount = this.collectLinksToImport(validatedData).length;
+
+		if (
+			validatedData.collections.length > MAXIMUM_IMPORT_COLLECTIONS ||
+			linkCount > MAXIMUM_IMPORT_LINKS
+		) {
+			throw new ImportTooLargeException(
+				`An import can hold at most ${MAXIMUM_IMPORT_COLLECTIONS} collections and ${MAXIMUM_IMPORT_LINKS} links`
 			);
-		return [defaultCollection.id];
+		}
 	}
 
 	/**
