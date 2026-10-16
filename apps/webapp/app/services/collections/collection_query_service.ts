@@ -16,7 +16,7 @@ export class CollectionQueryService {
 			.where((query) => {
 				query.where('author_id', userId).orWhere((subQuery) => {
 					subQuery
-						.where('visibility', VISIBILITY.PUBLIC)
+						.apply((scopes) => scopes.publiclyVisible())
 						.whereHas('followers', (followerQuery) => {
 							followerQuery.where('users.id', userId);
 						});
@@ -68,7 +68,7 @@ export class CollectionQueryService {
 	getPublicCollectionById(id: Collection['id']) {
 		return Collection.query()
 			.where('id', id)
-			.andWhere('visibility', VISIBILITY.PUBLIC)
+			.apply((scopes) => scopes.publiclyVisible())
 			.preload('links', (q) => {
 				q.apply((scopes) => scopes.orderedInCollection()).preload(
 					'collections'

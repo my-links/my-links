@@ -3,7 +3,6 @@ import db from '@adonisjs/lucid/services/db';
 
 import Link from '#models/link';
 import type User from '#models/user';
-import { VISIBILITY } from '#enums/collections/visibility';
 
 const LINKS_TABLE = 'links';
 
@@ -29,7 +28,7 @@ export class LinkVisitService {
 			.where('id', id)
 			.andWhere((query) => {
 				query.whereHas('collections', (collectionsQuery) => {
-					collectionsQuery.where('visibility', VISIBILITY.PUBLIC);
+					collectionsQuery.apply((scopes) => scopes.publiclyVisible());
 				});
 
 				if (visitorId !== undefined) {

@@ -1,10 +1,11 @@
+import db from '@adonisjs/lucid/services/db';
 import { belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm';
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
 import Link from '#models/link';
 import User from '#models/user';
 import { CollectionSchema } from '#database/schema';
-import type { Visibility } from '#enums/collections/visibility';
+import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 
 export default class Collection extends CollectionSchema {
 	@column()
@@ -43,6 +44,20 @@ export default class Collection extends CollectionSchema {
 		},
 	})
 	declare followers: ManyToMany<typeof User>;
+
+	/**
+	 * Public, and not authored by an account in its deletion grace period:
+	 * that account asked to disappear, so its collections stop being served
+	 * to anyone but itself.
+	 */
+	static publiclyVisible = scope((query) => {
+		query
+			.where('visibility', VISIBILITY.PUBLIC)
+			.whereIn(
+				'author_id',
+				db.from('users').select('id').whereNull('pending_deletion_at')
+			);
+	});
 
 	static ownedBy = scope((query, userId: User['id']) => {
 		query.where('author_id', userId);

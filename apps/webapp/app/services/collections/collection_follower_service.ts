@@ -9,7 +9,6 @@ import { reorderByRank } from '#lib/reorder_by_rank';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { VISIBILITY } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { NotFollowingCollectionException } from '#exceptions/collections/not_following_collection_exception';
 import { CannotFollowOwnCollectionException } from '#exceptions/collections/cannot_follow_own_collection_exception';
@@ -38,7 +37,7 @@ export class CollectionFollowerService {
 				'collections.id'
 			)
 			.where('collection_followers.user_id', userId)
-			.andWhere('collections.visibility', VISIBILITY.PUBLIC)
+			.apply((scopes) => scopes.publiclyVisible())
 			.preload('author')
 			.orderBy('collection_followers.position', 'asc')
 			.orderBy('collections.name', 'asc');
@@ -59,7 +58,7 @@ export class CollectionFollowerService {
 				'collections.id'
 			)
 			.where('collection_followers.user_id', userId)
-			.andWhere('collections.visibility', VISIBILITY.PUBLIC)
+			.apply((scopes) => scopes.publiclyVisible())
 			.preload('author')
 			.preload('links', (q) => {
 				q.apply((scopes) => scopes.orderedInCollection());
@@ -87,7 +86,7 @@ export class CollectionFollowerService {
 	) {
 		const collection = await Collection.query()
 			.where('id', collectionId)
-			.andWhere('visibility', VISIBILITY.PUBLIC)
+			.apply((scopes) => scopes.publiclyVisible())
 			.firstOrFail();
 
 		if (collection.authorId === userId) {
@@ -159,11 +158,8 @@ export class CollectionFollowerService {
 		userId: User['id'],
 		collectionIds: Collection['id'][]
 	): Promise<void> {
-		const currentRows = await db
-			.from('collection_followers')
-			.where('user_id', userId)
-			.select('collection_id');
-		const currentIds = currentRows.map((row) => row.collection_id as number);
+		const followedCollections = await this.getFollowedCollections(userId);
+		const currentIds = followedCollections.map((collection) => collection.id);
 
 		if (!idSetsMatch(currentIds, collectionIds)) {
 			throw new NotFollowingCollectionException(
