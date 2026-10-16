@@ -2,6 +2,7 @@ import { test } from '@japa/runner';
 import type { Page } from 'playwright';
 import testUtils from '@adonisjs/core/services/test_utils';
 
+import { skipDashboardTour } from '#tests/helpers/browser_session';
 import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
 import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { waitForMailTo, resetMailpitInbox } from '#tests/helpers/mailpit';
@@ -17,19 +18,6 @@ const SETTINGS_PATH = '/user/settings';
 const REACTIVATE_PATH = '/reactivate';
 const INBOX_PATH = '/collections/inbox';
 const VALID_PASSWORD = 'correct-horse-battery-staple';
-
-// The dashboard tour's welcome modal offers itself to any account that
-// hasn't completed it, and sits on top of everything a fresh login lands
-// on: same reason `auth_journey.spec.ts` and `dashboard_reordering.spec.ts`
-// seed this before any navigation that could reach the dashboard.
-async function skipDashboardTour(page: Page): Promise<void> {
-	await page.addInitScript(() => {
-		localStorage.setItem(
-			'tour-preferences',
-			JSON.stringify({ state: { hasCompletedDashboardTour: true }, version: 0 })
-		);
-	});
-}
 
 async function submitLogin(
 	page: Page,
