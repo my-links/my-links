@@ -34,6 +34,11 @@ export async function syncCollections(): Promise<void> {
 			return;
 		}
 
+		// A dead token cannot recover by retrying: only a reconnect clears this flag.
+		if (await authInvalidStorage.getValue()) {
+			return;
+		}
+
 		const backoffState = await syncBackoffStorage.getValue();
 		if (isSyncBackingOff(backoffState, Date.now())) {
 			return;
@@ -47,7 +52,6 @@ export async function syncCollections(): Promise<void> {
 				fetchedAt: Date.now(),
 			});
 			await syncBackoffStorage.setValue(INITIAL_SYNC_BACKOFF_STATE);
-			await authInvalidStorage.setValue(false);
 		} catch (error) {
 			console.error('MyLinks background sync failed', error);
 			await syncBackoffStorage.setValue(

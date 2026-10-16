@@ -67,7 +67,6 @@ describe('syncCollections', () => {
 	});
 
 	it('should not flag the token as invalid on a plain network failure', async () => {
-		await authInvalidStorage.setValue(true);
 		mockedFetchCollections.mockRejectedValue(new Error('network down'));
 
 		await syncCollections();
@@ -75,16 +74,12 @@ describe('syncCollections', () => {
 		expect(await authInvalidStorage.getValue()).toBe(false);
 	});
 
-	it('should clear the invalid-token flag once a sync succeeds', async () => {
+	it('should skip fetching while the token is flagged as invalid', async () => {
 		await authInvalidStorage.setValue(true);
-		mockedFetchCollections.mockResolvedValue({
-			collections: [],
-			followedCollections: [],
-		});
 
 		await syncCollections();
 
-		expect(await authInvalidStorage.getValue()).toBe(false);
+		expect(mockedFetchCollections).not.toHaveBeenCalled();
 	});
 
 	it('should skip fetching while backing off', async () => {
