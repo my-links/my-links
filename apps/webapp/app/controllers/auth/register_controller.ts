@@ -40,13 +40,16 @@ export default class RegisterController {
 	) {}
 
 	async render({ inertia, request }: HttpContext) {
-		await this.registrationPolicyService.assertIsOpen();
+		await this.registrationPolicyService.assertIsReachable();
+		const setupToken = this.readSetupToken(
+			request.input(SETUP_TOKEN_QUERY_PARAMETER)
+		);
 
 		return inertia.render('auth/register', {
 			minimumPasswordLength: MINIMUM_PASSWORD_LENGTH,
-			setupToken: this.readSetupToken(
-				request.input(SETUP_TOKEN_QUERY_PARAMETER)
-			),
+			setupToken,
+			isSetupLinkRequired:
+				await this.registrationPolicyService.isSetupLinkRequired(setupToken),
 		});
 	}
 

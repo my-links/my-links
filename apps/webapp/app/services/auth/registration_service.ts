@@ -54,7 +54,7 @@ export class RegistrationService {
 		request: VisitorRegistrationRequest,
 		origin: RequestOrigin
 	): Promise<User | null> {
-		await this.registrationPolicyService.assertIsOpen();
+		await this.registrationPolicyService.assertCanRegister(request.setupToken);
 
 		if (await this.isEmailTaken(request.email)) {
 			await this.passwordHasher.make(request.password);
