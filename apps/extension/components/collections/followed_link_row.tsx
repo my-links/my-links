@@ -48,9 +48,6 @@ export function FollowedLinkRow({ link }: Readonly<FollowedLinkRowProps>) {
 					/>
 				)}
 			<span className="flex-1 truncate">{link.name}</span>
-			{link.favorite && (
-				<div className="i-ant-design-star-filled h-3.5 w-3.5 flex-shrink-0 text-yellow-500" />
-			)}
 		</a>
 	);
 }

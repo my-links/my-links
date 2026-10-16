@@ -649,11 +649,8 @@ export interface components {
 		CreateCollectionExecuteResponse: {
 			collection: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
@@ -701,11 +698,8 @@ export interface components {
 		CreateLinkExecuteResponse: {
 			link: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				clicks: number;
@@ -757,11 +751,8 @@ export interface components {
 		ShowCollectionsRenderResponse: {
 			data: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
@@ -792,11 +783,8 @@ export interface components {
 			}[];
 			followedCollections: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
@@ -808,12 +796,9 @@ export interface components {
 				isOwner: boolean;
 				links?: {
 					authorId: number;
-					clicks: number;
 					createdAt: string;
 					description: string | null;
-					favorite: boolean;
 					id: number;
-					lastClickedAt: string | null;
 					name: string;
 					updatedAt?: string;
 					url: string;
@@ -827,11 +812,8 @@ export interface components {
 		ShowFavoriteLinksRenderResponse: {
 			data: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				clicks: number;
@@ -857,11 +839,8 @@ export interface components {
 		ShowSyncDeltaRenderResponse: {
 			collections: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				createdAt: string;
@@ -881,11 +860,8 @@ export interface components {
 			isFullSync: boolean;
 			links: {
 				author?: {
-					createdAt: string;
 					fullname: string;
 					id: number;
-					isAdmin: boolean;
-					updatedAt?: string;
 				};
 				authorId: number;
 				clicks: number;
