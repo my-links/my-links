@@ -45,6 +45,16 @@ export function isValidHttpUrl(urlParam: string) {
 	return false;
 }
 
+/** Strict on purpose: unlike `isValidHttpUrl` it never completes a bare domain, so `javascript:` and `data:` URLs are rejected. */
+export function isWebUrl(rawUrl: string): boolean {
+	try {
+		const { protocol } = new URL(rawUrl);
+		return protocol === 'http:' || protocol === 'https:';
+	} catch {
+		return false;
+	}
+}
+
 export function getCurrentPathAndSearch(): string {
 	if (typeof window === 'undefined') return '';
 	return `${window.location.pathname}${window.location.search}`;
