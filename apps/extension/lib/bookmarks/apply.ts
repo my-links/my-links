@@ -1,3 +1,4 @@
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 import type { SyncedTree } from '@/lib/bookmarks/snapshot';
 import { buildLinkKey } from '@/lib/bookmarks/desired_tree';
 import { runWithConcurrencyLimit } from '@/lib/concurrency';
@@ -137,6 +138,9 @@ async function applyOperation(
 		case 'create-bookmark':
 			return await createBookmark(api, operation);
 		case 'update-bookmark':
+			if (!isSafeLinkUrl(operation.url)) {
+				return NO_MAPPING_RESULT;
+			}
 			await api.update(operation.nodeId, {
 				title: operation.title,
 				url: operation.url,
@@ -168,6 +172,10 @@ async function applyOperation(
 	}
 }
 
+function hasSafeUrl(bookmark: { url: string }): boolean {
+	return isSafeLinkUrl(bookmark.url);
+}
+
 function unmapFolder(collectionId: number): OperationResult {
 	return { changes: [{ kind: 'unmap-folder', collectionId }], snapshot: {} };
 }
@@ -188,7 +196,7 @@ async function createFolder(
 	// Children go in sequentially so they land in the order the server lists
 	// them; the browser appends, and racing the creates would shuffle them.
 	const children: OperationResult[] = [];
-	for (const bookmark of operation.bookmarks) {
+	for (const bookmark of operation.bookmarks.filter(hasSafeUrl)) {
 		const created = await api.create({
 			parentId: folder.id,
 			title: bookmark.title,
@@ -232,6 +240,9 @@ async function createBookmark(
 	api: BookmarksApi,
 	operation: Extract<BookmarkOperation, { kind: 'create-bookmark' }>
 ): Promise<OperationResult> {
+	if (!isSafeLinkUrl(operation.url)) {
+		return NO_MAPPING_RESULT;
+	}
 	const created = await api.create({
 		parentId: operation.parentNodeId,
 		title: operation.title,
