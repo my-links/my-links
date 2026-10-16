@@ -12,6 +12,7 @@ type ReorderPayload = Record<string, string | number[]>;
  * reorder immediately, and rolls back only if the request actually fails.
  * `preserveState: true` on the commit is required: without it Inertia
  * remounts the page and the optimistic order is lost mid-flight.
+ * `replaceItems` applies a whole next list and hands back its rollback.
  */
 export function useOptimisticOrder<TItem extends WithId>(serverItems: TItem[]) {
 	const [items, setItems] = useState(serverItems);
@@ -43,5 +44,11 @@ export function useOptimisticOrder<TItem extends WithId>(serverItems: TItem[]) {
 		});
 	};
 
-	return { items, moveAndCommit };
+	const replaceItems = (nextItems: TItem[]) => {
+		const previousItems = items;
+		setItems(nextItems);
+		return () => setItems(previousItems);
+	};
+
+	return { items, moveAndCommit, replaceItems };
 }

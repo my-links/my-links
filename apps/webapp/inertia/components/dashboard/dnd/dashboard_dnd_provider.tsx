@@ -16,6 +16,7 @@ import { useReorderCollections } from '~/hooks/use_reorder_collections';
 import { dashboardCollisionDetection } from '~/lib/dnd/collision_detection';
 import { createDashboardDndAnnouncements } from '~/lib/dnd/dnd_announcements';
 import { useDashboardDragHandlers } from '~/hooks/use_dashboard_drag_handlers';
+import { useMoveCollectionToSection } from '~/hooks/use_move_collection_to_section';
 import { DashboardDndContext } from '~/components/dashboard/dnd/dashboard_dnd_context';
 import { useReorderFollowedCollections } from '~/hooks/use_reorder_followed_collections';
 
@@ -53,12 +54,17 @@ export function DashboardDndProvider({
 		activeCollection?.id ?? 0,
 		activeCollection?.links ?? EMPTY_LINKS
 	);
+	const moveCollectionToSection = useMoveCollectionToSection({
+		publicSection: publicCollections,
+		privateSection: privateCollections,
+	});
 	const { isShiftPressed, handleDragStart, handleDragEnd, handleDragCancel } =
 		useDashboardDragHandlers({
 			followed: followed.reorder,
 			publicCollections: publicCollections.reorder,
 			privateCollections: privateCollections.reorder,
 			links: reorderLinks.reorder,
+			moveCollectionToSection,
 		});
 
 	const sensors = useSensors(

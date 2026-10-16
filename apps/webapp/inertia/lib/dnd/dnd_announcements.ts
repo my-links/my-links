@@ -6,6 +6,7 @@ import {
 	isCollectionDragData,
 	isLinkDropTargetData,
 	isLinkDragData,
+	isSectionDropData,
 } from './drag_data';
 
 function sectionLabel(section: CollectionSection): string {
@@ -17,6 +18,16 @@ function sectionLabel(section: CollectionSection): string {
 		case COLLECTION_SECTION.PRIVATE:
 			return t`My Private Collections`;
 	}
+}
+
+function overOwnedSection(
+	over: { data: { current?: unknown } } | null
+): CollectionSection | null {
+	const overData = over?.data.current;
+	if (isSectionDropData(overData) || isCollectionDragData(overData)) {
+		return overData.section;
+	}
+	return null;
 }
 
 export function createDashboardDndAnnouncements(): Announcements {
@@ -37,6 +48,10 @@ export function createDashboardDndAnnouncements(): Announcements {
 				return undefined;
 			}
 			if (isCollectionDragData(data)) {
+				const targetSection = overOwnedSection(over) ?? data.section;
+				if (targetSection !== data.section) {
+					return t`Collection over ${sectionLabel(targetSection)}.`;
+				}
 				return t`Collection moved within ${sectionLabel(data.section)}.`;
 			}
 			if (isLinkDragData(data)) {
@@ -56,6 +71,10 @@ export function createDashboardDndAnnouncements(): Announcements {
 			if (isCollectionDragData(data)) {
 				if (!over) {
 					return t`Reorder cancelled.`;
+				}
+				const targetSection = overOwnedSection(over) ?? data.section;
+				if (targetSection !== data.section) {
+					return t`Collection moved to ${sectionLabel(targetSection)}.`;
 				}
 				return t`Collection order updated in ${sectionLabel(data.section)}.`;
 			}
