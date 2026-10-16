@@ -6,3 +6,8 @@ export const MAXIMUM_IMPORT_LINKS = 20000;
 
 /** Keeps each multi-row insert well under the Postgres bind parameter limit. */
 export const IMPORT_INSERT_CHUNK_SIZE = 1000;
+
+/** The only route that takes a file upload; the body parser reads multipart bodies nowhere else. */
+export const DATA_IMPORT_ROUTE_PATTERN = '/user/settings/import';
+
+export const MAXIMUM_IMPORT_FILE_SIZE = '10mb';

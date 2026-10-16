@@ -1,5 +1,10 @@
 import { defineConfig } from '@adonisjs/core/bodyparser';
 
+import {
+	MAXIMUM_IMPORT_FILE_SIZE,
+	DATA_IMPORT_ROUTE_PATTERN,
+} from '#constants/data_import';
+
 const bodyParserConfig = defineConfig({
 	/**
 	 * The bodyparser middleware will parse the request body
@@ -39,7 +44,7 @@ const bodyParserConfig = defineConfig({
 		 * move all uploaded files inside the tmp folder of your
 		 * operating system
 		 */
-		autoProcess: true,
+		autoProcess: [DATA_IMPORT_ROUTE_PATTERN],
 		convertEmptyStringsToNull: true,
 		processManually: [],
 
@@ -47,7 +52,7 @@ const bodyParserConfig = defineConfig({
 		 * Maximum limit of data to parse including all files
 		 * and fields
 		 */
-		limit: '20mb',
+		limit: MAXIMUM_IMPORT_FILE_SIZE,
 		types: ['multipart/form-data'],
 	},
 });
