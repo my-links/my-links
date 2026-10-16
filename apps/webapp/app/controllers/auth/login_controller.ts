@@ -9,6 +9,7 @@ import { resolveRequestOrigin } from '#lib/request_origin';
 import { SessionService } from '#services/user/session_service';
 import { loginValidator } from '#validators/auth/login_validator';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { KnownDeviceService } from '#services/auth/known_device_service';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 import {
 	PendingDeletionGuard,
@@ -26,7 +27,8 @@ export default class LoginController {
 		protected readonly emailVerificationService: EmailVerificationService,
 		protected readonly pendingDeletionGuard: PendingDeletionGuard,
 		protected readonly authEventService: AuthEventService,
-		protected readonly sessionService: SessionService
+		protected readonly sessionService: SessionService,
+		protected readonly knownDeviceService: KnownDeviceService
 	) {}
 
 	/**
@@ -44,7 +46,8 @@ export default class LoginController {
 		const { email, password } = await ctx.request.validateUsing(loginValidator);
 		const origin = resolveRequestOrigin(ctx);
 
-		const user = await penalizeFailedLogins(email, () =>
+		const budget = await this.knownDeviceService.resolveBudget(ctx, email);
+		const user = await penalizeFailedLogins(budget, () =>
 			this.credentialsAuthService.verifyCredentials({ email, password, origin })
 		);
 
@@ -70,6 +73,7 @@ export default class LoginController {
 
 		await ctx.auth.use('web').login(user);
 		await this.sessionService.createAuthSession(user, ctx.session, origin);
+		this.knownDeviceService.remember(ctx, user);
 
 		// Journaled here rather than alongside the failures, because a login only
 		// succeeds once the session exists: verifying a password is also what

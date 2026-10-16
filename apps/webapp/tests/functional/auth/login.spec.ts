@@ -15,11 +15,13 @@ import {
 } from '#tests/factories/user_factory';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
+const NEW_PASSWORD = 'brand-new-horse-battery-staple';
 const WRONG_PASSWORD = 'wrong-horse-battery-staple';
 const UNKNOWN_EMAIL = 'nobody@example.com';
 const THROTTLED_EMAIL = 'throttled@example.com';
 const GENERIC_FAILURE_MESSAGE = 'Invalid email address or password';
 const SESSION_GUARD_KEY = 'auth_web';
+const KNOWN_DEVICES_COOKIE = 'known_devices';
 
 function disableGoogleAuth() {
 	app.container.swap(GoogleAuthConfigService, () => ({ isEnabled: false }));
@@ -193,14 +195,39 @@ function postLogin(
 	client: ApiClient,
 	email: string,
 	password: string,
-	clientAddress: string
+	clientAddress: string,
+	knownDevicesCookie: unknown = null
 ) {
-	return client
+	const request = client
 		.post('/login')
 		.header('x-forwarded-for', clientAddress)
 		.form({ email, password })
 		.withCsrfToken()
 		.redirects(0);
+
+	return knownDevicesCookie
+		? request.plainCookie(KNOWN_DEVICES_COOKIE, knownDevicesCookie)
+		: request;
+}
+
+async function signInAndTakeDeviceCookie(
+	client: ApiClient,
+	email: string
+): Promise<unknown> {
+	const response = await postLogin(
+		client,
+		email,
+		VALID_PASSWORD,
+		nextClientAddress()
+	);
+
+	return response.cookie(KNOWN_DEVICES_COOKIE)?.value;
+}
+
+async function exhaustSharedBudget(client: ApiClient, email: string) {
+	for (let index = 0; index < LOGIN_BURST_TIER.requests; index += 1) {
+		await postLogin(client, email, WRONG_PASSWORD, nextClientAddress());
+	}
 }
 
 test.group('Login: throttling', (group) => {
@@ -302,5 +329,111 @@ test.group('Login: throttling', (group) => {
 		);
 
 		response.assertHeader('location', '/');
+	});
+
+	test('should let a known device sign in after strangers exhaust the shared budget', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		const deviceCookie = await signInAndTakeDeviceCookie(client, user.email);
+		await exhaustSharedBudget(client, user.email);
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			nextClientAddress(),
+			deviceCookie
+		);
+
+		response.assertHeader('location', '/');
+	});
+
+	test('should throttle a known device on its own budget when it keeps failing', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		const deviceCookie = await signInAndTakeDeviceCookie(client, user.email);
+		for (let index = 0; index < LOGIN_BURST_TIER.requests; index += 1) {
+			await postLogin(
+				client,
+				user.email,
+				WRONG_PASSWORD,
+				nextClientAddress(),
+				deviceCookie
+			);
+		}
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			nextClientAddress(),
+			deviceCookie
+		);
+
+		response.assertFlashMessage('error', 'Too many requests');
+	});
+
+	test('should give no bypass on another account to the device cookie of an account', async ({
+		client,
+	}) => {
+		const owner = await createVerifiedUserWithPassword();
+		const victim = await createVerifiedUserWithPassword();
+		const ownerDeviceCookie = await signInAndTakeDeviceCookie(
+			client,
+			owner.email
+		);
+		await exhaustSharedBudget(client, victim.email);
+
+		const response = await postLogin(
+			client,
+			victim.email,
+			VALID_PASSWORD,
+			nextClientAddress(),
+			ownerDeviceCookie
+		);
+
+		response.assertFlashMessage('error', 'Too many requests');
+	});
+
+	test('should give no bypass to a device cookie issued before a password change', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		const deviceCookie = await signInAndTakeDeviceCookie(client, user.email);
+		const passwordAuth = await user
+			.related('passwordAuth')
+			.query()
+			.firstOrFail();
+		passwordAuth.password = NEW_PASSWORD;
+		await passwordAuth.save();
+		await exhaustSharedBudget(client, user.email);
+
+		const response = await postLogin(
+			client,
+			user.email,
+			NEW_PASSWORD,
+			nextClientAddress(),
+			deviceCookie
+		);
+
+		response.assertFlashMessage('error', 'Too many requests');
+	});
+
+	test('should keep throttling a visitor without a device cookie on the shared budget', async ({
+		client,
+	}) => {
+		const user = await createVerifiedUserWithPassword();
+		await exhaustSharedBudget(client, user.email);
+
+		const response = await postLogin(
+			client,
+			user.email,
+			VALID_PASSWORD,
+			nextClientAddress()
+		);
+
+		response.assertFlashMessage('error', 'Too many requests');
 	});
 });
