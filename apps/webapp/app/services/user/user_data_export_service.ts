@@ -7,6 +7,7 @@ import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import type { Visibility } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 
 type ExportLink = {
@@ -27,7 +28,7 @@ type ExportData = {
 		key: string;
 		name: string;
 		description: string | null;
-		visibility: string;
+		visibility: Visibility;
 		icon: string | null;
 	}>;
 	links: Array<ExportLink>;

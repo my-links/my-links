@@ -7,6 +7,7 @@ import Collection from '#models/collection';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import type { Visibility } from '#enums/collections/visibility';
 import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
@@ -29,7 +30,7 @@ type ValidatedImportData = {
 		key?: string;
 		name: string;
 		description?: string | null;
-		visibility: string;
+		visibility: Visibility;
 		icon?: string | null;
 		// Legacy format: links nested under a single collection.
 		links?: Array<ImportLink>;
@@ -73,7 +74,7 @@ export class UserDataImportService {
 				validatedData.collections.map((collectionData) => ({
 					name: collectionData.name,
 					description: collectionData.description ?? null,
-					visibility: collectionData.visibility as any,
+					visibility: collectionData.visibility,
 					icon: collectionData.icon ?? null,
 					authorId: userId,
 				})),

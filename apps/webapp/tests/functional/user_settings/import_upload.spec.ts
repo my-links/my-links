@@ -297,3 +297,69 @@ test.group('User settings import: throttle', (group) => {
 		);
 	});
 });
+
+function exportWithLinkUrl(url: string) {
+	return {
+		collections: [{ key: 'one', name: 'One', visibility: 'PRIVATE' }],
+		links: [{ ...linkEntry(0, 'one'), url }],
+	};
+}
+
+test.group('User settings import: field rules', (group) => {
+	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+
+	test('should refuse an unknown visibility with a validation error instead of crashing', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-bad-visibility' });
+
+		const response = await postImport(client, user, {
+			collections: [{ name: 'One', visibility: 'SECRET' }],
+		});
+
+		response.assertStatus(302);
+		assert.exists(response.flashMessage('inputErrorsBag'));
+		assert.equal(await countCollectionsOf(user), 0);
+	});
+
+	test('should refuse an icon that is not an emoji', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-bad-icon' });
+
+		await postImport(client, user, {
+			collections: [{ name: 'One', visibility: 'PRIVATE', icon: 'abc' }],
+		});
+
+		assert.equal(await countCollectionsOf(user), 0);
+	});
+
+	for (const unsafeUrl of ['javascript:alert(1)', 'ftp://example.com/file']) {
+		test(`should refuse the ${unsafeUrl.split(':')[0]} URL scheme`, async ({
+			assert,
+			client,
+		}) => {
+			const user = await createUser({ emailPrefix: 'import-bad-url-scheme' });
+
+			await postImport(client, user, exportWithLinkUrl(unsafeUrl));
+
+			assert.equal(await countCollectionsOf(user), 0);
+		});
+	}
+
+	test('should normalize a bare domain to an https URL', async ({
+		assert,
+		client,
+	}) => {
+		const user = await createUser({ emailPrefix: 'import-bare-domain' });
+
+		await postImport(client, user, exportWithLinkUrl('example.com'));
+
+		const importedLink = await Link.query()
+			.where('authorId', user.id)
+			.firstOrFail();
+		assert.equal(importedLink.url, 'https://example.com');
+	});
+});

@@ -1,6 +1,9 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
 import { MAXIMUM_URL_LENGTH } from '#constants/link';
+import { emojiRule } from '#validators/rules/emoji_rule';
+import { VISIBILITY } from '#enums/collections/visibility';
+import { linkUrlSchema } from '#validators/links/link_url_validator';
 import {
 	MAXIMUM_IMPORT_LINKS,
 	MAXIMUM_IMPORT_COLLECTIONS,
@@ -9,11 +12,7 @@ import {
 const linkFields = {
 	name: vine.string().trim().minLength(1).maxLength(254),
 	description: vine.string().trim().maxLength(300).nullable().optional(),
-	url: vine
-		.string()
-		.url({ require_tld: false, validate_length: false })
-		.maxLength(MAXIMUM_URL_LENGTH)
-		.trim(),
+	url: linkUrlSchema,
 	favorite: vine.boolean(),
 };
 
@@ -38,8 +37,14 @@ const collectionSchema = vine.object({
 	key: vine.string().trim().minLength(1).optional(),
 	name: vine.string().trim().minLength(1).maxLength(254),
 	description: vine.string().trim().maxLength(254).nullable().optional(),
-	visibility: vine.string(),
-	icon: vine.string().trim().maxLength(10).nullable().optional(),
+	visibility: vine.enum(VISIBILITY),
+	icon: vine
+		.string()
+		.trim()
+		.maxLength(10)
+		.use(emojiRule())
+		.nullable()
+		.optional(),
 	links: vine
 		.array(nestedLinkSchema)
 		.maxLength(MAXIMUM_IMPORT_LINKS)
@@ -64,6 +69,9 @@ importDataValidator.messagesProvider = new SimpleMessagesProvider({
 	'collections.*.links.*.name.required': 'Link name is required',
 	'collections.*.links.*.url.required': 'Link URL is required',
 	'collections.*.links.*.url.url': 'Link URL must be a valid URL',
+	'collections.*.visibility.enum':
+		'Collection visibility must be PUBLIC or PRIVATE',
+	'collections.*.icon.emoji': 'The icon field must be a valid emoji',
 	'collections.*.links.*.url.maxLength': `Link URL must be at most ${MAXIMUM_URL_LENGTH} characters`,
 	'links.*.name.required': 'Link name is required',
 	'links.*.url.required': 'Link URL is required',
