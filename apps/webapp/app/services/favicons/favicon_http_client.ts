@@ -15,6 +15,7 @@ import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_hos
 
 const MAX_HTML_BYTES = 256 * 1024;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const MAX_MANIFEST_BYTES = 64 * 1024;
 
 const CHROME_USER_AGENT =
 	'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0';
@@ -69,8 +70,23 @@ export class FaviconHttpClient {
 		return Buffer.concat(chunks).toString('utf8');
 	}
 
-	// Rejected mid-stream, not buffered then measured, a decompression bomb never sits fully in memory first.
 	async readImageBodyCapped(body: ReadableStream<Uint8Array>): Promise<Buffer> {
+		return this.readBufferCapped(body, MAX_IMAGE_BYTES);
+	}
+
+	async readManifestBodyCapped(
+		body: ReadableStream<Uint8Array>
+	): Promise<string> {
+		const manifestBytes = await this.readBufferCapped(body, MAX_MANIFEST_BYTES);
+
+		return manifestBytes.toString('utf8');
+	}
+
+	// Rejected mid-stream, not buffered then measured, a decompression bomb never sits fully in memory first.
+	private async readBufferCapped(
+		body: ReadableStream<Uint8Array>,
+		maxBytes: number
+	): Promise<Buffer> {
 		const reader = body.getReader();
 		const chunks: Uint8Array[] = [];
 		let totalBytes = 0;
@@ -83,7 +99,7 @@ export class FaviconHttpClient {
 				}
 
 				totalBytes += value.length;
-				if (totalBytes > MAX_IMAGE_BYTES) {
+				if (totalBytes > maxBytes) {
 					throw new FaviconNotFoundException('too large');
 				}
 
