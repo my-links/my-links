@@ -1,4 +1,4 @@
-import type { Page } from 'playwright';
+import type { Page, Locator } from 'playwright';
 
 type FieldValues = Readonly<Record<string, string>>;
 
@@ -47,4 +47,62 @@ export async function fillFormOnceHydrated(
 	}
 
 	throw new Error('Form kept reverting to its pre-hydration values');
+}
+
+const CLICK_MAX_ATTEMPTS = 20;
+const DEFAULT_EXPECTED_TIMEOUT_MS = 200;
+export const NETWORK_EXPECTED_TIMEOUT_MS = 2000;
+
+/**
+ * SSR-rendered buttons exist in the DOM before React has hydrated and attached
+ * their `onClick`: a click in that window does nothing, and nothing in the DOM
+ * announces when hydration finished. So the click is retried until the thing
+ * it should cause (`expected`: an opened dialog, a toast, a badge) shows up.
+ * Pass a longer timeout for actions that wait on a network round trip, so a
+ * slow response is not mistaken for a swallowed click.
+ */
+export async function clickOnceHydrated(
+	trigger: Locator,
+	expected: Locator,
+	expectedTimeoutMs: number = DEFAULT_EXPECTED_TIMEOUT_MS
+): Promise<void> {
+	for (let attempt = 1; attempt <= CLICK_MAX_ATTEMPTS; attempt += 1) {
+		await trigger.click();
+		const hasAppeared = await expected
+			.waitFor({ state: 'visible', timeout: expectedTimeoutMs })
+			.then(() => true)
+			.catch(() => false);
+
+		if (hasAppeared) return;
+	}
+
+	throw new Error(
+		`Expected element never appeared after ${CLICK_MAX_ATTEMPTS} clicks`
+	);
+}
+
+/**
+ * Same hydration gap as `clickOnceHydrated`, for handlers bound to hover or
+ * focus (tooltips): the pointer is moved off and back on between attempts so
+ * each one fires a fresh `mouseenter`.
+ */
+export async function hoverOnceHydrated(
+	trigger: Locator,
+	expected: Locator
+): Promise<void> {
+	for (let attempt = 1; attempt <= CLICK_MAX_ATTEMPTS; attempt += 1) {
+		await trigger.hover();
+		const hasAppeared = await expected
+			.waitFor({ state: 'visible', timeout: DEFAULT_EXPECTED_TIMEOUT_MS })
+			.then(() => true)
+			.catch(() => false);
+
+		if (hasAppeared) return;
+
+		await trigger.page().mouse.move(0, 0);
+	}
+
+	throw new Error(
+		`Expected element never appeared after ${CLICK_MAX_ATTEMPTS} hovers`
+	);
 }
