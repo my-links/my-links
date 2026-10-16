@@ -49,6 +49,7 @@ import {
 	resolveRankedFavorites,
 } from '@/lib/bookmarks/pinned';
 import {
+	authInvalidStorage,
 	bookmarkBackoffStorage,
 	bookmarkMappingStorage,
 	bookmarkMirrorStorage,
@@ -116,6 +117,10 @@ async function runMirrorPass(): Promise<void> {
 	// means judging the server by an out-of-date picture of it: every native
 	// edit would be re-detected and re-pushed until the instance comes back.
 	// The mirror waits alongside the sync instead.
+	if (await authInvalidStorage.getValue()) {
+		return;
+	}
+
 	const syncBackoff = await syncBackoffStorage.getValue();
 	if (isSyncBackingOff(syncBackoff, Date.now())) {
 		return;

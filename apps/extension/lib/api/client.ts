@@ -1,7 +1,13 @@
 import createClient from 'openapi-fetch';
 
 import type { paths } from '@/lib/api/schema';
-import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
+import {
+	apiTokenStorage,
+	authInvalidStorage,
+	instanceUrlStorage,
+} from '@/lib/storage';
+
+const HTTP_UNAUTHORIZED = 401;
 
 export class MissingApiTokenError extends Error {}
 
@@ -28,6 +34,12 @@ export async function createExtensionApiClient() {
 		onRequest({ request }) {
 			request.headers.set('Authorization', `Bearer ${token}`);
 			return request;
+		},
+		async onResponse({ response }) {
+			if (response.status === HTTP_UNAUTHORIZED) {
+				await authInvalidStorage.setValue(true);
+			}
+			return response;
 		},
 	});
 
