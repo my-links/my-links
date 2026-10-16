@@ -19,7 +19,6 @@ export class VerifyEmailNotification extends BaseMail {
 		const { user, verificationUrl, expiresInHours } = this.payload;
 
 		this.message.to(user.email).htmlView('emails/verify_email', {
-			name: user.name,
 			verificationUrl,
 			expiresInHours,
 		});

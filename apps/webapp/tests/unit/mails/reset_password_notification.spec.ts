@@ -6,15 +6,34 @@ import { ResetPasswordNotification } from '#mails/reset_password_notification';
 const RESET_URL = 'https://links.example.com/reset-password?token=abc';
 const EXPIRES_IN_HOURS = 1;
 
+const ACCOUNT_NAME = 'Mallory Phisher';
+
 function buildUser(): User {
 	const user = new User();
 	user.email = 'reader@example.com';
-	user.name = 'Ada';
+	user.name = ACCOUNT_NAME;
 
 	return user;
 }
 
 test.group('ResetPasswordNotification', () => {
+	test('should not greet the account by the name it chose', async ({
+		assert,
+	}) => {
+		const notification = new ResetPasswordNotification({
+			user: buildUser(),
+			resetUrl: RESET_URL,
+			expiresInHours: EXPIRES_IN_HOURS,
+		});
+
+		await notification.buildWithContents();
+
+		assert.notInclude(
+			notification.message.toJSON().message.html ?? '',
+			ACCOUNT_NAME
+		);
+	});
+
 	test('should address the email to the account being recovered', async () => {
 		const notification = new ResetPasswordNotification({
 			user: buildUser(),

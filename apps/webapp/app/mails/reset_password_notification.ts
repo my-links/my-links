@@ -19,7 +19,6 @@ export class ResetPasswordNotification extends BaseMail {
 		const { user, resetUrl, expiresInHours } = this.payload;
 
 		this.message.to(user.email).htmlView('emails/reset_password', {
-			name: user.name,
 			resetUrl,
 			expiresInHours,
 		});
