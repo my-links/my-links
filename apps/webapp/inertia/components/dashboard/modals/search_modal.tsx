@@ -2,6 +2,7 @@ import { Data } from '@generated/data';
 import { Input } from '@minimalstuff/ui';
 import { ChangeEvent, useCallback, useState } from 'react';
 
+import { isWebUrl } from '~/lib/navigation';
 import { useSearchResults } from '~/hooks/use_search_results';
 import { recordLinkVisit } from '~/lib/links/record_link_visit';
 import { useSearchNavigation } from '~/hooks/use_search_navigation';
@@ -18,6 +19,8 @@ export function SearchModal({ onClose }: Readonly<SearchModalProps>) {
 	// Opens `link.url` directly (no redirect hop); the click is recorded on the side.
 	const handleResultClick = useCallback(
 		(link: Data.Link) => {
+			if (!isWebUrl(link.url)) return;
+
 			window.open(link.url, '_blank', 'noopener,noreferrer');
 			recordLinkVisit(link.id);
 			onClose();
