@@ -4,6 +4,7 @@ import type { Session } from '@adonisjs/session';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { penalizeFailedLogins } from '#start/limiter';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { SessionService } from '#services/user/session_service';
 import { loginValidator } from '#validators/auth/login_validator';
@@ -43,11 +44,9 @@ export default class LoginController {
 		const { email, password } = await ctx.request.validateUsing(loginValidator);
 		const origin = resolveRequestOrigin(ctx);
 
-		const user = await this.credentialsAuthService.verifyCredentials({
-			email,
-			password,
-			origin,
-		});
+		const user = await penalizeFailedLogins(email, () =>
+			this.credentialsAuthService.verifyCredentials({ email, password, origin })
+		);
 
 		// Deliberately after the password check, never inside it: a refusal
 		// naming an address as unconfirmed, served before the password is

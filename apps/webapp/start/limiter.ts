@@ -13,6 +13,7 @@ import limiter from '@adonisjs/limiter/services/main';
 import type { MiddlewareFn } from '@adonisjs/core/types/http';
 
 import { defineAttemptThrottles } from '#lib/limiter/attempt_throttle';
+import { defineFailedAttemptPenalty } from '#lib/limiter/failed_attempt_penalty';
 import {
 	LOGIN_ATTEMPT_TIERS,
 	REGISTRATION_ATTEMPT_TIERS,
@@ -55,14 +56,21 @@ export const mcpThrottle = limiter.define('mcp', (ctx) => {
 });
 
 /**
- * Both dimensions are needed on sign-in: the address alone lets a botnet spread
- * one account's attempts over thousands of hosts, the account alone lets a
- * single host walk a dictionary of addresses.
+ * Sign-in needs both dimensions: the address alone lets a botnet spread one
+ * account's attempts over thousands of hosts, the account alone lets a single
+ * host walk a dictionary of addresses. The address counts every request; the
+ * account only counts failed credential checks (`penalizeFailedLogins`), so
+ * nobody can lock a chosen user out by merely posting their email.
  */
 export const loginThrottles: MiddlewareFn[] = defineAttemptThrottles(
 	'login',
 	LOGIN_ATTEMPT_TIERS,
-	['address', 'account']
+	['address']
+);
+
+export const penalizeFailedLogins = defineFailedAttemptPenalty(
+	'login',
+	LOGIN_ATTEMPT_TIERS
 );
 
 /**
