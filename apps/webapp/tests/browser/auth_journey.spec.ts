@@ -10,6 +10,7 @@ import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { createUser } from '#tests/factories/user_factory';
 import { skipDashboardTour } from '#tests/helpers/browser_session';
 import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
+import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
 import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
 import {
@@ -57,6 +58,17 @@ async function emptyInstance(): Promise<void> {
 	await User.query().delete();
 }
 
+/**
+ * A fresh instance only takes a sign-up that carries the setup token, which the
+ * server shares with the suite since both run in this process. The journey
+ * therefore walks the setup link the owner of a new instance is given.
+ */
+async function readSetupToken(): Promise<string> {
+	const adminSetupService = await app.container.make(AdminSetupService);
+
+	return adminSetupService.setupToken;
+}
+
 async function submitCredentials(
 	page: Page,
 	email: string,
@@ -85,14 +97,14 @@ test.group('Auth journey (browser)', (group) => {
 		await emptyInstance();
 		const email = nextJourneyEmail();
 
-		// 1. On an empty instance, registration is open and Google is not
+		// 1. On an empty instance, sign-up is open to the setup link and Google is not
 		// configured for this suite: the home page offers only credentials.
 		const page = await visit(HOME_PATH);
 		await skipDashboardTour(page);
 		await page.assertExists('a[href="/register"]');
 		await page.assertNotExists('a[href="/auth/google"]');
 
-		await page.goto(REGISTER_PATH);
+		await page.goto(`${REGISTER_PATH}?setup_token=${await readSetupToken()}`);
 		await fillFormOnceHydrated(page, {
 			name: NEW_ACCOUNT_NAME,
 			email,
