@@ -5,9 +5,9 @@ import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { createUser } from '#tests/factories/user_factory';
 import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 
 const ACTIVITY_JOURNAL_ROUTE = '/admin/activity-events';
 const HOME_ROUTE = '/';
@@ -19,14 +19,6 @@ type JournalLine = {
 	readonly fullname: string | null;
 	readonly maskedIp: string | null;
 };
-
-async function createAdmin(): Promise<User> {
-	const user = await createUser({ emailPrefix: 'activity-journal-admin' });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 /**
  * The suite runs against a database a developer may have used, so a spec about
@@ -55,7 +47,9 @@ test.group('Admin activity journal', (group) => {
 	test('should render the journal page to an administrator', async ({
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({
+			emailPrefix: 'activity-journal-admin',
+		});
 
 		const response = await client
 			.get(ACTIVITY_JOURNAL_ROUTE)
@@ -70,7 +64,9 @@ test.group('Admin activity journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({
+			emailPrefix: 'activity-journal-admin',
+		});
 		const account = await createUser({
 			emailPrefix: 'activity-journal-masked',
 		});
@@ -93,7 +89,9 @@ test.group('Admin activity journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({
+			emailPrefix: 'activity-journal-admin',
+		});
 		const account = await createUser({
 			emailPrefix: 'activity-journal-subject',
 		});
@@ -114,7 +112,9 @@ test.group('Admin activity journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({
+			emailPrefix: 'activity-journal-admin',
+		});
 		const account = await createUser({ emailPrefix: 'activity-journal-auth' });
 		await AuditEvent.create({ type: 'login_succeeded', userId: account.id });
 
@@ -128,7 +128,9 @@ test.group('Admin activity journal', (group) => {
 	});
 
 	test('should hand over one page at a time', async ({ assert, client }) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({
+			emailPrefix: 'activity-journal-admin',
+		});
 		const account = await createUser({
 			emailPrefix: 'activity-journal-paging',
 		});

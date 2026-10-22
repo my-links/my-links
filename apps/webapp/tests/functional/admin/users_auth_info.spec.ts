@@ -10,6 +10,7 @@ import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
 import { recordAuthEvent } from '#tests/factories/auth_event_factory';
 import { AccountQueryService } from '#services/user/account_query_service';
 import {
+	createAdmin,
 	createUser,
 	linkOauthIdentity,
 	setUserPassword,
@@ -27,14 +28,6 @@ type DashboardAccount = {
 	readonly authMethods: string[];
 	readonly lastLoginAt: string | null;
 };
-
-async function createAdmin(): Promise<User> {
-	const user = await createUser({ emailPrefix: 'admin' });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 async function readDashboardAccounts(
 	client: ApiClient,

@@ -14,6 +14,7 @@ import { createUserSession } from '#tests/factories/user_session_factory';
 import { ResetPasswordNotification } from '#mails/reset_password_notification';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import {
+	createAdmin,
 	createUser,
 	verifyUserEmail,
 	requestAccountDeletion,
@@ -22,14 +23,6 @@ import {
 const HOME_ROUTE = '/';
 const MEMBER_ROLE = ACCOUNT_ROLE.MEMBER;
 const ADMINISTRATOR_ROLE = ACCOUNT_ROLE.ADMINISTRATOR;
-
-async function createAdmin(prefix = 'admin'): Promise<User> {
-	const user = await createUser({ emailPrefix: prefix });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 /**
  * The suite runs against a database a developer may have seeded, so "the only
@@ -264,7 +257,7 @@ test.group('Admin account actions: changing a role', (group) => {
 		client,
 	}) => {
 		const administrator = await createAdmin();
-		const account = await createAdmin('demote-target');
+		const account = await createAdmin({ emailPrefix: 'demote-target' });
 
 		await client
 			.patch(roleRoute(account))
@@ -282,7 +275,7 @@ test.group('Admin account actions: changing a role', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('sole-admin');
+		const administrator = await createAdmin({ emailPrefix: 'sole-admin' });
 		await makeSoleAdministrator(administrator);
 
 		await client
@@ -326,7 +319,7 @@ test.group('Admin account actions: restoring a pending deletion', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('restore-admin');
+		const administrator = await createAdmin({ emailPrefix: 'restore-admin' });
 		const account = await createUser({ emailPrefix: 'restore-target' });
 		await requestAccountDeletion(account);
 
@@ -346,7 +339,9 @@ test.group('Admin account actions: restoring a pending deletion', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('restore-admin-journal');
+		const administrator = await createAdmin({
+			emailPrefix: 'restore-admin-journal',
+		});
 		const account = await createUser({ emailPrefix: 'restore-target-journal' });
 		await requestAccountDeletion(account, undefined, administrator.id);
 

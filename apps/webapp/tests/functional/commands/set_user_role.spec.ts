@@ -4,18 +4,11 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import User from '#models/user';
 import { ACCOUNT_ROLE } from '#constants/account';
-import { createUser } from '#tests/factories/user_factory';
 import { captureConsoleOutput } from '#tests/helpers/console';
 import SetUserRole, { ROLE_PROMPT } from '#commands/set_user_role';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 
 const ADMINISTRATOR_CHOICE_INDEX = 0;
-
-async function createAdministrator(): Promise<User> {
-	const administrator = await createUser();
-	administrator.isAdmin = true;
-
-	return administrator.save();
-}
 
 async function runSetUserRole(email: string, role: string) {
 	const command = await ace.create(SetUserRole, [email, `--role=${role}`]);
@@ -43,8 +36,8 @@ test.group('user:set-role', (group) => {
 	});
 
 	test('should demote an administrator to member', async ({ assert }) => {
-		await createAdministrator();
-		const administrator = await createAdministrator();
+		await createAdmin({ emailPrefix: 'user' });
+		const administrator = await createAdmin({ emailPrefix: 'user' });
 
 		const command = await runSetUserRole(
 			administrator.email,
@@ -77,7 +70,7 @@ test.group('user:set-role', (group) => {
 	 */
 	test('should refuse to demote the last administrator', async ({ assert }) => {
 		await User.query().update({ is_admin: false });
-		const administrator = await createAdministrator();
+		const administrator = await createAdmin({ emailPrefix: 'user' });
 
 		const command = await runSetUserRole(
 			administrator.email,

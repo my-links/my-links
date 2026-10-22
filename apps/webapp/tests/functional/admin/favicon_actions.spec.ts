@@ -2,22 +2,13 @@ import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import User from '#models/user';
 import FaviconEntry from '#models/favicon_entry';
-import { createUser } from '#tests/factories/user_factory';
 import { freshSudoSession } from '#tests/helpers/sudo_mode';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 const HOME_ROUTE = '/';
-
-async function createAdmin(prefix = 'favicon-admin'): Promise<User> {
-	const user = await createUser({ emailPrefix: prefix });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 async function createOrphanedEntry(origin: string): Promise<FaviconEntry> {
 	const store = new FaviconStoreService();
@@ -49,7 +40,7 @@ test.group('Admin favicons page', (group) => {
 		client,
 		assert,
 	}) => {
-		const admin = await createAdmin();
+		const admin = await createAdmin({ emailPrefix: 'favicon-admin' });
 		const entry = await createOrphanedEntry('https://admin-stats-page.example');
 
 		const response = await client
@@ -71,7 +62,7 @@ test.group('Admin favicon mass actions', (group) => {
 		client,
 		assert,
 	}) => {
-		const admin = await createAdmin('favicon-admin-purge');
+		const admin = await createAdmin({ emailPrefix: 'favicon-admin-purge' });
 		const entry = await createOrphanedEntry(
 			'https://admin-purge-orphan.example'
 		);
@@ -91,7 +82,7 @@ test.group('Admin favicon mass actions', (group) => {
 		client,
 		assert,
 	}) => {
-		const admin = await createAdmin('favicon-admin-flush');
+		const admin = await createAdmin({ emailPrefix: 'favicon-admin-flush' });
 		const entry = await createOrphanedEntry('https://admin-flush.example');
 
 		const response = await client
@@ -108,7 +99,7 @@ test.group('Admin favicon mass actions', (group) => {
 	test('should report nothing to re-resolve when there is no recorded failure', async ({
 		client,
 	}) => {
-		const admin = await createAdmin('favicon-admin-reresolve');
+		const admin = await createAdmin({ emailPrefix: 'favicon-admin-reresolve' });
 
 		const response = await client
 			.post('/admin/favicons/reresolve-failures')
@@ -143,7 +134,9 @@ test.group('Admin favicon mass actions', (group) => {
 						}),
 				}) as unknown as FaviconResolutionService
 		);
-		const admin = await createAdmin('favicon-admin-reresolve-all');
+		const admin = await createAdmin({
+			emailPrefix: 'favicon-admin-reresolve-all',
+		});
 
 		const response = await client
 			.post('/admin/favicons/reresolve-all')
@@ -159,7 +152,7 @@ test.group('Admin favicon mass actions', (group) => {
 		client,
 		assert,
 	}) => {
-		const admin = await createAdmin('favicon-admin-epoch');
+		const admin = await createAdmin({ emailPrefix: 'favicon-admin-epoch' });
 		const before = await client
 			.get('/admin/favicons')
 			.withInertia()

@@ -8,6 +8,7 @@ import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { INVALID_CREDENTIALS_MESSAGE } from '#services/auth/credentials_auth_service';
 import { PENDING_REACTIVATION_SESSION_KEY } from '#services/auth/account_reactivation_service';
 import {
+	createAdmin,
 	createUser,
 	setUserPassword,
 	requestAccountDeletion,
@@ -22,14 +23,6 @@ function armedSession(user: User) {
 	return {
 		[PENDING_REACTIVATION_SESSION_KEY]: { userId: user.id, email: user.email },
 	};
-}
-
-async function createAdmin(prefix = 'admin'): Promise<User> {
-	const user = await createUser({ emailPrefix: prefix });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
 }
 
 test.group('Account reactivation: login-time gate', (group) => {
@@ -199,7 +192,9 @@ test.group('Account reactivation: admin-initiated deletion', (group) => {
 	test('should refuse the login outright, without offering to reactivate', async ({
 		client,
 	}) => {
-		const administrator = await createAdmin('admin-deletion-refuse');
+		const administrator = await createAdmin({
+			emailPrefix: 'admin-deletion-refuse',
+		});
 		const user = await createUser({ emailPrefix: 'admin-deletion-refuse' });
 		await setUserPassword(user, VALID_PASSWORD);
 		await requestAccountDeletion(user, undefined, administrator.id);
@@ -218,7 +213,9 @@ test.group('Account reactivation: admin-initiated deletion', (group) => {
 	test('should answer with the same message as a wrong password', async ({
 		client,
 	}) => {
-		const administrator = await createAdmin('admin-deletion-message');
+		const administrator = await createAdmin({
+			emailPrefix: 'admin-deletion-message',
+		});
 		const user = await createUser({ emailPrefix: 'admin-deletion-message' });
 		await setUserPassword(user, VALID_PASSWORD);
 		await requestAccountDeletion(user, undefined, administrator.id);
@@ -237,7 +234,9 @@ test.group('Account reactivation: admin-initiated deletion', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('admin-deletion-journal');
+		const administrator = await createAdmin({
+			emailPrefix: 'admin-deletion-journal',
+		});
 		const user = await createUser({ emailPrefix: 'admin-deletion-journal' });
 		await setUserPassword(user, VALID_PASSWORD);
 		await requestAccountDeletion(user, undefined, administrator.id);

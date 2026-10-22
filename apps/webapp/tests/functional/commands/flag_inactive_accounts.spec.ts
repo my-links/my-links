@@ -8,12 +8,13 @@ import { captureConsoleOutput } from '#tests/helpers/console';
 import FlagInactiveAccounts from '#commands/flag_inactive_accounts';
 import { ACCOUNT_INACTIVITY_THRESHOLD_DAYS } from '#constants/account';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
 import {
+	createAdmin,
 	createUser,
 	markLastSeen,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
-import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
 
 const STALE_CUTOFF = DateTime.now().minus({
 	days: ACCOUNT_INACTIVITY_THRESHOLD_DAYS + 1,
@@ -21,14 +22,6 @@ const STALE_CUTOFF = DateTime.now().minus({
 const FRESH_CUTOFF = DateTime.now().minus({
 	days: ACCOUNT_INACTIVITY_THRESHOLD_DAYS - 1,
 });
-
-async function createAdmin(prefix = 'admin'): Promise<User> {
-	const user = await createUser({ emailPrefix: prefix });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 /**
  * A never-signed-in account: `createUser` already leaves `lastSeenAt` unset,
@@ -107,7 +100,7 @@ test.group('account:flag-inactive', (group) => {
 	});
 
 	test('should not flag an administrator account', async ({ assert }) => {
-		const administrator = await createAdmin('inactive-admin');
+		const administrator = await createAdmin({ emailPrefix: 'inactive-admin' });
 		await markLastSeen(administrator, STALE_CUTOFF);
 
 		await runFlagInactiveAccounts();
