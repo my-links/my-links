@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: 24.14.0
+  NODE_VERSION: 26.12.1
   PNPM_VERSION: 11.21.0
 
 permissions:

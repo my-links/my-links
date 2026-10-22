@@ -2,6 +2,12 @@
 
 Highlights from major MyLinks releases, written for people using the app rather than reading commit history. For the full technical log of every release, see the [webapp](https://github.com/my-links/my-links/blob/main/apps/webapp/CHANGELOG.md) and [extension](https://github.com/my-links/my-links/blob/main/apps/extension/CHANGELOG.md) changelogs on GitHub.
 
+## 5.6.0 (unreleased)
+
+### Security
+
+- The Docker image now runs Node.js 26.12.1, which fixes the October 2026 Node.js security vulnerabilities. Rebuild or pull the new image.
+
 ## 5.0.0 (August 7, 2026)
 
 ### Accounts and sign-in

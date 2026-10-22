@@ -1,8 +1,8 @@
 # Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
-FROM node:24.14-alpine3.22 AS base
+FROM node:26.12.1-alpine3.24 AS base
 
-RUN corepack enable
+RUN npm install --global corepack@0.36.0 && corepack enable
 
 # All deps stage
 FROM base AS deps
