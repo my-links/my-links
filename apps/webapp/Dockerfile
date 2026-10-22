@@ -1,5 +1,6 @@
 # Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
+# Keep in sync with the node version in mise.toml
 FROM node:26.12.1-alpine3.24 AS base
 
 RUN npm install --global corepack@0.36.0 && corepack enable

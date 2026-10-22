@@ -94,7 +94,7 @@ This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links
 
 If you would rather run it without Docker:
 
-1. **Node.js** 26.12.1 (or compatible), **pnpm**, and **PostgreSQL 18** installed and running.
+1. **Node.js** 26.12.1 (or compatible), **pnpm**, and **PostgreSQL 18** installed and running. The Node.js and pnpm versions are pinned in `mise.toml`, and `mise install` sets them up.
 
 2. Clone and install:
 
