@@ -5,20 +5,10 @@ import { apiThrottle } from '#start/limiter';
 import { controllers } from '#generated/controllers';
 
 /**
- * Click counting (GET redirects, POST records in the background), deliberately
- * outside the auth group: links in public collections are reachable by
- * anonymous visitors, and their clicks have to be counted the same way as the
- * owner's. The global silent auth middleware still resolves the visitor when
- * there is a session.
- *
- * Throttled because it is an unauthenticated write: the shared `api`
- * limiter falls back to the client IP when there is no user.
+ * Click beacon: records a visit and answers 204, never redirects. Deliberately
+ * outside auth so the background recording needs no session; throttled by the
+ * shared `api` limiter, which falls back to the client IP.
  */
-router
-	.get('/l/:id', [controllers.links.VisitLink, 'execute'])
-	.as('link.visit')
-	.use(apiThrottle);
-
 router
 	.post('/l/:id', [controllers.links.RecordLinkVisit, 'execute'])
 	.as('link.record-visit')

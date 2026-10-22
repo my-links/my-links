@@ -2,15 +2,15 @@
 
 These routes live outside `/api/v1` but are part of the contract clients rely on.
 
-## Link redirect
+## Click beacon
 
-Redirects to a link's target URL and counts the click. Clicks feed the ranking the extension uses when it pins favorites to the bookmarks bar.
+Counts a click on a link without redirecting. Clicks feed the ranking the extension uses when it pins favorites to the bookmarks bar.
 
-**Endpoint:** `GET /l/:id`
+**Endpoint:** `POST /l/:id`
 
-**Authentication:** none required. Links in public collections are reachable by anonymous visitors, and their clicks count the same way. A session, when present, is still resolved.
+**Authentication:** none required, but it needs a CSRF token. A session, when present, is resolved, and only the owner's clicks are counted.
 
-**Response:** `302 Found` with the target URL in `Location`. The redirect is deliberately temporary so browsers keep asking the server and the counter keeps moving.
+**Response:** `204 No Content`. An unknown or non-visitable link id answers not found.
 
 Rate-limited like the API (see [Rate limiting](/api/#rate-limiting)), sharing its bucket and falling back to the client IP when there is no user.
 

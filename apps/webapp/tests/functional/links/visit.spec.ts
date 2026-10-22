@@ -32,95 +32,21 @@ async function createLinkIn(user: User, visibility: Visibility) {
 	return link;
 }
 
-test.group('Link visit redirect', (group) => {
+test.group('Link visit redirect removal', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should redirect to the target URL and count the click', async ({
-		client,
-		assert,
-	}) => {
-		const user = await createUser();
-		const link = await createLinkIn(user, VISIBILITY.PRIVATE);
-
-		const response = await client
-			.get(`/l/${link.id}`)
-			.loginAs(user)
-			.redirects(0);
-
-		response.assertStatus(302);
-		response.assertHeader('location', 'https://example.com/target');
-
-		const visited = await Link.findOrFail(link.id);
-		assert.equal(visited.clicks, 1);
-		assert.isNotNull(visited.lastClickedAt);
-	});
-
-	test('should not change updated_at when a link is visited', async ({
-		client,
-		assert,
-	}) => {
-		const user = await createUser();
-		const link = await createLinkIn(user, VISIBILITY.PRIVATE);
-		assertNotNull(link.updatedAt);
-		const updatedAtBeforeVisit = link.updatedAt.toMillis();
-
-		await client.get(`/l/${link.id}`).loginAs(user).redirects(0);
-
-		const visited = await Link.findOrFail(link.id);
-		assertNotNull(visited.updatedAt);
-		assert.equal(visited.updatedAt.toMillis(), updatedAtBeforeVisit);
-	});
-
-	test('should let an anonymous visitor follow a link in a public collection without counting the click', async ({
+	test('should not redirect to the target URL when the owner requests GET /l/:id', async ({
 		client,
 		assert,
 	}) => {
 		const user = await createUser();
 		const link = await createLinkIn(user, VISIBILITY.PUBLIC);
 
-		const response = await client.get(`/l/${link.id}`).redirects(0);
-
-		response.assertStatus(302);
-		response.assertHeader('location', 'https://example.com/target');
-		const visited = await Link.findOrFail(link.id);
-		assert.equal(visited.clicks, 0);
-	});
-
-	test('should let another user follow a public link without counting the click', async ({
-		client,
-		assert,
-	}) => {
-		const owner = await createUser();
-		const otherUser = await createUser();
-		const link = await createLinkIn(owner, VISIBILITY.PUBLIC);
-
 		const response = await client
 			.get(`/l/${link.id}`)
-			.loginAs(otherUser)
+			.loginAs(user)
 			.redirects(0);
 
-		response.assertStatus(302);
-		response.assertHeader('location', 'https://example.com/target');
-		const visited = await Link.findOrFail(link.id);
-		assert.equal(visited.clicks, 0);
-	});
-
-	test('should not disclose a private link to someone who does not own it', async ({
-		client,
-		assert,
-	}) => {
-		const owner = await createUser();
-		const stranger = await createUser();
-		const link = await createLinkIn(owner, VISIBILITY.PRIVATE);
-
-		const response = await client
-			.get(`/l/${link.id}`)
-			.loginAs(stranger)
-			.redirects(0);
-
-		// The app's exception handler turns a missing row into a redirect back
-		// to the dashboard, so "denied" shows up as landing anywhere but the
-		// link's own target.
 		assert.notEqual(response.header('location'), 'https://example.com/target');
 		const visited = await Link.findOrFail(link.id);
 		assert.equal(visited.clicks, 0);

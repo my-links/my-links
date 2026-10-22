@@ -3,7 +3,7 @@ import router from '@adonisjs/core/services/router';
 import { apiThrottle } from '#start/limiter';
 import { controllers } from '#generated/controllers';
 
-// Public and unauthenticated, so an amplifier for outbound requests: same profile and mitigation as /l/:id.
+// Public and unauthenticated, so an amplifier for outbound requests: same profile and mitigation as the POST /l/:id beacon.
 router.group(() => {
 	router
 		.get('/favicon', [controllers.favicons.ShowFavicon, 'render'])

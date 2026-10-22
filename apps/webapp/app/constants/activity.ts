@@ -5,7 +5,7 @@
  * plain strings. See `#constants/audit` for how this joins the
  * authentication vocabulary in the shared journal.
  *
- * Deliberately absent: `link.visited`. `GET /l/:id` is reachable
+ * Deliberately absent: `link.visited`. `POST /l/:id` is reachable
  * unauthenticated and is by far the hottest write path in the app:
  * journaling it would swamp the table and tell us nothing about abuse.
  */

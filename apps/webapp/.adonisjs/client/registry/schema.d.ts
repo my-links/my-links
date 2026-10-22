@@ -1075,18 +1075,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/api/tokens/revoke_current_api_token_controller').default['execute']>>>
     }
   }
-  'link.visit': {
-    methods: ["GET","HEAD"]
-    pattern: '/l/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/links/visit_link_validator').visitLinkValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/links/visit_link_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/links/visit_link_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'link.record-visit': {
     methods: ["POST"]
     pattern: '/l/:id'

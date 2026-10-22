@@ -44,4 +44,4 @@ Check the overall health status of the application. This route is intended for i
 | ---------------------- | ------------------------------------------------------------------------------------------------------- |
 | `extensionAuthHandoff` | The [extension authorization handoff](/api/non-api-routes#extension-authorization-handoff) is available |
 | `syncDelta`            | [`GET /api/v1/sync`](/api/sync) accepts a `since` cursor and answers with a delta                       |
-| `clickTracking`        | Links are opened through the `/l/:id` redirect, which counts the click                                  |
+| `clickTracking`        | Link opens are counted through the `POST /l/:id` beacon                                                 |

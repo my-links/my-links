@@ -7,19 +7,19 @@ import type User from '#models/user';
 const LINKS_TABLE = 'links';
 
 /**
- * Backs the `/l/:id` redirect: every click an owner makes (from the webapp,
- * the browser extension's sidebar or their own shared collection page) is
- * counted in one place, so the ranking that pins favourites to the bookmarks
- * bar sees a single consistent number instead of per-surface tallies.
- * Visitors can still follow a public link, but never move its counter.
+ * Backs the `POST /l/:id` beacon: every click an owner makes (from the
+ * webapp, the browser extension's sidebar or their own shared collection
+ * page) is counted in one place, so
+ * the ranking that pins favourites to the bookmarks bar sees a single
+ * consistent number instead of per-surface tallies. Visitors never move a
+ * link's counter.
  */
 export class LinkVisitService {
 	/**
-	 * A link is reachable through the redirect when the visitor owns it, or
+	 * A link is reachable through the beacon when the visitor owns it, or
 	 * when it sits in at least one public collection (the same rule the
-	 * shared-collection pages already apply). Anything else is a 404;
-	 * without this, `/l/:id` would turn id enumeration into a way to read
-	 * every private link's target URL.
+	 * shared-collection pages already apply). Anything else is a 404, so
+	 * the beacon never confirms that a private link id exists.
 	 */
 	async getVisitableLink(
 		id: Link['id'],
