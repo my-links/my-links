@@ -24,6 +24,12 @@ const routes = {
     tokens: [{"old":"/privacy","type":0,"val":"privacy","end":""}],
     types: placeholder as Registry['privacy']['types'],
   },
+  'shared': {
+    methods: ["GET","HEAD"],
+    pattern: '/shared/:id',
+    tokens: [{"old":"/shared/:id","type":0,"val":"shared","end":""},{"old":"/shared/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['shared']['types'],
+  },
   'admin.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/admin',
@@ -186,12 +192,6 @@ const routes = {
     tokens: [{"old":"/collections/:id/unfollow","type":0,"val":"collections","end":""},{"old":"/collections/:id/unfollow","type":1,"val":"id","end":""},{"old":"/collections/:id/unfollow","type":0,"val":"unfollow","end":""}],
     types: placeholder as Registry['collection.unfollow']['types'],
   },
-  'shared': {
-    methods: ["GET","HEAD"],
-    pattern: '/shared/:id',
-    tokens: [{"old":"/shared/:id","type":0,"val":"shared","end":""},{"old":"/shared/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['shared']['types'],
-  },
   'extension.authorize': {
     methods: ["GET","HEAD"],
     pattern: '/extension/authorize',
@@ -218,45 +218,9 @@ const routes = {
   },
   'user.sessions.destroy': {
     methods: ["DELETE"],
-    pattern: '/user/sessions/:sessionId',
-    tokens: [{"old":"/user/sessions/:sessionId","type":0,"val":"user","end":""},{"old":"/user/sessions/:sessionId","type":0,"val":"sessions","end":""},{"old":"/user/sessions/:sessionId","type":1,"val":"sessionId","end":""}],
+    pattern: '/user/sessions/:publicId',
+    tokens: [{"old":"/user/sessions/:publicId","type":0,"val":"user","end":""},{"old":"/user/sessions/:publicId","type":0,"val":"sessions","end":""},{"old":"/user/sessions/:publicId","type":1,"val":"publicId","end":""}],
     types: placeholder as Registry['user.sessions.destroy']['types'],
-  },
-  'user.settings': {
-    methods: ["GET","HEAD"],
-    pattern: '/user/settings',
-    tokens: [{"old":"/user/settings","type":0,"val":"user","end":""},{"old":"/user/settings","type":0,"val":"settings","end":""}],
-    types: placeholder as Registry['user.settings']['types'],
-  },
-  'user.settings.export': {
-    methods: ["GET","HEAD"],
-    pattern: '/user/settings/export',
-    tokens: [{"old":"/user/settings/export","type":0,"val":"user","end":""},{"old":"/user/settings/export","type":0,"val":"settings","end":""},{"old":"/user/settings/export","type":0,"val":"export","end":""}],
-    types: placeholder as Registry['user.settings.export']['types'],
-  },
-  'user.settings.import': {
-    methods: ["POST"],
-    pattern: '/user/settings/import',
-    tokens: [{"old":"/user/settings/import","type":0,"val":"user","end":""},{"old":"/user/settings/import","type":0,"val":"settings","end":""},{"old":"/user/settings/import","type":0,"val":"import","end":""}],
-    types: placeholder as Registry['user.settings.import']['types'],
-  },
-  'user.settings.rename': {
-    methods: ["PUT"],
-    pattern: '/user/settings/account',
-    tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
-    types: placeholder as Registry['user.settings.rename']['types'],
-  },
-  'user.settings.landing_page': {
-    methods: ["PUT"],
-    pattern: '/user/settings/landing-page',
-    tokens: [{"old":"/user/settings/landing-page","type":0,"val":"user","end":""},{"old":"/user/settings/landing-page","type":0,"val":"settings","end":""},{"old":"/user/settings/landing-page","type":0,"val":"landing-page","end":""}],
-    types: placeholder as Registry['user.settings.landing_page']['types'],
-  },
-  'user.settings.delete': {
-    methods: ["DELETE"],
-    pattern: '/user/settings/account',
-    tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
-    types: placeholder as Registry['user.settings.delete']['types'],
   },
   'auth.login': {
     methods: ["GET","HEAD"],
@@ -599,6 +563,42 @@ const routes = {
     pattern: '/favicon',
     tokens: [{"old":"/favicon","type":0,"val":"favicon","end":""}],
     types: placeholder as Registry['favicon']['types'],
+  },
+  'user.settings': {
+    methods: ["GET","HEAD"],
+    pattern: '/user/settings',
+    tokens: [{"old":"/user/settings","type":0,"val":"user","end":""},{"old":"/user/settings","type":0,"val":"settings","end":""}],
+    types: placeholder as Registry['user.settings']['types'],
+  },
+  'user.settings.export': {
+    methods: ["GET","HEAD"],
+    pattern: '/user/settings/export',
+    tokens: [{"old":"/user/settings/export","type":0,"val":"user","end":""},{"old":"/user/settings/export","type":0,"val":"settings","end":""},{"old":"/user/settings/export","type":0,"val":"export","end":""}],
+    types: placeholder as Registry['user.settings.export']['types'],
+  },
+  'user.settings.import': {
+    methods: ["POST"],
+    pattern: '/user/settings/import',
+    tokens: [{"old":"/user/settings/import","type":0,"val":"user","end":""},{"old":"/user/settings/import","type":0,"val":"settings","end":""},{"old":"/user/settings/import","type":0,"val":"import","end":""}],
+    types: placeholder as Registry['user.settings.import']['types'],
+  },
+  'user.settings.rename': {
+    methods: ["PUT"],
+    pattern: '/user/settings/account',
+    tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
+    types: placeholder as Registry['user.settings.rename']['types'],
+  },
+  'user.settings.landing_page': {
+    methods: ["PUT"],
+    pattern: '/user/settings/landing-page',
+    tokens: [{"old":"/user/settings/landing-page","type":0,"val":"user","end":""},{"old":"/user/settings/landing-page","type":0,"val":"settings","end":""},{"old":"/user/settings/landing-page","type":0,"val":"landing-page","end":""}],
+    types: placeholder as Registry['user.settings.landing_page']['types'],
+  },
+  'user.settings.delete': {
+    methods: ["DELETE"],
+    pattern: '/user/settings/account',
+    tokens: [{"old":"/user/settings/account","type":0,"val":"user","end":""},{"old":"/user/settings/account","type":0,"val":"settings","end":""},{"old":"/user/settings/account","type":0,"val":"account","end":""}],
+    types: placeholder as Registry['user.settings.delete']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

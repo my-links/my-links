@@ -43,6 +43,18 @@ export interface Registry {
       errorResponse: unknown
     }
   }
+  'shared': {
+    methods: ["GET","HEAD"]
+    pattern: '/shared/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/shared_collections/shared_collection').getSharedCollectionValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.dashboard': {
     methods: ["GET","HEAD"]
     pattern: '/admin'
@@ -367,18 +379,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/collections/unfollow_collection_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'shared': {
-    methods: ["GET","HEAD"]
-    pattern: '/shared/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: ExtractQueryForGet<InferInput<(typeof import('#validators/shared_collections/shared_collection').getSharedCollectionValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/shared_collections/show_shared_collection_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
   'extension.authorize': {
     methods: ["GET","HEAD"]
     pattern: '/extension/authorize'
@@ -429,86 +429,14 @@ export interface Registry {
   }
   'user.sessions.destroy': {
     methods: ["DELETE"]
-    pattern: '/user/sessions/:sessionId'
+    pattern: '/user/sessions/:publicId'
     types: {
       body: ExtractBody<InferInput<(typeof import('#validators/user/session/delete_session').deleteSessionValidator)>>
       paramsTuple: [ParamValue]
-      params: { sessionId: ParamValue }
+      params: { publicId: ParamValue }
       query: ExtractQuery<InferInput<(typeof import('#validators/user/session/delete_session').deleteSessionValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/user/delete_session_controller').default['execute']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user/delete_session_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'user.settings': {
-    methods: ["GET","HEAD"]
-    pattern: '/user/settings'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/show_user_settings_controller').default['render']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/show_user_settings_controller').default['render']>>>
-    }
-  }
-  'user.settings.export': {
-    methods: ["GET","HEAD"]
-    pattern: '/user/settings/export'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/export_user_data_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/export_user_data_controller').default['execute']>>>
-    }
-  }
-  'user.settings.import': {
-    methods: ["POST"]
-    pattern: '/user/settings/import'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/import_file_validator').importFileValidator)>|InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/import_file_validator').importFileValidator)>|InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'user.settings.rename': {
-    methods: ["PUT"]
-    pattern: '/user/settings/account'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/rename_account_validator').renameAccountValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/rename_account_validator').renameAccountValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'user.settings.landing_page': {
-    methods: ["PUT"]
-    pattern: '/user/settings/landing-page'
-    types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/update_landing_page_validator').updateLandingPageValidator)>>
-      paramsTuple: []
-      params: {}
-      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/update_landing_page_validator').updateLandingPageValidator)>>
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/update_landing_page_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/update_landing_page_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
-    }
-  }
-  'user.settings.delete': {
-    methods: ["DELETE"]
-    pattern: '/user/settings/account'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
     }
   }
   'auth.login': {
@@ -1193,6 +1121,78 @@ export interface Registry {
       query: ExtractQueryForGet<InferInput<(typeof import('#validators/favicons/render_favicon_validator').renderFaviconValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/favicons/show_favicon_controller').default['render']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/favicons/show_favicon_controller').default['render']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user.settings': {
+    methods: ["GET","HEAD"]
+    pattern: '/user/settings'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/show_user_settings_controller').default['render']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/show_user_settings_controller').default['render']>>>
+    }
+  }
+  'user.settings.export': {
+    methods: ["GET","HEAD"]
+    pattern: '/user/settings/export'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/export_user_data_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/export_user_data_controller').default['execute']>>>
+    }
+  }
+  'user.settings.import': {
+    methods: ["POST"]
+    pattern: '/user/settings/import'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/import_file_validator').importFileValidator)>|InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/import_file_validator').importFileValidator)>|InferInput<(typeof import('#validators/user_settings/import_data_validator').importDataValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/import_user_data_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user.settings.rename': {
+    methods: ["PUT"]
+    pattern: '/user/settings/account'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/rename_account_validator').renameAccountValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/rename_account_validator').renameAccountValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/rename_account_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user.settings.landing_page': {
+    methods: ["PUT"]
+    pattern: '/user/settings/landing-page'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user_settings/update_landing_page_validator').updateLandingPageValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user_settings/update_landing_page_validator').updateLandingPageValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/update_landing_page_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/update_landing_page_controller').default['execute']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'user.settings.delete': {
+    methods: ["DELETE"]
+    pattern: '/user/settings/account'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/user_settings/delete_user_account_controller').default['execute']>>>
     }
   }
 }
