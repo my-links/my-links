@@ -6,6 +6,7 @@ import PasswordAuth from '#models/password_auth';
 import { AUTH_PROVIDER, type AuthProvider } from '#constants/auth';
 
 const DEFAULT_EMAIL_PREFIX = 'user';
+const DEFAULT_ADMIN_EMAIL_PREFIX = 'admin';
 const DEFAULT_NAME = 'Test User';
 
 let userCounter = 0;
@@ -30,6 +31,20 @@ export async function createUser({
 		email: `${emailPrefix}-${Date.now()}-${userCounter}@example.com`,
 		name,
 	});
+}
+
+/**
+ * Builds a persisted administrator. Having one ends the instance's setup
+ * window, so specs that are not about setup create one to start past it.
+ */
+export async function createAdmin({
+	emailPrefix = DEFAULT_ADMIN_EMAIL_PREFIX,
+	name,
+}: UserAttributes = {}): Promise<User> {
+	const administrator = await createUser({ emailPrefix, name });
+	administrator.isAdmin = true;
+
+	return administrator.save();
 }
 
 /**
