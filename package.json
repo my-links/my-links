@@ -55,5 +55,5 @@
 	"volta": {
 		"node": "26.12.1"
 	},
-	"packageManager": "pnpm@11.21.0"
+	"packageManager": "pnpm@12.15.0"
 }
