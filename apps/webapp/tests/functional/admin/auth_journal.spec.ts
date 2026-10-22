@@ -1,13 +1,12 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import User from '#models/user';
 import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { createUser } from '#tests/factories/user_factory';
 import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
 import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import { recordAuthEvent } from '#tests/factories/auth_event_factory';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 
 const AUTH_JOURNAL_ROUTE = '/admin/auth-events';
 const HOME_ROUTE = '/';
@@ -18,14 +17,6 @@ type JournalLine = {
 	readonly actorFullname: string | null;
 	readonly maskedIp: string | null;
 };
-
-async function createAdmin(): Promise<User> {
-	const user = await createUser({ emailPrefix: 'journal-admin' });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 /**
  * The suite runs against a database a developer may have used, so a spec about
@@ -43,7 +34,7 @@ test.group('Admin authentication journal', (group) => {
 	test('should render the journal page to an administrator', async ({
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 
 		const response = await client
 			.get(AUTH_JOURNAL_ROUTE)
@@ -58,7 +49,7 @@ test.group('Admin authentication journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-subject' });
 		await recordAuthEvent({
 			user: account,
@@ -78,7 +69,7 @@ test.group('Admin authentication journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-masked' });
 		await recordAuthEvent({
 			user: account,
@@ -98,7 +89,7 @@ test.group('Admin authentication journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-no-full-ip' });
 		await recordAuthEvent({
 			user: account,
@@ -120,7 +111,7 @@ test.group('Admin authentication journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-target' });
 		await recordAuthEvent({
 			user: account,
@@ -141,7 +132,7 @@ test.group('Admin authentication journal', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-self' });
 		await recordAuthEvent({
 			user: account,
@@ -158,7 +149,7 @@ test.group('Admin authentication journal', (group) => {
 	});
 
 	test('should hand over one page at a time', async ({ assert, client }) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-paging' });
 		for (let index = 0; index <= AUDIT_JOURNAL_PAGE_SIZE; index += 1) {
 			await recordAuthEvent({
@@ -177,7 +168,7 @@ test.group('Admin authentication journal', (group) => {
 	});
 
 	test('should report how many pages the journal holds', async ({ client }) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 		const account = await createUser({ emailPrefix: 'journal-pages' });
 		for (let index = 0; index <= AUDIT_JOURNAL_PAGE_SIZE; index += 1) {
 			await recordAuthEvent({
@@ -197,7 +188,7 @@ test.group('Admin authentication journal', (group) => {
 	test('should serve the page the query string asks for', async ({
 		client,
 	}) => {
-		const administrator = await createAdmin();
+		const administrator = await createAdmin({ emailPrefix: 'journal-admin' });
 
 		const response = await client
 			.get(`${AUTH_JOURNAL_ROUTE}?page=2`)

@@ -8,18 +8,14 @@ import UserSession from '#models/user_session';
 import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
 import { freshSudoSession } from '#tests/helpers/sudo_mode';
-import { createUser, markLastSeen } from '#tests/factories/user_factory';
 import { createUserSession } from '#tests/factories/user_session_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import {
+	createAdmin,
+	createUser,
+	markLastSeen,
+} from '#tests/factories/user_factory';
 import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
-
-async function createAdmin(prefix = 'admin'): Promise<User> {
-	const user = await createUser({ emailPrefix: prefix });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 test.group('Account deletion: self service', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
@@ -108,7 +104,7 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('disable-admin');
+		const administrator = await createAdmin({ emailPrefix: 'disable-admin' });
 		const target = await createUser({ emailPrefix: 'disable-target' });
 
 		await client
@@ -128,7 +124,9 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('disable-admin-journal');
+		const administrator = await createAdmin({
+			emailPrefix: 'disable-admin-journal',
+		});
 		const target = await createUser({ emailPrefix: 'disable-target-journal' });
 
 		await client
@@ -152,7 +150,9 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('disable-admin-recorded');
+		const administrator = await createAdmin({
+			emailPrefix: 'disable-admin-recorded',
+		});
 		const target = await createUser({ emailPrefix: 'disable-target-recorded' });
 
 		await client
@@ -171,7 +171,9 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('disable-admin-sessions');
+		const administrator = await createAdmin({
+			emailPrefix: 'disable-admin-sessions',
+		});
 		const target = await createUser({ emailPrefix: 'disable-target-sessions' });
 		const targetSession = await createUserSession(target);
 
@@ -188,7 +190,9 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 	});
 
 	test('should not warn the target account by email', async ({ client }) => {
-		const administrator = await createAdmin('disable-admin-mail');
+		const administrator = await createAdmin({
+			emailPrefix: 'disable-admin-mail',
+		});
 		const target = await createUser({ emailPrefix: 'disable-target-mail' });
 
 		await client
@@ -209,8 +213,12 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('wipe-admin-caller');
-		const protectedAdmin = await createAdmin('wipe-admin-target');
+		const administrator = await createAdmin({
+			emailPrefix: 'wipe-admin-caller',
+		});
+		const protectedAdmin = await createAdmin({
+			emailPrefix: 'wipe-admin-target',
+		});
 
 		await client
 			.post('/admin/users/bulk-delete')
@@ -240,7 +248,9 @@ test.group('Account deletion: administrator bulk delete', (group) => {
 		assert,
 		client,
 	}) => {
-		const administrator = await createAdmin('disable-admin-last-seen');
+		const administrator = await createAdmin({
+			emailPrefix: 'disable-admin-last-seen',
+		});
 		const target = await createUser({
 			emailPrefix: 'disable-target-last-seen',
 		});

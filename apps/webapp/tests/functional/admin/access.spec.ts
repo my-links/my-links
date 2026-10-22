@@ -1,20 +1,11 @@
 import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
 
-import User from '#models/user';
-import { createUser } from '#tests/factories/user_factory';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 
 const ADMIN_DASHBOARD_ROUTE = '/admin';
 const HOME_ROUTE = '/';
 const REFUSED_MESSAGE = 'This area is reserved to administrators';
-
-async function createAdmin(): Promise<User> {
-	const user = await createUser({ emailPrefix: 'admin' });
-	user.isAdmin = true;
-	await user.save();
-
-	return user;
-}
 
 test.group('Admin access', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

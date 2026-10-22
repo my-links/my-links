@@ -4,7 +4,7 @@ import testUtils from '@adonisjs/core/services/test_utils';
 
 import env from '#start/env';
 import type User from '#models/user';
-import { createUser } from '#tests/factories/user_factory';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 import { SUDO_RETURN_URL_SESSION_KEY } from '#services/auth/sudo_mode_service';
 
 const SUDO_PATH = '/sudo';
@@ -27,14 +27,6 @@ const ADMIN_WRITE_ROUTES = [
 	{ method: 'post', path: '/admin/favicons/reresolve-all' },
 ] as const;
 
-async function createAdministrator() {
-	const administrator = await createUser({ emailPrefix: 'sudo-admin' });
-	administrator.isAdmin = true;
-	await administrator.save();
-
-	return administrator;
-}
-
 test.group('Sudo mode: admin writes', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
@@ -42,7 +34,7 @@ test.group('Sudo mode: admin writes', (group) => {
 		test(`should send an administrator with no recent proof to the prompt from ${method.toUpperCase()} ${path}`, async ({
 			client,
 		}) => {
-			const administrator = await createAdministrator();
+			const administrator = await createAdmin({ emailPrefix: 'sudo-admin' });
 
 			const response = await client[method](path)
 				.withCsrfToken()
