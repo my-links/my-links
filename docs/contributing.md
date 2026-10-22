@@ -30,6 +30,15 @@ MyLinks is a pnpm workspace:
 
 ## Development setup
 
+### Toolchain
+
+Node.js and pnpm versions are pinned in `mise.toml` at the repository root. With [mise](https://mise.jdx.dev) installed, `mise install` sets them up, and mise activates them automatically inside the repository.
+
+```bash
+mise install
+pnpm install
+```
+
 ### Environment
 
 `.env.example` lives at the repository root, and so does the actual `.env`. Docker Compose and every `just` recipe read it there; see [Configuration](/self-hosting/configuration) for the full list of variables.

@@ -52,8 +52,5 @@
 			"oxfmt --write"
 		]
 	},
-	"volta": {
-		"node": "26.12.1"
-	},
 	"packageManager": "pnpm@12.15.0"
 }
