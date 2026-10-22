@@ -141,7 +141,6 @@ export interface ApiDefinition {
     revokeCurrent: typeof routes['api-tokens.revoke-current']
   }
   link: {
-    visit: typeof routes['link.visit']
     recordVisit: typeof routes['link.record-visit']
     index: typeof routes['link.index']
     create: typeof routes['link.create']

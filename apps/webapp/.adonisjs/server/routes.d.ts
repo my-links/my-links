@@ -93,7 +93,6 @@ export type ScannedRoutes = {
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'api-tokens.revoke-current': { paramsTuple?: []; params?: {} }
-    'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.record-visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
     'link.create': { paramsTuple?: []; params?: {} }
@@ -140,7 +139,6 @@ export type ScannedRoutes = {
     'api-mcp.stream': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
-    'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
     'favicon': { paramsTuple?: []; params?: {} }
   }
@@ -179,7 +177,6 @@ export type ScannedRoutes = {
     'api-mcp.stream': { paramsTuple?: []; params?: {} }
     'api-sync.delta': { paramsTuple?: []; params?: {} }
     'api-tokens.index': { paramsTuple?: []; params?: {} }
-    'link.visit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.index': { paramsTuple?: []; params?: {} }
     'favicon': { paramsTuple?: []; params?: {} }
   }

@@ -17,7 +17,10 @@ function collectionIdPayload(id: number) {
 
 test.group('Bounded ids: route params', () => {
 	test('should not crash on an out-of-range link id', async ({ client }) => {
-		const response = await client.get(`/l/${OUT_OF_RANGE_ID}`).redirects(0);
+		const response = await client
+			.post(`/l/${OUT_OF_RANGE_ID}`)
+			.withCsrfToken()
+			.redirects(0);
 
 		response.assertStatus(302);
 	});
@@ -33,7 +36,7 @@ test.group('Bounded ids: route params', () => {
 	});
 
 	test('should not crash on a decimal link id', async ({ client }) => {
-		const response = await client.get('/l/1.5').redirects(0);
+		const response = await client.post('/l/1.5').withCsrfToken().redirects(0);
 
 		response.assertStatus(302);
 	});

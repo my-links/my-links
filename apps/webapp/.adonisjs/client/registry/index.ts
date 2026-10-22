@@ -540,12 +540,6 @@ const routes = {
     tokens: [{"old":"/api/v1/tokens/current","type":0,"val":"api","end":""},{"old":"/api/v1/tokens/current","type":0,"val":"v1","end":""},{"old":"/api/v1/tokens/current","type":0,"val":"tokens","end":""},{"old":"/api/v1/tokens/current","type":0,"val":"current","end":""}],
     types: placeholder as Registry['api-tokens.revoke-current']['types'],
   },
-  'link.visit': {
-    methods: ["GET","HEAD"],
-    pattern: '/l/:id',
-    tokens: [{"old":"/l/:id","type":0,"val":"l","end":""},{"old":"/l/:id","type":1,"val":"id","end":""}],
-    types: placeholder as Registry['link.visit']['types'],
-  },
   'link.record-visit': {
     methods: ["POST"],
     pattern: '/l/:id',

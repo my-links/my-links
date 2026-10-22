@@ -121,7 +121,6 @@ export const controllers = {
     ShowLinks: () => import('#controllers/links/show_links_controller'),
     ToggleLinkFavorite: () => import('#controllers/links/toggle_link_favorite_controller'),
     UpdateLink: () => import('#controllers/links/update_link_controller'),
-    VisitLink: () => import('#controllers/links/visit_link_controller'),
   },
   sharedCollections: {
     ShowSharedCollection: () => import('#controllers/shared_collections/show_shared_collection_controller'),

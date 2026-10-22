@@ -43,12 +43,15 @@ test.group('Public collections of an account pending deletion', (group) => {
 		response.assertHeader('location', NOT_FOUND_REDIRECT);
 	});
 
-	test('should answer 404 on the link redirect for an anonymous visitor', async ({
+	test('should answer 404 on the click beacon for an anonymous visitor', async ({
 		client,
 	}) => {
 		const { link } = await seedCollectionOfLeavingAccount();
 
-		const response = await client.get(`/l/${link.id}`).redirects(0);
+		const response = await client
+			.post(`/l/${link.id}`)
+			.withCsrfToken()
+			.redirects(0);
 
 		response.assertHeader('location', NOT_FOUND_REDIRECT);
 	});
