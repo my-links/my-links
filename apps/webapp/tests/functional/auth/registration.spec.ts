@@ -15,11 +15,15 @@ import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { AccountQueryService } from '#services/user/account_query_service';
 import { VerifyEmailNotification } from '#mails/verify_email_notification';
-import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
 import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 import { REGISTRATION_CONFIRMATION_MESSAGES } from '#controllers/auth/register_controller';
 import { SETUP_LINK_REQUIRED_MESSAGE } from '#exceptions/auth/setup_link_required_exception';
+import {
+	createAdmin,
+	createUser,
+	linkOauthIdentity,
+} from '#tests/factories/user_factory';
 import {
 	ADMIN_SETUP_TOKEN_MINIMUM_LENGTH,
 	resolveAdminSetupToken,
@@ -243,31 +247,34 @@ test.group('Registration: an instance without outgoing mail', (group) => {
 	});
 });
 
-test.group('Registration: an instance that already has an account', (group) => {
-	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+test.group(
+	'Registration: an instance that already has an administrator',
+	(group) => {
+		group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
 
-	test('should stop rendering the register page once an account exists', async ({
-		client,
-	}) => {
-		await createUser({ emailPrefix: 'registration-closed' });
+		test('should stop rendering the register page once an administrator exists', async ({
+			client,
+		}) => {
+			await createAdmin({ emailPrefix: 'registration-closed' });
 
-		const response = await client.get('/register').redirects(0);
+			const response = await client.get('/register').redirects(0);
 
-		response.assertHeader('location', HOME_PATH);
-	});
+			response.assertHeader('location', HOME_PATH);
+		});
 
-	test('should refuse a submission once an account exists', async ({
-		assert,
-		client,
-	}) => {
-		await createUser({ emailPrefix: 'registration-closed' });
-		const email = nextEmail();
+		test('should refuse a submission once an administrator exists', async ({
+			assert,
+			client,
+		}) => {
+			await createAdmin({ emailPrefix: 'registration-closed' });
+			const email = nextEmail();
 
-		await submitRegistration(client, email);
+			await submitRegistration(client, email);
 
-		assert.isNull(await User.findBy('email', email));
-	});
-});
+			assert.isNull(await User.findBy('email', email));
+		});
+	}
+);
 
 test.group('Registration: an email address already registered', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
@@ -354,13 +361,6 @@ async function currentSetupToken(): Promise<string> {
 	const adminSetupService = await app.container.make(AdminSetupService);
 
 	return adminSetupService.setupToken;
-}
-
-async function createAdministrator(): Promise<User> {
-	const administrator = await createUser({ emailPrefix: 'setup-admin' });
-	administrator.isAdmin = true;
-
-	return administrator.save();
 }
 
 test.group('Registration: the setup token', (group) => {
@@ -456,7 +456,7 @@ test.group('Registration: the setup token', (group) => {
 		assert,
 		client,
 	}) => {
-		await createAdministrator();
+		await createAdmin({ emailPrefix: 'setup-admin' });
 		openRegistration();
 		const email = nextEmail();
 
@@ -587,7 +587,7 @@ test.group('Registration: Google sign-up during setup', (group) => {
 	test('should open a regular account for a new Google identity once an administrator exists', async ({
 		assert,
 	}) => {
-		await createAdministrator();
+		await createAdmin({ emailPrefix: 'setup-admin' });
 		const oauthAccountService = await app.container.make(OauthAccountService);
 
 		const user = await oauthAccountService.authenticate(

@@ -8,7 +8,11 @@ import { AUTH_PROVIDER } from '#constants/auth';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
-import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
+import {
+	createAdmin,
+	createUser,
+	linkOauthIdentity,
+} from '#tests/factories/user_factory';
 
 const MIXED_CASE_EMAIL = 'Ada.Lovelace@Example.com';
 const NORMALIZED_EMAIL = 'ada.lovelace@example.com';
@@ -30,6 +34,9 @@ function googleIdentity(email: string): OauthIdentity {
 
 test.group('OAuth accounts: email normalization', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());
+	group.each.setup(async () => {
+		await createAdmin();
+	});
 
 	test('should store the address in the same case the registration form stores it', async ({
 		assert,
