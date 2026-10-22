@@ -7,6 +7,7 @@ export type ScannedRoutes = {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
+    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.favicons': { paramsTuple?: []; params?: {} }
@@ -34,18 +35,11 @@ export type ScannedRoutes = {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.follow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
     'extension.authorize.submit': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
-    'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
-    'user.settings': { paramsTuple?: []; params?: {} }
-    'user.settings.export': { paramsTuple?: []; params?: {} }
-    'user.settings.import': { paramsTuple?: []; params?: {} }
-    'user.settings.rename': { paramsTuple?: []; params?: {} }
-    'user.settings.landing_page': { paramsTuple?: []; params?: {} }
-    'user.settings.delete': { paramsTuple?: []; params?: {} }
+    'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'publicId': ParamValue} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }
     'auth.register': { paramsTuple?: []; params?: {} }
@@ -103,11 +97,18 @@ export type ScannedRoutes = {
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'favicon': { paramsTuple?: []; params?: {} }
+    'user.settings': { paramsTuple?: []; params?: {} }
+    'user.settings.export': { paramsTuple?: []; params?: {} }
+    'user.settings.import': { paramsTuple?: []; params?: {} }
+    'user.settings.rename': { paramsTuple?: []; params?: {} }
+    'user.settings.landing_page': { paramsTuple?: []; params?: {} }
+    'user.settings.delete': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
+    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.favicons': { paramsTuple?: []; params?: {} }
@@ -116,10 +117,7 @@ export type ScannedRoutes = {
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
-    'user.settings': { paramsTuple?: []; params?: {} }
-    'user.settings.export': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.register': { paramsTuple?: []; params?: {} }
     'auth.password.forgot': { paramsTuple?: []; params?: {} }
@@ -141,11 +139,14 @@ export type ScannedRoutes = {
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.index': { paramsTuple?: []; params?: {} }
     'favicon': { paramsTuple?: []; params?: {} }
+    'user.settings': { paramsTuple?: []; params?: {} }
+    'user.settings.export': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
     'terms': { paramsTuple?: []; params?: {} }
     'privacy': { paramsTuple?: []; params?: {} }
+    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin.dashboard': { paramsTuple?: []; params?: {} }
     'admin.status': { paramsTuple?: []; params?: {} }
     'admin.favicons': { paramsTuple?: []; params?: {} }
@@ -154,10 +155,7 @@ export type ScannedRoutes = {
     'collection.favorites': { paramsTuple?: []; params?: {} }
     'collection.inbox': { paramsTuple?: []; params?: {} }
     'collection.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'shared': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize': { paramsTuple?: []; params?: {} }
-    'user.settings': { paramsTuple?: []; params?: {} }
-    'user.settings.export': { paramsTuple?: []; params?: {} }
     'auth.login': { paramsTuple?: []; params?: {} }
     'auth.register': { paramsTuple?: []; params?: {} }
     'auth.password.forgot': { paramsTuple?: []; params?: {} }
@@ -179,6 +177,8 @@ export type ScannedRoutes = {
     'api-tokens.index': { paramsTuple?: []; params?: {} }
     'link.index': { paramsTuple?: []; params?: {} }
     'favicon': { paramsTuple?: []; params?: {} }
+    'user.settings': { paramsTuple?: []; params?: {} }
+    'user.settings.export': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'admin.favicons.purge-orphans': { paramsTuple?: []; params?: {} }
@@ -195,7 +195,6 @@ export type ScannedRoutes = {
     'collection.unfollow': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'extension.authorize.submit': { paramsTuple?: []; params?: {} }
     'user.api-tokens.store': { paramsTuple?: []; params?: {} }
-    'user.settings.import': { paramsTuple?: []; params?: {} }
     'auth.login.submit': { paramsTuple?: []; params?: {} }
     'auth.register.submit': { paramsTuple?: []; params?: {} }
     'auth.password.forgot.submit': { paramsTuple?: []; params?: {} }
@@ -216,6 +215,7 @@ export type ScannedRoutes = {
     'link.create': { paramsTuple?: []; params?: {} }
     'link.refresh-favicon': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.add-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user.settings.import': { paramsTuple?: []; params?: {} }
   }
   PATCH: {
     'admin.users.set-role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -226,8 +226,6 @@ export type ScannedRoutes = {
     'collection.reorder-links': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.move-section': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'collection.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'user.settings.rename': { paramsTuple?: []; params?: {} }
-    'user.settings.landing_page': { paramsTuple?: []; params?: {} }
     'auth.password.change': { paramsTuple?: []; params?: {} }
     'api-collections.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-collections.reorder-owned': { paramsTuple?: []; params?: {} }
@@ -238,18 +236,20 @@ export type ScannedRoutes = {
     'link.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.toggle-favorite': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'link.move-to-collection': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user.settings.rename': { paramsTuple?: []; params?: {} }
+    'user.settings.landing_page': { paramsTuple?: []; params?: {} }
   }
   DELETE: {
     'collection.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'user.api-tokens.destroy': { paramsTuple: [ParamValue]; params: {'tokenId': ParamValue} }
-    'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'sessionId': ParamValue} }
-    'user.settings.delete': { paramsTuple?: []; params?: {} }
+    'user.sessions.destroy': { paramsTuple: [ParamValue]; params: {'publicId': ParamValue} }
     'auth.provider.unlink': { paramsTuple: [ParamValue]; params: {'provider': ParamValue} }
     'api-collections.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-links.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'api-mcp.close': { paramsTuple?: []; params?: {} }
     'api-tokens.revoke-current': { paramsTuple?: []; params?: {} }
     'link.delete': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'user.settings.delete': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {
