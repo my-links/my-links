@@ -1,8 +1,9 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { useEffect, useRef, useState, type RefObject } from 'react';
 
+import type { UseShortcutProps } from '~/hooks/use_shortcut';
+import { useShortcut } from '~/hooks/use_shortcut';
 import type { FuzzyMatch } from '~/lib/fuzzy_links';
-import { useShortcut, UseShortcutProps } from '~/hooks/use_shortcut';
 
 const DEFAULT_INDEX = 0;
 
@@ -16,11 +17,13 @@ export function useSearchNavigation(
 	onSelect: (link: Data.Link) => void
 ): UseSearchNavigationReturn {
 	const [selectedIndex, setSelectedIndex] = useState(DEFAULT_INDEX);
+	const [previousResults, setPreviousResults] = useState(results);
 	const resultsRef = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
+	if (previousResults !== results) {
+		setPreviousResults(results);
 		setSelectedIndex(DEFAULT_INDEX);
-	}, [results]);
+	}
 
 	const commonShortcutOptions = {
 		disableGlobalCheck: true,

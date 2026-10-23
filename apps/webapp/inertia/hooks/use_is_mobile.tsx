@@ -1,21 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 import { MOBILE_BREAKPOINT } from '~/consts/breakpoints';
 
-export const useIsMobile = () => {
-	const [isMobile, setIsMobile] = useState(false);
+const MOBILE_MEDIA_QUERY = `(max-width: ${MOBILE_BREAKPOINT}px)`;
 
-	useEffect(() => {
-		const mediaQuery = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
-		setIsMobile(mediaQuery.matches);
-
-		const handleChange = (e: MediaQueryListEvent) => {
-			setIsMobile(e.matches);
-		};
-
-		mediaQuery.addEventListener('change', handleChange);
-		return () => mediaQuery.removeEventListener('change', handleChange);
-	}, []);
-
-	return isMobile;
+const subscribeToMobileChange = (onChange: () => void) => {
+	const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
+	mediaQuery.addEventListener('change', onChange);
+	return () => mediaQuery.removeEventListener('change', onChange);
 };
+
+const readIsMobile = () => window.matchMedia(MOBILE_MEDIA_QUERY).matches;
+
+export const useIsMobile = () =>
+	useSyncExternalStore(subscribeToMobileChange, readIsMobile, () => false);

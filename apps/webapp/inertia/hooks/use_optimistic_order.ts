@@ -1,6 +1,6 @@
-import { router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
+import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
 type WithId = { id: number };
 
@@ -16,10 +16,12 @@ type ReorderPayload = Record<string, string | number[]>;
  */
 export function useOptimisticOrder<TItem extends WithId>(serverItems: TItem[]) {
 	const [items, setItems] = useState(serverItems);
+	const [previousServerItems, setPreviousServerItems] = useState(serverItems);
 
-	useEffect(() => {
+	if (previousServerItems !== serverItems) {
+		setPreviousServerItems(serverItems);
 		setItems(serverItems);
-	}, [serverItems]);
+	}
 
 	const moveAndCommit = (
 		activeId: number,

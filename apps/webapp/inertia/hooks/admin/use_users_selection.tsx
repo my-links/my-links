@@ -1,4 +1,4 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 type UserWithCounters = Data.User.Variants['withCounters'];
@@ -21,7 +21,11 @@ export function useUsersSelection(
 		[sortedData]
 	);
 
-	useEffect(() => {
+	const [previousDeletableUserIds, setPreviousDeletableUserIds] =
+		useState(deletableUserIds);
+
+	if (previousDeletableUserIds !== deletableUserIds) {
+		setPreviousDeletableUserIds(deletableUserIds);
 		setSelectedUserIds((prev) => {
 			if (prev.size === 0) return prev;
 			const next = new Set<number>();
@@ -30,7 +34,7 @@ export function useUsersSelection(
 			});
 			return next;
 		});
-	}, [deletableUserIds]);
+	}
 
 	const allVisibleSelected = useMemo(() => {
 		if (visibleDeletableUserIds.length === 0) return false;
