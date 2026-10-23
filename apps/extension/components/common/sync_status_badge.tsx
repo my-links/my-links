@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { connectToInstance } from '@/lib/api/auth';
 import { useSyncStatus } from '@/hooks/use_sync_status';
-import { requestBackgroundSync } from '@/lib/sync/messages';
-import { INITIAL_SYNC_BACKOFF_STATE } from '@/lib/sync/backoff';
+import { connectToInstance } from '@/lib/api/auth';
 import { authInvalidStorage, syncBackoffStorage } from '@/lib/storage';
+import { INITIAL_SYNC_BACKOFF_STATE } from '@/lib/sync/backoff';
+import { requestBackgroundSync } from '@/lib/sync/messages';
 
 type SyncStatusBadgeProps = {
 	instanceUrl: string;
@@ -41,10 +41,7 @@ export function SyncStatusBadge({
 		};
 
 		return (
-			<span
-				role="status"
-				className="flex flex-shrink-0 items-center gap-1.5 rounded bg-red-100 px-1.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-200"
-			>
+			<output className="flex flex-shrink-0 items-center gap-1.5 rounded bg-red-100 px-1.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900 dark:text-red-200">
 				Session expired
 				<button
 					type="button"
@@ -54,18 +51,15 @@ export function SyncStatusBadge({
 				>
 					{isReconnecting ? 'Reconnecting…' : 'Reconnect'}
 				</button>
-			</span>
+			</output>
 		);
 	}
 
 	if (isStale) {
 		return (
-			<span
-				role="status"
-				className="flex-shrink-0 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900 dark:text-amber-200"
-			>
+			<output className="flex-shrink-0 rounded bg-amber-100 px-1.5 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900 dark:text-amber-200">
 				Stale
-			</span>
+			</output>
 		);
 	}
 
