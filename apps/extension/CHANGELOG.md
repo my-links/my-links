@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.2.0](https://github.com/my-links/my-links/compare/extension-v2.1.0...extension-v2.2.0) (2026-10-23)
+
+### Features
+
+* **extension:** open links directly and record clicks through the API ([f0ddb51](https://github.com/my-links/my-links/commit/f0ddb512d32637ad8144199320381cde807bb802))
+
+### Bug Fixes
+
+* **extension:** ask to reconnect when the token is rejected ([6c65e58](https://github.com/my-links/my-links/commit/6c65e58edcb7df10e923e462fad0cfa66e9163d4))
+* **extension:** drop cached data when reconnecting as another account ([ebc18bb](https://github.com/my-links/my-links/commit/ebc18bb21051c3e6037fdeb26185fea8080ddaa2))
+* **extension:** handle a declined authorization ([867f817](https://github.com/my-links/my-links/commit/867f817ca954057592029a298725d663b6ae1776))
+* **extension:** identify the account from the token check ([cbbea13](https://github.com/my-links/my-links/commit/cbbea13d7ba2a3d2b70f4c3eaad0c8abc220ff31))
+* **extension:** ignore links with non-web URLs ([7e97f75](https://github.com/my-links/my-links/commit/7e97f7576339564aeabd8578a16199c431705291))
+* **extension:** release the instance permission on disconnect ([e4e3516](https://github.com/my-links/my-links/commit/e4e351613524e55f0c3fa2dcac57e5b5fea06ebb))
+* **extension:** render optimistic drag results in the drop commit ([3e3aa2b](https://github.com/my-links/my-links/commit/3e3aa2b80443c98f9f6e358a6e4a905f7f17f0f6))
+* **extension:** require https for remote instances ([f905ab1](https://github.com/my-links/my-links/commit/f905ab1572f43e3aec227f9593dfa854d568e227))
+* **extension:** revoke the API token on disconnect ([6517027](https://github.com/my-links/my-links/commit/6517027d418c2b53b110a75b788b01b7abb6560d))
+* **extension:** say what the bookmark mirror uploads ([2d4f0d3](https://github.com/my-links/my-links/commit/2d4f0d37a030c55a951663153eab05e58f8e9a97))
+* **extension:** skip API calls until an instance is connected ([5cc2567](https://github.com/my-links/my-links/commit/5cc25671e5b951a2e48e2ad404fafbb9024eaa56))
+* **extension:** stop showing the owner's favorites on followed links ([bad1067](https://github.com/my-links/my-links/commit/bad1067747915309ddeefc45db4b65df265ea131))
+* **extension:** use the output element for the sync status badge ([e926fc9](https://github.com/my-links/my-links/commit/e926fc9fc3f271fc4270500c2879ea7d1c3ecd01))
+
 ## [2.1.0](https://github.com/my-links/my-links/compare/extension-v2.0.0...extension-v2.1.0) (2026-08-16)
 
 ### Features
