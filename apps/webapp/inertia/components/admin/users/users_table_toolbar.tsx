@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
+import type { ChangeEvent } from 'react';
 
 type UsersTableToolbarProps = {
 	userCount: number;

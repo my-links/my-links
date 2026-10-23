@@ -1,15 +1,15 @@
 import { fetchCollections, UnauthorizedApiError } from '@/lib/api/collections';
 import {
-	computeBackoffAfterFailure,
-	INITIAL_SYNC_BACKOFF_STATE,
-	isSyncBackingOff,
-} from '@/lib/sync/backoff';
-import {
 	apiTokenStorage,
 	authInvalidStorage,
 	collectionsCacheStorage,
 	syncBackoffStorage,
 } from '@/lib/storage';
+import {
+	computeBackoffAfterFailure,
+	INITIAL_SYNC_BACKOFF_STATE,
+	isSyncBackingOff,
+} from '@/lib/sync/backoff';
 
 let isSyncing = false;
 

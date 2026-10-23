@@ -1,9 +1,9 @@
-import { t } from '@lingui/core/macro';
 import { Link } from '@adonisjs/inertia/react';
+import { t } from '@lingui/core/macro';
 import { IconButton, Tooltip } from '@minimalstuff/ui';
 
-import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { SearchButton } from '~/components/dashboard/search/search_button';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 
 type SidebarHeaderProps = {
 	onToggleSidebar: () => void;

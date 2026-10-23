@@ -1,11 +1,11 @@
 import { inject } from '@adonisjs/core';
 
-import env from '#start/env';
-import { AdminSetupService } from '#services/auth/admin_setup_service';
-import { resolveRegistrationPolicy } from '#lib/auth/registration_policy';
-import { AccountQueryService } from '#services/user/account_query_service';
-import { SetupLinkRequiredException } from '#exceptions/auth/setup_link_required_exception';
 import { RegistrationClosedException } from '#exceptions/auth/registration_closed_exception';
+import { SetupLinkRequiredException } from '#exceptions/auth/setup_link_required_exception';
+import { resolveRegistrationPolicy } from '#lib/auth/registration_policy';
+import { AdminSetupService } from '#services/auth/admin_setup_service';
+import { AccountQueryService } from '#services/user/account_query_service';
+import env from '#start/env';
 
 @inject()
 export class RegistrationPolicyService {

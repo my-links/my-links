@@ -1,7 +1,7 @@
 import router from '@adonisjs/core/services/router';
 
-import { apiThrottle } from '#start/limiter';
 import { controllers } from '#generated/controllers';
+import { apiThrottle } from '#start/limiter';
 
 router
 	.group(() => {

@@ -2,8 +2,8 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { moveLinkValidator } from '#validators/links/move_link_validator';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { moveLinkValidator } from '#validators/links/move_link_validator';
 
 @inject()
 export default class MoveLinkController {

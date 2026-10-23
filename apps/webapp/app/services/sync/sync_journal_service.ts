@@ -1,10 +1,10 @@
-import { DateTime } from 'luxon';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import type User from '#models/user';
-import type Link from '#models/link';
 import type Collection from '#models/collection';
+import type Link from '#models/link';
+import type User from '#models/user';
 
 export const SyncEntityType = {
 	COLLECTION: 'collection',

@@ -1,5 +1,5 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
+import { test } from '@japa/runner';
 
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 

@@ -1,21 +1,21 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
-import type { RequestOrigin } from '#lib/request_origin';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { MailService } from '#services/mail/mail_service';
-import { AccountAccessService } from '#services/auth/account_access_service';
-import { ActivityEventService } from '#services/activity/activity_event_service';
-import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
 import {
 	ACCOUNT_DELETION_REASON,
 	type AccountDeletionReason,
 	ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
 } from '#constants/account';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import type { RequestOrigin } from '#lib/request_origin';
+import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
+import User from '#models/user';
+import { ActivityEventService } from '#services/activity/activity_event_service';
+import { AccountAccessService } from '#services/auth/account_access_service';
+import { MailService } from '#services/mail/mail_service';
 
 export type RequestAccountDeletionOptions = {
 	readonly origin?: RequestOrigin;

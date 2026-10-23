@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import { MenuItem, type Theme } from '@minimalstuff/ui';
+import type { ReactNode } from 'react';
 
 export type ThemeOption = {
 	value: Theme;

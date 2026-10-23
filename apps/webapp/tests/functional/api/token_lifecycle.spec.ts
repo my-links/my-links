@@ -1,14 +1,14 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
-import testUtils from '@adonisjs/core/services/test_utils';
 import type { AccessToken } from '@adonisjs/auth/access_tokens';
+import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
+import { API_TOKEN_SCOPE, TOKEN_ABILITY } from '#constants/api_token';
 import User from '#models/user';
+import { ApiTokenService } from '#services/user/api_token_service';
 import { createUser } from '#tests/factories/user_factory';
 import { freshSudoSession } from '#tests/helpers/sudo_mode';
-import { ApiTokenService } from '#services/user/api_token_service';
-import { API_TOKEN_SCOPE, TOKEN_ABILITY } from '#constants/api_token';
 
 const HTTP_UNAUTHORIZED = 401;
 const HTTP_NO_CONTENT = 204;

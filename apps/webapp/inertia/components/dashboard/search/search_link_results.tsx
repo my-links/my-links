@@ -1,8 +1,8 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
-import type { FuzzyMatch } from '~/lib/fuzzy_links';
 import { SearchLinkResult } from '~/components/dashboard/search/search_link_result';
+import type { FuzzyMatch } from '~/lib/fuzzy_links';
 
 type SearchLinkResultsProps = {
 	results: FuzzyMatch<Data.Link>[];

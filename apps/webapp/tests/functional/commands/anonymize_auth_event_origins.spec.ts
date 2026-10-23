@@ -1,17 +1,17 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import AuditEvent from '#models/audit_event';
-import { createUser } from '#tests/factories/user_factory';
-import { captureConsoleOutput } from '#tests/helpers/console';
-import { recordAuthEvent } from '#tests/factories/auth_event_factory';
 import AnonymizeAuthEventOrigins from '#commands/anonymize_auth_event_origins';
 import {
 	AUTH_EVENT_TYPE,
 	AUTH_EVENT_ORIGIN_RETENTION_DAYS,
 } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
+import { recordAuthEvent } from '#tests/factories/auth_event_factory';
+import { createUser } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 test.group('auth-events:anonymize-origins', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

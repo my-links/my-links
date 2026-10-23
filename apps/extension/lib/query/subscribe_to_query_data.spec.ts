@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
 import { QueryClient } from '@tanstack/react-query';
+import { describe, expect, it, vi } from 'vitest';
 
 import { subscribeToQueryData } from '@/lib/query/subscribe_to_query_data';
 

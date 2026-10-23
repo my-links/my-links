@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 
 import type User from '#models/user';
-import { SessionService } from '#services/user/session_service';
 import { ApiTokenService } from '#services/user/api_token_service';
+import { SessionService } from '#services/user/session_service';
 
 /**
  * Cutting off everything an account is currently reachable through.

@@ -1,14 +1,14 @@
-import { openSearch } from '@/lib/search/open_search';
+import { BOOKMARK_SYNC_DEBOUNCE_MS } from '@/lib/bookmarks/constants';
 import { syncBookmarks } from '@/lib/bookmarks/mirror';
-import { collectionsCacheStorage } from '@/lib/storage';
+import { createContextMenus, handleContextMenuClick } from '@/lib/context_menu';
 import { createDebouncedTrigger } from '@/lib/debounce';
-import { isRequestSyncMessage } from '@/lib/sync/messages';
 import { getBrowserPanelApi } from '@/lib/panel/panel_api';
 import { OPEN_SEARCH_COMMAND } from '@/lib/search/constants';
-import { syncCollections } from '@/lib/sync/sync_collections';
-import { BOOKMARK_SYNC_DEBOUNCE_MS } from '@/lib/bookmarks/constants';
+import { openSearch } from '@/lib/search/open_search';
+import { collectionsCacheStorage } from '@/lib/storage';
 import { SYNC_ALARM_NAME, SYNC_INTERVAL_MINUTES } from '@/lib/sync/constants';
-import { createContextMenus, handleContextMenuClick } from '@/lib/context_menu';
+import { isRequestSyncMessage } from '@/lib/sync/messages';
+import { syncCollections } from '@/lib/sync/sync_collections';
 
 export default defineBackground(() => {
 	// Chromium's `sidePanel` and Firefox's `sidebarAction` disagree on both

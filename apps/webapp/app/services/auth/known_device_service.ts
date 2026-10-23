@@ -1,11 +1,11 @@
 import { inject } from '@adonisjs/core';
-import { createHmac, randomUUID } from 'node:crypto';
 import type { HttpContext } from '@adonisjs/core/http';
+import { createHmac, randomUUID } from 'node:crypto';
 
-import env from '#start/env';
-import User from '#models/user';
-import type { PenaltyBudget } from '#lib/limiter/failed_attempt_penalty';
 import { deriveAccountThrottleKey } from '#lib/limiter/account_throttle_key';
+import type { PenaltyBudget } from '#lib/limiter/failed_attempt_penalty';
+import User from '#models/user';
+import env from '#start/env';
 
 const KNOWN_DEVICES_COOKIE = 'known_devices';
 const KNOWN_DEVICE_LIFETIME = '180 days';

@@ -1,8 +1,8 @@
-import type { SMTPConfig } from '@adonisjs/mail/types';
 import { defineConfig, transports } from '@adonisjs/mail';
+import type { SMTPConfig } from '@adonisjs/mail/types';
 
-import env from '#start/env';
 import { resolveMailConfig, type MailConfig } from '#lib/mail/mail_config';
+import env from '#start/env';
 
 const BRAND_NAME = 'MyLinks';
 

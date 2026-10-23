@@ -1,17 +1,17 @@
-import type { ReactNode } from 'react';
 import { Trans } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 
+import { LinkItem } from '~/components/dashboard/links/link_item';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { cn } from '~/lib/cn';
 import type { DisplayLink } from '~/lib/link';
-import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useLayoutStore } from '~/stores/layout_store';
-import { LinkItem } from '~/components/dashboard/links/link_item';
 import {
 	getLinkContainerClassName,
 	getLinkContainerStyle,
 	getLinkItemWrapperClassName,
 	getLinkItemWrapperStyle,
 } from '~/lib/link_layout';
+import { useLayoutStore } from '~/stores/layout_store';
 
 type LinkListProps = {
 	links: DisplayLink[];

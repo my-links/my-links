@@ -3,10 +3,10 @@ packages:
 
 minimumReleaseAge: 1440
 
-# 3.2.0 ships the Menu, Card and Avatar pieces the sidebar app shell needs,
-# published same-day by the person who maintains this lib. Exception for this
-# exact version only; the age gate still applies to every other release.
+# Same-day releases of libs maintained by the person who maintains this repo.
+# Exact versions only; the age gate still applies to every other release.
 minimumReleaseAgeExclude:
+  - '@minimalstuff/tooling@0.7.0'
   - '@minimalstuff/ui@3.2.0'
 
 # Both ranges are dev/build-tooling-only transitives (ts-morph via

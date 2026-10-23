@@ -1,15 +1,15 @@
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
-import { UserIdentity } from '~/components/common/user_identity';
-import { UserBadgeRole } from '~/components/common/user_badge_role';
-import { UserDateCell } from '~/components/admin/users/user_date_cell';
 import { AccountActions } from '~/components/admin/users/account_actions';
-import { UserCountBadge } from '~/components/admin/users/user_count_badge';
 import { AuthMethodsCell } from '~/components/admin/users/auth_methods_cell';
-import type { DataTableColumn } from '~/components/common/data_table/data_table';
-import { PendingDeletionBadge } from '~/components/admin/users/pending_deletion_badge';
 import { EmailVerificationBadge } from '~/components/admin/users/email_verification_badge';
+import { PendingDeletionBadge } from '~/components/admin/users/pending_deletion_badge';
+import { UserCountBadge } from '~/components/admin/users/user_count_badge';
+import { UserDateCell } from '~/components/admin/users/user_date_cell';
+import type { DataTableColumn } from '~/components/common/data_table/data_table';
+import { UserBadgeRole } from '~/components/common/user_badge_role';
+import { UserIdentity } from '~/components/common/user_identity';
 
 export type UserWithCounters = Data.User.Variants['withCounters'];
 

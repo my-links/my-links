@@ -2,20 +2,20 @@ import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
+import type { RequestOrigin } from '#lib/request_origin';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import type { RequestOrigin } from '#lib/request_origin';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
-import { LinkQueryService } from '#services/links/link_query_service';
-import { SyncJournalService } from '#services/sync/sync_journal_service';
-import { CollectionService } from '#services/collections/collection_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionService } from '#services/collections/collection_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
-import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
+import { LinkQueryService } from '#services/links/link_query_service';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
 
 type LinkPayload = {
 	name: string;

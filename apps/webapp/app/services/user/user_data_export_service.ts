@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
 import { randomUUID } from 'node:crypto';
 
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import type { Visibility } from '#enums/collections/visibility';
+import type { RequestOrigin } from '#lib/request_origin';
+import Collection from '#models/collection';
 import type Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import type { RequestOrigin } from '#lib/request_origin';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import type { Visibility } from '#enums/collections/visibility';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 
 type ExportLink = {

@@ -1,11 +1,11 @@
 import { inject } from '@adonisjs/core';
 import type { Session } from '@adonisjs/session';
 
-import type User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import type { RequestOrigin } from '#lib/request_origin';
-import { AuthEventService } from '#services/auth/auth_event_service';
+import type User from '#models/user';
 import { AccountReactivationService } from '#services/auth/account_reactivation_service';
+import { AuthEventService } from '#services/auth/auth_event_service';
 
 export const PENDING_DELETION_OUTCOME = {
 	PROCEED: 'proceed',

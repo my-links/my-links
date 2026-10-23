@@ -8,8 +8,8 @@
 |
 */
 
-import logger from '@adonisjs/core/services/logger';
 import emitter from '@adonisjs/core/services/emitter';
+import logger from '@adonisjs/core/services/logger';
 
 import { pickDeliveryDiagnostics } from '#lib/logging/delivery_diagnostics';
 

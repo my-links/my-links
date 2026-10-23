@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import LinkTransformer from '#transformers/link';
 import { SyncService } from '#services/sync/sync_service';
 import CollectionTransformer from '#transformers/collection';
+import LinkTransformer from '#transformers/link';
 import { parseSyncCursor } from '#validators/sync/sync_cursor';
 import { syncDeltaValidator } from '#validators/sync/sync_delta_validator';
 

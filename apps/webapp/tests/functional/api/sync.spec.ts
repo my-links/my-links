@@ -1,11 +1,11 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import { createUser } from '#tests/factories/user_factory';
-import { createCollection } from '#tests/factories/collection_factory';
 import { TOMBSTONE_RETENTION_DAYS } from '#services/sync/sync_service';
+import { createCollection } from '#tests/factories/collection_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 /**
  * Rewinds a row's `updated_at` instead of sleeping in the test: the endpoint

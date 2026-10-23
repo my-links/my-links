@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
-import { readFile } from 'node:fs/promises';
-import { HttpContext } from '@adonisjs/core/http';
 import type { MultipartFile } from '@adonisjs/core/bodyparser';
+import { HttpContext } from '@adonisjs/core/http';
+import { readFile } from 'node:fs/promises';
 
+import { InvalidImportFileException } from '#exceptions/user_settings/invalid_import_file_exception';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { UserDataImportService } from '#services/user/user_data_import_service';
-import { importFileValidator } from '#validators/user_settings/import_file_validator';
 import { importDataValidator } from '#validators/user_settings/import_data_validator';
-import { InvalidImportFileException } from '#exceptions/user_settings/invalid_import_file_exception';
+import { importFileValidator } from '#validators/user_settings/import_file_validator';
 
 @inject()
 export default class ImportUserDataController {

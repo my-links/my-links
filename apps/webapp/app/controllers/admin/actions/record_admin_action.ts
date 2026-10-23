@@ -1,8 +1,8 @@
 import type { HttpContext } from '@adonisjs/core/http';
 
-import type User from '#models/user';
 import type { AuthEventType } from '#constants/auth';
 import { resolveRequestOrigin } from '#lib/request_origin';
+import type User from '#models/user';
 import type { AuthEventService } from '#services/auth/auth_event_service';
 
 /**

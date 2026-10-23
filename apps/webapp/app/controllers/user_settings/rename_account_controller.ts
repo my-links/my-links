@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import { UserService } from '#services/user/user_service';
 import { resolveRequestOrigin } from '#lib/request_origin';
+import { UserService } from '#services/user/user_service';
 import { renameAccountValidator } from '#validators/user_settings/rename_account_validator';
 
 @inject()

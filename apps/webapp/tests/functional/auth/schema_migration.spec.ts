@@ -1,15 +1,15 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import OauthAuth from '#models/oauth_auth';
 import { AUTH_PROVIDER } from '#constants/auth';
-import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
 import {
 	backfillGoogleOauthAuths,
 	revertGoogleOauthAuthsBackfill,
 } from '#database/backfills/google_oauth_backfill';
+import OauthAuth from '#models/oauth_auth';
+import User from '#models/user';
+import { createUser, linkOauthIdentity } from '#tests/factories/user_factory';
 
 const LEGACY_PROVIDER_USER_ID = '109876543210987654321';
 

@@ -1,20 +1,20 @@
-import type { ReactNode } from 'react';
-import { IconButton, Tooltip } from '@minimalstuff/ui';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { IconButton, Tooltip } from '@minimalstuff/ui';
+import type { ReactNode } from 'react';
 
-import { useCollections } from '@/hooks/use_collections';
-import { CollectionSection } from './collection_section';
-import type { CollectionWithLinks } from '@/lib/api/types';
 import { CollapsibleSection } from './collapsible_section';
-import { PinnedInboxSection } from './pinned_inbox_section';
-import { useSectionOrder } from '@/hooks/use_section_order';
+import { CollectionSection } from './collection_section';
 import { CollectionsDndProvider } from './collections_dnd_provider';
-import { useCollectionCollapse } from '@/hooks/use_collection_collapse';
-import { useFollowedCollections } from '@/hooks/use_followed_collections';
 import { FollowedCollectionSection } from './followed_collection_section';
+import { PinnedInboxSection } from './pinned_inbox_section';
+import { useCollectionCollapse } from '@/hooks/use_collection_collapse';
+import { useCollections } from '@/hooks/use_collections';
+import { useFollowedCollections } from '@/hooks/use_followed_collections';
+import { useSectionOrder } from '@/hooks/use_section_order';
+import type { CollectionWithLinks } from '@/lib/api/types';
 import {
 	isSectionExpanded,
 	isCollectionExpanded,

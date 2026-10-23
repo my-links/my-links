@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
 	Button,
 	IconButton,
@@ -6,14 +5,15 @@ import {
 	ThemeToggle,
 	Tooltip,
 } from '@minimalstuff/ui';
+import { useEffect, useState } from 'react';
 
-import { Toaster } from '@/components/common/toaster';
-import { SearchPanel } from '@/components/search/search_panel';
-import { RefreshButton } from '@/components/common/refresh_button';
-import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
-import { SyncStatusBadge } from '@/components/common/sync_status_badge';
-import { QuickAddButton } from '@/components/quick_add/quick_add_button';
 import { NewCollectionButton } from '@/components/collections/new_collection_button';
+import { RefreshButton } from '@/components/common/refresh_button';
+import { SyncStatusBadge } from '@/components/common/sync_status_badge';
+import { Toaster } from '@/components/common/toaster';
+import { QuickAddButton } from '@/components/quick_add/quick_add_button';
+import { SearchPanel } from '@/components/search/search_panel';
+import { apiTokenStorage, instanceUrlStorage } from '@/lib/storage';
 
 /**
  * Shared between the sidepanel and newtab entrypoints (Phase 3), same

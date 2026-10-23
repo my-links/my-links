@@ -1,17 +1,17 @@
-import { useId } from 'react';
-import { useForm } from '@inertiajs/react';
 import type { Data } from '@generated/data';
-import { Trans } from '@lingui/react/macro';
+import { useForm } from '@inertiajs/react';
 import { plural, t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import { ModalFooter } from '@minimalstuff/ui';
+import { useId } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
-import { useTargetCollection } from '~/hooks/use_target_collection';
-import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	FormCollectionContent,
 	type FormCollectionData,
 } from '~/components/dashboard/forms/form_collection_content';
+import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
+import { useTargetCollection } from '~/hooks/use_target_collection';
+import { urlFor } from '~/lib/tuyau';
 
 type DeleteCollectionModalProps = {
 	onClose: () => void;

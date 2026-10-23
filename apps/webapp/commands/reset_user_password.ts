@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
 import { args, flags } from '@adonisjs/core/ace';
 
-import type User from '#models/user';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
 import AccountCommand from '#commands/_account_command';
-import { PasswordService } from '#services/auth/password_service';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
+import type User from '#models/user';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { newPasswordValidator } from '#validators/auth/new_password_validator';
 import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
+import { PasswordService } from '#services/auth/password_service';
+import { newPasswordValidator } from '#validators/auth/new_password_validator';
 
 export const NEW_PASSWORD_PROMPT = 'New password';
 export const NEW_PASSWORD_CONFIRMATION_PROMPT = 'Confirm the new password';

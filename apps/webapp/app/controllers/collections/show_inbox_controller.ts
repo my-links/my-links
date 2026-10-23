@@ -2,10 +2,10 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
-import CollectionTransformer from '#transformers/collection';
-import { CollectionService } from '#services/collections/collection_service';
 import { CollectionQueryService } from '#services/collections/collection_query_service';
+import { CollectionService } from '#services/collections/collection_service';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
+import CollectionTransformer from '#transformers/collection';
 
 /**
  * The Inbox has a name rather than an id in its URL, like the favorites: it is

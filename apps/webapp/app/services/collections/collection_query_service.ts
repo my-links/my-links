@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 
-import type User from '#models/user';
-import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
+import Collection from '#models/collection';
+import type User from '#models/user';
 
 @inject()
 export class CollectionQueryService {
@@ -49,7 +49,7 @@ export class CollectionQueryService {
 	 * every collection.
 	 */
 	async getCollectionsForAuthenticatedUser(userId: User['id']) {
-		return await Collection.query()
+		return Collection.query()
 			.where('author_id', userId)
 			.orderBy('position', 'asc')
 			.orderBy('name', 'asc')
@@ -83,7 +83,7 @@ export class CollectionQueryService {
 	}
 
 	async getMyPublicCollections(userId: User['id']) {
-		return await Collection.query()
+		return Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', VISIBILITY.PUBLIC)
 			.withCount('links', (query) => {
@@ -101,7 +101,7 @@ export class CollectionQueryService {
 	 * the sections the user orders. `getDefaultCollection` serves it instead.
 	 */
 	async getMyPrivateCollections(userId: User['id']) {
-		return await Collection.query()
+		return Collection.query()
 			.where('author_id', userId)
 			.andWhere('visibility', VISIBILITY.PRIVATE)
 			.andWhere('is_default', false)

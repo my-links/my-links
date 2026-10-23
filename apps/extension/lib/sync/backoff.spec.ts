@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { INITIAL_BACKOFF_MS, MAX_BACKOFF_MS } from '@/lib/sync/constants';
 import {
 	computeBackoffAfterFailure,
 	INITIAL_SYNC_BACKOFF_STATE,
 	isSyncBackingOff,
 } from '@/lib/sync/backoff';
+import { INITIAL_BACKOFF_MS, MAX_BACKOFF_MS } from '@/lib/sync/constants';
 
 describe('isSyncBackingOff', () => {
 	it('should return false once the backoff window has passed', () => {

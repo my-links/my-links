@@ -2,10 +2,10 @@ import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
-import CollectionTransformer from '#transformers/collection';
 import { CollectionQueryService } from '#services/collections/collection_query_service';
-import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
+import CollectionTransformer from '#transformers/collection';
+import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 
 @inject()
 export default class ShowCollectionController {

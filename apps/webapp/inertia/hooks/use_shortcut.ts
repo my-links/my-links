@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { useGlobalHotkeysStore } from '@minimalstuff/ui';
+import { useEffect } from 'react';
 
 import { KEYS } from '~/consts/keys';
 

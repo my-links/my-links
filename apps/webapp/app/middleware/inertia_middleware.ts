@@ -1,15 +1,15 @@
-import app from '@adonisjs/core/services/app';
 import type { HttpContext } from '@adonisjs/core/http';
+import app from '@adonisjs/core/services/app';
 import type { NextFn } from '@adonisjs/core/types/http';
 import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware';
 
-import UserTransformer from '#transformers/user';
 import { resolveServerLocale } from '#config/inertia';
-import packageJson from '../../package.json' with { type: 'json' };
-import { MailConfigService } from '#services/mail/mail_config_service';
-import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
+import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
+import { MailConfigService } from '#services/mail/mail_config_service';
+import UserTransformer from '#transformers/user';
+import packageJson from '../../package.json' with { type: 'json' };
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
 	async share(ctx: HttpContext) {

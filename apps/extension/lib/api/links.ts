@@ -1,5 +1,5 @@
-import type { LinkResource } from '@/lib/api/types';
 import { createExtensionApiClient } from '@/lib/api/client';
+import type { LinkResource } from '@/lib/api/types';
 
 export class CreateLinkError extends Error {}
 export class UpdateLinkError extends Error {}

@@ -1,23 +1,23 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
 
-import type User from '#models/user';
 import { MAXIMUM_DATABASE_ID } from '#constants/database';
-import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
-import { LinkService } from '#services/links/link_service';
 import { MAXIMUM_SEARCH_TERM_LENGTH } from '#constants/search';
-import { LinkQueryService } from '#services/links/link_query_service';
-import { CollectionService } from '#services/collections/collection_service';
+import { VISIBILITY } from '#enums/collections/visibility';
+import type User from '#models/user';
+import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import { CollectionQueryService } from '#services/collections/collection_query_service';
-import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { CollectionService } from '#services/collections/collection_service';
+import { LinkQueryService } from '#services/links/link_query_service';
+import { LinkService } from '#services/links/link_service';
 import {
 	McpSessionManager,
 	type McpSessionLimits,
 } from '#services/mcp/mcp_session_manager';
+import { createUser } from '#tests/factories/user_factory';
 
 const SESSION_HEADER = 'mcp-session-id';
 const ACCEPT_BOTH = 'application/json, text/event-stream';

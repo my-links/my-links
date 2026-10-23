@@ -1,9 +1,9 @@
 import { ThemeToggle } from '@minimalstuff/ui';
 
-import { MadeBy } from '~/components/common/navigation/made_by';
-import { IconLink } from '~/components/common/navigation/icon_link';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import { useFooterLinks } from '~/components/common/navigation/footer_links';
+import { IconLink } from '~/components/common/navigation/icon_link';
+import { MadeBy } from '~/components/common/navigation/made_by';
 
 export function Footer() {
 	const footerLinks = useFooterLinks();

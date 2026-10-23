@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { newTabOverrideStorage } from '@/lib/storage';
 import { CollectionsWorkspace } from '@/components/workspace/collections_workspace';
+import { newTabOverrideStorage } from '@/lib/storage';
 
 function App() {
 	const [isOverrideEnabled, setIsOverrideEnabled] = useState<boolean | null>(

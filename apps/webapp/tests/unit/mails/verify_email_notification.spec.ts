@@ -1,7 +1,7 @@
 import { test } from '@japa/runner';
 
-import User from '#models/user';
 import { VerifyEmailNotification } from '#mails/verify_email_notification';
+import User from '#models/user';
 
 const VERIFICATION_URL = 'https://links.example.com/verify-email?token=abc';
 const EXPIRES_IN_HOURS = 24;

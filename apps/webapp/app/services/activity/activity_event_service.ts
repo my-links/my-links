@@ -1,11 +1,11 @@
-import { DateTime } from 'luxon';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import AuditEvent from '#models/audit_event';
-import type { RequestOrigin } from '#lib/request_origin';
-import type { AuditSubjectType } from '#constants/audit';
 import type { ActivityEventType } from '#constants/activity';
+import type { AuditSubjectType } from '#constants/audit';
 import { paginateAuditJournal } from '#lib/audit_journal_query';
+import type { RequestOrigin } from '#lib/request_origin';
+import AuditEvent from '#models/audit_event';
 
 /**
  * Something a user or an administrator did to a collection, a link, or an

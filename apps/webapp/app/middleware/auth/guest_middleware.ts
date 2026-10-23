@@ -1,5 +1,5 @@
-import type { HttpContext } from '@adonisjs/core/http';
 import type { Authenticators } from '@adonisjs/auth/types';
+import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn, RoutesList } from '@adonisjs/core/types/http';
 
 /**

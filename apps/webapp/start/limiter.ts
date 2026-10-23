@@ -9,11 +9,10 @@
 |
 */
 
-import limiter from '@adonisjs/limiter/services/main';
 import type { MiddlewareFn } from '@adonisjs/core/types/http';
+import limiter from '@adonisjs/limiter/services/main';
 
 import { defineAttemptThrottles } from '#lib/limiter/attempt_throttle';
-import { defineFailedAttemptPenalty } from '#lib/limiter/failed_attempt_penalty';
 import {
 	LOGIN_ATTEMPT_TIERS,
 	REGISTRATION_ATTEMPT_TIERS,
@@ -23,6 +22,7 @@ import {
 	EMAIL_CHANGE_REQUEST_TIERS,
 	DATA_IMPORT_TIERS,
 } from '#lib/limiter/attempt_tiers';
+import { defineFailedAttemptPenalty } from '#lib/limiter/failed_attempt_penalty';
 
 /**
  * Applied to every `/api/v1/*` route (extension today, any future API

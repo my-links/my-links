@@ -1,17 +1,17 @@
-import { z } from 'zod';
 import { HttpContext } from '@adonisjs/core/http';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { z } from 'zod';
 
-import type Collection from '#models/collection';
 import { TOKEN_ABILITY } from '#constants/api_token';
-import { runTool } from '#services/mcp/tools/tool_result';
-import { resolveRequestOrigin } from '#lib/request_origin';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { mcpIdSchema } from '#services/mcp/tools/id_schema';
-import CollectionTransformer from '#transformers/collection';
-import { CollectionService } from '#services/collections/collection_service';
-import { CollectionQueryService } from '#services/collections/collection_query_service';
+import { resolveRequestOrigin } from '#lib/request_origin';
+import type Collection from '#models/collection';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
+import { CollectionService } from '#services/collections/collection_service';
+import { mcpIdSchema } from '#services/mcp/tools/id_schema';
+import { runTool } from '#services/mcp/tools/tool_result';
+import CollectionTransformer from '#transformers/collection';
 
 function getAuthenticatedUserId() {
 	return HttpContext.getOrFail().auth.getUserOrFail().id;

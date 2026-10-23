@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import {
 	clearCapturedLogs,
 	readAlwaysOnLogs,
 } from '#tests/helpers/captured_logs';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 

@@ -1,10 +1,10 @@
-import { t } from '@lingui/core/macro';
-import { Button } from '@minimalstuff/ui';
-import { Trans } from '@lingui/react/macro';
 import { Head, useForm } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 
+import type { InertiaProps } from '~/lib/inertia_props';
 import { urlFor } from '~/lib/tuyau';
-import { InertiaProps } from '~/lib/inertia_props';
 
 type PageProps = InertiaProps<{
 	redirectUri: string;

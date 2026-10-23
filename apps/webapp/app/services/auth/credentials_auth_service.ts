@@ -1,10 +1,10 @@
 import { errors } from '@adonisjs/auth';
 import { inject } from '@adonisjs/core';
 
-import User from '#models/user';
 import type { RequestOrigin } from '#lib/request_origin';
-import { PasswordHasher } from '#services/auth/password_hasher';
+import User from '#models/user';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { PasswordHasher } from '#services/auth/password_hasher';
 
 const DECOY_PLAIN_PASSWORD = 'this-password-belongs-to-nobody';
 
@@ -73,6 +73,7 @@ export class CredentialsAuthService {
 	private async refuse(email: string, origin: RequestOrigin): Promise<never> {
 		await this.authEventService.recordFailedLogin({ email, ...origin });
 
+		// oxlint-disable-next-line typescript/only-throw-error -- the auth error type is Error-like but not recognized as Error
 		throw new errors.E_INVALID_CREDENTIALS(INVALID_CREDENTIALS_MESSAGE);
 	}
 

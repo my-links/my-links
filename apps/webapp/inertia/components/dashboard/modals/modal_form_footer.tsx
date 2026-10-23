@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
 import { Trans } from '@lingui/react/macro';
 import { Button, type ButtonColor } from '@minimalstuff/ui';
+import type { ReactNode } from 'react';
 
 type ModalFormFooterProps = {
 	formId: string;

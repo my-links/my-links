@@ -2,9 +2,9 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { journalPageMeta } from '#controllers/admin/actions/journal_page_meta';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 import ActivityEventTransformer from '#transformers/activity_event_transformer';
 import { journalPageValidator } from '#validators/admin/journal_page_validator';
-import { ActivityEventService } from '#services/activity/activity_event_service';
 
 const FIRST_PAGE = 1;
 

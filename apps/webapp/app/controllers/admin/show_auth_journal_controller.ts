@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
+import { journalPageMeta } from '#controllers/admin/actions/journal_page_meta';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import AuthEventTransformer from '#transformers/auth_event_transformer';
-import { journalPageMeta } from '#controllers/admin/actions/journal_page_meta';
 import { journalPageValidator } from '#validators/admin/journal_page_validator';
 
 const FIRST_PAGE = 1;

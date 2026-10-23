@@ -1,21 +1,21 @@
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import hash from '@adonisjs/core/services/hash';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import PasswordAuth from '#models/password_auth';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { EMAIL_PROMPT } from '#commands/_account_command';
-import { createUser } from '#tests/factories/user_factory';
-import { captureConsoleOutput } from '#tests/helpers/console';
 import CreateUser, {
 	ADMINISTRATOR_PROMPT,
 	DISPLAY_NAME_PROMPT,
 	PASSWORD_CONFIRMATION_PROMPT,
 	PASSWORD_PROMPT,
 } from '#commands/create_user';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
+import PasswordAuth from '#models/password_auth';
+import User from '#models/user';
+import { createUser } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 const ACCOUNT_NAME = 'Ada Lovelace';
 const VALID_PASSWORD = 'correct-horse-battery-staple';

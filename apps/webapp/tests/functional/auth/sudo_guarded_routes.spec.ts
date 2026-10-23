@@ -1,11 +1,11 @@
-import { test } from '@japa/runner';
-import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
 
-import env from '#start/env';
 import type User from '#models/user';
-import { createAdmin, createUser } from '#tests/factories/user_factory';
 import { SUDO_RETURN_URL_SESSION_KEY } from '#services/auth/sudo_mode_service';
+import env from '#start/env';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
 
 const SUDO_PATH = '/sudo';
 const SETTINGS_PATH = '/user/settings';

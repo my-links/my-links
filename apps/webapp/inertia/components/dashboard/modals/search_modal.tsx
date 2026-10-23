@@ -1,12 +1,13 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { Input } from '@minimalstuff/ui';
-import { ChangeEvent, useCallback, useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { useCallback, useState } from 'react';
 
-import { isWebUrl } from '~/lib/navigation';
+import { SearchResultsContent } from '~/components/dashboard/search/search_results_content';
+import { useSearchNavigation } from '~/hooks/use_search_navigation';
 import { useSearchResults } from '~/hooks/use_search_results';
 import { recordLinkVisit } from '~/lib/links/record_link_visit';
-import { useSearchNavigation } from '~/hooks/use_search_navigation';
-import { SearchResultsContent } from '~/components/dashboard/search/search_results_content';
+import { isWebUrl } from '~/lib/navigation';
 
 type SearchModalProps = {
 	onClose: () => void;

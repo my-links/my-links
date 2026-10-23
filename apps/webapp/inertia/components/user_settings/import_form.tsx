@@ -1,5 +1,5 @@
-import { Button } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 
 import { useImportForm } from '~/hooks/use_import_form';
 

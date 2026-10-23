@@ -1,8 +1,8 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import { createUser } from '#tests/factories/user_factory';
 import { LANDING_PAGE, type LandingPage } from '#enums/dashboard/landing_page';
+import { createUser } from '#tests/factories/user_factory';
 
 const LANDING_PAGE_ROUTE = '/user/settings/landing-page';
 const SETTINGS_ROUTE = '/user/settings';

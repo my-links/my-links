@@ -1,7 +1,7 @@
-import { isSSREnableForPage } from 'config-ssr';
-import { createInertiaApp } from '@inertiajs/react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
+import { createInertiaApp } from '@inertiajs/react';
+import { isSSREnableForPage } from 'config-ssr';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { PROJECT_NAME } from '~/consts/project';

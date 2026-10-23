@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import type { Favicon } from '#types/favicon_type';
+import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 import { createLink } from '#tests/factories/link_factory';
 import { createUser } from '#tests/factories/user_factory';
-import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
-import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import type { Favicon } from '#types/favicon_type';
 
 const HOME_ROUTE = '/';
 

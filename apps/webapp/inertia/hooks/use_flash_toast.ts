@@ -1,7 +1,7 @@
-import { toast } from 'sonner';
-import { useEffect } from 'react';
-import { router } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { router } from '@inertiajs/react';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 /** Surfaces every flash as a toast, including one that repeats the previous message verbatim. */
 export function useFlashToast(): void {

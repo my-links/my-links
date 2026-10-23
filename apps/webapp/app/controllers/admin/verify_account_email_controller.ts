@@ -2,11 +2,11 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { AuthEventService } from '#services/auth/auth_event_service';
-import { AccountQueryService } from '#services/user/account_query_service';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
-import { EmailVerificationService } from '#services/auth/email_verification_service';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
+import { AuthEventService } from '#services/auth/auth_event_service';
+import { EmailVerificationService } from '#services/auth/email_verification_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 
 export const EMAIL_MARKED_VERIFIED_MESSAGE = 'That address is now confirmed';
 export const EMAIL_ALREADY_VERIFIED_MESSAGE =

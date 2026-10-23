@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/react/macro';
 import { Badge, ConfirmModal } from '@minimalstuff/ui';
 
-import { formatDate } from '~/lib/format';
-import { useSessions } from '~/hooks/use_sessions';
-import { NaContent } from '~/components/common/na_content';
 import { DataTable } from '~/components/common/data_table/data_table';
+import { NaContent } from '~/components/common/na_content';
 import { RevokeSessionButton } from '~/components/user_settings/revoke_session_button';
+import { useSessions } from '~/hooks/use_sessions';
+import { formatDate } from '~/lib/format';
 
 const getRowKey = (session: { publicId: string }) => session.publicId;
 

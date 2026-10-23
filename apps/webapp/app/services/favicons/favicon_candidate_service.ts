@@ -1,10 +1,7 @@
 import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
-import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import { describeFailure } from '#lib/favicons/failure_summary';
-import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { webAppManifestValidator } from '#validators/favicons/web_app_manifest_validator';
 import {
 	parseDocument,
 	resolveUrl,
@@ -16,6 +13,9 @@ import {
 	extractManifestIconCandidates,
 	type FaviconCandidate,
 } from '#lib/favicons/favicon_candidate_resolver';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
+import { webAppManifestValidator } from '#validators/favicons/web_app_manifest_validator';
 
 const FAVICON_ICO_PATH = '/favicon.ico';
 const FAVICON_ICO_SCORE = 0;

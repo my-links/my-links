@@ -1,14 +1,14 @@
-import { t } from '@lingui/core/macro';
-import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { Head } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 
-import { AppLayout } from '~/layouts/app_layout';
-import { InertiaProps } from '~/lib/inertia_props';
-import { AdminTabs } from '~/components/admin/admin_tabs';
-import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 import { ActivityEventsTable } from '~/components/admin/activity_events/activity_events_table';
 import { ActivityJournalPagination } from '~/components/admin/activity_events/activity_journal_pagination';
+import { AdminTabs } from '~/components/admin/admin_tabs';
+import { AppPageHeader } from '~/components/common/navigation/app_page_header';
+import { AppLayout } from '~/layouts/app_layout';
+import type { InertiaProps } from '~/lib/inertia_props';
 
 type PageProps = InertiaProps<{
 	events: Data.ActivityEvent[];

@@ -1,12 +1,9 @@
+import type { EmojiClickData } from 'emoji-picker-react';
+import EmojiPickerReact, { EmojiStyle, Theme } from 'emoji-picker-react';
 import { useRef, useState } from 'react';
-import EmojiPickerReact, {
-	EmojiClickData,
-	EmojiStyle,
-	Theme,
-} from 'emoji-picker-react';
 
-import { cn } from '~/lib/cn';
 import { useClickOutside } from '~/hooks/use_click_outside';
+import { cn } from '~/lib/cn';
 
 const DEFAULT_EMOJI = '📁';
 

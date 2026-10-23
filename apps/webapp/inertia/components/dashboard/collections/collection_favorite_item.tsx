@@ -1,15 +1,15 @@
-import { t } from '@lingui/core/macro';
-import { usePage } from '@inertiajs/react';
-import { Tooltip } from '@minimalstuff/ui';
-import type { Data } from '@generated/data';
-import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
-import { PageProps } from '@adonisjs/inertia/types';
+import type { PageProps } from '@adonisjs/inertia/types';
+import type { Data } from '@generated/data';
+import { usePage } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
+import { Tooltip } from '@minimalstuff/ui';
 
-import { cn } from '~/lib/cn';
 import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
+import { cn } from '~/lib/cn';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 type PagePropsWithActiveCollection = PageProps & {

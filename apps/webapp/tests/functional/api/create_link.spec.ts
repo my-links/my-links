@@ -1,10 +1,10 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
+import { VISIBILITY } from '#enums/collections/visibility';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import { VISIBILITY } from '#enums/collections/visibility';
 import { createUser } from '#tests/factories/user_factory';
 
 async function createCollection(user: User, name: string) {

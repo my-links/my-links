@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon';
-import db from '@adonisjs/lucid/services/db';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
+import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
 import { LAST_SEEN_AT_WRITE_THROTTLE_MINUTES } from '#constants/account';
 

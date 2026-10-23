@@ -1,6 +1,6 @@
 import { HttpResponse } from '@adonisjs/core/http';
-import type { RoutesList } from '@adonisjs/core/types/http';
 import { urlFor } from '@adonisjs/core/services/url_builder';
+import type { RoutesList } from '@adonisjs/core/types/http';
 
 type RouteOptions = {
 	params?: Record<string, string | number>;

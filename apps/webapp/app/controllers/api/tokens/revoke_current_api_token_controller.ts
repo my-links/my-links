@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import { ApiTokenService } from '#services/user/api_token_service';
 import { UnAuthorizedException } from '#exceptions/api/tokens/un_authorized_exception';
+import { ApiTokenService } from '#services/user/api_token_service';
 
 @inject()
 export default class RevokeCurrentApiTokenController {

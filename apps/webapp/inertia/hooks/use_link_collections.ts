@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
 import type { Data } from '@generated/data';
+import { useMemo } from 'react';
 
-import { hasCollectionIds, type DisplayLink } from '~/lib/link';
 import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { hasCollectionIds, type DisplayLink } from '~/lib/link';
 
 type UseLinkCollectionsReturn = {
 	linkCollections: Data.Collection[];

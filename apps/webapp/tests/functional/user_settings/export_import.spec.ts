@@ -1,23 +1,23 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { VISIBILITY } from '#enums/collections/visibility';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import AuditEvent from '#models/audit_event';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import AuditEvent from '#models/audit_event';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
-import { SyncJournalService } from '#services/sync/sync_journal_service';
-import { CollectionService } from '#services/collections/collection_service';
-import { UserDataExportService } from '#services/user/user_data_export_service';
-import { UserDataImportService } from '#services/user/user_data_import_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import { CollectionOrderingService } from '#services/collections/collection_ordering_service';
-import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { CollectionService } from '#services/collections/collection_service';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
+import { UserDataExportService } from '#services/user/user_data_export_service';
+import { UserDataImportService } from '#services/user/user_data_import_service';
+import { createUser } from '#tests/factories/user_factory';
 
 function buildExportService() {
 	return new UserDataExportService(new ActivityEventService());

@@ -1,5 +1,5 @@
-import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
+import { t } from '@lingui/core/macro';
 
 type HealthCheckStatus = Data.StatusReportCheck['status'];
 

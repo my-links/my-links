@@ -1,18 +1,18 @@
-import type { ReactNode } from 'react';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 
-import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { CollapsibleSection } from './collapsible_section';
-import { CollectionInboxItem } from './collection_inbox_item';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { useSectionOrderStore } from '~/stores/section_order_store';
 import { CollectionFavoriteItem } from './collection_favorite_item';
+import { CollectionInboxItem } from './collection_inbox_item';
 import { useDashboardDndCollections } from '~/hooks/use_dashboard_dnd_collections';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import {
 	COLLECTION_SECTION,
 	type CollectionSection,
 } from '~/lib/dnd/dnd_types';
+import { useSectionOrderStore } from '~/stores/section_order_store';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

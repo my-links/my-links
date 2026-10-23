@@ -1,10 +1,10 @@
+import { Head, useForm } from '@inertiajs/react';
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { Head, useForm } from '@inertiajs/react';
 import { Button, Input } from '@minimalstuff/ui';
 
+import type { InertiaProps } from '~/lib/inertia_props';
 import { urlFor } from '~/lib/tuyau';
-import { InertiaProps } from '~/lib/inertia_props';
 
 type ResetPasswordFormData = {
 	password: string;

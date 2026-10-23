@@ -1,8 +1,8 @@
 import { useDroppable } from '@dnd-kit/core';
 
+import { CollectionSectionBody } from './collection_section_body';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { collectionSortableId } from '@/lib/dnd/dnd_types';
-import { CollectionSectionBody } from './collection_section_body';
 
 type PinnedInboxSectionProps = {
 	collection: CollectionWithLinks;

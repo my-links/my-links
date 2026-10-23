@@ -1,22 +1,22 @@
-import { test } from '@japa/runner';
+import type { BaseCommand } from '@adonisjs/core/ace';
 import ace from '@adonisjs/core/services/ace';
 import hash from '@adonisjs/core/services/hash';
-import type { BaseCommand } from '@adonisjs/core/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import AuditEvent from '#models/audit_event';
-import UserSession from '#models/user_session';
-import PasswordAuth from '#models/password_auth';
-import OneTimeToken from '#models/one_time_token';
 import { EMAIL_PROMPT } from '#commands/_account_command';
-import { captureConsoleOutput } from '#tests/helpers/console';
-import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { createUserSession } from '#tests/factories/user_session_factory';
-import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import ResetUserPassword, {
 	NEW_PASSWORD_CONFIRMATION_PROMPT,
 	NEW_PASSWORD_PROMPT,
 } from '#commands/reset_user_password';
+import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
+import OneTimeToken from '#models/one_time_token';
+import PasswordAuth from '#models/password_auth';
+import UserSession from '#models/user_session';
+import { createUser, setUserPassword } from '#tests/factories/user_factory';
+import { createUserSession } from '#tests/factories/user_session_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 const CURRENT_PASSWORD = 'correct-horse-battery-staple';
 const NEW_PASSWORD = 'a-brand-new-passphrase';

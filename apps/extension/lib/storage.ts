@@ -1,29 +1,29 @@
 import { storage } from 'wxt/utils/storage';
 
-import { DEFAULT_SECTION_ORDER } from '@/lib/section_order';
-import type { CollectionSection } from '@/lib/dnd/dnd_types';
-import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
-import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
-import {
-	EMPTY_PINNED_RANKING,
-	type PinnedRanking,
-} from '@/lib/bookmarks/pinned';
-import {
-	EMPTY_BOOKMARK_MAPPING,
-	type BookmarkMapping,
-} from '@/lib/bookmarks/mapping';
-import {
-	INITIAL_SYNC_BACKOFF_STATE,
-	type SyncBackoffState,
-} from '@/lib/sync/backoff';
 import type {
 	CollectionWithLinks,
 	FollowedCollectionWithLinks,
 } from '@/lib/api/types';
 import {
+	EMPTY_BOOKMARK_MAPPING,
+	type BookmarkMapping,
+} from '@/lib/bookmarks/mapping';
+import {
+	EMPTY_PINNED_RANKING,
+	type PinnedRanking,
+} from '@/lib/bookmarks/pinned';
+import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
+import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
+import {
 	DEFAULT_COLLECTION_COLLAPSE_STATE,
 	type CollectionCollapseState,
 } from '@/lib/collection_collapse';
+import type { CollectionSection } from '@/lib/dnd/dnd_types';
+import { DEFAULT_SECTION_ORDER } from '@/lib/section_order';
+import {
+	INITIAL_SYNC_BACKOFF_STATE,
+	type SyncBackoffState,
+} from '@/lib/sync/backoff';
 
 const LOCAL_DEV_INSTANCE_URL = 'http://localhost:3333';
 const PUBLIC_INSTANCE_URL = 'https://mylinks.app';

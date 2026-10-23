@@ -1,16 +1,16 @@
-import { useMemo } from 'react';
-import { Button } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
-import { Trans } from '@lingui/react/macro';
 import { Head, router } from '@inertiajs/react';
+import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
+import { useMemo } from 'react';
 
-import { useAuth } from '~/hooks/use_auth';
-import { InertiaProps } from '~/lib/inertia_props';
-import { useIsMobile } from '~/hooks/use_is_mobile';
-import { SharedLayout } from '~/layouts/shared_layout';
-import { LinkList } from '~/components/common/link_list';
 import { FilterList } from '~/components/common/filter_list';
+import { LinkList } from '~/components/common/link_list';
+import { useAuth } from '~/hooks/use_auth';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
+import { SharedLayout } from '~/layouts/shared_layout';
+import type { InertiaProps } from '~/lib/inertia_props';
 
 type SharedPageProps = InertiaProps<{
 	activeCollection: Data.Collection.Variants['withLinks'];

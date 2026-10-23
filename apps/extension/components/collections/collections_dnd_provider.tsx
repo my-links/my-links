@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import type { ReactNode } from 'react';
-import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import {
 	DndContext,
 	KeyboardSensor,
@@ -10,25 +7,28 @@ import {
 	type DragEndEvent,
 	type DragStartEvent,
 } from '@dnd-kit/core';
+import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { useState } from 'react';
+import type { ReactNode } from 'react';
 
+import { CollectionsDragOverlay } from './collections_drag_overlay';
+import { useAddLinkToCollection } from '@/hooks/use_add_link_to_collection';
 import { useCollections } from '@/hooks/use_collections';
+import { useFollowedCollections } from '@/hooks/use_followed_collections';
+import { useMoveLinkToCollection } from '@/hooks/use_move_link_to_collection';
+import { useReorderCollections } from '@/hooks/use_reorder_collections';
+import { useReorderFollowedCollections } from '@/hooks/use_reorder_followed_collections';
 import { useReorderLinks } from '@/hooks/use_reorder_links';
 import { useShiftModifier } from '@/hooks/use_shift_modifier';
-import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
-import { CollectionsDragOverlay } from './collections_drag_overlay';
 import { sectionCollectionsForReorder } from '@/lib/collections_tree';
-import { useReorderCollections } from '@/hooks/use_reorder_collections';
-import { useFollowedCollections } from '@/hooks/use_followed_collections';
-import { useAddLinkToCollection } from '@/hooks/use_add_link_to_collection';
-import { useMoveLinkToCollection } from '@/hooks/use_move_link_to_collection';
-import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
 import { collectionsDndCollisionDetection } from '@/lib/dnd/collision_detection';
-import { useReorderFollowedCollections } from '@/hooks/use_reorder_followed_collections';
+import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
 import {
 	COLLECTION_SECTION,
 	visibilityForSection,
 	type LinkDragData,
 } from '@/lib/dnd/dnd_types';
+import { armDragClickGuard } from '@/lib/dnd/drag_click_guard';
 import {
 	collectionIdForDropTarget,
 	isCollectionDragData,

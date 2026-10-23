@@ -1,7 +1,7 @@
-import { usePage } from '@inertiajs/react';
+import type { PageProps } from '@adonisjs/inertia/types';
 import type { Data } from '@generated/data';
+import { usePage } from '@inertiajs/react';
 import { ContextMenu } from '@minimalstuff/ui';
-import { PageProps } from '@adonisjs/inertia/types';
 import {
 	forwardRef,
 	useImperativeHandle,
@@ -9,10 +9,10 @@ import {
 	type MouseEvent as ReactMouseEvent,
 } from 'react';
 
-import { dispatchContextMenuAt } from '~/lib/dispatch_context_menu';
-import { useCollectionActions } from '~/hooks/use_collection_actions';
 import { CollectionMenuItems } from '~/components/dashboard/collections/collection_menu_items';
 import { CollectionQuickActions } from '~/components/dashboard/collections/collection_quick_actions';
+import { useCollectionActions } from '~/hooks/use_collection_actions';
+import { dispatchContextMenuAt } from '~/lib/dispatch_context_menu';
 
 type Collection = Data.Collection;
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];

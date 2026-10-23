@@ -1,6 +1,6 @@
-import ReactDOMServer from 'react-dom/server';
-import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from '@adonisjs/inertia/helpers';
+import { createInertiaApp } from '@inertiajs/react';
+import ReactDOMServer from 'react-dom/server';
 
 import { DEFAULT_LOCALE } from '~/consts/i18n';
 import { dynamicActivate, type Locale } from '~/i18n';

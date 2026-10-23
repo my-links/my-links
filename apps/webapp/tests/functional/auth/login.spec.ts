@@ -1,18 +1,18 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
 
-import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { LOGIN_BURST_TIER } from '#lib/limiter/attempt_tiers';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
+import AuditEvent from '#models/audit_event';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import {
 	createUser,
 	setUserPassword,
 	verifyUserEmail,
 } from '#tests/factories/user_factory';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 const NEW_PASSWORD = 'brand-new-horse-battery-staple';

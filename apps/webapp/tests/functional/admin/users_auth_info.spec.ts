@@ -1,14 +1,12 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import { countQueries } from '#tests/helpers/query_counter';
-import { inertiaPageProps } from '#tests/helpers/inertia_page';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
-import { recordAuthEvent } from '#tests/factories/auth_event_factory';
+import type User from '#models/user';
 import { AccountQueryService } from '#services/user/account_query_service';
+import { recordAuthEvent } from '#tests/factories/auth_event_factory';
 import {
 	createAdmin,
 	createUser,
@@ -16,6 +14,8 @@ import {
 	setUserPassword,
 	verifyUserEmail,
 } from '#tests/factories/user_factory';
+import { inertiaPageProps } from '#tests/helpers/inertia_page';
+import { countQueries } from '#tests/helpers/query_counter';
 
 const ADMIN_DASHBOARD_ROUTE = '/admin';
 const PASSWORD = 'correct-horse-battery-staple';

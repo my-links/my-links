@@ -1,20 +1,20 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import type { Session } from '@adonisjs/session';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { Session } from '@adonisjs/session';
+import { test } from '@japa/runner';
 
-import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
-import {
-	createUser,
-	requestAccountDeletion,
-} from '#tests/factories/user_factory';
+import AuditEvent from '#models/audit_event';
 import { PENDING_REACTIVATION_SESSION_KEY } from '#services/auth/account_reactivation_service';
 import {
 	PendingDeletionGuard,
 	PENDING_DELETION_OUTCOME,
 } from '#services/auth/pending_deletion_guard';
+import {
+	createUser,
+	requestAccountDeletion,
+} from '#tests/factories/user_factory';
 
 const ADMINISTRATOR_ID_PLACEHOLDER_PREFIX = 'guard-admin';
 

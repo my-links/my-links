@@ -1,25 +1,25 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
 
-import type User from '#models/user';
-import OauthAuth from '#models/oauth_auth';
-import AuditEvent from '#models/audit_event';
-import { freshSudoSession } from '#tests/helpers/sudo_mode';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
-import type { OauthIdentity } from '#services/auth/oauth_account_service';
-import { ProviderLinkService } from '#services/auth/provider_link_service';
+import AuditEvent from '#models/audit_event';
+import OauthAuth from '#models/oauth_auth';
+import type User from '#models/user';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import {
 	OAUTH_INTENT,
 	OAUTH_INTENT_SESSION_KEY,
 } from '#services/auth/oauth_intent_service';
+import { ProviderLinkService } from '#services/auth/provider_link_service';
 import {
 	createUser,
 	linkOauthIdentity,
 	setUserPassword,
 } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 const PASSWORD = 'correct-horse-battery-staple';
 const LINK_GOOGLE_PATH = '/account/providers/google';

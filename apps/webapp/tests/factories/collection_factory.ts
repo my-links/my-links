@@ -1,6 +1,6 @@
-import type User from '#models/user';
-import Collection from '#models/collection';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import Collection from '#models/collection';
+import type User from '#models/user';
 
 const DEFAULT_COLLECTION_NAME = 'Test collection';
 

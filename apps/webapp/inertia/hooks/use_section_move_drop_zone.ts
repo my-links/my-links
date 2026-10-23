@@ -1,10 +1,10 @@
 import { useDndContext, useDroppable } from '@dnd-kit/core';
 
-import { isCollectionDragData, isSectionDropData } from '~/lib/dnd/drag_data';
 import {
 	COLLECTION_SECTION,
 	type CollectionSection,
 } from '~/lib/dnd/dnd_types';
+import { isCollectionDragData, isSectionDropData } from '~/lib/dnd/drag_data';
 
 export function useSectionMoveDropZone(section: CollectionSection) {
 	const { active, over } = useDndContext();

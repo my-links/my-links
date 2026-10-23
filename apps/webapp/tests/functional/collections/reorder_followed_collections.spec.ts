@@ -1,11 +1,11 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
 
-import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
+import Collection from '#models/collection';
 import { createCollection } from '#tests/factories/collection_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 async function followerPosition(collectionId: number, userId: number) {
 	const row = await db

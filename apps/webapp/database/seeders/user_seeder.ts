@@ -1,13 +1,13 @@
-import { DateTime } from 'luxon';
-import { faker } from '@faker-js/faker';
 import app from '@adonisjs/core/services/app';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
+import { faker } from '@faker-js/faker';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import OauthAuth from '#models/oauth_auth';
 import { AUTH_PROVIDER } from '#constants/auth';
-import PasswordAuth from '#models/password_auth';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import OauthAuth from '#models/oauth_auth';
+import PasswordAuth from '#models/password_auth';
+import User from '#models/user';
 import { CollectionService } from '#services/collections/collection_service';
 
 const SEEDED_USERS_COUNT = 25;

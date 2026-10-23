@@ -1,7 +1,7 @@
 import presetIcons from '@unocss/preset-icons';
-import { defineConfig, presetWind4 } from 'unocss';
 import presetWebFonts from '@unocss/preset-web-fonts';
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local';
+import { defineConfig, presetWind4 } from 'unocss';
 
 export default defineConfig({
 	presets: [

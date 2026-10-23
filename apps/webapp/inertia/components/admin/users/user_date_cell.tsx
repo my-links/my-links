@@ -1,7 +1,7 @@
 import { ClientOnly } from '@minimalstuff/ui';
 
-import { formatDate } from '~/lib/format';
 import { NaContent } from '~/components/common/na_content';
+import { formatDate } from '~/lib/format';
 
 type UserDateCellProps = {
 	date?: string | null;

@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import LinkTransformer from '#transformers/link';
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { LinkQueryService } from '#services/links/link_query_service';
 import { DashboardSidebarService } from '#services/dashboard/dashboard_sidebar_service';
+import { LinkQueryService } from '#services/links/link_query_service';
+import LinkTransformer from '#transformers/link';
 
 @inject()
 export default class ShowFavoritesController {

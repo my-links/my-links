@@ -1,8 +1,8 @@
-import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
-import type { CollectionWithLinks } from '@/lib/api/types';
 import { CollectionSectionBody } from './collection_section_body';
+import type { CollectionWithLinks } from '@/lib/api/types';
 import {
 	collectionSortableId,
 	type CollectionSection as CollectionDndSection,

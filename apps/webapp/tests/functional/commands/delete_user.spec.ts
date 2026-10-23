@@ -1,13 +1,13 @@
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import { createUser } from '#tests/factories/user_factory';
-import { captureConsoleOutput } from '#tests/helpers/console';
 import DeleteUser, {
 	DELETION_CONFIRMATION_PROMPT,
 } from '#commands/delete_user';
+import User from '#models/user';
+import { createUser } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 async function runDeleteUser(email: string, retypedEmail: string) {
 	const command = await ace.create(DeleteUser, [email]);

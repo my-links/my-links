@@ -1,10 +1,10 @@
 import { Button } from '@minimalstuff/ui';
 import { useState, type FormEvent } from 'react';
 
-import { trimToNullableText } from '@/lib/strings';
+import { LinkFormFields, type LinkFormValues } from './link_form_fields';
 import { useUpdateLink } from '@/hooks/use_update_link';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
-import { LinkFormFields, type LinkFormValues } from './link_form_fields';
+import { trimToNullableText } from '@/lib/strings';
 
 type EditLinkModalProps = {
 	link: LinkResource;

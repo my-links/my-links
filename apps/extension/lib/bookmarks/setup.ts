@@ -1,7 +1,7 @@
-import { bookmarkMirrorStorage } from '@/lib/storage';
+import { getBrowserBookmarksApi } from '@/lib/bookmarks/bookmarks_api';
 import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
 import { getOrCreateCollectionsFolder } from '@/lib/bookmarks/root';
-import { getBrowserBookmarksApi } from '@/lib/bookmarks/bookmarks_api';
+import { bookmarkMirrorStorage } from '@/lib/storage';
 
 export class BookmarksPermissionDeniedError extends Error {}
 

@@ -1,19 +1,19 @@
-import { resolveBookmarksBarId } from '@/lib/bookmarks/root';
-import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
 import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
-import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
-import type { BookmarkOperation } from '@/lib/bookmarks/operations';
-import {
-	bookmarkMappingStorage,
-	bookmarkMirrorStorage,
-	clearBookmarkMirrorState,
-} from '@/lib/storage';
 import {
 	getBrowserBookmarksApi,
 	indexBySubtreeId,
 	type BookmarkNode,
 	type BookmarksApi,
 } from '@/lib/bookmarks/bookmarks_api';
+import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
+import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import { resolveBookmarksBarId } from '@/lib/bookmarks/root';
+import {
+	bookmarkMappingStorage,
+	bookmarkMirrorStorage,
+	clearBookmarkMirrorState,
+} from '@/lib/storage';
 
 export class BookmarkTeardownError extends Error {}
 

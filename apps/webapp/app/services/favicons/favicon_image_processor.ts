@@ -1,5 +1,5 @@
-import sharp from 'sharp';
 import { inject } from '@adonisjs/core';
+import sharp from 'sharp';
 
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 

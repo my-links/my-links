@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import { Trans } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 
 const date = '16/10/2026';
 

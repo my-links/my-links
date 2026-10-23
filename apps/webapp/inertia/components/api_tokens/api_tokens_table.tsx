@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/react/macro';
 
-import { formatDate } from '~/lib/format';
-import type { ApiToken } from '~/hooks/use_api_tokens';
-import { NaContent } from '~/components/common/na_content';
 import { NewTokenCell } from '~/components/api_tokens/new_token_cell';
-import { DataTable } from '~/components/common/data_table/data_table';
 import { RevokeTokenButton } from '~/components/api_tokens/revoke_token_button';
+import { DataTable } from '~/components/common/data_table/data_table';
+import { NaContent } from '~/components/common/na_content';
+import type { ApiToken } from '~/hooks/use_api_tokens';
+import { formatDate } from '~/lib/format';
 
 const CELL_CLASS_NAME = 'px-4 py-3 text-sm text-gray-900 dark:text-gray-100';
 

@@ -1,9 +1,9 @@
-import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { fakeBrowser } from 'wxt/testing/fake-browser';
 
+import { fetchAccountIdentity } from '@/lib/api/account_identity';
 import { connectToInstance } from '@/lib/api/auth';
 import { EMPTY_BOOKMARK_MAPPING } from '@/lib/bookmarks/mapping';
-import { fetchAccountIdentity } from '@/lib/api/account_identity';
 import {
 	accountIdentityStorage,
 	apiTokenStorage,

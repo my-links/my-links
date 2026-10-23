@@ -1,10 +1,10 @@
-import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
+import { t } from '@lingui/core/macro';
 import { IconButton, Tooltip } from '@minimalstuff/ui';
 
-import { usePasswordRecovery } from '~/hooks/use_password_recovery';
 import { useAccountActions } from '~/hooks/admin/use_account_actions';
 import { useAccountConfirmations } from '~/hooks/admin/use_account_confirmations';
+import { usePasswordRecovery } from '~/hooks/use_password_recovery';
 
 type AccountActionsProps = {
 	account: Data.User.Variants['withCounters'];

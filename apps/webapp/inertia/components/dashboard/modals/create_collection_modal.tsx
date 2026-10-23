@@ -1,14 +1,14 @@
-import { useId, useMemo } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { ModalFooter } from '@minimalstuff/ui';
+import { useId, useMemo } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
-import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	FormCollectionContent,
 	type FormCollectionData,
 } from '~/components/dashboard/forms/form_collection_content';
+import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
+import { urlFor } from '~/lib/tuyau';
 
 type CreateCollectionModalProps = {
 	onClose: () => void;

@@ -1,13 +1,13 @@
 import { test } from '@japa/runner';
 import { errors } from '@vinejs/vine';
 
-import { createLinkValidator } from '#validators/links/create_link_validator';
 import {
 	MAXIMUM_DATABASE_ID,
 	MAXIMUM_ID_LIST_LENGTH,
 } from '#constants/database';
-import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { bulkDeleteUsersValidator } from '#validators/admin/bulk_delete_users_validator';
+import { collectionIdValidator } from '#validators/collections/collection_id_validator';
+import { createLinkValidator } from '#validators/links/create_link_validator';
 
 const OUT_OF_RANGE_ID = MAXIMUM_DATABASE_ID + 1;
 

@@ -1,10 +1,10 @@
 import type { Infer } from '@vinejs/vine/types';
 
-import type User from '#models/user';
-import type Collection from '#models/collection';
 import type { RequestOrigin } from '#lib/request_origin';
-import type { LinkService } from '#services/links/link_service';
+import type Collection from '#models/collection';
+import type User from '#models/user';
 import type { LinkQueryService } from '#services/links/link_query_service';
+import type { LinkService } from '#services/links/link_service';
 import { deleteLinkValidator } from '#validators/links/delete_link_validator';
 
 type DeleteLinkActionInput = {

@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
-import { resolveRequestOrigin } from '#lib/request_origin';
-import { AccountQueryService } from '#services/user/account_query_service';
-import { AccountDeletionService } from '#services/user/account_deletion_service';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
+import { resolveRequestOrigin } from '#lib/request_origin';
+import { AccountDeletionService } from '#services/user/account_deletion_service';
+import { AccountQueryService } from '#services/user/account_query_service';
 
 export const ACCOUNT_RESTORED_MESSAGE =
 	'That account is no longer scheduled for deletion';

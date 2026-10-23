@@ -1,13 +1,13 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
-import { MAXIMUM_URL_LENGTH } from '#constants/link';
-import { emojiRule } from '#validators/rules/emoji_rule';
-import { VISIBILITY } from '#enums/collections/visibility';
-import { linkUrlSchema } from '#validators/links/link_url_validator';
 import {
 	MAXIMUM_IMPORT_LINKS,
 	MAXIMUM_IMPORT_COLLECTIONS,
 } from '#constants/data_import';
+import { MAXIMUM_URL_LENGTH } from '#constants/link';
+import { VISIBILITY } from '#enums/collections/visibility';
+import { linkUrlSchema } from '#validators/links/link_url_validator';
+import { emojiRule } from '#validators/rules/emoji_rule';
 
 const linkFields = {
 	name: vine.string().trim().minLength(1).maxLength(254),

@@ -1,11 +1,11 @@
-import clsx from 'clsx';
-import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import clsx from 'clsx';
 
 import { FollowedLinkRow } from './followed_link_row';
-import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 import type { FollowedCollectionWithLinks } from '@/lib/api/types';
 import { COLLECTION_SECTION, collectionSortableId } from '@/lib/dnd/dnd_types';
+import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 
 type FollowedCollectionSectionProps = {
 	collection: FollowedCollectionWithLinks;

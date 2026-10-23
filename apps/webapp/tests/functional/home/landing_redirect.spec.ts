@@ -1,9 +1,9 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import { createUser } from '#tests/factories/user_factory';
-import { createLink } from '#tests/factories/link_factory';
 import { LANDING_PAGE } from '#enums/dashboard/landing_page';
+import { createLink } from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 const HOME_PATH = '/';
 const FAVORITES_PATH = '/collections/favorites';

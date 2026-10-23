@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { collectionCollapseStorage } from '@/lib/storage';
-import type { CollectionSection } from '@/lib/dnd/dnd_types';
 import {
 	DEFAULT_COLLECTION_COLLAPSE_STATE,
 	collapseAll as collapseAllInState,
@@ -11,6 +9,8 @@ import {
 	toggleSectionRecursive as toggleSectionRecursiveInState,
 	type CollectionCollapseState,
 } from '@/lib/collection_collapse';
+import type { CollectionSection } from '@/lib/dnd/dnd_types';
+import { collectionCollapseStorage } from '@/lib/storage';
 
 type UseCollectionCollapseReturn = {
 	state: CollectionCollapseState;

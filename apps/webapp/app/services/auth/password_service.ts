@@ -1,21 +1,21 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import type { Secret } from '@adonisjs/core/helpers';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import PasswordAuth from '#models/password_auth';
 import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { MailService } from '#services/mail/mail_service';
-import { PasswordHasher } from '#services/auth/password_hasher';
-import { PasswordSetNotification } from '#mails/password_set_notification';
-import { OneTimeTokenService } from '#services/auth/one_time_token_service';
-import { AccountAccessService } from '#services/auth/account_access_service';
-import { PasswordChangedNotification } from '#mails/password_changed_notification';
 import {
 	PasswordUpdateRefusedException,
 	PASSWORD_UPDATE_REFUSAL,
 } from '#exceptions/auth/password_update_refused_exception';
+import { PasswordChangedNotification } from '#mails/password_changed_notification';
+import { PasswordSetNotification } from '#mails/password_set_notification';
+import PasswordAuth from '#models/password_auth';
+import User from '#models/user';
+import { AccountAccessService } from '#services/auth/account_access_service';
+import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { PasswordHasher } from '#services/auth/password_hasher';
+import { MailService } from '#services/mail/mail_service';
 
 const TOKEN_TYPE = ONE_TIME_TOKEN_TYPE.PASSWORD_RESET;
 

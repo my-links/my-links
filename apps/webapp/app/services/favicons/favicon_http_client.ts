@@ -1,20 +1,20 @@
-import { ProxyAgent } from 'undici';
 import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
+import { ProxyAgent } from 'undici';
 
-import { isTimeoutError } from '#lib/favicons/timeout_error';
-import { toLoggableOrigin } from '#lib/logging/loggable_origin';
-import type { FaviconHttpResponse } from '#types/favicon_http_response';
-import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
-import { ImpersonatedFetcher } from '#services/favicons/impersonated_fetcher';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
 import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import {
 	isBlockedStatus,
 	isRetryableNetworkError,
 } from '#lib/favicons/block_detection';
-import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
-import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
+import { isTimeoutError } from '#lib/favicons/timeout_error';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
+import { ImpersonatedFetcher } from '#services/favicons/impersonated_fetcher';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import type { FaviconHttpResponse } from '#types/favicon_http_response';
 
 const MAX_HTML_BYTES = 256 * 1024;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;

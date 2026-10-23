@@ -1,28 +1,28 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import type { Page, Locator } from 'playwright';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
+import type { Page, Locator } from 'playwright';
 
-import type User from '#models/user';
-import { resetMailpitInbox } from '#tests/helpers/mailpit';
-import { loginAsUser, submitLoginForm } from '#tests/helpers/browser_session';
-import { INVALID_CREDENTIALS_MESSAGE } from '#services/auth/credentials_auth_service';
 import { ACCOUNT_RESTORED_MESSAGE } from '#controllers/admin/restore_account_controller';
-import {
-	ERROR_TOAST_SELECTOR,
-	SUCCESS_TOAST_SELECTOR,
-} from '#tests/helpers/browser_toasts';
-import {
-	clickOnceHydrated,
-	hoverOnceHydrated,
-	NETWORK_EXPECTED_TIMEOUT_MS,
-} from '#tests/helpers/browser_forms';
+import type User from '#models/user';
+import { INVALID_CREDENTIALS_MESSAGE } from '#services/auth/credentials_auth_service';
 import {
 	createUser,
 	verifyUserEmail,
 	setUserPassword,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
+import {
+	clickOnceHydrated,
+	hoverOnceHydrated,
+	NETWORK_EXPECTED_TIMEOUT_MS,
+} from '#tests/helpers/browser_forms';
+import { loginAsUser, submitLoginForm } from '#tests/helpers/browser_session';
+import {
+	ERROR_TOAST_SELECTOR,
+	SUCCESS_TOAST_SELECTOR,
+} from '#tests/helpers/browser_toasts';
+import { resetMailpitInbox } from '#tests/helpers/mailpit';
 
 const ADMIN_PATH = '/admin';
 const LOGIN_PATH = '/login';

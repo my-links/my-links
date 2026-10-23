@@ -1,17 +1,17 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import AuditEvent from '#models/audit_event';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { createUser } from '#tests/factories/user_factory';
-import { AuthEventService } from '#services/auth/auth_event_service';
-import { recordAuthEvent } from '#tests/factories/auth_event_factory';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import {
 	AUTH_EVENT_ORIGIN_RETENTION_DAYS,
 	AUTH_EVENT_TYPE,
 } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
+import { AuthEventService } from '#services/auth/auth_event_service';
+import { recordAuthEvent } from '#tests/factories/auth_event_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 async function backdate(event: AuditEvent, days: number): Promise<void> {
 	event.createdAt = DateTime.now().minus({ days });

@@ -1,12 +1,12 @@
 import { Button } from '@minimalstuff/ui';
 import { useEffect, useState } from 'react';
 
-import { bookmarkMirrorStorage } from '@/lib/storage';
-import { stopMirroringAndRemoveBookmarks } from '@/lib/bookmarks/teardown';
 import {
 	disableBookmarkMirror,
 	enableBookmarkMirror,
 } from '@/lib/bookmarks/setup';
+import { stopMirroringAndRemoveBookmarks } from '@/lib/bookmarks/teardown';
+import { bookmarkMirrorStorage } from '@/lib/storage';
 
 type MirrorStatus =
 	| { kind: 'loading' }

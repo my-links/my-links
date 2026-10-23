@@ -1,15 +1,16 @@
-import { useRef, useState } from 'react';
 import type {
 	DraggableAttributes,
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
+import { useRef, useState } from 'react';
 
-import { cn } from '~/lib/cn';
-import type { DisplayLink } from '~/lib/link';
+import type { LinkControlsRef } from './link_controls';
+import { LinkControls } from './link_controls';
 import { LinkItemSummary } from './link_item_summary';
-import { LinkControls, LinkControlsRef } from './link_controls';
-import { recordLinkVisit } from '~/lib/links/record_link_visit';
+import { cn } from '~/lib/cn';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
+import type { DisplayLink } from '~/lib/link';
+import { recordLinkVisit } from '~/lib/links/record_link_visit';
 
 const MIDDLE_MOUSE_BUTTON = 1;
 

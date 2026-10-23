@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react';
 
-import { cn } from '~/lib/cn';
 import { SUPPORTED_LOCALES } from '~/consts/i18n';
 import { dynamicActivate, persistLocale, type Locale } from '~/i18n/index';
+import { cn } from '~/lib/cn';
 
 const LOCALE_LABELS: Record<Locale, string> = {
 	en: 'EN',

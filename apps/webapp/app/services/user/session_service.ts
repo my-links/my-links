@@ -1,12 +1,12 @@
 import { inject } from '@adonisjs/core';
 import type { Session } from '@adonisjs/session';
 
-import type User from '#models/user';
-import { SessionData } from '#types/session';
-import UserSession from '#models/user_session';
 import type { RequestOrigin } from '#lib/request_origin';
-import { UaParserService } from '#services/ua_parser_service';
+import type User from '#models/user';
+import UserSession from '#models/user_session';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
+import { UaParserService } from '#services/ua_parser_service';
+import { SessionData } from '#types/session';
 
 @inject()
 export class SessionService {

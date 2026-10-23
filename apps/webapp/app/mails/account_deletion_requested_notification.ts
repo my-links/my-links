@@ -1,9 +1,9 @@
-import { BaseMail } from '@adonisjs/mail';
 import { urlFor } from '@adonisjs/core/services/url_builder';
+import { BaseMail } from '@adonisjs/mail';
 
-import env from '#start/env';
-import type User from '#models/user';
 import type { AccountDeletionReason } from '#constants/account';
+import type User from '#models/user';
+import env from '#start/env';
 
 export type AccountDeletionRequestedPayload = {
 	readonly user: User;

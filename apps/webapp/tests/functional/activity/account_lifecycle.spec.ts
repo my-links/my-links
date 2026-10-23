@@ -1,21 +1,21 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import UserSession from '#models/user_session';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { freshSudoSession } from '#tests/helpers/sudo_mode';
-import { createUserSession } from '#tests/factories/user_session_factory';
-import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
+import AuditEvent from '#models/audit_event';
+import User from '#models/user';
+import UserSession from '#models/user_session';
 import {
 	createAdmin,
 	createUser,
 	markLastSeen,
 } from '#tests/factories/user_factory';
-import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
+import { createUserSession } from '#tests/factories/user_session_factory';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 test.group('Account deletion: self service', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

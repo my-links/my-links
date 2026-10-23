@@ -2,12 +2,12 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { MailService } from '#services/mail/mail_service';
+import { EmailChangeUnavailableException } from '#exceptions/auth/email_change_unavailable_exception';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { EmailChangeService } from '#services/auth/email_change_service';
+import { MailService } from '#services/mail/mail_service';
 import { requestEmailChangeValidator } from '#validators/auth/request_email_change_validator';
-import { EmailChangeUnavailableException } from '#exceptions/auth/email_change_unavailable_exception';
 
 /**
  * The one thing the form answers, whether or not the address is free. Exported

@@ -1,11 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import type { NextFn } from '@adonisjs/core/types/http';
 
-import env from '#start/env';
 import {
 	padToMinimumDuration,
 	SYSTEM_CLOCK,
 } from '#lib/timing/minimum_duration';
+import env from '#start/env';
 
 /**
  * Longer than the slowest branch of the account lookup flows (an argon2 hash

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import type { LinkResource } from '@/lib/api/types';
 import { useCollections } from '@/hooks/use_collections';
+import type { LinkResource } from '@/lib/api/types';
 import { matchLinks, type FuzzyMatch } from '@/lib/search/fuzzy_links';
 
 type UseSearchReturn = {

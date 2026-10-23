@@ -1,7 +1,7 @@
 import { BaseCommand } from '@adonisjs/core/ace';
-import { errors as vineErrors } from '@vinejs/vine';
 import { Exception } from '@adonisjs/core/exceptions';
 import type { CommandOptions } from '@adonisjs/core/types/ace';
+import { errors as vineErrors } from '@vinejs/vine';
 
 import User from '#models/user';
 import { emailAddressValidator } from '#validators/auth/email_address_validator';

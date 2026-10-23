@@ -1,20 +1,20 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
+import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { VERIFICATION_RESEND_MESSAGE } from '#controllers/auth/resend_verification_controller';
+import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
+import { VERIFICATION_RESEND_BURST_TIER } from '#lib/limiter/attempt_tiers';
+import { VerifyEmailNotification } from '#mails/verify_email_notification';
 import AuditEvent from '#models/audit_event';
 import OneTimeToken from '#models/one_time_token';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { VerifyEmailNotification } from '#mails/verify_email_notification';
-import { VERIFICATION_RESEND_BURST_TIER } from '#lib/limiter/attempt_tiers';
-import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
-import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
-import { VERIFICATION_RESEND_MESSAGE } from '#controllers/auth/resend_verification_controller';
 import {
 	createUser,
 	setUserPassword,
 	verifyUserEmail,
 } from '#tests/factories/user_factory';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 const WRONG_PASSWORD = 'wrong-horse-battery-staple';

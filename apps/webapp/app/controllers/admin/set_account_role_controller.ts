@@ -1,15 +1,15 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
-import type User from '#models/user';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { ACCOUNT_ROLE, type AccountRole } from '#constants/account';
-import { AuthEventService } from '#services/auth/auth_event_service';
-import { AccountRoleService } from '#services/user/account_role_service';
-import { AccountQueryService } from '#services/user/account_query_service';
-import { accountRoleValidator } from '#validators/admin/account_role_validator';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { recordAdminAction } from '#controllers/admin/actions/record_admin_action';
 import { resolveAdminActionTarget } from '#controllers/admin/actions/resolve_admin_action_target';
+import type User from '#models/user';
+import { AuthEventService } from '#services/auth/auth_event_service';
+import { AccountQueryService } from '#services/user/account_query_service';
+import { AccountRoleService } from '#services/user/account_role_service';
+import { accountRoleValidator } from '#validators/admin/account_role_validator';
 
 export const ROLE_CHANGED_MESSAGES = {
 	[ACCOUNT_ROLE.ADMINISTRATOR]: 'That account is now an administrator',

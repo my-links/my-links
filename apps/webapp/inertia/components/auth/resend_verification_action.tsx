@@ -1,6 +1,6 @@
-import { Button } from '@minimalstuff/ui';
 import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';
 

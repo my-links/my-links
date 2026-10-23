@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
 import { Trans } from '@lingui/react/macro';
 import { ConfirmModal } from '@minimalstuff/ui';
+import { useEffect, useRef } from 'react';
 // react-joyride pinned to 3.1.0: 3.2.0 causes an infinite render loop on mount with React 19.2.8.
 import {
 	ACTIONS,
@@ -11,10 +11,10 @@ import {
 	type Step,
 } from 'react-joyride';
 
-import { useTourStore } from '~/stores/tour_store';
-import { useIsMobile } from '~/hooks/use_is_mobile';
 import { TourTooltip } from '~/components/tour/tour_tooltip';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
+import { useTourStore } from '~/stores/tour_store';
 
 const steps: Step[] = [
 	{

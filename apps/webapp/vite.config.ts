@@ -1,9 +1,9 @@
+import adonisjs from '@adonisjs/vite/client';
+import { linguiMacroSwcPlugin } from '@lingui/swc-plugin/options';
+import { lingui } from '@lingui/vite-plugin';
+import react from '@vitejs/plugin-react-swc';
 import UnoCSS from 'unocss/vite';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import adonisjs from '@adonisjs/vite/client';
-import { lingui } from '@lingui/vite-plugin';
-import { linguiMacroSwcPlugin } from '@lingui/swc-plugin/options';
 
 export default defineConfig({
 	plugins: [

@@ -1,7 +1,7 @@
 import { BaseSchema } from '@adonisjs/lucid/schema';
 
-import { VISIBILITY } from '#enums/collections/visibility';
 import { defaultTableFields } from '#database/default_table_fields';
+import { VISIBILITY } from '#enums/collections/visibility';
 
 export default class CreateCollectionTable extends BaseSchema {
 	static tableName = 'collections';

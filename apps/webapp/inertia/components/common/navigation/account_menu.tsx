@@ -10,14 +10,14 @@ import {
 	type MenuSide,
 } from '@minimalstuff/ui';
 
+import { ShortcutsModal } from '~/components/common/modals/shortcuts_modal';
+import { AccountMenuExternalLinks } from '~/components/common/navigation/account_menu_external_links';
+import { AccountMenuThemeGroup } from '~/components/common/navigation/account_menu_theme_group';
+import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
+import { useAuth } from '~/hooks/use_auth';
 import { cn } from '~/lib/cn';
 import { urlFor } from '~/lib/tuyau';
-import { useAuth } from '~/hooks/use_auth';
-import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useTourStore } from '~/stores/tour_store';
-import { ShortcutsModal } from '~/components/common/modals/shortcuts_modal';
-import { AccountMenuThemeGroup } from '~/components/common/navigation/account_menu_theme_group';
-import { AccountMenuExternalLinks } from '~/components/common/navigation/account_menu_external_links';
 
 type AccountMenuProps = {
 	side?: MenuSide;

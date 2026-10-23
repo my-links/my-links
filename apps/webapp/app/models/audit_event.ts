@@ -1,9 +1,9 @@
 import { belongsTo, column } from '@adonisjs/lucid/orm';
 import type { BelongsTo } from '@adonisjs/lucid/types/relations';
 
-import User from '#models/user';
-import { AuditEventSchema } from '#database/schema';
 import type { AuditEventType, AuditSubjectType } from '#constants/audit';
+import { AuditEventSchema } from '#database/schema';
+import User from '#models/user';
 
 export default class AuditEvent extends AuditEventSchema {
 	@column()

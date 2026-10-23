@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
+import { DateTime } from 'luxon';
 
-import { cache } from '#lib/cache';
-import FaviconEntry from '#models/favicon_entry';
-import type { Favicon } from '#types/favicon_type';
-import FaviconFailure from '#models/favicon_failure';
-import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
-import { FaviconStoreService } from '#services/favicons/favicon_store_service';
-import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
+import { cache } from '#lib/cache';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
+import FaviconEntry from '#models/favicon_entry';
+import FaviconFailure from '#models/favicon_failure';
+import { FaviconStoreService } from '#services/favicons/favicon_store_service';
+import type { Favicon } from '#types/favicon_type';
 
 export type FaviconMetadata = {
 	contentHash: string;

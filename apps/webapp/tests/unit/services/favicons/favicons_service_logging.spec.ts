@@ -1,16 +1,16 @@
 import { test } from '@japa/runner';
 
-import { ImpitFetcher } from '#services/favicons/impit_fetcher';
-import { FaviconService } from '#services/favicons/favicons_service';
 import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
+import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
+import { FaviconService } from '#services/favicons/favicons_service';
+import { ImpitFetcher } from '#services/favicons/impit_fetcher';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import {
 	clearCapturedLogs,
 	readAlwaysOnLogs,
 } from '#tests/helpers/captured_logs';
-import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 
 const PRIVATE_HOSTNAME = 'secret-intranet.example.org';
 const PRIVATE_URL = `https://${PRIVATE_HOSTNAME}/private/page`;

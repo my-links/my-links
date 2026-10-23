@@ -1,8 +1,8 @@
 import router from '@adonisjs/core/services/router';
 
+import { controllers } from '#generated/controllers';
 import { middleware } from '#start/kernel';
 import { apiThrottle } from '#start/limiter';
-import { controllers } from '#generated/controllers';
 
 /**
  * Click beacon: records a visit and answers 204, never redirects. Deliberately

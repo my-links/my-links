@@ -1,24 +1,24 @@
-import { useForm } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { ModalFooter } from '@minimalstuff/ui';
 import { useId, useMemo, useState } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
-import { useTargetCollection } from '~/hooks/use_target_collection';
-import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
-import {
-	VISIBILITY_CHANGE_CONFIRMATION,
-	getVisibilityChangeConfirmation,
-} from '~/lib/collection_visibility_change';
 import {
 	FormCollectionContent,
 	type FormCollectionData,
 } from '~/components/dashboard/forms/form_collection_content';
+import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	VisibilityChangeConfirmation,
 	visibilityChangeSubmitLabel,
 } from '~/components/dashboard/modals/visibility_change_confirmation';
+import { useTargetCollection } from '~/hooks/use_target_collection';
+import {
+	VISIBILITY_CHANGE_CONFIRMATION,
+	getVisibilityChangeConfirmation,
+} from '~/lib/collection_visibility_change';
+import { urlFor } from '~/lib/tuyau';
 
 type EditCollectionModalProps = {
 	onClose: () => void;

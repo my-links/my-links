@@ -1,5 +1,5 @@
-import AuditEvent from '#models/audit_event';
 import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
+import AuditEvent from '#models/audit_event';
 
 /**
  * The journal query `ActivityEventService.listRecent` and

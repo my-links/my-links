@@ -2,16 +2,16 @@ import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
-import User from '#models/user';
-import { idSetsMatch } from '#lib/id_set';
-import Collection from '#models/collection';
-import { reorderByRank } from '#lib/reorder_by_rank';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { ActivityEventService } from '#services/activity/activity_event_service';
-import { NotFollowingCollectionException } from '#exceptions/collections/not_following_collection_exception';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { CannotFollowOwnCollectionException } from '#exceptions/collections/cannot_follow_own_collection_exception';
+import { NotFollowingCollectionException } from '#exceptions/collections/not_following_collection_exception';
+import { idSetsMatch } from '#lib/id_set';
+import { reorderByRank } from '#lib/reorder_by_rank';
+import type { RequestOrigin } from '#lib/request_origin';
+import Collection from '#models/collection';
+import User from '#models/user';
+import { ActivityEventService } from '#services/activity/activity_event_service';
 
 /**
  * Owns the follower relationship on public collections: a separate concern
@@ -29,7 +29,7 @@ export class CollectionFollowerService {
 	 * an EXISTS subquery can't expose it.
 	 */
 	async getFollowedCollections(userId: User['id']) {
-		return await Collection.query()
+		return Collection.query()
 			.select('collections.*')
 			.innerJoin(
 				'collection_followers',
@@ -50,7 +50,7 @@ export class CollectionFollowerService {
 	 * specific collection is opened.
 	 */
 	async getFollowedCollectionsWithLinks(userId: User['id']) {
-		return await Collection.query()
+		return Collection.query()
 			.select('collections.*')
 			.innerJoin(
 				'collection_followers',

@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
-import { collectionsCacheStorage } from '@/lib/storage';
+import { useQueryDataSnapshot } from '@/hooks/use_query_data_snapshot';
 import { fetchCollections } from '@/lib/api/collections';
 import type { CollectionWithLinks } from '@/lib/api/types';
+import { collectionsCacheStorage } from '@/lib/storage';
 import { requestBackgroundSync } from '@/lib/sync/messages';
-import { useQueryDataSnapshot } from '@/hooks/use_query_data_snapshot';
 
 export const COLLECTIONS_QUERY_KEY = ['collections'] as const;
 

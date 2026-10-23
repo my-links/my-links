@@ -1,15 +1,15 @@
 // Runs the account sweeps, favicon purge, journal retention and token prune in-process (web env only); system cron is only needed if this preload is disabled.
 
-import cron from 'node-cron';
 import app from '@adonisjs/core/services/app';
-import type { ScheduledTask } from 'node-cron';
 import logger from '@adonisjs/core/services/logger';
+import cron from 'node-cron';
+import type { ScheduledTask } from 'node-cron';
 
-import { AuthEventService } from '#services/auth/auth_event_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { AuthEventService } from '#services/auth/auth_event_service';
 import { StaleTokenPruneService } from '#services/auth/stale_token_prune_service';
-import { AccountRetentionService } from '#services/user/account_retention_service';
 import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
+import { AccountRetentionService } from '#services/user/account_retention_service';
 
 const timezone = process.env.TZ ?? 'UTC';
 

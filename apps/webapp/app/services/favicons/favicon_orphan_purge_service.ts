@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 
-import Link from '#models/link';
+import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
 import FaviconEntry from '#models/favicon_entry';
 import FaviconFailure from '#models/favicon_failure';
-import { normalizeFaviconOrigin } from '#lib/favicons/favicon_origin';
+import Link from '#models/link';
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 
 export type FaviconPurgeResult = {

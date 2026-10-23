@@ -1,19 +1,19 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { VISIBILITY } from '#enums/collections/visibility';
+import AuditEvent from '#models/audit_event';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import AuditEvent from '#models/audit_event';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
 import { createCollection } from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 async function createLinkIn(user: User, collection: Collection, name: string) {
 	const link = await createLink({ author: user, name });

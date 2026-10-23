@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 
 type MakeCollectionPublicConfirmationProps = {
 	linksCount: number | undefined;

@@ -2,11 +2,11 @@ import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 import { ClientOnly } from '@minimalstuff/ui';
 
-import { formatDate } from '~/lib/format';
+import { AuthEventTypeBadge } from '~/components/admin/auth_events/auth_event_type_badge';
+import { DataTable } from '~/components/common/data_table/data_table';
 import { NaContent } from '~/components/common/na_content';
 import { UserIdentity } from '~/components/common/user_identity';
-import { DataTable } from '~/components/common/data_table/data_table';
-import { AuthEventTypeBadge } from '~/components/admin/auth_events/auth_event_type_badge';
+import { formatDate } from '~/lib/format';
 
 type ActivityEvent = Data.ActivityEvent;
 

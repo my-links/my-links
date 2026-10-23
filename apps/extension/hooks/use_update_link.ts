@@ -1,6 +1,6 @@
-import type { LinkResource } from '@/lib/api/types';
-import { updateLink, type UpdateLinkInput } from '@/lib/api/links';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
+import { updateLink, type UpdateLinkInput } from '@/lib/api/links';
+import type { LinkResource } from '@/lib/api/types';
 import {
 	getDefaultCollectionId,
 	replaceLinkInTree,

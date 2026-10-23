@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
-import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
-import { EMPTY_BOOKMARK_MAPPING } from '@/lib/bookmarks/mapping';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import type {
 	DesiredBookmark,
 	DesiredFolder,
 } from '@/lib/bookmarks/desired_tree';
+import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
+import { EMPTY_BOOKMARK_MAPPING } from '@/lib/bookmarks/mapping';
+import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
 
 const INBOX: DesiredFolder = {
 	collectionId: 1,

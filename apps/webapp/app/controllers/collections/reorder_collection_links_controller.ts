@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { reorderCollectionLinksAction } from '#controllers/collections/actions/reorder_collection_links_action';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import { reorderCollectionLinksValidator } from '#validators/collections/reorder_collection_links_validator';
-import { reorderCollectionLinksAction } from '#controllers/collections/actions/reorder_collection_links_action';
 
 @inject()
 export default class ReorderCollectionLinksController {

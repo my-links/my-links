@@ -1,10 +1,10 @@
-import { faker } from '@faker-js/faker';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
+import { faker } from '@faker-js/faker';
 
+import { getSeededAuthorIds } from '#database/seeders/collection_seeder';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import { getSeededAuthorIds } from '#database/seeders/collection_seeder';
 
 const MIN_LINKS_PER_COLLECTION = 0;
 const MAX_LINKS_PER_COLLECTION = 8;

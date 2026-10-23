@@ -1,8 +1,8 @@
 import { Env } from '@adonisjs/core/env';
 
 import { REGISTRATION_POLICIES } from '#constants/auth';
-import { parseExtensionIds } from '#lib/extension/extension_ids';
 import { parseAdminSetupToken } from '#lib/auth/admin_setup_token';
+import { parseExtensionIds } from '#lib/extension/extension_ids';
 import { parseTrustedProxies } from '#lib/network/trusted_proxies';
 
 export default await Env.create(new URL('../', import.meta.url), {

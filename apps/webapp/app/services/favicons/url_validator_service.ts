@@ -1,9 +1,9 @@
-import { isIP } from 'node:net';
 import logger from '@adonisjs/core/services/logger';
+import { isIP } from 'node:net';
 
-import { toLoggableOrigin } from '#lib/logging/loggable_origin';
-import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
 import {
 	isBlockedAddress,
 	type ResolvedAddress,

@@ -1,9 +1,9 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
+import { DateTime } from 'luxon';
 
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
 import { SyncJournalService } from '#services/sync/sync_journal_service';
 
 /**
@@ -91,7 +91,7 @@ export class SyncService {
 		userId: User['id'],
 		cursor: DateTime
 	): Promise<Collection[]> {
-		return await Collection.query()
+		return Collection.query()
 			.where('author_id', userId)
 			.andWhere('updated_at', '>=', cursor.toJSDate())
 			.orderBy('name', 'asc');
@@ -101,7 +101,7 @@ export class SyncService {
 		userId: User['id'],
 		cursor: DateTime
 	): Promise<Link[]> {
-		return await Link.query()
+		return Link.query()
 			.where('author_id', userId)
 			.andWhere('updated_at', '>=', cursor.toJSDate())
 			.preload('collections')

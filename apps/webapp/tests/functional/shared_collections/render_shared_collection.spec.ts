@@ -1,13 +1,13 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
 import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
 import { createCollection } from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 test.group('Shared collection: page', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

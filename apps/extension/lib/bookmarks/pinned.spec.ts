@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
+import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
-import { EMPTY_BOOKMARK_MAPPING } from '@/lib/bookmarks/mapping';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
-import type { BookmarkOperation } from '@/lib/bookmarks/operations';
 import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
-import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
+import { EMPTY_BOOKMARK_MAPPING } from '@/lib/bookmarks/mapping';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
 import {
 	buildPinnedLinkKey,
 	buildPinnedReorder,

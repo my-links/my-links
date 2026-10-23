@@ -2,8 +2,8 @@ import hash from '@adonisjs/core/services/hash';
 import { beforeSave, belongsTo } from '@adonisjs/lucid/orm';
 import type { BelongsTo } from '@adonisjs/lucid/types/relations';
 
-import User from '#models/user';
 import { PasswordAuthSchema } from '#database/schema';
+import User from '#models/user';
 
 export default class PasswordAuth extends PasswordAuthSchema {
 	@belongsTo(() => User)

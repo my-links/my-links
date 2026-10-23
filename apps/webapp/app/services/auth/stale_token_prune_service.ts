@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon';
 import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
-import OneTimeToken from '#models/one_time_token';
 import { STALE_TOKEN_RETENTION_DAYS } from '#constants/auth';
+import OneTimeToken from '#models/one_time_token';
 
 export type StaleTokenPruneResult = {
 	readonly deletedOneTimeTokens: number;

@@ -1,6 +1,5 @@
 import { createHash } from 'node:crypto';
 
-import { InvalidExtensionIdsConfigException } from '#exceptions/extension/invalid_extension_ids_config_exception';
 import {
 	EXTENSION_BROWSER,
 	OFFICIAL_CHROMIUM_EXTENSION_ID,
@@ -9,6 +8,7 @@ import {
 	FIREFOX_CALLBACK_HOST_SUFFIX,
 	type ExtensionBrowser,
 } from '#constants/extension';
+import { InvalidExtensionIdsConfigException } from '#exceptions/extension/invalid_extension_ids_config_exception';
 
 const CHROMIUM_EXTENSION_ID_PATTERN = /^[a-p]{32}$/;
 const FIREFOX_ADDON_ID_PATTERN = /^(?:[\w.-]+@[\w.-]+|\{[0-9a-fA-F-]{36}\})$/;

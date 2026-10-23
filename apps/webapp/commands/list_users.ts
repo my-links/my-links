@@ -1,15 +1,15 @@
 import { inject } from '@adonisjs/core';
 import { flags } from '@adonisjs/core/ace';
 
-import type User from '#models/user';
+import AccountCommand from '#commands/_account_command';
 import { ACCOUNT_ROLE } from '#constants/account';
 import type { AuthProvider } from '#constants/auth';
-import AccountCommand from '#commands/_account_command';
-import { authProviderValidator } from '#validators/auth/auth_provider_validator';
+import type User from '#models/user';
 import {
 	AccountQueryService,
 	type AccountFilters,
 } from '#services/user/account_query_service';
+import { authProviderValidator } from '#validators/auth/auth_provider_validator';
 
 export const NO_ACCOUNT_MESSAGE = 'This instance holds no account yet';
 export const NO_MATCHING_ACCOUNT_MESSAGE = 'No account matches these filters';

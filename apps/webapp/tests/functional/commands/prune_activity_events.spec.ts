@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import AuditEvent from '#models/audit_event';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import PruneActivityEvents from '#commands/prune_activity_events';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
 import { createUser } from '#tests/factories/user_factory';
 import { captureConsoleOutput } from '#tests/helpers/console';
-import PruneActivityEvents from '#commands/prune_activity_events';
 
 test.group('activity:prune', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

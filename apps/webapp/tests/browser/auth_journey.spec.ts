@@ -1,18 +1,18 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import type { Page } from 'playwright';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
+import type { Page } from 'playwright';
 
-import User from '#models/user';
-import OneTimeToken from '#models/one_time_token';
 import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { createUser } from '#tests/factories/user_factory';
-import { skipDashboardTour } from '#tests/helpers/browser_session';
-import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
+import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
+import OneTimeToken from '#models/one_time_token';
+import User from '#models/user';
 import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { OneTimeTokenService } from '#services/auth/one_time_token_service';
-import { UNVERIFIED_EMAIL_MESSAGE } from '#exceptions/auth/unverified_email_exception';
+import { createUser } from '#tests/factories/user_factory';
+import { fillFormOnceHydrated } from '#tests/helpers/browser_forms';
+import { skipDashboardTour } from '#tests/helpers/browser_session';
 import {
 	ERROR_TOAST_SELECTOR,
 	SUCCESS_TOAST_SELECTOR,

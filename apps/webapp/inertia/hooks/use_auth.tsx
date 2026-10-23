@@ -1,6 +1,6 @@
-import { usePage } from '@inertiajs/react';
+import type { PageProps } from '@adonisjs/inertia/types';
 import type { Data } from '@generated/data';
-import { PageProps } from '@adonisjs/inertia/types';
+import { usePage } from '@inertiajs/react';
 
 export type UserAuth = {
 	isAuthenticated: boolean;

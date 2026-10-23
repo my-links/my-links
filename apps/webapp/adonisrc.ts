@@ -1,6 +1,6 @@
 import { indexEntities } from '@adonisjs/core';
-import { indexPages } from '@adonisjs/inertia';
 import { defineConfig } from '@adonisjs/core/app';
+import { indexPages } from '@adonisjs/inertia';
 import { generateRegistry } from '@tuyau/core/hooks';
 
 export default defineConfig({

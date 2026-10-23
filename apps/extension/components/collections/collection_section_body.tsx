@@ -1,12 +1,11 @@
-import clsx from 'clsx';
-import {
-	SortableContext,
-	verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
 import type {
 	DraggableAttributes,
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
+import {
+	SortableContext,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import {
 	ContextMenu,
 	IconButton,
@@ -15,17 +14,18 @@ import {
 	ConfirmModal,
 	Tooltip,
 } from '@minimalstuff/ui';
+import clsx from 'clsx';
 
-import { LinkRow } from './link_row';
-import { linkSortableId } from '@/lib/dnd/dnd_types';
-import { useCollections } from '@/hooks/use_collections';
-import type { CollectionWithLinks } from '@/lib/api/types';
-import { KebabMenu } from '@/components/common/kebab_menu';
 import { EditCollectionModal } from './edit_collection_modal';
-import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
-import { useDeleteCollection } from '@/hooks/use_delete_collection';
+import { LinkRow } from './link_row';
+import { KebabMenu } from '@/components/common/kebab_menu';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';
 import { CreateLinkModal } from '@/components/links/create_link_modal';
+import { useCollections } from '@/hooks/use_collections';
+import { useDeleteCollection } from '@/hooks/use_delete_collection';
+import type { CollectionWithLinks } from '@/lib/api/types';
+import { linkSortableId } from '@/lib/dnd/dnd_types';
+import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
 
 type CollectionSectionBodyProps = {
 	collection: CollectionWithLinks;

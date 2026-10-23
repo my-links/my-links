@@ -1,18 +1,18 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
 
-import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
-import {
-	createLink,
-	attachLinkToCollection,
-} from '#tests/factories/link_factory';
+import Collection from '#models/collection';
 import {
 	createCollection,
 	followCollection,
 } from '#tests/factories/collection_factory';
+import {
+	createLink,
+	attachLinkToCollection,
+} from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 test.group('API reorder owned collections', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

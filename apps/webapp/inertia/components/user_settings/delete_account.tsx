@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/react/macro';
 import { router, useForm } from '@inertiajs/react';
+import { Trans } from '@lingui/react/macro';
 import { Button, ConfirmModal } from '@minimalstuff/ui';
 
 import { urlFor } from '~/lib/tuyau';

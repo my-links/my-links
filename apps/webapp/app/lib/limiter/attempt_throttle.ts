@@ -1,6 +1,6 @@
-import limiter from '@adonisjs/limiter/services/main';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { MiddlewareFn } from '@adonisjs/core/types/http';
+import limiter from '@adonisjs/limiter/services/main';
 
 import type { AttemptTier } from '#lib/limiter/attempt_tiers';
 

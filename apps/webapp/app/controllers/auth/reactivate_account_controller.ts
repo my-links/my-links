@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
-import User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { SessionService } from '#services/user/session_service';
+import User from '#models/user';
+import { AccountReactivationService } from '#services/auth/account_reactivation_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { AccountDeletionService } from '#services/user/account_deletion_service';
-import { AccountReactivationService } from '#services/auth/account_reactivation_service';
+import { SessionService } from '#services/user/session_service';
 
 @inject()
 export default class ReactivateAccountController {

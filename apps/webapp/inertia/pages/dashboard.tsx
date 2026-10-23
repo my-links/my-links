@@ -1,20 +1,20 @@
-import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { Head } from '@inertiajs/react';
 
-import { AppLayout } from '~/layouts/app_layout';
-import { useSidebarMode } from '~/hooks/use_sidebar_mode';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { DashboardTour } from '~/components/tour/dashboard_tour';
-import { useDashboardModals } from '~/hooks/use_dashboard_modals';
-import { useDashboardPageTitle } from '~/hooks/use_dashboard_page_title';
-import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
+import { CollectionList } from '~/components/dashboard/collections/collection_list';
+import { DashboardDndProvider } from '~/components/dashboard/dnd/dashboard_dnd_provider';
+import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
+import { ResizableSidebar } from '~/components/dashboard/sidebar/resizable_sidebar';
 import { SidebarFooter } from '~/components/dashboard/sidebar/sidebar_footer';
 import { SidebarHeader } from '~/components/dashboard/sidebar/sidebar_header';
 import { DashboardContent } from '~/components/dashboard/views/dashboard_content';
-import { DashboardHeader } from '~/components/dashboard/headers/dashboard_header';
-import { CollectionList } from '~/components/dashboard/collections/collection_list';
-import { ResizableSidebar } from '~/components/dashboard/sidebar/resizable_sidebar';
-import { DashboardDndProvider } from '~/components/dashboard/dnd/dashboard_dnd_provider';
+import { DashboardTour } from '~/components/tour/dashboard_tour';
+import { useDashboardModals } from '~/hooks/use_dashboard_modals';
+import { useDashboardPageTitle } from '~/hooks/use_dashboard_page_title';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useRefetchOnTabRefocus } from '~/hooks/use_refetch_on_tab_refocus';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
+import { AppLayout } from '~/layouts/app_layout';
 import { useDashboardLayoutStore as useDashboardStore } from '~/stores/dashboard_layout_store';
 
 export type DashboardProps = {

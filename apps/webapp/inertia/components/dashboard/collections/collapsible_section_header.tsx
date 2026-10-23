@@ -1,11 +1,12 @@
 import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { ContextMenu, IconButton, MenuItem } from '@minimalstuff/ui';
-import { ReactNode, useRef, type MouseEvent as ReactMouseEvent } from 'react';
+import type { ReactNode } from 'react';
+import { useRef, type MouseEvent as ReactMouseEvent } from 'react';
 
 import { cn } from '~/lib/cn';
-import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { dispatchContextMenuAt } from '~/lib/dispatch_context_menu';
+import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 
 type CollapsibleSectionHeaderProps = {

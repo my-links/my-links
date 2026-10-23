@@ -1,16 +1,16 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import OneTimeToken from '#models/one_time_token';
-import { createUser } from '#tests/factories/user_factory';
-import { StaleTokenPruneService } from '#services/auth/stale_token_prune_service';
 import {
 	ONE_TIME_TOKEN_TYPE,
 	STALE_TOKEN_RETENTION_DAYS,
 } from '#constants/auth';
+import OneTimeToken from '#models/one_time_token';
+import User from '#models/user';
+import { StaleTokenPruneService } from '#services/auth/stale_token_prune_service';
+import { createUser } from '#tests/factories/user_factory';
 
 const BEYOND_RETENTION = { days: STALE_TOKEN_RETENTION_DAYS + 1 };
 const WITHIN_RETENTION = { hours: 1 };

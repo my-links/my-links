@@ -1,24 +1,24 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import UserSession from '#models/user_session';
-import OneTimeToken from '#models/one_time_token';
 import { ACCOUNT_ROLE } from '#constants/account';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { freshSudoSession } from '#tests/helpers/sudo_mode';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { createUserSession } from '#tests/factories/user_session_factory';
 import { ResetPasswordNotification } from '#mails/reset_password_notification';
-import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import AuditEvent from '#models/audit_event';
+import OneTimeToken from '#models/one_time_token';
+import User from '#models/user';
+import UserSession from '#models/user_session';
 import {
 	createAdmin,
 	createUser,
 	verifyUserEmail,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
+import { createUserSession } from '#tests/factories/user_session_factory';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 const HOME_ROUTE = '/';
 const MEMBER_ROLE = ACCOUNT_ROLE.MEMBER;

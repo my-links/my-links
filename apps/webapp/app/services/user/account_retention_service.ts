@@ -1,19 +1,19 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { AccountDeletionService } from '#services/user/account_deletion_service';
-import { ActivityEventService } from '#services/activity/activity_event_service';
 import {
 	ACCOUNT_DELETION_REASON,
 	ACCOUNT_DELETION_GRACE_PERIOD_DAYS,
 	ACCOUNT_INACTIVITY_THRESHOLD_DAYS,
 } from '#constants/account';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import User from '#models/user';
+import { ActivityEventService } from '#services/activity/activity_event_service';
+import { AccountDeletionService } from '#services/user/account_deletion_service';
 
 @inject()
 export class AccountRetentionService {

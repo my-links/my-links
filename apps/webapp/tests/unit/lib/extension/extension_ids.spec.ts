@@ -1,11 +1,11 @@
 import { test } from '@japa/runner';
 
 import { OFFICIAL_FIREFOX_ADDON_ID } from '#constants/extension';
+import { InvalidExtensionIdsConfigException } from '#exceptions/extension/invalid_extension_ids_config_exception';
 import {
 	hashFirefoxAddonId,
 	parseExtensionIds,
 } from '#lib/extension/extension_ids';
-import { InvalidExtensionIdsConfigException } from '#exceptions/extension/invalid_extension_ids_config_exception';
 
 const KEY = 'EXTENSION_IDS';
 

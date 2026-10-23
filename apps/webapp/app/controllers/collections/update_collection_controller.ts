@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
+import { updateCollectionAction } from '#controllers/collections/actions/update_collection_action';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { CollectionService } from '#services/collections/collection_service';
 import { updateCollectionValidator } from '#validators/collections/update_collection_validator';
-import { updateCollectionAction } from '#controllers/collections/actions/update_collection_action';
 
 @inject()
 export default class UpdateCollectionController {

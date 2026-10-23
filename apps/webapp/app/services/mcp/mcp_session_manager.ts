@@ -1,24 +1,24 @@
 import { inject } from '@adonisjs/core';
-import { randomUUID } from 'node:crypto';
 import type { HttpContext } from '@adonisjs/core/http';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
+import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
+import { randomUUID } from 'node:crypto';
 
-import type User from '#models/user';
-import { LinkService } from '#services/links/link_service';
-import { registerLinkTools } from '#services/mcp/tools/link_tools';
-import { LinkQueryService } from '#services/links/link_query_service';
-import packageJson from '../../../package.json' with { type: 'json' };
-import { CollectionService } from '#services/collections/collection_service';
-import { registerCollectionTools } from '#services/mcp/tools/collection_tools';
-import { CollectionLinkService } from '#services/collections/collection_link_service';
-import { CollectionQueryService } from '#services/collections/collection_query_service';
 import {
 	MAXIMUM_MCP_SESSIONS,
 	MAXIMUM_MCP_SESSIONS_PER_USER,
 } from '#constants/mcp';
+import type User from '#models/user';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { CollectionLinkService } from '#services/collections/collection_link_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
+import { CollectionService } from '#services/collections/collection_service';
+import { LinkQueryService } from '#services/links/link_query_service';
+import { LinkService } from '#services/links/link_service';
+import { registerCollectionTools } from '#services/mcp/tools/collection_tools';
+import { registerLinkTools } from '#services/mcp/tools/link_tools';
+import packageJson from '../../../package.json' with { type: 'json' };
 
 const MCP_SESSION_HEADER = 'mcp-session-id';
 

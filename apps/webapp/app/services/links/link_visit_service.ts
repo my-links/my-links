@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
 import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
 import Link from '#models/link';
 import type User from '#models/user';
@@ -25,7 +25,7 @@ export class LinkVisitService {
 		id: Link['id'],
 		visitorId: User['id'] | undefined
 	): Promise<Link> {
-		return await Link.query()
+		return Link.query()
 			.where('id', id)
 			.andWhere((query) => {
 				query.whereHas('collections', (collectionsQuery) => {

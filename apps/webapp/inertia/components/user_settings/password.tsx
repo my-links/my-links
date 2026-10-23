@@ -1,10 +1,10 @@
-import { t } from '@lingui/core/macro';
 import { useForm } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
 
-import { urlFor } from '~/lib/tuyau';
 import { usePasswordSettings } from '~/hooks/use_password_settings';
+import { urlFor } from '~/lib/tuyau';
 
 type PasswordFormData = {
 	password: string;

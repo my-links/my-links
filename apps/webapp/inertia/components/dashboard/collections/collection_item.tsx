@@ -1,24 +1,22 @@
-import { usePage } from '@inertiajs/react';
-import { Tooltip } from '@minimalstuff/ui';
-import type { Data } from '@generated/data';
 import { Link } from '@adonisjs/inertia/react';
-import { useRef, type MouseEvent } from 'react';
-import { PageProps } from '@adonisjs/inertia/types';
+import type { PageProps } from '@adonisjs/inertia/types';
 import type {
 	DraggableAttributes,
 	DraggableSyntheticListeners,
 } from '@dnd-kit/core';
+import type { Data } from '@generated/data';
+import { usePage } from '@inertiajs/react';
+import { Tooltip } from '@minimalstuff/ui';
+import { useRef, type MouseEvent } from 'react';
 
-import { cn } from '~/lib/cn';
+import type { CollectionControlsRef } from './collection_controls';
+import { CollectionControls } from './collection_controls';
 import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
+import { cn } from '~/lib/cn';
 import { shouldSuppressClick } from '~/lib/dnd/drag_click_guard';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
-import {
-	CollectionControls,
-	CollectionControlsRef,
-} from './collection_controls';
 
 type CollectionItemProps = {
 	collection: Data.Collection;

@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { RadioOptions, Button, Input, Select } from '@minimalstuff/ui';
+import { useState } from 'react';
 
 import type { ApiTokenExpiry, ApiTokenScope } from '~/hooks/use_api_tokens';
 

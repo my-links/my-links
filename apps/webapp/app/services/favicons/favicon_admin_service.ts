@@ -5,8 +5,8 @@ import { cache } from '#lib/cache';
 import FaviconEntry from '#models/favicon_entry';
 import FaviconFailure from '#models/favicon_failure';
 import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
-import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
+import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 
 export type FaviconAdminStats = {
 	entryCount: number;

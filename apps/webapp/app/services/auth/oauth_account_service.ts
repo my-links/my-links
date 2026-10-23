@@ -1,18 +1,18 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
-import type { RequestOrigin } from '#lib/request_origin';
-import { CollectionService } from '#services/collections/collection_service';
-import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
-import { SetupLinkRequiredException } from '#exceptions/auth/setup_link_required_exception';
 import {
 	OauthAuthenticationRefusedException,
 	OAUTH_REFUSAL_REASON,
 } from '#exceptions/auth/oauth_authentication_refused_exception';
+import { SetupLinkRequiredException } from '#exceptions/auth/setup_link_required_exception';
+import type { RequestOrigin } from '#lib/request_origin';
+import OauthAuth from '#models/oauth_auth';
+import User from '#models/user';
+import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
+import { CollectionService } from '#services/collections/collection_service';
 
 /**
  * Provider-agnostic description of the account an OAuth callback just proved

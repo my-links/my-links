@@ -1,5 +1,5 @@
-import { isSafeLinkUrl } from '@/lib/safe_link_url';
 import type { CollectionWithLinks } from '@/lib/api/types';
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 
 export type DesiredBookmark = {
 	linkId: number;

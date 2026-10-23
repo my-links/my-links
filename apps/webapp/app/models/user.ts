@@ -1,9 +1,4 @@
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens';
-import type {
-	HasMany,
-	HasOne,
-	ManyToMany,
-} from '@adonisjs/lucid/types/relations';
 import {
 	column,
 	computed,
@@ -11,14 +6,19 @@ import {
 	hasOne,
 	manyToMany,
 } from '@adonisjs/lucid/orm';
+import type {
+	HasMany,
+	HasOne,
+	ManyToMany,
+} from '@adonisjs/lucid/types/relations';
 
+import { UserSchema } from '#database/schema';
+import type { LandingPage } from '#enums/dashboard/landing_page';
+import AuditEvent from '#models/audit_event';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import OauthAuth from '#models/oauth_auth';
-import Collection from '#models/collection';
-import AuditEvent from '#models/audit_event';
-import { UserSchema } from '#database/schema';
 import PasswordAuth from '#models/password_auth';
-import type { LandingPage } from '#enums/dashboard/landing_page';
 
 export default class User extends UserSchema {
 	@column()

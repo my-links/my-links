@@ -1,10 +1,10 @@
-import { Button } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 
+import { ApiTokensTable } from '~/components/api_tokens/api_tokens_table';
+import { useApiTokenModals } from '~/hooks/use_api_token_modals';
 import { useApiTokens } from '~/hooks/use_api_tokens';
 import { useCreatedToken } from '~/hooks/use_created_token';
-import { useApiTokenModals } from '~/hooks/use_api_token_modals';
-import { ApiTokensTable } from '~/components/api_tokens/api_tokens_table';
 
 export function ApiTokens() {
 	const { tokens } = useApiTokens();

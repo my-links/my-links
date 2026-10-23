@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
 import { IconButton, Tooltip } from '@minimalstuff/ui';
+import { useRef, useState } from 'react';
 
 import { requestBackgroundSync } from '@/lib/sync/messages';
 

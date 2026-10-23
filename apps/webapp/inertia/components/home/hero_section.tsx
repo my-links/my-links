@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/react/macro';
 
-import { PROJECT_DOCS_URL } from '~/consts/project';
-import { HeroDemo } from '~/components/home/hero_demo';
 import { HeroAuthActions } from '~/components/home/hero_auth_actions';
+import { HeroDemo } from '~/components/home/hero_demo';
+import { PROJECT_DOCS_URL } from '~/consts/project';
 
 export const HeroSection = () => (
 	<div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center py-16 sm:py-24">

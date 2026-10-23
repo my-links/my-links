@@ -1,24 +1,24 @@
 import { errors } from '@adonisjs/auth';
 import { inject } from '@adonisjs/core';
-import type { Session } from '@adonisjs/session';
 import type { HttpContext } from '@adonisjs/core/http';
+import type { Session } from '@adonisjs/session';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { penalizeFailedLogins } from '#start/limiter';
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { SessionService } from '#services/user/session_service';
-import { loginValidator } from '#validators/auth/login_validator';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { KnownDeviceService } from '#services/auth/known_device_service';
-import { EmailVerificationService } from '#services/auth/email_verification_service';
-import {
-	PendingDeletionGuard,
-	PENDING_DELETION_OUTCOME,
-} from '#services/auth/pending_deletion_guard';
 import {
 	CredentialsAuthService,
 	INVALID_CREDENTIALS_MESSAGE,
 } from '#services/auth/credentials_auth_service';
+import { EmailVerificationService } from '#services/auth/email_verification_service';
+import { KnownDeviceService } from '#services/auth/known_device_service';
+import {
+	PendingDeletionGuard,
+	PENDING_DELETION_OUTCOME,
+} from '#services/auth/pending_deletion_guard';
+import { SessionService } from '#services/user/session_service';
+import { penalizeFailedLogins } from '#start/limiter';
+import { loginValidator } from '#validators/auth/login_validator';
 
 @inject()
 export default class LoginController {
@@ -62,6 +62,7 @@ export default class LoginController {
 			origin
 		);
 		if (pendingDeletionOutcome === PENDING_DELETION_OUTCOME.BLOCKED_BY_ADMIN) {
+			// oxlint-disable-next-line typescript/only-throw-error -- the auth error type is Error-like but not recognized as Error
 			throw new errors.E_INVALID_CREDENTIALS(INVALID_CREDENTIALS_MESSAGE);
 		}
 

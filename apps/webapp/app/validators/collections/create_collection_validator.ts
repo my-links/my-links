@@ -1,7 +1,7 @@
 import vine, { SimpleMessagesProvider } from '@vinejs/vine';
 
-import { emojiRule } from '#validators/rules/emoji_rule';
 import { VISIBILITY } from '#enums/collections/visibility';
+import { emojiRule } from '#validators/rules/emoji_rule';
 
 export const createCollectionValidator = vine.create(
 	vine.object({

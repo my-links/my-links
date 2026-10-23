@@ -1,11 +1,11 @@
 import { inject } from '@adonisjs/core';
 
-import type User from '#models/user';
 import type { RequestOrigin } from '#lib/request_origin';
-import CollectionTransformer from '#transformers/collection';
-import { CollectionService } from '#services/collections/collection_service';
-import { CollectionQueryService } from '#services/collections/collection_query_service';
+import type User from '#models/user';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
+import { CollectionService } from '#services/collections/collection_service';
+import CollectionTransformer from '#transformers/collection';
 
 /**
  * The sidebar every dashboard route draws: the three ordered sections plus the

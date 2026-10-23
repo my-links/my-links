@@ -1,18 +1,18 @@
-import type { ChangeEvent } from 'react';
 import { Checkbox } from '@minimalstuff/ui';
+import type { ChangeEvent } from 'react';
 
-import { cn } from '~/lib/cn';
-import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
-import { useUsersSelection } from '~/hooks/admin/use_users_selection';
-import { DataTable } from '~/components/common/data_table/data_table';
-import { useDeleteSelectedUsers } from '~/hooks/admin/use_delete_selected_users';
-import { UsersTableToolbar } from '~/components/admin/users/users_table_toolbar';
 import { UserSelectCheckbox } from '~/components/admin/users/user_select_checkbox';
-import { UsersTableEmptyState } from '~/components/admin/users/users_table_empty_state';
 import {
 	USERS_TABLE_COLUMNS,
 	type UserWithCounters,
 } from '~/components/admin/users/users_table_columns';
+import { UsersTableEmptyState } from '~/components/admin/users/users_table_empty_state';
+import { UsersTableToolbar } from '~/components/admin/users/users_table_toolbar';
+import { DataTable } from '~/components/common/data_table/data_table';
+import { useDeleteSelectedUsers } from '~/hooks/admin/use_delete_selected_users';
+import { useUsersSelection } from '~/hooks/admin/use_users_selection';
+import { useUsersSorting } from '~/hooks/admin/use_users_sorting';
+import { cn } from '~/lib/cn';
 
 export type UsersTableProps = {
 	users: UserWithCounters[];
