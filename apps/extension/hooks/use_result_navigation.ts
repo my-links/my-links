@@ -31,12 +31,14 @@ export function useResultNavigation(
 	results: readonly unknown[]
 ): UseResultNavigationReturn {
 	const [selectedIndex, setSelectedIndex] = useState(FIRST_RESULT_INDEX);
+	const [previousResults, setPreviousResults] = useState(results);
 	const resultsRef = useRef<HTMLDivElement>(null);
 	const resultCount = results.length;
 
-	useEffect(() => {
+	if (previousResults !== results) {
+		setPreviousResults(results);
 		setSelectedIndex(FIRST_RESULT_INDEX);
-	}, [results]);
+	}
 
 	useEffect(() => {
 		if (resultCount === 0) {
