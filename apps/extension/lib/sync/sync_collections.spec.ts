@@ -1,7 +1,7 @@
-import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { fakeBrowser } from 'wxt/testing/fake-browser';
 
-import { syncCollections } from '@/lib/sync/sync_collections';
+import type * as CollectionsApi from '@/lib/api/collections';
 import { fetchCollections, UnauthorizedApiError } from '@/lib/api/collections';
 import {
 	apiTokenStorage,
@@ -9,9 +9,10 @@ import {
 	collectionsCacheStorage,
 	syncBackoffStorage,
 } from '@/lib/storage';
+import { syncCollections } from '@/lib/sync/sync_collections';
 
 vi.mock('@/lib/api/collections', async (importOriginal) => ({
-	...(await importOriginal<typeof import('@/lib/api/collections')>()),
+	...(await importOriginal<typeof CollectionsApi>()),
 	fetchCollections: vi.fn(),
 }));
 
