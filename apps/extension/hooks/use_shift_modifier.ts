@@ -14,8 +14,6 @@ export function useShiftModifier(isActive: boolean) {
 
 	useEffect(() => {
 		if (!isActive) {
-			isShiftPressedRef.current = false;
-			setIsShiftPressed(false);
 			return;
 		}
 
@@ -28,6 +26,8 @@ export function useShiftModifier(isActive: boolean) {
 		window.addEventListener('keydown', updateFromEvent);
 		window.addEventListener('keyup', updateFromEvent);
 		return () => {
+			isShiftPressedRef.current = false;
+			setIsShiftPressed(false);
 			window.removeEventListener('pointermove', updateFromEvent);
 			window.removeEventListener('keydown', updateFromEvent);
 			window.removeEventListener('keyup', updateFromEvent);
