@@ -1,8 +1,8 @@
-import { t } from '@lingui/core/macro';
 import type { Data } from '@generated/data';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
-import { useState, type ChangeEvent } from 'react';
 import { Checkbox, Input } from '@minimalstuff/ui';
+import { useState, type ChangeEvent } from 'react';
 
 import { cn } from '~/lib/cn';
 
@@ -65,11 +65,10 @@ export function FormLinkCollectionsField({
 					wrapperClassName="mb-2"
 				/>
 			)}
-			<div
-				role="group"
+			<fieldset
 				aria-labelledby="collections-label"
 				className={cn(
-					'space-y-2 max-h-48 overflow-y-auto rounded-lg border p-3',
+					'min-w-0 space-y-2 max-h-48 overflow-y-auto rounded-lg border p-3',
 					error
 						? 'border-red-500 dark:border-red-500'
 						: 'border-gray-300 dark:border-gray-600'
@@ -90,7 +89,7 @@ export function FormLinkCollectionsField({
 						<Trans>No collections match your search.</Trans>
 					</p>
 				)}
-			</div>
+			</fieldset>
 			{selectedIds.length === 0 && (
 				<p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
 					<Trans>No collection selected. This link goes to your Inbox.</Trans>

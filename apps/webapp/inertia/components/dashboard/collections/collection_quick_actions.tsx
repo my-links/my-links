@@ -26,6 +26,7 @@ export function CollectionQuickActions({
 				'opacity-0 transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto'
 			)}
 			onClick={handleContainerClick}
+			role="presentation"
 		>
 			<IconButton
 				icon="i-ant-design-plus-outlined"
