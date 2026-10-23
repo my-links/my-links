@@ -86,9 +86,9 @@ function badgeIn(row: Locator): Locator {
 	return row.getByText(PENDING_DELETION_BADGE);
 }
 
-async function confirmInDialog(page: Page): Promise<void> {
+async function confirmInAlertDialog(page: Page): Promise<void> {
 	await page
-		.getByRole('dialog')
+		.getByRole('alertdialog')
 		.getByRole('button', { name: 'Delete' })
 		.click();
 }
@@ -109,9 +109,9 @@ test.group('Admin accounts table (browser)', (group) => {
 
 		await clickOnceHydrated(
 			row.getByRole('button', { name: DELETE_LABEL }),
-			page.getByRole('dialog')
+			page.getByRole('alertdialog')
 		);
-		await confirmInDialog(page);
+		await confirmInAlertDialog(page);
 
 		await badgeIn(row).waitFor({ state: 'visible' });
 		assert.match((await row.getAttribute('class')) ?? '', PENDING_ROW_TINT);
@@ -151,9 +151,9 @@ test.group('Admin accounts table (browser)', (group) => {
 		const row = rowOf(page, target);
 		await clickOnceHydrated(
 			row.getByRole('button', { name: DELETE_LABEL }),
-			page.getByRole('dialog')
+			page.getByRole('alertdialog')
 		);
-		await confirmInDialog(page);
+		await confirmInAlertDialog(page);
 		await badgeIn(row).waitFor({ state: 'visible' });
 
 		await page.context().clearCookies();
@@ -182,9 +182,9 @@ test.group('Admin accounts table (browser)', (group) => {
 			.check({ force: true });
 		await clickOnceHydrated(
 			page.getByRole('button', { name: 'Delete selected (2)' }),
-			page.getByRole('dialog')
+			page.getByRole('alertdialog')
 		);
-		await confirmInDialog(page);
+		await confirmInAlertDialog(page);
 
 		await badgeIn(rowOf(page, first)).waitFor({ state: 'visible' });
 		await badgeIn(rowOf(page, second)).waitFor({ state: 'visible' });
