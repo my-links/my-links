@@ -2,30 +2,30 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 import type { RoutesList } from '@adonisjs/core/types/http';
 
-import type User from '#models/user';
-import { resolveRequestOrigin } from '#lib/request_origin';
-import { SessionService } from '#services/user/session_service';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
-import { SudoModeService } from '#services/auth/sudo_mode_service';
-import { AuthEventService } from '#services/auth/auth_event_service';
-import type { OauthIntent } from '#services/auth/oauth_intent_service';
-import type { OauthIdentity } from '#services/auth/oauth_account_service';
-import { ProviderLinkService } from '#services/auth/provider_link_service';
-import { OauthAccountService } from '#services/auth/oauth_account_service';
-import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
-import {
-	OAUTH_INTENT,
-	OauthIntentService,
-} from '#services/auth/oauth_intent_service';
 import { GoogleAuthDisabledException } from '#exceptions/auth/google_auth_disabled_exception';
-import {
-	PendingDeletionGuard,
-	PENDING_DELETION_OUTCOME,
-} from '#services/auth/pending_deletion_guard';
 import {
 	OauthAuthenticationRefusedException,
 	OAUTH_REFUSAL_REASON,
 } from '#exceptions/auth/oauth_authentication_refused_exception';
+import { resolveRequestOrigin } from '#lib/request_origin';
+import type User from '#models/user';
+import { AuthEventService } from '#services/auth/auth_event_service';
+import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import type { OauthIdentity } from '#services/auth/oauth_account_service';
+import { OauthAccountService } from '#services/auth/oauth_account_service';
+import type { OauthIntent } from '#services/auth/oauth_intent_service';
+import {
+	OAUTH_INTENT,
+	OauthIntentService,
+} from '#services/auth/oauth_intent_service';
+import {
+	PendingDeletionGuard,
+	PENDING_DELETION_OUTCOME,
+} from '#services/auth/pending_deletion_guard';
+import { ProviderLinkService } from '#services/auth/provider_link_service';
+import { SudoModeService } from '#services/auth/sudo_mode_service';
+import { SessionService } from '#services/user/session_service';
 
 /**
  * The subset of the Ally driver this controller reads after a callback.
@@ -137,6 +137,7 @@ export default class HandleOauthCallbackController {
 				return this.confirmIdentity(ctx, identity, user);
 			case OAUTH_INTENT.PROVIDER_LINK:
 				return this.linkProvider(ctx, identity, user);
+			case OAUTH_INTENT.SIGN_IN:
 			default:
 				return ctx.response.redirectToNamedRoute('home');
 		}
