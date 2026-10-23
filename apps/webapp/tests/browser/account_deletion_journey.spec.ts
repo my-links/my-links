@@ -57,10 +57,10 @@ test.group('Account deletion journey (browser)', (group) => {
 		await page.goto(SETTINGS_PATH);
 		await clickOnceHydrated(
 			page.getByRole('button', { name: 'Delete Account' }).first(),
-			page.getByRole('dialog')
+			page.getByRole('alertdialog')
 		);
 		await page
-			.getByRole('dialog')
+			.getByRole('alertdialog')
 			.getByRole('button', { name: 'Delete Account' })
 			.click();
 		await page.assertPath(HOME_PATH);

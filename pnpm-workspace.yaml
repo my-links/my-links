@@ -7,7 +7,7 @@ minimumReleaseAge: 1440
 # Exact versions only; the age gate still applies to every other release.
 minimumReleaseAgeExclude:
   - '@minimalstuff/tooling@0.7.0'
-  - '@minimalstuff/ui@3.2.0'
+  - '@minimalstuff/ui@4.2.2'
 
 # Both ranges are dev/build-tooling-only transitives (ts-morph via
 # @adonisjs/assembler, vite via the extension's build chain), never
