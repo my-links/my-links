@@ -1,5 +1,5 @@
-import { DateTime } from 'luxon';
 import type { QueryClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
 import {
 	EXTENSION_TOKEN_LIFETIME_DAYS,

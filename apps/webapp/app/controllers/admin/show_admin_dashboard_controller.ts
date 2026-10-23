@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import UserTransformer from '#transformers/user';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { LinkQueryService } from '#services/links/link_query_service';
 import { AccountQueryService } from '#services/user/account_query_service';
-import { CollectionQueryService } from '#services/collections/collection_query_service';
+import UserTransformer from '#transformers/user';
 
 @inject()
 export default class ShowAdminDashboardController {

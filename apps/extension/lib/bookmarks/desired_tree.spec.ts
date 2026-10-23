@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildDesiredFolder } from '@/lib/bookmarks/desired_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
+import { buildDesiredFolder } from '@/lib/bookmarks/desired_tree';
 
 function buildLink(id: number, url: string): LinkResource {
 	return {

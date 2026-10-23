@@ -5,8 +5,8 @@ import type { HttpContext } from '@adonisjs/core/http';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
+import { oneTimeTokenValidator } from '#validators/auth/one_time_token_validator';
 
 const CONFIRMED_MESSAGE = 'Your email address is confirmed';
 

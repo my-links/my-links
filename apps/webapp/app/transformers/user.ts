@@ -1,8 +1,8 @@
 import { BaseTransformer } from '@adonisjs/core/transformers';
 
-import type User from '#models/user';
 import { listAuthMethods } from '#lib/auth/auth_methods';
 import { toIsoTimestamp } from '#lib/database/aggregate_timestamp';
+import type User from '#models/user';
 
 export default class UserTransformer extends BaseTransformer<User> {
 	/**

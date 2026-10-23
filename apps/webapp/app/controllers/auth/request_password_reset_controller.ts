@@ -2,12 +2,12 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { MailService } from '#services/mail/mail_service';
+import { PasswordResetUnavailableException } from '#exceptions/auth/password_reset_unavailable_exception';
 import { resolveRequestOrigin } from '#lib/request_origin';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { emailAddressValidator } from '#validators/auth/email_address_validator';
 import { PasswordResetLinkService } from '#services/auth/password_reset_link_service';
-import { PasswordResetUnavailableException } from '#exceptions/auth/password_reset_unavailable_exception';
+import { MailService } from '#services/mail/mail_service';
+import { emailAddressValidator } from '#validators/auth/email_address_validator';
 
 /**
  * The one thing a visitor is told, whether or not the address they typed has

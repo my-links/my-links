@@ -1,6 +1,6 @@
+import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 import { moveLinkToCollection } from '@/lib/api/links';
 import { moveLinkBetweenCollectionsInTree } from '@/lib/collections_tree';
-import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 
 export type MoveLinkToCollectionVariables = {
 	linkId: number;

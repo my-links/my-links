@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react';
 import { Link } from '@adonisjs/inertia/react';
+import type { ReactNode } from 'react';
 
-import { useAuth } from '~/hooks/use_auth';
-import { BaseLayout } from '~/layouts/base_layout';
 import { AccountMenu } from '~/components/common/navigation/account_menu';
 import { GuestAuthActions } from '~/components/common/navigation/guest_auth_actions';
+import { useAuth } from '~/hooks/use_auth';
+import { BaseLayout } from '~/layouts/base_layout';
 
 type SharedLayoutProps = {
 	children: ReactNode;

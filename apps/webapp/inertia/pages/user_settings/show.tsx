@@ -1,18 +1,18 @@
-import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 
-import { AppLayout } from '~/layouts/app_layout';
-import { About } from '~/components/user_settings/about';
 import { ApiTokens } from '~/components/api_tokens/api_tokens';
-import { Password } from '~/components/user_settings/password';
-import { Sessions } from '~/components/user_settings/sessions';
-import { Preferences } from '~/components/user_settings/preferences';
-import { AuthMethods } from '~/components/user_settings/auth_methods';
-import { DisplayName } from '~/components/user_settings/display_name';
-import { ExportImport } from '~/components/user_settings/export_import';
-import { EmailAddress } from '~/components/user_settings/email_address';
-import { DeleteAccount } from '~/components/user_settings/delete_account';
 import { AppPageHeader } from '~/components/common/navigation/app_page_header';
+import { About } from '~/components/user_settings/about';
+import { AuthMethods } from '~/components/user_settings/auth_methods';
+import { DeleteAccount } from '~/components/user_settings/delete_account';
+import { DisplayName } from '~/components/user_settings/display_name';
+import { EmailAddress } from '~/components/user_settings/email_address';
+import { ExportImport } from '~/components/user_settings/export_import';
+import { Password } from '~/components/user_settings/password';
+import { Preferences } from '~/components/user_settings/preferences';
+import { Sessions } from '~/components/user_settings/sessions';
+import { AppLayout } from '~/layouts/app_layout';
 
 const UserSettingsShow = () => (
 	<div className="w-full md:h-full p-4">

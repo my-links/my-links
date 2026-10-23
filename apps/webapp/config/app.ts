@@ -1,8 +1,8 @@
-import app from '@adonisjs/core/services/app';
 import { defineConfig } from '@adonisjs/core/http';
+import app from '@adonisjs/core/services/app';
 
-import env from '#start/env';
 import { resolveTrustProxy } from '#lib/network/trusted_proxies';
+import env from '#start/env';
 
 /**
  * The configuration settings used by the HTTP server

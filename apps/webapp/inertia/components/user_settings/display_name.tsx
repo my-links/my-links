@@ -1,10 +1,10 @@
-import { t } from '@lingui/core/macro';
 import { useForm } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
 
-import { urlFor } from '~/lib/tuyau';
 import { useRenameAccountSettings } from '~/hooks/use_rename_account_settings';
+import { urlFor } from '~/lib/tuyau';
 
 type RenameAccountFormData = {
 	nickName: string;

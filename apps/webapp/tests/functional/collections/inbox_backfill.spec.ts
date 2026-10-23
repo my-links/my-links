@@ -1,25 +1,25 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
 
-import type User from '#models/user';
-import Collection from '#models/collection';
-import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
 import {
-	createLink,
-	attachLinkToCollection,
-} from '#tests/factories/link_factory';
+	makeInboxesPrivate,
+	backfillMissingInboxCollections,
+	revertMissingInboxCollectionsBackfill,
+} from '#database/backfills/inbox_backfill';
+import { VISIBILITY } from '#enums/collections/visibility';
+import Collection from '#models/collection';
+import type User from '#models/user';
 import {
 	createInbox,
 	createCollection,
 	followCollection,
 } from '#tests/factories/collection_factory';
 import {
-	makeInboxesPrivate,
-	backfillMissingInboxCollections,
-	revertMissingInboxCollectionsBackfill,
-} from '#database/backfills/inbox_backfill';
+	createLink,
+	attachLinkToCollection,
+} from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 function inboxesOf(user: User) {
 	return Collection.query()

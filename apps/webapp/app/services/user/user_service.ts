@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 
-import User from '#models/user';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import type { LandingPage } from '#enums/dashboard/landing_page';
+import type { RequestOrigin } from '#lib/request_origin';
+import User from '#models/user';
 import { ActivityEventService } from '#services/activity/activity_event_service';
 
 @inject()

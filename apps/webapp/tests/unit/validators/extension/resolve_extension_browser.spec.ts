@@ -1,11 +1,11 @@
 import { test } from '@japa/runner';
 
 import { EXTENSION_BROWSER } from '#constants/extension';
-import { resolveExtensionBrowser } from '#validators/extension/resolve_extension_browser';
 import {
 	hashFirefoxAddonId,
 	resolveAllowedExtensionHosts,
 } from '#lib/extension/extension_ids';
+import { resolveExtensionBrowser } from '#validators/extension/resolve_extension_browser';
 
 const OFFICIAL_CHROMIUM_ID = 'agkmlplihacolkakgeccnbhphnepphma';
 const OFFICIAL_FIREFOX_HASH = '90c2f297f278cfdc2226b3d46282e1426576dd95';

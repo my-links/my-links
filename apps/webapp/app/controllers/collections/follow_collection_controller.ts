@@ -2,8 +2,8 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { collectionIdValidator } from '#validators/collections/collection_id_validator';
 
 @inject()
 export default class FollowCollectionController {

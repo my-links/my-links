@@ -1,6 +1,6 @@
+import type Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
 
 const DEFAULT_LINK_NAME = 'Test link';
 const DEFAULT_LINK_URL = 'https://example.com';

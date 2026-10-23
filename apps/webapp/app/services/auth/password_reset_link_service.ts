@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
-import router from '@adonisjs/core/services/router';
 import type { Secret } from '@adonisjs/core/helpers';
+import router from '@adonisjs/core/services/router';
 
-import env from '#start/env';
-import User from '#models/user';
 import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { MailService } from '#services/mail/mail_service';
-import { OneTimeTokenService } from '#services/auth/one_time_token_service';
 import { ResetPasswordNotification } from '#mails/reset_password_notification';
+import User from '#models/user';
+import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { MailService } from '#services/mail/mail_service';
+import env from '#start/env';
 
 const RESET_PASSWORD_ROUTE = 'auth.password.reset';
 const TOKEN_TYPE = ONE_TIME_TOKEN_TYPE.PASSWORD_RESET;

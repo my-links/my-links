@@ -1,8 +1,8 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
 
-import type { FuzzyMatch } from '~/lib/fuzzy_links';
 import { SearchLinkResults } from '~/components/dashboard/search/search_link_results';
+import type { FuzzyMatch } from '~/lib/fuzzy_links';
 
 type SearchResultsContentProps = {
 	isLoading: boolean;

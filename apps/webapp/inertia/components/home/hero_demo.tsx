@@ -28,6 +28,7 @@ export function HeroDemo() {
 			return;
 		}
 
+		// oxlint-disable-next-line react/set-state-in-effect -- replay starts after hydration so the server markup still matches
 		setPhase('typing');
 		const toResolving = setTimeout(
 			() => setPhase('resolving'),

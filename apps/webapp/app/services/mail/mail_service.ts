@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core';
+import logger from '@adonisjs/core/services/logger';
 import type { BaseMail } from '@adonisjs/mail';
 import mail from '@adonisjs/mail/services/main';
-import logger from '@adonisjs/core/services/logger';
 
 import { MailConfigService } from '#services/mail/mail_config_service';
 

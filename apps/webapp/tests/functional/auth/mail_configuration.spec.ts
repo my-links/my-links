@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import mail from '@adonisjs/mail/services/main';
 import testUtils from '@adonisjs/core/services/test_utils';
+import mail from '@adonisjs/mail/services/main';
+import { test } from '@japa/runner';
 
+import { PasswordChangedNotification } from '#mails/password_changed_notification';
+import { MailConfigService } from '#services/mail/mail_config_service';
 import { MailService } from '#services/mail/mail_service';
 import { createUser } from '#tests/factories/user_factory';
-import { MailConfigService } from '#services/mail/mail_config_service';
-import { PasswordChangedNotification } from '#mails/password_changed_notification';
 
 function enableOutgoingMail() {
 	app.container.swap(MailConfigService, () => ({ isEnabled: true }));

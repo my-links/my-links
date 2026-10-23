@@ -1,11 +1,11 @@
-import { Modal } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
+import { Modal } from '@minimalstuff/ui';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 
 import { CreateLinkModal } from '~/components/dashboard/modals/create_link_modal';
-import { EditCollectionModal } from '~/components/dashboard/modals/edit_collection_modal';
 import { DeleteCollectionModal } from '~/components/dashboard/modals/delete_collection_modal';
+import { EditCollectionModal } from '~/components/dashboard/modals/edit_collection_modal';
 
 type MenuClickHandler = (event: ReactMouseEvent<HTMLButtonElement>) => void;
 

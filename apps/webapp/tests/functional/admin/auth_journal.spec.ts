@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import AuditEvent from '#models/audit_event';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
-import { inertiaPageProps } from '#tests/helpers/inertia_page';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
 import { recordAuthEvent } from '#tests/factories/auth_event_factory';
 import { createAdmin, createUser } from '#tests/factories/user_factory';
+import { inertiaPageProps } from '#tests/helpers/inertia_page';
 
 const AUTH_JOURNAL_ROUTE = '/admin/auth-events';
 const HOME_ROUTE = '/';

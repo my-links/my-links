@@ -1,16 +1,16 @@
-import { Modal } from '@minimalstuff/ui';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
+import { Modal } from '@minimalstuff/ui';
 import {
 	useCallback,
 	useState,
 	type MouseEvent as ReactMouseEvent,
 } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
-import { hasCollectionIds, type DisplayLink } from '~/lib/link';
-import { EditLinkModal } from '~/components/dashboard/modals/edit_link_modal';
 import { DeleteLinkModal } from '~/components/dashboard/modals/delete_link_modal';
+import { EditLinkModal } from '~/components/dashboard/modals/edit_link_modal';
+import { hasCollectionIds, type DisplayLink } from '~/lib/link';
+import { urlFor } from '~/lib/tuyau';
 
 type MenuClickHandler = (event: ReactMouseEvent<HTMLButtonElement>) => void;
 

@@ -1,9 +1,5 @@
-import { isSafeLinkUrl } from '@/lib/safe_link_url';
-import type { SyncedTree } from '@/lib/bookmarks/snapshot';
-import { buildLinkKey } from '@/lib/bookmarks/desired_tree';
-import { runWithConcurrencyLimit } from '@/lib/concurrency';
 import type { BookmarksApi } from '@/lib/bookmarks/bookmarks_api';
-import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import { buildLinkKey } from '@/lib/bookmarks/desired_tree';
 import {
 	withMappedBookmark,
 	withMappedFolder,
@@ -12,6 +8,10 @@ import {
 	withoutMappedFolder,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import type { SyncedTree } from '@/lib/bookmarks/snapshot';
+import { runWithConcurrencyLimit } from '@/lib/concurrency';
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 
 export const MAX_CONCURRENT_BOOKMARK_WRITES = 4;
 
@@ -126,7 +126,7 @@ async function applyOperation(
 ): Promise<OperationResult> {
 	switch (operation.kind) {
 		case 'create-folder':
-			return await createFolder(api, rootId, operation);
+			return createFolder(api, rootId, operation);
 		case 'rename-folder':
 			await api.update(operation.nodeId, { title: operation.title });
 			return NO_MAPPING_RESULT;
@@ -136,7 +136,7 @@ async function applyOperation(
 		case 'forget-folder':
 			return unmapFolder(operation.collectionId);
 		case 'create-bookmark':
-			return await createBookmark(api, operation);
+			return createBookmark(api, operation);
 		case 'update-bookmark':
 			if (!isSafeLinkUrl(operation.url)) {
 				return NO_MAPPING_RESULT;

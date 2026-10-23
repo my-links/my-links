@@ -1,17 +1,17 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
-import router from '@adonisjs/core/services/router';
 import type { Secret } from '@adonisjs/core/helpers';
+import router from '@adonisjs/core/services/router';
+import { DateTime } from 'luxon';
 
-import env from '#start/env';
-import User from '#models/user';
-import type { RequestOrigin } from '#lib/request_origin';
-import { MailService } from '#services/mail/mail_service';
-import { AuthEventService } from '#services/auth/auth_event_service';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { VerifyEmailNotification } from '#mails/verify_email_notification';
-import { OneTimeTokenService } from '#services/auth/one_time_token_service';
 import { UnverifiedEmailException } from '#exceptions/auth/unverified_email_exception';
+import type { RequestOrigin } from '#lib/request_origin';
+import { VerifyEmailNotification } from '#mails/verify_email_notification';
+import User from '#models/user';
+import { AuthEventService } from '#services/auth/auth_event_service';
+import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { MailService } from '#services/mail/mail_service';
+import env from '#start/env';
 
 const VERIFY_EMAIL_ROUTE = 'auth.verify-email';
 const TOKEN_TYPE = ONE_TIME_TOKEN_TYPE.EMAIL_VERIFICATION;

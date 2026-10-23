@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildReorderOperation } from '@/lib/bookmarks/ordering';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
+import { buildReorderOperation } from '@/lib/bookmarks/ordering';
 
 const PARENT_ID = 'parent';
 

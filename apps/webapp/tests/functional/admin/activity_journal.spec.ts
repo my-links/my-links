@@ -1,13 +1,13 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { AUDIT_JOURNAL_PAGE_SIZE } from '#constants/audit';
-import { inertiaPageProps } from '#tests/helpers/inertia_page';
+import AuditEvent from '#models/audit_event';
+import type User from '#models/user';
 import { createAdmin, createUser } from '#tests/factories/user_factory';
+import { inertiaPageProps } from '#tests/helpers/inertia_page';
 
 const ACTIVITY_JOURNAL_ROUTE = '/admin/activity-events';
 const HOME_ROUTE = '/';

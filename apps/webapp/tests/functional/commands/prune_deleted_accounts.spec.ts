@@ -1,19 +1,19 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { captureConsoleOutput } from '#tests/helpers/console';
 import PruneDeletedAccounts from '#commands/prune_deleted_accounts';
 import { ACCOUNT_DELETION_GRACE_PERIOD_DAYS } from '#constants/account';
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import AuditEvent from '#models/audit_event';
+import User from '#models/user';
 import {
 	createUser,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 async function runPruneDeletedAccounts() {
 	const command = await ace.create(PruneDeletedAccounts, []);

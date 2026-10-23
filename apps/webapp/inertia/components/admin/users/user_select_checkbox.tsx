@@ -1,5 +1,5 @@
-import type { ChangeEvent } from 'react';
 import { Checkbox } from '@minimalstuff/ui';
+import type { ChangeEvent } from 'react';
 
 import type { UserWithCounters } from '~/components/admin/users/users_table_columns';
 

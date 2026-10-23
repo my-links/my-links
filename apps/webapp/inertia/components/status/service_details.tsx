@@ -1,9 +1,9 @@
-import { Badge } from '@minimalstuff/ui';
 import type { Data } from '@generated/data';
 import { Trans } from '@lingui/react/macro';
+import { Badge } from '@minimalstuff/ui';
 
-import { cn } from '~/lib/cn';
 import { ThresholdDisplay } from '~/components/status/threshold_display';
+import { cn } from '~/lib/cn';
 import {
 	getHealthServiceDisplayName,
 	getHealthStatusColorClass,

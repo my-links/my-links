@@ -1,17 +1,17 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
-import type User from '#models/user';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import type { RequestOrigin } from '#lib/request_origin';
-import { MailService } from '#services/mail/mail_service';
 import { resolveRequestOrigin } from '#lib/request_origin';
+import type User from '#models/user';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { registerValidator } from '#validators/auth/register_validator';
-import { RegistrationService } from '#services/auth/registration_service';
-import { MINIMUM_PASSWORD_LENGTH } from '#validators/auth/password_rules';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
+import { RegistrationService } from '#services/auth/registration_service';
+import { MailService } from '#services/mail/mail_service';
+import { MINIMUM_PASSWORD_LENGTH } from '#validators/auth/password_rules';
+import { registerValidator } from '#validators/auth/register_validator';
 
 /**
  * The one thing a visitor is told after submitting the form. It never mentions

@@ -1,13 +1,13 @@
-import crypto from 'node:crypto';
 import {
 	beforeCreate,
 	CamelCaseNamingStrategy,
 	column,
 	computed,
 } from '@adonisjs/lucid/orm';
+import crypto from 'node:crypto';
 
-import type { SessionData } from '#types/session';
 import { UserSessionSchema } from '#database/schema';
+import type { SessionData } from '#types/session';
 
 export default class UserSession extends UserSessionSchema {
 	static readonly namingStrategy = new CamelCaseNamingStrategy();

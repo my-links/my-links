@@ -1,7 +1,7 @@
-import { t } from '@lingui/core/macro';
-import { usePage } from '@inertiajs/react';
-import { Trans } from '@lingui/react/macro';
 import type { PageProps } from '@adonisjs/inertia/types';
+import { usePage } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import { ClientOnly, IconButton } from '@minimalstuff/ui';
 
 import { PROJECT_CHANGELOG_URL } from '~/consts/project';

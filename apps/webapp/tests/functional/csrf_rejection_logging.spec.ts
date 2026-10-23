@@ -1,11 +1,11 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import { nextClientAddress } from '#tests/helpers/client_addresses';
 import {
 	clearCapturedLogs,
 	readCapturedLogs,
 } from '#tests/helpers/captured_logs';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
 
 const PINO_LEVEL_INFO = 30;
 const REJECTED_CSRF_MESSAGE = 'Invalid or expired CSRF token';

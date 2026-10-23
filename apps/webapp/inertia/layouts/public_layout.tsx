@@ -1,6 +1,6 @@
-import { BaseLayout } from '~/layouts/base_layout';
 import { Footer } from '~/components/common/navigation/footer';
 import { Navbar } from '~/components/common/navigation/navbar';
+import { BaseLayout } from '~/layouts/base_layout';
 
 type PublicLayoutProps = {
 	children: React.ReactNode;

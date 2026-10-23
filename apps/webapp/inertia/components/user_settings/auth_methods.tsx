@@ -1,12 +1,12 @@
-import { t } from '@lingui/core/macro';
 import { router } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, ConfirmModal } from '@minimalstuff/ui';
 
-import { urlFor } from '~/lib/tuyau';
-import { formatDate } from '~/lib/format';
 import { useAuthMethods } from '~/hooks/use_auth_methods';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
+import { formatDate } from '~/lib/format';
+import { urlFor } from '~/lib/tuyau';
 
 const GOOGLE_PROVIDER = 'google';
 

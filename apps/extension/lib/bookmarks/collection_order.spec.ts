@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
+import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
-import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
-import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
 import {
 	buildFolderReorder,
 	buildLinkReorder,
 } from '@/lib/bookmarks/collection_order';
+import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
 
 function buildLink(overrides: Partial<LinkResource> = {}): LinkResource {
 	return {

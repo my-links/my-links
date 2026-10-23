@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
+import { TOKEN_ABILITY } from '#constants/api_token';
+import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
-import { TOKEN_ABILITY } from '#constants/api_token';
 import { createUser } from '#tests/factories/user_factory';
-import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 
 const HTTP_NO_CONTENT = 204;
 const HTTP_FORBIDDEN = 403;

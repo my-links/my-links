@@ -7,6 +7,7 @@ export function useStateAnimation(isOpen: boolean, duration = 150) {
 
 	useEffect(() => {
 		if (isOpen) {
+			// oxlint-disable-next-line react/set-state-in-effect -- the mount must commit before the opening transition starts
 			setShouldRender(true);
 			setIsClosing(false);
 			requestAnimationFrame(() => {

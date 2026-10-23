@@ -1,5 +1,5 @@
-import { t } from '@lingui/core/macro';
 import type { Announcements } from '@dnd-kit/core';
+import { t } from '@lingui/core/macro';
 
 import { COLLECTION_SECTION, type CollectionSection } from './dnd_types';
 import {

@@ -1,5 +1,5 @@
-import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 import { AccountMenu } from '~/components/common/navigation/account_menu';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
 
 // `flex flex-col` stretches the span `Menu` wraps its trigger in, which is what the trigger's own `w-full` resolves against.
 export function SidebarFooter() {

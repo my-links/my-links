@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
 
-import User from '#models/user';
 import { AUTH_PROVIDER } from '#constants/auth';
 import { resolveRequestOrigin } from '#lib/request_origin';
+import User from '#models/user';
+import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
+import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { PasswordService } from '#services/auth/password_service';
 import { SudoModeService } from '#services/auth/sudo_mode_service';
-import { OauthAccountService } from '#services/auth/oauth_account_service';
-import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import { sudoConfirmationValidator } from '#validators/auth/sudo_confirmation_validator';
 
 @inject()

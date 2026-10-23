@@ -1,8 +1,8 @@
-import { Button } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 
-import { urlFor } from '~/lib/tuyau';
 import { ImportForm } from '~/components/user_settings/import_form';
+import { urlFor } from '~/lib/tuyau';
 
 export function ExportImport() {
 	const handleExport = () => {

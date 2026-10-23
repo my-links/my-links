@@ -1,14 +1,14 @@
-import { t } from '@lingui/core/macro';
-import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { Head } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 
-import { AppLayout } from '~/layouts/app_layout';
-import { InertiaProps } from '~/lib/inertia_props';
-import { StatCard } from '~/components/admin/stat_card';
 import { AdminTabs } from '~/components/admin/admin_tabs';
+import { StatCard } from '~/components/admin/stat_card';
 import { UsersTable } from '~/components/admin/users/users_table';
 import { AppPageHeader } from '~/components/common/navigation/app_page_header';
+import { AppLayout } from '~/layouts/app_layout';
+import type { InertiaProps } from '~/lib/inertia_props';
 
 type PageProps = InertiaProps<{
 	users: Data.User.Variants['withCounters'][];

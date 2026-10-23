@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import type { ComponentType } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+import type { ComponentType } from 'react';
+import ReactDOM from 'react-dom/client';
 
-import { collectionsCacheStorage } from '@/lib/storage';
 import { COLLECTIONS_QUERY_KEY } from '@/hooks/use_collections';
+import { collectionsCacheStorage } from '@/lib/storage';
 
 export class RootElementNotFoundError extends Error {
 	constructor() {

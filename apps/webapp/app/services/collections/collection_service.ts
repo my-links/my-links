@@ -2,19 +2,19 @@ import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
-import User from '#models/user';
-import Collection from '#models/collection';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import type { RequestOrigin } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { SyncJournalService } from '#services/sync/sync_journal_service';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import { CannotDeleteDefaultCollectionException } from '#exceptions/collections/cannot_delete_default_collection_exception';
+import { CannotShareDefaultCollectionException } from '#exceptions/collections/cannot_share_default_collection_exception';
+import type { RequestOrigin } from '#lib/request_origin';
+import Collection from '#models/collection';
+import User from '#models/user';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { CollectionFollowerService } from '#services/collections/collection_follower_service';
 import { CollectionLinkService } from '#services/collections/collection_link_service';
 import { CollectionOrderingService } from '#services/collections/collection_ordering_service';
-import { CollectionFollowerService } from '#services/collections/collection_follower_service';
-import { CannotShareDefaultCollectionException } from '#exceptions/collections/cannot_share_default_collection_exception';
-import { CannotDeleteDefaultCollectionException } from '#exceptions/collections/cannot_delete_default_collection_exception';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
 
 const DEFAULT_COLLECTION_NAME = 'Inbox';
 
@@ -141,7 +141,7 @@ export class CollectionService {
 		id: Collection['id'],
 		client: TransactionClientContract
 	) {
-		return await Collection.query({ client })
+		return Collection.query({ client })
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
 			.firstOrFail();

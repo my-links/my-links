@@ -1,6 +1,6 @@
-import { useSearch } from '@/hooks/use_search';
 import { SearchLinkResult } from './search_link_result';
 import { useResultNavigation } from '@/hooks/use_result_navigation';
+import { useSearch } from '@/hooks/use_search';
 
 type SearchResultsProps = {
 	term: string;

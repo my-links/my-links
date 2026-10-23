@@ -1,18 +1,18 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { INVALID_CREDENTIALS_MESSAGE } from '#services/auth/credentials_auth_service';
+import AuditEvent from '#models/audit_event';
+import User from '#models/user';
 import { PENDING_REACTIVATION_SESSION_KEY } from '#services/auth/account_reactivation_service';
+import { INVALID_CREDENTIALS_MESSAGE } from '#services/auth/credentials_auth_service';
 import {
 	createAdmin,
 	createUser,
 	setUserPassword,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 const SESSION_GUARD_KEY = 'auth_web';

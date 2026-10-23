@@ -1,16 +1,16 @@
-import { useId } from 'react';
-import { useForm } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { useForm } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { ModalFooter } from '@minimalstuff/ui';
+import { useId } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
 import {
 	FormLinkContent,
 	type FormLinkData,
 } from '~/components/dashboard/forms/form_link_content';
+import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { urlFor } from '~/lib/tuyau';
 
 type DeleteLinkModalProps = {
 	link: Data.Link.Variants['withCollections'];

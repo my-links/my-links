@@ -1,14 +1,14 @@
+import { Link } from '@adonisjs/inertia/react';
+import type { PageProps } from '@adonisjs/inertia/types';
+import { useDroppable } from '@dnd-kit/core';
+import type { Data } from '@generated/data';
 import { usePage } from '@inertiajs/react';
 import { Tooltip } from '@minimalstuff/ui';
-import type { Data } from '@generated/data';
-import { useDroppable } from '@dnd-kit/core';
-import { Link } from '@adonisjs/inertia/react';
-import { PageProps } from '@adonisjs/inertia/types';
 
-import { cn } from '~/lib/cn';
 import { RAIL_ITEM_CLASS } from '~/consts/sidebar';
 import { useIsMobile } from '~/hooks/use_is_mobile';
 import { useSidebarMode } from '~/hooks/use_sidebar_mode';
+import { cn } from '~/lib/cn';
 import { useDashboardLayoutStore } from '~/stores/dashboard_layout_store';
 
 type CollectionInboxItemProps = {

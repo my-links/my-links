@@ -1,5 +1,5 @@
-import { defineConfig } from 'wxt';
 import { fileURLToPath } from 'node:url';
+import { defineConfig } from 'wxt';
 
 import { OPEN_SEARCH_COMMAND } from './lib/search/constants';
 

@@ -1,7 +1,7 @@
-import type { CollectionWithLinks } from '@/lib/api/types';
-import { insertCollectionIntoTree } from '@/lib/collections_tree';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 import { createCollection, type CollectionInput } from '@/lib/api/collections';
+import type { CollectionWithLinks } from '@/lib/api/types';
+import { insertCollectionIntoTree } from '@/lib/collections_tree';
 
 const TEMPORARY_COLLECTION_ID_FACTOR = -1;
 

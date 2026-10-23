@@ -1,12 +1,12 @@
 import { Button } from '@minimalstuff/ui';
 import { useState, type FormEvent } from 'react';
 
-import { trimToNullableText } from '@/lib/strings';
-import { useCreateCollection } from '@/hooks/use_create_collection';
 import {
 	CollectionFormFields,
 	type CollectionFormValues,
 } from './collection_form_fields';
+import { useCreateCollection } from '@/hooks/use_create_collection';
+import { trimToNullableText } from '@/lib/strings';
 
 type CreateCollectionModalProps = {
 	onClose: () => void;

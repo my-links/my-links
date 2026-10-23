@@ -1,16 +1,16 @@
 import { test } from '@japa/runner';
 
-import type { FaviconHttpResponse } from '#types/favicon_http_response';
-import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
-import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 import { UnresolvableHostException } from '#exceptions/favicons/unresolvable_host_exception';
+import { UrlBlockedException } from '#exceptions/favicons/url_blocked_exception';
+import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import {
 	ImpersonatedFetcher,
 	type ImpersonatedFetchInit,
 } from '#services/favicons/impersonated_fetcher';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import type { FaviconHttpResponse } from '#types/favicon_http_response';
 
 const PUBLIC_ADDRESS = [{ address: '93.184.216.34', family: 4 }];
 const PRIVATE_ADDRESS = [{ address: '10.0.0.1', family: 4 }];

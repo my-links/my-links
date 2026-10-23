@@ -1,12 +1,12 @@
 import { Trans } from '@lingui/react/macro';
 import { Button, IconButton, Kbd, Tooltip } from '@minimalstuff/ui';
 
-import { KEYS } from '~/consts/keys';
-import { useIsMobile } from '~/hooks/use_is_mobile';
 import { FilterList } from '~/components/common/filter_list';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import type { DashboardHeaderProps } from '~/components/dashboard/headers/dashboard_header';
 import { DashboardQuickAction } from '~/components/dashboard/headers/dashboard_quick_action';
+import { KEYS } from '~/consts/keys';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 
 type DashboardHeaderActionsProps = DashboardHeaderProps & {
 	onShareCollection: () => void;

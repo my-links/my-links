@@ -2,18 +2,18 @@ import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
+import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { InvalidCollectionMembershipException } from '#exceptions/collections/invalid_collection_membership_exception';
+import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
+import { idSetsMatch } from '#lib/id_set';
+import { reorderByRank } from '#lib/reorder_by_rank';
+import type { RequestOrigin } from '#lib/request_origin';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import { idSetsMatch } from '#lib/id_set';
-import Collection from '#models/collection';
-import { reorderByRank } from '#lib/reorder_by_rank';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import type { RequestOrigin } from '#lib/request_origin';
-import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { SyncJournalService } from '#services/sync/sync_journal_service';
 import { ActivityEventService } from '#services/activity/activity_event_service';
-import { ForeignCollectionException } from '#exceptions/links/foreign_collection_exception';
-import { InvalidCollectionMembershipException } from '#exceptions/collections/invalid_collection_membership_exception';
+import { SyncJournalService } from '#services/sync/sync_journal_service';
 
 const COLLECTION_LINK_TABLE = 'collection_link';
 

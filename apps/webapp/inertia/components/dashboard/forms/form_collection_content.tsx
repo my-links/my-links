@@ -1,8 +1,8 @@
-import { t } from '@lingui/core/macro';
-import type { ChangeEvent } from 'react';
 import type { Data } from '@generated/data';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Button, Input, RadioOptions, Textarea } from '@minimalstuff/ui';
+import type { ChangeEvent } from 'react';
 
 import { EmojiPicker } from '~/components/common/emoji_picker';
 

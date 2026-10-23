@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { requestBackgroundSync } from '@/lib/sync/messages';
+import { FOLLOWED_COLLECTIONS_QUERY_KEY } from '@/hooks/use_followed_collections';
 import { reorderFollowedCollections } from '@/lib/api/collections';
 import type { FollowedCollectionWithLinks } from '@/lib/api/types';
 import { reorderFollowedCollectionsInTree } from '@/lib/collections_tree';
-import { FOLLOWED_COLLECTIONS_QUERY_KEY } from '@/hooks/use_followed_collections';
+import { requestBackgroundSync } from '@/lib/sync/messages';
 
 export type ReorderFollowedCollectionsVariables = {
 	collectionIds: number[];

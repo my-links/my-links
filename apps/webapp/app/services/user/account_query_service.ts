@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
 
-import User from '#models/user';
 import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
+import User from '#models/user';
 
 /**
  * Narrows a listing to a subset of the accounts. Every field is stated rather

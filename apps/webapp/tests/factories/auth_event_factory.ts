@@ -1,6 +1,6 @@
-import type User from '#models/user';
-import AuditEvent from '#models/audit_event';
 import type { AuthEventType } from '#constants/auth';
+import AuditEvent from '#models/audit_event';
+import type User from '#models/user';
 
 const DEFAULT_IP = '203.0.113.7';
 const DEFAULT_USER_AGENT = 'Test Agent';

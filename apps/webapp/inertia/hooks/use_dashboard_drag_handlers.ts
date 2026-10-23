@@ -1,21 +1,21 @@
-import { useState } from 'react';
 import type {
 	ClientRect,
 	DragEndEvent,
 	DragStartEvent,
 	Over,
 } from '@dnd-kit/core';
+import { useState } from 'react';
 
-import { useShiftModifier } from '~/hooks/use_shift_modifier';
-import { armDragClickGuard } from '~/lib/dnd/drag_click_guard';
-import type { SectionMovePlacement } from '~/lib/collection_section_move';
 import { useAddLinkToCollection } from '~/hooks/use_add_link_to_collection';
+import type { MoveCollectionToSection } from '~/hooks/use_move_collection_to_section';
 import { useMoveLinkToCollection } from '~/hooks/use_move_link_to_collection';
+import { useShiftModifier } from '~/hooks/use_shift_modifier';
+import type { SectionMovePlacement } from '~/lib/collection_section_move';
 import {
 	COLLECTION_SECTION,
 	type CollectionDragData,
 } from '~/lib/dnd/dnd_types';
-import type { MoveCollectionToSection } from '~/hooks/use_move_collection_to_section';
+import { armDragClickGuard } from '~/lib/dnd/drag_click_guard';
 import {
 	isCollectionDragData,
 	isLinkDropTargetData,

@@ -1,4 +1,4 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { useCallback, useMemo, useState } from 'react';
 
 import { sortData } from '~/components/admin/users/utils';

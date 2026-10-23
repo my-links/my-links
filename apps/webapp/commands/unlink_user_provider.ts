@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import { args, flags } from '@adonisjs/core/ace';
 
-import type User from '#models/user';
 import AccountCommand from '#commands/_account_command';
 import { AUTH_EVENT_TYPE, type AuthProvider } from '#constants/auth';
+import type User from '#models/user';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { ProviderLinkService } from '#services/auth/provider_link_service';
 import { authProviderValidator } from '#validators/auth/auth_provider_validator';

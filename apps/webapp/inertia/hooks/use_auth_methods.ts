@@ -1,5 +1,5 @@
-import { usePage } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { usePage } from '@inertiajs/react';
 
 type AuthMethods = {
 	hasPassword: boolean;

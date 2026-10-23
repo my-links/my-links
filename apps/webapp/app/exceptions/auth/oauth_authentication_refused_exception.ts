@@ -1,6 +1,6 @@
-import logger from '@adonisjs/core/services/logger';
 import { Exception } from '@adonisjs/core/exceptions';
 import type { HttpContext } from '@adonisjs/core/http';
+import logger from '@adonisjs/core/services/logger';
 
 const STATUS = 403;
 const CODE = 'E_OAUTH_AUTHENTICATION_REFUSED';

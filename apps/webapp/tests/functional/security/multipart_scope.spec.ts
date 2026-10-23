@@ -1,9 +1,8 @@
-import { test } from '@japa/runner';
 import router from '@adonisjs/core/services/router';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
 import bodyParserConfig from '#config/bodyparser';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
 import {
 	DATA_IMPORT_ROUTE_PATTERN,
 	MAXIMUM_IMPORT_FILE_SIZE,
@@ -13,6 +12,7 @@ import {
 	setUserPassword,
 	verifyUserEmail,
 } from '#tests/factories/user_factory';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 const SESSION_GUARD_KEY = 'auth_web';

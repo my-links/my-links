@@ -1,8 +1,8 @@
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { useEffect, useMemo, useState } from 'react';
 
-import { tuyauClient } from '~/lib/tuyau';
 import { matchLinks, type FuzzyMatch } from '~/lib/fuzzy_links';
+import { tuyauClient } from '~/lib/tuyau';
 
 type UseSearchResultsReturn = {
 	results: FuzzyMatch<Data.Link>[];

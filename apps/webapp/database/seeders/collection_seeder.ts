@@ -1,10 +1,10 @@
-import { faker } from '@faker-js/faker';
 import { BaseSeeder } from '@adonisjs/lucid/seeders';
+import { faker } from '@faker-js/faker';
 
-import User from '#models/user';
-import Collection from '#models/collection';
-import { VISIBILITY } from '#enums/collections/visibility';
 import { ADMIN_EMAIL, USER_EMAIL } from '#database/seeders/user_seeder';
+import { VISIBILITY } from '#enums/collections/visibility';
+import Collection from '#models/collection';
+import User from '#models/user';
 
 const MIN_COLLECTIONS_PER_USER = 3;
 const MAX_COLLECTIONS_PER_USER = 6;

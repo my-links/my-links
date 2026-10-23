@@ -1,8 +1,8 @@
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
 import { test } from '@japa/runner';
 import { createHash } from 'node:crypto';
 import { mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 

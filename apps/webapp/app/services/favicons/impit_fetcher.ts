@@ -1,11 +1,11 @@
 import { Impit } from 'impit';
 
-import type { FaviconHttpResponse } from '#types/favicon_http_response';
 import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
 import {
 	ImpersonatedFetcher,
 	type ImpersonatedFetchInit,
 } from '#services/favicons/impersonated_fetcher';
+import type { FaviconHttpResponse } from '#types/favicon_http_response';
 
 export class ImpitFetcher extends ImpersonatedFetcher {
 	private impit?: Promise<Impit>;

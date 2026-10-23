@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
 import type { Active, ClientRect, DroppableContainer } from '@dnd-kit/core';
+import { describe, expect, it } from 'vitest';
 
-import type { DragData } from '@/lib/dnd/dnd_types';
 import { collectionsDndCollisionDetection } from '@/lib/dnd/collision_detection';
+import type { DragData } from '@/lib/dnd/dnd_types';
 
 function rect(
 	left: number,

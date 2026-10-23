@@ -1,14 +1,14 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import AuditEvent from '#models/audit_event';
-import { AUTH_EVENT_TYPE } from '#constants/auth';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
-import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
-import { createUser } from '#tests/factories/user_factory';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import AuditEvent from '#models/audit_event';
 import { ActivityEventService } from '#services/activity/activity_event_service';
+import { createUser } from '#tests/factories/user_factory';
 
 /**
  * `listRecent` and `pruneBefore` work over the whole journal, so whatever a

@@ -1,19 +1,19 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
-import { inertiaPageProps } from '#tests/helpers/inertia_page';
-import {
-	createLink,
-	attachLinkToCollection,
-} from '#tests/factories/link_factory';
+import Collection from '#models/collection';
 import {
 	createInbox,
 	createCollection,
 	followCollection,
 } from '#tests/factories/collection_factory';
+import {
+	createLink,
+	attachLinkToCollection,
+} from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
+import { inertiaPageProps } from '#tests/helpers/inertia_page';
 
 const INBOX_PATH = '/collections/inbox';
 

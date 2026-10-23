@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/react/macro';
 
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { FavoritesViewContent } from '~/components/dashboard/views/favorites_view_content';
 import { CollectionViewContent } from '~/components/dashboard/views/collection_view_content';
+import { FavoritesViewContent } from '~/components/dashboard/views/favorites_view_content';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
 
 export function DashboardContent() {
 	const { activeCollection } = useDashboardProps();

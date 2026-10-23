@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
 import FaviconEntry from '#models/favicon_entry';
-import { freshSudoSession } from '#tests/helpers/sudo_mode';
-import { createAdmin, createUser } from '#tests/factories/user_factory';
-import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
+import { FaviconStoreService } from '#services/favicons/favicon_store_service';
+import { createAdmin, createUser } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 const HOME_ROUTE = '/';
 

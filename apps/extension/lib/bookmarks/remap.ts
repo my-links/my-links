@@ -1,6 +1,3 @@
-import { buildPinnedLinkKey } from '@/lib/bookmarks/pinned';
-import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
-import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
 import { isFolder, type BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
 import {
 	buildLinkKey,
@@ -14,6 +11,9 @@ import {
 	withMappedFolder,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
+import { buildPinnedLinkKey } from '@/lib/bookmarks/pinned';
+import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
+import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
 
 /**
  * Rebuilds mapping entries for nodes the mirror plainly created but can no

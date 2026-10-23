@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 
-import { cn } from '~/lib/cn';
 import { SortableTh } from '~/components/common/data_table/sortable_th';
+import { cn } from '~/lib/cn';
 
 export type DataTableColumn<TData> = {
 	key: string;

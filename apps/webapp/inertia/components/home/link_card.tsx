@@ -1,5 +1,5 @@
-import { cn } from '~/lib/cn';
 import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
+import { cn } from '~/lib/cn';
 
 type LinkCardProps = {
 	url: string;

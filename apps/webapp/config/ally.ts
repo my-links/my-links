@@ -1,7 +1,7 @@
 import { defineConfig, services } from '@adonisjs/ally';
 
-import env from '#start/env';
 import { resolveGoogleAuthConfig } from '#lib/auth/google_config';
+import env from '#start/env';
 
 /**
  * Resolved at boot so a partial configuration crashes the app immediately

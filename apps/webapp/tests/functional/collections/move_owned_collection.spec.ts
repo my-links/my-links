@@ -1,15 +1,15 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
 
-import Collection from '#models/collection';
-import { createUser } from '#tests/factories/user_factory';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import Collection from '#models/collection';
 import {
 	createInbox,
 	createCollection,
 	followCollection,
 } from '#tests/factories/collection_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 async function sectionIds(userId: number, visibility: Visibility) {
 	const collections = await Collection.query()

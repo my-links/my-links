@@ -1,10 +1,10 @@
-import { Card } from '@minimalstuff/ui';
+import type { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import type { PageProps } from '@adonisjs/inertia/types';
+import { Card } from '@minimalstuff/ui';
 
-import { PROJECT_CHANGELOG_URL } from '~/consts/project';
 import { IconLink } from '~/components/common/navigation/icon_link';
+import { PROJECT_CHANGELOG_URL } from '~/consts/project';
 
 export function About() {
 	const { appVersion } = usePage<PageProps & { appVersion: string }>().props;

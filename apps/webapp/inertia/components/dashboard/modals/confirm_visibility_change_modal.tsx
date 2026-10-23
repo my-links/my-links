@@ -1,13 +1,13 @@
-import { useId } from 'react';
 import type { Data } from '@generated/data';
 import { ModalFooter } from '@minimalstuff/ui';
+import { useId } from 'react';
 
 import { ModalFormFooter } from '~/components/dashboard/modals/modal_form_footer';
-import type { VisibilityChangeConfirmation as RequiredConfirmation } from '~/lib/collection_visibility_change';
 import {
 	VisibilityChangeConfirmation,
 	visibilityChangeSubmitLabel,
 } from '~/components/dashboard/modals/visibility_change_confirmation';
+import type { VisibilityChangeConfirmation as RequiredConfirmation } from '~/lib/collection_visibility_change';
 
 type ConfirmVisibilityChangeModalProps = {
 	confirmation: RequiredConfirmation;

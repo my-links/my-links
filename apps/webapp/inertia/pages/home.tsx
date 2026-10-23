@@ -1,9 +1,9 @@
 import { Trans } from '@lingui/react/macro';
 
-import { HeroSection } from '~/components/home/hero_section';
-import { ProductScreenshot } from '~/components/home/product_screenshot';
-import { LifecycleSections } from '~/components/home/lifecycle_sections';
 import { CallToActionSection } from '~/components/home/call_to_action_section';
+import { HeroSection } from '~/components/home/hero_section';
+import { LifecycleSections } from '~/components/home/lifecycle_sections';
+import { ProductScreenshot } from '~/components/home/product_screenshot';
 
 function HomePage() {
 	return (

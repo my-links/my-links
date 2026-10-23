@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { ConfirmModal } from '@minimalstuff/ui';
+import { useState } from 'react';
 
 import { urlFor } from '~/lib/tuyau';
 

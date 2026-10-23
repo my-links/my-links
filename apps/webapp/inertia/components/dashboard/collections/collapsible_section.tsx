@@ -1,13 +1,13 @@
-import { ReactNode } from 'react';
 import type { Data } from '@generated/data';
+import type { ReactNode } from 'react';
 
-import { cn } from '~/lib/cn';
-import { useSidebarMode } from '~/hooks/use_sidebar_mode';
-import type { CollectionSection } from '~/lib/dnd/dnd_types';
-import { SortableCollectionGroup } from './sortable_collection_group';
 import { CollapsibleSectionHeader } from './collapsible_section_header';
-import { useSectionCollapseStore } from '~/stores/section_collapse_store';
+import { SortableCollectionGroup } from './sortable_collection_group';
 import { useSectionMoveDropZone } from '~/hooks/use_section_move_drop_zone';
+import { useSidebarMode } from '~/hooks/use_sidebar_mode';
+import { cn } from '~/lib/cn';
+import type { CollectionSection } from '~/lib/dnd/dnd_types';
+import { useSectionCollapseStore } from '~/stores/section_collapse_store';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

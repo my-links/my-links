@@ -1,10 +1,8 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import type User from '#models/user';
-import { createUser } from '#tests/factories/user_factory';
 import {
 	EXTENSION_TOKEN_LIFETIME_DAYS,
 	EXTENSION_TOKEN_MARKER_ABILITY,
@@ -13,6 +11,8 @@ import {
 	markLegacyExtensionTokens,
 	revertLegacyExtensionTokensMarking,
 } from '#database/backfills/legacy_extension_token_backfill';
+import type User from '#models/user';
+import { createUser } from '#tests/factories/user_factory';
 
 type TokenRowOverrides = {
 	name?: string;

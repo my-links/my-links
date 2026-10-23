@@ -1,22 +1,22 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
-import router from '@adonisjs/core/services/router';
 import type { Secret } from '@adonisjs/core/helpers';
+import router from '@adonisjs/core/services/router';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import env from '#start/env';
-import User from '#models/user';
 import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { MailService } from '#services/mail/mail_service';
-import { EmailChangeConfirmation } from '#mails/email_change_confirmation';
-import { OneTimeTokenService } from '#services/auth/one_time_token_service';
-import { AccountAccessService } from '#services/auth/account_access_service';
-import { EmailChangeRequestedNotification } from '#mails/email_change_requested_notification';
-import { InvalidOneTimeTokenException } from '#exceptions/auth/invalid_one_time_token_exception';
 import {
 	EmailChangeRefusedException,
 	EMAIL_CHANGE_REFUSAL,
 } from '#exceptions/auth/email_change_refused_exception';
+import { InvalidOneTimeTokenException } from '#exceptions/auth/invalid_one_time_token_exception';
+import { EmailChangeConfirmation } from '#mails/email_change_confirmation';
+import { EmailChangeRequestedNotification } from '#mails/email_change_requested_notification';
+import User from '#models/user';
+import { AccountAccessService } from '#services/auth/account_access_service';
+import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { MailService } from '#services/mail/mail_service';
+import env from '#start/env';
 
 const CONFIRM_ROUTE = 'auth.email.change.confirm';
 const CANCEL_ROUTE = 'auth.email.change.cancel';

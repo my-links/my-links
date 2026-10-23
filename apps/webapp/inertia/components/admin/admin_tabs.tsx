@@ -1,6 +1,6 @@
+import { Link } from '@adonisjs/inertia/react';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import { Link } from '@adonisjs/inertia/react';
 
 import { cn } from '~/lib/cn';
 

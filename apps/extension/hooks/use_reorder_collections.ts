@@ -1,7 +1,7 @@
+import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 import { reorderCollections } from '@/lib/api/collections';
 import type { CollectionVisibility } from '@/lib/api/types';
 import { reorderCollectionsInTree } from '@/lib/collections_tree';
-import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
 
 export type ReorderCollectionsVariables = {
 	visibility: CollectionVisibility;

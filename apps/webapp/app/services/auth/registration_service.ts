@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import type { RequestOrigin } from '#lib/request_origin';
-import { PasswordHasher } from '#services/auth/password_hasher';
+import User from '#models/user';
 import { AdminSetupService } from '#services/auth/admin_setup_service';
-import { CollectionService } from '#services/collections/collection_service';
+import { PasswordHasher } from '#services/auth/password_hasher';
 import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
+import { CollectionService } from '#services/collections/collection_service';
 
 export type RegistrationRequest = {
 	readonly name: string;

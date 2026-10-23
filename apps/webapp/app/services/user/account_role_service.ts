@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 
-import User from '#models/user';
 import { LastAdministratorException } from '#exceptions/admin/last_administrator_exception';
+import User from '#models/user';
 
 @inject()
 export class AccountRoleService {

@@ -2,14 +2,14 @@ import { router } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
 import { Button, CopyButton } from '@minimalstuff/ui';
 
-import { cn } from '~/lib/cn';
-import { urlFor } from '~/lib/tuyau';
-import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
-import { buildCollectionShareUrl } from '~/lib/collection_share_url';
+import { DashboardHeaderActions } from '~/components/dashboard/headers/dashboard_header_actions';
 import { DashboardHeaderMeta } from '~/components/dashboard/headers/dashboard_header_meta';
 import { DashboardHeaderTitle } from '~/components/dashboard/headers/dashboard_header_title';
-import { DashboardHeaderActions } from '~/components/dashboard/headers/dashboard_header_actions';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useIsMobile } from '~/hooks/use_is_mobile';
+import { cn } from '~/lib/cn';
+import { buildCollectionShareUrl } from '~/lib/collection_share_url';
+import { urlFor } from '~/lib/tuyau';
 
 export type DashboardHeaderProps = {
 	isFavorite: boolean;

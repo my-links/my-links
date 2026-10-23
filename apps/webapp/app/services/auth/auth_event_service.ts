@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
 import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import type { RequestOrigin } from '#lib/request_origin';
-import { paginateAuditJournal } from '#lib/audit_journal_query';
 import {
 	AUTH_EVENT_ORIGIN_RETENTION_DAYS,
 	AUTH_EVENT_TYPE,
 	type AuthEventType,
 } from '#constants/auth';
+import { paginateAuditJournal } from '#lib/audit_journal_query';
+import type { RequestOrigin } from '#lib/request_origin';
+import AuditEvent from '#models/audit_event';
+import User from '#models/user';
 
 export type AuthEventRecord = RequestOrigin & {
 	readonly type: AuthEventType;

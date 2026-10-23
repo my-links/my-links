@@ -1,19 +1,19 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
 import { VISIBILITY } from '#enums/collections/visibility';
 import {
-	createUser,
-	requestAccountDeletion,
-} from '#tests/factories/user_factory';
+	createCollection,
+	followCollection,
+} from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
 import {
-	createCollection,
-	followCollection,
-} from '#tests/factories/collection_factory';
+	createUser,
+	requestAccountDeletion,
+} from '#tests/factories/user_factory';
 
 // A missing row sends web visitors home, the same answer a private collection gets.
 const NOT_FOUND_REDIRECT = '/';

@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/react/macro';
 
-import { PROJECT_DOCS_URL } from '~/consts/project';
-import { LifecycleSection } from '~/components/home/lifecycle_section';
 import { BrowserBarCallout } from '~/components/home/browser_bar_callout';
+import { LifecycleSection } from '~/components/home/lifecycle_section';
+import { PROJECT_DOCS_URL } from '~/consts/project';
 
 export const LifecycleSections = () => (
 	<div className="border-t border-rule dark:border-rule-dark divide-y divide-rule dark:divide-rule-dark">

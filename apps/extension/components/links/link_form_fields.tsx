@@ -1,6 +1,6 @@
+import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
-import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
 
 import type { CollectionWithLinks } from '@/lib/api/types';
 

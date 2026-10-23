@@ -1,9 +1,7 @@
-import { DateTime } from 'luxon';
-import db from '@adonisjs/lucid/services/db';
 import type { AccessToken } from '@adonisjs/auth/access_tokens';
+import db from '@adonisjs/lucid/services/db';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import { ApiTokenNotFoundException } from '#exceptions/user/api_token_not_found_exception';
 import {
 	EXTENSION_TOKEN_LIFETIME_DAYS,
 	EXTENSION_TOKEN_MARKER_ABILITY,
@@ -12,6 +10,8 @@ import {
 	API_TOKEN_SCOPE_ABILITIES,
 	type ApiTokenScope,
 } from '#constants/api_token';
+import { ApiTokenNotFoundException } from '#exceptions/user/api_token_not_found_exception';
+import User from '#models/user';
 
 type CreateTokenParams = {
 	name: string;

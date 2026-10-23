@@ -1,12 +1,15 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
-import type { Page, Response } from 'playwright';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
+import type { Page, Response } from 'playwright';
 
-import Collection from '#models/collection';
-import { dragOnto } from '#tests/helpers/browser_drag';
-import { loginAsUser } from '#tests/helpers/browser_session';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import Collection from '#models/collection';
+import {
+	createInbox,
+	createCollection,
+	followCollection,
+} from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
@@ -16,11 +19,8 @@ import {
 	verifyUserEmail,
 	setUserPassword,
 } from '#tests/factories/user_factory';
-import {
-	createInbox,
-	createCollection,
-	followCollection,
-} from '#tests/factories/collection_factory';
+import { dragOnto } from '#tests/helpers/browser_drag';
+import { loginAsUser } from '#tests/helpers/browser_session';
 
 const LOGIN_PATH = '/login';
 const PASSWORD = 'correct-horse-battery-staple';

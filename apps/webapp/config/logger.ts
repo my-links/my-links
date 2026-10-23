@@ -1,5 +1,5 @@
-import app from '@adonisjs/core/services/app';
 import { defineConfig, targets } from '@adonisjs/core/logger';
+import app from '@adonisjs/core/services/app';
 
 import env from '#start/env';
 

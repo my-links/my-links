@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import { resolveExpiryDate } from '#lib/api/tokens/expiry';
 import { DEFAULT_API_TOKEN_EXPIRY } from '#constants/api_token';
+import { resolveExpiryDate } from '#lib/api/tokens/expiry';
 import { ApiTokenService } from '#services/user/api_token_service';
 import { createApiTokenValidator } from '#validators/user/token/create_api_token';
 

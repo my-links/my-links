@@ -1,21 +1,21 @@
-import { test } from '@japa/runner';
-import ace from '@adonisjs/core/services/ace';
 import type { BaseCommand } from '@adonisjs/core/ace';
+import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import { AUTH_PROVIDER } from '#constants/auth';
-import { captureConsoleOutput } from '#tests/helpers/console';
 import ListUsers, {
 	NO_ACCOUNT_MESSAGE,
 	NO_MATCHING_ACCOUNT_MESSAGE,
 } from '#commands/list_users';
+import { AUTH_PROVIDER } from '#constants/auth';
+import User from '#models/user';
 import {
 	createUser,
 	linkOauthIdentity,
 	setUserPassword,
 	verifyUserEmail,
 } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 const ACCOUNT_PASSWORD = 'correct-horse-battery-staple';
 

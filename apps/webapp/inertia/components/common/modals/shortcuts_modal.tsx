@@ -1,9 +1,9 @@
-import type { ReactNode } from 'react';
 import { Kbd } from '@minimalstuff/ui';
+import type { ReactNode } from 'react';
 
 import type { KEYS } from '~/consts/keys';
-import { formatShortcut } from '~/lib/format_shortcut';
 import { SHORTCUT_SECTIONS } from '~/consts/shortcuts';
+import { formatShortcut } from '~/lib/format_shortcut';
 
 type ShortcutRowProps = {
 	keys: readonly (keyof typeof KEYS)[];

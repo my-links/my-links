@@ -1,13 +1,13 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import { SessionService } from '#services/user/session_service';
-import { ApiTokenService } from '#services/user/api_token_service';
-import { MailConfigService } from '#services/mail/mail_config_service';
-import OauthAuthTransformer from '#transformers/oauth_auth_transformer';
-import { MINIMUM_PASSWORD_LENGTH } from '#validators/auth/password_rules';
 import { ProviderLinkService } from '#services/auth/provider_link_service';
+import { MailConfigService } from '#services/mail/mail_config_service';
+import { ApiTokenService } from '#services/user/api_token_service';
+import { SessionService } from '#services/user/session_service';
+import OauthAuthTransformer from '#transformers/oauth_auth_transformer';
 import UserSessionTransformer from '#transformers/user_session_transformer';
+import { MINIMUM_PASSWORD_LENGTH } from '#validators/auth/password_rules';
 
 @inject()
 export default class ShowUserSettingsController {

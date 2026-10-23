@@ -1,7 +1,7 @@
-import { join } from 'node:path';
-import { createHash } from 'node:crypto';
 import app from '@adonisjs/core/services/app';
+import { createHash } from 'node:crypto';
 import { mkdir, readdir, readFile, unlink, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
 import { InvalidFaviconHashException } from '#exceptions/favicons/invalid_favicon_hash_exception';
 

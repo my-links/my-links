@@ -1,12 +1,12 @@
-import { CSS } from '@dnd-kit/utilities';
-import type { Data } from '@generated/data';
 import { useDndContext } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import type { Data } from '@generated/data';
 
 import { CollectionItem } from './collection_item';
 import { useIsMobile } from '~/hooks/use_is_mobile';
-import { isLinkDragData } from '~/lib/dnd/drag_data';
 import type { CollectionSection } from '~/lib/dnd/dnd_types';
+import { isLinkDragData } from '~/lib/dnd/drag_data';
 
 type SortableCollectionItemProps = {
 	collection: Data.Collection;

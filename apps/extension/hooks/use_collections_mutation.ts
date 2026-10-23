@@ -4,9 +4,9 @@ import {
 	type UseMutationResult,
 } from '@tanstack/react-query';
 
+import { COLLECTIONS_QUERY_KEY } from '@/hooks/use_collections';
 import type { CollectionWithLinks } from '@/lib/api/types';
 import { requestBackgroundSync } from '@/lib/sync/messages';
-import { COLLECTIONS_QUERY_KEY } from '@/hooks/use_collections';
 
 type UseCollectionsMutationOptions<TVariables> = {
 	mutationFn: (variables: TVariables) => Promise<unknown>;

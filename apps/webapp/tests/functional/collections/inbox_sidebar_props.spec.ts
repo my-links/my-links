@@ -1,14 +1,14 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import Collection from '#models/collection';
 import { VISIBILITY } from '#enums/collections/visibility';
-import { createUser } from '#tests/factories/user_factory';
-import { inertiaPageProps } from '#tests/helpers/inertia_page';
+import Collection from '#models/collection';
 import {
 	createInbox,
 	createCollection,
 } from '#tests/factories/collection_factory';
+import { createUser } from '#tests/factories/user_factory';
+import { inertiaPageProps } from '#tests/helpers/inertia_page';
 
 /**
  * The sidebar pins the Inbox above the sections the user orders, so the two

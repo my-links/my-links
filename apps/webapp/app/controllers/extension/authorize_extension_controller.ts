@@ -1,10 +1,10 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import { ApiTokenService } from '#services/user/api_token_service';
-import { ExtensionCallbackService } from '#services/extension/extension_callback_service';
-import { authorizeExtensionValidator } from '#validators/extension/authorize_extension_validator';
 import { UnusableExtensionTokenException } from '#exceptions/extension/unusable_extension_token_exception';
+import { ExtensionCallbackService } from '#services/extension/extension_callback_service';
+import { ApiTokenService } from '#services/user/api_token_service';
+import { authorizeExtensionValidator } from '#validators/extension/authorize_extension_validator';
 
 const ACCESS_DENIED_FRAGMENT = 'error=access_denied';
 

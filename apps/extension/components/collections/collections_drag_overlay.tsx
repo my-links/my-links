@@ -1,6 +1,6 @@
-import clsx from 'clsx';
 import { DragOverlay, useDndContext } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
+import clsx from 'clsx';
 
 import { useCollections } from '@/hooks/use_collections';
 import { useFollowedCollections } from '@/hooks/use_followed_collections';

@@ -1,14 +1,12 @@
-import { useRef } from 'react';
-import { Data } from '@generated/data';
+import type { Data } from '@generated/data';
 import { Highlight } from '@minimalstuff/ui';
+import { useRef } from 'react';
 
+import type { LinkControlsRef } from '~/components/dashboard/links/link_controls';
+import { LinkControls } from '~/components/dashboard/links/link_controls';
+import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
 import { cn } from '~/lib/cn';
 import type { FuzzyMatch } from '~/lib/fuzzy_links';
-import { LinkFavicon } from '~/components/dashboard/links/link_favicon';
-import {
-	LinkControls,
-	LinkControlsRef,
-} from '~/components/dashboard/links/link_controls';
 
 type SearchLinkResultProps = {
 	match: FuzzyMatch<Data.Link>;

@@ -1,11 +1,11 @@
 import type { MouseEvent } from 'react';
 
 import { LinkFavicon } from './link_favicon';
-import { toSafeHref } from '@/lib/safe_link_url';
-import { buildFaviconUrl } from '@/lib/instance_urls';
 import { useInstanceUrl } from '@/hooks/use_instance_url';
-import type { FollowedLinkResource } from '@/lib/api/types';
 import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
+import type { FollowedLinkResource } from '@/lib/api/types';
+import { buildFaviconUrl } from '@/lib/instance_urls';
+import { toSafeHref } from '@/lib/safe_link_url';
 
 type FollowedLinkRowProps = {
 	link: FollowedLinkResource;
@@ -39,15 +39,14 @@ export function FollowedLinkRow({ link }: Readonly<FollowedLinkRowProps>) {
 			onAuxClick={handleAuxClick}
 			className="flex min-w-0 items-center gap-2 rounded-md px-2 py-1.5 text-sm text-gray-700 hover:bg-white/50 dark:text-gray-300 dark:hover:bg-gray-800/50"
 		>
-			{faviconUrl &&
-				instanceUrl && (
-					// Remounts on URL change, same reasoning as `LinkRow`.
-					<LinkFavicon
-						key={faviconUrl}
-						faviconUrl={faviconUrl}
-						instanceUrl={instanceUrl}
-					/>
-				)}
+			{faviconUrl && instanceUrl && (
+				// Remounts on URL change, same reasoning as `LinkRow`.
+				<LinkFavicon
+					key={faviconUrl}
+					faviconUrl={faviconUrl}
+					instanceUrl={instanceUrl}
+				/>
+			)}
 			<span className="flex-1 truncate">{link.name}</span>
 		</a>
 	);

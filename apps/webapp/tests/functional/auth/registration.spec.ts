@@ -1,33 +1,33 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
-import type { ApiClient } from '@japa/api-client';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
 
-import env from '#start/env';
-import User from '#models/user';
-import Collection from '#models/collection';
-import AuditEvent from '#models/audit_event';
-import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
 import { AUTH_EVENT_TYPE, AUTH_PROVIDER } from '#constants/auth';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
-import { REGISTRATION_BURST_TIER } from '#lib/limiter/attempt_tiers';
-import { AdminSetupService } from '#services/auth/admin_setup_service';
-import { OauthAccountService } from '#services/auth/oauth_account_service';
-import { AccountQueryService } from '#services/user/account_query_service';
-import { VerifyEmailNotification } from '#mails/verify_email_notification';
-import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
-import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
 import { REGISTRATION_CONFIRMATION_MESSAGES } from '#controllers/auth/register_controller';
 import { SETUP_LINK_REQUIRED_MESSAGE } from '#exceptions/auth/setup_link_required_exception';
+import {
+	ADMIN_SETUP_TOKEN_MINIMUM_LENGTH,
+	resolveAdminSetupToken,
+} from '#lib/auth/admin_setup_token';
+import { REGISTRATION_BURST_TIER } from '#lib/limiter/attempt_tiers';
+import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import { VerifyEmailNotification } from '#mails/verify_email_notification';
+import AuditEvent from '#models/audit_event';
+import Collection from '#models/collection';
+import User from '#models/user';
+import { AdminSetupService } from '#services/auth/admin_setup_service';
+import { OauthAccountService } from '#services/auth/oauth_account_service';
+import { RegistrationPolicyService } from '#services/auth/registration_policy_service';
+import { AccountQueryService } from '#services/user/account_query_service';
+import env from '#start/env';
 import {
 	createAdmin,
 	createUser,
 	linkOauthIdentity,
 } from '#tests/factories/user_factory';
-import {
-	ADMIN_SETUP_TOKEN_MINIMUM_LENGTH,
-	resolveAdminSetupToken,
-} from '#lib/auth/admin_setup_token';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 
 const NEW_ACCOUNT_NAME = 'Ada Lovelace';
 const VALID_PASSWORD = 'correct-horse-battery-staple';

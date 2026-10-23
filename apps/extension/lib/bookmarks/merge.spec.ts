@@ -1,32 +1,32 @@
 import { describe, expect, it } from 'vitest';
 
-import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
-import type { ServerChange } from '@/lib/bookmarks/operations';
-import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
-import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
-import { reconcile, type ReconcilePlan } from '@/lib/bookmarks/merge';
-import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
-import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
-import {
-	buildPinnedLinkKey,
-	collectFavoriteLinks,
-} from '@/lib/bookmarks/pinned';
-import {
-	buildDesiredTree,
-	buildLinkKey,
-	type DesiredBookmark,
-} from '@/lib/bookmarks/desired_tree';
+import { applyBookmarkOperations } from '@/lib/bookmarks/apply';
 import type {
 	BookmarkCreateDetails,
 	BookmarkNode,
 	BookmarksApi,
 } from '@/lib/bookmarks/bookmarks_api';
 import {
+	buildDesiredTree,
+	buildLinkKey,
+	type DesiredBookmark,
+} from '@/lib/bookmarks/desired_tree';
+import { FakeBookmarksApi } from '@/lib/bookmarks/fake_bookmarks_api';
+import {
 	EMPTY_BOOKMARK_MAPPING,
 	withMappedBookmark,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
+import { reconcile, type ReconcilePlan } from '@/lib/bookmarks/merge';
+import type { ServerChange } from '@/lib/bookmarks/operations';
+import {
+	buildPinnedLinkKey,
+	collectFavoriteLinks,
+} from '@/lib/bookmarks/pinned';
+import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
+import type { CollectionsFolderOrigin } from '@/lib/bookmarks/root';
+import { EMPTY_SYNCED_TREE, type SyncedTree } from '@/lib/bookmarks/snapshot';
 
 const INBOX_ID = 1;
 const WORK_ID = 2;
@@ -197,7 +197,7 @@ class FlakyBookmarksApi implements BookmarksApi {
 			this.failuresLeft -= 1;
 			throw new Error('write rejected');
 		}
-		return await this.inner.create(details);
+		return this.inner.create(details);
 	}
 
 	getTree = () => this.inner.getTree();
@@ -336,7 +336,7 @@ class MirrorHarness {
 	}
 
 	async settle(): Promise<ReconcilePlan> {
-		return await this.settleOver(1);
+		return this.settleOver(1);
 	}
 
 	/**

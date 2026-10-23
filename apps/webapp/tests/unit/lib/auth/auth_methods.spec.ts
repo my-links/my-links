@@ -1,10 +1,10 @@
 import { test } from '@japa/runner';
 
-import User from '#models/user';
+import { AUTH_PROVIDER, PASSWORD_AUTH_METHOD } from '#constants/auth';
+import { listAuthMethods } from '#lib/auth/auth_methods';
 import OauthAuth from '#models/oauth_auth';
 import PasswordAuth from '#models/password_auth';
-import { listAuthMethods } from '#lib/auth/auth_methods';
-import { AUTH_PROVIDER, PASSWORD_AUTH_METHOD } from '#constants/auth';
+import User from '#models/user';
 
 function accountWithPassword(): User {
 	const user = new User();

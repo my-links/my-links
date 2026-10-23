@@ -1,14 +1,14 @@
-import { t } from '@lingui/core/macro';
 import { Head } from '@inertiajs/react';
-import { Button } from '@minimalstuff/ui';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
+import { Button } from '@minimalstuff/ui';
 
-import { formatBytes } from '~/lib/format';
-import { AppLayout } from '~/layouts/app_layout';
-import { StatCard } from '~/components/admin/stat_card';
 import { AdminTabs } from '~/components/admin/admin_tabs';
-import { useFaviconActions } from '~/hooks/admin/use_favicon_actions';
+import { StatCard } from '~/components/admin/stat_card';
 import { AppPageHeader } from '~/components/common/navigation/app_page_header';
+import { useFaviconActions } from '~/hooks/admin/use_favicon_actions';
+import { AppLayout } from '~/layouts/app_layout';
+import { formatBytes } from '~/lib/format';
 
 type FaviconsProps = {
 	entryCount: number;

@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/react/macro';
 
-import { cn } from '~/lib/cn';
 import { AUTHOR_GITHUB_URL, AUTHOR_NAME } from '~/consts/project';
+import { cn } from '~/lib/cn';
 
 type MadeByProps = {
 	onClick?: () => void;

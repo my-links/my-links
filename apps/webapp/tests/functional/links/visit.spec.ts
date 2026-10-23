@@ -1,11 +1,11 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
+import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import Collection from '#models/collection';
 import Link from '#models/link';
 import type User from '#models/user';
-import Collection from '#models/collection';
 import { createUser } from '#tests/factories/user_factory';
-import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
 
 function assertNotNull<TValue>(
 	value: TValue

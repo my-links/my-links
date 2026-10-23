@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { SearchBar } from './search_bar';
 import { SearchResults } from './search_results';
-import { useSearchFocus } from '@/hooks/use_search_focus';
 import { CollectionTree } from '@/components/collections/collection_tree';
+import { useSearchFocus } from '@/hooks/use_search_focus';
 
 export function SearchPanel() {
 	const [term, setTerm] = useState('');

@@ -1,9 +1,8 @@
 import { router } from '@inertiajs/react';
-import type { ChangeEvent, ReactNode } from 'react';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Card, Select, ThemeToggle } from '@minimalstuff/ui';
+import type { ChangeEvent, ReactNode } from 'react';
 
-import { urlFor } from '~/lib/tuyau';
 import { LocaleSwitcher } from '~/components/common/locale_switcher';
 import {
 	LANDING_PAGES,
@@ -11,6 +10,7 @@ import {
 	type LandingPage,
 	useLandingPageSettings,
 } from '~/hooks/use_landing_page_settings';
+import { urlFor } from '~/lib/tuyau';
 
 type PreferenceRowProps = {
 	label: ReactNode;

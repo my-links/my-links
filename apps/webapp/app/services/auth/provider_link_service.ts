@@ -1,19 +1,19 @@
-import { DateTime } from 'luxon';
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 import type { TransactionClientContract } from '@adonisjs/lucid/types/database';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import OauthAuth from '#models/oauth_auth';
 import type { AuthProvider } from '#constants/auth';
-import { PasswordService } from '#services/auth/password_service';
-import type { OauthIdentity } from '#services/auth/oauth_account_service';
-import { OauthAccountService } from '#services/auth/oauth_account_service';
 import { LastAuthMethodException } from '#exceptions/auth/last_auth_method_exception';
 import {
 	ProviderLinkRefusedException,
 	PROVIDER_LINK_REFUSAL,
 } from '#exceptions/auth/provider_link_refused_exception';
+import OauthAuth from '#models/oauth_auth';
+import User from '#models/user';
+import type { OauthIdentity } from '#services/auth/oauth_account_service';
+import { OauthAccountService } from '#services/auth/oauth_account_service';
+import { PasswordService } from '#services/auth/password_service';
 
 /**
  * Everything an account can prove itself with, as the settings page needs to

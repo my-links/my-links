@@ -1,14 +1,14 @@
 import { inject } from '@adonisjs/core';
 import db from '@adonisjs/lucid/services/db';
 
+import { escapeLikePattern } from '#lib/escape_like_pattern';
 import Link from '#models/link';
 import type User from '#models/user';
-import { escapeLikePattern } from '#lib/escape_like_pattern';
 
 @inject()
 export class LinkQueryService {
 	async getLinkById(id: Link['id'], userId: User['id']) {
-		return await Link.query()
+		return Link.query()
 			.where('id', id)
 			.apply((scopes) => scopes.ownedBy(userId))
 			.preload('collections')
@@ -16,7 +16,7 @@ export class LinkQueryService {
 	}
 
 	async getMyFavoriteLinks(userId: User['id']) {
-		return await Link.query()
+		return Link.query()
 			.where('author_id', userId)
 			.where('favorite', true)
 			.preload('collections')
@@ -38,7 +38,7 @@ export class LinkQueryService {
 	 * menu, which needs `collectionIds` to link to a result's collection.
 	 */
 	async getMyLinks(userId: User['id']) {
-		return await Link.query()
+		return Link.query()
 			.where('author_id', userId)
 			.preload('collections')
 			.orderBy('name');
@@ -51,7 +51,7 @@ export class LinkQueryService {
 	 */
 	async searchLinks(userId: User['id'], term: string) {
 		const pattern = `%${escapeLikePattern(term)}%`;
-		return await Link.query()
+		return Link.query()
 			.where('author_id', userId)
 			.where((query) => {
 				query

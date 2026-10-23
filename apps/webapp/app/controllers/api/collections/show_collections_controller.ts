@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import CollectionTransformer from '#transformers/collection';
-import { CollectionQueryService } from '#services/collections/collection_query_service';
 import { CollectionFollowerService } from '#services/collections/collection_follower_service';
+import { CollectionQueryService } from '#services/collections/collection_query_service';
+import CollectionTransformer from '#transformers/collection';
 
 @inject()
 export default class ShowCollectionsController {

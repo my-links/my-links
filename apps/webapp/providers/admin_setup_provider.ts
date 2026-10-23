@@ -1,9 +1,9 @@
 import type { ApplicationService } from '@adonisjs/core/types';
 
-import env from '#start/env';
 import { resolveAdminSetupToken } from '#lib/auth/admin_setup_token';
 import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { AccountQueryService } from '#services/user/account_query_service';
+import env from '#start/env';
 
 const SETUP_PATH = '/auth/register';
 

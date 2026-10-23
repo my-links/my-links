@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import {
 	DndContext,
 	KeyboardSensor,
@@ -7,18 +5,20 @@ import {
 	useSensor,
 	useSensors,
 } from '@dnd-kit/core';
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import type { ReactNode } from 'react';
 
-import type { DisplayLink } from '~/lib/link';
-import { useReorderLinks } from '~/hooks/use_reorder_links';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { DashboardDragOverlay } from './dashboard_drag_overlay';
+import { DashboardDndContext } from '~/components/dashboard/dnd/dashboard_dnd_context';
+import { useDashboardDragHandlers } from '~/hooks/use_dashboard_drag_handlers';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useMoveCollectionToSection } from '~/hooks/use_move_collection_to_section';
 import { useReorderCollections } from '~/hooks/use_reorder_collections';
+import { useReorderFollowedCollections } from '~/hooks/use_reorder_followed_collections';
+import { useReorderLinks } from '~/hooks/use_reorder_links';
 import { dashboardCollisionDetection } from '~/lib/dnd/collision_detection';
 import { createDashboardDndAnnouncements } from '~/lib/dnd/dnd_announcements';
-import { useDashboardDragHandlers } from '~/hooks/use_dashboard_drag_handlers';
-import { useMoveCollectionToSection } from '~/hooks/use_move_collection_to_section';
-import { DashboardDndContext } from '~/components/dashboard/dnd/dashboard_dnd_context';
-import { useReorderFollowedCollections } from '~/hooks/use_reorder_followed_collections';
+import type { DisplayLink } from '~/lib/link';
 
 /**
  * Module-level so the reference never changes: `useSensor` memoizes on

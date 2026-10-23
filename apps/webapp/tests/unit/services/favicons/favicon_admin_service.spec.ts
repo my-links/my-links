@@ -1,26 +1,26 @@
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import { mkdtemp } from 'node:fs/promises';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 import FaviconEntry from '#models/favicon_entry';
-import type { Favicon } from '#types/favicon_type';
 import FaviconFailure from '#models/favicon_failure';
 import { CacheService } from '#services/favicons/cache_service';
-import { ImpitFetcher } from '#services/favicons/impit_fetcher';
-import { FaviconService } from '#services/favicons/favicons_service';
 import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
-import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
 import { FaviconAdminService } from '#services/favicons/favicon_admin_service';
-import { FaviconStoreService } from '#services/favicons/favicon_store_service';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
-import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
+import { FaviconEpochService } from '#services/favicons/favicon_epoch_service';
+import { FaviconFetchLimiter } from '#services/favicons/favicon_fetch_limiter';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
+import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
 import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
+import { FaviconStoreService } from '#services/favicons/favicon_store_service';
+import { FaviconService } from '#services/favicons/favicons_service';
+import { ImpitFetcher } from '#services/favicons/impit_fetcher';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import type { Favicon } from '#types/favicon_type';
 
 class FakeFaviconService extends FaviconService {
 	constructor(private readonly outcome: (url: string) => Promise<Favicon>) {

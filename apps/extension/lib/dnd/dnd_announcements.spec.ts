@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest';
 import type { Active, Over } from '@dnd-kit/core';
+import { describe, expect, it } from 'vitest';
 
-import type { DragData } from '@/lib/dnd/dnd_types';
 import { createCollectionsDndAnnouncements } from '@/lib/dnd/dnd_announcements';
+import type { DragData } from '@/lib/dnd/dnd_types';
 
 function buildActive(data: DragData): Active {
 	return {

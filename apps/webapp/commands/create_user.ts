@@ -1,12 +1,12 @@
 import { inject } from '@adonisjs/core';
 import { args, flags } from '@adonisjs/core/ace';
 
-import { AUTH_EVENT_TYPE } from '#constants/auth';
 import AccountCommand from '#commands/_account_command';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { registerValidator } from '#validators/auth/register_validator';
 import { RegistrationService } from '#services/auth/registration_service';
 import { AccountQueryService } from '#services/user/account_query_service';
+import { registerValidator } from '#validators/auth/register_validator';
 
 export const DISPLAY_NAME_PROMPT = 'Display name';
 export const PASSWORD_PROMPT = 'Password';

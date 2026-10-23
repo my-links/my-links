@@ -4,14 +4,14 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import { SortableLinkItem } from './sortable_link_item';
 import { cn } from '~/lib/cn';
 import type { DisplayLink } from '~/lib/link';
-import type { Layout } from '~/stores/layout_store';
-import { SortableLinkItem } from './sortable_link_item';
 import {
 	getLinkContainerClassName,
 	getLinkContainerStyle,
 } from '~/lib/link_layout';
+import type { Layout } from '~/stores/layout_store';
 
 type SortableLinkListProps = {
 	links: DisplayLink[];

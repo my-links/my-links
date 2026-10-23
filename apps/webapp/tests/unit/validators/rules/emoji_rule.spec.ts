@@ -1,5 +1,5 @@
-import vine from '@vinejs/vine';
 import { test } from '@japa/runner';
+import vine from '@vinejs/vine';
 
 import { emojiRule } from '#validators/rules/emoji_rule';
 

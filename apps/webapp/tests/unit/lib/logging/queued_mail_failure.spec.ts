@@ -1,5 +1,5 @@
-import { test } from '@japa/runner';
 import emitter from '@adonisjs/core/services/emitter';
+import { test } from '@japa/runner';
 
 import {
 	clearCapturedLogs,

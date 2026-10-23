@@ -1,6 +1,6 @@
+import type { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
 import { Trans } from '@lingui/react/macro';
-import type { PageProps } from '@adonisjs/inertia/types';
 
 import { PROJECT_REPO_GITHUB_URL } from '~/consts/project';
 

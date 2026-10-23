@@ -1,7 +1,7 @@
 import { t } from '@lingui/core/macro';
 
-import { cn } from '~/lib/cn';
 import { LinkFavicon } from './link_favicon';
+import { cn } from '~/lib/cn';
 import { hasCollectionIds, type DisplayLink } from '~/lib/link';
 
 type LinkItemSummaryProps = {

@@ -1,10 +1,9 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
 import OauthAuth from '#models/oauth_auth';
-import { freshSudoSession } from '#tests/helpers/sudo_mode';
+import User from '#models/user';
 import { GoogleAuthConfigService } from '#services/auth/google_auth_config_service';
 import {
 	OAUTH_INTENT,
@@ -15,6 +14,7 @@ import {
 	linkOauthIdentity,
 	setUserPassword,
 } from '#tests/factories/user_factory';
+import { freshSudoSession } from '#tests/helpers/sudo_mode';
 
 const PASSWORD = 'correct-horse-battery-staple';
 const START_GOOGLE_PATH = '/auth/google';

@@ -1,8 +1,8 @@
 import { Trans } from '@lingui/react/macro';
 import { ConfirmModal, Modal } from '@minimalstuff/ui';
 
-import { useApiTokens } from '~/hooks/use_api_tokens';
 import { CreateTokenModal } from '~/components/api_tokens/create_token_modal';
+import { useApiTokens } from '~/hooks/use_api_tokens';
 
 type UseApiTokenModalsReturn = {
 	handleCreateTokenModal: () => void;

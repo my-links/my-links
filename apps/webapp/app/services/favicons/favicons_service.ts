@@ -1,21 +1,21 @@
 import { inject } from '@adonisjs/core';
 import logger from '@adonisjs/core/services/logger';
 
-import type { Favicon } from '#types/favicon_type';
-import { decodeDataUri } from '#lib/favicons/data_uri';
-import { sniffImageType } from '#lib/favicons/image_sniffer';
-import { toLoggableOrigin } from '#lib/logging/loggable_origin';
-import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
-import type { FaviconCandidate } from '#lib/favicons/favicon_candidate_resolver';
-import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
-import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
+import { decodeDataUri } from '#lib/favicons/data_uri';
 import {
 	labelCandidate,
 	describeFailure,
 	summarizeAttempts,
 } from '#lib/favicons/failure_summary';
+import type { FaviconCandidate } from '#lib/favicons/favicon_candidate_resolver';
+import { sniffImageType } from '#lib/favicons/image_sniffer';
+import { toLoggableOrigin } from '#lib/logging/loggable_origin';
+import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
+import { FaviconImageProcessor } from '#services/favicons/favicon_image_processor';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import type { Favicon } from '#types/favicon_type';
 
 const OPAQUE_ORIGIN = 'null';
 

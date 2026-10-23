@@ -1,5 +1,5 @@
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
+import logger from '@adonisjs/core/services/logger';
 
 import { toLoggableUrl } from '#lib/logging/loggable_url';
 

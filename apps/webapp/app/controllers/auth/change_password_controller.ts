@@ -3,8 +3,8 @@ import type { HttpContext } from '@adonisjs/core/http';
 
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { resolveRequestOrigin } from '#lib/request_origin';
-import { PasswordService } from '#services/auth/password_service';
 import { AuthEventService } from '#services/auth/auth_event_service';
+import { PasswordService } from '#services/auth/password_service';
 import { newPasswordValidator } from '#validators/auth/new_password_validator';
 
 const PASSWORD_CHANGED_MESSAGE =

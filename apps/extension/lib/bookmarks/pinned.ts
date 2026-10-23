@@ -1,13 +1,13 @@
-import { isSafeLinkUrl } from '@/lib/safe_link_url';
-import { buildReorderOperation } from '@/lib/bookmarks/ordering';
-import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
-import type { BookmarkOperation } from '@/lib/bookmarks/operations';
-import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
+import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
+import type { DesiredBookmark } from '@/lib/bookmarks/desired_tree';
 import {
 	getMappedBookmarkId,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import { buildReorderOperation } from '@/lib/bookmarks/ordering';
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 
 /**
  * Pinned favourites are keyed outside the `collectionId:linkId` namespace so

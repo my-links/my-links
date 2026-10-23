@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine';
-import emojiRegex from 'emoji-regex';
 import type { FieldContext } from '@vinejs/vine/types';
+import emojiRegex from 'emoji-regex';
 
 const emojiRegexPattern = emojiRegex();
 

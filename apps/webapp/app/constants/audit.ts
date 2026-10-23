@@ -9,8 +9,8 @@
  * persisted in database are plain strings.
  */
 
-import type { AuthEventType } from '#constants/auth';
 import type { ActivityEventType } from '#constants/activity';
+import type { AuthEventType } from '#constants/auth';
 
 export type AuditEventType = AuthEventType | ActivityEventType;
 

@@ -1,14 +1,14 @@
 import { test } from '@japa/runner';
 
-import type { FaviconHttpResponse } from '#types/favicon_http_response';
 import { EgressGuardProxy } from '#services/favicons/egress_guard_proxy';
-import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
-import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import { FaviconCandidateService } from '#services/favicons/favicon_candidate_service';
+import { FaviconHttpClient } from '#services/favicons/favicon_http_client';
 import {
 	ImpersonatedFetcher,
 	type ImpersonatedFetchInit,
 } from '#services/favicons/impersonated_fetcher';
+import { UrlValidatorService } from '#services/favicons/url_validator_service';
+import type { FaviconHttpResponse } from '#types/favicon_http_response';
 
 const PAGE_URL = 'https://example.com/';
 const MANIFEST_URL = 'https://example.com/site.webmanifest';

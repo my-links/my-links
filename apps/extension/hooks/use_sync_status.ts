@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import { deriveSyncStatus, type SyncStatus } from '@/lib/sync/status';
-import {
-	INITIAL_SYNC_BACKOFF_STATE,
-	type SyncBackoffState,
-} from '@/lib/sync/backoff';
 import {
 	authInvalidStorage,
 	collectionsCacheStorage,
 	syncBackoffStorage,
 } from '@/lib/storage';
+import {
+	INITIAL_SYNC_BACKOFF_STATE,
+	type SyncBackoffState,
+} from '@/lib/sync/backoff';
+import { deriveSyncStatus, type SyncStatus } from '@/lib/sync/status';
 
 export function useSyncStatus(): SyncStatus {
 	const [backoffState, setBackoffState] = useState<SyncBackoffState>(

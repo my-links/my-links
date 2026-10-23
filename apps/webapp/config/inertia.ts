@@ -1,6 +1,6 @@
-import { defineConfig } from '@adonisjs/inertia';
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
+import logger from '@adonisjs/core/services/logger';
+import { defineConfig } from '@adonisjs/inertia';
 
 import { isSSREnableForPage } from '#config/ssr';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from './i18n.js';

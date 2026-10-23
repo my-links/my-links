@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { planMirrorTeardown } from '@/lib/bookmarks/teardown';
-import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
+import type { BookmarkMapping } from '@/lib/bookmarks/mapping';
+import { planMirrorTeardown } from '@/lib/bookmarks/teardown';
 
 const COLLECTIONS_FOLDER_ID = 'root';
 

@@ -1,12 +1,12 @@
-import { t } from '@lingui/core/macro';
-import { Head } from '@inertiajs/react';
-import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
+import { Head } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 
-import { InertiaProps } from '~/lib/inertia_props';
-import { useAuthProviders } from '~/hooks/use_auth_providers';
-import { RegisterForm } from '~/components/auth/register_form';
 import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
+import { RegisterForm } from '~/components/auth/register_form';
+import { useAuthProviders } from '~/hooks/use_auth_providers';
+import type { InertiaProps } from '~/lib/inertia_props';
 
 /**
  * The minimum comes from the server, so the hint under the field and the rule

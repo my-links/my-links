@@ -1,5 +1,5 @@
-import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
+import { Trans } from '@lingui/react/macro';
 
 import { urlFor } from '~/lib/tuyau';
 

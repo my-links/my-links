@@ -1,12 +1,12 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import OneTimeToken from '#models/one_time_token';
-import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
-import { createUser } from '#tests/factories/user_factory';
 import PruneStaleTokens from '#commands/prune_stale_tokens';
+import { ONE_TIME_TOKEN_TYPE } from '#constants/auth';
+import OneTimeToken from '#models/one_time_token';
+import { createUser } from '#tests/factories/user_factory';
 import { captureConsoleOutput } from '#tests/helpers/console';
 
 test.group('token:prune-stale', (group) => {

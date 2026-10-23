@@ -1,13 +1,8 @@
+import type { Data } from '@generated/data';
+import { router } from '@inertiajs/react';
 import { t } from '@lingui/core/macro';
 import { Modal } from '@minimalstuff/ui';
-import { router } from '@inertiajs/react';
-import type { Data } from '@generated/data';
 
-import { urlFor } from '~/lib/tuyau';
-import {
-	COLLECTION_SECTION,
-	type CollectionSection,
-} from '~/lib/dnd/dnd_types';
 import { ConfirmVisibilityChangeModal } from '~/components/dashboard/modals/confirm_visibility_change_modal';
 import {
 	planSectionMove,
@@ -20,6 +15,11 @@ import {
 	getVisibilityChangeConfirmation,
 	type VisibilityChangeConfirmation,
 } from '~/lib/collection_visibility_change';
+import {
+	COLLECTION_SECTION,
+	type CollectionSection,
+} from '~/lib/dnd/dnd_types';
+import { urlFor } from '~/lib/tuyau';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

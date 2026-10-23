@@ -1,8 +1,8 @@
-import logger from '@adonisjs/core/services/logger';
 import type { HttpContext } from '@adonisjs/core/http';
+import logger from '@adonisjs/core/services/logger';
 
-import { healthChecks } from '#start/health';
 import { toStatusReportChecks } from '#lib/health/status_report';
+import { healthChecks } from '#start/health';
 
 export default class ShowSystemStatusController {
 	async render({ inertia }: HttpContext) {

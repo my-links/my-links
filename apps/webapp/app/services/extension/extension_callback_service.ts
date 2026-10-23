@@ -1,8 +1,8 @@
-import env from '#start/env';
 import type { ExtensionBrowser } from '#constants/extension';
-import { resolveAllowedExtensionHosts } from '#lib/extension/extension_ids';
-import { resolveExtensionBrowser } from '#validators/extension/resolve_extension_browser';
 import { InvalidExtensionRedirectUriException } from '#exceptions/extension/invalid_extension_redirect_uri_exception';
+import { resolveAllowedExtensionHosts } from '#lib/extension/extension_ids';
+import env from '#start/env';
+import { resolveExtensionBrowser } from '#validators/extension/resolve_extension_browser';
 
 export class ExtensionCallbackService {
 	private readonly allowedHosts = resolveAllowedExtensionHosts(

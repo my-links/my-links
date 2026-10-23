@@ -1,11 +1,11 @@
 import { Trans } from '@lingui/react/macro';
 
-import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useLayoutStore } from '~/stores/layout_store';
 import { LinkList } from '~/components/common/link_list';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import { SortableLinkList } from '~/components/dashboard/links/sortable_link_list';
 import { useDashboardDndCollections } from '~/hooks/use_dashboard_dnd_collections';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useIsMobile } from '~/hooks/use_is_mobile';
+import { useLayoutStore } from '~/stores/layout_store';
 
 export function CollectionViewContent() {
 	const isMobile = useIsMobile();

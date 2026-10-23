@@ -1,5 +1,5 @@
-import env from '#start/env';
 import { resolveGoogleAuthConfig } from '#lib/auth/google_config';
+import env from '#start/env';
 
 export class GoogleAuthConfigService {
 	get isEnabled(): boolean {

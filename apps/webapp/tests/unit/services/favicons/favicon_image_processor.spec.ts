@@ -1,5 +1,5 @@
-import sharp from 'sharp';
 import { test } from '@japa/runner';
+import sharp from 'sharp';
 
 import { FaviconNotFoundException } from '#exceptions/favicons/favicon_not_found_exception';
 import {

@@ -1,16 +1,16 @@
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import { mkdtemp } from 'node:fs/promises';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
+import { mkdtemp } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 import FaviconEntry from '#models/favicon_entry';
 import FaviconFailure from '#models/favicon_failure';
+import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
+import { FaviconStoreService } from '#services/favicons/favicon_store_service';
 import { createLink } from '#tests/factories/link_factory';
 import { createUser } from '#tests/factories/user_factory';
-import { FaviconStoreService } from '#services/favicons/favicon_store_service';
-import { FaviconOrphanPurgeService } from '#services/favicons/favicon_orphan_purge_service';
 
 async function buildPurgeService(): Promise<{
 	purgeService: FaviconOrphanPurgeService;

@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { args } from '@adonisjs/core/ace';
 
-import { AUTH_EVENT_TYPE } from '#constants/auth';
 import AccountCommand from '#commands/_account_command';
+import { AUTH_EVENT_TYPE } from '#constants/auth';
 import { AuthEventService } from '#services/auth/auth_event_service';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
 

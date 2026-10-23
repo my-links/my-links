@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Button, Input, Switch, ThemeToggle } from '@minimalstuff/ui';
+import { useEffect, useState } from 'react';
 
-import { connectToInstance, disconnectFromInstance } from '@/lib/api/auth';
 import { BookmarkMirrorSection } from '@/components/bookmarks/bookmark_mirror_section';
+import { connectToInstance, disconnectFromInstance } from '@/lib/api/auth';
 import {
 	apiTokenStorage,
 	DEFAULT_INSTANCE_URL,

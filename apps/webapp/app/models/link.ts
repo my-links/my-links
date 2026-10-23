@@ -1,9 +1,9 @@
 import { belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm';
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
-import User from '#models/user';
-import Collection from '#models/collection';
 import { LinkSchema } from '#database/schema';
+import Collection from '#models/collection';
+import User from '#models/user';
 
 export default class Link extends LinkSchema {
 	@manyToMany(() => Collection, {

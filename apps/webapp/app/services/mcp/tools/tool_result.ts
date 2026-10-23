@@ -1,6 +1,6 @@
+import { Exception } from '@adonisjs/core/exceptions';
 import { HttpContext } from '@adonisjs/core/http';
 import logger from '@adonisjs/core/services/logger';
-import { Exception } from '@adonisjs/core/exceptions';
 
 import type { TokenAbility } from '#constants/api_token';
 import { assertTokenAbility } from '#lib/api/tokens/abilities';

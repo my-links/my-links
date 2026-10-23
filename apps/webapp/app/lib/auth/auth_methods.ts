@@ -1,5 +1,5 @@
-import type User from '#models/user';
 import { PASSWORD_AUTH_METHOD, type AuthMethod } from '#constants/auth';
+import type User from '#models/user';
 
 /**
  * Every way an account can prove itself, read off the relations the caller

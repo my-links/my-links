@@ -1,5 +1,5 @@
-import { createContext } from 'react';
 import type { Data } from '@generated/data';
+import { createContext } from 'react';
 
 import type { DisplayLink } from '~/lib/link';
 

@@ -1,13 +1,13 @@
 import { Button } from '@minimalstuff/ui';
 import { useState, type FormEvent } from 'react';
 
-import { trimToNullableText } from '@/lib/strings';
-import type { CollectionWithLinks } from '@/lib/api/types';
-import { useUpdateCollection } from '@/hooks/use_update_collection';
 import {
 	CollectionFormFields,
 	type CollectionFormValues,
 } from './collection_form_fields';
+import { useUpdateCollection } from '@/hooks/use_update_collection';
+import type { CollectionWithLinks } from '@/lib/api/types';
+import { trimToNullableText } from '@/lib/strings';
 
 type EditCollectionModalProps = {
 	collection: CollectionWithLinks;

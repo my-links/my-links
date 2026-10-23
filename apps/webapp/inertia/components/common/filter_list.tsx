@@ -2,7 +2,8 @@ import { t } from '@lingui/core/macro';
 import { Tooltip } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
-import { Layout, useLayoutStore } from '~/stores/layout_store';
+import type { Layout } from '~/stores/layout_store';
+import { useLayoutStore } from '~/stores/layout_store';
 
 function getLayoutOptions(): Array<{
 	value: Layout;

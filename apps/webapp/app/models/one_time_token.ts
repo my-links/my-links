@@ -1,9 +1,9 @@
 import { belongsTo, column } from '@adonisjs/lucid/orm';
 import type { BelongsTo } from '@adonisjs/lucid/types/relations';
 
-import User from '#models/user';
-import { OneTimeTokenSchema } from '#database/schema';
 import type { OneTimeTokenType } from '#constants/auth';
+import { OneTimeTokenSchema } from '#database/schema';
+import User from '#models/user';
 
 export default class OneTimeToken extends OneTimeTokenSchema {
 	@column()

@@ -1,9 +1,9 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import AuditEvent from '#models/audit_event';
-import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
 import { ACTIVITY_EVENT_TYPE } from '#constants/activity';
+import { AUDIT_SUBJECT_TYPE } from '#constants/audit';
+import AuditEvent from '#models/audit_event';
 import { createUser } from '#tests/factories/user_factory';
 
 const RENAME_ROUTE = '/user/settings/account';

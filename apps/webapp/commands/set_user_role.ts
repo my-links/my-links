@@ -2,13 +2,13 @@ import { inject } from '@adonisjs/core';
 import { args, flags } from '@adonisjs/core/ace';
 
 import AccountCommand from '#commands/_account_command';
-import { AccountRoleService } from '#services/user/account_role_service';
-import { accountRoleValidator } from '#validators/admin/account_role_validator';
 import {
 	ACCOUNT_ROLE,
 	ACCOUNT_ROLES,
 	type AccountRole,
 } from '#constants/account';
+import { AccountRoleService } from '#services/user/account_role_service';
+import { accountRoleValidator } from '#validators/admin/account_role_validator';
 
 export const ROLE_PROMPT = 'Role';
 

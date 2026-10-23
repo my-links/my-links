@@ -1,6 +1,6 @@
-import { reorderLinksInTree } from '@/lib/collections_tree';
-import { reorderCollectionLinks } from '@/lib/api/collections';
 import { useCollectionsMutation } from '@/hooks/use_collections_mutation';
+import { reorderCollectionLinks } from '@/lib/api/collections';
+import { reorderLinksInTree } from '@/lib/collections_tree';
 
 export type ReorderLinksVariables = {
 	collectionId: number;

@@ -1,8 +1,8 @@
-import { t } from '@lingui/core/macro';
-import type { ChangeEvent } from 'react';
 import type { Data } from '@generated/data';
+import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { Checkbox, Input, Textarea } from '@minimalstuff/ui';
+import type { ChangeEvent } from 'react';
 
 import { FormLinkCollectionsField } from '~/components/dashboard/forms/form_link_collections_field';
 

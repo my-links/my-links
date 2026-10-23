@@ -1,12 +1,12 @@
-import { t } from '@lingui/core/macro';
-import { Head } from '@inertiajs/react';
 import type { Data } from '@generated/data';
+import { Head } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
 
-import { AppLayout } from '~/layouts/app_layout';
 import { AdminTabs } from '~/components/admin/admin_tabs';
+import { AppPageHeader } from '~/components/common/navigation/app_page_header';
 import { GlobalStatus } from '~/components/status/global_status';
 import { ServiceDetails } from '~/components/status/service_details';
-import { AppPageHeader } from '~/components/common/navigation/app_page_header';
+import { AppLayout } from '~/layouts/app_layout';
 
 type StatusProps = {
 	isHealthy: boolean;

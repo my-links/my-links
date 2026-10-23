@@ -1,6 +1,6 @@
-import { urlFor } from '~/lib/tuyau';
-import type { DisplayLink } from '~/lib/link';
 import { useOptimisticOrder } from './use_optimistic_order';
+import type { DisplayLink } from '~/lib/link';
+import { urlFor } from '~/lib/tuyau';
 
 export function useReorderLinks(
 	collectionId: number,

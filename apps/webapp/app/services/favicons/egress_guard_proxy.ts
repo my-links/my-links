@@ -1,13 +1,13 @@
-import type { Duplex } from 'node:stream';
 import logger from '@adonisjs/core/services/logger';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
-import net, { type AddressInfo, type Socket, isIP } from 'node:net';
 import http, {
 	type IncomingMessage,
 	type OutgoingHttpHeaders,
 	type Server,
 	type ServerResponse,
 } from 'node:http';
+import net, { type AddressInfo, type Socket, isIP } from 'node:net';
+import type { Duplex } from 'node:stream';
 
 import { EgressRefusedException } from '#exceptions/favicons/egress_refused_exception';
 import {

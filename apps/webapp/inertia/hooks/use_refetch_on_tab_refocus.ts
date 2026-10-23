@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
 import { router } from '@inertiajs/react';
+import { useEffect, useRef } from 'react';
 
 const REFETCH_THROTTLE_MS = 1000;
 

@@ -1,12 +1,12 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
 import { LAST_SEEN_AT_WRITE_THROTTLE_MINUTES } from '#constants/account';
-import { createUser, markLastSeen } from '#tests/factories/user_factory';
+import User from '#models/user';
 import { AccountQueryService } from '#services/user/account_query_service';
+import { createUser, markLastSeen } from '#tests/factories/user_factory';
 
 const PROTECTED_ROUTE = '/collections/favorites';
 

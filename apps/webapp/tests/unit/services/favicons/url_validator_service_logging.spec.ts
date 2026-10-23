@@ -1,5 +1,5 @@
-import { test } from '@japa/runner';
 import logger from '@adonisjs/core/services/logger';
+import { test } from '@japa/runner';
 
 import { UrlValidatorService } from '#services/favicons/url_validator_service';
 import {

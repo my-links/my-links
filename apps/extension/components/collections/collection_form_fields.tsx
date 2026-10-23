@@ -1,5 +1,5 @@
-import type { ChangeEvent } from 'react';
 import { Input, RadioOptions, Textarea } from '@minimalstuff/ui';
+import type { ChangeEvent } from 'react';
 
 import type { CollectionVisibility } from '@/lib/api/types';
 

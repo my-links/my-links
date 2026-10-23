@@ -1,21 +1,21 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
-import app from '@adonisjs/core/services/app';
 import { Secret } from '@adonisjs/core/helpers';
-import type { ApiClient } from '@japa/api-client';
+import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import type { ApiClient } from '@japa/api-client';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import type User from '#models/user';
-import AuditEvent from '#models/audit_event';
-import OneTimeToken from '#models/one_time_token';
-import { createUser } from '#tests/factories/user_factory';
-import { nextClientAddress } from '#tests/helpers/client_addresses';
 import { AUTH_EVENT_TYPE, ONE_TIME_TOKEN_TYPE } from '#constants/auth';
 import { TOKEN_VERIFICATION_BURST_TIER } from '#lib/limiter/attempt_tiers';
 import { VerifyEmailNotification } from '#mails/verify_email_notification';
-import { OneTimeTokenService } from '#services/auth/one_time_token_service';
-import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
+import AuditEvent from '#models/audit_event';
+import OneTimeToken from '#models/one_time_token';
+import type User from '#models/user';
 import { EmailVerificationService } from '#services/auth/email_verification_service';
+import { OneTimeTokenService } from '#services/auth/one_time_token_service';
+import { createUser } from '#tests/factories/user_factory';
+import { nextClientAddress } from '#tests/helpers/client_addresses';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 
 const UNKNOWN_TOKEN = 'this-token-was-never-issued';
 const INVALID_LINK_MESSAGE = 'This link is no longer valid';

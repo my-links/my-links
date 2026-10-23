@@ -1,12 +1,12 @@
 import { inject } from '@adonisjs/core';
 
-import type User from '#models/user';
-import { LinkQueryService } from '#services/links/link_query_service';
 import {
 	LANDING_PAGE,
 	LANDING_PAGE_ROUTE_NAME,
 	type LandingPage,
 } from '#enums/dashboard/landing_page';
+import type User from '#models/user';
+import { LinkQueryService } from '#services/links/link_query_service';
 
 /** Decides which dashboard page a signed-in visitor lands on. */
 @inject()

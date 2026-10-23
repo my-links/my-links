@@ -1,8 +1,8 @@
 import type { Infer } from '@vinejs/vine/types';
 
-import type User from '#models/user';
-import type Collection from '#models/collection';
 import type { RequestOrigin } from '#lib/request_origin';
+import type Collection from '#models/collection';
+import type User from '#models/user';
 import type { CollectionService } from '#services/collections/collection_service';
 import { createCollectionValidator } from '#validators/collections/create_collection_validator';
 

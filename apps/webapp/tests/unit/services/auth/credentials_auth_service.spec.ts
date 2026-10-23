@@ -1,14 +1,14 @@
-import { test } from '@japa/runner';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import type User from '#models/user';
-import AuditEvent from '#models/audit_event';
 import { AUTH_EVENT_TYPE } from '#constants/auth';
 import type { RequestOrigin } from '#lib/request_origin';
-import { PasswordHasher } from '#services/auth/password_hasher';
+import AuditEvent from '#models/audit_event';
+import type User from '#models/user';
 import { AuthEventService } from '#services/auth/auth_event_service';
-import { createUser, setUserPassword } from '#tests/factories/user_factory';
 import { CredentialsAuthService } from '#services/auth/credentials_auth_service';
+import { PasswordHasher } from '#services/auth/password_hasher';
+import { createUser, setUserPassword } from '#tests/factories/user_factory';
 
 const VALID_PASSWORD = 'correct-horse-battery-staple';
 const WRONG_PASSWORD = 'wrong-horse-battery-staple';

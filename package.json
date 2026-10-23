@@ -12,9 +12,9 @@
 		"build:extension": "pnpm --filter @my-links/extension build",
 		"test": "pnpm --filter @my-links/webapp test",
 		"typecheck": "pnpm -r run typecheck",
-		"lint": "oxlint --type-aware",
-		"lint:fix": "oxlint --type-aware --fix --fix-suggestions --fix-dangerously",
-		"format": "pnpm run lint:fix; oxfmt --write .",
+		"lint": "oxlint",
+		"lint:fix": "oxlint --fix --fix-suggestions",
+		"format": "oxfmt --write . && oxlint --fix",
 		"format:check": "oxfmt --check .",
 		"check": "pnpm run lint && pnpm run format:check && pnpm run typecheck",
 		"docs:dev": "vitepress dev docs",
@@ -35,20 +35,20 @@
 		"@iconify-json/svg-spinners": "^1.2.4",
 		"@iconify-json/tabler": "^1.2.38",
 		"@iconify-json/twemoji": "^1.2.5",
-		"@minimalstuff/tooling": "^0.6.0",
+		"@minimalstuff/tooling": "^0.7.0",
 		"@unocss/preset-icons": "^66.7.5",
 		"@unocss/preset-web-fonts": "^66.7.5",
 		"husky": "^9.1.7",
 		"lint-staged": "^17.3.0",
-		"oxfmt": "^0.62.0",
-		"oxlint": "^1.77.0",
-		"oxlint-tsgolint": "^7.0.2001",
+		"oxfmt": "^0.74.0",
+		"oxlint": "^1.89.0",
+		"oxlint-tsgolint": "^7.0.2004",
 		"unocss": "^66.7.5",
 		"vitepress": "^1.6.4"
 	},
 	"lint-staged": {
 		"!(**/.adonisjs/**)*.{js,ts,jsx,tsx}": [
-			"oxlint --fix --fix-suggestions --fix-dangerously",
+			"oxlint --fix",
 			"oxfmt --write"
 		]
 	},

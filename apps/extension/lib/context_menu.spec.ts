@@ -1,13 +1,13 @@
-import { fakeBrowser } from 'wxt/testing/fake-browser';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { fakeBrowser } from 'wxt/testing/fake-browser';
 
 import { createLink } from '@/lib/api/links';
-import { collectionsCacheStorage } from '@/lib/storage';
-import { syncCollections } from '@/lib/sync/sync_collections';
 import {
 	handleContextMenuClick,
 	resolveQuickCapture,
 } from '@/lib/context_menu';
+import { collectionsCacheStorage } from '@/lib/storage';
+import { syncCollections } from '@/lib/sync/sync_collections';
 
 vi.mock('@/lib/api/links', () => ({
 	createLink: vi.fn(),

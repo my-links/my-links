@@ -1,13 +1,13 @@
-import { test } from '@japa/runner';
-import db from '@adonisjs/lucid/services/db';
 import testUtils from '@adonisjs/core/services/test_utils';
+import db from '@adonisjs/lucid/services/db';
+import { test } from '@japa/runner';
 
-import { createUser } from '#tests/factories/user_factory';
 import { createCollection } from '#tests/factories/collection_factory';
 import {
 	createLink,
 	attachLinkToCollection,
 } from '#tests/factories/link_factory';
+import { createUser } from '#tests/factories/user_factory';
 
 test.group('Add link to collection', (group) => {
 	group.each.setup(() => testUtils.db().wrapInGlobalTransaction());

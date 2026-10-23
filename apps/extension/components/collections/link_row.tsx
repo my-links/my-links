@@ -1,22 +1,22 @@
-import { toast } from 'sonner';
-import { CSS } from '@dnd-kit/utilities';
 import { useSortable } from '@dnd-kit/sortable';
-import type { MouseEvent as ReactMouseEvent } from 'react';
+import { CSS } from '@dnd-kit/utilities';
 import { ContextMenu, MenuItem, Modal, ConfirmModal } from '@minimalstuff/ui';
+import type { MouseEvent as ReactMouseEvent } from 'react';
+import { toast } from 'sonner';
 
 import { LinkFavicon } from './link_favicon';
-import { toSafeHref } from '@/lib/safe_link_url';
+import { KebabMenu } from '@/components/common/kebab_menu';
+import { KebabMenuItem } from '@/components/common/kebab_menu_item';
+import { EditLinkModal } from '@/components/links/edit_link_modal';
+import { useCollections } from '@/hooks/use_collections';
+import { useDeleteLink } from '@/hooks/use_delete_link';
+import { useInstanceUrl } from '@/hooks/use_instance_url';
+import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
 import type { LinkResource } from '@/lib/api/types';
 import { linkSortableId } from '@/lib/dnd/dnd_types';
-import { buildFaviconUrl } from '@/lib/instance_urls';
-import { useDeleteLink } from '@/hooks/use_delete_link';
-import { useCollections } from '@/hooks/use_collections';
-import { useInstanceUrl } from '@/hooks/use_instance_url';
-import { KebabMenu } from '@/components/common/kebab_menu';
 import { shouldSuppressClick } from '@/lib/dnd/drag_click_guard';
-import { EditLinkModal } from '@/components/links/edit_link_modal';
-import { KebabMenuItem } from '@/components/common/kebab_menu_item';
-import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
+import { buildFaviconUrl } from '@/lib/instance_urls';
+import { toSafeHref } from '@/lib/safe_link_url';
 
 type LinkRowProps = {
 	link: LinkResource;
@@ -132,17 +132,16 @@ export function LinkRow({ link, collectionId }: Readonly<LinkRowProps>) {
 					draggable={false}
 					className="flex min-w-0 flex-1 cursor-grab items-center gap-2 px-2 py-1.5 text-sm text-gray-700 active:cursor-grabbing dark:text-gray-300"
 				>
-					{faviconUrl &&
-						instanceUrl && (
-							// Remounts on URL change so a stale `hasFailed` from a
-							// previous link (or the pre-hydration empty instanceUrl)
-							// never leaks forward and hides a favicon that would load.
-							<LinkFavicon
-								key={faviconUrl}
-								faviconUrl={faviconUrl}
-								instanceUrl={instanceUrl}
-							/>
-						)}
+					{faviconUrl && instanceUrl && (
+						// Remounts on URL change so a stale `hasFailed` from a
+						// previous link (or the pre-hydration empty instanceUrl)
+						// never leaks forward and hides a favicon that would load.
+						<LinkFavicon
+							key={faviconUrl}
+							faviconUrl={faviconUrl}
+							instanceUrl={instanceUrl}
+						/>
+					)}
 					<span className="flex-1 truncate">{link.name}</span>
 					{link.collectionIds.length > 1 && (
 						<span

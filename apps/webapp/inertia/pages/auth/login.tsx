@@ -1,16 +1,16 @@
-import { t } from '@lingui/core/macro';
-import { Trans } from '@lingui/react/macro';
 import { Link } from '@adonisjs/inertia/react';
 import { Head, useForm } from '@inertiajs/react';
+import { t } from '@lingui/core/macro';
+import { Trans } from '@lingui/react/macro';
 import { Button, Input } from '@minimalstuff/ui';
 
-import { urlFor } from '~/lib/tuyau';
-import { InertiaProps } from '~/lib/inertia_props';
+import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
+import { ResendVerificationAction } from '~/components/auth/resend_verification_action';
 import { useAuthProviders } from '~/hooks/use_auth_providers';
 import { usePasswordRecovery } from '~/hooks/use_password_recovery';
 import { useRegistrationPolicy } from '~/hooks/use_registration_policy';
-import { GoogleSignInAction } from '~/components/auth/google_sign_in_action';
-import { ResendVerificationAction } from '~/components/auth/resend_verification_action';
+import type { InertiaProps } from '~/lib/inertia_props';
+import { urlFor } from '~/lib/tuyau';
 
 type LoginFormData = {
 	email: string;

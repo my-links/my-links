@@ -1,5 +1,5 @@
+import type { PageProps } from '@adonisjs/inertia/types';
 import { usePage } from '@inertiajs/react';
-import { PageProps } from '@adonisjs/inertia/types';
 
 export type PasswordRecovery = {
 	isEnabled: boolean;

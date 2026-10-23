@@ -1,5 +1,5 @@
-import { Badge } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
+import { Badge } from '@minimalstuff/ui';
 
 import { cn } from '~/lib/cn';
 import { getHealthStatusIcon, getHealthStatusVariant } from '~/lib/health';

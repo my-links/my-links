@@ -1,12 +1,12 @@
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import { ACCOUNT_ROLE } from '#constants/account';
-import { captureConsoleOutput } from '#tests/helpers/console';
 import SetUserRole, { ROLE_PROMPT } from '#commands/set_user_role';
+import { ACCOUNT_ROLE } from '#constants/account';
+import User from '#models/user';
 import { createAdmin, createUser } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
 
 const ADMINISTRATOR_CHOICE_INDEX = 0;
 

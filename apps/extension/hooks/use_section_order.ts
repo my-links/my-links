@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { sectionOrderStorage } from '@/lib/storage';
 import type { CollectionSection } from '@/lib/dnd/dnd_types';
 import {
 	DEFAULT_SECTION_ORDER,
 	moveSectionDown as moveDownInOrder,
 	moveSectionUp as moveUpInOrder,
 } from '@/lib/section_order';
+import { sectionOrderStorage } from '@/lib/storage';
 
 type UseSectionOrderReturn = {
 	order: CollectionSection[];

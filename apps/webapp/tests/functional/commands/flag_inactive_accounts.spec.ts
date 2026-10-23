@@ -1,20 +1,20 @@
-import { DateTime } from 'luxon';
-import { test } from '@japa/runner';
 import ace from '@adonisjs/core/services/ace';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
+import { DateTime } from 'luxon';
 
-import User from '#models/user';
-import { captureConsoleOutput } from '#tests/helpers/console';
 import FlagInactiveAccounts from '#commands/flag_inactive_accounts';
 import { ACCOUNT_INACTIVITY_THRESHOLD_DAYS } from '#constants/account';
-import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 import { AccountDeletionRequestedNotification } from '#mails/account_deletion_requested_notification';
+import type User from '#models/user';
 import {
 	createAdmin,
 	createUser,
 	markLastSeen,
 	requestAccountDeletion,
 } from '#tests/factories/user_factory';
+import { captureConsoleOutput } from '#tests/helpers/console';
+import { enableOutgoingMail, queuedMails } from '#tests/helpers/outgoing_mail';
 
 const STALE_CUTOFF = DateTime.now().minus({
 	days: ACCOUNT_INACTIVITY_THRESHOLD_DAYS + 1,

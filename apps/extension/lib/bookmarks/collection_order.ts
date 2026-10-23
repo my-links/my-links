@@ -1,13 +1,13 @@
 import type { CollectionWithLinks } from '@/lib/api/types';
-import { buildLinkKey } from '@/lib/bookmarks/desired_tree';
-import { buildReorderOperation } from '@/lib/bookmarks/ordering';
 import type { BookmarkNode } from '@/lib/bookmarks/bookmarks_api';
-import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import { buildLinkKey } from '@/lib/bookmarks/desired_tree';
 import {
 	getMappedFolderId,
 	getMappedBookmarkId,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
+import type { BookmarkOperation } from '@/lib/bookmarks/operations';
+import { buildReorderOperation } from '@/lib/bookmarks/ordering';
 
 /**
  * Reorders the collection folders directly under the mirror's root folder to

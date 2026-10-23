@@ -1,10 +1,10 @@
 import { Trans } from '@lingui/react/macro';
 import { Button, Kbd } from '@minimalstuff/ui';
 
-import { KEYS } from '~/consts/keys';
-import { useIsMobile } from '~/hooks/use_is_mobile';
-import { useDashboardProps } from '~/hooks/use_dashboard_props';
 import type { DashboardHeaderProps } from '~/components/dashboard/headers/dashboard_header';
+import { KEYS } from '~/consts/keys';
+import { useDashboardProps } from '~/hooks/use_dashboard_props';
+import { useIsMobile } from '~/hooks/use_is_mobile';
 
 export type QuickActionsContentProps = DashboardHeaderProps & {
 	onHandleShareCollection: () => void;

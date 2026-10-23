@@ -1,10 +1,10 @@
 import { IconButton, Modal, Tooltip } from '@minimalstuff/ui';
 
-import { useActiveTab } from '@/hooks/use_active_tab';
-import { findLinkByUrl } from '@/lib/collections_tree';
-import { useCollections } from '@/hooks/use_collections';
-import { EditLinkModal } from '@/components/links/edit_link_modal';
 import { CreateLinkModal } from '@/components/links/create_link_modal';
+import { EditLinkModal } from '@/components/links/edit_link_modal';
+import { useActiveTab } from '@/hooks/use_active_tab';
+import { useCollections } from '@/hooks/use_collections';
+import { findLinkByUrl } from '@/lib/collections_tree';
 
 export function QuickAddButton() {
 	const activeTab = useActiveTab();

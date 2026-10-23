@@ -1,5 +1,5 @@
-import { useCallback, useSyncExternalStore } from 'react';
 import { useQueryClient, type QueryKey } from '@tanstack/react-query';
+import { useCallback, useSyncExternalStore } from 'react';
 
 import { subscribeToQueryData } from '@/lib/query/subscribe_to_query_data';
 

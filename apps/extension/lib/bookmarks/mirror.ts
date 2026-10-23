@@ -1,22 +1,21 @@
-import { reconcile } from '@/lib/bookmarks/merge';
-import { createLink, updateLink } from '@/lib/api/links';
 import { updateCollection } from '@/lib/api/collections';
-import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
+import { createLink, updateLink } from '@/lib/api/links';
 import type { CollectionWithLinks } from '@/lib/api/types';
-import { runWithConcurrencyLimit } from '@/lib/concurrency';
-import { syncCollections } from '@/lib/sync/sync_collections';
-import type { ServerChange } from '@/lib/bookmarks/operations';
-import { createCoalescingRunner } from '@/lib/coalescing_runner';
-import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
+import {
+	applyBookmarkOperations,
+	MAX_CONCURRENT_BOOKMARK_WRITES,
+} from '@/lib/bookmarks/apply';
+import {
+	getBrowserBookmarksApi,
+	type BookmarkNode,
+	type BookmarksApi,
+} from '@/lib/bookmarks/bookmarks_api';
 import { fingerprintServerChanges } from '@/lib/bookmarks/change_fingerprint';
 import {
 	buildFolderReorder,
 	buildLinkReorder,
 } from '@/lib/bookmarks/collection_order';
-import {
-	applyBookmarkOperations,
-	MAX_CONCURRENT_BOOKMARK_WRITES,
-} from '@/lib/bookmarks/apply';
+import { BOOKMARKS_PERMISSION } from '@/lib/bookmarks/constants';
 import {
 	buildDesiredTree,
 	buildLinkKey,
@@ -27,27 +26,22 @@ import {
 	withMappedBookmark,
 	type BookmarkMapping,
 } from '@/lib/bookmarks/mapping';
-import {
-	getBrowserBookmarksApi,
-	type BookmarkNode,
-	type BookmarksApi,
-} from '@/lib/bookmarks/bookmarks_api';
-import {
-	computeBackoffAfterFailure,
-	INITIAL_SYNC_BACKOFF_STATE,
-	isSyncBackingOff,
-} from '@/lib/sync/backoff';
-import {
-	getOrCreateCollectionsFolder,
-	resolveBookmarksBarId,
-	type CollectionsFolderOrigin,
-} from '@/lib/bookmarks/root';
+import { reconcile } from '@/lib/bookmarks/merge';
+import type { ServerChange } from '@/lib/bookmarks/operations';
 import {
 	buildPinnedLinkKey,
 	buildPinnedReorder,
 	collectFavoriteLinks,
 	resolveRankedFavorites,
 } from '@/lib/bookmarks/pinned';
+import { remapOrphanedNodes } from '@/lib/bookmarks/remap';
+import {
+	getOrCreateCollectionsFolder,
+	resolveBookmarksBarId,
+	type CollectionsFolderOrigin,
+} from '@/lib/bookmarks/root';
+import { createCoalescingRunner } from '@/lib/coalescing_runner';
+import { runWithConcurrencyLimit } from '@/lib/concurrency';
 import {
 	authInvalidStorage,
 	bookmarkBackoffStorage,
@@ -59,6 +53,12 @@ import {
 	syncBackoffStorage,
 	syncedTreeStorage,
 } from '@/lib/storage';
+import {
+	computeBackoffAfterFailure,
+	INITIAL_SYNC_BACKOFF_STATE,
+	isSyncBackingOff,
+} from '@/lib/sync/backoff';
+import { syncCollections } from '@/lib/sync/sync_collections';
 
 /**
  * Reconciles the server's collections with the native bookmarks tree.

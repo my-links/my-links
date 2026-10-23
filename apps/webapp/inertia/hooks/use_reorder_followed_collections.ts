@@ -1,7 +1,7 @@
 import type { Data } from '@generated/data';
 
-import { urlFor } from '~/lib/tuyau';
 import { useOptimisticOrder } from './use_optimistic_order';
+import { urlFor } from '~/lib/tuyau';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

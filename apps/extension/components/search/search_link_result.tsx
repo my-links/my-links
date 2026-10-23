@@ -1,14 +1,14 @@
+import { Highlight } from '@minimalstuff/ui';
 import clsx from 'clsx';
 import type { MouseEvent } from 'react';
-import { Highlight } from '@minimalstuff/ui';
 
-import { toSafeHref } from '@/lib/safe_link_url';
+import { LinkFavicon } from '@/components/collections/link_favicon';
+import { useInstanceUrl } from '@/hooks/use_instance_url';
+import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
 import type { LinkResource } from '@/lib/api/types';
 import { buildFaviconUrl } from '@/lib/instance_urls';
-import { useInstanceUrl } from '@/hooks/use_instance_url';
+import { toSafeHref } from '@/lib/safe_link_url';
 import type { FuzzyMatch } from '@/lib/search/fuzzy_links';
-import { LinkFavicon } from '@/components/collections/link_favicon';
-import { isMiddleClick, reportLinkVisit } from '@/lib/api/report_link_visit';
 
 const ROW_CLASS =
 	'flex items-center gap-2 rounded-md border-l-2 border-transparent px-2 py-1.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800';

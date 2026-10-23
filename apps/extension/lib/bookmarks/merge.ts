@@ -1,28 +1,28 @@
-import { isSafeLinkUrl } from '@/lib/safe_link_url';
-import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
-import { getDefaultCollectionId } from '@/lib/collections_tree';
 import type { CollectionWithLinks, LinkResource } from '@/lib/api/types';
-import { getSyncedNode, type SyncedTree } from '@/lib/bookmarks/snapshot';
-import { buildPinnedLinkKey, parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
 import {
-	getMappedFolderId,
-	type BookmarkMapping,
-} from '@/lib/bookmarks/mapping';
+	indexBySubtreeId,
+	isFolder,
+	type BookmarkNode,
+} from '@/lib/bookmarks/bookmarks_api';
 import {
 	buildDesiredFolder,
 	buildLinkKey,
 	parseLinkKey,
 } from '@/lib/bookmarks/desired_tree';
 import {
-	indexBySubtreeId,
-	isFolder,
-	type BookmarkNode,
-} from '@/lib/bookmarks/bookmarks_api';
+	getMappedFolderId,
+	type BookmarkMapping,
+} from '@/lib/bookmarks/mapping';
 import type {
 	BookmarkOperation,
 	NodePlacement,
 	ServerChange,
 } from '@/lib/bookmarks/operations';
+import { buildPinnedLinkKey, parsePinnedLinkKey } from '@/lib/bookmarks/pinned';
+import { getSyncedNode, type SyncedTree } from '@/lib/bookmarks/snapshot';
+import { areSameBookmarkUrl } from '@/lib/bookmarks/url_match';
+import { getDefaultCollectionId } from '@/lib/collections_tree';
+import { isSafeLinkUrl } from '@/lib/safe_link_url';
 
 export type ReconcileInput = {
 	/** The server's answer, as last cached by the collections sync. */

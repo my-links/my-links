@@ -1,11 +1,11 @@
-import db from '@adonisjs/lucid/services/db';
 import { belongsTo, column, manyToMany, scope } from '@adonisjs/lucid/orm';
+import db from '@adonisjs/lucid/services/db';
 import type { BelongsTo, ManyToMany } from '@adonisjs/lucid/types/relations';
 
-import Link from '#models/link';
-import User from '#models/user';
 import { CollectionSchema } from '#database/schema';
 import { VISIBILITY, type Visibility } from '#enums/collections/visibility';
+import Link from '#models/link';
+import User from '#models/user';
 
 export default class Collection extends CollectionSchema {
 	@column()

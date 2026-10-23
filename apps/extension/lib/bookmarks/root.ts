@@ -1,12 +1,12 @@
 import {
-	COLLECTIONS_FOLDER_TITLE,
-	KNOWN_BOOKMARKS_BAR_IDS,
-} from '@/lib/bookmarks/constants';
-import {
 	isFolder,
 	type BookmarkNode,
 	type BookmarksApi,
 } from '@/lib/bookmarks/bookmarks_api';
+import {
+	COLLECTIONS_FOLDER_TITLE,
+	KNOWN_BOOKMARKS_BAR_IDS,
+} from '@/lib/bookmarks/constants';
 
 export class BookmarksUnavailableError extends Error {}
 

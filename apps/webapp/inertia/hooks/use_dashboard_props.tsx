@@ -1,9 +1,9 @@
-import { useMemo } from 'react';
-import { usePage } from '@inertiajs/react';
+import type { PageProps } from '@adonisjs/inertia/types';
 import type { Data } from '@generated/data';
-import { PageProps } from '@adonisjs/inertia/types';
+import { usePage } from '@inertiajs/react';
+import { useMemo } from 'react';
 
-import { DashboardProps } from '~/pages/dashboard';
+import type { DashboardProps } from '~/pages/dashboard';
 
 // Stable references: default params re-evaluate on every call, so an inline
 // `[]` here would change identity each render and break consumers (like

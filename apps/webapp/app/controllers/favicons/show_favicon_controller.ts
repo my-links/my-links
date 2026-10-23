@@ -1,12 +1,12 @@
-import { join } from 'node:path';
-import { readFileSync } from 'node:fs';
 import { inject } from '@adonisjs/core';
-import app from '@adonisjs/core/services/app';
 import type { HttpContext } from '@adonisjs/core/http';
+import app from '@adonisjs/core/services/app';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
+import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 import { Favicon } from '#types/favicon_type';
 import { renderFaviconValidator } from '#validators/favicons/render_favicon_validator';
-import { FaviconResolutionService } from '#services/favicons/favicon_resolution_service';
 
 @inject()
 export default class ShowFaviconController {

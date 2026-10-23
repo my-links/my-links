@@ -1,11 +1,11 @@
-import type { Data } from '@generated/data';
 import {
 	SortableContext,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import type { Data } from '@generated/data';
 
-import type { CollectionSection } from '~/lib/dnd/dnd_types';
 import { SortableCollectionItem } from './sortable_collection_item';
+import type { CollectionSection } from '~/lib/dnd/dnd_types';
 
 type CollectionWithLinks = Data.Collection.Variants['withLinks'];
 

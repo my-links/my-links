@@ -1,11 +1,11 @@
-import { test } from '@japa/runner';
 import app from '@adonisjs/core/services/app';
 import testUtils from '@adonisjs/core/services/test_utils';
+import { test } from '@japa/runner';
 
-import User from '#models/user';
-import Collection from '#models/collection';
 import { AUTH_PROVIDER } from '#constants/auth';
 import { NO_REQUEST_ORIGIN } from '#lib/request_origin';
+import Collection from '#models/collection';
+import User from '#models/user';
 import type { OauthIdentity } from '#services/auth/oauth_account_service';
 import { OauthAccountService } from '#services/auth/oauth_account_service';
 import {

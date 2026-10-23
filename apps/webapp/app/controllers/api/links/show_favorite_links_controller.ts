@@ -1,8 +1,8 @@
 import { inject } from '@adonisjs/core';
 import { HttpContext } from '@adonisjs/core/http';
 
-import LinkTransformer from '#transformers/link';
 import { LinkQueryService } from '#services/links/link_query_service';
+import LinkTransformer from '#transformers/link';
 
 @inject()
 export default class ShowFavoriteLinksController {

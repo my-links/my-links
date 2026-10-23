@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http';
-import type { NextFn } from '@adonisjs/core/types/http';
 import { urlFor } from '@adonisjs/core/services/url_builder';
+import type { NextFn } from '@adonisjs/core/types/http';
 
 import { SudoModeService } from '#services/auth/sudo_mode_service';
 

@@ -1,6 +1,6 @@
+import { ContextMenu, MenuItem } from '@minimalstuff/ui';
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
-import { ContextMenu, MenuItem } from '@minimalstuff/ui';
 
 import { KebabMenu } from '@/components/common/kebab_menu';
 import { KebabMenuItem } from '@/components/common/kebab_menu_item';

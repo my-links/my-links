@@ -1,5 +1,5 @@
-import { Kbd } from '@minimalstuff/ui';
 import { Trans } from '@lingui/react/macro';
+import { Kbd } from '@minimalstuff/ui';
 
 type SearchButtonProps = {
 	onClick: () => void;

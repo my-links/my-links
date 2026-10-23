@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { deriveSyncStatus } from '@/lib/sync/status';
 import { INITIAL_SYNC_BACKOFF_STATE } from '@/lib/sync/backoff';
+import { deriveSyncStatus } from '@/lib/sync/status';
 
 describe('deriveSyncStatus', () => {
 	it('should not be stale when the last sync attempt succeeded', () => {
