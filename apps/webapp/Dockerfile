@@ -43,7 +43,7 @@ FROM base AS production
 ENV NODE_ENV=production
 ENV LOG_LEVEL=info
 ENV CACHE_VIEWS=false
-ENV PORT=$PORT
+ENV PORT=3333
 
 WORKDIR /app
 COPY --from=build /app/apps/webapp/build /app
@@ -52,6 +52,6 @@ COPY --from=build /deploy/node_modules /app/node_modules
 RUN chmod +x /app/scripts/entrypoint.sh
 RUN mkdir -p /app/storage/favicons
 
-EXPOSE $PORT
+EXPOSE 3333
 
 CMD ["/app/scripts/entrypoint.sh"]

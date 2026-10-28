@@ -39,6 +39,7 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
       - HOST=0.0.0.0
+      - PORT=3333
       - NODE_ENV=production
     env_file:
       - .env
