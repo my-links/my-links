@@ -1,11 +1,10 @@
 import type { ApplicationService } from '@adonisjs/core/types';
 
+import { buildAdminSetupLink } from '#lib/auth/admin_setup_link';
 import { resolveAdminSetupToken } from '#lib/auth/admin_setup_token';
 import { AdminSetupService } from '#services/auth/admin_setup_service';
 import { AccountQueryService } from '#services/user/account_query_service';
 import env from '#start/env';
-
-const SETUP_PATH = '/auth/register';
 
 /**
  * The setup token has to be the same for every request of one process, hence
@@ -31,6 +30,7 @@ export default class AdminSetupProvider {
 
 		const adminSetupService = await this.app.container.make(AdminSetupService);
 		const logger = await this.app.container.make('logger');
+		const router = await this.app.container.make('router');
 
 		try {
 			if (!(await adminSetupService.isSetupPending())) return;
@@ -48,7 +48,7 @@ export default class AdminSetupProvider {
 
 		// The one place a secret is logged on purpose: the operator reads the setup link here.
 		logger.info(
-			`no admin yet: register the first admin at ${env.get('APP_URL')}${SETUP_PATH}?setup_token=${adminSetupService.setupToken}`
+			`no admin yet: register the first admin at ${buildAdminSetupLink(router, env.get('APP_URL'), adminSetupService.setupToken)}`
 		);
 	}
 }
