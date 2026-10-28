@@ -220,3 +220,19 @@ Files the link in one more collection, keeping the ones it already belongs to. T
 ```
 
 A link or collection that is not the user's returns `422`.
+
+## Record a visit
+
+Counts one click on a link. Clients call it when the user opens a saved link, so the ranking that pins favorites stays consistent across the webapp and the extension. Only a visit by the link's author is counted (`clicks` and `lastClickedAt` change, `updatedAt` does not, so a click never shows up in [sync](/api/sync)). A link in a public collection answers `204` to anyone, but only the owner's clicks are recorded.
+
+**Endpoint:** `POST /api/v1/links/:id/visits`
+
+**Headers:**
+
+- `Authorization: Bearer <token>`
+
+**URL parameters:**
+
+- `id` (required): Link ID
+
+**Response:** `204 No Content`. A link that is neither the user's nor in a public collection answers `404`, so the route never confirms that a private link exists.

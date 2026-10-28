@@ -7,14 +7,7 @@ one-time setup used to obtain the credentials that workflow needs, done
 entirely through the Chrome / Firefox dashboards and Google's OAuth
 Playground (no CLI).
 
-**Status: the 7 secrets are configured in the repo.** Every release is now
-just: `pnpm run release:extension` → tag push → GitHub Action → store. The
-steps below are kept as reference for rotating a secret or re-authorizing
-after a credential expires.
-
-Both listings already exist, so `wxt
-submit` will **update** them directly; no manual "create a new listing"
-step needed.
+Both listings already exist, so `wxt submit` updates them directly.
 
 ## What the workflow needs
 

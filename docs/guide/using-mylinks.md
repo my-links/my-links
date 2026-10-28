@@ -15,7 +15,7 @@ Each collection has a visibility:
 
 A link has a name, an optional description, a URL, and the collections it belongs to. Marking a link as a favorite pins it to the **Favorites** view.
 
-Opening a link goes through a redirect that counts the click. Clicks are what rank your most-used links first: the more you actually open something, the higher it surfaces.
+Opening a link counts a click, recorded in the background while the page opens. Clicks are what rank your most-used links first: the more you actually open something, the higher it surfaces.
 
 ## Reordering
 

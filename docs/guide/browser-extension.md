@@ -5,7 +5,8 @@ The official extension works against **any** MyLinks instance: the public one at
 - A **side panel** (sidebar on Firefox) and a **new tab page** to browse, create and edit collections and links.
 - **Quick capture** from the toolbar or the context menu, with duplicate detection.
 - **Search**, reachable from anywhere with `Ctrl+Shift+K` (`Alt+Shift+K` on Firefox, rebindable in the browser).
-- **Offline-tolerant**: the last sync is cached, stale data is flagged, an expired token asks for a reconnect instead of failing silently.
+- **Offline-tolerant**: the last sync is cached, stale data is flagged, an expired token asks for a reconnect instead of failing silently. The collections are refreshed every 5 minutes and when you switch tabs or focus a window.
+- **Click counting**: opening a link from the extension goes straight to the target and records the click in the background, so it feeds the same ranking as a click in the webapp.
 - **Optional bookmark mirroring**: two-way sync between your collections and the browser's native bookmarks (see [below](#bookmark-mirroring)).
 
 ## Installing
@@ -15,25 +16,12 @@ Install it from the store of your browser:
 - **Chrome and other Chromium browsers**: [Chrome Web Store](https://chromewebstore.google.com/detail/my-links-extension/agkmlplihacolkakgeccnbhphnepphma)
 - **Firefox**: [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/mylinks-extension/)
 
-### Development or unreleased build
-
-To try changes that are not in the stores yet, build the extension and side-load it:
-
-```bash
-git clone https://github.com/my-links/my-links.git
-cd my-links
-pnpm install
-pnpm --filter @my-links/extension build          # Chromium → .output/chrome-mv3
-pnpm --filter @my-links/extension build:firefox   # Firefox  → .output/firefox-mv2
-```
-
-- **Chromium**: open `chrome://extensions`, enable _Developer mode_, click _Load unpacked_, and select `.output/chrome-mv3`.
-- **Firefox**: open `about:debugging#/runtime/this-firefox`, click _Load Temporary Add-on_, and select `.output/firefox-mv2/manifest.json`.
+To try a build that is not in the stores yet, see [Side-loading a build](https://github.com/my-links/my-links/blob/main/apps/extension/README.md#side-loading-a-build).
 
 ## Connecting to an instance
 
 1. Open the extension's options page.
-2. Enter your instance URL (`https://mylinks.app`, or your own domain) and click **Connect**.
+2. Enter your instance URL (`https://mylinks.app`, or your own domain; development builds default to `http://localhost:3333`) and click **Connect**.
 3. The browser asks for permission to access that origin. Self-hosted instances are arbitrary origins, so the permission is requested at runtime rather than being fixed in the extension.
 4. You are sent to sign in on the instance, which then hands an API token back to the extension. The token travels in the URL fragment, so it never reaches any server.
 
@@ -49,10 +37,14 @@ Off by default, turned on from the options page, which is also when the optional
 
 Once on:
 
-- Collections are mirrored into a single **Collections** folder kept at the front of the bookmarks bar, and favorites are pinned to the bar itself, ordered by how often you open them.
+- Collections are mirrored into a single **Collections** folder kept at the front of the bookmarks bar, and favorites are pinned to the bar itself, ordered by how often you open them (recomputed daily, or when the set of favorites changes).
 - The sync is **two-way**: renaming a folder renames the collection, dragging a bookmark between collection folders moves the link, dropping a bookmark into a collection folder saves it as a link, and starring a page adopts it.
-- Only nodes the extension itself created are ever modified or deleted. Bookmarks you filed by hand are left alone, including ones inside a collection folder.
+- Only nodes the extension itself created are ever modified or deleted. Bookmarks you filed by hand are left alone, including ones inside a collection folder, and anything already on the bar before you enabled the mirror is never adopted.
 - Turning it off stops the syncing and leaves everything in place. The options page can additionally remove the bookmarks MyLinks added (only the mapped ones).
+
+## Privacy
+
+The extension talks only to the instance you connected to and contacts no third party. Until you connect, it makes no network request at all. What it sends once connected is listed in [Privacy](/self-hosting/privacy#browser-extension).
 
 ## Permissions
 

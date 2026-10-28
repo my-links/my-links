@@ -35,8 +35,21 @@ Verify if an API token is valid.
 
 ```json
 {
-	"message": "Token is valid"
+	"message": "Token is valid",
+	"userId": 1
 }
 ```
 
 A missing, expired or revoked token is answered with `401`, see [Error responses](/api/error-responses#authentication-and-rate-limiting). Like every `GET`, the check needs the `read` ability, which both scopes carry.
+
+## Revoke the current token
+
+Revokes the token the request is made with, for a client that signs out (the browser extension does this on disconnect). Unlike every other write endpoint, it works with a `read_only` token too, so a token can always retire itself.
+
+**Endpoint:** `DELETE /api/v1/tokens/current`
+
+**Headers:**
+
+- `Authorization: Bearer <token>`
+
+**Response:** `204 No Content`. The token stops working immediately. A missing, expired or revoked token is answered with `401`.

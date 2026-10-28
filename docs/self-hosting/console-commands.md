@@ -26,7 +26,7 @@ Two refusals are deliberate. A provider cannot be unlinked when it is the only w
 
 ## Maintenance
 
-These sweeps are meant to run on a schedule, not by hand. The application schedules them itself, in your timezone (`TZ`, `UTC` by default), whenever the web process runs, on Docker and on a native `pnpm run start`. A system cron is only needed if the scheduler preload is disabled or the web process is not used, see [Docker & compose](/self-hosting/docker#native-deployment).
+These sweeps are meant to run on a schedule, not by hand. The application schedules them itself, in your timezone (`TZ`, `UTC` by default), whenever the web process runs, on Docker and on a native `pnpm run start`. A system cron is only needed if the scheduler preload is disabled or the web process is not used, see [Docker & compose](/self-hosting/docker#native-deployment). From `build/`, run them as `node bin/console.js <command>`.
 
 | Command                         | Schedule (Docker) | What it does                                                                                                                                                         |
 | ------------------------------- | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

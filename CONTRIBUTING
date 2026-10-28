@@ -10,6 +10,6 @@ Before opening a pull request, run locally what CI runs on every push and PR ([`
 pnpm run check && just test
 ```
 
-Bug reports and feature requests go through [GitHub Issues](https://github.com/my-links/my-links/issues). Join [our Trello board](https://trello.com/b/CwxkMeZp/mylinks) for roadmap discussions.
+Bug reports and feature requests go through [GitHub Issues](https://github.com/my-links/my-links/issues). The roadmap is tracked there too.
 
 Thank you for helping make MyLinks better!
