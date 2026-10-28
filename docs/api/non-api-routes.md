@@ -28,7 +28,7 @@ Returns the favicon for a target URL, so clients do not have to reach out to thi
 
 **Response:** the image, with its `Content-Type`. While the icon is still being resolved, a placeholder is served with `Cache-Control: no-store` so the real icon replaces it on the next request. Otherwise the image is served with `Cache-Control: public, max-age=604800` (one week).
 
-Rate-limited like the link redirect, in the same bucket (see [Rate limiting](/api/#rate-limiting)): the route is public and triggers outbound requests, so it needs the same protection.
+Rate-limited like the click beacon, in the same bucket (see [Rate limiting](/api/#rate-limiting)): the route is public and triggers outbound requests, so it needs the same protection.
 
 ## Extension authorization handoff
 

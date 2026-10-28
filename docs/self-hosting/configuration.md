@@ -1,39 +1,24 @@
 # Configuration
 
-`.env.example` lives at the repository root. Start from it: [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example).
-
-In a repository checkout the actual `.env` lives at the root too, next to the compose file. Docker Compose and every `just` recipe read it there:
+Every setting is an environment variable, listed with its default and a short comment in [`.env.example`](https://github.com/my-links/my-links/blob/main/.env.example) at the repository root. Start from it:
 
 ```bash
 cp .env.example .env
 ```
 
-AdonisJS itself looks for `.env` inside `apps/webapp`. A bare `node ace ...` run from `apps/webapp` outside `just` must be prefixed with `ENV_PATH=../..` (or have it exported), otherwise it does not find your variables. A built app (`apps/webapp/build`) reads `build/.env`, see [Docker & compose](/self-hosting/docker#native-deployment).
+The `.env` file lives at the root too, next to the compose file. Docker Compose and every `just` recipe read it there. AdonisJS itself looks for `.env` inside `apps/webapp`, so a bare `node ace ...` run from `apps/webapp` outside `just` must be prefixed with `ENV_PATH=../..` (or have it exported), otherwise it does not find your variables. A built app (`apps/webapp/build`) reads `build/.env`, see [Docker & compose](/self-hosting/docker#native-deployment).
 
-## Required variables
+`APP_KEY` is the application secret: generate it with `openssl rand -base64 32`. `APP_URL` is the public URL of the instance, used in links the app generates. The sections below explain the settings that need more than their comment.
 
-| Variable                                          | Notes                                                           |
-| ------------------------------------------------- | --------------------------------------------------------------- |
-| `NODE_ENV`                                        | `development`, `production`, or `test`                          |
-| `PORT`                                            | Port the application listens on, e.g. `3333`                    |
-| `APP_KEY`                                         | Application secret key, generate with `openssl rand -base64 32` |
-| `HOST`                                            | IP address or hostname, e.g. `0.0.0.0` or `localhost`           |
-| `LOG_LEVEL`                                       | `info` recommended, see [Logging](#logging)                     |
-| `APP_URL`                                         | Public application URL, e.g. `https://your-domain.com`          |
-| `DB_HOST` / `DB_PORT` / `DB_USER` / `DB_DATABASE` | PostgreSQL connection                                           |
+## Registration
 
-## Optional variables
+`ALLOW_REGISTRATION` is commented out in `.env.example`, which keeps sign-up closed to everyone but the first administrator: until an administrator exists, only the setup link logged at boot can register. Once one exists, `/register` is closed. To let anyone create an account, uncomment it and set `ALLOW_REGISTRATION=open`. The three values and the setup token are described in [Authentication](/self-hosting/authentication).
 
-| Variable                                    | Notes                                                                                                                                  |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `DB_PASSWORD`                               | PostgreSQL password, may be omitted for a passwordless local database                                                                  |
-| `TZ`                                        | Timezone, e.g. `UTC`                                                                                                                   |
-| `ALLOW_REGISTRATION`                        | Whether the instance accepts sign-ups, see [Authentication](/self-hosting/authentication)                                              |
-| `ADMIN_SETUP_TOKEN`                         | Secret that lets a registration become the first administrator, see [Authentication](/self-hosting/authentication#first-administrator) |
-| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google sign-in, see [Authentication](/self-hosting/authentication)                                                                     |
-| `EXTENSION_IDS`                             | Extra browser extension ids allowed to connect, see below                                                                              |
-| `TRUSTED_PROXIES`                           | Reverse proxies trusted to forward client IPs, see below                                                                               |
-| `SMTP_*` / `MAIL_FROM_*`                    | Outgoing mail, see below                                                                                                               |
+## Account lookup timing
+
+Sign-up, password reset, verification resend and email change behave differently when an account exists (a password hash, a queued email). Left alone, their response time would reveal which addresses have an account, even though the responses are identical. These routes therefore wait until a minimum response time has passed, 750 ms by default, longer than the slowest branch.
+
+`ACCOUNT_LOOKUP_MIN_RESPONSE_MS` overrides that floor, in milliseconds. Leave it unset unless your server is slow enough that the real work exceeds 750 ms, in which case raise it above that. Lowering it weakens the protection.
 
 ## Favicon store
 
@@ -43,7 +28,7 @@ Outside the provided compose file, make sure `/app/storage/favicons` is mounted 
 
 This is a cache, not user data: losing it just means the next visit to each site re-downloads its favicon. It's still worth keeping in your backup strategy for one reason: restoring it avoids a fresh round of outbound requests to every domain your instance has ever bookmarked, all at once, right after a restore.
 
-That leads to the actual thing to know before self-hosting this: resolving a favicon fetches it from the site itself, from your instance's server. On a single-user instance (the common case here) that means the site operator sees your instance's IP request its own favicon at the moment you bookmark it, which is a weaker anonymity property than on a shared multi-user instance where the same request is one among many users' traffic. The request first presents a regular Chrome browser TLS fingerprint and headers, so bot-protection walls that reject plain server HTTP clients let it through, then falls back to a plain server request with a Chrome, Slackbot or Facebook link-preview user agent. Nothing to configure. No third-party fallback provider is contacted unless you explicitly configure one (a future setting, opt-in and disabled by default).
+That leads to the actual thing to know before self-hosting this: resolving a favicon fetches it from the site itself, from your instance's server. On a single-user instance (the common case here) that means the site operator sees your instance's IP request its own favicon at the moment you bookmark it, which is a weaker anonymity property than on a shared multi-user instance where the same request is one among many users' traffic. The request first presents a regular Chrome browser TLS fingerprint and headers, so bot-protection walls that reject plain server HTTP clients let it through, then falls back to a plain server request with a Chrome, Slackbot or Facebook link-preview user agent. Nothing to configure. No third-party fallback provider is ever contacted.
 
 ## Google sign-in
 
@@ -143,11 +128,3 @@ A request that takes 500 ms or more is logged at `info` as `slow request`, with 
 - Every request-scoped line carries a `request_id`, so you can follow one request across lines.
 - A favicon that failed to resolve is logged without its address. The failing origin and the reason are listed on the admin Favicons page.
 - Authentication events are also recorded in the authentication journal, which names the account.
-
-### Upgrading from 5.5.0 or earlier
-
-Earlier versions wrote email addresses on every authentication event and link URLs on every favicon failure, at levels that are always on, and the Docker image defaulted to `debug`. Upgrading changes what gets written from now on, not what is already stored:
-
-- Check `LOG_LEVEL` in your `.env`: an `.env` copied from an older `.env.example` still says `debug`. Set it to `info`.
-- Drop the old output. With Docker Compose, `docker compose up -d --force-recreate my-links` starts a fresh container and discards the previous one's log. The `postgres` container's log can hold email addresses too, in constraint violation details: recreate it the same way.
-- If you ship logs to another service, delete or let expire what it received before the upgrade, according to its own retention settings.

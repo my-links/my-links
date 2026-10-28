@@ -24,20 +24,36 @@
 ## Quickstart (Docker)
 
 ```bash
-mkdir my-links-deployment && cd my-links-deployment
-# docker-compose.yml pulling sonny93/my-links, plus a .env (see the full guide)
-docker compose up -d
+mkdir my-links && cd my-links
+curl -fsSLO https://raw.githubusercontent.com/my-links/my-links/main/compose.image.yml
+curl -fsSL https://raw.githubusercontent.com/my-links/my-links/main/.env.example -o .env
 ```
 
-This pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies migrations, and starts the app, reachable on the port set in `PORT` (default `3333`).
+Edit `.env`: set `APP_KEY` (generate one with `openssl rand -base64 32`), `APP_URL` (the public URL of the instance), and `DB_USER`, `DB_PASSWORD` and `DB_DATABASE`. Then start it:
 
-See [Docker & compose](https://docs.mylinks.app/self-hosting/docker) for the `docker-compose.yml` to copy, the environment variables it needs, and a native (non-Docker) deployment path.
+```bash
+docker compose -f compose.image.yml up -d
+docker compose -f compose.image.yml logs my-links | grep setup_token
+```
 
-## Documentation
+The first command pulls the image from [Docker Hub](https://hub.docker.com/r/sonny93/my-links), starts PostgreSQL, applies migrations and starts the app on the port set in `PORT` (default `3333`). The second prints the setup link, `<APP_URL>/register?setup_token=<token>`: open it to create the administrator account. Sign-up stays closed to everyone else unless you set `ALLOW_REGISTRATION=open`.
 
-Full documentation, including self-hosting, configuration, the API reference and the browser extension, lives at **[docs.mylinks.app](https://docs.mylinks.app)**.
+See [Docker & compose](https://docs.mylinks.app/self-hosting/docker) for the details and a native (non-Docker) deployment.
 
-Contributing to MyLinks itself? See [Contributing](https://docs.mylinks.app/contributing).
+## Develop
+
+```bash
+pnpm run check && just test
+```
+
+See [Contributing](CONTRIBUTING) for the setup, and `just --list` for every command.
+
+## Links
+
+- [Documentation](https://docs.mylinks.app): self-hosting, configuration, API reference, browser extension guide
+- [Browser extension](./apps/extension/README.md): developing and building the extension
+- [Changelog](https://docs.mylinks.app/changelog)
+- [GitHub Issues](https://github.com/my-links/my-links/issues): bug reports and feature requests
 
 ## License
 

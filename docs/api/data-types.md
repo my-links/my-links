@@ -14,7 +14,7 @@
 	description: string | null;
 	url: string;
 	favorite: boolean;
-	clicks: number; // Owner visits recorded through POST /l/:id
+	clicks: number; // Owner visits recorded through POST /l/:id or POST /api/v1/links/:id/visits
 	lastClickedAt: string | null; // ISO 8601 date string
 	collectionIds?: number[]; // Left out of the links inside a followed collection
 	authorId: number;
