@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.6.1](https://github.com/my-links/my-links/compare/webapp-v5.6.0...webapp-v5.6.1) (2026-10-28)
+
+### Bug Fixes
+
+* **docker:** pin the container port to 3333 so PORT only sets the host port ([6d57af0](https://github.com/my-links/my-links/commit/6d57af0c3ef9d036fe857d81e31dd664b25a639b))
+* **webapp:** build the admin setup link from the register route ([351864a](https://github.com/my-links/my-links/commit/351864a300b8083fa71f385985c5c2351b7be510))
+
 ## [5.6.0](https://github.com/my-links/my-links/compare/webapp-v5.5.0...webapp-v5.6.0) (2026-10-23)
 
 ### ⚠ BREAKING CHANGES
