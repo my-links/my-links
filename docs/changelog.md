@@ -2,6 +2,14 @@
 
 Every release with changes you can notice, written for people using or hosting the app rather than reading commit history. Breaking changes are flagged. For the full technical log of every release, see the [webapp](https://github.com/my-links/my-links/blob/main/apps/webapp/CHANGELOG.md) and [extension](https://github.com/my-links/my-links/blob/main/apps/extension/CHANGELOG.md) changelogs on GitHub.
 
+## 5.6.1 (October 28, 2026)
+
+### Self-hosting
+
+- The setup link logged at boot on a new instance opens the registration page. It pointed to a page that does not exist.
+- With Docker Compose, the app always listens on port `3333` inside its container, and `PORT` only sets the port published on the host. A `PORT` other than `3333` in `.env` made the instance unreachable.
+- `.env.example` leaves `ALLOW_REGISTRATION` unset, so an instance built from it keeps sign-up closed until you open it. An `.env` copied from an older `.env.example` still says `open`: remove that line unless you want open sign-up.
+
 ## 5.6.0 (October 23, 2026)
 
 ### Breaking changes
