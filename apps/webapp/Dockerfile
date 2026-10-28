@@ -1,19 +1,25 @@
 # Source : https://github.com/adonisjs-community/adonis-packages/blob/main/Dockerfile
 
+# Keep in sync with the pnpm version in mise.toml
+FROM ghcr.io/pnpm/pnpm:12.15.0-alpine AS pnpm
+
 # Keep in sync with the node version in mise.toml
 FROM node:26.12.1-alpine3.24 AS base
 
-RUN npm install --global corepack@0.36.0 && corepack enable
+# Standalone pnpm binary, only needed to install and build
+FROM base AS pnpm-base
+COPY --from=pnpm /opt/pnpm /opt/pnpm
+RUN ln -s /opt/pnpm/pnpm /usr/local/bin/pnpm
 
 # All deps stage
-FROM base AS deps
+FROM pnpm-base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps ./apps
 RUN pnpm install --ignore-scripts --frozen-lockfile
 
 # Build stage
-FROM base AS build
+FROM pnpm-base AS build
 WORKDIR /app
 COPY --from=deps /app/node_modules /app/node_modules
 COPY --from=deps /app/package.json /app/package.json
