@@ -2,6 +2,7 @@
 	"$schema": "https://unpkg.com/release-it@21/schema/release-it.json",
 	"hooks": {
 		"before:init": [
+			"git log \"$(git describe --tags --abbrev=0 --match 'extension-v*')..HEAD\" --format=%s -- . | grep -Eq '^(feat|fix|perf|revert)(\\(.+\\))?!?:|^[a-z]+(\\(.+\\))?!:' || { echo 'No releasable commit since the last tag' >&2; exit 1; }",
 			"pnpm run check",
 			"pnpm run build",
 			"pnpm run build:firefox"
@@ -25,6 +26,9 @@
 	"plugins": {
 		"@release-it/conventional-changelog": {
 			"infile": "CHANGELOG.md",
+			"commitsOpts": {
+				"path": "."
+			},
 			"gitRawCommitsOpts": {
 				"path": [".", ":!lib/api/schema.d.ts"]
 			},
