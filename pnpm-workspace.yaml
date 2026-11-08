@@ -3,11 +3,10 @@ packages:
 
 minimumReleaseAge: 1440
 
-# Same-day releases of libs maintained by the person who maintains this repo.
-# Exact versions only; the age gate still applies to every other release.
+# Libs maintained by the person who maintains this repo install the same day
+# they are released; the age gate still applies to every other package.
 minimumReleaseAgeExclude:
-  - '@minimalstuff/tooling@0.7.0'
-  - '@minimalstuff/ui@4.2.2'
+  - '@minimalstuff/*'
 
 # Both ranges are dev/build-tooling-only transitives (ts-morph via
 # @adonisjs/assembler, vite via the extension's build chain), never
